@@ -13,15 +13,24 @@ Guide students in creating well-structured assignment submission documents that 
 
 ### 1. Document Structure
 
+**Student Information Source:**
+
+Read student information from `.env.local` in workspace root:
+- `NAME` - Student name
+- `NUMBER` - Student number
+- `EMAIL` - Student email (optional)
+
+When creating documents, automatically populate student information from these environment variables.
+
 **Standard assignment document structure:**
 
 ```
 Assignment Title
-Student Information
-├── Name
-├── Student ID
-├── Section/Class
-└── Date
+Student Information (from .env.local)
+├── Name: {NAME from .env.local}
+├── Student Number: {NUMBER from .env.local}
+├── Section/Class (if required)
+└── Date: {Current date}
 
 Step-by-Step Content
 ├── Step X: Title
@@ -41,10 +50,10 @@ References (if required)
 
 - Course code and name
 - Assignment/Lab number and title
-- Student name
-- Student ID (if required)
-- Section/Class number
-- Submission date
+- Student name (from `.env.local` NAME)
+- Student number (from `.env.local` NUMBER)
+- Section/Class number (if required)
+- Submission date (current date)
 
 **For Each Step:**
 
@@ -55,7 +64,9 @@ References (if required)
   - Plots/visualizations
   - Error messages (if debugging)
 - Brief explanation of what the screenshot shows
+- **REQUIRED: Detailed explanation of code purpose AND results** - explain what the code does and what the output means
 - Discussion/analysis (if required by step)
+- **Note: Without proper explanations, no marks will be given** (grading requirement)
 
 **Discussion Sections:**
 
@@ -173,7 +184,9 @@ Two approaches:
 - Analyze the code and output to provide real content
 - Use natural language as if a student wrote it
 - Be specific about what the code does and what results show
-- Example: "This code loads the diabetes dataset using pandas read_csv() function and stores it in a DataFrame." NOT "[Describe what this code does]" or "Description: (explain the code)"
+- **CRITICAL: Explain BOTH the purpose of the code AND the results** - assignments require explaining what the code does and what the output shows
+- Example: "This code loads the diabetes dataset using pandas read_csv() function and stores it in a DataFrame. The output shows the dataset has 768 rows and 9 columns, with the first few rows displaying patient measurements." NOT "[Describe what this code does]" or "Description: (explain the code)"
+- **Without proper explanations, no marks will be given** - this is a grading requirement
 
 **NLP/DL Course Labs:**
 Structure may vary - check course-specific templates
@@ -278,6 +291,7 @@ Conclusion
 
 Before submitting, verify:
 
+- [ ] Student info automatically loaded from `.env.local`
 - [ ] Title page complete with all required info
 - [ ] All steps from assignment are included
 - [ ] Screenshots are clear and properly captioned
@@ -342,21 +356,26 @@ Before submitting, verify:
 User: "Help me create Lab1.docx for ML PCA assignment"
 
 Your workflow:
-1. Identify course: ML (CST8506)
-2. Generate Python script (if not exists) using `learning-code_generation` skill
-3. Run Python script to generate visualization plots
-4. Generate code screenshots: `uv run python .skills/learning-code_screenshot/scripts/generate_code_screenshots.py <script.py> images/`
-5. Generate output screenshots: `uv run python .skills/learning-code_screenshot/scripts/generate_output_screenshots.py <script.py> images/`
-6. Create markdown template with image paths matching generated filenames
-7. Guide user to fill in descriptions for each step
-8. Convert markdown to .docx using `learning-md_to_docx` skill
+1. Load student info from `.env.local` (NAME, NUMBER)
+2. Identify course: ML (CST8506)
+3. Generate Python script (if not exists) using `learning-code_generation` skill
+4. Run Python script to generate visualization plots
+5. Generate code screenshots: `uv run python .skills/learning-code_screenshot/scripts/generate_code_screenshots.py <script.py> images/`
+6. Generate output screenshots: `uv run python .skills/learning-code_screenshot/scripts/generate_output_screenshots.py <script.py> images/`
+7. Create markdown template with:
+   - Student name and number from `.env.local`
+   - Current date
+   - Image paths matching generated filenames
+8. Guide user to fill in descriptions for each step
+9. Convert markdown to .docx using `learning-md_to_docx` skill
 
 **Scenario 2: NLP Course Lab**
 
 User: "Help me create Lab1.docx for NLP assignment"
 
 Your workflow:
-1. Ask what needs to be included:
+1. Load student info from `.env.local` (NAME, NUMBER)
+2. Ask what needs to be included:
    - Which steps need screenshots?
    - Which steps need discussion?
    - Any specific requirements?
@@ -369,6 +388,7 @@ Your workflow:
 User: "Create assignment document"
 
 Your workflow:
-1. Clarify course and assignment type
-2. Select appropriate pattern
-3. Provide template and guidance
+1. Load student info from `.env.local` (NAME, NUMBER)
+2. Clarify course and assignment type
+3. Select appropriate pattern
+4. Provide template with student info pre-filled

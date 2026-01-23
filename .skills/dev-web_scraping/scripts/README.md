@@ -2,83 +2,70 @@
 
 Utility scripts for web scraping and content extraction.
 
-## scrape_medium.py
+## scrape_medium_to_html.py
 
-Scrape Medium articles and generate bilingual documents.
+Scrape Medium articles and convert to clean Markdown.
 
 ### Features
 
-- Stealth mode browser automation (anti-bot)
-- Article content extraction
-- Automatic bilingual template generation
-- Filter out meta information and ads
+- **Playwright browser automation** - Loads dynamic content and handles anti-bot
+- **Full HTML download** - Saves complete page locally
+- **html2text conversion** - Converts HTML to clean Markdown
+- **Smart content filtering** - Removes UI elements, ads, and navigation
+- **Preserves structure** - Keeps headings, paragraphs, images, and links
+- **Scroll loading** - Ensures all lazy-loaded content is captured
 
 ### Usage
 
 ```bash
-# Scrape a Medium article
-python scrape_medium.py https://medium.com/@author/article-title
+# Basic usage
+uv run python scrape_medium_to_html.py https://medium.com/@author/article
 
-# Output: article_title_bilingual.md
+# Specify output file
+uv run python scrape_medium_to_html.py https://medium.com/@author/article -o article.md
+
+# Keep HTML file for debugging
+uv run python scrape_medium_to_html.py https://medium.com/@author/article --keep-html
 ```
+
+### Output
+
+- Clean Markdown file with article content
+- Preserved image links (Medium CDN URLs)
+- Proper heading hierarchy
+- Filtered UI elements and ads
 
 ### Requirements
 
 ```bash
 # Install dependencies
-uv add playwright beautifulsoup4
+uv add playwright html2text
 
 # Install browser (first time only)
 uv run playwright install chromium
 ```
 
-## fetch_links.py
+## How It Works
 
-Batch scrape links from a links.md file and generate bilingual documents.
+1. **Launch Playwright** - Headless Chromium browser
+2. **Load page** - Navigate to URL and wait for content
+3. **Scroll page** - Trigger lazy-loading of all content
+4. **Save HTML** - Download complete rendered HTML
+5. **Convert to Markdown** - Use html2text for clean conversion
+6. **Filter content** - Remove UI elements and ads
+7. **Save result** - Output clean Markdown file
 
-### Features
+## Anti-Bot Features
 
-- Parse markdown link files
-- Batch scraping with progress tracking
-- Site-specific content extraction (Medium, generic)
-- Automatic bilingual document generation
-
-### Usage
-
-```bash
-# Scrape all links from a file
-python fetch_links.py path/to/links.md
-
-# Example
-python fetch_links.py ../courses/rl/links.md
-```
-
-### Link File Format
-
-```markdown
-# Resources
-
-## Articles
-
-- [Article Title](https://example.com/article)
-- [Another Article](https://medium.com/@author/post)
-
-## Videos
-
-- [Video Title](https://youtube.com/watch?v=xxx)
-```
-
-## Anti-Bot Strategies
-
-These scripts use several techniques to avoid detection:
-
-1. **Stealth mode**: Disable automation flags
-2. **Real user agent**: Use actual browser user agents
-3. **Natural timing**: Random delays between requests
-4. **Proper viewport**: Standard browser window size
+- Real browser user agent
+- Proper viewport size (1920x1080)
+- Scroll simulation for lazy-loading
+- ESC key to close popups
+- Natural page loading timing
 
 ## Dependencies
 
 ```bash
-uv add playwright beautifulsoup4 lxml
+uv add playwright html2text
+uv run playwright install chromium
 ```

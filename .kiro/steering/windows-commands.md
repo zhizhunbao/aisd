@@ -51,6 +51,38 @@ executePwsh(command="cd courses/ml/code/lab1; python script.py")
 executePwsh(command="cd courses/ml/code/lab1 && python script.py")
 ```
 
+### Accessing Files from Workspace Root
+
+When running scripts that need to access files in other workspace directories (like `.skills/`), use **relative paths from the workspace root** in the `cwd` parameter:
+
+```python
+# ✅ CORRECT - Run script from workspace root
+executePwsh(
+    command="uv run python .skills/learning-code_screenshot/scripts/generate_code_screenshots.py courses/ml/code/lab1/lab1_pca.py courses/ml/code/lab1/images/",
+    cwd="."  # Run from workspace root
+)
+
+# ✅ CORRECT - Copy script to target directory first
+executePwsh(
+    command="Copy-Item ..\\..\\..\\..\.skills\\learning-code_screenshot\\scripts\\generate_code_screenshots.py .",
+    cwd="courses/ml/code/lab1"
+)
+executePwsh(
+    command="uv run python generate_code_screenshots.py lab1_pca.py images/",
+    cwd="courses/ml/code/lab1"
+)
+
+# ❌ FORBIDDEN - Relative path from wrong directory
+executePwsh(
+    command="uv run python .skills/learning-code_screenshot/scripts/generate_code_screenshots.py lab1_pca.py images/",
+    cwd="courses/ml/code/lab1"  # .skills/ not accessible from here
+)
+```
+
+**Best Practice:** When scripts in subdirectories need to access workspace-level resources:
+1. Either run from workspace root with full paths
+2. Or copy the script to the target directory first
+
 ## PowerShell File Operations
 
 Use PowerShell cmdlets, not Linux commands:

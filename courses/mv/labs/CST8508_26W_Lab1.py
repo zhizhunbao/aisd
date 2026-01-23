@@ -1,32 +1,33 @@
-"""
-CST8508 Machine Vision - Lab 1 - Image Processing with OpenCV
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: light
+# ---
 
-Materials Required:
-- Computers with Python and OpenCV installed
-- Sample images for processing
-
-Lab Duration: 2 hours
-"""
+# # CST8508 Machine Vision - Lab 1 - Image Processing with OpenCV
+#
+# **Materials Required:**
+# - Computers with Python and OpenCV installed
+# - Sample images for processing
+#
+# **Lab Duration:** 2 hours
 
 import cv2
 from matplotlib import pyplot as plt
 import urllib.request
 import os
 
-
-"""
-================================================================================
-Part 1: Introduction to OpenCV
-================================================================================
-Brief overview of OpenCV and its applications in Machine Vision.
-Basic commands in OpenCV: Reading, displaying, and writing images.
-
-Exercise 1: Load and display an image. Then, save this image in a different 
-format (e.g., from JPEG to PNG). Let's also display it!
-
-Hint: cv2.imshow() does not work in Google Colab. Search for an alternative
-================================================================================
-"""
+# ## Part 1: Introduction to OpenCV
+#
+# Brief overview of OpenCV and its applications in Machine Vision.
+# Basic commands in OpenCV: Reading, displaying, and writing images.
+#
+# **Exercise 1:** Load and display an image. Then, save this image in a different 
+# format (e.g., from JPEG to PNG). Let's also display it!
+#
+# **Hint:** cv2.imshow() does not work in Google Colab. Search for an alternative
 
 def load_and_write_and_display_image(image_path):
     # Requirement: Load and display an image, then save in different format (JPEG to PNG)
@@ -53,18 +54,13 @@ def load_and_write_and_display_image(image_path):
     
     return img
 
-
-"""
-================================================================================
-Part 2: Image Manipulations
-================================================================================
-Understanding image color spaces and conversions (RGB, Grayscale, HSV).
-Performing basic image manipulations: resizing, cropping, and rotating images.
-
-Exercise 2: Convert an image from RGB to Grayscale and then crop, rotate, 
-flip vertically and resize it.
-================================================================================
-"""
+# ## Part 2: Image Manipulations
+#
+# Understanding image color spaces and conversions (RGB, Grayscale, HSV).
+# Performing basic image manipulations: resizing, cropping, and rotating images.
+#
+# **Exercise 2:** Convert an image from RGB to Grayscale and then crop, rotate, 
+# flip vertically and resize it.
 
 def convert_to_grayscale_and_manipulate(image_path, new_size, rotate_angle, roi):
     # Requirement: Convert image from RGB to Grayscale
@@ -118,19 +114,14 @@ def convert_to_grayscale_and_manipulate(image_path, new_size, rotate_angle, roi)
     
     return gray_cropped_image, gray_rotated_image, gray_flipped_image, gray_resized_image
 
-
-"""
-================================================================================
-Part 3: Image Filtering and Edge Detection
-================================================================================
-Understanding the concept of image filtering and its applications.
-Implementing basic filters: Gaussian blur, median blur.
-Introduction to edge detection: Sobel and Canny edge detectors.
-
-Exercise 3: Apply a Gaussian blur to an image and then perform edge detection 
-using the Canny algorithm.
-================================================================================
-"""
+# ## Part 3: Image Filtering and Edge Detection
+#
+# Understanding the concept of image filtering and its applications.
+# Implementing basic filters: Gaussian blur, median blur.
+# Introduction to edge detection: Sobel and Canny edge detectors.
+#
+# **Exercise 3:** Apply a Gaussian blur to an image and then perform edge detection 
+# using the Canny algorithm.
 
 def apply_gaussian_blur_and_edge_detection(image_path, blur_ksize, edge_threshold1, edge_threshold2):
     # Requirement: Apply Gaussian blur and perform edge detection using Canny algorithm
@@ -161,110 +152,132 @@ def apply_gaussian_blur_and_edge_detection(image_path, blur_ksize, edge_threshol
     
     return edge_detected_image
 
+# ## Setup: Download Sample Image
+#
+# Download a sample image for testing all exercises
 
-if __name__ == '__main__':
-    # Download sample image from OpenCV repository
-    # 从 OpenCV 仓库下载示例图像
-    image_url = 'https://raw.githubusercontent.com/opencv/opencv/master/samples/data/lena.jpg'
-    image_path = 'sample_image.jpg'
+# +
+# Download sample image from OpenCV repository
+# 从 OpenCV 仓库下载示例图像
+image_url = 'https://raw.githubusercontent.com/opencv/opencv/master/samples/data/lena.jpg'
+image_path = 'sample_image.jpg'
+
+try:
+    # Download and save image locally
+    # 下载并保存图像到本地
+    urllib.request.urlretrieve(image_url, image_path)
+    print(f'Downloaded image to {image_path}')
+    print(f'File exists: {os.path.exists(image_path)}')
+except Exception as e:
+    print(f'Error downloading image: {e}')
+# -
+
+# ## Test Exercise 1: Load and Display Image
+#
+# Load an image, save it in a different format, and display it
+
+# +
+# Test Exercise 1: Load, save, and display image
+# 测试练习 1：加载、保存和显示图像
+print('Exercise 1: Load and Display Image')
+try:
+    img = load_and_write_and_display_image(image_path)
+    print('Exercise 1 completed successfully')
+except Exception as e:
+    print(f'Error in Exercise 1: {e}')
+# -
+
+# ## Test Exercise 2: Grayscale and Manipulations
+#
+# Convert to grayscale and apply various image transformations
+
+# +
+# Test Exercise 2: Convert to grayscale and apply transformations
+# 测试练习 2：转换为灰度图并应用变换
+print('Exercise 2: Grayscale and Manipulations')
+try:
+    # Load original image to show its size
+    # 加载原始图像以显示其大小
+    original_img = cv2.imread(image_path)
+    print(f'Original image size: {original_img.shape[1]}x{original_img.shape[0]} (width x height)')
+    print(f'原始图像大小: {original_img.shape[1]}x{original_img.shape[0]} (宽 x 高)')
     
-    try:
-        # Download and save image locally
-        # 下载并保存图像到本地
-        urllib.request.urlretrieve(image_url, image_path)
-        print(f'Downloaded image to {image_path}')
-        print(f'File exists: {os.path.exists(image_path)}')
-    except Exception as e:
-        print(f'Error downloading image: {e}')
+    # Apply all transformations
+    # 应用所有变换
+    # roi=(x, y, width, height): crop from (100,100) with 200x200 size
+    # roi=(x, y, 宽, 高): 从(100,100)裁剪200x200区域
+    cropped, rotated, flipped, resized = convert_to_grayscale_and_manipulate(
+        image_path,
+        new_size=(300, 300),
+        rotate_angle=45,
+        roi=(100, 100, 200, 200)
+    )
     
-    # Test Exercise 1: Load, save, and display image
-    # 测试练习 1：加载、保存和显示图像
-    print('Exercise 1: Load and Display Image')
-    try:
-        img = load_and_write_and_display_image(image_path)
-        print('Exercise 1 completed successfully')
-    except Exception as e:
-        print(f'Error in Exercise 1: {e}')
+    # Print result sizes
+    # 打印结果大小
+    print(f'Cropped size: {cropped.shape[1]}x{cropped.shape[0]}')
+    print(f'Rotated size: {rotated.shape[1]}x{rotated.shape[0]}')
+    print(f'Flipped size: {flipped.shape[1]}x{flipped.shape[0]}')
+    print(f'Resized size: {resized.shape[1]}x{resized.shape[0]}')
     
-    # Test Exercise 2: Convert to grayscale and apply transformations
-    # 测试练习 2：转换为灰度图并应用变换
-    print('Exercise 2: Grayscale and Manipulations')
-    try:
-        # Load original image to show its size
-        # 加载原始图像以显示其大小
-        original_img = cv2.imread(image_path)
-        print(f'Original image size: {original_img.shape[1]}x{original_img.shape[0]} (width x height)')
-        print(f'原始图像大小: {original_img.shape[1]}x{original_img.shape[0]} (宽 x 高)')
-        
-        # Apply all transformations
-        # 应用所有变换
-        # roi=(x, y, width, height): crop from (100,100) with 200x200 size
-        # roi=(x, y, 宽, 高): 从(100,100)裁剪200x200区域
-        cropped, rotated, flipped, resized = convert_to_grayscale_and_manipulate(
-            image_path,
-            new_size=(300, 300),
-            rotate_angle=45,
-            roi=(100, 100, 200, 200)
-        )
-        
-        # Print result sizes
-        # 打印结果大小
-        print(f'Cropped size: {cropped.shape[1]}x{cropped.shape[0]}')
-        print(f'Rotated size: {rotated.shape[1]}x{rotated.shape[0]}')
-        print(f'Flipped size: {flipped.shape[1]}x{flipped.shape[0]}')
-        print(f'Resized size: {resized.shape[1]}x{resized.shape[0]}')
-        
-        # Display all results in a 2x2 grid
-        # 在 2x2 网格中显示所有结果
-        fig, axes = plt.subplots(2, 2, figsize=(12, 12))
-        axes[0, 0].imshow(cropped, cmap='gray')
-        axes[0, 0].set_title('Cropped ROI')
-        axes[0, 0].axis('off')
-        axes[0, 1].imshow(rotated, cmap='gray')
-        axes[0, 1].set_title('Rotated 45°')
-        axes[0, 1].axis('off')
-        axes[1, 0].imshow(flipped, cmap='gray')
-        axes[1, 0].set_title('Flipped Vertically')
-        axes[1, 0].axis('off')
-        axes[1, 1].imshow(resized, cmap='gray')
-        axes[1, 1].set_title('Resized (300x300)')
-        axes[1, 1].axis('off')
-        plt.tight_layout()
-        plt.show()
-        
-        print('Exercise 2 completed successfully')
-    except Exception as e:
-        print(f'Error in Exercise 2: {e}')
+    # Display all results in a 2x2 grid
+    # 在 2x2 网格中显示所有结果
+    fig, axes = plt.subplots(2, 2, figsize=(12, 12))
+    axes[0, 0].imshow(cropped, cmap='gray')
+    axes[0, 0].set_title('Cropped ROI')
+    axes[0, 0].axis('off')
+    axes[0, 1].imshow(rotated, cmap='gray')
+    axes[0, 1].set_title('Rotated 45°')
+    axes[0, 1].axis('off')
+    axes[1, 0].imshow(flipped, cmap='gray')
+    axes[1, 0].set_title('Flipped Vertically')
+    axes[1, 0].axis('off')
+    axes[1, 1].imshow(resized, cmap='gray')
+    axes[1, 1].set_title('Resized (300x300)')
+    axes[1, 1].axis('off')
+    plt.tight_layout()
+    plt.show()
     
-    # Test Exercise 3: Apply Gaussian blur and detect edges
-    # 测试练习 3：应用高斯模糊并检测边缘
-    print('Exercise 3: Gaussian Blur and Edge Detection')
-    try:
-        # Apply blur and edge detection
-        # 应用模糊和边缘检测
-        edges = apply_gaussian_blur_and_edge_detection(
-            image_path,
-            blur_ksize=5,
-            edge_threshold1=50,
-            edge_threshold2=150
-        )
-        
-        # Display original and edge-detected images side by side
-        # 并排显示原图和边缘检测结果
-        plt.figure(figsize=(10, 5))
-        plt.subplot(1, 2, 1)
-        original = cv2.imread(image_path)
-        original_rgb = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB because OpenCV uses BGR while matplotlib expects RGB | 将 BGR 转换为 RGB，因为 OpenCV 使用 BGR 而 matplotlib 期望 RGB
-        plt.imshow(original_rgb)
-        plt.title('Original Image')
-        plt.axis('off')
-        plt.subplot(1, 2, 2)
-        plt.imshow(edges, cmap='gray')
-        plt.title('Edge Detection')
-        plt.axis('off')
-        plt.tight_layout()
-        plt.show()
-        
-        print('Exercise 3 completed successfully')
-    except Exception as e:
-        print(f'Error in Exercise 3: {e}')
+    print('Exercise 2 completed successfully')
+except Exception as e:
+    print(f'Error in Exercise 2: {e}')
+# -
+
+# ## Test Exercise 3: Gaussian Blur and Edge Detection
+#
+# Apply Gaussian blur and detect edges using Canny algorithm
+
+# +
+# Test Exercise 3: Apply Gaussian blur and detect edges
+# 测试练习 3：应用高斯模糊并检测边缘
+print('Exercise 3: Gaussian Blur and Edge Detection')
+try:
+    # Apply blur and edge detection
+    # 应用模糊和边缘检测
+    edges = apply_gaussian_blur_and_edge_detection(
+        image_path,
+        blur_ksize=5,
+        edge_threshold1=50,
+        edge_threshold2=150
+    )
+    
+    # Display original and edge-detected images side by side
+    # 并排显示原图和边缘检测结果
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
+    original = cv2.imread(image_path)
+    original_rgb = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB because OpenCV uses BGR while matplotlib expects RGB | 将 BGR 转换为 RGB，因为 OpenCV 使用 BGR 而 matplotlib 期望 RGB
+    plt.imshow(original_rgb)
+    plt.title('Original Image')
+    plt.axis('off')
+    plt.subplot(1, 2, 2)
+    plt.imshow(edges, cmap='gray')
+    plt.title('Edge Detection')
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+    
+    print('Exercise 3 completed successfully')
+except Exception as e:
+    print(f'Error in Exercise 3: {e}')
+

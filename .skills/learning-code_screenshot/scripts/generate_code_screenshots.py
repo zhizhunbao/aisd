@@ -71,10 +71,8 @@ def extract_step_sections(filepath):
         
         code_text = '\n'.join(cleaned_lines).strip()
         
-        # Create step name
+        # Create step name - use only step number for consistency
         step_name = f"step{step_num.zfill(2)}"
-        if step_desc:
-            step_name += f"_{step_desc.lower().replace(' ', '_')}"
         
         sections.append((step_name, code_text))
     
@@ -114,7 +112,7 @@ def get_monospace_font(size=14):
 def get_token_color(token_type):
     """
     Get color for syntax highlighting based on token type.
-    Colors match VS Code Dark+ theme.
+    Colors match Google Colab theme.
     
     Args:
         token_type: Pygments token type
@@ -122,17 +120,19 @@ def get_token_color(token_type):
     Returns:
         tuple: RGB color
     """
-    # VS Code Dark+ color scheme
+    # Google Colab color scheme (light background)
     colors = {
-        Token.Keyword: (197, 134, 192),      # Purple - keywords (def, if, for, etc.)
-        Token.Name.Function: (220, 220, 170), # Yellow - function names
-        Token.Name.Class: (78, 201, 176),     # Teal - class names
-        Token.Name.Builtin: (220, 220, 170),  # Yellow - built-in functions
-        Token.String: (206, 145, 120),        # Orange - strings
-        Token.Number: (181, 206, 168),        # Light green - numbers
-        Token.Comment: (106, 153, 85),        # Green - comments
-        Token.Operator: (171, 178, 191),      # Light gray - operators
-        Token.Name: (156, 220, 254),          # Light blue - variables
+        Token.Keyword: (215, 58, 73),           # Pink/Red - keywords (import, from, def, if, for, etc.)
+        Token.Keyword.Namespace: (215, 58, 73), # Pink/Red - import, from
+        Token.Name.Function: (0, 0, 0),         # Black - function names
+        Token.Name.Class: (0, 0, 0),            # Black - class names
+        Token.Name.Builtin: (0, 128, 0),        # Green - built-in functions
+        Token.String: (186, 33, 33),            # Dark red - strings
+        Token.Number: (0, 102, 102),            # Teal - numbers
+        Token.Comment: (64, 128, 128),          # Teal gray - comments
+        Token.Operator: (102, 102, 102),        # Dark gray - operators
+        Token.Name: (0, 0, 0),                  # Black - variables
+        Token.Operator.Word: (215, 58, 73),     # Pink/Red - as, in
     }
     
     # Check for exact match
@@ -144,8 +144,8 @@ def get_token_color(token_type):
         if token_parent in colors:
             return colors[token_parent]
     
-    # Default color (light gray)
-    return (171, 178, 191)
+    # Default color (black)
+    return (0, 0, 0)
 
 
 def save_code_screenshot(code_text, filename, output_dir):
@@ -169,7 +169,7 @@ def save_code_screenshot(code_text, filename, output_dir):
     font = get_monospace_font(font_size)
     line_height = font_size + 6
     padding = 20
-    bg_color = (40, 44, 52)  # Dark background like VS Code
+    bg_color = (247, 247, 247)  # Colab light gray background
     
     # Calculate dimensions by rendering all text
     lines = code_text.split('\n')
@@ -235,6 +235,9 @@ def generate_screenshots(script_file, output_dir='images'):
     
     output_path.mkdir(exist_ok=True)
     
+    # Get script name without extension for filename prefix
+    script_name = script_path.stem
+    
     print(f"Extracting code sections from: {script_file}")
     sections = extract_step_sections(script_path)
     
@@ -246,7 +249,7 @@ def generate_screenshots(script_file, output_dir='images'):
     print()
     
     for step_name, code_text in sections:
-        filename = f"{step_name}_code.png"
+        filename = f"{script_name}_{step_name}_code.png"
         save_code_screenshot(code_text, filename, output_path)
     
     print()

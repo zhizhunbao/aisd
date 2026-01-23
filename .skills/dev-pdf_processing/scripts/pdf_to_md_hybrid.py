@@ -143,14 +143,34 @@ class HybridPDFConverter:
         
         lines = text.split('\n')
         
-        # Clean lines: remove trailing single digits (chart coordinates embedded in text)
+        # Clean and split lines
         cleaned_lines = []
         for line in lines:
             line = line.strip()
-            # Remove trailing single digit with comma/space (e.g., "text, 7" -> "text,")
-            # Then remove trailing comma/space
+            
+            # Remove trailing single digit with comma/space
             line = re.sub(r'[,\s]+\d$', '', line)
-            cleaned_lines.append(line)
+            
+            # Skip empty lines at this stage
+            if not line:
+                continue
+            
+            # Split lines that have bullet points
+            # Use a simpler approach: split on bullet, then recombine with bullet
+            if '•' in line:
+                # Split by bullet point
+                segments = line.split('•')
+                for i, segment in enumerate(segments):
+                    segment = segment.strip()
+                    if segment:  # Skip empty segments
+                        if i == 0 and not line.startswith('•'):
+                            # First segment without bullet (text before first bullet)
+                            cleaned_lines.append(segment)
+                        else:
+                            # Add bullet back
+                            cleaned_lines.append('• ' + segment)
+            else:
+                cleaned_lines.append(line)
         
         processed_lines = []
         
@@ -179,6 +199,18 @@ class HybridPDFConverter:
             
             # Skip coordinate lines (chart axes)
             if i in coordinate_indices:
+                continue
+            
+            # Skip standalone numbers (page numbers, chart labels, etc.)
+            if re.match(r'^\d+$', line) and len(line) <= 3:
+                continue
+            
+            # Skip page number formats like "1/37"
+            if re.match(r'^\d+/\d+$', line):
+                continue
+            
+            # Skip standalone bullet points with no content
+            if line == '•':
                 continue
             
             # Check if line has garbled characters
@@ -213,17 +245,23 @@ class HybridPDFConverter:
                 
                 # Check if line starts with bullet point
                 if line.startswith('•'):
-                    # Add blank line before bullet if not first item
-                    if processed_lines and processed_lines[-1] != "":
+                    # Add blank line before first bullet in a group
+                    if processed_lines and processed_lines[-1] != "" and not processed_lines[-1].startswith('•'):
                         processed_lines.append("")
+                    # Add the bullet line
+                    processed_lines.append(line)
+                    # Add blank line after bullet for readability
+                    if not in_formula_block:
+                        processed_lines.append("")
+                else:
+                    processed_lines.append(line)
                 
-                processed_lines.append(line)
                 last_was_text = True
         
         return '\n'.join(processed_lines)
     
     def _detect_coordinate_lines(self, lines: list[str]) -> set[int]:
-        """Detect lines that are chart coordinates (e.g., "4", "3", "2", "1", "0")
+        """Detect lines that are chart coordinates or page numbers (e.g., "4", "3", "2", "1", "0", "37")
         
         Returns set of line indices to skip
         """
@@ -232,8 +270,8 @@ class HybridPDFConverter:
         for i, line in enumerate(lines):
             line = line.strip()
             
-            # Check if it's a single digit or simple number
-            if re.match(r'^\d+$', line) and len(line) <= 2:
+            # Check if it's a single digit or simple number (including page numbers)
+            if re.match(r'^\d+$', line) and len(line) <= 3:
                 # Look ahead for more single digits (allow gaps for text lines)
                 sequence = [int(line)]
                 indices = [i]
@@ -273,7 +311,8 @@ class HybridPDFConverter:
             if (len(line) < 100 and  # Not too long
                 len(line) > 3 and  # Not too short
                 not line.endswith(('.', ',', ';', ':')) and  # No ending punctuation
-                not re.match(r'^\d+$', line)):  # Not just a number
+                not re.match(r'^\d+$', line) and  # Not just a number
+                not re.match(r'^\d+/\d+$', line)):  # Not page number format (e.g., "1/37")
                 return line
         
         return ""
@@ -288,27 +327,24 @@ class HybridPDFConverter:
         # Check for garbled math characters (wrong font encoding)
         garbled_chars = re.findall(r'[𝒙𝒚𝒛𝒘𝒃𝒄𝒅𝒂𝒏𝒎𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝑥𝑦𝑧𝑤𝑏𝑐𝑑𝑎𝑛𝑚𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑖𝑗𝑘𝑙𝑔ℎȉ]', line)
         
-        # If has ANY garbled characters, treat entire line as formula
-        # This handles mixed text like "If x ℎ ℎ of line"
-        if len(garbled_chars) >= 1:
+        # Only treat as formula if has MULTIPLE garbled characters (3+)
+        # Single garbled char might be a typo or artifact
+        if len(garbled_chars) >= 3:
             return True
         
-        # Check for isolated formula fragments (likely part of formulas)
-        # 1. Lines with only math symbols and spaces (e.g., "> 0", "= 1")
-        if re.match(r'^[>\<≥≤=±\+\-\*/\s\d]+$', line) and len(line.strip()) < 15:
+        # Check for complex mathematical expressions with multiple operators
+        # Must have at least 2 different math operators to be considered a formula
+        math_operators = re.findall(r'[≥≤≠∑∏∫∂∇√∞]', line)
+        if len(math_operators) >= 2:
             return True
         
-        # 2. Lines with only repeated numbers/spaces (e.g., "2 2 2 2")
-        # But NOT single numbers (could be coordinates or labels)
-        if re.match(r'^[\d\s]+$', line):
-            numbers = line.split()
-            # Only mark as formula if 4+ repeated numbers
-            if len(numbers) >= 4:
+        # Lines with only math symbols and NO regular text (e.g., "∑ᵢ₌₁ⁿ")
+        # Must be very short and have no alphabetic characters
+        if len(line.strip()) < 20 and re.search(r'[≥≤≠∑∏∫∂∇√∞]', line):
+            # Check if it has regular readable text
+            readable_text = re.sub(r'[≥≤≠∑∏∫∂∇√∞\s\d\+\-\*/\(\)\[\]\{\}=<>]', '', line)
+            if len(readable_text) == 0:
                 return True
-        
-        # 3. Very short lines with single symbols (e.g., ",", "where")
-        if len(line.strip()) <= 2 and line.strip() in [',', '.', ':', ';']:
-            return True
         
         return False
 

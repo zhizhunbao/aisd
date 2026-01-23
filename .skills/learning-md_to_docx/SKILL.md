@@ -13,7 +13,15 @@ description: Convert markdown lab reports to Word documents with proper formatti
 
 ## Instructions
 
-### 1. Use Python-docx or Pandoc
+### 1. Pre-process Markdown
+
+**Remove horizontal rules before conversion:**
+
+- Horizontal rules `---` in markdown become visible lines in Word
+- Remove all `---` separators if clean layout is desired
+- Alternative: Use blank lines for section spacing
+
+### 2. Use Python-docx or Pandoc
 
 **Recommended: Pandoc (more reliable)**
 
@@ -44,12 +52,14 @@ import markdown
 
 - Convert relative paths to absolute before processing
 - Resize images to fit page width (max 6 inches)
-- Add figure captions below images
+- Control captions via alt text: `![Caption text](path)` becomes figure caption
+- Use empty alt text `![](path)` to avoid automatic captions
 - Maintain aspect ratio
 
 ### 3. Conversion Steps
 
 1. **Pre-process markdown:**
+   - Remove horizontal rules `---` if clean layout is needed
    - Resolve relative image paths
    - Clean up formatting inconsistencies
    - Verify all images exist
@@ -134,6 +144,7 @@ python scripts/convert_md_to_docx.py Lab1_Template.md Lab1.docx
 - **Broken formatting**: Use `--reference-doc` with proper template
 - **Large file size**: Compress images before conversion
 - **Chinese characters**: Ensure UTF-8 encoding: `pandoc -f markdown+east_asian_line_breaks`
+- **Unwanted text below images**: Image alt text appears as captions in Word. Use empty alt text `![]()` or short text `![Code]()` to avoid verbose captions
 
 ## Installation
 

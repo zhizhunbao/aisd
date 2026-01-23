@@ -29,14 +29,13 @@ def extract_step_markers(filepath):
         content = f.read()
     
     # Pattern to match step markers: # Step 1:, # Step 2:, etc.
-    step_pattern = r'# Step (\d+):([^\n]*)'
+    step_pattern = r'# Step (\d+):'
     matches = re.findall(step_pattern, content)
     
     steps = []
-    for step_num, step_desc in matches:
+    for step_num in matches:
+        # Use only step number for consistency
         step_name = f"step{step_num.zfill(2)}"
-        if step_desc.strip():
-            step_name += f"_{step_desc.strip().lower().replace(' ', '_')}"
         steps.append((int(step_num), step_name))
     
     return steps
@@ -161,8 +160,8 @@ def save_output_screenshot(output_text, filename, output_dir):
     font = get_monospace_font(font_size)
     line_height = font_size + 5
     padding = 15
-    bg_color = (12, 12, 12)  # Dark terminal background
-    text_color = (204, 204, 204)  # Light gray text
+    bg_color = (255, 255, 255)  # White background (Colab style)
+    text_color = (0, 0, 0)  # Black text
     
     # Calculate image dimensions
     max_width = 0
@@ -208,6 +207,9 @@ def generate_output_screenshots(script_file, output_dir='images'):
     
     output_path.mkdir(exist_ok=True)
     
+    # Get script name without extension for filename prefix
+    script_name = script_path.stem
+    
     print(f"Extracting step markers from: {script_file}")
     steps = extract_step_markers(script_path)
     
@@ -230,7 +232,7 @@ def generate_output_screenshots(script_file, output_dir='images'):
     
     for step_name in sorted(sections.keys()):
         output_text = sections[step_name]
-        filename = f"{step_name}.png"
+        filename = f"{script_name}_{step_name}_result.png"
         save_output_screenshot(output_text, filename, output_path)
     
     print()

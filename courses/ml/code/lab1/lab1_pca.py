@@ -1,11 +1,11 @@
 """
 CST8506 Lab 1: Dimensionality Reduction using PCA
-Author: [Your Name]
-Section: [Your Section]
-Date: [Date]
+Author: Peng Wang
+Student Number: 041107730
+Date: 2026-01-22
 
-This program performs Principal Component Analysis (PCA) on the Diabetes dataset
-to reduce dimensionality and compares model performance before and after reduction.
+Applies PCA to the Diabetes dataset and compares Random Forest performance
+before and after dimensionality reduction.
 """
 
 import numpy as np
@@ -19,10 +19,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
 from pathlib import Path
 
-RANDOM_STATE = 42
-TEST_SIZE = 0.2
-N_ESTIMATORS = 100
-VARIANCE_THRESHOLD = 0.95
+# Configuration constants
+RANDOM_STATE = 42  # Fixed seed for reproducibility (42 is a common convention in ML community)
+TEST_SIZE = 0.2  # 80-20 train-test split (standard practice)
+N_ESTIMATORS = 100  # Number of trees in Random Forest (balance between performance and speed)
+VARIANCE_THRESHOLD = 0.95  # Retain 95% of variance (recommended range: 85-95%)
 
 IMAGES_DIR = Path('images')
 IMAGES_DIR.mkdir(exist_ok=True)
@@ -33,7 +34,6 @@ print("=" * 80)
 print("CST8506 Lab 1: PCA Dimensionality Reduction")
 print("=" * 80)
 print()
-
 
 # Step 1: Load the CSV file
 print("Step 1: Loading diabetes.csv file...")

@@ -22,19 +22,43 @@ Before generating code:
 
 ### 2. Code Structure
 
+**Student Information:**
+
+Read student information from `.env.local` in workspace root:
+- `NAME` - Student name
+- `NUMBER` - Student number
+- `EMAIL` - Student email (optional)
+
+Use `python-dotenv` to load environment variables at the start of the script.
+
 **For Python scripts (.py):**
 
 ```python
 """
 Course Code Lab X: Title
-Author: [Student Name]
-Section: [Section Number]
-Date: [Date]
+Author: [Student Name from .env.local]
+Date: [Current Date]
 
 Brief description of what the program does.
 """
 
-# Import libraries
+import os
+from datetime import datetime
+from dotenv import load_dotenv
+
+# Load student information from .env.local
+load_dotenv('.env.local')
+STUDENT_NAME = os.getenv('NAME', '[Your Name]')
+STUDENT_NUMBER = os.getenv('NUMBER', '[Your Student Number]')
+
+# Print header with student info
+print(f"Course Code Lab X: Title")
+print(f"Author: {STUDENT_NAME}")
+print(f"Student Number: {STUDENT_NUMBER}")
+print(f"Date: {datetime.now().strftime('%Y-%m-%d')}")
+print()
+
+# Import other libraries
 import required_libraries
 
 # Main program following assignment steps
@@ -44,7 +68,8 @@ import required_libraries
 
 **For Jupyter Notebooks (.ipynb):**
 
-- First cell: Markdown with title, author, section, date
+- First cell: Code to load student info from `.env.local` and print header
+- Second cell: Markdown with title, author info (using variables), date
 - Each step: Markdown cell + Code cell
 - Final cell: Submission reminder (if needed)
 
@@ -89,7 +114,31 @@ import required_libraries
 
 **For pattern details:** See `references/common-patterns.md`
 
-### 5. Language Requirements
+### 5. Environment Setup
+
+**Required Package:**
+
+Ensure `python-dotenv` is available for loading `.env.local`:
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv('.env.local')
+STUDENT_NAME = os.getenv('NAME', '[Your Name]')
+STUDENT_NUMBER = os.getenv('NUMBER', '[Your Student Number]')
+```
+
+**Date Formatting:**
+
+Use `datetime` for current date:
+
+```python
+from datetime import datetime
+current_date = datetime.now().strftime('%Y-%m-%d')
+```
+
+### 6. Language Requirements
 
 All code content must be in English:
 
@@ -99,7 +148,7 @@ All code content must be in English:
 - Docstrings: English
 - Print outputs: English
 
-### 6. Screenshot Separation
+### 7. Screenshot Separation
 
 **CRITICAL: Do NOT include screenshot generation code in assignment scripts.**
 
@@ -119,7 +168,7 @@ Screenshot functionality is handled by the separate `learning-code_screenshot` s
 
 **For screenshot generation:** Use the `learning-code_screenshot` skill separately.
 
-### 7. Submission Reminder
+### 8. Submission Reminder
 
 Add simple reminder at end (if appropriate):
 
@@ -136,7 +185,9 @@ print("4. Convert markdown to .docx for submission")
 After generating code, check:
 
 **Documentation:**
-- [ ] File-level docstring with author info (if required)
+- [ ] Student info loaded from `.env.local` using `python-dotenv`
+- [ ] Current date generated using `datetime`
+- [ ] File-level docstring with author info
 - [ ] Function docstrings with Args/Returns (for all functions)
 
 **Code Quality:**

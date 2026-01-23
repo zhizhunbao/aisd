@@ -24,12 +24,13 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | Keywords | Skill |
 | --- | --- |
 | docx, word, markdown, md, convert, word to markdown, docx to md, document conversion, pandoc, mammoth, python-docx, 转换, 文档转换 | `dev-docx_to_md` |
+| pptx, powerpoint, pdf, convert, presentation, slides, ppt to pdf, pptx to pdf, presentation conversion, 演示文稿, 转换, 幻灯片, PPT转PDF | `dev-pptx_to_pdf` |
 | download, data download, dataset, fetch data, download file, API download, kaggle, huggingface, sklearn, UCI, data acquisition, wget, curl, requests, http download, file download, batch download, 下载, 数据下载, 数据集, 获取数据, 下载文件, API下载, 数据获取, 批量下载 | `dev-data_download` |
 | git, version control, commit, push, pull, branch, merge, rebase, conflict, repository, github, gitlab, gitignore, workflow, 版本控制, 提交, 推送, 拉取, 分支, 合并, 变基, 冲突, 仓库, 工作流 | `dev-git` |
 | discover, resource discovery, evaluation, benchmark, selection, 发现, 资源发现, 评测, 选型 | `dev-resource_discovery` |
 | code standards, naming conventions, directory structure, refactor, code organization, project structure, 代码规范, 命名规范, 目录结构, 重构, 代码组织, 项目结构 | `dev-code_standards` |
 | code style, formatting, linter, lint, prettier, eslint, ruff, black, type check, pre-commit, 代码风格, 格式化, 类型检查 | `dev-code_style` |
-| web scraping, crawler, playwright, selenium, beautifulsoup, data extraction, anti-bot, browser automation, 网页抓取, 爬虫, 数据提取, 反爬虫, 浏览器自动化 | `dev-web_scraping` |
+| web scraping, scrape, scraping, crawler, crawl, playwright, selenium, beautifulsoup, data extraction, extract content, anti-bot, browser automation, medium article, blog content, download article, save webpage, 网页抓取, 抓取网页, 抓取, 爬虫, 数据提取, 提取内容, 反爬虫, 浏览器自动化, 网页内容, 文章内容, 保存网页 | `dev-web_scraping` |
 | pdf, extract, convert, markdown, bilingual, translation, academic, paper, slides, 提取, 转换, 双语, 中英文, 翻译, 学术, 论文, 课件 | `dev-pdf_processing` |
 | translation, technical translation, bilingual documentation, terminology, localization, i18n, 翻译, 技术翻译, 双语文档, 术语, 本地化 | `dev-translation` |
 | document review, documentation quality, consistency check, accuracy, readability, technical writing, content organization, error detection, check document, 文档审查, 文档质量, 一致性检查, 准确性, 可读性, 技术写作, 内容组织, 错误检测, 检查文档 | `dev-document_review` |
@@ -53,7 +54,7 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | NLP, natural language processing, 自然语言处理 | `ai_learning-nlp` |
 | machine vision, MV, computer vision, CV, 机器视觉 | `ai_learning-mv` or `ai_learning-cv` |
 | RAG, retrieval augmented generation, 检索增强 | `ai_learning-rag` |
-| reinforcement learning, RL, 强化学习 | `ai_learning-rl` |
+| reinforcement learning, RL, Q-learning, Q learning, Bellman, Bellman equation, MDP, Markov decision process, policy gradient, actor-critic, temporal difference, TD learning, SARSA, DQN, deep Q network, reward function, agent environment, 强化学习, Q学习, 贝尔曼方程, 马尔可夫决策过程, 策略梯度, 时序差分 | `ai_learning-rl` |
 
 ### 💼 Career Development
 
@@ -141,6 +142,8 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | notebook conversion, ipynb转py, py转ipynb, convert notebook, jupyter convert, nbconvert, jupytext, script to notebook, notebook to script, 转换notebook, 笔记本转换 | `learning-notebook_conversion` |
 | submit lab, lab submission, prepare submission, zip file, upload assignment, brightspace, 提交lab, 作业提交, 准备提交, 打包, 上传作业 | `learning-lab_submission` |
 | brightspace scraper, scrape brightspace, download course, course materials, scrape slides, scrape labs, LMS scraper, brightspace抓取, 抓取课程, 下载课程, 课程资料, 抓取slides, 抓取labs, 学习平台抓取 | `learning-brightspace_scraper` |
+| textbook vectorization, pdf vectorization, semantic search textbook, embedding textbook, query textbook, knowledge base, 教科书向量化, PDF向量化, 语义搜索, 知识库 | `learning-textbook_vectorization` |
+| bilingual content, dual language, translation template, bilingual markdown, original and translation, 双语内容, 双语模板, 翻译模板, 中英对照 | `learning-bilingual_content` |
 
 
 ## Execution Workflow

@@ -20,16 +20,16 @@ description: Comprehensive PDF processing toolkit. Use when (1) extracting text/
 
 Choose the right tool for your task:
 
-| Task               | Best Library                | Why                        |
-| ------------------ | --------------------------- | -------------------------- |
-| Extract text       | `pdfplumber`                | Best layout preservation   |
-| Extract tables     | `pdfplumber`                | Excellent table detection  |
-| Merge/split PDFs   | `pypdf`                     | Fast and lightweight       |
-| Create PDFs        | `reportlab`                 | Professional output        |
-| Fill forms         | `pypdf` or `pdf-lib` (JS)   | Form field support         |
-| Extract images     | `pdfimages` (CLI)           | Fastest, preserves quality |
-| OCR scanned PDFs   | `pytesseract` + `pdf2image` | Industry standard          |
-| High-res rendering | `pypdfium2`                 | Chromium's PDF engine      |
+| Task               | Best Library                | Why                          |
+| ------------------ | --------------------------- | ---------------------------- |
+| Extract text       | `pymupdf` (fitz)            | Fast, accurate, hybrid mode  |
+| Extract tables     | `pdfplumber`                | Excellent table detection    |
+| Merge/split PDFs   | `pypdf`                     | Fast and lightweight         |
+| Create PDFs        | `reportlab`                 | Professional output          |
+| Fill forms         | `pypdf` or `pdf-lib` (JS)   | Form field support           |
+| Extract images     | `pymupdf` (fitz)            | Built-in, preserves quality  |
+| OCR scanned PDFs   | `pytesseract` + `pdf2image` | Industry standard            |
+| Convert to MD      | `pymupdf` (fitz)            | Best for slides and academic |
 
 ## Core Workflows
 
@@ -38,22 +38,26 @@ Choose the right tool for your task:
 **Install dependencies:**
 
 ```bash
-uv add pypdf pdfplumber pymupdf  # Core libraries
-uv add pytesseract pdf2image     # For OCR (optional)
+uv add pymupdf  # Primary library (recommended)
+uv add pdfplumber  # For tables (optional)
+uv add pytesseract pdf2image  # For OCR (optional)
 ```
 
-**Basic extraction:**
+**Best extraction with pymupdf (hybrid mode):**
 
 ```python
-from pypdf import PdfReader
+import pymupdf  # or: import fitz
 
-reader = PdfReader("document.pdf")
+doc = pymupdf.open("document.pdf")
 text = ""
-for page in reader.pages:
-    text += page.extract_text()
+for page in doc:
+    # Hybrid mode: combines text extraction with OCR for images
+    text += page.get_text()
+print(text)
+doc.close()
 ```
 
-**Better extraction with pdfplumber:**
+**Alternative with pdfplumber (for tables):**
 
 ```python
 import pdfplumber
@@ -192,20 +196,86 @@ for page_num in range(len(pdf_document)):
 
 ### 8. Convert PDF to Markdown (Academic Materials)
 
-**Use our unified converter:**
+**Use pymupdf for best results:**
 
-```bash
-# Basic conversion
-uv run python scripts/pdf_converter.py lecture.pdf
+```python
+import pymupdf
+from pathlib import Path
 
-# Bilingual template
-uv run python scripts/pdf_converter.py lecture.pdf --bilingual
+def pdf_to_markdown(pdf_path: str, output_path: str = None):
+    """Convert PDF to markdown with pymupdf."""
+    pdf_path = Path(pdf_path)
+    if output_path is None:
+        output_path = pdf_path.with_suffix('.md')
+    
+    doc = pymupdf.open(pdf_path)
+    markdown_content = []
+    
+    for page_num, page in enumerate(doc, 1):
+        markdown_content.append(f"## Page {page_num}\n")
+        
+        # Extract text in markdown format
+        text = page.get_text("text")  # or "blocks" for structured
+        markdown_content.append(text)
+        markdown_content.append("\n---\n")
+    
+    doc.close()
+    
+    # Write to file
+    Path(output_path).write_text("\n".join(markdown_content), encoding='utf-8')
+    print(f"✓ Converted: {pdf_path.name} → {output_path}")
 
-# Custom output
-uv run python scripts/pdf_converter.py lecture.pdf -o notes/lecture1.md
+# Usage
+pdf_to_markdown("lecture.pdf", "notes/lecture1.md")
 ```
 
-**Script location:** `backend/scripts/data/skills/dev-pdf_processing/scripts/pdf_converter.py`
+**For slides with images:**
+
+```python
+import pymupdf
+from pathlib import Path
+
+def pdf_slides_to_markdown(pdf_path: str, output_path: str = None):
+    """Convert PDF slides to markdown, extracting images."""
+    pdf_path = Path(pdf_path)
+    if output_path is None:
+        output_path = pdf_path.with_suffix('.md')
+    
+    output_dir = output_path.parent
+    img_dir = output_dir / f"{output_path.stem}_images"
+    img_dir.mkdir(exist_ok=True)
+    
+    doc = pymupdf.open(pdf_path)
+    markdown_content = []
+    
+    for page_num, page in enumerate(doc, 1):
+        markdown_content.append(f"## Slide {page_num}\n")
+        
+        # Extract text
+        text = page.get_text()
+        if text.strip():
+            markdown_content.append(text)
+        
+        # Extract images
+        images = page.get_images()
+        for img_idx, img in enumerate(images):
+            xref = img[0]
+            base_image = doc.extract_image(xref)
+            img_path = img_dir / f"slide{page_num}_img{img_idx}.{base_image['ext']}"
+            img_path.write_bytes(base_image["image"])
+            markdown_content.append(f"\n![Image]({img_path.relative_to(output_dir)})\n")
+        
+        markdown_content.append("\n---\n")
+    
+    doc.close()
+    
+    Path(output_path).write_text("\n".join(markdown_content), encoding='utf-8')
+    print(f"✓ Converted: {pdf_path.name} → {output_path}")
+    print(f"  Images: {len(list(img_dir.glob('*')))} extracted")
+
+# Usage
+pdf_slides_to_markdown("lecture.pdf", "notes/lecture1.md")
+```
 
 ### 9. Bilingual Documentation
 
@@ -245,10 +315,9 @@ Content...
 ### PDF Extraction Best Practices
 
 1. **Choose the right library:**
-   - `pypdf`: Fast, basic text extraction
-   - `pdfplumber`: Better for tables and layout
-   - `PyMuPDF (fitz)`: Best for images, complex layouts
-   - `pdf2image` + `pytesseract`: For OCR on scanned PDFs
+   - `pymupdf` (fitz): **Default choice** - fast, accurate, handles images
+   - `pdfplumber`: Use for complex table extraction
+   - `pdf2image` + `pytesseract`: Only for scanned PDFs needing OCR
 
 2. **Handle different content types:**
    - **Images:** Use PyMuPDF, save to `{pdf_name}_images/` folder
@@ -287,11 +356,14 @@ Content...
 
 ### Pattern 1: Course Material → Study Notes
 
-```bash
-uv run python scripts/pdf_converter.py course.pdf --bilingual
+```python
+import pymupdf
+
+# Extract and convert
+pdf_slides_to_markdown("course.pdf", "notes/course.md")
 ```
 
-Workflow: Extract → Convert to markdown → Add notes → Create bilingual version
+Workflow: Extract with pymupdf → Convert to markdown → Add notes → Create bilingual version
 
 ### Pattern 2: Academic Paper → Summary
 
@@ -316,16 +388,16 @@ course/
 
 ## Quick Reference
 
-| Task           | Best Tool          | Command/Code                      |
-| -------------- | ------------------ | --------------------------------- |
-| Extract text   | `pdfplumber`       | `page.extract_text()`             |
-| Extract tables | `pdfplumber`       | `page.extract_tables()`           |
-| Merge PDFs     | `pypdf` or `qpdf`  | See workflows above               |
-| Fill forms     | `pypdf`            | `update_page_form_field_values()` |
-| Create PDFs    | `reportlab`        | Canvas or Platypus                |
-| OCR scanned    | `pytesseract`      | Convert to image first            |
-| Extract images | `pdfimages` (CLI)  | `pdfimages -all input.pdf output` |
-| Convert to MD  | `pdf_converter.py` | See workflow 8 above              |
+| Task           | Best Tool        | Command/Code                      |
+| -------------- | ---------------- | --------------------------------- |
+| Extract text   | `pymupdf`        | `page.get_text()`                 |
+| Extract tables | `pdfplumber`     | `page.extract_tables()`           |
+| Merge PDFs     | `pypdf`          | See workflows above               |
+| Fill forms     | `pypdf`          | `update_page_form_field_values()` |
+| Create PDFs    | `reportlab`      | Canvas or Platypus                |
+| OCR scanned    | `pytesseract`    | Convert to image first            |
+| Extract images | `pymupdf`        | `page.get_images()`               |
+| Convert to MD  | `pymupdf`        | See workflow 8 above              |
 
 ## Advanced Topics
 
@@ -336,6 +408,6 @@ course/
 
 ## Next Steps
 
-- Use `pdf_converter.py` for academic material conversion
-- Check official Anthropic PDF skill for form filling: `backend/scripts/discover/raw_data/ai_skills/skills/pdf/`
-- Install command-line tools: `apt-get install poppler-utils` (Linux) or `brew install poppler` (Mac)
+- Use `pymupdf` (fitz) as default for PDF to markdown conversion
+- Use `pdfplumber` only when you need advanced table extraction
+- For scanned PDFs, use `pytesseract` with `pdf2image`
