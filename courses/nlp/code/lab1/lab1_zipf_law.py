@@ -96,6 +96,12 @@ def calculate_zipf_metrics(df):
     log_freq = np.log(df['frequency'])
     
     # Perform linear regression
+    # 对 (log(rank), log(freq)) 做线性回归：log(freq) = intercept + slope * log(rank)
+    # slope: 斜率，表示 log(rank) 每增加1，log(freq) 变化的量
+    # intercept: 截距，当 log(rank)=0 时的 log(freq) 值  
+    # r_value: 相关系数，范围[-1,1]，表示两个变量的线性相关强度
+    # p_value: p值，用于检验斜率是否显著不为0
+    # std_err: 标准误差，斜率估计的标准差
     slope, intercept, r_value, p_value, std_err = stats.linregress(log_rank, log_freq)
     
     return -slope, r_value**2
@@ -154,9 +160,18 @@ def extract_nouns(tokens):
         list: List of noun tokens only
     """
     # Perform POS tagging
+    # 进行词性标注：为每个 token 打上词性标签
+    # 输入：['The', 'quick', 'fox'] 
+    # 输出：[('The', 'DT'), ('quick', 'JJ'), ('fox', 'NN')]
+    # DT=限定词, JJ=形容词, NN=名词单数, VBZ=动词, NNS=名词复数, NNP=专有名词
     pos_tags = nltk.pos_tag(tokens)
     
     # Extract nouns (NN, NNS, NNP, NNPS)
+    # 提取名词：以 NN 开头的标签通常表示名词（单数/复数/专有名词等）
+    # 过滤条件：pos.startswith('NN') 匹配所有名词类型
+    # NN: 普通名词单数 (fox, book), NNS: 普通名词复数 (foxes, books)
+    # NNP: 专有名词单数 (John, London), NNPS: 专有名词复数 (Johns, Mondays)
+    # 列表推导式：遍历每个(单词,词性)对，只保留词性以'NN'开头的单词
     nouns = [word for word, pos in pos_tags if pos.startswith('NN')]
     
     return nouns
@@ -213,6 +228,10 @@ info_alpha, info_r2 = calculate_zipf_metrics(info_df)
 print(f"\nZipf's Law Metrics:")
 print(f"  Literary text - Alpha: {lit_alpha:.3f}, R-squared: {lit_r2:.3f}")
 print(f"  Informational text - Alpha: {info_alpha:.3f}, R-squared: {info_r2:.3f}")
+# 结果解读：
+# Alpha > 1.0 表示词频下降比标准齐夫定律更快，可能因为词汇丰富度较高
+# R^2 > 0.95 说明拟合度极好，验证了齐夫定律在真实文本中的有效性
+# 文学文本Alpha较低(1.393)说明词汇分布更集中，信息文本Alpha较高(1.625)说明词汇更分散
 
 
 # Step 5: Plot Zipf distributions for both texts
@@ -235,6 +254,8 @@ plt.savefig('images/zipf_comparison.png', dpi=300, bbox_inches='tight')
 plt.close()
 
 print("  Plots saved as 'images/zipf_comparison.png'")
+# alpha (α): 齐夫定律指数，理想值约为1.0，表示词频随排名下降的速度
+# R^2 (R-squared): 决定系数，范围[0,1]，表示线性回归拟合度，越接近1拟合越好
 print(f"  [Image Data] Literary: alpha = {lit_alpha:.3f}, R^2 = {lit_r2:.3f}")
 print(f"  [Image Data] Informational: alpha = {info_alpha:.3f}, R^2 = {info_r2:.3f}")
 
