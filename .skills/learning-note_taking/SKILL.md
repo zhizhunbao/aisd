@@ -11,7 +11,16 @@ Add brief, practical notes in Chinese to lecture materials with minimal code exa
 
 ## Instructions
 
-### 1. Keep Notes Concise
+### 1. Workflow
+
+Before adding notes, follow these steps to ensure logical placement:
+
+1. **Analyze Structure**: Identify every individual step, sub-section, or task (even small ones).
+2. **Determine Locations**: Identify the end of *every* logical step or task.
+3. **Insert Placeholders**: Add `> [Add your notes here]` after *every single task or sub-step*.
+4. **Final Fill**: Review the content around each placeholder and replace it with notes following the structure below.
+
+### 2. Keep Notes Concise
 
 - Focus on key concepts only
 - 2-4 bullet points per concept
@@ -20,20 +29,20 @@ Add brief, practical notes in Chinese to lecture materials with minimal code exa
 - **Use Chinese only** (no English/bilingual)
 - **Only summarize existing content** - do not add external knowledge or examples
 
-### 2. Note Structure
+### 3. Note Structure
 
-For each section with `> [Add your notes here]`:
+For each section requiring notes, wrap the entire content in a blockquote (`>`) to distinguish it from the original material:
 
 ```markdown
-**📝 笔记:**
-
-**概念名称:**
-
-- 简短定义（1-2句）
-- 关键点（2-3个要点）
-- 简单示例（如适用）
-
-**💡 提示:** 实用技巧或注意事项
+> **📝 笔记:**
+> 
+> **概念名称:**
+> 
+> - 简短定义（1-2句）
+> - 关键点（2-3个要点）
+> - 简单示例（如适用）
+> 
+> **💡 提示:** 实用技巧或注意事项
 ```
 
 ### 3. Language Rules
