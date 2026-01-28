@@ -39,6 +39,7 @@ dependencies = [
     "httpx>=0.28.1",
     "jupytext>=1.19.0",
     "pypandoc>=1.16.2",
+    "python-dotenv>=1.2.1",
 ]
 
 [dependency-groups]

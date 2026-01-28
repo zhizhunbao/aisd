@@ -1,0 +1,28 @@
+# AISD Project Configuration
+
+> 📌 完整规则请参考: `.shared/rules.md`
+
+## Project Context
+
+Personal AI study and development workspace.
+
+## Directory Structure
+
+- `.shared/` - 共享配置（skills, prompts, commands）
+- `.github/` - 参考仓库
+- `courses/` - 课程材料
+
+## Coding Standards
+
+1. 使用描述性变量和函数名
+2. 双语注释（中文为主，技术术语保留英文）
+3. Python: 4空格缩进，JS/TS: 2空格缩进
+4. 保持函数小而专注
+
+## AI Behavior Guidelines
+
+- 使用中文进行解释和说明
+- 技术术语保留英文
+- 简洁、可操作的响应
+- 不确定时主动询问
+- 修改文件时显示 diff

@@ -1,0 +1,170 @@
+================================================================================
+Step 1: Load the dataset
+================================================================================
+Dataset successfully loaded from sklearn.
+Output directory: C:\Users\40270\OneDrive\Desktop\workspace\aisd\lab2_images
+
+================================================================================
+Step 2: Print dataset statistics
+================================================================================
+Number of instances: 178
+Number of attributes: 13
+Attribute names: ['alcohol', 'malic_acid', 'ash', 'alcalinity_of_ash', 'magnesium', 'total_phenols', 'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 'color_intensity', 'hue', 'od280/od315_of_diluted_wines', 'proline']
+Target names: ['class_0', 'class_1', 'class_2']
+
+First 5 rows (all 13 features):
+   alcohol  malic_acid   ash  alcalinity_of_ash  magnesium  total_phenols  flavanoids  nonflavanoid_phenols  proanthocyanins  color_intensity   hue  od280/od315_of_diluted_wines  proline  target
+0    14.23        1.71  2.43               15.6      127.0           2.80        3.06                  0.28             2.29             5.64  1.04                          3.92   1065.0       0
+1    13.20        1.78  2.14               11.2      100.0           2.65        2.76                  0.26             1.28             4.38  1.05                          3.40   1050.0       0
+2    13.16        2.36  2.67               18.6      101.0           2.80        3.24                  0.30             2.81             5.68  1.03                          3.17   1185.0       0
+3    14.37        1.95  2.50               16.8      113.0           3.85        3.49                  0.24             2.18             7.80  0.86                          3.45   1480.0       0
+4    13.24        2.59  2.87               21.0      118.0           2.80        2.69                  0.39             1.82             4.32  1.04                          2.93    735.0       0
+
+================================================================================
+Step 3: Split into train and test sets
+================================================================================
+Total samples: 178
+Training set size: 124
+Test set size: 54
+
+================================================================================
+Step 4: Standardize the data
+================================================================================
+StandardScaler applied:
+  - Fit on training data only (prevents data leakage)
+  - Transform both training and test data
+
+Before scaling (first 3 features):
+  Mean: [12.96, 2.40, 2.37]
+  Std:  [0.84, 1.10, 0.27]
+
+After scaling (first 3 features):
+  Mean: [0.000000, -0.000000, 0.000000]
+  Std:  [1.000000, 1.000000, 1.000000]
+
+Note: After scaling, mean ~= 0 and std ~= 1
+
+================================================================================
+Step 5: Fit SVM models with three kernels
+================================================================================
+SVM Default Parameters:
+  C: 1.0 (regularization parameter)
+    - Higher C = less regularization, may overfit
+    - Lower C = more regularization, may underfit
+  gamma: 'scale' = 1/(n_features * X.var()) for rbf/poly
+
+LINEAR kernel:
+  Accuracy: 0.9815
+  Confusion Matrix:
+    [19  0  0]
+    [ 0 20  1]
+    [ 0  0 14]
+POLY kernel:
+  Accuracy: 0.9630
+  Confusion Matrix:
+    [17  2  0]
+    [ 0 21  0]
+    [ 0  0 14]
+RBF kernel:
+  Accuracy: 0.9815
+  Confusion Matrix:
+    [19  0  0]
+    [ 0 21  0]
+    [ 0  1 13]
+
+================================================================================
+Step 6: Apply PCA and find the best 'd'
+================================================================================
+PCA Analysis (unsupervised dimensionality reduction):
+  Original features: 13
+
+Variance explained by each component:
+  PC1: 0.3620 (cumulative: 0.3620)
+  PC2: 0.1876 (cumulative: 0.5496)
+  PC3: 0.1166 (cumulative: 0.6662)
+  PC4: 0.0758 (cumulative: 0.7420)
+  PC5: 0.0704 (cumulative: 0.8124)
+  ... (showing first 5 of 13 components)
+
+Best d for 95% variance: 10 components
+
+Using d=2 for visualization (as required by assignment)
+  Variance captured with 2 components: 0.5496 (55.0%)
+
+SVM Results on PCA-reduced data (d=2):
+  LINEAR kernel: Accuracy = 0.9815
+  POLY kernel: Accuracy = 0.9444
+  RBF kernel: Accuracy = 1.0000
+
+================================================================================
+Step 7: Plot 2D graphs for PCA-reduced data
+================================================================================
+Creating 3 subplots for PCA-reduced data:
+  - Linear kernel: decision boundaries are hyperplanes
+  - Poly kernel: curved boundaries using polynomial functions
+  - RBF kernel: smooth boundaries using Gaussian radial basis
+
+Plot details:
+  - Data points colored by class (Class 0: red, Class 1: green, Class 2: blue)
+  - Support vectors marked with hollow circles
+
+Saved: lab2_images\pca_svm_plots.png
+
+================================================================================
+Step 8: Apply LDA to reduce dimensionality
+================================================================================
+LDA Analysis (supervised dimensionality reduction):
+  - Uses class labels to maximize class separability
+  - Max components for k classes: k-1 = 2
+  - Components used: 2
+
+Explained variance ratio:
+  LD1: 0.6934 (69.3%)
+  LD2: 0.3066 (30.7%)
+  Total: 1.0000 (100.0%)
+
+SVM Results on LDA-reduced data (d=2):
+  LINEAR kernel: Accuracy = 0.9815
+  POLY kernel: Accuracy = 0.9444
+  RBF kernel: Accuracy = 0.9815
+
+================================================================================
+Step 9: Plot 2D graphs for LDA-reduced data
+================================================================================
+Creating 3 subplots for LDA-reduced data:
+  - Linear kernel: linear decision boundaries
+  - Poly kernel: curved polynomial boundaries
+  - RBF kernel: Gaussian radial basis boundaries
+
+Note: LDA provides better class separation than PCA
+      because it uses class labels during transformation.
+
+Saved: lab2_images\lda_svm_plots.png
+
+================================================================================
+Step 10: Results table with accuracies and confusion matrices
+================================================================================
+
+Summary of all 9 model configurations:
+
+Model                            Accuracy
+------------------------------------------
+Standardized, linear SVM           0.9815
+Standardized, poly SVM             0.9630
+Standardized, rbf SVM              0.9815
+PCA (d=2), linear SVM              0.9815
+PCA (d=2), poly SVM                0.9444
+PCA (d=2), rbf SVM                 1.0000
+LDA (d=2), linear SVM              0.9815
+LDA (d=2), poly SVM                0.9444
+LDA (d=2), rbf SVM                 0.9815
+
+Best Model: PCA (d=2), rbf SVM with Accuracy = 1.0000
+
+Key Findings:
+  - RBF kernel with PCA achieves perfect accuracy (1.0000)
+  - Linear kernel performs consistently across all methods
+  - Dimensionality reduction maintains/improves accuracy
+    while reducing features from 13 to 2
+
+Results saved: lab2_images\lab2_results.csv
