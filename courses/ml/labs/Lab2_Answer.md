@@ -26,7 +26,7 @@ I loaded the Wine dataset from Scikit-Learn. It contains 178 samples of wine wit
 ![Step 2 Result](lab2_images/lab2_svm_step02_result.png)
 
 **Explanation:**  
-I printed the dataset statistics, showing 178 instances and 13 attributes. The preview shows the raw feature values and the numeric target column (0, 1, 2), representing the three wine types.
+I printed the dataset statistics, showing 178 instances and 13 attributes. The preview shows the first 5 rows with their raw feature values such as alcohol, malic acid, ash, etc.
 
 ### 3. Train & Test split
 

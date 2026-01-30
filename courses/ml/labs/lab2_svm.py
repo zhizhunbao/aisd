@@ -17,7 +17,7 @@ import numpy as np
 # Import Pandas for data processing and DataFrame operations
 import pandas as pd
 
-# 导入Matplotlib，用于绑制图表和可视化
+# 导入Matplotlib，用于绘制图表和可视化
 # Import Matplotlib for plotting and visualization
 import matplotlib.pyplot as plt
 
@@ -61,8 +61,55 @@ TEST_SIZE = 0.3
 # Set PCA cumulative variance threshold to 95% for determining optimal number of components
 PCA_VARIANCE_THRESHOLD = 0.95
 
-# 定义三种SVM核函数：线性、多项式、RBF（高斯径向基）
-# Define three SVM kernels: linear, polynomial, RBF (Gaussian Radial Basis Function)
+# 定义三种SVM核函数（核函数决定SVM如何画决策边界来分类数据）
+# Define three SVM kernels (kernels determine how SVM draws decision boundaries to classify data)
+#
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 核函数的作用：把数据从低维映射到高维，让原本分不开的数据变得可分    │
+# │ Kernel trick: map data to higher dimensions to make it separable   │
+# │                                                                     │
+# │  低维(分不开)        高维(分得开)                                   │
+# │   o x o x           o o o                                          │
+# │   x o x o    ──→    -------  ← 超平面 (hyperplane)                 │
+# │   o x o x           x x x                                          │
+# └─────────────────────────────────────────────────────────────────────┘
+#
+# 1. LINEAR（线性核）
+#    公式 / Formula: K(x, y) = x · y （两个向量的点积 / dot product）
+#    决策边界 / Decision boundary:
+#      class A  |  class B
+#       o o o   |   x x x        ← 直线分割 (straight line)
+#       o o o   |   x x x
+#    计算逻辑：直接在原始空间计算，不做任何变换，找一条直线（高维是超平面）
+#    Logic: compute directly in original space, find a straight line (hyperplane in high-dim)
+#
+# 2. POLY（多项式核）
+#    公式 / Formula: K(x, y) = (gamma * x·y + r)^d
+#      - d = degree（默认3），次数越高曲线越弯曲
+#      - d = degree (default 3), higher degree = more curved boundary
+#      - gamma = 1/(n_features * X.var())（默认'scale'）
+#      - r = coef0（默认0）
+#    决策边界 / Decision boundary:
+#       o o  ╲  x x
+#       o o   ╲  x x             ← 曲线分割 (curved line)
+#       o o   ╱ x x
+#    计算逻辑：把每个特征做多项式组合（如 x1², x1*x2, x2²），在高维空间画直线
+#    Logic: create polynomial combinations of features, draw a line in that higher-dim space
+#
+# 3. RBF（高斯径向基核，sklearn默认核函数）
+#    公式 / Formula: K(x, y) = exp(-gamma * ||x - y||²)
+#      - ||x - y||² = 两点间的欧氏距离平方 (squared Euclidean distance)
+#      - gamma 控制"影响半径"：gamma大 → 只看近邻，边界复杂；gamma小 → 看得远，边界平滑
+#      - gamma controls influence radius: large → local, complex; small → global, smooth
+#    决策边界 / Decision boundary:
+#       x x x x x
+#       x ╭───╮ x
+#       x │o o│ x                ← 可以画封闭曲线 (can draw closed curves)
+#       x ╰───╯ x
+#       x x x x x
+#    计算逻辑：计算每对点的距离，近的点相似度高(≈1)，远的点相似度低(≈0)
+#    Logic: compute distance between each pair, close points → similarity≈1, far → ≈0
+#
 KERNELS = ['linear', 'poly', 'rbf']
 
 # 定义三种颜色，用于区分三个类别
@@ -121,7 +168,6 @@ print(f"\nFirst 5 rows (all 13 features):")
 # 将NumPy数组转换为Pandas DataFrame以便展示
 # Convert NumPy array to Pandas DataFrame for display
 df = pd.DataFrame(X, columns=wine.feature_names)
-df['target'] = y
 print(df.head())
 print()
 
@@ -201,14 +247,30 @@ print()
 # 遍历三种核函数
 # Iterate through three kernels
 for kernel in KERNELS:
-    # 创建SVM分类器
-    # Create SVM classifier
-    # linear：线性核，适用于线性可分数据
-    # linear kernel: suitable for linearly separable data
-    # poly：多项式核，可以处理非线性边界
-    # polynomial kernel: can handle non-linear boundaries
-    # rbf：高斯径向基核（默认），最常用，可以映射到无限维空间
-    # RBF (Gaussian) kernel (default): most commonly used, can map to infinite dimensional space
+    # 创建SVM分类器，关键超参数说明：
+    # Create SVM classifier, key hyperparameters:
+    # kernel：核函数类型
+    # kernel: type of kernel function
+    #   - linear：线性核，适用于线性可分数据
+    #   - linear kernel: suitable for linearly separable data
+    #   - poly：多项式核，可以处理非线性边界（默认degree=3）
+    #   - polynomial kernel: can handle non-linear boundaries (default degree=3)
+    #   - rbf：高斯径向基核（默认），最常用，可以映射到无限维空间
+    #   - RBF (Gaussian) kernel (default): most commonly used, can map to infinite dimensional space
+    # C=1.0（默认）：正则化参数，控制误分类惩罚力度
+    # C=1.0 (default): regularization parameter, controls misclassification penalty
+    #   - C越大，模型越严格拟合训练数据（可能过拟合）
+    #   - Larger C → stricter fit to training data (risk of overfitting)
+    #   - C越小，允许更多误分类（更平滑的决策边界）
+    #   - Smaller C → more misclassifications allowed (smoother decision boundary)
+    # gamma='scale'（默认）：核函数系数，仅对rbf和poly有效
+    # gamma='scale' (default): kernel coefficient, only for rbf and poly
+    #   - 'scale'表示gamma = 1 / (n_features * X.var())
+    #   - 'scale' means gamma = 1 / (n_features * X.var())
+    #   - gamma越大，单个样本影响范围越小（决策边界越复杂）
+    #   - Larger gamma → smaller influence per sample (more complex boundary)
+    # degree=3（默认）：多项式核的次数，仅对poly有效
+    # degree=3 (default): polynomial degree, only for poly kernel
     svm = SVC(kernel=kernel, random_state=RANDOM_STATE)
     
     # 在标准化后的训练数据上拟合模型
@@ -280,7 +342,7 @@ print(f"\nBest d for {PCA_VARIANCE_THRESHOLD * 100:.0f}% variance: {pca_d}")
 print(f"Using d=2 for visualization")
 print(f"  Variance captured with 2 components: {cumulative_variance[1]:.4f}")
 
-# 使用2个主成分进行可视化（便于2D绑图）
+# 使用2个主成分进行可视化（便于2D绘图）
 # Use 2 principal components for visualization (for 2D plotting)
 # 原因：虽然最佳d可能更大，但2D图更直观，作业要求2D可视化
 # Reason: Although optimal d may be larger, 2D plot is more intuitive, assignment requires 2D visualization
