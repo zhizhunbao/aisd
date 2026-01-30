@@ -129,7 +129,55 @@ if self.y == 3 and 1 <= self.x <= 10:
     reward = -100
 ```
 
-## 6. Import Comments
+## 6. API Parameter Comments
+
+When calling APIs with multiple parameters (e.g. OpenCV, scikit-learn), explain **what each parameter does** and **why that value was chosen**, not just restate the parameter name.
+
+```python
+# ❌ BAD - Just restating parameter names (读完还是不知道在做什么)
+# 参数：127 是阈值，255 是最大值，THRESH_BINARY 是二值化模式
+# Parameters: 127 is threshold, 255 is max value, THRESH_BINARY is binarization mode
+_, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
+# ✅ GOOD - Explain what each value actually does
+# 参数：127 是明暗分界线（亮度 > 127 的像素变白，≤ 127 的变黑），
+#       255 是"变白"后赋予的像素值（纯白），
+#       THRESH_BINARY 表示输出只有纯黑(0)和纯白(255)两种结果
+# Parameters: 127 is the brightness cutoff (pixels > 127 become white, ≤ 127 become black),
+#       255 is the value assigned to "white" pixels (pure white),
+#       THRESH_BINARY means output has only two values: black(0) and white(255)
+_, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+```
+
+```python
+# ❌ BAD - Parameter names without meaning
+# 参数：[img] 是源图，[i] 是通道索引，None 是掩码，[256] 是分箱数
+# Parameters: [img] is source, [i] is channel index, None is mask, [256] is bin count
+
+# ✅ GOOD - Explain purpose and effect of each value
+# 参数：[img] 将原图包在列表里传入（API 支持同时处理多张图），
+#       [i] 指定计算第几个通道（0=蓝, 1=绿, 2=红），
+#       None 表示不使用掩码（即统计整幅图而非局部区域），
+#       [256] 表示将像素值分成 256 个柱子来统计（每个亮度值一个柱子），
+#       [0, 256] 限定只统计亮度在 0~255 之间的像素
+# Parameters: [img] wraps image in a list (API supports multiple images at once),
+#       [i] specifies which channel to compute (0=Blue, 1=Green, 2=Red),
+#       None means no mask (count all pixels, not just a sub-region),
+#       [256] splits pixel values into 256 bins (one bin per intensity level),
+#       [0, 256] only counts pixels with intensity between 0 and 255
+hist = cv2.calcHist([img], [i], None, [256], [0, 256])
+```
+
+**Rules:**
+
+- Explain what the value **does** (effect), not just what it **is** (name)
+- For numeric values: explain why this specific number was chosen, and what changing it would do
+- For enum/flag values: explain the behavior it selects
+- For optional values like `None`: explain what it means to omit it
+- Use `#       ` (7 spaces) for continuation lines to align with the first parameter description
+- Keep Chinese and English paired, same as inline comments
+
+## 7. Import Comments
 
 Add bilingual comments above imports:
 
@@ -145,7 +193,7 @@ import time
 import random
 ```
 
-## 7. Entry Point Comment
+## 8. Entry Point Comment
 
 ```python
 # 程序入口点，运行主函数
@@ -165,6 +213,7 @@ Before finishing:
 - [ ] No blank line between Chinese and English lines (in both docstrings and comments)
 - [ ] Blank line between each code block
 - [ ] Complex logic has explanation and reason
+- [ ] API parameters explain what each value does, not just its name
 - [ ] Every code block has comments
 - [ ] Import statements have bilingual comments
 
@@ -199,6 +248,7 @@ steps += 1
 3. **Comment placement**: Always ABOVE code, never beside it
 4. **Code spacing**: Blank line after each code block
 5. **No blank line**: Between Chinese and English lines (both in docstrings and comments)
+6. **API parameters**: Explain what each value DOES and WHY, not just restate parameter names
 
 ## Complete Example
 

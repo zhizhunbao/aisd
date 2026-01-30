@@ -1,0 +1,11 @@
+[project]
+name = "cliffwalking-env"
+version = "0.0.1"
+dependencies = [
+    "gymnasium",
+    "pygame",
+    "numpy",
+]
+
+[tool.setuptools]
+packages = ["cliffwalking_env"]

@@ -189,6 +189,7 @@ Follow `dev-code_comment` skill for bilingual comments:
 - File docstring: English only
 - Inline comments: Chinese line + English line above code
 - Complex logic: Add reason (原因/Reason)
+- API parameters: Explain what each value **does**, not just restate parameter names
 
 Example:
 
@@ -198,6 +199,14 @@ Example:
 # 原因：SVM对特征尺度敏感
 # Reason: SVM is sensitive to feature scales
 scaler = StandardScaler()
+
+# 参数：127 是明暗分界线（亮度 > 127 的像素变白，≤ 127 的变黑），
+#       255 是"变白"后赋予的像素值（纯白），
+#       THRESH_BINARY 表示输出只有纯黑(0)和纯白(255)两种结果
+# Parameters: 127 is the brightness cutoff (pixels > 127 become white, ≤ 127 become black),
+#       255 is the value assigned to "white" pixels (pure white),
+#       THRESH_BINARY means output has only two values: black(0) and white(255)
+_, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
 ```
 
 **Avoid AI Appearance:**
