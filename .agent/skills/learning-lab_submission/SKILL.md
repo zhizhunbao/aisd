@@ -36,14 +36,17 @@ description: Prepare and validate lab assignments for submission. Use when (1) u
 **Standard structure:**
 
 ```
-lab1/
-├── lab1_zipf_law.py          # Main Python script
-├── lab1_zipf_law.ipynb       # Jupyter notebook
-├── Lab1.docx                 # Documentation
-└── images/                   # Generated outputs
-    ├── zipf_comparison.png
-    ├── zipf_stopword_comparison.png
-    └── zipf_stability.png
+courses/[course]/
+├── labs/
+│   ├── Lab1_PCA.pdf              # Original instruction
+│   └── Lab1_PCA.docx             # Original template
+└── code/
+    └── lab1/                     # Development directory
+        ├── lab1_pca.py           # Main Python script
+        ├── Lab1_Answer.md        # Documentation (Markdown)
+        └── lab1_images/          # Generated outputs
+            ├── plot1.png
+            └── plot2.png
 ```
 
 ### 3. Validation Steps

@@ -156,8 +156,8 @@ description: Complete course lab/assignment from start to submission - universal
 
 ### 输出
 
-- `courses/[course]/labs/lab[n]_*.py`
-- `courses/[course]/labs/lab[n]_*.ipynb`
+- `courses/[course]/code/lab[n]/lab[n]_*.py`
+- `courses/[course]/code/lab[n]/lab[n]_*.ipynb`
 
 ### 代码模板规范
 
@@ -193,7 +193,7 @@ import os
 // turbo
 
 ```bash
-cd courses/[course]/labs
+cd courses/[course]/code/lab[n]
 uv run python lab[n]_*.py
 ```
 
@@ -270,9 +270,9 @@ cat lab[n]_images/output.txt
 
 ### 输出
 
-- `courses/[course]/labs/lab[n]_images/` (图表和截图目录)
-- `courses/[course]/labs/Lab[N]_Answer.md` (答题文档 Markdown)
-- `courses/[course]/labs/Lab[N]_<firstname>.docx` (提交用 Word)
+- `courses/[course]/code/lab[n]/lab[n]_images/` (图表和截图目录)
+- `courses/[course]/code/lab[n]/Lab[N]_Answer.md` (答题文档 Markdown)
+- `courses/[course]/code/lab[n]/Lab[N]_<firstname>.docx` (提交用 Word)
 
 ---
 
@@ -319,7 +319,7 @@ cat lab[n]_images/output.txt
 // turbo
 
 ```bash
-git add courses/[course]/labs/
+git add courses/[course]/labs/ courses/[course]/code/lab[n]/
 git commit -m "Complete [course] Lab[N]"
 git push
 ```
@@ -335,18 +335,18 @@ git push
 
 ```
 courses/
-└── ml/
-    └── labs/
-        ├── Lab2_SVM.md              # 作业说明 (Markdown)
-        ├── Lab2AnswerTemplate.md    # 答题模板
-        ├── lab2_svm.py              # Python 代码
-        ├── lab2_svm.ipynb           # Jupyter Notebook
-        ├── Lab2_Answer.md           # 答题文档 (Markdown)
-        ├── Lab2_John.docx           # 提交用 Word
-        └── lab2_images/             # Lab2 图表和截图目录
-            ├── pca_svm_plots.png
-            ├── lda_svm_plots.png
-            └── ...
+└── [course]/
+    ├── labs/
+    │   ├── Lab[N]_*.pdf             # 原始作业说明 (PDF)
+    │   ├── Lab[N]_*.docx            # 原始答题模板 (如有)
+    │   └── Lab[N]_*.md              # 转换后的说明 (Markdown)
+    └── code/
+        └── lab[n]/
+            ├── lab[n]_*.py          # Python 代码
+            ├── lab[n]_*.ipynb       # Jupyter Notebook
+            ├── Lab[N]_Answer.md     # 答题文档 (Markdown)
+            ├── Lab[N]_John.docx     # 提交用 Word
+            └── lab[n]_images/       # 图表和截图目录
 ```
 
 ---

@@ -73,17 +73,42 @@ with open('output.py', 'w', encoding='utf-8') as f:
    """
    ```
 
-2. **Review cell markers**:
+2. **Add configuration constants section** (if needed):
+
+   Constants should be grouped at the top of the file with the same section header format:
+
+   ```python
+   # ============================================================
+   # 步骤0：配置常量
+   # Step 0: Configuration constants
+   # ============================================================
+
+   # 固定随机种子以确保结果可复现
+   # Fixed seed for reproducibility
+   RANDOM_STATE = 42
+
+   # 80-20 训练集-测试集划分
+   # 80-20 train-test split
+   TEST_SIZE = 0.2
+   ```
+
+   Key points:
+   - Use `# ============================================================` as section delimiters
+   - Number the section as "步骤0" / "Step 0" to indicate it runs before main steps
+   - Each constant should have bilingual comments (Chinese on top, English below)
+   - Use `UPPER_SNAKE_CASE` for constant names
+
+3. **Review cell markers**:
    - Keep `# %%` for logical sections
    - Remove unnecessary markers
    - Add descriptive comments after markers
 
-3. **Convert markdown to docstrings**:
+4. **Convert markdown to docstrings**:
    - Section headers → Comments
    - Important notes → Inline comments
    - Instructions → Function docstrings
 
-4. **Adjust outputs**:
+5. **Adjust outputs**:
    - Change `display()` to `print()`
    - Ensure `plt.show()` for plots
    - Remove IPython-specific magic commands
@@ -125,20 +150,71 @@ jupytext --to notebook --execute script.py
 - Section comments → Markdown headers
 - Code blocks → Code cells
 
+**⚠️ IMPORTANT: Control cell boundaries for proper organization**
+
+By default, jupytext creates many small cells (splitting on blank lines). Two approaches to keep related code together:
+
+**Approach 1: Use `# %%` markers (simple)**
+
+Add `# %%` markers before each logical section:
+
+```python
+# Header and imports (will be first cell)
+import numpy as np
+
+# %% Step 1: Load Data
+data = pd.read_csv('data.csv')
+print(data.head())
+
+# %% Step 2: Preprocess
+data_clean = data.dropna()
+```
+
+**Approach 2: Custom script with existing section markers (recommended)**
+
+If your code already uses `# ====` section markers, use the conversion script from this skill:
+
+```bash
+# Use the script from the skill's scripts/ directory
+uv run python .shared/skills/learning-notebook_conversion/scripts/convert_to_notebook.py lab2_svm.py
+```
+
+This approach:
+
+- Uses existing code structure (no need to add `# %%` markers)
+- Keeps step headers together with their code
+- Creates cleaner notebooks with proper cell organization
+
 **Post-conversion tasks:**
 
 1. **Run all cells** to generate outputs
-2. **Add markdown cells** for better documentation:
+
+2. **Replace `plt.close()` with `plt.show()`** to display images inline:
+
+   ```python
+   import nbformat
+   with open('notebook.ipynb', 'r', encoding='utf-8') as f:
+       nb = nbformat.read(f, as_version=4)
+   for cell in nb.cells:
+       if cell.cell_type == 'code':
+           cell.source = cell.source.replace('plt.close()', 'plt.show()')
+   with open('notebook.ipynb', 'w', encoding='utf-8') as f:
+       nbformat.write(nb, f)
+   ```
+
+   ⚠️ Do NOT use PowerShell for this - it will corrupt Chinese characters!
+
+3. **Add markdown cells** for better documentation:
    - Title and metadata at top
    - Section headers before major steps
    - Explanations for complex logic
 
-3. **Verify cell order**:
+4. **Verify cell order**:
    - Logical flow maintained
    - No circular dependencies
    - Outputs display correctly
 
-4. **Format markdown cells**:
+5. **Format markdown cells**:
 
    ```markdown
    ## Step 1: Import Libraries
