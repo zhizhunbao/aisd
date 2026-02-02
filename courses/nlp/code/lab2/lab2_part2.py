@@ -9,30 +9,25 @@ sentiment labels based on a predefined sentiment lexicon.
 """
 
 # ============================================================
-# 步骤0：导入模块和下载资源
-# Step 0: Import modules and download resources
+# 模块导入和资源下载
+# Module Imports and Resource Downloads
 # ============================================================
 
-# 导入正则表达式模块，用于文本预处理
-# Import regular expression module for text preprocessing
 import re
-
-# 导入NLTK模块，用于加载IMDb数据集和分词
-# Import NLTK module for loading IMDb dataset and tokenization
 import nltk
-from nltk.corpus import movie_reviews
-from nltk.tokenize import word_tokenize
+from nltk.corpus import movie_reviews  # IMDb电影评论数据集
+from nltk.tokenize import word_tokenize  # 分词器
 
-# 下载必要的NLTK资源
-# Download necessary NLTK resources
-nltk.download('movie_reviews', quiet=True)
-nltk.download('punkt', quiet=True)
-nltk.download('punkt_tab', quiet=True)
+# 下载NLTK资源（首次运行需要下载，之后会跳过）
+# Download NLTK resources (required on first run, skipped afterward)
+nltk.download('movie_reviews', quiet=True)  # IMDb评论数据
+nltk.download('punkt', quiet=True)  # 分词器模型
+nltk.download('punkt_tab', quiet=True)  # 分词器查找表（punkt依赖）
 
 
 # ============================================================
-# 步骤1：定义情感词典
-# Step 1: Define sentiment lexicon
+# 情感词典定义
+# Sentiment Lexicon Definition
 # ============================================================
 
 # 正面情感词列表
@@ -64,8 +59,10 @@ NEGATIVE_WORDS = [
 
 
 # ============================================================
-# 步骤2：实现文本预处理函数
-# Step 2: Implement text preprocessing function
+# 文本预处理函数
+# Text Preprocessing Function
+# @param text: 原始文本 / Raw text
+# @return: 预处理后的干净文本 / Cleaned text
 # ============================================================
 
 def preprocess_text(text):
@@ -96,8 +93,11 @@ def preprocess_text(text):
 
 
 # ============================================================
-# 步骤3：实现情感词统计函数
-# Step 3: Implement sentiment word counting function
+# 情感词统计函数
+# Sentiment Word Counting Function
+# @param text: 已预处理的文本 / Preprocessed text
+# @param word_list: 情感词列表 / Sentiment word list
+# @return: 匹配的情感词数量 / Count of matched words
 # ============================================================
 
 def count_sentiment_words(text, word_list):
@@ -116,8 +116,10 @@ def count_sentiment_words(text, word_list):
 
 
 # ============================================================
-# 步骤4：实现情感标注函数
-# Step 4: Implement sentiment annotation function
+# 情感标注函数
+# Sentiment Annotation Function
+# @param text: 原始评论文本 / Raw review text
+# @return: 情感标签 ('pos'/'neg'/'neutral') / Sentiment label
 # ============================================================
 
 def annotate_sentiment(text):
@@ -144,8 +146,10 @@ def annotate_sentiment(text):
 
 
 # ============================================================
-# 步骤5：实现数据加载函数
-# Step 5: Implement data loading function
+# 数据加载函数
+# Data Loading Function
+# @param num_reviews: 要加载的评论总数，默认200 / Total reviews to load, default 200
+# @return: 评论列表 [{text, label}] / List of review dicts
 # ============================================================
 
 def load_reviews(num_reviews=200):
@@ -172,8 +176,11 @@ def load_reviews(num_reviews=200):
 
 
 # ============================================================
-# 步骤6：实现评估函数
-# Step 6: Implement evaluation function
+# 评估函数
+# Evaluation Function
+# @param reviews: 原始评论列表，包含真实标签 / Reviews with true labels
+# @param predictions: 预测标签列表 / List of predicted labels
+# @return: 准确率 (0.0-1.0) / Accuracy
 # ============================================================
 
 def evaluate_predictions(reviews, predictions):
@@ -192,8 +199,8 @@ def evaluate_predictions(reviews, predictions):
 
 
 # ============================================================
-# 步骤7：主函数 - 运行情感分析
-# Step 7: Main function - Run sentiment analysis
+# 主函数
+# Main Function
 # ============================================================
 
 def main():
@@ -205,34 +212,57 @@ def main():
     print("=" * 80)
     print()
 
-    # 加载数据集
-    # Load dataset
-    print("Loading IMDb movie reviews dataset...")
+    # ------------------------------------------------------------
+    # 步骤1：加载数据集
+    # Step 1: Load dataset
+    # ------------------------------------------------------------
+    print("-" * 60)
+    print("Step 1: Load dataset")
+    print("-" * 60)
+    print("Input: num_reviews=200")
     reviews = load_reviews(200)
-    print(f"Loaded {len(reviews)} reviews")
+    pos = sum(1 for r in reviews if r['label'] == 'pos')
+    neg = sum(1 for r in reviews if r['label'] == 'neg')
+    print(f"Output: {len(reviews)} reviews (pos: {pos}, neg: {neg})")
     print()
 
-    # 情感标注
-    # Sentiment annotation
-    print("Annotating sentiments...")
+    # ------------------------------------------------------------
+    # 步骤2：情感标注
+    # Step 2: Sentiment annotation
+    # ------------------------------------------------------------
+    print("-" * 60)
+    print("Step 2: Sentiment annotation")
+    print("-" * 60)
+    print(f"Input: {len(reviews)} reviews")
     predictions = []
     for review in reviews:
         pred = annotate_sentiment(review['text'])
         predictions.append(pred)
-    print("Annotation complete")
+    pred_pos = sum(1 for p in predictions if p == 'pos')
+    pred_neg = sum(1 for p in predictions if p == 'neg')
+    pred_neutral = sum(1 for p in predictions if p == 'neutral')
+    print(f"Output: {len(predictions)} predictions (pos: {pred_pos}, neg: {pred_neg}, neutral: {pred_neutral})")
     print()
 
-    # 评估准确率
-    # Evaluate accuracy
+    # ------------------------------------------------------------
+    # 步骤3：评估准确率
+    # Step 3: Evaluate accuracy
+    # ------------------------------------------------------------
+    print("-" * 60)
+    print("Step 3: Evaluate accuracy")
+    print("-" * 60)
+    print(f"Input: {len(reviews)} reviews + {len(predictions)} predictions")
     accuracy = evaluate_predictions(reviews, predictions)
-    print(f"Accuracy on {len(reviews)} reviews: {accuracy:.2f}")
+    print(f"Output: accuracy = {accuracy:.2%}")
     print()
 
-    # 显示样本评论
-    # Display sample review
-    print("-" * 80)
-    print("Sample Review Analysis")
-    print("-" * 80)
+    # ------------------------------------------------------------
+    # 步骤4：显示样本评论分析
+    # Step 4: Display sample review analysis
+    # ------------------------------------------------------------
+    print("-" * 60)
+    print("Step 4: Sample Review Analysis")
+    print("-" * 60)
     print()
 
     # 选择一个有趣的样本（预测与真实标签不同的）
@@ -251,28 +281,34 @@ def main():
     sample = reviews[sample_idx]
     sample_pred = predictions[sample_idx]
 
-    # 显示原始文本（截断到200字符）
-    # Display original text (truncated to 200 characters)
-    original_text = sample['text'].replace('\n', ' ')
-    if len(original_text) > 200:
-        original_text = original_text[:200] + " ..."
+    # 显示原始文本（清理换行符防止终端显示错乱，但不截断）
+    # Display original text (clean newlines but no truncation)
+    original_text = sample['text'].replace('\r', ' ').replace('\n', ' ')
+    original_text = ' '.join(original_text.split())
 
-    print(f"review (original): {original_text}")
+    print(f"Review (Original):\n{original_text}")
     print()
 
-    # 显示预处理后的文本（截断到100字符）
-    # Display preprocessed text (truncated to 100 characters)
+    # 显示预处理后的文本
+    # Display preprocessed text
     preprocessed = preprocess_text(sample['text'])
-    if len(preprocessed) > 100:
-        preprocessed = preprocessed[:100] + " ..."
-
-    print(f"Preprocessed review: {preprocessed}")
+    print(f"Preprocessed Review:\n{preprocessed}")
     print()
 
-    # 显示标签
-    # Display labels
-    print(f"Original label: {sample['label']}")
-    print(f"Predicted label: {sample_pred}")
+    # 统计并显示具体匹配到的情感词（以便分析误判原因）
+    # Count and display specific matched sentiment words
+    tokens = word_tokenize(preprocessed)
+    matched_pos = [t for t in tokens if t in POSITIVE_WORDS]
+    matched_neg = [t for t in tokens if t in NEGATIVE_WORDS]
+
+    print(f"Matched Positive Words ({len(matched_pos)}): {matched_pos}")
+    print(f"Matched Negative Words ({len(matched_neg)}): {matched_neg}")
+    print()
+
+    # 显示标签对比
+    # Display label comparison
+    print(f"Original Label:  {sample['label']}")
+    print(f"Predicted Label: {sample_pred}")
     print()
 
 

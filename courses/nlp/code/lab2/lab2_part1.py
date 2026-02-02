@@ -9,22 +9,17 @@ predefined rules and pronoun substitution.
 """
 
 # ============================================================
-# 步骤0：导入模块
-# Step 0: Import modules
+# 模块导入
+# Module Imports
 # ============================================================
 
-# 导入正则表达式模块，用于模式匹配
-# Import regular expression module for pattern matching
-import re
-
-# 导入随机模块，用于随机选择回复
-# Import random module for selecting random responses
-import random
+import re  # 正则表达式
+import random  # 随机选择回复
 
 
 # ============================================================
-# 步骤1：定义代词替换规则
-# Step 1: Define pronoun substitution rules
+# 代词替换规则
+# Pronoun Substitution Rules
 # ============================================================
 
 # 代词替换规则：将用户视角转换为ELIZA回复视角
@@ -53,8 +48,8 @@ PLACEHOLDER_MAP = {
 
 
 # ============================================================
-# 步骤2：定义ELIZA对话规则
-# Step 2: Define ELIZA conversation rules
+# ELIZA对话规则
+# ELIZA Conversation Rules
 # ============================================================
 
 # 规则列表：每个规则包含 (正则模式, 回复模板列表)
@@ -146,8 +141,10 @@ DEFAULT_RESPONSES = [
 
 
 # ============================================================
-# 步骤3：实现代词转换函数
-# Step 3: Implement pronoun transformation function
+# 代词转换函数
+# Pronoun Transformation Function
+# @param text: 包含代词的文本 / Text containing pronouns
+# @return: 转换后的文本 / Text with transformed pronouns
 # ============================================================
 
 def transform_pronouns(text):
@@ -169,8 +166,10 @@ def transform_pronouns(text):
 
 
 # ============================================================
-# 步骤4：实现输入规范化函数
-# Step 4: Implement input normalization function
+# 输入规范化函数
+# Input Normalization Function
+# @param text: 原始用户输入 / Raw user input
+# @return: 规范化后的文本 / Normalized text
 # ============================================================
 
 def normalize_input(text):
@@ -189,8 +188,10 @@ def normalize_input(text):
 
 
 # ============================================================
-# 步骤5：实现响应生成函数
-# Step 5: Implement response generation function
+# 响应生成函数
+# Response Generation Function
+# @param user_input: 用户输入文本 / User input text
+# @return: ELIZA回复或None(退出) / ELIZA response or None (exit)
 # ============================================================
 
 def get_response(user_input):
@@ -230,8 +231,8 @@ def get_response(user_input):
 
 
 # ============================================================
-# 步骤6：运行ELIZA聊天机器人演示
-# Step 6: Run ELIZA chatbot demonstration
+# 主函数
+# Main Function
 # ============================================================
 
 def main():
@@ -244,6 +245,14 @@ def main():
     print("=" * 60)
     print()
 
+    # ------------------------------------------------------------
+    # 步骤1：定义测试用例
+    # Step 1: Define test cases
+    # ------------------------------------------------------------
+    print("-" * 60)
+    print("Step 1: Define test cases")
+    print("-" * 60)
+    
     # 测试用例 - 展示各种规则的匹配
     # Test cases - demonstrate various rule matching
     test_inputs = [
@@ -257,14 +266,27 @@ def main():
         'i am depressed',
         'exit',
     ]
+    print(f"Input: Predefined rule patterns")
+    print(f"Output: {len(test_inputs)} test cases ready")
+    print()
+
+    # ------------------------------------------------------------
+    # 步骤2：运行对话演示
+    # Step 2: Run conversation demonstration
+    # ------------------------------------------------------------
+    print("-" * 60)
+    print("Step 2: Run conversation demonstration")
+    print("-" * 60)
+    print(f"Input: Sequential processing of {len(test_inputs)} inputs")
+    print("Output: (Dialogue Log)")
+    print("-" * 20)
 
     # 运行对话演示
     # Run conversation demonstration
     for user_input in test_inputs:
         print(f"You:  {user_input}")
 
-        # 生成回复
-        # Generate response
+        # user_input: 当前测试输入 -> 返回回复或None
         response = get_response(user_input)
 
         # 检查是否退出

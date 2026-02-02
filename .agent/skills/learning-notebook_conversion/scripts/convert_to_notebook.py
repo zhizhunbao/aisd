@@ -24,8 +24,8 @@ def py_to_notebook(py_file: str, output_file: str = None):
     
     # 使用 # ==== 分隔符分割内容
     # Split content using # ==== separators
-    # 匹配模式：# ===...=== 后跟步骤标题
-    pattern = r'(# ={60,}\r?\n# 步骤\d+[：:].+?\r?\n# Step \d+:.+?\r?\n# ={60,})'
+    # 匹配模式：# ===...=== 开头行 + 标题注释行 + # ===...=== 结尾行
+    pattern = r'(# ={40,}\r?\n(?:# .+?\r?\n)+# ={40,})'
     
     parts = re.split(pattern, content)
     
