@@ -1,0 +1,30 @@
+﻿============================================================
+ELIZA Chatbot Test
+============================================================
+
+You:  hi
+ELIZA: Hello. Please tell me what is on your mind.
+
+You:  i feel sad
+ELIZA: Why do you feel sad?
+
+You:  i am not feeling well
+ELIZA: Do you enjoy being not feeling well?
+
+You:  long time
+ELIZA: Tell me more.
+
+You:  my mother is always worried about me
+ELIZA: Does your family influence you a lot?
+
+You:  why do you ask me that
+ELIZA: Why do you think do I ask you that?
+
+You:  can you help me
+ELIZA: What makes you think I can help you?
+
+You:  i am depressed
+ELIZA: How long have you been depressed?
+
+You:  exit
+ELIZA: Goodbye!

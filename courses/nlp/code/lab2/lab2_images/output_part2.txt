@@ -1,0 +1,23 @@
+﻿================================================================================
+Rule-Based Sentiment Annotation using Regular Expression
+================================================================================
+
+Loading IMDb movie reviews dataset...
+Loaded 200 reviews
+
+Annotating sentiments...
+Annotation complete
+
+Accuracy on 200 reviews: 0.65
+
+--------------------------------------------------------------------------------
+Sample Review Analysis
+--------------------------------------------------------------------------------
+
+review (original): moviemaking is a lot like being the general manager of an nfl team in the post-salary cap era -- you've got to know how to allocate your resources .  every dollar spent on a free-agent defensive tackl ...
+
+Preprocessed review: moviemaking is a lot like being the general manager of an nfl team in the post salary cap era you ve ...
+
+Original label: pos
+Predicted label: neg
+
