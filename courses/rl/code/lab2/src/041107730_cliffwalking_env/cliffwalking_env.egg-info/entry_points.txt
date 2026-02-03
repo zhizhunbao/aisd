@@ -1,0 +1,2 @@
+[gymnasium.envs]
+cliffwalking_env = cliffwalking_env

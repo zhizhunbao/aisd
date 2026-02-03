@@ -1,11 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "cliffwalking-env"
+name = "cliffwalking_env"
 version = "0.0.1"
+description = "Gymnasium CliffWalking Environment for CST8509 Lab 2"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+    { name = "Peng Wang", email = "Wang1059@algonquinlive.com" }
+]
 dependencies = [
-    "gymnasium",
-    "pygame",
-    "numpy",
+    "gymnasium>=0.28.0",
+    "pygame>=2.1.0",
+    "numpy>=1.21.0",
 ]
 
-[tool.setuptools]
-packages = ["cliffwalking_env"]
+[project.entry-points."gymnasium.envs"]
+cliffwalking_env = "cliffwalking_env"
+
+[tool.setuptools.packages.find]
+where = ["."]
