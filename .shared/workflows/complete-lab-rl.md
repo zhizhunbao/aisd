@@ -31,14 +31,13 @@ description: Complete RL course lab/assignment - specialized workflow for Reinfo
 
 ---
 
-## Phase 3: 观测与文档协议 (Observability)
-**核心指令**: 调用 `learning-notebook_conversion` 技能。
+## Phase 3: 观测与分析协议 (Observability & Analysis)
+**核心指令**: 运行智能体脚本并捕获可视化成果。
 
-1.  **执行目标**: 自动化实验数据捕获与格式转换。
+1.  **执行目标**: 自动化实验数据捕获与结果分析。
 2.  **强制产出**: 
     - 性能图表: `src/lab[n]_images/` 目录下的 PNG。
-    - 交互文档: 与 `.py` 同步的 `.ipynb`。
-3.  **确定性验证**: Notebook 必须包含运行后的 Output 单元格。
+3.  **确定性验证**: 验证图表文件已成功保存到指定目录。
 4.  **状态准入**: 产出物文件路径与命名完全匹配合约后，方可进入 Phase 4。
 
 ---

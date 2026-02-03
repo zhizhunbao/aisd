@@ -17,9 +17,11 @@ description: 中英文双语代码注释规范。Use when (1) 为代码添加注
 | Location | Language | Format |
 |----------|----------|--------|
 | File-level docstring | English only | Standard docstring |
-| Function docstring | Chinese + English | Two-line format: Chinese first line, English second line |
-| Inline comments | Chinese + English | Chinese line, then English line, above code |
-| Code spacing | - | Blank line between code blocks |
+| Code block divider | Chinese + English | 60 '=' separator with bilingual title |
+| Function docstring | Chinese + English | Two-line format: Chinese line, English line |
+| Method/Function Documentation | Bilingual | Box-style Header ABOVE definition |
+| Inline comments | Chinese + English | Chinese line, English line, above code |
+| Step Output | English | print_step usage for formatted I/O |
 
 ## 1. File-level Docstring (English Only)
 
@@ -31,6 +33,23 @@ Implements Q-Learning using Bellman equation: Q(s,a) = r + γ * max Q(s',a')
 Modified from Hybrid Activity 1 to solve the Cliff Walking problem.
 """
 ```
+
+## 2. Code Block Dividers (60 Characters)
+
+Use exactly 60 '=' characters to separate major logical sections (Steps, Phases, Modules). Includes a bilingual title.
+
+```python
+# ============================================================
+# 步骤 1：数据加载与预处理
+# Step 1: Data Loading and Preprocessing
+# ============================================================
+```
+
+**Rules:**
+- Exactly 60 '=' characters.
+- Chinese title first, then English title.
+- Placed between major logical blocks.
+- One blank line before and after the divider (except at the very start of file).
 
 ## 2. Function Docstring (Two-Line Bilingual Format)
 
@@ -51,7 +70,53 @@ def reset() -> tuple:
 - Chinese description on first line
 - English description on second line
 - Keep it concise, no blank line between Chinese and English
-- No parameter or return value details in docstring
+- No parameter or return value details in docstring (use section headers instead, see below)
+
+### 2.1 Class, Method & Function Documentation (Box-Style Headers)
+ 
+For all classes, functions, and class methods, use box-style section headers:
+
+**Module-level Classes or Functions:**
+```python
+# ============================================================
+# QLearningAgent: 封装有 Q-Table 及其更新法则的强化学习类
+#                 Reinforcement learning class encapsulating Q-Table and its update rules
+# ============================================================
+class QLearningAgent:
+    ...
+```
+
+**Class Methods (Indented):**
+
+```python
+# ============================================================
+# train: 训练Q-Learning智能体
+#        Train Q-Learning agent
+#
+# Parameters:
+#   env: Gymnasium环境实例
+#        Gymnasium environment instance
+#   episodes: 训练回合数
+#             Number of training episodes
+#   gamma: 折扣因子
+#          Discount factor
+#   line_width: 分隔线宽度
+#               Width of the divider line
+#
+# Returns:
+#   tuple[list, list]: (episode_returns, episode_steps)
+# ============================================================
+def train(env, episodes: int, gamma: float, line_width: int) -> tuple[list, list]:
+    """训练Q-Learning智能体
+    Train Q-Learning agent"""
+    ...
+```
+
+**Rules for Methods:**
+- Place the header **above** the `def` inside the class.
+- Align descriptions vertically under the parameter name.
+- English-only section headers (`Parameters:`, `Returns:`, `Notes:`).
+- Bilingual item descriptions.
 
 ## 3. Inline Comments (Line-by-Line Bilingual)
 
@@ -193,14 +258,79 @@ import time
 import random
 ```
 
-## 8. Entry Point Comment
+## 10. Initialization Pattern (Step 0)
+
+All "environment noise" (loading env, setting plot styles, student info) must be abstracted into a Step 0 function called `initialize_lab`.
 
 ```python
-# 程序入口点，运行主函数
-# Program entry point, run main function
-if __name__ == "__main__":
-    main()
+def main():
+    # ============================================================
+    # 步骤 0：实验初始化
+    # Step 0: Lab Initialization
+    # ============================================================
+
+    # 执行初始化并获取配置
+    # Execute initialization and retrieve configuration
+    config = initialize_lab()
 ```
+
+## 9. No Magic Numbers
+
+All numeric literals with domain meaning must be extracted to named constants at module or class level. Only trivially obvious values (0, 1, -1, 2 for halving/doubling) may remain inline.
+
+```python
+# ❌ BAD - Magic numbers scattered in code
+model = DQN("MultiInputPolicy", env, learning_rate=1e-3, buffer_size=50000)
+if steps > 1000:
+    break
+window = pygame.display.set_mode((800, 300))
+
+# ✅ GOOD - Named constants grouped with box-style section headers
+# ============================================================
+# 训练超参数
+# Training Hyperparameters
+# ============================================================
+
+# DQN学习率：0.001（即 1/1000），控制网络权重更新步长
+# DQN learning rate: 0.001, controls the step size of network weight updates
+DQN_LEARNING_RATE = 0.001
+
+# 经验回放缓冲区大小
+# Experience replay buffer size
+DQN_BUFFER_SIZE = 50000
+
+# ============================================================
+# 安全与限制常量
+# Safety & Limit Constants
+# ============================================================
+
+# 每回合最大步数（安全机制，防止无限循环）
+# Max steps per episode (safety mechanism to prevent infinite loops)
+MAX_STEPS_PER_EPISODE = 1000
+
+# ============================================================
+# 渲染常量
+# Rendering Constants
+# ============================================================
+
+# PyGame窗口宽度（像素）
+# PyGame window width (pixels)
+WINDOW_WIDTH = 800
+
+model = DQN("MultiInputPolicy", env, learning_rate=DQN_LEARNING_RATE, buffer_size=DQN_BUFFER_SIZE)
+if steps > MAX_STEPS_PER_EPISODE:
+    break
+window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+```
+
+**Rules:**
+- Constants go at module level (after imports) or class level (class attributes)
+- Use UPPER_SNAKE_CASE naming
+- Each constant gets a bilingual comment explaining its purpose
+- Group related constants under box-style section headers (`# ============...` top and bottom, bilingual title)
+- Colors, dimensions, thresholds, hyperparameters, limits — all must be constants
+- **No scientific notation**: Use descriptive decimal constants (e.g., `0.001`) instead of scientific notation (`1e-3`) for accessibility.
+- Exception: 0, 1, -1, True, False, None, and simple arithmetic factors (2 for halving) may stay inline
 
 ## Comment Checklist
 
@@ -214,8 +344,12 @@ Before finishing:
 - [ ] Blank line between each code block
 - [ ] Complex logic has explanation and reason
 - [ ] API parameters explain what each value does, not just its name
-- [ ] Every code block has comments
+- [ ] EVERY single line of code has a bilingual comment above it
 - [ ] Import statements have bilingual comments
+- [ ] **Box-style class headers ABOVE all class definitions**
+- [ ] **Dividers are exactly 60 characters long**
+- [ ] **No scientific notation (use decimal 0.001 instead)**
+- [ ] No magic numbers — all meaningful numeric literals are named constants
 
 ## Quick Reference
 
@@ -249,6 +383,7 @@ steps += 1
 4. **Code spacing**: Blank line after each code block
 5. **No blank line**: Between Chinese and English lines (both in docstrings and comments)
 6. **API parameters**: Explain what each value DOES and WHY, not just restate parameter names
+7. **No magic numbers**: All meaningful numeric literals must be named constants (UPPER_SNAKE_CASE)
 
 ## Complete Example
 

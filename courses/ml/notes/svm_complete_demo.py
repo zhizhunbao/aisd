@@ -1,561 +1,341 @@
 """
-SVM 完整演示脚本 - 基于 02_SVM_notes.md
-目标：从零开始展示 SVM 的所有核心概念，不留任何"凭空出现"的数字
+SVM Complete Demo: From Linear Separators to Kernel Tricks
+CST8506 Advanced Machine Learning - Week 2
 
-作者：AI Assistant
-日期：2026-01-29
+Demonstrates all key SVM concepts from the lecture:
+1. Linear separation and maximum margin
+2. Support vectors visualization
+3. Effect of C parameter (soft margin)
+4. Kernel comparison (Linear vs RBF vs Polynomial)
+5. Effect of gamma parameter
+6. MMC vs SVC vs SVM progression
 """
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
-from sklearn.datasets import make_blobs, make_circles
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import accuracy_score, classification_report
-import warnings
-warnings.filterwarnings('ignore')
+from sklearn.datasets import make_blobs, make_circles, make_moons
+from sklearn.preprocessing import StandardScaler
+from matplotlib.colors import ListedColormap
 
-# 设置中文字体（如果需要）
-plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'DejaVu Sans']
-plt.rcParams['axes.unicode_minus'] = False
+# ============================================================
+# 配置常量
+# Configuration Constants
+# ============================================================
 
-print("=" * 80)
-print("SVM 完整演示 - 从数据生成到模型训练")
-print("=" * 80)
+RANDOM_STATE = 42
+np.random.seed(RANDOM_STATE)
+
+# 输出目录（相对于脚本位置）
+# Output directory (relative to script location)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_DIR = os.path.join(SCRIPT_DIR, "svm_complete_demo_pages")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# 可视化配色
+# Visualization color scheme
+COLORS_LIGHT = ListedColormap(["#FFAAAA", "#AAAAFF"])
+COLORS_BOLD = ["#FF4444", "#4444FF"]
+FIGSIZE = (10, 6)
+DPI = 150
 
 
-# ============================================================================
-# 第1部分：线性可分数据 + 硬间隔 SVM (MMC - Maximum Margin Classifier)
-# ============================================================================
-print("\n" + "=" * 80)
-print("第1部分：线性可分数据 + 硬间隔 SVM (MMC)")
-print("=" * 80)
+def plot_decision_boundary(clf, X, y, ax, title, show_margin=True, show_sv=True):
+    """Plot SVM decision boundary with optional margin lines and support vectors."""
+    h = 0.02
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
 
-# 1.1 生成线性可分的数据
-np.random.seed(42)
-X_linear, y_linear = make_blobs(n_samples=100, centers=2, n_features=2, 
-                                 center_box=(-5, 5), cluster_std=1.0, random_state=42)
+    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
 
-# 转换标签为 -1 和 +1（符合 SVM 理论）
-y_linear = np.where(y_linear == 0, -1, 1)
+    ax.contourf(xx, yy, Z, alpha=0.3, cmap=COLORS_LIGHT)
+    ax.scatter(X[y == 0, 0], X[y == 0, 1], c=COLORS_BOLD[0],
+               edgecolors="k", s=50, label="Class 0")
+    ax.scatter(X[y == 1, 0], X[y == 1, 1], c=COLORS_BOLD[1],
+               edgecolors="k", s=50, label="Class 1")
 
-print(f"\n生成的数据：")
-print(f"  样本数量: {len(X_linear)}")
-print(f"  特征维度: {X_linear.shape[1]}")
-print(f"  类别分布: {np.bincount(y_linear + 1)}")  # [负类数, 正类数]
-print(f"\n前5个样本:")
-for i in range(5):
-    print(f"  x{i+1} = {X_linear[i]}, y{i+1} = {y_linear[i]:+d}")
+    # 间隔边界线 (margin lines): 决策函数值为 -1 和 +1 的等高线
+    # Margin lines: contours where decision function equals -1 and +1
+    if show_margin:
+        Z_decision = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
+        Z_decision = Z_decision.reshape(xx.shape)
+        ax.contour(xx, yy, Z_decision, levels=[-1, 0, 1],
+                   linestyles=["--", "-", "--"], colors="k", linewidths=[1, 2, 1])
 
-# 1.2 训练硬间隔 SVM（C 很大，接近无穷）
-print("\n" + "-" * 80)
-print("训练硬间隔 SVM (C=1000，接近无穷大，不允许误分类)")
-print("-" * 80)
+    # 标记支持向量
+    # Highlight support vectors
+    if show_sv and hasattr(clf, "support_vectors_"):
+        ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1],
+                   s=200, facecolors="none", edgecolors="lime", linewidths=2,
+                   label=f"Support Vectors (n={len(clf.support_vectors_)})")
 
-svm_hard = SVC(kernel='linear', C=1000.0)  # C 很大 = 硬间隔
-svm_hard.fit(X_linear, y_linear)
+    ax.set_title(title, fontsize=12, fontweight="bold")
+    ax.legend(loc="best", fontsize=8)
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
 
-# 1.3 提取训练后的参数（这就是 w 和 b 的来源！）
-w_hard = svm_hard.coef_[0]
-b_hard = svm_hard.intercept_[0]
 
-print(f"\n训练完成！得到的参数：")
-print(f"  权重向量 w = {w_hard}")
-print(f"  偏置 b = {b_hard:.4f}")
-print(f"  ||w|| = {np.linalg.norm(w_hard):.4f}")
-print(f"  间隔 margin = 2/||w|| = {2/np.linalg.norm(w_hard):.4f}")
+# ============================================================
+# 演示 1：线性分类器与最大间隔
+# Demo 1: Linear Separator and Maximum Margin
+# ============================================================
+print("=" * 60)
+print("Demo 1: Linear Separator and Maximum Margin")
+print("=" * 60)
 
-# 1.4 找出支持向量
-support_vectors = svm_hard.support_vectors_
-support_indices = svm_hard.support_
-print(f"\n支持向量：")
-print(f"  数量: {len(support_vectors)}")
-print(f"  索引: {support_indices}")
-for i, sv in enumerate(support_vectors):
-    sv_label = y_linear[support_indices[i]]
-    decision_value = np.dot(w_hard, sv) + b_hard
-    print(f"  SV{i+1}: {sv}, 标签={sv_label:+d}, f(x)={decision_value:.4f}")
+# 生成线性可分数据
+# Generate linearly separable data
+X_linear, y_linear = make_blobs(n_samples=100, centers=2,
+                                random_state=RANDOM_STATE, cluster_std=1.2)
 
-# 1.5 手动验证决策函数
-print("\n" + "-" * 80)
-print("手动验证决策函数 f(x) = w·x + b")
-print("-" * 80)
+clf_linear = SVC(kernel="linear", C=1.0)
+clf_linear.fit(X_linear, y_linear)
 
-test_points = [
-    X_linear[0],   # 第一个样本
-    X_linear[50],  # 第51个样本
-    np.array([0, 0])  # 原点
-]
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-for i, x_test in enumerate(test_points):
-    # 手动计算
-    f_manual = np.dot(w_hard, x_test) + b_hard
-    # sklearn 预测
-    f_sklearn = svm_hard.decision_function([x_test])[0]
-    y_pred = svm_hard.predict([x_test])[0]
-    
-    print(f"\n测试点 {i+1}: x = {x_test}")
-    print(f"  手动计算: f(x) = {w_hard[0]:.4f}×{x_test[0]:.4f} + {w_hard[1]:.4f}×{x_test[1]:.4f} + {b_hard:.4f}")
-    print(f"           = {f_manual:.4f}")
-    print(f"  sklearn: f(x) = {f_sklearn:.4f}")
-    print(f"  预测类别: {y_pred:+d} ({'正类' if y_pred > 0 else '负类'})")
+# 左图：无间隔线（普通分类器视角）
+# Left: without margin lines (generic classifier view)
+plot_decision_boundary(clf_linear, X_linear, y_linear, axes[0],
+                       "Any Linear Classifier", show_margin=False, show_sv=False)
 
-# 1.6 可视化
-print("\n生成可视化图表...")
-fig, ax = plt.subplots(1, 1, figsize=(10, 8))
+# 右图：带间隔线和支持向量（SVM 视角）
+# Right: with margin lines and support vectors (SVM view)
+plot_decision_boundary(clf_linear, X_linear, y_linear, axes[1],
+                       "SVM: Maximum Margin Classifier")
 
-# 绘制数据点
-ax.scatter(X_linear[y_linear == -1, 0], X_linear[y_linear == -1, 1], 
-           c='red', marker='o', s=100, label='负类 (y=-1)', edgecolors='k')
-ax.scatter(X_linear[y_linear == 1, 0], X_linear[y_linear == 1, 1], 
-           c='blue', marker='s', s=100, label='正类 (y=+1)', edgecolors='k')
+w = clf_linear.coef_[0]
+margin = 2 / np.linalg.norm(w)
+axes[1].text(0.02, 0.02, f"Margin width = 2/||w|| = {margin:.3f}",
+             transform=axes[1].transAxes, fontsize=10,
+             bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8))
 
-# 绘制支持向量（用圆圈标记）
-ax.scatter(support_vectors[:, 0], support_vectors[:, 1], 
-           s=300, facecolors='none', edgecolors='green', linewidths=3, 
-           label='支持向量')
-
-# 绘制决策边界和间隔边界
-x_min, x_max = X_linear[:, 0].min() - 1, X_linear[:, 0].max() + 1
-y_min, y_max = X_linear[:, 1].min() - 1, X_linear[:, 1].max() + 1
-xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), 
-                     np.linspace(y_min, y_max, 200))
-Z = svm_hard.decision_function(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-
-# 决策边界 (f(x) = 0)
-ax.contour(xx, yy, Z, levels=[0], colors='black', linewidths=2, linestyles='-')
-# 间隔边界 (f(x) = ±1)
-ax.contour(xx, yy, Z, levels=[-1, 1], colors='black', linewidths=1, linestyles='--')
-
-ax.set_xlabel('特征 x₁', fontsize=12)
-ax.set_ylabel('特征 x₂', fontsize=12)
-ax.set_title(f'硬间隔 SVM (MMC)\nw={w_hard}, b={b_hard:.4f}, margin={2/np.linalg.norm(w_hard):.4f}', 
-             fontsize=14)
-ax.legend(fontsize=10)
-ax.grid(True, alpha=0.3)
+plt.suptitle("Why SVM? — Finding the Widest Gap Between Classes",
+             fontsize=14, fontweight="bold")
 plt.tight_layout()
-plt.savefig('svm_demo_1_hard_margin.png', dpi=150, bbox_inches='tight')
-print("  保存图表: svm_demo_1_hard_margin.png")
+plt.savefig(os.path.join(OUTPUT_DIR, "01_linear_separator_margin.png"),
+            dpi=DPI, bbox_inches="tight")
+plt.close()
+
+print(f"  Support vectors: {len(clf_linear.support_vectors_)}")
+print(f"  Margin width: {margin:.4f}")
+print(f"  w = {w}")
+print(f"  b = {clf_linear.intercept_[0]:.4f}")
+print()
 
 
-# ============================================================================
-# 第2部分：线性可分数据 + 软间隔 SVM (SVC - Support Vector Classifier)
-# ============================================================================
-print("\n" + "=" * 80)
-print("第2部分：软间隔 SVM (SVC) - 对比不同的 C 值")
-print("=" * 80)
+# ============================================================
+# 演示 2：C 参数的影响（软间隔 vs 硬间隔）
+# Demo 2: Effect of C Parameter (Soft Margin vs Hard Margin)
+# ============================================================
+print("=" * 60)
+print("Demo 2: Effect of C Parameter (Soft vs Hard Margin)")
+print("=" * 60)
 
-# 2.1 添加一些噪声点（制造轻微重叠）
-np.random.seed(123)
-noise_points = np.random.randn(10, 2) * 0.5
-noise_labels = np.random.choice([-1, 1], 10)
-X_noisy = np.vstack([X_linear, noise_points])
-y_noisy = np.hstack([y_linear, noise_labels])
+# 生成有重叠的数据
+# Generate overlapping data
+X_overlap, y_overlap = make_blobs(n_samples=150, centers=2,
+                                  random_state=RANDOM_STATE, cluster_std=2.5)
 
-print(f"\n添加噪声后的数据：")
-print(f"  总样本数: {len(X_noisy)}")
-print(f"  类别分布: {np.bincount(y_noisy + 1)}")
+# C 值越大惩罚越严，间隔越窄；C 值越小允许更多误分类，间隔越宽
+# Larger C = stricter penalty, narrower margin; Smaller C = more tolerant, wider margin
+c_values = [0.01, 0.1, 1.0, 100.0]
+fig, axes = plt.subplots(1, 4, figsize=(20, 4.5))
 
-# 2.2 训练不同 C 值的 SVM
-C_values = [0.01, 1.0, 1000.0]
-fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-
-for idx, C in enumerate(C_values):
-    print(f"\n" + "-" * 80)
-    print(f"训练 SVM with C={C}")
-    print("-" * 80)
-    
-    svm = SVC(kernel='linear', C=C)
-    svm.fit(X_noisy, y_noisy)
-    
-    w = svm.coef_[0]
-    b = svm.intercept_[0]
+for ax, c_val in zip(axes, c_values):
+    clf = SVC(kernel="linear", C=c_val)
+    clf.fit(X_overlap, y_overlap)
+    w = clf.coef_[0]
     margin = 2 / np.linalg.norm(w)
-    n_support = len(svm.support_vectors_)
-    
-    print(f"  w = {w}")
-    print(f"  b = {b:.4f}")
-    print(f"  间隔 = {margin:.4f}")
-    print(f"  支持向量数量 = {n_support}")
-    
-    # 可视化
-    ax = axes[idx]
-    ax.scatter(X_noisy[y_noisy == -1, 0], X_noisy[y_noisy == -1, 1], 
-               c='red', marker='o', s=80, label='负类', edgecolors='k', alpha=0.7)
-    ax.scatter(X_noisy[y_noisy == 1, 0], X_noisy[y_noisy == 1, 1], 
-               c='blue', marker='s', s=80, label='正类', edgecolors='k', alpha=0.7)
-    ax.scatter(svm.support_vectors_[:, 0], svm.support_vectors_[:, 1], 
-               s=250, facecolors='none', edgecolors='green', linewidths=2.5, 
-               label='支持向量')
-    
-    x_min, x_max = X_noisy[:, 0].min() - 1, X_noisy[:, 0].max() + 1
-    y_min, y_max = X_noisy[:, 1].min() - 1, X_noisy[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), 
-                         np.linspace(y_min, y_max, 200))
-    Z = svm.decision_function(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-    
-    ax.contour(xx, yy, Z, levels=[0], colors='black', linewidths=2)
-    ax.contour(xx, yy, Z, levels=[-1, 1], colors='black', linewidths=1, linestyles='--')
-    
-    ax.set_xlabel('特征 x₁', fontsize=11)
-    ax.set_ylabel('特征 x₂', fontsize=11)
-    
-    if C < 1:
-        c_desc = f"C={C} (小C，宽间隔)"
-    elif C == 1:
-        c_desc = f"C={C} (默认)"
-    else:
-        c_desc = f"C={C} (大C，窄间隔)"
-    
-    ax.set_title(f'{c_desc}\nmargin={margin:.3f}, SVs={n_support}', fontsize=12)
-    ax.legend(fontsize=9)
-    ax.grid(True, alpha=0.3)
+    n_sv = len(clf.support_vectors_)
+    plot_decision_boundary(clf, X_overlap, y_overlap, ax,
+                           f"C = {c_val}\nmargin={margin:.2f}, SVs={n_sv}")
+    print(f"  C={c_val:>6}: margin={margin:.3f}, support_vectors={n_sv}")
 
+plt.suptitle("C Parameter: Trading Off Margin Width vs Classification Errors",
+             fontsize=14, fontweight="bold")
 plt.tight_layout()
-plt.savefig('svm_demo_2_soft_margin.png', dpi=150, bbox_inches='tight')
-print("\n保存图表: svm_demo_2_soft_margin.png")
+plt.savefig(os.path.join(OUTPUT_DIR, "02_c_parameter_effect.png"),
+            dpi=DPI, bbox_inches="tight")
+plt.close()
+print()
 
 
-# ============================================================================
-# 第3部分：非线性数据 + 核函数 (Kernel SVM)
-# ============================================================================
-print("\n" + "=" * 80)
-print("第3部分：非线性数据 + 核函数对比")
-print("=" * 80)
+# ============================================================
+# 演示 3：为什么需要核函数——线性 SVM 的局限
+# Demo 3: Why Kernels? — Limitations of Linear SVM
+# ============================================================
+print("=" * 60)
+print("Demo 3: Why Kernels? Linear SVM Cannot Handle This")
+print("=" * 60)
 
-# 3.1 生成非线性可分数据（同心圆）
-np.random.seed(42)
-X_circles, y_circles = make_circles(n_samples=200, factor=0.5, noise=0.1, random_state=42)
-y_circles = np.where(y_circles == 0, -1, 1)
+# 环形数据：线性不可分
+# Circular data: not linearly separable
+X_circles, y_circles = make_circles(n_samples=200, noise=0.1,
+                                     factor=0.4, random_state=RANDOM_STATE)
 
-print(f"\n生成的非线性数据（同心圆）：")
-print(f"  样本数量: {len(X_circles)}")
-print(f"  类别分布: {np.bincount(y_circles + 1)}")
+# 月牙形数据：也不线性可分
+# Moon-shaped data: also not linearly separable
+X_moons, y_moons = make_moons(n_samples=200, noise=0.15,
+                               random_state=RANDOM_STATE)
 
-# 3.2 对比不同核函数
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+
+datasets = [(X_circles, y_circles, "Circles"), (X_moons, y_moons, "Moons")]
+for row, (X, y, name) in enumerate(datasets):
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # 线性核失败
+    # Linear kernel fails
+    clf_lin = SVC(kernel="linear", C=1.0)
+    clf_lin.fit(X_scaled, y)
+    plot_decision_boundary(clf_lin, X_scaled, y, axes[row, 0],
+                           f"{name}: Linear Kernel (Fails!)", show_margin=False)
+
+    # RBF 核成功
+    # RBF kernel succeeds
+    clf_rbf = SVC(kernel="rbf", C=1.0, gamma="scale")
+    clf_rbf.fit(X_scaled, y)
+    plot_decision_boundary(clf_rbf, X_scaled, y, axes[row, 1],
+                           f"{name}: RBF Kernel (Works!)", show_margin=False)
+
+    acc_lin = clf_lin.score(X_scaled, y)
+    acc_rbf = clf_rbf.score(X_scaled, y)
+    print(f"  {name}: Linear acc={acc_lin:.3f}, RBF acc={acc_rbf:.3f}")
+
+plt.suptitle("Why Kernels? — Linear SVM Cannot Separate Non-Linear Data",
+             fontsize=14, fontweight="bold")
+plt.tight_layout()
+plt.savefig(os.path.join(OUTPUT_DIR, "03_why_kernels.png"),
+            dpi=DPI, bbox_inches="tight")
+plt.close()
+print()
+
+
+# ============================================================
+# 演示 4：核函数对比（Linear vs Polynomial vs RBF）
+# Demo 4: Kernel Comparison (Linear vs Polynomial vs RBF)
+# ============================================================
+print("=" * 60)
+print("Demo 4: Kernel Comparison on Moon Dataset")
+print("=" * 60)
+
+scaler = StandardScaler()
+X_moons_scaled = scaler.fit_transform(X_moons)
+
 kernels = [
-    ('linear', '线性核'),
-    ('poly', '多项式核 (degree=3)'),
-    ('rbf', 'RBF核 (高斯核)')
+    ("linear", {"C": 1.0}, "Linear Kernel"),
+    ("poly", {"C": 1.0, "degree": 3, "gamma": "scale"}, "Polynomial (degree=3)"),
+    ("rbf", {"C": 1.0, "gamma": "scale"}, "RBF (Gaussian)"),
+    ("sigmoid", {"C": 1.0, "gamma": "scale"}, "Sigmoid"),
 ]
 
-fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+fig, axes = plt.subplots(1, 4, figsize=(20, 4.5))
+for ax, (kernel, params, title) in zip(axes, kernels):
+    clf = SVC(kernel=kernel, **params)
+    clf.fit(X_moons_scaled, y_moons)
+    acc = clf.score(X_moons_scaled, y_moons)
+    plot_decision_boundary(clf, X_moons_scaled, y_moons, ax,
+                           f"{title}\nacc={acc:.3f}", show_margin=False)
+    print(f"  {title}: accuracy={acc:.3f}, SVs={len(clf.support_vectors_)}")
 
-for idx, (kernel, kernel_name) in enumerate(kernels):
-    print(f"\n" + "-" * 80)
-    print(f"训练 SVM with kernel='{kernel}'")
-    print("-" * 80)
-    
-    if kernel == 'poly':
-        svm = SVC(kernel=kernel, degree=3, C=1.0, gamma='auto')
-    else:
-        svm = SVC(kernel=kernel, C=1.0, gamma='auto')
-    
-    svm.fit(X_circles, y_circles)
-    
-    # 计算准确率
-    y_pred = svm.predict(X_circles)
-    accuracy = accuracy_score(y_circles, y_pred)
-    n_support = len(svm.support_vectors_)
-    
-    print(f"  训练准确率: {accuracy:.4f}")
-    print(f"  支持向量数量: {n_support}")
-    
-    # 可视化
-    ax = axes[idx]
-    ax.scatter(X_circles[y_circles == -1, 0], X_circles[y_circles == -1, 1], 
-               c='red', marker='o', s=50, label='负类', edgecolors='k', alpha=0.6)
-    ax.scatter(X_circles[y_circles == 1, 0], X_circles[y_circles == 1, 1], 
-               c='blue', marker='s', s=50, label='正类', edgecolors='k', alpha=0.6)
-    ax.scatter(svm.support_vectors_[:, 0], svm.support_vectors_[:, 1], 
-               s=200, facecolors='none', edgecolors='green', linewidths=2, 
-               label='支持向量')
-    
-    # 绘制决策边界
-    x_min, x_max = X_circles[:, 0].min() - 0.5, X_circles[:, 0].max() + 0.5
-    y_min, y_max = X_circles[:, 1].min() - 0.5, X_circles[:, 1].max() + 0.5
-    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), 
-                         np.linspace(y_min, y_max, 200))
-    Z = svm.predict(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-    
-    ax.contourf(xx, yy, Z, alpha=0.2, levels=[-1, 0, 1], colors=['red', 'blue'])
-    ax.contour(xx, yy, Z, levels=[0], colors='black', linewidths=2)
-    
-    ax.set_xlabel('特征 x₁', fontsize=11)
-    ax.set_ylabel('特征 x₂', fontsize=11)
-    ax.set_title(f'{kernel_name}\n准确率={accuracy:.3f}, SVs={n_support}', fontsize=12)
-    ax.legend(fontsize=9)
-    ax.grid(True, alpha=0.3)
-
+plt.suptitle("Kernel Comparison: How Different Kernels Shape the Decision Boundary",
+             fontsize=14, fontweight="bold")
 plt.tight_layout()
-plt.savefig('svm_demo_3_kernels.png', dpi=150, bbox_inches='tight')
-print("\n保存图表: svm_demo_3_kernels.png")
+plt.savefig(os.path.join(OUTPUT_DIR, "04_kernel_comparison.png"),
+            dpi=DPI, bbox_inches="tight")
+plt.close()
+print()
 
 
-# ============================================================================
-# 第4部分：核函数的数学原理演示
-# ============================================================================
-print("\n" + "=" * 80)
-print("第4部分：核函数的数学计算演示")
-print("=" * 80)
+# ============================================================
+# 演示 5：Gamma 参数的影响（RBF 核）
+# Demo 5: Effect of Gamma Parameter (RBF Kernel)
+# ============================================================
+print("=" * 60)
+print("Demo 5: Effect of Gamma Parameter (RBF Kernel)")
+print("=" * 60)
 
-# 4.1 定义两个测试点
-x1 = np.array([1.0, 2.0])
-x2 = np.array([3.0, 1.0])
+# gamma 越小决策边界越平滑（欠拟合风险），gamma 越大决策边界越复杂（过拟合风险）
+# Smaller gamma = smoother boundary (underfitting risk)
+# Larger gamma = more complex boundary (overfitting risk)
+gamma_values = [0.1, 0.5, 1.0, 10.0]
+fig, axes = plt.subplots(1, 4, figsize=(20, 4.5))
 
-print(f"\n测试点:")
-print(f"  x1 = {x1}")
-print(f"  x2 = {x2}")
+for ax, gamma_val in zip(axes, gamma_values):
+    clf = SVC(kernel="rbf", C=1.0, gamma=gamma_val)
+    clf.fit(X_moons_scaled, y_moons)
+    acc = clf.score(X_moons_scaled, y_moons)
+    plot_decision_boundary(clf, X_moons_scaled, y_moons, ax,
+                           f"gamma={gamma_val}\nacc={acc:.3f}", show_margin=False)
+    print(f"  gamma={gamma_val}: accuracy={acc:.3f}, SVs={len(clf.support_vectors_)}")
 
-# 4.2 线性核
-print(f"\n" + "-" * 80)
-print("1. 线性核 (Linear Kernel)")
-print("-" * 80)
-print("公式: K(x1, x2) = x1 · x2")
-
-K_linear = np.dot(x1, x2)
-print(f"\n计算过程:")
-print(f"  K(x1, x2) = {x1[0]}×{x2[0]} + {x1[1]}×{x2[1]}")
-print(f"            = {x1[0]*x2[0]} + {x1[1]*x2[1]}")
-print(f"            = {K_linear}")
-
-# 4.3 多项式核
-print(f"\n" + "-" * 80)
-print("2. 多项式核 (Polynomial Kernel)")
-print("-" * 80)
-print("公式: K(x1, x2) = (γ × x1·x2 + r)^d")
-
-gamma = 0.5
-r = 0
-degree = 3
-
-dot_product = np.dot(x1, x2)
-K_poly = (gamma * dot_product + r) ** degree
-
-print(f"\n参数: γ={gamma}, r={r}, d={degree}")
-print(f"计算过程:")
-print(f"  x1·x2 = {dot_product}")
-print(f"  K(x1, x2) = ({gamma} × {dot_product} + {r})^{degree}")
-print(f"            = ({gamma * dot_product})^{degree}")
-print(f"            = {K_poly}")
-
-# 4.4 RBF核
-print(f"\n" + "-" * 80)
-print("3. RBF核 / 高斯核 (Radial Basis Function)")
-print("-" * 80)
-print("公式: K(x1, x2) = exp(-γ × ||x1 - x2||²)")
-
-gamma_rbf = 0.5
-diff = x1 - x2
-dist_squared = np.dot(diff, diff)
-K_rbf = np.exp(-gamma_rbf * dist_squared)
-
-print(f"\n参数: γ={gamma_rbf}")
-print(f"计算过程:")
-print(f"  x1 - x2 = {diff}")
-print(f"  ||x1 - x2||² = {diff[0]}² + {diff[1]}² = {diff[0]**2} + {diff[1]**2} = {dist_squared}")
-print(f"  K(x1, x2) = exp(-{gamma_rbf} × {dist_squared})")
-print(f"            = exp({-gamma_rbf * dist_squared})")
-print(f"            = {K_rbf:.6f}")
-
-print(f"\n" + "-" * 80)
-print("RBF核的距离效应演示:")
-print("-" * 80)
-
-test_points = [
-    (np.array([1.0, 2.0]), "相同点"),
-    (np.array([1.5, 2.5]), "近距离点"),
-    (np.array([5.0, 8.0]), "远距离点")
-]
-
-for x_test, desc in test_points:
-    diff = x1 - x_test
-    dist_sq = np.dot(diff, diff)
-    K = np.exp(-gamma_rbf * dist_sq)
-    print(f"\n{desc}: x = {x_test}")
-    print(f"  距离² = {dist_sq:.2f}")
-    print(f"  相似度 K(x1, x) = {K:.6f}")
-
-
-# ============================================================================
-# 第5部分：超参数调优 (C 和 gamma)
-# ============================================================================
-print("\n" + "=" * 80)
-print("第5部分：超参数调优 - Grid Search")
-print("=" * 80)
-
-# 5.1 准备数据
-X_train, X_test, y_train, y_test = train_test_split(
-    X_circles, y_circles, test_size=0.3, random_state=42
-)
-
-print(f"\n数据划分:")
-print(f"  训练集: {len(X_train)} 样本")
-print(f"  测试集: {len(X_test)} 样本")
-
-# 5.2 定义参数网格
-param_grid = {
-    'C': [0.1, 1, 10, 100],
-    'gamma': [0.001, 0.01, 0.1, 1, 'scale', 'auto']
-}
-
-print(f"\n参数网格:")
-print(f"  C: {param_grid['C']}")
-print(f"  gamma: {param_grid['gamma']}")
-print(f"  总组合数: {len(param_grid['C']) * len(param_grid['gamma'])}")
-
-# 5.3 网格搜索
-print(f"\n开始网格搜索（使用3折交叉验证）...")
-grid_search = GridSearchCV(
-    SVC(kernel='rbf'),
-    param_grid,
-    cv=3,
-    scoring='accuracy',
-    verbose=0,
-    n_jobs=-1
-)
-
-grid_search.fit(X_train, y_train)
-
-print(f"\n网格搜索完成！")
-print(f"\n最佳参数:")
-print(f"  C = {grid_search.best_params_['C']}")
-print(f"  gamma = {grid_search.best_params_['gamma']}")
-print(f"\n最佳交叉验证得分: {grid_search.best_score_:.4f}")
-
-# 5.4 在测试集上评估
-best_svm = grid_search.best_estimator_
-y_pred = best_svm.predict(X_test)
-test_accuracy = accuracy_score(y_test, y_pred)
-
-print(f"测试集准确率: {test_accuracy:.4f}")
-print(f"\n分类报告:")
-print(classification_report(y_test, y_pred, target_names=['负类', '正类']))
-
-# 5.5 可视化最佳模型
-fig, ax = plt.subplots(1, 1, figsize=(10, 8))
-
-ax.scatter(X_test[y_test == -1, 0], X_test[y_test == -1, 1], 
-           c='red', marker='o', s=100, label='负类（测试）', edgecolors='k', alpha=0.7)
-ax.scatter(X_test[y_test == 1, 0], X_test[y_test == 1, 1], 
-           c='blue', marker='s', s=100, label='正类（测试）', edgecolors='k', alpha=0.7)
-
-# 标记错误分类的点
-misclassified = y_test != y_pred
-if np.any(misclassified):
-    ax.scatter(X_test[misclassified, 0], X_test[misclassified, 1], 
-               s=300, facecolors='none', edgecolors='orange', linewidths=3, 
-               label='误分类', marker='x')
-
-# 绘制决策边界
-x_min, x_max = X_circles[:, 0].min() - 0.5, X_circles[:, 0].max() + 0.5
-y_min, y_max = X_circles[:, 1].min() - 0.5, X_circles[:, 1].max() + 0.5
-xx, yy = np.meshgrid(np.linspace(x_min, x_max, 200), 
-                     np.linspace(y_min, y_max, 200))
-Z = best_svm.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-
-ax.contourf(xx, yy, Z, alpha=0.2, levels=[-1, 0, 1], colors=['red', 'blue'])
-ax.contour(xx, yy, Z, levels=[0], colors='black', linewidths=2)
-
-ax.set_xlabel('特征 x₁', fontsize=12)
-ax.set_ylabel('特征 x₂', fontsize=12)
-ax.set_title(f'最佳 SVM 模型\nC={grid_search.best_params_["C"]}, '
-             f'gamma={grid_search.best_params_["gamma"]}, '
-             f'准确率={test_accuracy:.3f}', fontsize=14)
-ax.legend(fontsize=10)
-ax.grid(True, alpha=0.3)
+plt.suptitle("Gamma Parameter: From Underfitting (smooth) to Overfitting (wiggly)",
+             fontsize=14, fontweight="bold")
 plt.tight_layout()
-plt.savefig('svm_demo_4_best_model.png', dpi=150, bbox_inches='tight')
-print("\n保存图表: svm_demo_4_best_model.png")
+plt.savefig(os.path.join(OUTPUT_DIR, "05_gamma_effect.png"),
+            dpi=DPI, bbox_inches="tight")
+plt.close()
+print()
 
 
-# ============================================================================
-# 第6部分：MMC vs SVC vs SVM 对比总结
-# ============================================================================
-print("\n" + "=" * 80)
-print("第6部分：MMC vs SVC vs SVM 对比总结")
-print("=" * 80)
+# ============================================================
+# 演示 6：MMC → SVC → SVM 演进
+# Demo 6: MMC → SVC → SVM Progression
+# ============================================================
+print("=" * 60)
+print("Demo 6: MMC -> SVC -> SVM Progression")
+print("=" * 60)
 
-summary = """
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    SVM 方法演进对比                                      │
-├──────────────┬──────────────────┬──────────────────┬───────────────────┤
-│   方法       │   间隔类型       │   核函数         │   适用场景        │
-├──────────────┼──────────────────┼──────────────────┼───────────────────┤
-│ MMC          │ 硬间隔 (C→∞)    │ 线性             │ 完全线性可分      │
-│ (Maximum     │ 不允许误分类     │                  │ 无噪声数据        │
-│  Margin      │                  │                  │                   │
-│  Classifier) │                  │                  │                   │
-├──────────────┼──────────────────┼──────────────────┼───────────────────┤
-│ SVC          │ 软间隔 (C有限)  │ 线性             │ 近似线性可分      │
-│ (Support     │ 允许少量误分类   │                  │ 有噪声/重叠       │
-│  Vector      │                  │                  │                   │
-│  Classifier) │                  │                  │                   │
-├──────────────┼──────────────────┼──────────────────┼───────────────────┤
-│ SVM          │ 软间隔 (C有限)  │ 非线性           │ 非线性可分        │
-│ (Support     │ 允许少量误分类   │ (poly, RBF等)    │ 复杂边界          │
-│  Vector      │                  │                  │                   │
-│  Machine)    │                  │                  │                   │
-└──────────────┴──────────────────┴──────────────────┴───────────────────┘
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 
-演进关系:
-  MMC → SVC: 引入软间隔（松弛变量 ξᵢ），允许误分类
-  SVC → SVM: 引入核函数（核技巧），处理非线性问题
+# MMC: 硬间隔线性分类（仅适用于完美可分数据）
+# MMC: Hard margin linear classification (only for perfectly separable data)
+X_clean, y_clean = make_blobs(n_samples=80, centers=2,
+                              random_state=RANDOM_STATE, cluster_std=0.8)
+clf_mmc = SVC(kernel="linear", C=1e6)
+clf_mmc.fit(X_clean, y_clean)
+plot_decision_boundary(clf_mmc, X_clean, y_clean, axes[0],
+                       "MMC\n(Hard Margin, Linear)")
+axes[0].text(0.02, 0.02, "C → ∞: no misclassification allowed",
+             transform=axes[0].transAxes, fontsize=9,
+             bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8))
+print(f"  MMC: SVs={len(clf_mmc.support_vectors_)}")
 
-关键参数:
-  • C: 控制间隔宽度 vs 误分类惩罚的权衡
-    - C 大 → 严格分类，窄间隔，可能过拟合
-    - C 小 → 宽松分类，宽间隔，可能欠拟合
-  
-  • gamma (仅 RBF/poly 核): 控制单个样本的影响范围
-    - gamma 大 → 影响范围小，决策边界复杂，可能过拟合
-    - gamma 小 → 影响范围大，决策边界平滑，可能欠拟合
+# SVC: 软间隔线性分类（允许误分类）
+# SVC: Soft margin linear classification (allows misclassification)
+clf_svc = SVC(kernel="linear", C=1.0)
+clf_svc.fit(X_overlap, y_overlap)
+plot_decision_boundary(clf_svc, X_overlap, y_overlap, axes[1],
+                       "SVC\n(Soft Margin, Linear)")
+axes[1].text(0.02, 0.02, "C=1.0: allows some errors",
+             transform=axes[1].transAxes, fontsize=9,
+             bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8))
+print(f"  SVC: SVs={len(clf_svc.support_vectors_)}")
 
-sklearn 使用:
-  from sklearn.svm import SVC
-  
-  # MMC (近似)
-  svm = SVC(kernel='linear', C=1000.0)
-  
-  # SVC
-  svm = SVC(kernel='linear', C=1.0)
-  
-  # SVM
-  svm = SVC(kernel='rbf', C=1.0, gamma='scale')
-"""
+# SVM: 软间隔 + 核函数（处理非线性数据）
+# SVM: Soft margin + kernel (handles non-linear data)
+clf_svm = SVC(kernel="rbf", C=1.0, gamma="scale")
+clf_svm.fit(X_moons_scaled, y_moons)
+plot_decision_boundary(clf_svm, X_moons_scaled, y_moons, axes[2],
+                       "SVM\n(Soft Margin, RBF Kernel)", show_margin=False)
+axes[2].text(0.02, 0.02, "RBF kernel: non-linear boundary",
+             transform=axes[2].transAxes, fontsize=9,
+             bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8))
+print(f"  SVM: SVs={len(clf_svm.support_vectors_)}")
 
-print(summary)
+plt.suptitle("Evolution: MMC → SVC → SVM",
+             fontsize=14, fontweight="bold")
+plt.tight_layout()
+plt.savefig(os.path.join(OUTPUT_DIR, "06_mmc_svc_svm.png"),
+            dpi=DPI, bbox_inches="tight")
+plt.close()
+print()
 
-# ============================================================================
-# 总结
-# ============================================================================
-print("\n" + "=" * 80)
-print("演示完成！")
-print("=" * 80)
-
-print(f"""
-生成的图表:
-  1. svm_demo_1_hard_margin.png  - 硬间隔 SVM (MMC)
-  2. svm_demo_2_soft_margin.png  - 软间隔 SVM，不同 C 值对比
-  3. svm_demo_3_kernels.png      - 不同核函数对比
-  4. svm_demo_4_best_model.png   - 超参数调优后的最佳模型
-
-关键要点:
-  ✓ 所有参数 (w, b) 都是通过训练数据学习得到的，不是"假设"的
-  ✓ 支持向量是最接近决策边界的点，它们决定了超平面
-  ✓ 间隔 = 2/||w||，最大化间隔等价于最小化 ||w||
-  ✓ C 控制间隔宽度和误分类的权衡
-  ✓ 核函数允许 SVM 处理非线性问题，无需显式映射到高维
-  ✓ RBF 核是最常用的核函数，适用于大多数非线性问题
-
-下一步:
-  • 运行脚本: uv run python courses/ml/labs/svm_complete_demo.py
-  • 查看生成的图表理解 SVM 的工作原理
-  • 尝试修改参数观察效果变化
-""")
-
-print("=" * 80)
+print("=" * 60)
+print(f"All plots saved to: {OUTPUT_DIR}")
+print("=" * 60)

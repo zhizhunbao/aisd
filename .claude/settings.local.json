@@ -4,7 +4,9 @@
       "Bash(cmd //c \"mklink /J workflows ..\\\\.shared\\\\workflows\")",
       "Bash(cmd //c \"mklink /J agents ..\\\\.shared\\\\agents\")",
       "Bash(cmd //c \"mklink /J templates ..\\\\.shared\\\\templates\")",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)"
     ]
   }
 }

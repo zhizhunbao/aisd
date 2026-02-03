@@ -34,38 +34,28 @@ Use `python-dotenv` to load environment variables at the start of the script.
 
 **For Python scripts (.py):**
 
-Use the template at `templates/ml_lab_template.py` as base.
+Use the template at `templates/standard_bilingual_template.py` as base.
 
 ```python
-"""
-CST8506 Lab [N]: [Title]
-Author: Peng Wang
-Student Number: 041107730
-
-[Brief description]
-"""
-
-import os
-# ... other imports
-
+# ============================================================
 # 配置常量
 # Configuration Constants
+# ============================================================
 RANDOM_STATE = 42
-OUTPUT_DIR = 'lab[n]_images'
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# ============================================================
-# 步骤1：[步骤标题]
-# Step 1: [Step Title]
-# ============================================================
-print("Step 1: [Step Title]")
-print("-" * 40)
+def main():
+    # ============================================================
+    # 步骤 0：实验初始化 (Noise Reduction)
+    # Step 0: Lab Initialization
+    # ============================================================
+    output_dir, line_width = initialize_lab()
 
-# [中文注释]
-# [English comment]
-# code here
-
-print()
+    # ============================================================
+    # 步骤 1：数据加载
+    # Step 1: Data Loading
+    # ============================================================
+    # [Bilingual Comments Here]
+    print_step("Step 1: Data Loading", "CSV file", "DataFrame (150, 4)", line_width)
 ```
 
 ### 3. Output Formatting Requirements
@@ -80,11 +70,11 @@ When printing datasets or statistics, **always show the original form of the dat
 
 **⚠️ PRINCIPLE 2: Concise and Aligned Output**
 
-- **Header Format**: Use exactly 80 '=' characters above and below the step title.
+- **Header Format**: Use exactly 60 '=' characters above and below the step title.
   ```python
-  print("=" * 80)
-  print("Step N: Step Title")
-  print("=" * 80)
+  # ============================================================
+  # Step N: Step Title
+  # ============================================================
   ```
 - **Avoid Truncation**: Use `pd.set_option('display.max_columns', None)`, `pd.set_option('display.width', 1000)`, and `pd.set_option('display.expand_frame_repr', False)` to ensure all data columns are visible in a single block.
 - **Overwrite Policy**: All operations (executing scripts, capturing output, generating screenshots) should **directly overwrite** existing files. Do not use temporary or numbered filenames.
@@ -99,9 +89,9 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 1000)
 pd.set_option('display.expand_frame_repr', False)
 
-print("=" * 80)
+print("=" * 60)
 print("Step 2: Print dataset statistics")
-print("=" * 80)
+print("=" * 60)
 print(f"Number of instances: {X.shape[0]}")
 print(f"Number of attributes: {X.shape[1]}")
 print(df.head())
@@ -112,7 +102,7 @@ print(df.head())
 - Over-design: No complex tables if simple DataFrame print is enough.
 - Redundant info: Don't print stats in the "Load" step.
 - Truncated output: Ensure all columns are shown.
-- Mismatched headers: Always 80 '='.
+- Mismatched headers: Always 60 '='.
 
 ```python
 # ❌ BAD - Results as raw arrays
@@ -139,12 +129,12 @@ from tabulate import tabulate  # For formatted tables
 import pandas as pd            # For DataFrame display
 ```
 
-**Do NOT include:**
+**⚠️ PRINCIPLE 3: Noise Isolation (Step 0)**
 
-- Generic messages like "Step completed!"
-- Submission reminders in middle of output (only at very end if needed)
-- Truncated array output (use proper formatting or summarize)
-- Raw object representations (like `_wine_dataset:`)
+All environment-related "noise" (dotenv, pandas options, directory creation, student info retrieval) MUST be abstracted into an `initialize_lab()` function.
+
+- **Global Scope**: Only library imports and core algorithm constants (e.g., `RANDOM_STATE`) are allowed.
+- **Local Scope**: UI constants like `line_width` and path constants like `output_dir` should be defined in `main` or `initialize_lab` and passed as arguments.
 
 **Default Parameter Documentation:**
 
@@ -172,9 +162,13 @@ print(f"  - Lower C = more regularization, may underfit")
 **Self-Documenting Code:**
 
 - Use clear, descriptive variable names
-- Extract magic numbers to named constants
-- Structure code to reveal intent
-- Only add comments to explain "why", not "what"
+**Absolutely No Magic Numbers:**
+
+- All numeric literals with domain meaning (thresholds, sizes, ratios, limits) MUST be extracted to named constants.
+- Constants should be defined in the `Configuration Constants` section using `UPPER_SNAKE_CASE`.
+- Only trivially obvious values (0, 1, -1, 2 for halving/doubling) may remain inline.
+- Structure code to reveal intent.
+- **Scientific Notation**: Use decimal forms (e.g., `0.001`, `0.0003`) instead of scientific notation (e.g., `1e-3`, `3e-4`). Add a comment explaining the value and its role (e.g., "controls the step size of weight updates").
 
 **Function Usage:**
 
@@ -189,7 +183,7 @@ Follow `dev-code_comment` skill for bilingual comments:
 - File docstring: English only
 - Inline comments: Chinese line + English line above code
 - Complex logic: Add reason (原因/Reason)
-- API parameters: Explain what each value **does**, not just restate parameter names
+- API parameters: Explain what each value **does**, not just restate parameter names. For complex APIs (e.g., Stable-Baselines3, PyGame, OpenCV), define how each argument affects the algorithm or visualization.
 
 Example:
 
@@ -206,7 +200,24 @@ scaler = StandardScaler()
 # Parameters: 127 is the brightness cutoff (pixels > 127 become white, ≤ 127 become black),
 #       255 is the value assigned to "white" pixels (pure white),
 #       THRESH_BINARY means output has only two values: black(0) and white(255)
+# 原因：二值化处理有助于提取目标轮廓
+# Reason: Binarization helps extract object contours
 _, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+```
+
+**Class Documentation:**
+
+Always include a 60-character box header ABOVE class definitions:
+
+```python
+# ============================================================
+# QLearningAgent: 封装有 Q-Table 及其更新法则的强化学习类
+#                 Reinforcement learning class encapsulating Q-Table and its update rules
+# ============================================================
+class QLearningAgent:
+    """封装有 Q-Table 及其更新法则的强化学习类
+    Reinforcement learning class encapsulating Q-Table and its update rules"""
+    ...
 ```
 
 **Avoid AI Appearance:**
@@ -316,18 +327,21 @@ After generating code, check:
 
 **Documentation:**
 
-- [ ] Student info loaded from `.env.local` using `python-dotenv`
-- [ ] Current date generated using `datetime`
+- [ ] Student info and environment "noise" isolated in `initialize_lab()` (Step 0)
+- [ ] Current date generated using `datetime` inside Step 0
 - [ ] File-level docstring with author info
-- [ ] Function docstrings with Args/Returns (for all functions)
+- [ ] Concise function docstrings (two-line bilingual)
+- [ ] Box-style function headers ABOVE definitions for parameters/returns
+- [ ] **Box-style class headers ABOVE class definitions**
+- [ ] **Dividers are exactly 60 characters long**
+- [ ] **No scientific notation (e.g., 1e-3 used); all replaced with 0.001 decimal style**
 
 **Code Quality:**
 
 - [ ] Meaningful, self-explanatory variable names
-- [ ] Constants for magic numbers
-- [ ] Minimal comments (only "why", not "what")
-- [ ] Functions only for repeated code
-- [ ] No screenshot generation code (use `learning-code_screenshot` skill)
+- [ ] **Absolutely NO magic numbers** (all meaningful numeric literals extracted to constants)
+- [ ] UI/Formatting constants (like line_width) are LOCAL to main
+- [ ] Minimal "why" comments above every single line of code
 
 **Requirements:**
 
