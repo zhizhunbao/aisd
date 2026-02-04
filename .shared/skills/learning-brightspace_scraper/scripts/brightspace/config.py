@@ -15,7 +15,7 @@ COURSES = {
 BASE_URL = "https://brightspace.algonquincollege.com"
 
 # 抓取数据存放目录（根目录的 data/）
-OUTPUT_DIR = Path(__file__).parent.parent.parent.parent.parent / "data"
+OUTPUT_DIR = Path(__file__).parent.parent.parent.parent.parent.parent / "data"
 
 # Session 文件路径
 SESSION_FILE = Path(__file__).parent / ".session.json"

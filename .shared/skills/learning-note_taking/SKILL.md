@@ -23,6 +23,8 @@ Before adding notes, follow these steps to ensure logical placement:
 ### 2. Keep Notes Concise
 
 - Focus on key concepts only
+- **Line-by-Line Correspondence**: 必须依序解释 `Text Content` 中的每一项内容（每一行、每一个 bullet point、每一个公式）。
+- **Image Interpretation**: 解释 `Page Image` 中的关键视觉元素（如图表、流程图、逻辑框图），确保笔记覆盖图片中传达的逻辑。
 - 2-4 bullet points per concept
 - Short code snippets (5-10 lines max)
 - Avoid lengthy explanations
@@ -55,6 +57,8 @@ For each section requiring notes, wrap the entire content in a blockquote (`>`) 
 ### 4. What to Include
 
 - ✅ 核心定义（基于原文）
+- ✅ **逐行/逐项解释**（覆盖所有文本要点）
+- ✅ **图片内容解析**（覆盖视觉图表逻辑）
 - ✅ 关键区别/对比（如原文提到）
 - ✅ 实用技巧（原文中的提示）
 - ✅ 常见错误（原文中的注意事项）

@@ -21,6 +21,9 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
+│ Phase -1: 抓取 (Scrape)                                       │
+│   ↓ learning-brightspace_scraper skill                      │
+├─────────────────────────────────────────────────────────────┤
 │ Phase 0: 转换 (Convert)                                      │
 │   ↓ dev-pptx_to_pdf, dev-pdf_processing skills              │
 ├─────────────────────────────────────────────────────────────┤
@@ -35,8 +38,37 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 4: 审查 (Review)                                       │
 │   ↓ learning-logic_consistency, learning-code_consistency   │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 5: 测验 (Quiz)                                         │
+│   ↓ learning-quiz_generation skill                          │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## Phase -1: 远程抓取 🌐
+
+**Skill**: `learning-brightspace_scraper`
+
+从 Brightspace LMS 自动下载最新的课程材料。
+
+### 步骤
+
+1. **检查配置**: 确保主题对应的 Course ID 在 `scraper/config.py` 中。
+2. **执行抓取**: 运行 scraper 下载指定课程的 Slides 或相关模块。
+3. **同步文件**: 将下载的 `data/[course]/.../Slides/*.pdf` 移动到 `courses/[course]/slides/`。
+4. **跳过判断**: 如果本地已有最新材料或明确指定 `--from=phase0`，则跳过。
+
+### 命令
+
+```bash
+# 启动时会自动检查
+/generate-study-material ml svm --scrape
+```
+
+### 输出
+
+- `courses/[course]/slides/[topic].pdf` (或 .pptx)
 
 ---
 
@@ -203,6 +235,33 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ---
 
+## Phase 5: 知识测验 ✍️
+
+**Skill**: `learning-quiz_generation`
+
+根据笔记和演示代码生成测验题，以巩固学习效果。
+
+### 步骤
+
+1. 读取 Phase 1 的 `[topic]_notes.md` 和 Phase 2 的 `[topic]_complete_demo.py`
+2. 生成 5-10 道选择题 (MCQ) 和 5 道判断题 (T/F)
+3. 包含 1-2 道关于代码参数或输出的简答题
+4. 生成 `courses/[course]/quizzes/[topic]_quiz.md`
+5. 在文件末尾附上标准答案
+
+### 命令
+
+```
+读取 skill: .shared/skills/learning-quiz_generation/SKILL.md
+生成测验题
+```
+
+### 输出
+
+- `courses/[course]/quizzes/[topic]_quiz.md`
+
+---
+
 ## 🗂️ 目录结构示例
 
 ```
@@ -218,7 +277,9 @@ courses/
         ├── svm_complete_demo_pages/        # Phase 2: 参考图片
         │   ├── svm_demo_plot1.png
         │   └── svm_demo_plot2.png
-        └── svm_interactive_tutorial.ipynb   # Phase 3: 最终成品
+        ├── svm_interactive_tutorial.ipynb   # Phase 3: 最终成品
+        └── ../quizzes/
+            └── svm_quiz.md                 # Phase 5: 测验题
 ```
 
 ---
@@ -227,11 +288,13 @@ courses/
 
 | 命令                                         | 说明              | 从哪个 Phase 开始 |
 | -------------------------------------------- | ----------------- | ----------------- |
-| `/generate-study-material ml svm`            | 完整流程          | Phase 0           |
+| `/generate-study-material ml svm`            | 完整流程 (含抓取) | Phase -1          |
+| `/generate-study-material ml svm --no-scrape`| 完整流程 (跳过抓取)| Phase 0           |
 | `/generate-study-material ml svm --from=phase1` | 从笔记提取开始 | Phase 1           |
 | `/generate-study-material ml svm --from=phase2` | 从 Demo 开始   | Phase 2           |
 | `/generate-study-material ml svm --from=phase3` | 从 NB 合成开始 | Phase 3           |
 | `/generate-study-material ml svm --phase=4`  | 只运行审查        | Phase 4           |
+| `/generate-study-material ml svm --phase=5`  | 只生成测验题      | Phase 5           |
 
 ---
 

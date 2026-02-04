@@ -9,7 +9,19 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 Create a seamlessly integrated learning experience from raw lecture materials (PPT/PDF) to an executed, result-rich interactive tutorial that is accessible to beginners.
 
-## Workflow (5 Phases)
+## Workflow (6 Phases)
+
+### Phase -1: Material Scraping (Brightspace -> Local)
+
+**Uses:** `learning-brightspace_scraper`
+
+Automate downloading of slides and resources from Brightspace LMS.
+
+- Check `scraper/config.py` for correct `course_id`.
+- Run scraper to fetch `slides` module for the target topic.
+- Move downloaded files from `data/` to `courses/[course]/slides/`.
+
+**Output:** `courses/[course]/slides/[topic].pdf`
 
 ### Phase 0: Material Conversion (PPTX/PDF -> Markdown)
 
@@ -100,6 +112,18 @@ This phase combines execution verification and quality review into a single pass
 - [ ] Notebook runs from top to bottom without errors.
 - [ ] No `TODO`s, placeholders, or generic summaries remain.
 
+### Phase 5: Quiz Generation (`*_notes.md` + `*_complete_demo.py` -> `*_quiz.md`)
+
+**Uses:** `learning-quiz_generation`
+
+- Analyze the generated notes and demo code to create a comprehensive self-assessment.
+- Generate at least 5 MCQ and 5 T/F questions.
+- Include 1-2 coding-related short answer questions.
+- Format based on the standard `courses/[course]/quizzes/` template.
+- Include an Answer Key at the end of the file.
+
+**Output:** `courses/[course]/quizzes/[topic]_quiz.md`
+
 ## Key Principles
 
 1. **Accessibility First**: Write for a student seeing the topic for the first time. Avoid "leaps of logic".
@@ -110,8 +134,11 @@ This phase combines execution verification and quality review into a single pass
 ## Output File Structure
 
 ```text
-courses/[course]/notes/
-├── [topic]_slides.md                   # Phase 0: Raw extraction from PPTX/PDF
+courses/[course]/
+├── slides/
+│   └── [topic].pdf                      # Phase -1: Downloaded source
+└── notes/
+    ├── [topic]_slides.md                   # Phase 0: Raw extraction from PPTX/PDF
 ├── [topic]_slides_images/              # Phase 0: Extracted slide images
 │   ├── slide1_img1.png
 │   └── slide2_img1.png
@@ -120,5 +147,7 @@ courses/[course]/notes/
 ├── [topic]_complete_demo_pages/        # Phase 2: Assets (Reference Images)
 │   ├── [topic]_demo_plot1.png
 │   └── [topic]_demo_plot2.png
-└── [topic]_interactive_tutorial.ipynb   # Phase 3: The Final Experience
+├── [topic]_interactive_tutorial.ipynb   # Phase 3: The Final Experience
+└── ../quizzes/
+    └── [topic]_quiz.md                 # Phase 5: Knowledge Assessment
 ```
