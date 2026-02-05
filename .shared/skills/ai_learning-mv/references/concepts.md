@@ -81,12 +81,58 @@ M = Σ [Ix² IxIy]
 - Keypoint localization
 - Orientation assignment
 - Descriptor generation (128-dim)
+- Patent restrictions (now expired)
 
 **ORB (Oriented FAST and Rotated BRIEF):**
 
-- FAST keypoint detector
-- BRIEF descriptor with rotation invariance
-- Faster than SIFT, free to use
+- **FAST**: Features from Accelerated Segment Test (快速角点检测)
+  - Finds "interesting points" (corners, edge intersections)
+  - Very fast corner detection
+- **BRIEF**: Binary Robust Independent Elementary Features (二进制描述符)
+  - 256-bit binary string describing texture around each feature
+  - Much faster than SIFT/SURF floating-point descriptors
+- **Oriented + Rotated**: Rotation invariance (旋转不变性)
+  - Can recognize same feature even after image rotation
+
+**ORB Advantages:**
+- Fast (比 SIFT、SURF 快很多)
+- Free and open source (无专利限制)
+- Robust to rotation and moderate lighting changes
+- Good for real-time applications
+
+**What is a Descriptor?**
+- A "fingerprint" of a feature point (特征点的"身份证")
+- Sequence of numbers describing texture around that point
+- Example: `10110010 01101001 11010010 ...` (256 bits for ORB)
+- Allows matching same point across different images
+
+### Feature Matching
+
+**BFMatcher (Brute-Force Matcher / 暴力匹配器):**
+- Compares each feature in image1 with ALL features in image2
+- Example: 500 points × 500 points = 250,000 comparisons
+- Best for accuracy, slower for large feature sets
+
+**FLANN Matcher (Fast Library for Approximate Nearest Neighbors):**
+- Uses KD-tree or hierarchical clustering
+- Much faster for large datasets (>1000 features)
+- Approximate matching (may miss some matches)
+
+**Distance Metrics:**
+- `cv2.NORM_HAMMING`: For binary descriptors (ORB, BRIEF)
+  - Hamming distance = count of different bits
+  - Example: `10110010` vs `10010110` → 3 bits differ → distance=3
+- `cv2.NORM_L2`: For floating-point descriptors (SIFT, SURF)
+
+**crossCheck Parameter:**
+- `crossCheck=True`: Bidirectional verification (双向验证)
+- Only keeps match if A's best match is B AND B's best match is A
+- Reduces false matches ("mutual selection" / "双向选择")
+
+**Match Object Properties:**
+- `queryIdx`: Index of feature in first image
+- `trainIdx`: Index of matched feature in second image
+- `distance`: Similarity measure (smaller = better match)
 
 ## Image Segmentation
 

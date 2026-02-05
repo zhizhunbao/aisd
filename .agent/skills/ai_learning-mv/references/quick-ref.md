@@ -27,7 +27,10 @@
 | Perspective warp    | `cv2.warpPerspective()`                | image, M, dsize                 |
 | SIFT detector       | `cv2.SIFT_create()`                    | nfeatures, nOctaveLayers        |
 | ORB detector        | `cv2.ORB_create()`                     | nfeatures, scaleFactor          |
-| Feature matching    | `cv2.BFMatcher()`                      | normType, crossCheck            |
+| BF Matcher          | `cv2.BFMatcher()`                      | normType, crossCheck            |
+| FLANN Matcher       | `cv2.FlannBasedMatcher()`              | indexParams, searchParams       |
+| Draw keypoints      | `cv2.drawKeypoints()`                  | image, keypoints, color, flags  |
+| Draw matches        | `cv2.drawMatches()`                    | img1, kp1, img2, kp2, matches   |
 | Cascade classifier  | `cv2.CascadeClassifier()`              | filename                        |
 | Background subtract | `cv2.createBackgroundSubtractorMOG2()` | history, varThreshold           |
 
@@ -73,6 +76,34 @@
 
 - `cv2.CHAIN_APPROX_NONE`: All points
 - `cv2.CHAIN_APPROX_SIMPLE`: Compress segments
+
+## Feature Detection & Matching
+
+### ORB Parameters
+- `nfeatures`: Max number of features to detect (default 500)
+- `scaleFactor`: Pyramid decimation ratio (default 1.2)
+- `nlevels`: Number of pyramid levels (default 8)
+
+### BFMatcher Parameters
+- `cv2.NORM_HAMMING`: For binary descriptors (ORB, BRIEF)
+- `cv2.NORM_L2`: For float descriptors (SIFT, SURF)
+- `crossCheck=True`: Bidirectional verification
+
+### FLANN vs BFMatcher
+| Aspect | BFMatcher | FLANN |
+|--------|-----------|-------|
+| Speed | Slower | Faster |
+| Accuracy | 100% | Approximate |
+| Best for | <1000 features | >1000 features |
+| ORB compatible | Yes (HAMMING) | Needs LSH index |
+
+### ORB Robustness (Lab 3 Findings)
+| Condition | Impact | Reason |
+|-----------|--------|--------|
+| Blur | ⬇️ Significant | Edges unclear, corners disappear |
+| Noise | ↔️ Variable | Creates false corners |
+| Brightness | ↔️ Minor | ORB robust to lighting changes |
+| Rotation | ✅ Good | Rotation invariant by design |
 
 ## Common Issues & Fixes
 

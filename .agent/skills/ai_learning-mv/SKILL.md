@@ -7,50 +7,74 @@ description: Comprehensive MV learning assistant for industrial computer vision 
 
 ## MV Course Code Generation
 
-When generating code for MV (Machine Vision) course labs, use bilingual comment style (English + Chinese).
+When generating code for MV (Machine Vision) course labs, use bilingual comment style (Chinese + English, 中文在上英文在下).
 
 ### Comment Style Requirements
 
-**Bilingual Format:**
+**Bilingual Format (Chinese first, English second):**
 
 ```python
-# Requirement: [Assignment requirement in English]
-# [Technical explanation in English]
 # 要求：[作业要求中文]
 # [技术解释中文]
+# Requirement: [Assignment requirement in English]
+# [Technical explanation in English]
 ```
 
 **Key Principles:**
 
-- Start with `# Requirement:` to mark assignment requirements
-- Explain WHY technical choices are made (e.g., BGR to RGB conversion reason)
-- Provide parameter explanations (e.g., x, y, w, h meanings)
-- Mention alternative approaches when relevant (e.g., Median blur vs Gaussian blur)
-- Use English first, then Chinese translation
+- Start with `# 要求：` to mark assignment requirements (Chinese first)
+- Explain WHY technical choices are made
+- Provide parameter explanations
+- Mention alternative approaches when relevant
+- **Chinese first, then English translation (中文在上，英文在下)**
 - Keep comments concise but informative
 
 **Example:**
 
 ```python
-# Requirement: Convert image from RGB to Grayscale
-# Load image from file
 # 要求：将图像从 RGB 转换为灰度图
 # 从文件加载图像
+# Requirement: Convert image from RGB to Grayscale
+# Load image from file
 img = cv2.imread(image_path)
 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# Requirement: Apply Gaussian blur
-# Reduce noise before edge detection to prevent false edge points caused by image noise
 # 要求：应用高斯模糊
 # 边缘检测前降噪以防止图像噪声导致的误判边缘点
-# Note: Gaussian blur uses weighted average, good for general noise reduction
-# Alternative: Median blur (cv2.medianBlur) uses median value, better for salt-and-pepper noise
 # 注意：高斯模糊使用加权平均，适合一般降噪
 # 替代方案：中值模糊（cv2.medianBlur）使用中值，更适合椒盐噪声
+# Requirement: Apply Gaussian blur
+# Reduce noise before edge detection to prevent false edge points caused by image noise
+# Note: Gaussian blur uses weighted average, good for general noise reduction
+# Alternative: Median blur (cv2.medianBlur) uses median value, better for salt-and-pepper noise
 blurred_image = cv2.GaussianBlur(img, (blur_ksize, blur_ksize), 0)
 ```
 
-**For complete example:** See Lab1 code at `courses/mv/labs/CST8508_26W_Lab1.py`
+**Docstring Format:**
+
+```python
+def function_name(param):
+    """
+    中文函数说明。
+    English function description.
+    
+    中文详细解释：
+    English detailed explanation:
+    -------------------------------------------------------------------------
+    中文内容
+    English content
+    -------------------------------------------------------------------------
+    
+    Args:
+        param: 中文参数说明 / English parameter description
+    
+    Returns:
+        中文返回值说明
+        English return description
+    """
+```
+
+**For complete example:** See Lab3 code at `courses/mv/labs/lab3_orb.ipynb`
 
 ### Python File Format for Jupyter Conversion
 
@@ -100,8 +124,8 @@ def function_name(params):
 # Description of what this test does
 
 # +
-# Test code for Exercise 1
 # 测试练习 1
+# Test code for Exercise 1
 print('Exercise 1: ...')
 result = function_name(params)
 # -
