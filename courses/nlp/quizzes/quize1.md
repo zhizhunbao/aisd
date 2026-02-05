@@ -79,3 +79,28 @@ In the Alan Turing test, a human evaluator interacts through text with two unsee
 Question 10 options:
 True
 False
+
+---
+
+## Answer Key & Explanations
+
+1. **Transformer**
+   - **解析**：Transformer 架构在 2017 年由 Google 提出（"Attention is All You Need"），引入了自注意力机制，成为 NLP 领域的转折点。
+2. **True**
+   - **解析**：情感分析的难点在于人类语言的复杂性，需要深入理解语境和情感。
+3. **Text Classification**
+   - **解析**：文本分类是将文本归入预定义类别中，属于自然语言理解（NLU），而非生成任务（NLG）。
+4. **True**
+   - **解析**：文档是文本素材，知识是经过处理、提取出的结构化信息。
+5. **True**
+   - **解析**：NLP 中的多样性挑战源于数据的长尾分布（齐普夫定律），少数高频词占据主导。
+6. **NLP is a subset of AI focused on language tasks; ML is an approach to achieve AI; DL is a type of ML.**
+   - **解析**：人工智能是父类，机器学习是其中一种实现路径，深度学习是机器学习的分支，而 NLP 是 AI 的一个应用领域。
+7. **False**
+   - **解析**：文本摘要必须在提取关键信息的同时，保持原始文本的意思和逻辑连贯性。
+8. **True**
+   - **解析**：这是 NLP 的核心定义。
+9. **False**
+   - **解析**：人工智能不仅限于固定规则，现代 AI（如机器学习）主要通过从数据中学习规律。
+10. **True**
+    - **解析**：图灵测试的基本原理是让评估者无法区分机器和人，从而判断机器是否具有智能。
