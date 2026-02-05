@@ -12,6 +12,7 @@ When generating code for MV (Machine Vision) course labs, use bilingual comment 
 ### Comment Style Requirements
 
 **Bilingual Format:**
+
 ```python
 # Requirement: [Assignment requirement in English]
 # [Technical explanation in English]
@@ -20,6 +21,7 @@ When generating code for MV (Machine Vision) course labs, use bilingual comment 
 ```
 
 **Key Principles:**
+
 - Start with `# Requirement:` to mark assignment requirements
 - Explain WHY technical choices are made (e.g., BGR to RGB conversion reason)
 - Provide parameter explanations (e.g., x, y, w, h meanings)
@@ -28,6 +30,7 @@ When generating code for MV (Machine Vision) course labs, use bilingual comment 
 - Keep comments concise but informative
 
 **Example:**
+
 ```python
 # Requirement: Convert image from RGB to Grayscale
 # Load image from file
@@ -54,6 +57,7 @@ blurred_image = cv2.GaussianBlur(img, (blur_ksize, blur_ksize), 0)
 When creating `.py` files that will be converted to Jupyter notebooks, use jupytext-compatible format:
 
 **File Structure:**
+
 ```python
 # ---
 # jupyter:
@@ -104,6 +108,7 @@ result = function_name(params)
 ```
 
 **Key Rules:**
+
 - Use `# ` prefix for Markdown content (becomes Markdown cells)
 - Use `# # ` for main headings, `# ## ` for subheadings
 - Use `# ` with blank line for paragraph breaks
@@ -112,22 +117,31 @@ result = function_name(params)
 - Use `# +` and `# -` to mark cell boundaries for test code blocks
 
 **Cell Separation:**
+
 - Each function definition: separate code cell
 - Each test/exercise execution: separate code cell with Markdown header
 - Use `# +` at start and `# -` at end to explicitly mark cell boundaries
 - Markdown sections (`# ## ...`) automatically create new cells
 
 **Conversion Command:**
+
 ```bash
 uv run jupytext --to notebook file.py -o file.ipynb
 ```
 
 **Why This Format:**
+
 - ✅ File header becomes Markdown cell (not code)
 - ✅ Section titles become Markdown cells
 - ✅ Exercise descriptions become Markdown cells
 - ✅ Function code becomes code cells
 - ✅ Bilingual comments preserved in code cells
+
+**Image Display Rule:**
+
+- **Always use `plt.show()`** in test cells to display results directly in the Notebook.
+- Avoid using `plt.close()` in Notebook-targeted code as it prevents visual output.
+- Optional: Keep `plt.savefig()` if a permanent record is needed, but `plt.show()` must follow it or be used standalone.
 
 **For complete example:** See `courses/mv/labs/CST8508_Lab2.py`
 

@@ -83,6 +83,8 @@ description: Complete course lab/assignment from start to submission - universal
 2. 提取图片和表格
 3. 格式化文档结构
 
+> 💡 **MV 课程例外**: 如果作业只要求提交 Notebook，此步骤可选。可直接参考原始文件进行开发。
+
 ### 命令
 
 // turbo
@@ -108,6 +110,8 @@ description: Complete course lab/assignment from start to submission - universal
 1. 读取课程特定的学习助手 skill
 2. 分析作业要求
 3. 添加学习笔记到 Markdown
+
+> 💡 **MV 课程例外**: 无需生成中间 Markdown 文档。直接在 `.py` 或 `.ipynb` 中使用双语注释记录需求分析。
 
 ### 命令
 
@@ -209,19 +213,23 @@ uv run python lab[n]_*.py
 - [ ] 图表正确保存到 `lab[n]_images/` 目录
 - [ ] .py 和 .ipynb 一致
 
-### 图表保存规范
+### 图表显示与保存规范
 
 代码中的图表应：
 
-- 保存到 `lab[n]_images/` 目录（标明是哪个实验）
-- 使用 `plt.savefig()` 保存
-- 使用 `plt.close()` 替代 `plt.show()` 避免弹窗
+- **MV 课程**: 使用 `plt.show()` 直接在 Notebook 中显示图片。无需强制保存到本地目录（除非明确要求）。
+- **其他课程 (如 ML/NLP)**:
+  - 保存到 `lab[n]_images/` 目录。
+  - 使用 `plt.savefig()` 保存。
+  - 使用 `plt.close()` 替代 `plt.show()` 避免脚本运行时弹窗。
 - 示例：
 
 ```python
-OUTPUT_DIR = 'lab2_images'  # lab[n]_images 格式
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-plt.savefig(os.path.join(OUTPUT_DIR, 'plot_name.png'), dpi=150, bbox_inches='tight')
+# MV 课程直接显示
+plt.show()
+
+# 其他课程保存
+plt.savefig('lab2_images/plot.png')
 plt.close()
 ```
 
@@ -248,6 +256,8 @@ cat lab[n]_images/output.txt
 ## Phase 6: 文档生成 📝
 
 **Skills**: `learning-code_screenshot`, `learning-assignment_document`, `learning-md_to_docx`
+
+> ⚠️ **MV 课程例外**: **跳过此阶段**。MV 课程通常只需要提交运行良好的 `.ipynb` 文件，无需单独的 `.docx` 报告。
 
 ### 步骤
 
@@ -296,9 +306,9 @@ cat lab[n]_images/output.txt
 ### 检查清单
 
 - [ ] `.ipynb` 文件存在且可运行
-- [ ] `.docx` 答题文档完整
-- [ ] 每个步骤都有截图
-- [ ] 每个步骤都有解释说明
+- [ ] `.docx` 答题文档完整 (MV 课程除外)
+- [ ] 每个步骤都有截图 (如要求)
+- [ ] 每个步骤都有解释说明 (代码注释或 Markdown Cell)
 - [ ] 文件命名符合要求
 - [ ] 没有压缩文件 (如要求)
 
@@ -327,7 +337,7 @@ git push
 ### 最终提交到 Brightspace
 
 - 上传 `.ipynb` 文件
-- 上传 `.docx` 答题文档
+- 上传 `.docx` 答题文档 (MV 课程无需上传)
 
 ---
 
@@ -364,11 +374,11 @@ courses/
 
 ## 📊 支持的课程
 
-| 课程代码 | 课程名称                    | 对应 Skill        |
-| -------- | --------------------------- | ----------------- |
-| `ml`     | Machine Learning            | `ai_learning-ml`  |
-| `nlp`    | Natural Language Processing | `ai_learning-nlp` |
-| `mv`     | Machine Vision              | `ai_learning-mv`  |
-| `cv`     | Computer Vision             | `ai_learning-cv`  |
-| `dl`     | Deep Learning               | `ai_learning-dl`  |
-| `rl`     | Reinforcement Learning      | `ai_learning-rl`  |
+| 课程代码 | 课程名称                    | 对应 Skill        | 需要 .docx 报告 |
+| -------- | --------------------------- | ----------------- | --------------- |
+| `ml`     | Machine Learning            | `ai_learning-ml`  | 是              |
+| `nlp`    | Natural Language Processing | `ai_learning-nlp` | 是              |
+| `mv`     | Machine Vision              | `ai_learning-mv`  | **否**          |
+| `cv`     | Computer Vision             | `ai_learning-cv`  | 是              |
+| `dl`     | Deep Learning               | `ai_learning-dl`  | 是              |
+| `rl`     | Reinforcement Learning      | `ai_learning-rl`  | 是              |

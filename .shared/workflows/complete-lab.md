@@ -127,6 +127,17 @@ description: Complete course lab/assignment from start to submission - universal
 
 **Skills**: `learning-code_generation`, `dev-code_comment`, `learning-notebook_conversion`
 
+### ⚠️ 前置步骤：读取学生信息
+
+**必须**首先从 `.env.local` 读取学生信息：
+
+```bash
+# 读取 .env.local 获取:
+# - NAME=Peng Wang
+# - NUMBER=041107730
+# 学号最后3位作为 SEED (e.g., 041107730 -> SEED=730)
+```
+
 ### 步骤
 
 1. **必须**先阅读 `.shared/skills/learning-code_generation/SKILL.md`

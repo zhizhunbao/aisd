@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best AI Video Generation Models Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #22d3ee;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 50%, var(--bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(30deg); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Directory Grid */
+        .directory {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .card-header {
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .card-title {
+            flex: 1;
+        }
+
+        .card-title h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-title span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .card-body {
+            padding: 0 2rem 2rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        .card-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: #fbbf24;
+        }
+
+        .rating-value {
+            font-weight: 600;
+        }
+
+        .visit-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .visit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 2rem;
+            }
+        }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AI Video Generation Models</h1>
+            <p>Discover the most powerful AI tools for transforming your ideas into stunning videos. Compare features, capabilities, and find the perfect solution for your creative projects.</p>
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search models, features, or capabilities...">
+                <button class="search-btn" onclick="filterModels()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stat-item">
+            <div class="stat-number" id="totalModels">10</div>
+            <div class="stat-label">Models Listed</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">2025</div>
+            <div class="stat-label">Latest Models</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">Free & Paid</div>
+            <div class="stat-label">Pricing Options</div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters">
+        <button class="filter-btn active" onclick="filterByCategory('all', this)">All Models</button>
+        <button class="filter-btn" onclick="filterByCategory('text-to-video', this)">Text to Video</button>
+        <button class="filter-btn" onclick="filterByCategory('image-to-video', this)">Image to Video</button>
+        <button class="filter-btn" onclick="filterByCategory('video-editing', this)">Video Editing</button>
+    </section>
+
+    <!-- Directory Grid -->
+    <section class="directory">
+        <div class="grid" id="modelsGrid">
+            <!-- Sora -->
+            <div class="card" data-category="text-to-video" data-name="sora openai" data-features="text-to-video, high-quality, photorealistic">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #000 0%, #333 100%);">S</div>
+                    <div class="card-title">
+                        <h3>Sora</h3>
+                        <span>by OpenAI</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">OpenAI's groundbreaking text-to-video model capable of creating highly realistic, complex scenes with physics simulation and cinematic quality.</p>
+                    <div class="features">
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">60s Duration</span>
+                        <span class="feature-tag">Photorealistic</span>
+                        <span class="feature-tag">Physics Simulation</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-value">4.9</span>
+                    </div>
+                    <a href="https://openai.com/sora" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Runway Gen-3 -->
+            <div class="card" data-category="text-to-video" data-name="runway gen-3 alpha" data-features="text-to-video, image-to-video, video-extend, motion brush">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #FF4F00 0%, #FF8C00 100%);">R</div>
+                    <div class="card-title">
+                        <h3>Runway Gen-3 Alpha</h3>
+                        <span>by Runway</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">The latest generation of Runway's video AI, offering unprecedented control, visual fidelity, and temporal consistency for professional video creation.</p>
+                    <div class="features">
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">Image to Video</span>
+                        <span class="feature-tag">Video Extend</span>
+                        <span class="feature-tag">Motion Brush</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-value">4.8</span>
+                    </div>
+                    <a href="https://runwayml.com/gen3" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Luma Dream Machine -->
+            <div class="card" data-category="text-to-video" data-name="luma dream machine" data-features="text-to-video, image-to-video, high-quality, free-tier">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #6B5BFF 0%, #8B7FFF 100%);">D</div>
+                    <div class="card-title">
+                        <h3>Dream Machine</h3>
+                        <span>by Luma AI</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">A cutting-edge AI video generator that creates high-quality, cinematic videos from text prompts and images with impressive consistency.</p>
+                    <div class="features">
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">Image to Video</span>
+                        <span class="feature-tag">Free Tier</span>
+                        <span class="feature-tag">Cinematic Quality</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-value">4.7</span>
+                    </div>
+                    <a href="https://lumalabs.ai/dream-machine" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Kling AI -->
+            <div class="card" data-category="text-to-video" data-name="kling ai" data-features="text-to-video, image-to-video, 2-min-video, lip-sync">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #00D4AA 0%, #00FFC8 100%);">K</div>
+                    <div class="card-title">
+                        <h3>Kling AI</h3>
+                        <span>by Kuaishou</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">A powerful AI video generator capable of creating up to 2-minute videos with exceptional quality, motion dynamics, and advanced lip-sync capabilities.</p>
+                    <div class="features">
+                        <span class="feature-tag">Up to 2 Minutes</span>
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">Lip Sync</span>
+                        <span class="feature-tag">Image to Video</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-value">4.6</span>
+                    </div>
+                    <a href="https://klingai.com" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Pika Labs -->
+            <div class="card" data-category="text-to-video" data-name="pika labs pika" data-features="text-to-video, image-to-video, lip-sync, video-extend">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #F97316 0%, #FB923C 100%);">P</div>
+                    <div class="card-title">
+                        <h3>Pika Labs</h3>
+                        <span>by Pika</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">A popular AI video generation platform known for its ease of use, creative effects, and strong community features for collaborative video creation.</p>
+                    <div class="features">
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">Image to Video</span>
+                        <span class="feature-tag">Creative Effects</span>
+                        <span class="feature-tag">Video Extend</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-value">4.5</span>
+                    </div>
+                    <a href="https://pika.art" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Google Veo -->
+            <div class="card" data-category="text-to-video" data-name="google veo veo-2" data-features="text-to-video, high-resolution, 8k, video-effects">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #4285F4 0%, #8AB4F8 100%);">V</div>
+                    <div class="card-title">
+                        <h3>Google Veo 2</h3>
+                        <span>by Google DeepMind</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Google's latest video generation model offering high-resolution output up to 8K, advanced video effects, and sophisticated understanding of physics and motion.</p>
+                    <div class="features">
+                        <span class="feature-tag">Up to 8K</span>
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">Video Effects</span>
+                        <span class="feature-tag">Physics Understanding</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-value">4.8</span>
+                    </div>
+                    <a href="https://deepmind.google/technologies/veo" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Meta Movie Gen -->
+            <div class="card" data-category="text-to-video" data-name="meta movie gen" data-features="text-to-video, audio-generation, personalized-video, video-edit">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #0668E1 0%, #4DA6FF 100%);">M</div>
+                    <div class="card-title">
+                        <h3>Movie Gen</h3>
+                        <span>by Meta AI</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Meta's comprehensive media generation suite including video, audio, and personalized content creation with advanced editing capabilities.</p>
+                    <div class="features">
+                        <span class="feature-tag">Video Generation</span>
+                        <span class="feature-tag">Audio Generation</span>
+                        <span class="feature-tag">Personalized Video</span>
+                        <span class="feature-tag">Video Editing</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-value">4.6</span>
+                    </div>
+                    <a href="https://ai.meta.com/movie-gen" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Stability AI -->
+            <div class="card" data-category="text-to-video" data-name="stability ai stable video diffusion" data-features="image-to-video, open-source, video-interpolation, text-to-video">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #0066FF 0%, #00A3FF 100%);">S</div>
+                    <div class="card-title">
+                        <h3>Stable Video Diffusion</h3>
+                        <span>by Stability AI</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">An open-source video generation model from Stability AI, offering state-of-the-art image-to-video capabilities and video interpolation with strong community support.</p>
+                    <div class="features">
+                        <span class="feature-tag">Open Source</span>
+                        <span class="feature-tag">Image to Video</span>
+                        <span class="feature-tag">Video Interpolation</span>
+                        <span class="feature-tag">Text to Video</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-value">4.5</span>
+                    </div>
+                    <a href="https://stability.ai/stable-video" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Kaiber -->
+            <div class="card" data-category="text-to-video" data-name="kaiber" data-features="text-to-video, image-to-video, creative, artist-friendly">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);">K</div>
+                    <div class="card-title">
+                        <h3>Kaiber</h3>
+                        <span>by Kaiber AI</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">An AI video generation platform designed specifically for artists and creatives, offering intuitive controls and artistic style options for unique video content.</p>
+                    <div class="features">
+                        <span class="feature-tag">Artist Friendly</span>
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">Image to Video</span>
+                        <span class="feature-tag">Creative Styles</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-value">4.4</span>
+                    </div>
+                    <a href="https://kaiber.ai" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+
+            <!-- Hailuo AI -->
+            <div class="card" data-category="text-to-video" data-name="hailuo ai minimax" data-features="text-to-video, high-quality, chinese, fast-generation">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #FF2D55 0%, #FF6B8A 100%);">H</div>
+                    <div class="card-title">
+                        <h3>Hailuo AI</h3>
+                        <span>by MiniMax</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">A high-performance Chinese AI video generation model known for fast processing, high-quality outputs, and strong understanding of complex video prompts.</p>
+                    <div class="features">
+                        <span class="feature-tag">Fast Processing</span>
+                        <span class="feature-tag">Text to Video</span>
+                        <span class="feature-tag">High Quality</span>
+                        <span class="feature-tag">Complex Prompts</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-value">4.5</span>
+                    </div>
+                    <a href="https://hailuo.ai" target="_blank" class="visit-btn">Visit Website</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults">
+            <h3>No models found matching your search</h3>
+            <p>Try different keywords or clear the search filter</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>AI Video Generation Models Directory &copy; 2025 | Last Updated: February 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Models listed are based on publicly available information and may change over time.</p>
+    </footer>
+
+    <script>
+        // Filter by category
+        function filterByCategory(category, btn) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter cards
+            const cards = document.querySelectorAll('.card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            showNoResults(visibleCount);
+        }
+
+        // Search filter
+        function filterModels() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const features = card.dataset.features.toLowerCase();
+                
+                if (query === '' || name.includes(query) || features.includes(query)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            showNoResults(visibleCount);
+        }
+
+        // Show/hide no results message
+        function showNoResults(count) {
+            const noResults = document.getElementById('noResults');
+            if (count === 0) {
+                noResults.classList.add('show');
+            } else {
+                noResults.classList.remove('show');
+            }
+
+            // Update total models count
+            document.getElementById('totalModels').textContent = count;
+        }
+
+        // Real-time search
+        document.getElementById('searchInput').addEventListener('input', function() {
+            filterModels();
+        });
+
+        // Reset to show all on enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                filterModels();
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
