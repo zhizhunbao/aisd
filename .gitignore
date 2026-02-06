@@ -33,3 +33,7 @@ Thumbs.db
 
 # Scraped course data
 data/
+
+# Large datasets (download separately)
+*.csv
+!courses/ml/code/lab1/diabetes.csv
