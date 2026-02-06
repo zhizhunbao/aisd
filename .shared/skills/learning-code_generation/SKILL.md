@@ -58,6 +58,33 @@ def main():
     print_step("Step 1: Data Loading", "CSV file", "DataFrame (150, 4)", line_width)
 ```
 
+**⚠️ RULE: `main()` Step Dividers**
+
+Every step call inside `main()` MUST use 60-char `=` dividers with bilingual titles — **not** plain inline comments. This ensures consistent visual structure between function definitions and their invocations in main.
+
+```python
+def main():
+    # ============================================================
+    # 步骤 0：实验初始化
+    # Step 0: Lab Initialization
+    # ============================================================
+    config = initialize_lab()
+
+    # ============================================================
+    # 步骤 1：数据加载
+    # Step 1: Data Loading
+    # ============================================================
+    df = load_data("data.csv")
+```
+
+❌ **BAD** — plain comments without dividers:
+```python
+def main():
+    # 步骤 1：数据加载
+    # Step 1: Data loading
+    df = load_data("data.csv")
+```
+
 ### 3. Output Formatting Requirements
 
 **⚠️ PRINCIPLE 1: Raw Data Integrity**
@@ -334,6 +361,7 @@ After generating code, check:
 - [ ] Box-style function headers ABOVE definitions for parameters/returns
 - [ ] **Box-style class headers ABOVE class definitions**
 - [ ] **Dividers are exactly 60 characters long**
+- [ ] **Every step in `main()` uses 60-char `=` dividers (not plain comments)**
 - [ ] **No scientific notation (e.g., 1e-3 used); all replaced with 0.001 decimal style**
 
 **Code Quality:**

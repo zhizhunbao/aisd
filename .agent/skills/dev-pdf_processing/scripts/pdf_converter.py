@@ -653,7 +653,7 @@ Examples:
         output_path = Path(args.output)
     else:
         suffix = "_bilingual" if args.bilingual else "_notes"
-        output_path = pdf_path.parent / "notes" / f"{pdf_path.stem}{suffix}.md"
+        output_path = pdf_path.parent / f"{pdf_path.stem}{suffix}.md"
     
     # Convert
     converter = PDFConverter(

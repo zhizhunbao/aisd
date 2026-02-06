@@ -50,6 +50,30 @@ Use exactly 60 '=' characters to separate major logical sections (Steps, Phases,
 - Chinese title first, then English title.
 - Placed between major logical blocks.
 - One blank line before and after the divider (except at the very start of file).
+- **`main()` function steps**: Every step call inside `main()` MUST also use 60-char `=` dividers, not just plain inline comments.
+
+**`main()` function example:**
+
+```python
+def main():
+    # ============================================================
+    # 步骤 0：实验初始化
+    # Step 0: Lab Initialization
+    # ============================================================
+    output_dir, line_width = initialize_lab()
+
+    # ============================================================
+    # 步骤 1：数据加载
+    # Step 1: Data Loading
+    # ============================================================
+    df = load_data("data.csv")
+
+    # ============================================================
+    # 步骤 2：数据预处理
+    # Step 2: Data Preprocessing
+    # ============================================================
+    df = preprocess(df)
+```
 
 ## 2. Function Docstring (Two-Line Bilingual Format)
 
@@ -348,6 +372,7 @@ Before finishing:
 - [ ] Import statements have bilingual comments
 - [ ] **Box-style class headers ABOVE all class definitions**
 - [ ] **Dividers are exactly 60 characters long**
+- [ ] **Every step in `main()` uses 60-char `=` dividers (not plain comments)**
 - [ ] **No scientific notation (use decimal 0.001 instead)**
 - [ ] No magic numbers — all meaningful numeric literals are named constants
 
@@ -384,6 +409,7 @@ steps += 1
 5. **No blank line**: Between Chinese and English lines (both in docstrings and comments)
 6. **API parameters**: Explain what each value DOES and WHY, not just restate parameter names
 7. **No magic numbers**: All meaningful numeric literals must be named constants (UPPER_SNAKE_CASE)
+8. **`main()` step dividers**: Every step call in `main()` must use 60-char `=` dividers, same format as function-level dividers
 
 ## Complete Example
 
