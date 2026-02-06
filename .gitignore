@@ -36,4 +36,5 @@ data/
 
 # Large datasets (download separately)
 *.csv
+*.zip
 !courses/ml/code/lab1/diabetes.csv
