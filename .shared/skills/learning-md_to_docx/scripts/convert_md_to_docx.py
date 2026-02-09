@@ -10,6 +10,7 @@ Example:
 
 Features:
     - Auto-preprocesses markdown to remove image alt text (prevents captions in Word)
+    - Auto-removes horizontal rules (---) that appear as lines in Word
     - Handles relative image paths
     - Auto-installs pandoc if needed
 """
@@ -23,21 +24,26 @@ import pypandoc
 def preprocess_markdown(md_content):
     """
     Preprocess markdown content before conversion.
-    
+
     - Removes image alt text to prevent it from appearing as captions in Word
+    - Removes horizontal rules (---) that appear as lines in Word
     - Example: ![Step 6 Code](path.png) -> ![](path.png)
     """
+    # 1. Remove horizontal rules (--- on its own line)
+    # These appear as visible lines in Word documents
+    processed = re.sub(r'^---\s*$\n?', '', md_content, flags=re.MULTILINE)
+
+    # 2. Remove image alt text
     # Pattern matches ![any text](path) and replaces with ![](path)
     # This prevents alt text from showing as captions in Word documents
     pattern = r'!\[([^\]]*)\]\(([^)]+)\)'
-    
+
     def replace_alt_text(match):
-        alt_text = match.group(1)
         image_path = match.group(2)
         # Remove alt text to prevent it from appearing in Word
         return f'![]({image_path})'
-    
-    processed = re.sub(pattern, replace_alt_text, md_content)
+
+    processed = re.sub(pattern, replace_alt_text, processed)
     return processed
 
 
@@ -104,7 +110,7 @@ def convert_md_to_docx(md_file, docx_file=None, reference_doc=None):
     
     try:
         # Read and preprocess markdown content
-        print("Preprocessing markdown (removing image alt text)...")
+        print("Preprocessing markdown (removing alt text and horizontal rules)...")
         with open(md_file, 'r', encoding='utf-8') as f:
             md_content = f.read()
         

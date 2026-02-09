@@ -44,4 +44,4 @@ description: Complete course lab/assignment from start to submission - universal
 
 ml, nlp, mv, cv, dl, rl
 
-详细说明请参考: `.agent/workflows/complete-lab.md`
+详细说明请参考: `.shared/workflows/complete-lab.md`
