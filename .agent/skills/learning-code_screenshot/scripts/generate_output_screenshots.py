@@ -239,7 +239,7 @@ def save_output_screenshot(output_text, filename, output_dir):
     output_path = output_dir / filename
     img.save(output_path, 'PNG')
     
-    print(f"✓ Generated: {filename}")
+    print(f"[OK] Generated: {filename}")
 
 
 def generate_output_screenshots(script_file, output_dir='images'):
@@ -288,7 +288,7 @@ def generate_output_screenshots(script_file, output_dir='images'):
         save_output_screenshot(output_text, filename, output_path)
     
     print()
-    print(f"✓ Generated {len(sections)} output screenshots in {output_dir}/")
+    print(f"[OK] Generated {len(sections)} output screenshots in {output_dir}/")
 
 
 if __name__ == '__main__':

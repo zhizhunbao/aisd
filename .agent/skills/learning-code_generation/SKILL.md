@@ -2,7 +2,6 @@
 name: learning-code_generation
 description: Generate Python code and Jupyter notebooks for course assignments. Use when (1) user asks to generate code for lab/assignment, (2) mentions "生成代码" or "generate code", (3) needs to create .py or .ipynb files for coursework.
 ---
-
 # Learning Code Generation
 
 ## Objectives
@@ -34,7 +33,7 @@ Use `python-dotenv` to load environment variables at the start of the script.
 
 **For Python scripts (.py):**
 
-Use the template at `templates/standard_bilingual_template.py` as base.
+Use the template at `.agent/skills/learning-code_generation/templates/standard_bilingual_template.py` as base.
 
 ```python
 # ============================================================
@@ -78,6 +77,7 @@ def main():
 ```
 
 ❌ **BAD** — plain comments without dividers:
+
 ```python
 def main():
     # 步骤 1：数据加载
@@ -182,15 +182,14 @@ print(f"  - Lower C = more regularization, may underfit")
 - Each step: Markdown cell + Code cell
 - Final cell: Submission reminder (if needed)
 
-**For detailed structure examples:** See `references/structure-examples.md`
+**For detailed structure examples:** See `.agent/skills/learning-code_generation/references/structure-examples.md`
 
 ### 3. Core Principles
 
 **Self-Documenting Code:**
 
 - Use clear, descriptive variable names
-**Absolutely No Magic Numbers:**
-
+  **Absolutely No Magic Numbers:**
 - All numeric literals with domain meaning (thresholds, sizes, ratios, limits) MUST be extracted to named constants.
 - Constants should be defined in the `Configuration Constants` section using `UPPER_SNAKE_CASE`.
 - Only trivially obvious values (0, 1, -1, 2 for halving/doubling) may remain inline.
@@ -254,7 +253,7 @@ class QLearningAgent:
 - No structured final summaries with statistics
 - End with last required step + simple submission reminder
 
-**For detailed principles and examples:** See `references/code-principles.md`
+**For detailed principles and examples:** See `.agent/skills/learning-code_generation/references/code-principles.md`
 
 ### 4. Common Patterns
 
@@ -262,7 +261,7 @@ class QLearningAgent:
 - Algorithm: Import → Define helpers → Implement → Test → Analyze
 - Machine Learning: Import → Load → Engineer → Train → Evaluate → Visualize
 
-**For pattern details:** See `references/common-patterns.md`
+**For pattern details:** See `.agent/skills/learning-code_generation/references/common-patterns.md`
 
 ### 5. Environment Setup
 
@@ -378,7 +377,7 @@ After generating code, check:
 - [ ] No AI-generated appearance (summaries, conclusions)
 - [ ] English language throughout
 
-**For detailed validation checklist:** See `references/validation-guide.md`
+**For detailed validation checklist:** See `.agent/skills/learning-code_generation/references/validation-guide.md`
 
 ## Workflow
 
@@ -405,4 +404,4 @@ After generating code, check:
 - ❌ Hardcoding values that should be constants
 - ❌ Including screenshot generation code (use `learning-code_screenshot` skill)
 
-**For more examples:** See `references/code-principles.md`
+**For more examples:** See `.agent/skills/learning-code_generation/references/code-principles.md`

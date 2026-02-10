@@ -13,7 +13,21 @@ description: Convert markdown lab reports to Word documents with proper formatti
 
 ## Instructions
 
-### 1. Pre-process Markdown
+### 1. Recommended: Use the Conversion Script (Best Practice)
+
+**Always use the script for lab reports:**
+
+```bash
+python .shared/skills/learning-md_to_docx/scripts/convert_md_to_docx.py Lab_Answer.md
+```
+
+The script automatically:
+- Removes image alt text (prevents "Step 1 Code", "Step 1 Result" from appearing in Word)
+- Removes horizontal rules `---` (prevents visible lines in Word)
+- Handles relative image paths
+- Provides validation checklist
+
+### 2. Pre-process Markdown (if using pandoc directly)
 
 **Remove horizontal rules before conversion:**
 
@@ -21,12 +35,16 @@ description: Convert markdown lab reports to Word documents with proper formatti
 - Remove all `---` separators if clean layout is desired
 - Alternative: Use blank lines for section spacing
 
-### 2. Use Python-docx or Pandoc
+**Remove image alt text manually:**
+- Change `![Step 1 Code](path.png)` to `![](path.png)`
+- Alt text appears as visible captions below images in Word
 
-**Recommended: Pandoc (more reliable)**
+### 3. Direct Pandoc Command (if script unavailable)
+
+**Basic command:**
 
 ```bash
-pandoc input.md -o output.docx --reference-doc=template.docx
+pandoc input.md -o output.docx --resource-path="./images"
 ```
 
 **Alternative: Python script with python-docx**
@@ -123,7 +141,9 @@ python scripts/convert_md_to_docx.py Lab1_Template.md Lab1.docx
 
 - Automatic pandoc installation
 - Relative path resolution for images
-- **Auto-preprocessing: removes image alt text** (e.g., `![Step 6 Code](path.png)` → `![](path.png)`)
+- **Auto-preprocessing:**
+  - Removes image alt text (e.g., `![Step 6 Code](path.png)` → `![](path.png)`)
+  - Removes horizontal rules `---` (prevents visible lines in Word)
   - This prevents alt text from appearing as captions below images in Word
 - Error handling and troubleshooting tips
 - Validation checklist after conversion

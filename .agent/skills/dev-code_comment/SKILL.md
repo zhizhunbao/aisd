@@ -21,6 +21,7 @@ description: 中英文双语代码注释规范。Use when (1) 为代码添加注
 | Function docstring | Chinese + English | Two-line format: Chinese line, English line |
 | Method/Function Documentation | Bilingual | Box-style Header ABOVE definition |
 | Inline comments | Chinese + English | Chinese line, English line, above code |
+| Algorithm/Concept comments | Chinese + English | Structured template: 定义/公式/举例/优点 |
 | Step Output | English | print_step usage for formatted I/O |
 
 ## 1. File-level Docstring (English Only)
@@ -74,6 +75,326 @@ def main():
     # ============================================================
     df = preprocess(df)
 ```
+
+## 2.1 Algorithm/Concept/Math Comments (Structured Template)
+
+For algorithms, mathematical concepts, or technical definitions, use a **structured template** with the following sections. This template should be placed **directly above** the related code.
+
+### Template Structure Overview
+
+```
+# ================================================================
+# 概念：中文名 (英文名)
+# Concept: English Name
+# ================================================================
+#
+# -------- 术语解释 / Terminology --------
+#
+# 【术语1 English Term 1】
+#   中文定义
+#   English definition
+#
+# -------- 算法原理 / Algorithm --------
+#
+# 定义 / Definition:
+#   ...
+#
+# 公式 / Formula:
+#   ...
+#
+# 举例 / Example:
+#   ...
+#
+# 优点 / Advantages:
+#   ...
+# ================================================================
+```
+
+### ⚠️ 严格规则 / Strict Rules
+
+**只允许以下两个 section（不允许自定义 section）:**
+1. `-------- 术语解释 / Terminology --------`
+2. `-------- 算法原理 / Algorithm --------`
+
+**❌ 禁止自定义子项名称，如:**
+- ❌ `输出格式 / Output Format`
+- ❌ `评估意义 / Evaluation Significance`
+- ❌ `训练流程 / Training Process`
+- ❌ `分析要点 / Analysis Points`
+
+**✅ 如需说明这些内容，应放入标准子项中:**
+- 输出格式 → 放入 `举例 / Example:`
+- 意义/目的 → 放入 `定义 / Definition:` 或 `优点 / Advantages:`
+- 流程/步骤 → 放入 `举例 / Example:`
+
+---
+
+### 术语解释 / Terminology Section
+
+**格式:** `【术语名 English Term】`
+
+**每个术语必须包含:**
+- 中文定义（一行）
+- 英文定义（一行）
+- 公式（如有，紧跟定义后）
+
+**示例:**
+```python
+# -------- 术语解释 / Terminology --------
+#
+# 【卷积 Convolution】
+#   用滤波器在输入上滑动，计算元素乘积之和
+#   Slide filter over input, compute element-wise product sum
+#
+# 【ReLU 激活函数】
+#   公式：f(x) = max(0, x)
+#   引入非线性，解决梯度消失问题
+#   Formula: f(x) = max(0, x)
+#   Introduces non-linearity, solves vanishing gradient
+```
+
+---
+
+### 算法原理 / Algorithm Section
+
+**必须包含的 4 个子项（顺序固定）:**
+
+| 序号 | 子项 | 说明 |
+|------|------|------|
+| 1 | `定义 / Definition:` | 算法的核心定义，一句话概括 |
+| 2 | `公式 / Formula:` | 数学公式（无公式写 "无 / N/A"） |
+| 3 | `举例 / Example:` | 具体的计算例子，用数字演示 |
+| 4 | `优点 / Advantages:` | 算法的优势（至少 1-2 点） |
+
+**示例 / Example:**
+```python
+# -------- 算法原理 / Algorithm --------
+#
+# 定义 / Definition:
+#   通过 softmax 将线性输出映射到概率分布
+#   Map linear output to probability distribution via softmax
+#
+# 公式 / Formula:
+#   P(y=k|x) = e^(z_k) / Σ e^(z_j)
+#
+# 举例 / Example:
+#   输入 z = [2.0, 1.0, 0.1]
+#   softmax(z) = [0.659, 0.242, 0.099]
+#   预测类别 = argmax = 0
+#
+# 优点 / Advantages:
+#   - 输出可解释为概率
+#   - 所有类别概率之和为 1
+```
+
+### Complete Template Example
+```python
+# ================================================================
+# 概念：卷积神经网络 (CNN)
+# Concept: Convolutional Neural Network
+# ================================================================
+#
+# -------- 术语解释 / Terminology --------
+#
+# 【卷积层 Conv2D】
+#   用滤波器在图像上滑动，提取局部特征（边缘、纹理等）
+#   Slide filters over image to extract local features (edges, textures, etc.)
+#
+# 【池化层 MaxPooling2D】
+#   在小区域内取最大值，压缩特征图尺寸
+#   Take max value in small regions, compress feature map size
+#
+# -------- 算法原理 / Algorithm --------
+#
+# 定义 / Definition:
+#   通过卷积操作提取图像的空间特征，用于图像分类等任务
+#   Extract spatial features from images via convolution for classification tasks
+#
+# 公式 / Formula:
+#   output[i,j] = Σ (input[i+m, j+n] × kernel[m,n]) + bias
+#
+# 举例 / Example:
+#   3x3 滤波器在 28x28 图像上滑动：
+#   输入像素 [[1,2,3],[4,5,6],[7,8,9]], 滤波器 [[1,0,-1],[1,0,-1],[1,0,-1]]
+#   输出 = 1×1 + 2×0 + 3×(-1) + 4×1 + ... = -6 (检测垂直边缘)
+#
+# 优点 / Advantages:
+#   - 参数共享，减少参数数量
+#   - 平移不变性，对位置不敏感
+# ================================================================
+model = Sequential([...])
+```
+
+
+**Example 1: Evaluation Metric (Accuracy)**
+```python
+# ================================================================
+# 评估指标 1：Accuracy（准确率）
+# Metric 1: Accuracy
+# ================================================================
+# 定义 / Definition:
+#   Accuracy = 正确预测数 / 总样本数
+#   Accuracy = Number of correct predictions / Total samples
+#
+# 公式 / Formula:
+#   Accuracy = (TP + TN) / (TP + TN + FP + FN)
+#   其中 TP=真正例, TN=真负例, FP=假正例, FN=假负例
+#
+# 举例 / Example:
+#   100 个样本，80 个预测正确，20 个预测错误
+#   Accuracy = 80 / 100 = 0.80 (80%)
+#
+# 局限性 / Limitation:
+#   对于不平衡数据集，Accuracy 可能误导
+#   例如：95% 是正类，模型全预测正类也有 95% 准确率
+# ================================================================
+acc = accuracy_score(y_test, y_pred)
+```
+
+**Example 2: Machine Learning Algorithm (Logistic Regression)**
+```python
+# ================================================================
+# 分类器 1：Logistic Regression（逻辑回归）
+# Classifier 1: Logistic Regression
+# ================================================================
+# 定义 / Definition:
+#   通过 sigmoid/softmax 函数将线性输出映射到概率
+#   Map linear output to probability via sigmoid/softmax function
+#
+# 公式 / Formula:
+#   二分类：P(y=1|x) = 1 / (1 + e^(-w·x))
+#   多分类：P(y=k|x) = e^(w_k·x) / Σ e^(w_j·x)  (softmax)
+#   损失函数：交叉熵 Cross-entropy loss
+#
+# 举例 / Example:
+#   x=[0.5,0.3,0.8], w=[0.2,-0.1,0.5]
+#   线性输出 = 0.5×0.2 + 0.3×(-0.1) + 0.8×0.5 = 0.47
+#   概率 = sigmoid(0.47) = 0.615 → 预测为正类
+#
+# 优点 / Advantages:
+#   - 输出概率值，可解释性强
+#   - 训练速度快，适合大规模数据
+#   - 有正则化，不易过拟合
+# ================================================================
+model = LogisticRegression(max_iter=1000, multi_class="multinomial")
+```
+
+**Example 3: NLP Feature Extraction (TF-IDF)**
+```python
+# ================================================================
+# 特征提取：TF-IDF（词频-逆文档频率）
+# Feature Extraction: TF-IDF (Term Frequency-Inverse Document Frequency)
+# ================================================================
+# 定义 / Definition:
+#   衡量词对文档的重要性：常见词权重低，稀有词权重高
+#   Measure word importance: common words get low weight, rare words get high weight
+#
+# 公式 / Formula:
+#   TF(t,d) = 词 t 在文档 d 中出现的次数 / 文档 d 的总词数
+#   IDF(t) = log(总文档数 N / 包含词 t 的文档数 df(t)) + 1
+#   TF-IDF(t,d) = TF(t,d) × IDF(t)
+#
+# 举例 / Example:
+#   文档: "good product good"
+#   TF("good") = 2/3 = 0.67
+#   若 "good" 在 100 篇中的 50 篇出现：IDF = log(100/50) + 1 = 1.69
+#   TF-IDF("good") = 0.67 × 1.69 = 1.13
+#
+# 优点 / Advantages:
+#   - 降低常见停用词的权重
+#   - 突出对文档有区分度的关键词
+# ================================================================
+tfidf_vectorizer = TfidfVectorizer(ngram_range=(1,2), max_features=5000)
+```
+
+**Example 4: Hyperparameter (Regularization)**
+```python
+# ================================================================
+# 超参数：C（正则化强度的倒数）
+# Hyperparameter: C (inverse of regularization strength)
+# ================================================================
+# 定义 / Definition:
+#   C 控制正则化的强度，防止过拟合
+#   C controls regularization strength, prevents overfitting
+#
+# 公式 / Formula:
+#   C 越大 → 正则化越弱 → 模型越复杂 → 可能过拟合
+#   C 越小 → 正则化越强 → 模型越简单 → 可能欠拟合
+#
+# 举例 / Example:
+#   C=0.01：强正则化，简单模型，可能欠拟合
+#   C=1.0： 适中正则化，平衡复杂度
+#   C=10.0：弱正则化，复杂模型，可能过拟合
+# ================================================================
+lr_param_grid = {"C": [0.01, 0.1, 1.0, 10.0]}
+```
+
+**Example 5: Algorithm with Terminology Section (for complex concepts)**
+
+When an algorithm uses technical terms that may not be familiar, add a **Terminology section** to explain them:
+
+```python
+# ================================================================
+# 分类器：Logistic Regression（逻辑回归）
+# Classifier: Logistic Regression
+# ================================================================
+#
+# -------- 术语解释 / Terminology --------
+#
+# 【二分类 Binary Classification】
+#   只有两个类别的分类问题，如：垃圾邮件(1) vs 正常邮件(0)
+#   Classification with only 2 classes, e.g., spam(1) vs normal(0)
+#
+# 【sigmoid 函数】
+#   将任意实数压缩到 (0,1) 区间，输出可解释为概率
+#   公式：σ(z) = 1 / (1 + e^(-z))
+#   举例：σ(0)=0.5, σ(2)=0.88, σ(-2)=0.12
+#   Compresses any real number to (0,1), output = probability
+#
+# 【交叉熵 Cross-entropy】
+#   分类问题常用的损失函数，惩罚错误的概率预测
+#   公式：L = -Σ y_true × log(y_pred)
+#   举例：真实=1，预测概率=0.9 → L=-log(0.9)=0.105（小损失，好）
+#   Common loss for classification, penalizes wrong probability predictions
+#
+# -------- 算法原理 / Algorithm --------
+#
+# 定义 / Definition:
+#   通过 sigmoid(二分类) 或 softmax(多分类) 将线性输出映射到概率
+#
+# 公式 / Formula:
+#   P(y=1|x) = sigmoid(w·x) = 1 / (1 + e^(-w·x))
+#
+# 举例 / Example:
+#   特征 x=[0.5,0.3,0.8], 权重 w=[0.2,-0.1,0.5]
+#   线性输出 z = 0.47 → 概率 = sigmoid(0.47) = 0.615 → 预测为正类
+# ================================================================
+model = LogisticRegression()
+```
+
+**When to Use This Template:**
+- Machine learning algorithms (Logistic Regression, SVM, Random Forest, etc.)
+- Evaluation metrics (Accuracy, F1-score, Precision, Recall, etc.)
+- Mathematical concepts (Confusion Matrix, Cross-entropy, Gradient Descent, etc.)
+- Feature extraction methods (TF-IDF, Word2Vec, BoW, etc.)
+- Hyperparameters with mathematical meaning (learning rate, regularization, etc.)
+- Statistical concepts (mean, variance, normalization, etc.)
+- Loss functions and optimization algorithms
+
+**When to Add Terminology Section:**
+- When using terms like: sigmoid, softmax, 交叉熵, 损失函数, 超平面, 支持向量, etc.
+- When the algorithm has domain-specific jargon
+- When teaching/learning code where understanding concepts is important
+
+**Rules:**
+- Place the template **directly above** the related code
+- Use `# ================================================================` (64 characters) for top and bottom borders
+- Include **at minimum**: 定义/Definition, 公式/Formula (if applicable), 举例/Example
+- Add **术语解释 / Terminology** section when technical terms need explanation
+- Use 【术语名 English】 format for each term in terminology section
+- Add optional sections as needed: 优点/Advantages, 局限性/Limitation, 备注/Notes
+- Keep Chinese and English paired throughout
+- Blank line between each section inside the template
 
 ## 2. Function Docstring (Two-Line Bilingual Format)
 
@@ -375,6 +696,7 @@ Before finishing:
 - [ ] **Every step in `main()` uses 60-char `=` dividers (not plain comments)**
 - [ ] **No scientific notation (use decimal 0.001 instead)**
 - [ ] No magic numbers — all meaningful numeric literals are named constants
+- [ ] **Algorithm/Concept comments use structured template** (定义/公式/举例/优点)
 
 ## Quick Reference
 

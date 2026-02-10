@@ -234,7 +234,7 @@ def save_code_screenshot(code_text, filename, output_dir):
     output_path = output_dir / filename
     img.save(output_path, 'PNG')
     
-    print(f"✓ Generated: {filename}")
+    print(f"[OK] Generated: {filename}")
 
 
 def generate_screenshots(script_file, output_dir='images'):
@@ -272,7 +272,7 @@ def generate_screenshots(script_file, output_dir='images'):
         save_code_screenshot(code_text, filename, output_path)
     
     print()
-    print(f"✓ Generated {len(sections)} code screenshots in {output_dir}/")
+    print(f"[OK] Generated {len(sections)} code screenshots in {output_dir}/")
 
 
 if __name__ == '__main__':

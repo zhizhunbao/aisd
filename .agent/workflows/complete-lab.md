@@ -160,15 +160,15 @@ description: Complete course lab/assignment from start to submission - universal
 ```
 读取 skill: .shared/skills/learning-code_generation/SKILL.md
 读取 skill: .shared/skills/dev-code_comment/SKILL.md
-生成 Python 代码 (courses/[course]/labs/lab[n]_*.py)
+生成 Python 代码 (courses/[course]/code/lab[n]/lab[n]_*.py)
 读取 skill: .shared/skills/learning-notebook_conversion/SKILL.md
-转换为 Notebook (courses/[course]/labs/lab[n]_*.ipynb)
+转换为 Notebook (courses/[course]/code/lab[n]/lab[n]_*.ipynb)
 ```
 
 ### 输出
 
-- `courses/[course]/labs/lab[n]_*.py`
-- `courses/[course]/labs/lab[n]_*.ipynb`
+- `courses/[course]/code/lab[n]/lab[n]_*.py`
+- `courses/[course]/code/lab[n]/lab[n]_*.ipynb`
 
 ### 代码模板规范
 
@@ -204,7 +204,7 @@ import os
 // turbo
 
 ```bash
-cd courses/[course]/labs
+cd courses/[course]/code/lab[n]
 uv run python lab[n]_*.py
 ```
 
@@ -276,14 +276,27 @@ cat lab[n]_images/output.txt
 填充答题模板
 
 读取 skill: .shared/skills/learning-md_to_docx/SKILL.md
-转换为 Word 文档
+使用脚本转换为 Word 文档（自动移除图片 alt text）
 ```
+
+### Markdown to Word 转换
+
+**必须使用脚本转换**（直接用 pandoc 会导致 alt text 显示为图片下方文字）：
+
+```bash
+python .shared/skills/learning-md_to_docx/scripts/convert_md_to_docx.py Lab[N]_Answer.md
+```
+
+脚本自动：
+- 移除图片 alt text (如 "Step 1 Code" → 不显示)
+- 处理相对路径
+- 验证输出
 
 ### 输出
 
-- `courses/[course]/labs/lab[n]_images/` (图表和截图目录)
-- `courses/[course]/labs/Lab[N]_Answer.md` (答题文档 Markdown)
-- `courses/[course]/labs/Lab[N]_<firstname>.docx` (提交用 Word)
+- `courses/[course]/code/lab[n]/lab[n]_images/` (图表和截图目录)
+- `courses/[course]/code/lab[n]/Lab[N]_Answer.md` (答题文档 Markdown)
+- `courses/[course]/code/lab[n]/Lab[N]_Answer.docx` (提交用 Word)
 
 ---
 
@@ -330,7 +343,7 @@ cat lab[n]_images/output.txt
 // turbo
 
 ```bash
-git add courses/[course]/labs/
+git add courses/[course]/code/lab[n]/
 git commit -m "Complete [course] Lab[N]"
 git push
 ```
@@ -347,17 +360,21 @@ git push
 ```
 courses/
 └── ml/
-    └── labs/
-        ├── Lab2_SVM.md              # 作业说明 (Markdown)
-        ├── Lab2AnswerTemplate.md    # 答题模板
-        ├── lab2_svm.py              # Python 代码
-        ├── lab2_svm.ipynb           # Jupyter Notebook
-        ├── Lab2_Answer.md           # 答题文档 (Markdown)
-        ├── Lab2_John.docx           # 提交用 Word
-        └── lab2_images/             # Lab2 图表和截图目录
-            ├── pca_svm_plots.png
-            ├── lda_svm_plots.png
-            └── ...
+    ├── labs/                        # 作业说明和模板
+    │   ├── Lab2_SVM.md              # 作业说明 (Markdown)
+    │   ├── Lab2_SVM.pdf             # 作业说明 (原始)
+    │   └── Lab2AnswerTemplate.md    # 答题模板
+    │
+    └── code/
+        └── lab2/                    # 代码和提交文件
+            ├── lab2_svm.py          # Python 代码
+            ├── lab2_svm.ipynb       # Jupyter Notebook
+            ├── Lab2_Answer.md       # 答题文档 (Markdown)
+            ├── Lab2_Answer.docx     # 提交用 Word
+            └── lab2_images/         # 图表和截图目录
+                ├── pca_svm_plots.png
+                ├── lda_svm_plots.png
+                └── ...
 ```
 
 ---
