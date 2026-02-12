@@ -51,29 +51,26 @@ Use exactly 60 '=' characters to separate major logical sections (Steps, Phases,
 - Chinese title first, then English title.
 - Placed between major logical blocks.
 - One blank line before and after the divider (except at the very start of file).
-- **`main()` function steps**: Every step call inside `main()` MUST also use 60-char `=` dividers, not just plain inline comments.
+- All step dividers are at the **top level** of the script (no `main()` wrapper).
 
-**`main()` function example:**
+**Flat sequential example:**
 
 ```python
-def main():
-    # ============================================================
-    # 步骤 0：实验初始化
-    # Step 0: Lab Initialization
-    # ============================================================
-    output_dir, line_width = initialize_lab()
+# ============================================================
+# 步骤 1：数据加载
+# Step 1: Data Loading
+# ============================================================
 
-    # ============================================================
-    # 步骤 1：数据加载
-    # Step 1: Data Loading
-    # ============================================================
-    df = load_data("data.csv")
+# [Bilingual comments + code]
+df = pd.read_csv('data.csv')
 
-    # ============================================================
-    # 步骤 2：数据预处理
-    # Step 2: Data Preprocessing
-    # ============================================================
-    df = preprocess(df)
+# ============================================================
+# 步骤 2：数据预处理
+# Step 2: Data Preprocessing
+# ============================================================
+
+# [Bilingual comments + code]
+df = preprocess(df)
 ```
 
 ## 2.1 Algorithm/Concept/Math Comments (Structured Template)
@@ -498,19 +495,18 @@ epsilon -= decay * epsilon
 **IMPORTANT:** Always add blank lines between code blocks:
 
 ```python
-def main():
-    # 打印程序标题
-    # Print program header
-    print("=" * 50)
+# 打印程序标题
+# Print program header
+print("=" * 50)
 
-    # 创建悬崖行走环境
-    # Create Cliff Walking environment
-    env = GridEnv(size=12)
+# 创建悬崖行走环境
+# Create Cliff Walking environment
+env = GridEnv(size=12)
 
-    # 设置超参数
-    # Set hyperparameters
-    EPISODES = 50
-    GAMMA = 0.9
+# 设置超参数
+# Set hyperparameters
+EPISODES = 50
+GAMMA = 0.9
 ```
 
 **Rules:**
@@ -603,20 +599,24 @@ import time
 import random
 ```
 
-## 10. Initialization Pattern (Step 0)
+## 10. Environment Setup Pattern
 
-All "environment noise" (loading env, setting plot styles, student info) must be abstracted into a Step 0 function called `initialize_lab`.
+All "environment noise" (loading env, setting plot styles, student info) should be placed **inline at the top** of the script, right after imports and constants. Do NOT wrap in a function.
 
 ```python
-def main():
-    # ============================================================
-    # 步骤 0：实验初始化
-    # Step 0: Lab Initialization
-    # ============================================================
+# ============================================================
+# 环境设置
+# Environment Setup
+# ============================================================
 
-    # 执行初始化并获取配置
-    # Execute initialization and retrieve configuration
-    config = initialize_lab()
+# 加载环境变量
+# Load environment variables
+load_dotenv('.env.local')
+STUDENT_NAME = os.getenv('NAME', '[Your Name]')
+
+# 创建输出目录
+# Create output directory
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 ```
 
 ## 9. No Magic Numbers
@@ -693,7 +693,7 @@ Before finishing:
 - [ ] Import statements have bilingual comments
 - [ ] **Box-style class headers ABOVE all class definitions**
 - [ ] **Dividers are exactly 60 characters long**
-- [ ] **Every step in `main()` uses 60-char `=` dividers (not plain comments)**
+- [ ] **Every step uses 60-char `=` dividers at top level (not plain comments)**
 - [ ] **No scientific notation (use decimal 0.001 instead)**
 - [ ] No magic numbers — all meaningful numeric literals are named constants
 - [ ] **Algorithm/Concept comments use structured template** (定义/公式/举例/优点)
@@ -731,65 +731,91 @@ steps += 1
 5. **No blank line**: Between Chinese and English lines (both in docstrings and comments)
 6. **API parameters**: Explain what each value DOES and WHY, not just restate parameter names
 7. **No magic numbers**: All meaningful numeric literals must be named constants (UPPER_SNAKE_CASE)
-8. **`main()` step dividers**: Every step call in `main()` must use 60-char `=` dividers, same format as function-level dividers
+8. **Flat sequential style**: All code runs top-to-bottom, no `main()` wrapper — step dividers are at the top level
 
 ## Complete Example
 
 ```python
 """
-Lab 2: Q-Learning Agent for Cliff Walking
+Lab 4: Webcam Video with Timestamp Overlay
 Student ID: 041107730
-Implements Q-Learning using Bellman equation
+Streams live webcam video and overlays current time.
 """
 
-# 导入抽象基类模块，用于定义环境接口
-# Import abstract base class module for defining environment interface
-import abc
+# 导入OpenCV库
+# Import OpenCV library
+import cv2
 
-# 导入操作系统、时间和随机模块
-# Import os, time and random modules
-import os
+# 导入时间模块
+# Import time modules
+from datetime import datetime
 import time
-import random
 
+# ============================================================
+# 配置常量
+# Configuration Constants
+# ============================================================
 
-class Env(abc.ABC):
-    """环境抽象基类
-    Environment abstract base class"""
+# 默认摄像头索引
+# Default camera index
+CAMERA_INDEX = 0
 
-    @abc.abstractmethod
-    def actions(self) -> int:
-        """返回动作空间的大小
-        Return the size of action space"""
-        raise NotImplementedError()
+# 字体设置
+# Font settings
+FONT = cv2.FONT_HERSHEY_SIMPLEX
+FONT_SCALE = 0.7
+FONT_COLOR = (0, 255, 0)
+FONT_THICKNESS = 2
 
+# ============================================================
+# 步骤 1：初始化摄像头
+# Step 1: Initialize Webcam
+# ============================================================
 
-def train(env, episodes: int = 50, gamma: float = 0.9) -> list:
-    """训练Q-Learning智能体
-    Train Q-Learning agent"""
+# 创建VideoCapture对象
+# Create VideoCapture object
+cap = cv2.VideoCapture(CAMERA_INDEX)
 
-    # 初始化Q表，使用随机值
-    # Initialize Q-table with random values
-    qtable = [[random.random() for _ in range(env.actions())] for _ in range(env.states())]
+# ============================================================
+# 步骤 2：视频流主循环
+# Step 2: Video Stream Main Loop
+# ============================================================
 
-    # 训练主循环，遍历所有回合
-    # Main training loop, iterate through all episodes
-    for episode in range(episodes):
-        # 重置环境，获取初始状态
-        # Reset environment and get initial state
-        state = env.reset()
+# 无限循环，持续捕获帧画面
+# Infinite loop to continuously capture frames
+while True:
+    # 读取一帧
+    # Read one frame
+    ret, frame = cap.read()
 
-        # 使用贝尔曼方程更新Q表
-        # Update Q-table using Bellman equation
-        qtable[state][action] = reward + gamma * max(qtable[next_state])
+    # 获取当前时间戳
+    # Get current timestamp
+    timestamp = datetime.now().strftime("%H:%M:%S")
 
-    # 返回训练好的Q表
-    # Return the trained Q-table
-    return qtable
+    # 叠加时间戳
+    # Overlay timestamp
+    cv2.putText(frame, timestamp, (10, 30), FONT, FONT_SCALE,
+                FONT_COLOR, FONT_THICKNESS)
 
+    # 显示画面
+    # Display frame
+    cv2.imshow("Webcam", frame)
 
-# 程序入口点，运行主函数
-# Program entry point, run main function
-if __name__ == "__main__":
-    main()
+    # 按 'q' 退出
+    # Press 'q' to quit
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# ============================================================
+# 步骤 3：清理资源
+# Step 3: Cleanup Resources
+# ============================================================
+
+# 释放摄像头
+# Release webcam
+cap.release()
+
+# 关闭窗口
+# Close windows
+cv2.destroyAllWindows()
 ```

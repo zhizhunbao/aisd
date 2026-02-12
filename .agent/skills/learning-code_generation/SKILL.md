@@ -33,56 +33,68 @@ Use `python-dotenv` to load environment variables at the start of the script.
 
 **For Python scripts (.py):**
 
-Use the template at `.agent/skills/learning-code_generation/templates/standard_bilingual_template.py` as base.
+**⚠️ RULE: Flat Sequential Style (No `main()` function)**
+
+All lab code MUST be written as flat, sequential ("spaghetti") code that runs top-to-bottom. Do NOT wrap code in a `main()` function or `if __name__ == "__main__"` block. Do NOT create an `initialize_lab()` function. This produces code that looks more natural and student-written.
 
 ```python
+"""
+CST8508 Lab 4: Streaming Live Webcam Video with Timestamp Overlay
+Author: Peng Wang
+Student Number: 041107730
+
+[Lab description]
+"""
+
+# 导入OpenCV库
+# Import OpenCV library
+import cv2
+
 # ============================================================
 # 配置常量
 # Configuration Constants
 # ============================================================
+
 RANDOM_STATE = 42
+OUTPUT_DIR = 'lab4_images'
 
-def main():
-    # ============================================================
-    # 步骤 0：实验初始化 (Noise Reduction)
-    # Step 0: Lab Initialization
-    # ============================================================
-    output_dir, line_width = initialize_lab()
+# ============================================================
+# 步骤 1：数据加载
+# Step 1: Data Loading
+# ============================================================
 
-    # ============================================================
-    # 步骤 1：数据加载
-    # Step 1: Data Loading
-    # ============================================================
-    # [Bilingual Comments Here]
-    print_step("Step 1: Data Loading", "CSV file", "DataFrame (150, 4)", line_width)
+# [Bilingual comments + code here]
+df = pd.read_csv('data.csv')
+
+# ============================================================
+# 步骤 2：数据预处理
+# Step 2: Data Preprocessing
+# ============================================================
+
+# [Bilingual comments + code here]
+X = df.drop('target', axis=1)
 ```
 
-**⚠️ RULE: `main()` Step Dividers**
+**⚠️ RULE: Step Dividers**
 
-Every step call inside `main()` MUST use 60-char `=` dividers with bilingual titles — **not** plain inline comments. This ensures consistent visual structure between function definitions and their invocations in main.
-
-```python
-def main():
-    # ============================================================
-    # 步骤 0：实验初始化
-    # Step 0: Lab Initialization
-    # ============================================================
-    config = initialize_lab()
-
-    # ============================================================
-    # 步骤 1：数据加载
-    # Step 1: Data Loading
-    # ============================================================
-    df = load_data("data.csv")
-```
+Every step MUST use 60-char `=` dividers with bilingual titles at the top level — **not** plain inline comments.
 
 ❌ **BAD** — plain comments without dividers:
 
 ```python
+# 步骤 1：数据加载
+# Step 1: Data loading
+df = load_data("data.csv")
+```
+
+❌ **BAD** — wrapping in `main()`:
+
+```python
 def main():
-    # 步骤 1：数据加载
-    # Step 1: Data loading
     df = load_data("data.csv")
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### 3. Output Formatting Requirements
@@ -156,12 +168,12 @@ from tabulate import tabulate  # For formatted tables
 import pandas as pd            # For DataFrame display
 ```
 
-**⚠️ PRINCIPLE 3: Noise Isolation (Step 0)**
+**⚠️ PRINCIPLE 3: Environment Setup at Top**
 
-All environment-related "noise" (dotenv, pandas options, directory creation, student info retrieval) MUST be abstracted into an `initialize_lab()` function.
+All environment-related setup (dotenv, pandas options, directory creation) should be placed at the top of the script, right after imports and constants. Do NOT wrap them in a function.
 
-- **Global Scope**: Only library imports and core algorithm constants (e.g., `RANDOM_STATE`) are allowed.
-- **Local Scope**: UI constants like `line_width` and path constants like `output_dir` should be defined in `main` or `initialize_lab` and passed as arguments.
+- **Top-level Constants**: `RANDOM_STATE`, `OUTPUT_DIR`, `LINE_WIDTH`, etc. as `UPPER_SNAKE_CASE` constants.
+- **Top-level Setup**: `load_dotenv()`, `pd.set_option()`, `os.makedirs()` etc. placed inline after constants.
 
 **Default Parameter Documentation:**
 
@@ -198,9 +210,11 @@ print(f"  - Lower C = more regularization, may underfit")
 
 **Function Usage:**
 
-- Only create functions when code is repeated (DRY principle)
+- **No `main()` function** — all code runs top-to-bottom at module level
+- **No `initialize_lab()`** — setup code placed inline at the top
+- Only create functions when code is genuinely repeated (DRY principle)
 - Don't create functions for one-time operations
-- Keep main program flow readable and sequential
+- Keep program flow flat, readable, and sequential
 
 **Comments (Bilingual):**
 
@@ -353,21 +367,21 @@ After generating code, check:
 
 **Documentation:**
 
-- [ ] Student info and environment "noise" isolated in `initialize_lab()` (Step 0)
-- [ ] Current date generated using `datetime` inside Step 0
-- [ ] File-level docstring with author info
-- [ ] Concise function docstrings (two-line bilingual)
-- [ ] Box-style function headers ABOVE definitions for parameters/returns
-- [ ] **Box-style class headers ABOVE class definitions**
+- [ ] File-level docstring with author info (English only)
+- [ ] **No `main()` function** — code runs flat, top-to-bottom
+- [ ] **No `initialize_lab()`** — setup code placed inline at top
+- [ ] Concise function docstrings (two-line bilingual) for any helper functions
+- [ ] Box-style function headers ABOVE definitions for parameters/returns (if functions exist)
+- [ ] **Box-style class headers ABOVE class definitions** (if classes exist)
 - [ ] **Dividers are exactly 60 characters long**
-- [ ] **Every step in `main()` uses 60-char `=` dividers (not plain comments)**
+- [ ] **Every step uses 60-char `=` dividers at top level (not plain comments)**
 - [ ] **No scientific notation (e.g., 1e-3 used); all replaced with 0.001 decimal style**
 
 **Code Quality:**
 
 - [ ] Meaningful, self-explanatory variable names
 - [ ] **Absolutely NO magic numbers** (all meaningful numeric literals extracted to constants)
-- [ ] UI/Formatting constants (like line_width) are LOCAL to main
+- [ ] All constants defined at top level as `UPPER_SNAKE_CASE`
 - [ ] Minimal "why" comments above every single line of code
 
 **Requirements:**
@@ -395,6 +409,8 @@ After generating code, check:
 ## Anti-Patterns
 
 - ❌ Generating code without reading requirements
+- ❌ **Wrapping code in `main()` or `initialize_lab()`** — use flat sequential style
+- ❌ **Using `if __name__ == "__main__"`** — not needed for flat scripts
 - ❌ Using Chinese comments or variable names
 - ❌ Over-commenting obvious operations
 - ❌ Creating functions for one-time operations
