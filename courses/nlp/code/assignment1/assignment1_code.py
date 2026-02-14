@@ -1004,7 +1004,6 @@ def run_all_models(features_dict, y_train, y_test):
         # ================================================================
         "Logistic Regression": LogisticRegression(
             max_iter=LR_MAX_ITER,           # 最大迭代次数
-            multi_class="multinomial",       # 多分类用 softmax
             random_state=RANDOM_STATE
         ),
 
@@ -1260,7 +1259,7 @@ def tune_hyperparameters(X_train_tfidf, y_train, X_test_tfidf, y_test):
     }
 
     lr_grid = GridSearchCV(
-        LogisticRegression(max_iter=LR_MAX_ITER, multi_class="multinomial", random_state=RANDOM_STATE),
+        LogisticRegression(max_iter=LR_MAX_ITER, random_state=RANDOM_STATE),
         lr_param_grid,
         cv=CV_FOLDS,       # 5 折交叉验证
         scoring="accuracy", # 用准确率评分
