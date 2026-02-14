@@ -76,15 +76,9 @@ TEST_SIZE = 0.2
 # Retain 95% of variance for PCA
 VARIANCE_THRESHOLD = 0.95
 
-# 输出图片目录（相对于脚本所在位置）
-# Output images directory (relative to script location)
-# 原因：__file__在Jupyter中未定义，需要兼容两种环境
-# Reason: __file__ is not defined in Jupyter, need to support both environments
-try:
-    SCRIPT_DIR = Path(__file__).resolve().parent
-except NameError:
-    SCRIPT_DIR = Path.cwd()
-OUTPUT_DIR = SCRIPT_DIR / 'assignment1_images'
+# 输出图片目录
+# Output images directory
+OUTPUT_DIR = Path('assignment1_images')
 
 # 图片分辨率
 # Image resolution
@@ -148,8 +142,8 @@ print(f"Source: UCI Machine Learning Repository")
 print(f"Number of instances: {X.shape[0]}")
 print(f"Number of attributes: {X.shape[1]}")
 print(f"Number of classes: {len(np.unique(y))}")
-print(f"Class labels: {list(np.unique(y))}")
-print(f"Target names: {list(wine.target_names)}")
+print(f"Class labels: {np.unique(y).tolist()}")
+print(f"Target names: {wine.target_names.tolist()}")
 print()
 
 # ============================================================
@@ -582,10 +576,16 @@ datasets = {
 # 三组kNN参数配置
 # Three sets of kNN parameter configurations
 knn_configs = [
+    # k=3: 小k捕捉局部模式，可能对噪声敏感；uniform=等权投票；euclidean=欧式距离
+    # k=3: Small k captures local patterns, may be noise-sensitive; uniform=equal vote; euclidean distance
     (KNeighborsClassifier(n_neighbors=3, weights='uniform', metric='euclidean'),
      "k=3, weights=uniform, metric=euclidean"),
+    # k=5: 适中k平衡局部与全局；distance=近邻权重更大，减少异常值影响
+    # k=5: Moderate k balances local/global; distance=closer neighbors weighted more, reduces outlier effect
     (KNeighborsClassifier(n_neighbors=5, weights='distance', metric='euclidean'),
      "k=5, weights=distance, metric=euclidean"),
+    # k=7: 较大k更平滑稳健；manhattan=曼哈顿距离（绝对差之和），对异常值更鲁棒
+    # k=7: Larger k gives smoother boundaries; manhattan=sum of absolute differences, more robust to outliers
     (KNeighborsClassifier(n_neighbors=7, weights='distance', metric='manhattan'),
      "k=7, weights=distance, metric=manhattan"),
 ]
@@ -625,10 +625,16 @@ knn_configs = [
 # 三组RF参数配置
 # Three sets of RF parameter configurations
 rf_configs = [
+    # 50棵树，无深度限制：树完全生长直到叶子纯净，灵活性高
+    # 50 trees, no depth limit: trees grow fully until pure leaves, high flexibility
     (RandomForestClassifier(n_estimators=50, max_depth=None, random_state=RANDOM_STATE),
      "n_estimators=50, max_depth=None"),
+    # 100棵树，最大深度10：限制树复杂度，防止过拟合
+    # 100 trees, max depth 10: limits tree complexity, prevents overfitting
     (RandomForestClassifier(n_estimators=100, max_depth=10, random_state=RANDOM_STATE),
      "n_estimators=100, max_depth=10"),
+    # 200棵树，深度20，最少5样本才分裂：更多树+正则化，平衡复杂度与泛化
+    # 200 trees, depth 20, min 5 samples to split: more trees + regularization, balances complexity and generalization
     (RandomForestClassifier(n_estimators=200, max_depth=20, min_samples_split=5, random_state=RANDOM_STATE),
      "n_estimators=200, max_depth=20, min_samples_split=5"),
 ]
@@ -668,10 +674,16 @@ rf_configs = [
 # 三组SVM参数配置
 # Three sets of SVM parameter configurations
 svm_configs = [
+    # 线性核，C=1.0（默认正则化）：用超平面分隔类别，适合线性可分数据
+    # Linear kernel, C=1.0 (default regularization): separates classes with hyperplane, suits linearly separable data
     (SVC(kernel='linear', C=1.0, random_state=RANDOM_STATE),
      "kernel=linear, C=1.0"),
+    # RBF核，gamma=scale（γ=1/(n_features×var)）：映射到高维空间实现非线性分隔
+    # RBF kernel, gamma=scale (γ=1/(n_features×var)): maps to higher-dim space for non-linear separation
     (SVC(kernel='rbf', C=1.0, gamma='scale', random_state=RANDOM_STATE),
      "kernel=rbf, C=1.0, gamma=scale"),
+    # 多项式核degree=3，C=10.0（更严格惩罚误分类）：创建弯曲决策边界
+    # Polynomial kernel degree=3, C=10.0 (stricter misclassification penalty): creates curved decision boundaries
     (SVC(kernel='poly', C=10.0, degree=3, random_state=RANDOM_STATE),
      "kernel=poly, C=10.0, degree=3"),
 ]
@@ -703,10 +715,16 @@ svm_configs = [
 # max_iter=5000 确保收敛
 # max_iter=5000 ensures convergence
 lr_configs = [
+    # C=0.1: 强正则化，减少过拟合风险；lbfgs求解器适合多分类+L2惩罚
+    # C=0.1: Strong regularization, reduces overfitting risk; lbfgs solver suits multi-class + L2 penalty
     (LogisticRegression(C=0.1, solver='lbfgs', max_iter=5000, random_state=RANDOM_STATE),
      "C=0.1, solver=lbfgs"),
+    # C=1.0: 默认正则化强度，偏差与方差的平衡点
+    # C=1.0: Default regularization strength, balance point between bias and variance
     (LogisticRegression(C=1.0, solver='lbfgs', max_iter=5000, random_state=RANDOM_STATE),
      "C=1.0, solver=lbfgs"),
+    # C=10.0: 弱正则化，允许模型更自由拟合训练数据，可能增加方差
+    # C=10.0: Weak regularization, allows model to fit training data more freely, may increase variance
     (LogisticRegression(C=10.0, solver='lbfgs', max_iter=5000, random_state=RANDOM_STATE),
      "C=10.0, solver=lbfgs"),
 ]
@@ -746,10 +764,16 @@ lr_configs = [
 # 三组MLP参数配置
 # Three sets of MLP parameter configurations
 mlp_configs = [
+    # 单隐藏层50神经元，ReLU激活：简单架构，适合小数据集
+    # Single hidden layer with 50 neurons, ReLU activation: simple architecture for small datasets
     (MLPClassifier(hidden_layer_sizes=(50,), activation='relu', max_iter=1000, random_state=RANDOM_STATE),
      "hidden=(50,), activation=relu"),
+    # 两隐藏层(100→50)，ReLU：更深架构可捕捉更复杂模式
+    # Two hidden layers (100→50), ReLU: deeper architecture captures more complex patterns
     (MLPClassifier(hidden_layer_sizes=(100, 50), activation='relu', max_iter=1000, random_state=RANDOM_STATE),
      "hidden=(100,50), activation=relu"),
+    # 两隐藏层(100→100)，tanh激活（输出[-1,1]）：tanh在某些情况下梯度传播更好
+    # Two hidden layers (100→100), tanh activation (output [-1,1]): tanh can improve gradient flow in some cases
     (MLPClassifier(hidden_layer_sizes=(100, 100), activation='tanh', max_iter=1000, random_state=RANDOM_STATE),
      "hidden=(100,100), activation=tanh"),
 ]
@@ -816,14 +840,17 @@ for method in method_order:
     table_data.append([
         method,
         best_std['params'],
-        f"Acc={best_std['accuracy']:.4f}, F1={best_std['f1_score']:.4f}",
-        f"Acc={best_pca['accuracy']:.4f}, F1={best_pca['f1_score']:.4f}",
-        f"Acc={best_lda['accuracy']:.4f}, F1={best_lda['f1_score']:.4f}",
+        f"{best_std['accuracy']:.4f}",
+        f"{best_std['f1_score']:.4f}",
+        f"{best_pca['accuracy']:.4f}",
+        f"{best_pca['f1_score']:.4f}",
+        f"{best_lda['accuracy']:.4f}",
+        f"{best_lda['f1_score']:.4f}",
     ])
 
 # 打印汇总表格
 # Print summary table
-headers = ['Method', 'Best Parameters', 'Standardized', 'After PCA', 'After LDA']
+headers = ['Method', 'Best Parameters', 'Std Acc', 'Std F1', 'PCA Acc', 'PCA F1', 'LDA Acc', 'LDA F1']
 print(tabulate(table_data, headers=headers, tablefmt='grid'))
 print()
 
@@ -1011,13 +1038,3 @@ plt.close()
 
 print("LDA 2D plot saved as 'assignment1_images/lda_2d_svm.png'")
 print()
-
-# 打印提交提醒
-# Print submission reminder
-print()
-print("=" * LINE_WIDTH)
-print("Reminder:")
-print("1. Upload .ipynb notebook to Brightspace")
-print("2. Upload answer .docx document to Brightspace")
-print("3. Do NOT zip files")
-print("=" * LINE_WIDTH)

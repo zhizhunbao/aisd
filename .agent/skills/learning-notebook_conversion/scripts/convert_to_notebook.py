@@ -1,6 +1,15 @@
 """
-Convert Python script to Jupyter Notebook using # ==== section markers as cell boundaries.
-将 Python 脚本转换为 Jupyter Notebook，使用 # ==== 分隔符作为 cell 边界。
+Convert Python script to Jupyter Notebook using step markers as cell boundaries.
+将 Python 脚本转换为 Jupyter Notebook，使用步骤标记作为 cell 边界。
+
+Key behavior:
+关键行为：
+- Only split on STEP markers (# 步骤 X or # Step X)
+  只在步骤标记处分割
+- Keep concept/classifier blocks together with their step code
+  概念/分类器解释块与步骤代码保持在同一 cell
+- Do NOT split on concept markers (# 概念 or # Concept)
+  不在概念标记处分割
 
 Supports two code structures:
 支持两种代码结构：
@@ -73,13 +82,23 @@ def extract_main_body(content: str) -> tuple[str, str, bool]:
     return header_code, main_body_dedented, True
 
 
-def split_by_section_markers(content: str) -> list[str]:
-    """按 # ==== 分隔符分割内容
-    Split content by # ==== section markers"""
+def split_by_step_markers(content: str) -> list[str]:
+    """按步骤标记分割内容（只在 # 步骤 X 或 # Step X 处分割）
+    Split content by step markers only (# 步骤 X or # Step X)
 
-    # 匹配模式：# ===...=== 开头行 + 标题注释行 + # ===...=== 结尾行
-    # Pattern: # ===...=== line + title comment lines + # ===...=== line
-    pattern = r'(# ={40,}\r?\n(?:# .+?\r?\n)+# ={40,})'
+    不在概念/分类器解释块处分割，保持它们与步骤代码在同一 cell
+    Do NOT split on concept/classifier blocks, keep them with step code
+    """
+
+    # 匹配模式：步骤标记块
+    # Pattern: Step marker block
+    # # ===...===
+    # # 步骤 X / Step X / 配置常量 / 环境设置
+    # # ===...===
+    #
+    # 排除：概念 / Concept / 分类器 / Classifier
+    # Exclude: concept and classifier markers
+    pattern = r'(# ={40,}\r?\n# (?:步骤|Step|配置常量|Configuration Constants|环境设置|Environment Setup)[^\n]*\r?\n(?:# [^\n]*\r?\n)*# ={40,})'
 
     parts = re.split(pattern, content)
     return parts
@@ -107,7 +126,7 @@ def py_to_notebook(py_file: str, output_file: str = None):
 
         # 处理头部代码（imports、常量、辅助函数等）
         # Process header code (imports, constants, helper functions, etc.)
-        header_parts = split_by_section_markers(header_code)
+        header_parts = split_by_step_markers(header_code)
 
         # 添加第一部分（通常是 imports）
         # Add first part (usually imports)
@@ -131,7 +150,7 @@ def py_to_notebook(py_file: str, output_file: str = None):
 
         # 处理 main() 函数体
         # Process main() function body
-        main_parts = split_by_section_markers(main_body)
+        main_parts = split_by_step_markers(main_body)
 
         # 添加 main 体的第一部分（如果有）
         # Add first part of main body (if any)
@@ -156,7 +175,7 @@ def py_to_notebook(py_file: str, output_file: str = None):
     else:
         # 原有逻辑：处理顶层代码
         # Original logic: process top-level code
-        parts = split_by_section_markers(content)
+        parts = split_by_step_markers(content)
 
         # 第一部分是文件头（imports 和配置）
         # First part is file header (imports and configuration)
