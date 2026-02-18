@@ -93,38 +93,37 @@ def extract_step_sections(filepath):
     return sections
 
 
-def get_monospace_font(size=14):
+def get_code_font(size=14):
     """
-    Get a monospace font for code display.
+    Get a font for code display that supports both ASCII and CJK characters.
+    
+    Code screenshots need CJK support (Chinese comments) more than strict
+    monospace alignment (no ASCII art tables). Use a CJK-capable font.
+    
+    Note: Output screenshots use a separate monospace-only font (Consolas)
+    because they contain tabulate grid tables that require strict monospace.
     
     Args:
         size (int): Font size
         
     Returns:
-        ImageFont: Font object
+        ImageFont: Font object supporting both ASCII and CJK
     """
-    # Try fonts that support both English and Chinese
+    # CJK-capable fonts (support both ASCII and Chinese)
     font_names = [
-        'C:/Windows/Fonts/msyh.ttc',     # Microsoft YaHei (Windows)
+        'C:/Windows/Fonts/msyh.ttc',     # Microsoft YaHei (Windows) - best CJK
         'C:/Windows/Fonts/simhei.ttf',   # SimHei (Windows)
         'C:/Windows/Fonts/simsun.ttc',   # SimSun (Windows)
-        'msyh.ttc',
-        'simhei.ttf',
-        'consola.ttf',      # Consolas (Windows) - English only fallback
-        'Consolas',
-        'Courier New',
-        'DejaVuSansMono.ttf',  # Linux
-        'Menlo',            # macOS
-        'Monaco',
+        'C:/Windows/Fonts/consola.ttf',  # Consolas (Windows) - ASCII only fallback
+        'DejaVuSansMono.ttf',            # Linux fallback
     ]
     
-    for font_name in font_names:
+    for name in font_names:
         try:
-            return ImageFont.truetype(font_name, size)
+            return ImageFont.truetype(name, size)
         except:
             continue
     
-    # Fallback to default font
     return ImageFont.load_default()
 
 
@@ -141,7 +140,7 @@ def get_token_color(token_type):
     """
     # Google Colab color scheme (light background)
     colors = {
-        Token.Keyword: (215, 58, 73),           # Pink/Red - keywords (import, from, def, if, for, etc.)
+        Token.Keyword: (215, 58, 73),           # Pink/Red - keywords
         Token.Keyword.Namespace: (215, 58, 73), # Pink/Red - import, from
         Token.Name.Function: (0, 0, 0),         # Black - function names
         Token.Name.Class: (0, 0, 0),            # Black - class names
@@ -185,7 +184,7 @@ def save_code_screenshot(code_text, filename, output_dir):
     
     # Settings
     font_size = 14
-    font = get_monospace_font(font_size)
+    font = get_code_font(font_size)
     line_height = font_size + 6
     padding = 20
     bg_color = (247, 247, 247)  # Colab light gray background
@@ -194,7 +193,7 @@ def save_code_screenshot(code_text, filename, output_dir):
     lines = code_text.split('\n')
     max_width = 0
     for line in lines:
-        bbox = font.getbbox(line)
+        bbox = font.getbbox(line) if line else (0, 0, 0, 0)
         line_width = bbox[2] - bbox[0]
         max_width = max(max_width, line_width)
     

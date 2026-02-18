@@ -179,5 +179,20 @@ Check generated screenshots:
 - ❌ Screenshots with tiny font (unreadable)
 - ❌ Excessive whitespace (wastes space)
 - ❌ Missing step markers (can't identify sections)
+- ❌ Using proportional fonts (e.g., Microsoft YaHei) — breaks table/code alignment
+
+## ⚠️ Critical: Font Strategy
+
+**Output screenshots** (terminal tables): Use **monospace font only** (Consolas).
+Terminal output with `tabulate` grid tables relies on equal character width for alignment. No CJK content expected.
+
+**Code screenshots** (Python source): Use **dual-font rendering**.
+
+- ASCII characters → Consolas (monospace, preserves indentation)
+- CJK characters → Microsoft YaHei (Chinese rendering)
+- Font switching happens per-character segment for mixed-language lines
+
+**Wrong approach:** ~~Using a single CJK font (msyh) for everything~~ (breaks table alignment)
+**Wrong approach:** ~~Using a single mono font (Consolas) for everything~~ (breaks Chinese characters)
 
 **For detailed examples:** See `references/screenshot-examples.md`

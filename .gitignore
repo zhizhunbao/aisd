@@ -1,6 +1,7 @@
 # Virtual environments
 .venv/
 venv/
+pvenv/
 lab2_venv/
 __pycache__/
 *.pyc

@@ -2,6 +2,7 @@
 name: learning-code_generation
 description: Generate Python code and Jupyter notebooks for course assignments. Use when (1) user asks to generate code for lab/assignment, (2) mentions "生成代码" or "generate code", (3) needs to create .py or .ipynb files for coursework.
 ---
+
 # Learning Code Generation
 
 ## Objectives
@@ -175,9 +176,38 @@ All environment-related setup (dotenv, pandas options, directory creation) shoul
 - **Top-level Constants**: `RANDOM_STATE`, `OUTPUT_DIR`, `LINE_WIDTH`, etc. as `UPPER_SNAKE_CASE` constants.
 - **Top-level Setup**: `load_dotenv()`, `pd.set_option()`, `os.makedirs()` etc. placed inline after constants.
 
-**Default Parameter Documentation:**
+**⚠️ PRINCIPLE 4: Parameter Documentation (Critical for ML Assignments)**
 
-When using algorithms with default parameters, ALWAYS print them:
+Professors require explicit explanation of EVERY parameter — even defaults. For each classifier/algorithm parameter set, document:
+
+1. **What the parameter controls** (e.g., "C controls regularization strength")
+2. **Why this value was chosen** (e.g., "default balance between bias and variance")
+3. **Effect of changing it** (e.g., "higher C = tighter margins, risk of overfitting")
+
+This applies to BOTH the code comments AND the Answer Document's Discussion sections.
+
+**In Code Comments:**
+
+```python
+# 三组kNN参数配置
+# Three sets of kNN parameter configurations
+knn_configs = [
+    # k=3: 小k捕捉局部模式，可能对噪声敏感
+    # k=3: Small k captures local patterns, may be sensitive to noise
+    (KNeighborsClassifier(n_neighbors=3, weights='uniform', metric='euclidean'),
+     "k=3, weights=uniform, metric=euclidean"),
+]
+```
+
+**In Answer Document Discussion:**
+
+```markdown
+- **Set 1: k=3, weights=uniform, metric=euclidean** — Uses 3 nearest neighbors
+  with equal voting weight and Euclidean distance. Small k captures local
+  patterns but may be sensitive to noise.
+```
+
+**When using defaults, still explain them:**
 
 ```python
 # ✅ GOOD - Document default parameters
@@ -390,6 +420,7 @@ After generating code, check:
 - [ ] All required steps implemented
 - [ ] No AI-generated appearance (summaries, conclusions)
 - [ ] English language throughout
+- [ ] **All algorithm parameters explained** (what it controls, why chosen, effect of changing)
 
 **For detailed validation checklist:** See `.agent/skills/learning-code_generation/references/validation-guide.md`
 
@@ -419,5 +450,6 @@ After generating code, check:
 - ❌ Not following assignment step order
 - ❌ Hardcoding values that should be constants
 - ❌ Including screenshot generation code (use `learning-code_screenshot` skill)
+- ❌ Using ML algorithms without explaining parameter choices (what, why, effect)
 
 **For more examples:** See `.agent/skills/learning-code_generation/references/code-principles.md`

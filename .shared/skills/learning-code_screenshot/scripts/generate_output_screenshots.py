@@ -168,19 +168,19 @@ def get_monospace_font(size=13):
     Returns:
         ImageFont: Font object
     """
-    # Try fonts that support both English and Chinese
+    # Try monospace fonts first (critical for table alignment)
     font_names = [
-        'C:/Windows/Fonts/msyh.ttc',     # Microsoft YaHei (Windows)
-        'C:/Windows/Fonts/simhei.ttf',   # SimHei (Windows)
-        'C:/Windows/Fonts/simsun.ttc',   # SimSun (Windows)
-        'msyh.ttc',
-        'simhei.ttf',
-        'consola.ttf',      # Consolas (Windows) - English only fallback
+        'C:/Windows/Fonts/consola.ttf',  # Consolas (Windows) - monospace
+        'consola.ttf',
         'Consolas',
+        'C:/Windows/Fonts/cour.ttf',     # Courier New (Windows) - monospace
         'Courier New',
-        'DejaVuSansMono.ttf',  # Linux
-        'Menlo',            # macOS
-        'Monaco',
+        'DejaVuSansMono.ttf',  # Linux - monospace
+        'Menlo',            # macOS - monospace
+        'Monaco',           # macOS - monospace
+        'C:/Windows/Fonts/msyh.ttc',     # Microsoft YaHei (Windows) - fallback for CJK
+        'C:/Windows/Fonts/simhei.ttf',   # SimHei (Windows) - fallback for CJK
+        'C:/Windows/Fonts/simsun.ttc',   # SimSun (Windows) - fallback for CJK
     ]
     
     for font_name in font_names:
