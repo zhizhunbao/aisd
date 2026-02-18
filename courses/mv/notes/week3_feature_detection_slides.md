@@ -1,362 +1,240 @@
-# Week 3: Week. 3-Object_Feature Detection and Description
+# Week 3: 特征检测与描述 (Feature Detection and Description)
 
 > Source: `Week. 3-Object_Feature Detection and Description.pptx`
 > Total slides: 28
+> Instructor: Stephin Rachel Thomas | 29-01-2026
 
 ---
 
-## Slide 1
+## 1. 分割与二值图像 (Segmentation and Binary Images)
 
-### Instructor: Stephin Rachel Thomas
-### 29-01-2026
+### 1.1 概念 (Concepts)
 
-Object / Feature Detection and Description
-
-![Picture 5](week3_feature_detection_slides_images/slide01_img1.png)
-
----
-
-## Slide 2
-
-### Segmentation and Binary Images
-### Basic and Adaptive threshold
-### Introduction to Contours
-### Introduction to Feature Detection
-### Basic concept of Feature Detection
-### Image Gradient
-### Scale Invariant Feature Transform (SIFT)
-### Speeded Up Robust Features (SURF)
-### Advanced Feature Detection Techniques
-### Feature Descriptors
-### Feature Matching and Applications
-### Machine Learning in Feature Detection
-### Future trend in Feature Description
-
-Today’s Topics
-
-![Picture 3](week3_feature_detection_slides_images/slide02_img1.jpg)
-
----
-
-## Slide 3
-
-### Segmentation – Extracts objects from image for further processing
-### Output of segmentation is typically a binary image –Image with values of zero and one(black and white)
-### 1 indicates the piece of image we wanted to use and 0 indicates everything else.
-### Binary image is key component of many image processing algorithms, and it acts as a mask for the area of the source image
-### One of the typical way to get a binary image is to use thresholding algorithm
-### Thresholding is a type of segmentation that looks at the values of the source image and perform a comparison against one central value to decide whether a single pixel or group of pixels should have a value of zero or one.
-
-Segmentation and Binary Images
+- **Segmentation** extracts objects from image for further processing
+- Output is typically a **binary image** — values of 0 and 1 (black and white)
+- 1 = the piece of image we want, 0 = everything else
+- Binary image acts as a mask for the source image area
+- **Thresholding** is a typical way to get a binary image — compares pixel values against a central value
 
 ![Picture 5](week3_feature_detection_slides_images/slide03_img1.png)
-
----
-
-## Slide 4
-
-
-Segmentation and Binary Images
-
 ![Picture 3](week3_feature_detection_slides_images/slide04_img1.png)
 
----
+> **📝 笔记:**
+>
+> **分割与二值图像:**
+>
+> - 分割 = 从图像中提取感兴趣对象, 输出为二值图像 (0和1)
+> - 二值图像是许多算法的关键输入, 充当掩码 (mask) 的角色
+> - 阈值化是获得二值图像最常用的方法
 
-## Slide 5
+### 1.2 自适应阈值化 (Adaptive Thresholding)
 
-### Hands on Exercise
+- Binary thresholding is not ideal for uneven lighting
+- **Adaptive thresholding** uses local neighborhood to determine threshold, counteracting uneven lighting
+- Calculates threshold for each sub-region instead of the whole image
+- Methods: `adaptive_mean` or `adaptive_gaussian`
 
----
-
-## Slide 6
-
-### Binary thresholding is not ideal for events such as uneven lighting, adaptive thresholding is a solution
-### Instead of taking a simple global value as a threshold comparison, adaptive thresholding will use its local neighborhood of the image to determine whether a relative threshold is met, thus counteract issues like uneven lighting.
-### It calculates threshold value for each sub regions instead of the whole image
-### Adaptive methods - adaptive_mean or adaptive_gaussian
-
-Adaptive Thresholding
-
----
-
-## Slide 7
-
-### Hands on Exercise
+> **📝 笔记:**
+>
+> **自适应阈值:** 解决光照不均问题, 为每个子区域计算独立阈值。方法: 均值法或高斯法。
 
 ---
 
-## Slide 8
+## 2. 轮廓检测 (Contours)
 
-### A contour is a curve that joins a set of points enclosing an area having the same color or intensity.
-### The area of uniform color or intensity forms the object that we are trying to detect and the curve enclosing this area is the contour representing the shape of the object.
-### It works similar to edge detection but with the restriction that the edges detected must form a closed path
-### Contours defines boundaries of objects in an image
-### Useful for shape analysis, object detection and recognition.
-### The output of segmentation (binary image) is used as input for contour detection(pre-processing)
+### 2.1 轮廓概念 (Introduction to Contours)
 
-Introduction to Contours
+- A **contour** is a curve joining points enclosing an area of same color/intensity
+- Similar to edge detection but requires edges to form a **closed path**
+- Defines boundaries of objects, useful for shape analysis, object detection and recognition
+- Binary image (segmentation output) is used as input for contour detection (pre-processing)
 
 ![Picture 3](week3_feature_detection_slides_images/slide08_img1.png)
 
----
+> **📝 笔记:**
+>
+> **轮廓 vs 边缘:** 边缘不一定封闭, 轮廓必须是封闭路径。轮廓检测的输入是二值图像。
 
-## Slide 9
+### 2.2 OpenCV 轮廓函数 (Contour Functions)
 
-
-Contour Object Detection
-
-Cv2.findContours()  - OpenCV built in function for finding contours in an image.
-This method returns:
-Contours – A list of contours in the image. Each contour is a vector of boundary points
-Hierarchy – optional output vector containing information about image topology 									(parent-child relationship)
+- `cv2.findContours()` — Returns:
+  - **Contours:** List of contours, each is a vector of boundary points
+  - **Hierarchy:** Parent-child relationship information
+- `cv2.drawContours()` — Draws contour outlines (thickness≥0) or fills area (thickness<0)
 
 ![Picture 7](week3_feature_detection_slides_images/slide09_img1.jpg)
-
----
-
-## Slide 10
-
-
-Contour Object Detection
-
-Cv2.drawContours() - The function draws contour outlines in the image if 𝚝𝚑𝚒𝚌𝚔𝚗𝚎𝚜𝚜≥0 or fills the area bounded by the contours if 𝚝𝚑𝚒𝚌𝚔𝚗𝚎𝚜𝚜<0
-
 ![Picture 11](week3_feature_detection_slides_images/slide10_img1.png)
 
+> **📝 笔记:**
+>
+> **关键函数:**
+>
+> - `findContours()`: 找轮廓, 返回轮廓列表和层级关系
+> - `drawContours()`: 画轮廓, thickness≥0 画边线, <0 填充区域
+
 ---
 
-## Slide 11
+## 3. 特征检测简介 (Introduction to Feature Detection)
 
-### Definition: It is the process of identifying and locating significant structures or patterns within an image.
-### These features are crucial for understanding and interpreting visual information in tasks such as object recognition, motion tracking, and image classification.
-### A feature is an interesting part of an image
-### Examples: Edges (sharp changes in intensity), Corners (intersection of two edges), Blobs (regions of similar texture or color), and Ridges (lines of high intensity).
+### 3.1 定义与类型 (Definition)
 
-Introduction to Feature Detection
+- **Feature Detection:** Process of identifying and locating significant structures or patterns within an image
+- Crucial for object recognition, motion tracking, and image classification
+- Feature types: **Edges** (sharp intensity changes), **Corners** (intersection of two edges), **Blobs** (regions of similar texture/color), **Ridges** (lines of high intensity)
 
 ![Picture 4](week3_feature_detection_slides_images/slide11_img1.jpg)
 
----
+> **📝 笔记:**
+>
+> **特征检测:** 识别和定位图像中的重要结构。四种特征类型: 边缘、角点、斑块、脊线。
 
-## Slide 12
+### 3.2 图像梯度 (Image Gradient)
 
-### Feature detection has evolved significantly since the early days of computer vision.
-### Early techniques focused on simple edge detection, while modern approaches leverage complex algorithms and deep learning.
-### Applications span various domains including –
-### Autonomous vehicles (for navigation and obstacle detection),
-### Medical imaging (for disease diagnosis),
-### Augmented reality (for enhancing real-world environments with digital overlays).
-
-Historical Context and Importance
-
-![Picture 4](week3_feature_detection_slides_images/slide12_img1.jpg)
-
----
-
-## Slide 13
-
-Basic Concepts of Feature Detection
-
-Understanding Image Gradients: Gradients measure directional changes in the intensity
-or color of an image and are fundamental in identifying features.
+- Gradients measure **directional changes** in intensity or color
+- Fundamental for identifying features
+- Measure of change in Image function F(x,y) in X or Y direction
+- Color changes = magnitude, arrows = direction
 
 ![Picture 2](week3_feature_detection_slides_images/slide13_img1.png)
-
----
-
-## Slide 14
-
-### Image Gradient
-
-Measure of change in Image function F(x,y) in X or Y direction
-
-Change in color represents magnitude and the blue arrows represent the direction
-
 ![Picture 3](week3_feature_detection_slides_images/slide14_img1.png)
-
 ![Picture 9](week3_feature_detection_slides_images/slide14_img2.png)
 
+> **📝 笔记:**
+>
+> **图像梯度:** 图像函数 F(x,y) 在 X/Y 方向的变化量。颜色变化=幅值, 箭头=方向。梯度是特征检测的数学基础。
+
 ---
 
-## Slide 15
+## 4. SIFT 算法 (Scale-Invariant Feature Transform)
 
-### SIFT identifies and describes local features in images. It's invariant to scaling, rotation, and partially invariant to change in illumination and 3D camera viewpoint. Detects corners ,circles, blobs etc.
-### Keypoints – Special points in an image that carry unique information
-### The SIFT (Scale-Invariant Feature Transform) algorithm is a powerful method in computer vision for detecting and describing local features in images. Here's a breakdown of its main steps:
-### 1. Scale-space Extrema Detection
-### Detect potential keypoints by searching for local extrema (maxima/minima) in a series of Difference of Gaussian (DoG) images.
-### This is done across multiple scales (octaves) to ensure scale invariance.
+SIFT identifies and describes local features. Invariant to scaling, rotation, and partially invariant to illumination and 3D viewpoint. Detects corners, circles, blobs etc.
 
-Scale-Invariant Feature Transform (SIFT)
+**Five steps:**
+
+1. **Scale-space Extrema Detection** — Detect keypoints by searching local extrema in Difference of Gaussian (DoG) images across multiple scales (octaves)
+2. **Keypoint Localization** — Refine keypoints by eliminating low-contrast points and edge points
+3. **Orientation Assignment** — Assign orientations based on local gradient directions → rotation invariance
+4. **Keypoint Descriptor Generation** — Region around keypoint divided into blocks, gradient orientation histograms computed → 128-dimensional feature vector
+5. **Feature Matching (Optional)** — Compare descriptors using distance metrics (Euclidean distance)
 
 ![Picture 4](week3_feature_detection_slides_images/slide15_img1.png)
-
----
-
-## Slide 16
-
-### 2. Keypoint Localization
-### Refine the detected keypoints by:
-- Eliminating low-contrast points.
-- Removing points that lie along edges
-### This improves stability and accuracy.
-### 3. Orientation Assignment
-### Assign one or more orientations to each keypoint based on the local image gradient directions.
-### This ensures rotation invariance.
-
-Scale-Invariant Feature Transform (SIFT)
-
 ![Picture 7](week3_feature_detection_slides_images/slide16_img1.png)
-
----
-
-## Slide 17
-
-### 4. Keypoint Descriptor Generation
-### Around each keypoint, a region is taken and divided into smaller blocks.
-### For each block, a histogram of gradient orientations is computed.
-### These histograms are concatenated into a 128-dimensional feature vector (descriptor).
-### 5. Feature Matching (Optional)
-### Descriptors from different images can be compared using distance metrics (like Euclidean distance) to find matching keypoints.
-
-Scale-Invariant Feature Transform (SIFT)
-
 ![Picture 7](week3_feature_detection_slides_images/slide17_img1.png)
 
+> **📝 笔记:**
+>
+> **SIFT 五步:**
+>
+> - 尺度空间极值检测(DoG) → 关键点定位(去低对比/边缘点) → 方向分配(旋转不变性) → 描述符生成(128维向量) → 特征匹配(欧氏距离)
+>
+> **💡 提示:** SIFT 的核心优势是对尺度和旋转不变, 但计算较慢
+
 ---
 
-## Slide 18
+## 5. SURF 算法 (Speeded Up Robust Features)
 
-### Introduction: SURF is a faster alternative to SIFT, offering robustness to changes in scale, rotation, and illumination.
-### Advantages: SURF is faster due to integral images for image convolutions, uses fewer features while maintaining accuracy, and is more suitable for real-time applications.
+- Faster alternative to SIFT, robust to scale, rotation, and illumination changes
+- Uses integral images for faster convolutions, fewer features while maintaining accuracy
+- More suitable for **real-time** applications
 
-Speeded Up Robust Features (SURF)
+**Steps:**
+
+1. **Interest Point Detection:** Hessian matrix-based detector, faster due to integral images and box filters
+2. **Scale-space Representation:** Multi-scale feature detection (like SIFT)
+3. **Orientation Assignment:** Haar wavelet responses, dominant orientation for rotation invariance
+4. **Descriptor Generation:** 4×4 subregions with Haar wavelet responses → **64-dimensional** descriptor (vs SIFT's 128)
 
 ![Picture 6](week3_feature_detection_slides_images/slide18_img1.jpg)
 
----
-
-## Slide 19
-
-### Interest Point Detection:
-- Uses a Hessian matrix-based detector to find keypoints.
-- Faster than SIFT due to use of integral images and box filters.
-### Scale-space Representation:
-- Like SIFT, SURF detects features at multiple scales.
-
-Speeded Up Robust Features (SURF)
-
-![Picture 6](week3_feature_detection_slides_images/slide19_img1.jpg)
+> **📝 笔记:**
+>
+> **SURF vs SIFT:** SURF 更快 (积分图+盒式滤波器), 描述符 64 维 (SIFT 128 维), 更适合实时应用。
 
 ---
 
-## Slide 20
+## 6. ORB 与高级技术 (ORB and Advanced Techniques)
 
-### 3.  Orientation Assignment:
-- Computes Haar wavelet responses in a circular region around the keypoint.
-- Assigns a dominant orientation for rotation invariance.
-### 4.  Descriptor Generation:
-- A square region around the keypoint is divided into 4×4 subregions.
-- For each subregion, Haar wavelet responses in x and y directions are summed.
-- This results in a 64-dimensional descriptor (compared to SIFT’s 128).
+**ORB (Oriented FAST and Rotated BRIEF):**
 
-Speeded Up Robust Features (SURF)
-
-![Picture 6](week3_feature_detection_slides_images/slide20_img1.jpg)
-
----
-
-## Slide 21
-
-### ORB is a fusion of FAST keypoint detector and BRIEF descriptor with many modifications to enhance performance.
-### FAST – Features from Accelerated Segment Test
-### BRIEF – Binary Robust Independent Elementary Features
-### ORB takes advantages of FAST corner detection technique to locate keypoints efficiently. Unlike traditional algorithms that use gradient information, FAST focuses on intensity changes making it robust and fast. Also, ORB employs BRIEF to generate binary descriptors for each keypoint, allowing for efficient matching.
-### Cv2.ORB_create() – OpenCV function for creating ORB detector with standard parameters
-### Deep Learning Approaches: The use of Convolutional Neural Networks (CNNs) for feature detection and description, surpassing traditional methods in accuracy and robustness.
-
-Advanced Feature Detection TechniquesORB (Oriented FAST and Roated BRIEF)
+- Fusion of FAST keypoint detector and BRIEF descriptor
+- **FAST** — Features from Accelerated Segment Test (intensity-based, fast)
+- **BRIEF** — Binary Robust Independent Elementary Features (binary descriptors for efficient matching)
+- `cv2.ORB_create()` — OpenCV function
+- **Deep Learning** approaches (CNNs) surpass traditional methods in accuracy and robustness
 
 ![Picture 4](week3_feature_detection_slides_images/slide21_img1.png)
 
+> **📝 笔记:**
+>
+> **ORB:** FAST(快速检测关键点) + BRIEF(二进制描述符) 的结合, 开源免费, 效率高。深度学习正在超越传统方法。
+
 ---
 
-## Slide 22
+## 7. 特征描述符 (Feature Descriptors)
 
-### Definition: Descriptors provide a unique and robust representation of the detected features, crucial for feature matching.
-### The Histogram of Oriented Gradients (HOG) is particularly effective for human detection in computer vision.
-### Plots image pixel orientations and gradients on a histogram – simplifies the representation of image
-### It works by analyzing gradients and edge directions in localized portions of an image, creating a unique representation of human shapes and postures. This makes HOG highly effective for applications like pedestrian detection in autonomous vehicles and surveillance, as it can reliably identify humans even under varying conditions.
+### HOG (Histogram of Oriented Gradients)
 
-Feature Descriptors
-
-Left : Absolute value of x-gradient. Right : Absolute value of y-gradient.
+- Provides unique, robust representation of detected features
+- Particularly effective for **human detection**
+- Plots pixel orientations and gradients on histogram
+- Analyzes gradients in localized image portions
+- Applications: pedestrian detection in autonomous vehicles and surveillance
 
 ![Picture 4](week3_feature_detection_slides_images/slide22_img1.png)
-
----
-
-## Slide 23
-
-### Feature Descriptors
-
 ![Picture 3](week3_feature_detection_slides_images/slide23_img1.png)
 
----
-
-## Slide 24
-
-### Feature Matching and Applications
+> **📝 笔记:**
+>
+> **HOG:** 在图像局部区域分析梯度方向, 生成方向直方图。特别适用于行人检测(自动驾驶/监控)。
 
 ---
 
-## Slide 25
+## 8. 机器学习与特征检测 (Machine Learning in Feature Detection)
 
-### In the field of computer vision, machine learning algorithms significantly enhance feature detection by improving accuracy and efficiency. These algorithms learn from extensive data, refining the process of identifying image features.
-### The techniques include:
-### 1. Supervised learning: uses labeled data for training
-### Eg: Email Spam detection
-### 2. Unsupervised learning: for pattern discovery without labeled data
-### Eg: Customer Segmentation based on purchasing behavior
-### 3. Semi-supervised learning: combines both approaches
-### Eg: Google photos
+ML algorithms enhance feature detection accuracy and efficiency:
 
-Machine Learning in Feature Detection
+1. **Supervised learning:** Uses labeled data (e.g., Email Spam detection)
+2. **Unsupervised learning:** Pattern discovery without labels (e.g., Customer Segmentation)
+3. **Semi-supervised learning:** Combines both (e.g., Google Photos)
 
 ![Picture 2](week3_feature_detection_slides_images/slide25_img1.jpg)
 
+> **📝 笔记:**
+>
+> **三种学习方式:** 监督(有标签)、无监督(无标签)、半监督(混合)。ML 提升了特征检测的精度和效率。
+
 ---
 
-## Slide 26
+## 9. 实时特征检测 (Real-Time Feature Detection)
 
-### Real-time feature detection in computer vision faces significant challenges, particularly in balancing computational demands with the need for accuracy. In applications like video surveillance and autonomous driving, where decisions must be made swiftly and accurately, these challenges are amplified.
-### Common remedies:
-### Algorithm optimizations
-### Use low-level programming languages (surely not python)
-### Utilizes hardware acceleration (GPUs and TPUs)
+Challenges: balancing computation with accuracy (video surveillance, autonomous driving)
 
-Real-Time Feature Detection
+Common remedies:
+
+- Algorithm optimizations
+- Low-level programming languages (not Python)
+- Hardware acceleration (GPUs and TPUs)
 
 ![Picture 4](week3_feature_detection_slides_images/slide26_img1.jpg)
 
----
-
-## Slide 27
-
-### Future Trends in Feature Detection
-
-Deep learning, with its advanced neural networks, is enhancing the capability to automatically and accurately detect features in images by learning complex patterns in large datasets.
-This approach is a departure from traditional methods that relied on handcrafted algorithms and is proving to be more effective in handling the nuances and variability in real-world images.
-Enabling smarter feature detection systems that can adapt and improve over time, learning from new data and experiences
+> **📝 笔记:**
+>
+> **实时检测挑战:** 速度 vs 精度的平衡。解决方案: 算法优化、低级语言、GPU/TPU硬件加速。
 
 ---
 
-## Slide 28
+## 10. 未来趋势 (Future Trends)
 
-### Next Week
+- Deep learning enhances capability to automatically and accurately detect features
+- Departure from traditional handcrafted algorithms
+- Enabling smarter systems that adapt and improve over time
 
-Introduction to CNN
-Architecture of CNN
-How CNN resolves common computer vision problems
+---
+
+## 11. 下周预告 (Next Week)
+
+- Introduction to CNN
+- Architecture of CNN
+- How CNN resolves common computer vision problems
 
 ---

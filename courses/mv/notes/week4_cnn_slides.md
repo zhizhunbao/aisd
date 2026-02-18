@@ -1,562 +1,268 @@
-# Week 4: Week 4 - Introduction to Convolutional Neural Networks (CNNs)1
+# Week 4: 卷积神经网络 (Introduction to CNN)
 
 > Source: `Week 4 - Introduction to Convolutional Neural Networks (CNNs)1.pptx`
 > Total slides: 37
+> Instructor: Stephin Rachel Thomas | Feb 05, 2026
 
 ---
 
-## Slide 1
+## 1. 人工神经网络 (Artificial Neural Networks)
 
-### Convolutional Neural Networks (CNN) in Machine Vision
+### 1.1 什么是 ANN (What are ANNs)
 
-Transforming visual recognition through deep learning.
-
-Instructor: Stephin Rachel Thomas
-Feb 05, 2026
-
-![Image 0](week4_cnn_slides_images/slide01_img1.png)
-
----
-
-## Slide 2
-
-### Today’s Topics
-
-Artificial Neural Networks
-Disadvantages of simple ANN for Image classification
-Introduction to CNN
-CNN architecture
-Deep dive into CNN layers
-Application of CNN
-Performance Evaluation Metrics
-
-![Image 0](week4_cnn_slides_images/slide02_img1.png)
-
----
-
-## Slide 3
-
-### What are Artificial Neural Networks?
-
-Biological Inspiration
-
-ANNs are inspired by the structure and function of the human brain, composed of interconnected nodes called neurons.
-
-
-2
-
-Learning Through Data
-
-These networks learn by analyzing large datasets, adjusting the connections between neurons to improve their performance.
-
-
-Pattern Recognition
-
-ANNs are particularly effective at recognizing complex patterns in data, making them ideal for image classification.
-
-
-1
-
-
-3
+1. **Biological Inspiration:** Inspired by human brain, composed of interconnected neurons
+2. **Learning Through Data:** Learn by analyzing large datasets, adjusting connections
+3. **Pattern Recognition:** Effective at recognizing complex patterns, ideal for image classification
 
 ![Image 0](week4_cnn_slides_images/slide03_img1.png)
 
----
+> **📝 笔记:**
+>
+> **ANN 三大特点:** 模仿大脑神经元结构、通过数据学习调整连接权重、擅长复杂模式识别
 
-## Slide 4
-
-### Classification using Traditional Methods
+### 1.2 传统分类方法 (Traditional Classification)
 
 Decision-tree method
 
 ![Picture 7](week4_cnn_slides_images/slide04_img1.png)
-
 ![Picture 16](week4_cnn_slides_images/slide04_img2.jpg)
 
----
+### 1.3 ANN 图像分类的局限性 (Limitations of ANN)
 
-## Slide 5
+For a 1000×1000px image:
 
-### ANN for Image Classification
-
-![Picture 2](week4_cnn_slides_images/slide05_img1.png)
-
-![Picture 3](week4_cnn_slides_images/slide05_img2.png)
-
----
-
-## Slide 6
-
-### Limitation of ANN for Image Classification
-
-
-
-1000 * 1000px
-
-High compuational cost
-Over-fitting problem
-Longer training time
+- High computational cost
+- Over-fitting problem
+- Longer training time
 
 ![Picture 5](week4_cnn_slides_images/slide06_img1.jpg)
 
-![Picture 7](week4_cnn_slides_images/slide06_img2.jpg)
+> **📝 笔记:**
+>
+> **ANN 处理图像的问题:** 1000×1000 像素 = 100 万个输入节点, 导致计算成本高、过拟合严重、训练时间长。这就是 CNN 诞生的原因。
 
 ---
 
-## Slide 7
+## 2. CNN 概述 (CNN Overview)
 
+### 2.1 定义与优势 (Definition & Benefits)
 
-
-Convolutional Neural Network (CNN)
-
-
-1
-
-Definition
-
-A deep learning model designed for processing images to identify patterns and make decisions.
-
-
-2
-
-Objective
-
-Solve complex visual tasks with deep learning.
-
-
-3
-
-Benefits
-
-Handles high-dimensional, structured data like images, videos and audio.
-Hierarchical feature learning.
-Robust to translation of object.
+1. **Definition:** A deep learning model designed for processing images to identify patterns and make decisions
+2. **Objective:** Solve complex visual tasks with deep learning
+3. **Benefits:**
+   - Handles high-dimensional, structured data (images, videos, audio)
+   - Hierarchical feature learning
+   - Robust to translation of object
 
 ![Image 0](week4_cnn_slides_images/slide07_img1.png)
 
----
+> **📝 笔记:**
+>
+> **CNN 优势:** 处理高维结构化数据、分层特征学习(底层→高层)、对目标平移具有鲁棒性。解决了 ANN 处理图像的三大问题。
 
-## Slide 8
+### 2.2 CNN 架构 (Architecture)
 
-### CNNs typically consist of an input layer, multiple hidden layers, and an output layer.
-### The hidden layers include a series of convolutional layers, pooling layers and fully connected layers.
-### Each layer performs distinct operations: Convolutional layers apply a convolution operation, Pooling layers perform down-sampling, Fully connected layers compute the class scores.
-
-CNN Architecture
+- Input layer → Multiple hidden layers → Output layer
+- Hidden layers: **Convolutional layers** + **Pooling layers** + **Fully connected layers**
+- Each layer performs distinct operations:
+  - Convolutional layers: apply convolution operation
+  - Pooling layers: perform down-sampling
+  - Fully connected layers: compute class scores
 
 ![Picture 3](week4_cnn_slides_images/slide08_img1.png)
 
----
-
-## Slide 9
-
-Key Components of CNN
-
-
-
-
-1
-
-Convolutional Layers
-
-Extract spatial features from input images.
-
-
-
-2
-
-Pooling Layers
-
-Reduce spatial dimensions, simplify computation.
-
-
-
-3
-
-Fully Connected Layers
-
-Integrate features for final classification.
-
-![Image 0](week4_cnn_slides_images/slide09_img1.png)
+> **📝 笔记:**
+>
+> **CNN 三层核心:** 卷积层(提取特征) → 池化层(降维) → 全连接层(分类)
 
 ---
 
-## Slide 10
+## 3. 卷积层详解 (Convolutional Layers)
 
-### Deep Dive into Convolutional Layers
+### 3.1 基本原理 (Fundamentals)
 
-![Picture 2](week4_cnn_slides_images/slide10_img1.gif)
-
----
-
-## Slide 11
-
-### CNN Fundamentals
-
-
-
-
-
-The basic principle of a Convolutional Neural Network (CNN) is to automatically learn and extract hierarchical features from input data, typically images, through the use of convolutional layers.
+- CNN automatically learns and extracts hierarchical features from input data through convolutional layers
+- Feature Maps: Focus on only the most important features, not all pixel information
+- Improves performance and accuracy
 
 ![Picture 2](week4_cnn_slides_images/slide11_img1.png)
-
----
-
-## Slide 12
-
-### Convolutional Layers
-
-Feature Maps
-
-Convolutional layers help the network focus on only the most important features
-Not all the pixel information in the image is relevant for training the model
-Improves performance and accuracy
-
 ![Picture 2](week4_cnn_slides_images/slide12_img1.jpg)
-
-![Picture 3](week4_cnn_slides_images/slide12_img2.jpg)
-
 ![Picture 4](week4_cnn_slides_images/slide12_img3.png)
 
----
+### 3.2 卷积运算 (Convolution Operation)
 
-## Slide 13
-
-### Convolution Operation
-
-Filter
-
-Convolution operator
-
-Input image
-
-Output Image
+Filter × Input Image → Output Image (Feature Map)
 
 ![Picture 2](week4_cnn_slides_images/slide13_img1.png)
-
----
-
-## Slide 14
-
-### Convolution Operation
-
 ![Picture 2](week4_cnn_slides_images/slide14_img1.png)
-
----
-
-## Slide 15
-
-### Convolution Operation
-
 ![Picture 2](week4_cnn_slides_images/slide15_img1.png)
 
----
-
-## Slide 16
-
-### Convolutional Layers
-
----
-
-## Slide 17
-
-Convolutional Layer – Output  Image Size
+### 3.3 输出尺寸计算 (Output Image Size)
 
 ![Picture 1](week4_cnn_slides_images/slide17_img1.png)
 
+> **📝 笔记:**
+>
+> **卷积层核心:**
+>
+> - **作用:** 自动从输入数据中学习并提取分层特征
+> - **特征图 (Feature Map):** 卷积操作的输出, 只保留最重要的特征信息
+> - **运算过程:** 滤波器(kernel)在图像上滑动, 逐元素相乘后求和
+>
+> **💡 提示:** 输出尺寸公式需要掌握, 考试可能会考计算题
+
 ---
 
-## Slide 18
+## 4. 池化层 (Pooling Layers)
 
-### Pooling Layers
-
----
-
-## Slide 19
-
-### Pooling Layers
-
-The pooling layer reduces the spatial dimensionality of the input feature map.
+- Reduces the spatial dimensionality of the input feature map
+- Types: Max Pooling, Average Pooling
 
 ![Picture 2](week4_cnn_slides_images/slide19_img1.png)
-
----
-
-## Slide 20
-
-### Pooling Operation
-
 ![Picture 2](week4_cnn_slides_images/slide20_img1.png)
-
 ![Picture 2](week4_cnn_slides_images/slide20_img2.gif)
 
----
-
-## Slide 21
-
-### Fully Connected Layers
-
-![Picture 4](week4_cnn_slides_images/slide21_img1.png)
+> **📝 笔记:**
+>
+> **池化层:** 降低特征图的空间维度, 减少计算量。最常用 Max Pooling(取最大值)。
 
 ---
 
-## Slide 22
+## 5. 全连接层 (Fully Connected Layers)
 
-### Flattening
+### 5.1 展平 (Flattening)
 
-Convolutional and pooling layers produce feature maps
-Feature maps are multi-dimensional arrays
-Flattening converts feature maps to one-dimensional vector
-Concatenates elements along depth dimension
-Enables feeding into fully connected layers
+- Converts multi-dimensional feature maps to **one-dimensional vector**
+- Concatenates elements along depth dimension
+- Enables feeding into fully connected layers
 
 ![Picture 2](week4_cnn_slides_images/slide22_img1.png)
 
----
+### 5.2 权重矩阵与偏置 (Weight Matrix and Bias)
 
-## Slide 23
-
-### Weight Matrix and Bias Vector
-
-Foundation for deep learning  algorithms.
-Fully connected layer have weight matrix (W) and bias vecor (b)
-Weight matrix: (n x m), n = neurons, m = flattened vector length
-Bias vector length: number of neurons in the current layer
-Learnable parameters of the fully connected layer
-Enable transformation and introduce nonlinearity
-Input vector is multiplied by weight matrix and bias vector is added
-Operation: W * input + b
-Output represents weighted sum of input from previous layer
+- Weight matrix (W): `n × m`, n=neurons, m=flattened vector length
+- Bias vector length: number of neurons in current layer
+- Operation: `W * input + b`
 
 ![Picture 2](week4_cnn_slides_images/slide23_img1.png)
 
+> **📝 笔记:**
+>
+> **全连接层流程:** 展平(多维→一维) → 权重矩阵乘法 + 偏置 → 输出分数
+>
+> - 展平: 将特征图拉成一维向量
+> - `W * input + b`: 加权求和 + 偏置, 可学习参数
+
 ---
 
-## Slide 24
+## 6. 激活函数与输出层 (Activation & Output)
 
-### Activation Functions
+### 6.1 激活函数 (Activation Functions)
 
-Activation function determines if a neuron fires
-Introduces nonlinearity to the network
-Applied after convolution layer, after each fully conncted later and output layer allowing the network to learn and represent complex patterns in the data\
-Most commonly used actiavtion function is ReLU
+- Determines if a neuron fires, introduces nonlinearity
+- Applied after convolution layer, fully connected layer, and output layer
+- Most commonly used: **ReLU**
 
 ![Picture 6](week4_cnn_slides_images/slide24_img1.png)
 
----
+### 6.2 输出层 (Output Layer)
 
-## Slide 25
-
-### Output Layer
-
-The final layer generates predictions
-Neurons in the last layer match number of classes
-Activation function differs in final layer
-Softmax commonly used for multi-class classification
-Highest probability neuron represents prediction
+- Neurons match number of classes
+- **Softmax** commonly used for multi-class classification
+- Highest probability neuron = prediction
 
 ![Picture 2](week4_cnn_slides_images/slide25_img1.png)
 
----
-
-## Slide 26
-
-### A supervised learning algorithm used for training neural networks.
-### It happens only during training
-### Optimizes the parameters (weights and biases) of a neural network by minimizing the error between the predicted output and the actual target value.
-### Basic Steps are;
-- Feed a sample to the network
-- Calculate the mean squared error
-- Calculate the error term of each output neuron
-- Iteratively calculate the error terms In the hidden layers
-- Apply the delta rule
-- Adjust the weights
-
-
-Back Propagation
-
-> **Speaker Notes:** (log loss)
+> **📝 笔记:**
+>
+> **激活函数:** 引入非线性, 使网络能学习复杂模式。隐藏层常用 ReLU, 输出层多类分类用 Softmax。
 
 ---
 
-## Slide 27
+## 7. 反向传播 (Back Propagation)
 
-### Image Processing in CNNs
+A supervised learning algorithm, happens **only during training**. Optimizes weights and biases by minimizing error.
 
-Input
+**Six steps:**
 
-Raw image data enters the network.
+1. Feed a sample to the network
+2. Calculate the mean squared error
+3. Calculate the error term of each output neuron
+4. Iteratively calculate the error terms in the hidden layers
+5. Apply the delta rule
+6. Adjust the weights
 
-Feature Extraction
-
-Convolutional layers detect edges, shapes, textures.
-
-Down-sampling
-
-Pooling layers reduce data complexity.
-
-Classification
-
-Fully connected layers determine image content.
-
-Feature Extraction
-
-Classification
-
-![Image 2](week4_cnn_slides_images/slide27_img1.png)
-
-![Image 3](week4_cnn_slides_images/slide27_img2.png)
-
-![Image 4](week4_cnn_slides_images/slide27_img3.png)
-
-![Image 1](week4_cnn_slides_images/slide27_img4.png)
+> **📝 笔记:**
+>
+> **反向传播:** 只在训练时发生。前向传播→计算误差→从输出层到隐藏层逐层计算误差项→更新权重。
+>
+> **💡 提示:** 理解反向传播的六个步骤是考试重点
 
 ---
 
-## Slide 28
+## 8. CNN 处理流程与应用 (Processing & Applications)
 
-### CNNs have revolutionized the field of computer vision. Applications include image and video recognition, image segmentation, object detection, face recognition, and automated medical diagnosis. They are also used in self-driving cars for detecting objects and pedestrians.
-### Can be used for tasks like:
-### Image classification
-### Object detection
-### Semantic and instance segmentation
-### Multiple object tracking
-### Re-identification
-### Any vision task
+### 8.1 图像处理流程 (Image Processing in CNNs)
 
-Applications of CNNs
+1. **Input:** Raw image data
+2. **Feature Extraction:** Convolutional layers detect edges, shapes, textures
+3. **Down-sampling:** Pooling layers reduce data complexity
+4. **Classification:** Fully connected layers determine image content
 
----
+### 8.2 应用 (Applications)
 
-## Slide 29
-
-Real-World CNN Impact
-
-
-
-Medical Imaging
-
-Anomaly detection in scans
-
-
-Autonomous Vehicles
-
-Real-time environment perception
-
-
-Facial Recognition
-
-Security and user authentication
-
-
-Quality Control
-
-Defect detection in manufacturing
+- Image classification, Object detection
+- Semantic and instance segmentation
+- Multiple object tracking, Re-identification
+- Medical Imaging, Autonomous Vehicles, Facial Recognition, Quality Control
 
 ![Image 0](week4_cnn_slides_images/slide29_img1.png)
 
----
-
-## Slide 30
-
-### Performance Evaluation Metrics
-
-Classification, Regression or Clustering?
-
-https://learn.microsoft.com/en-us/azure/machine-learning/component-reference/evaluate-model?view=azureml-api-2
-
-![Picture 8](week4_cnn_slides_images/slide30_img1.png)
+> **📝 笔记:**
+>
+> **CNN 处理流程:** 原始图像 → 卷积提取特征 → 池化降维 → 全连接分类
+> **应用:** 图像分类、目标检测、语义分割、医学影像、自动驾驶、人脸识别、质量控制
 
 ---
 
-## Slide 31
+## 9. 性能评估指标 (Performance Evaluation Metrics)
 
-### Performance Evaluation Metrics
+### 9.1 核心指标 (Key Metrics)
 
-Accuracy measures the proportion of total predictions (both positive and negative) that the model got correct, offering a general sense of its performance across all classes.
-Precision assesses the accuracy of the positive predictions made by a CNN, specifically calculating the proportion of true positive predictions out of all positive predictions made (true and false positives), which is crucial in scenarios where false positives have significant consequences.
+- **Accuracy:** Proportion of total correct predictions
+- **Precision:** True positives / (True positives + False positives) — important when FP is costly
+- **Recall (Sensitivity):** True positives / (True positives + False negatives) — important when FN is costly
+- **F1 Score:** Harmonic mean of precision and recall
+- **ROC/AUC:** True positive rate vs false positive rate across thresholds
 
----
+### 9.2 混淆矩阵 (Confusion Matrix)
 
-## Slide 32
-
-### Performance Evaluation Metrics
-
-Recall (or sensitivity) evaluates a CNN's ability to correctly identify all actual positive cases, measuring the proportion of true positives out of the sum of true positives and false negatives, and is important in contexts where missing positive cases is costly.
-F1 score provides a balance between precision and recall by calculating their harmonic mean, offering a single metric for situations where it's crucial to maintain a balance between minimizing false positives and false negatives.
-Receiver Operating Characteristic (ROC) curve plots the true positive rate against the false positive rate at various threshold settings, and the Area Under the Curve (AUC) provides a single value summarizing the overall performance of a CNN across all possible classification thresholds.
-
----
-
-## Slide 33
-
-### Confusion Matrix
-
-A confusion matrix is a tool used in machine learning and statistical classification to evaluate the performance of a classification model. It provides a summary of the prediction results on a classification problem. The matrix itself is a table that compares the actual target values with the predicted values.
-
-True Positives (TP): The number of correct positive predictions.
-True Negatives (TN): The number of correct negative predictions.
-False Positives (FP): The number of incorrect positive predictions.
-False Negatives (FN): The number of incorrect negative predictions.
+|                     | Predicted Positive  | Predicted Negative  |
+| ------------------- | ------------------- | ------------------- |
+| **Actual Positive** | TP (True Positive)  | FN (False Negative) |
+| **Actual Negative** | FP (False Positive) | TN (True Negative)  |
 
 ![Picture 2](week4_cnn_slides_images/slide33_img1.png)
-
----
-
-## Slide 34
-
-### Performance Evaluation Metrics
-
 ![Picture 8](week4_cnn_slides_images/slide34_img1.png)
 
-![Picture 10](week4_cnn_slides_images/slide34_img2.png)
+Ref: https://learn.microsoft.com/en-us/azure/machine-learning/component-reference/evaluate-model?view=azureml-api-2
 
-![Picture 12](week4_cnn_slides_images/slide34_img3.png)
-
-![Picture 2](week4_cnn_slides_images/slide34_img4.png)
-
----
-
-## Slide 35
-
-### Ethical Considerations and Bias in CNNs
-
----
-
-## Slide 36
-
-### References
-
-https://austingwalters.com/edge-detection-in-computer-vision
-https://www.kaggle.com/datasets/tongpython/cat-and-dog
-Google search
-https://gamma.app/#images
-https://www.semanticscholar.org/paper/Cats-and-dogs-Parkhi-Vedaldi/84b50ebe85f7a1721800125e7882fce8c45b5c5a
-https://www.simplilearn.com/tutorials/deep-learning-tutorial/convolutional-neural-network
-https://www.analyticsvidhya.com/blog/2021/08/beginners-guide-to-convolutional-neural-network-with-implementation-in-python/
-https://learn.microsoft.com/en-us/azure/machine-learning/component-reference/evaluate-model?view=azureml-api-2
-
-.
-
-![Picture 8](week4_cnn_slides_images/slide36_img1.png)
+> **📝 笔记:**
+>
+> **评估指标:**
+>
+> - **准确率(Accuracy):** 整体正确率
+> - **精确率(Precision):** 预测为正的样本中真正为正的比例 (假阳性代价高时重要)
+> - **召回率(Recall):** 所有正样本中被正确识别的比例 (假阴性代价高时重要)
+> - **F1:** 精确率和召回率的调和平均
+> - **混淆矩阵:** TP/TN/FP/FN 四个关键值, 是计算所有指标的基础
+>
+> **💡 提示:** 理解 TP/TN/FP/FN 是理解所有评估指标的基础, 考试必考
 
 ---
 
-## Slide 37
+## 10. 下周主题 (Next Week)
 
-### Next Week Topics
-
-CNN Training Process
-Loss Function
-Different types of Activation Functions
-Back propagation Algorithm
-Common Problems in Machine Vision
-CNN Solutions
-
-.
-
-![Picture 8](week4_cnn_slides_images/slide37_img1.jpg)
+CNN Training Process, Loss Function, Activation Functions, Back Propagation Algorithm, Common Problems in Machine Vision, CNN Solutions
 
 ---
