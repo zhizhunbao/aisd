@@ -27,11 +27,20 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │ Phase 0: 转换 (Convert)                                      │
 │   ↓ dev-pptx_to_pdf, dev-pdf_processing skills              │
 ├─────────────────────────────────────────────────────────────┤
-│ Phase 1: 提取 (Extract)                                      │
+│ Phase 0.5: 格式化 (Format)                                    │
+│   ↓ learning-slide_formatting skill                         │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 1: 笔记 (Notes)                                        │
 │   ↓ learning-note_taking skill                              │
+│   ↓ + math-concept-library (公式库, 滋雪球式积累)           │
+│   ↓ + concept-glossary (术语库, 滋雪球式积累)              │
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 2: 演示 (Demo)                                         │
-│   ↓ learning-code_generation skill                          │
+│   ↓ learning-code_generation + dev-code_comment skills      │
+│   ↓ + math-concept-library / concept-glossary (复用注释)    │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 2.5: 转换 (Convert .py → .ipynb)                       │
+│   ↓ learning-notebook_conversion skill                      │
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 3: 合成 (Synthesize)                                   │
 │   ↓ learning-notebook_conversion skill                      │
@@ -101,38 +110,91 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ---
 
-## Phase 1: 概念提取 🧠
+## Phase 0.5: 格式化 📐
 
-**Skill**: `learning-note_taking`
+**Skill**: `learning-slide_formatting`
 
-将提取的 Markdown 总结为结构化学习笔记。
+将 Phase 0 输出的原始 Markdown 整理为结构清晰的课堂笔记格式。
 
 ### 步骤
 
-1. 读取 Phase 0 输出的 `[topic]_slides.md`
-2. 总结为 `[topic]_notes.md`
-3. 用初学者友好的语言，所有首字母缩写在首次出现时定义
-4. 双语标题，中文笔记
-5. 对照原始 slides 图片确保图表和视觉概念被描述
+1. 添加文档头（标题、来源、讲师、日期）
+2. 将 `## Page N` / `## Slide N` 替换为按主题编号的逻辑章节
+3. 双语章节标题（中文在前，英文括号）
+4. 清理 PDF 提取残留（页码、重复标题、空行）
+5. 整理图片引用，去除重复
+6. 在每个主要概念后添加 `📝 Notes:` 占位符
+7. 合并相关 slides 到同一章节
+
+### 命令
+
+```
+读取 skill: .shared/skills/learning-slide_formatting/SKILL.md
+格式化 Markdown 结构
+```
+
+### 输出
+
+- `courses/[course]/notes/[topic]_slides.md` (格式化后，覆盖原文件)
+
+---
+
+## Phase 1: 添加笔记 🧠
+
+**Skills**: `learning-note_taking`, `math-concept-library`, `concept-glossary`
+
+在 Phase 0.5 格式化好的 `_slides.md` 上直接添加深度双语笔记。同时滋雪球式完善两个知识库。
+
+### 步骤
+
+1. 读取 Phase 0.5 格式化后的 `[topic]_slides.md`
+2. **查库 (先查再写)**:
+   - 遇到数学公式 → 查阅 `math-concept-library/resources/`，复用已有的定义、直觉类比和分步解读
+   - 遇到概念/术语 → 查阅 `concept-glossary/resources/`，复用已有的定义、类比、历史背景
+3. 将 `📝 Notes:` 占位符替换为深度双语笔记（7 层框架）
+4. 每个笔记块至少 3 层有内容
+5. 英文在 `>` 引用块，中文在 `>>` 嵌套引用块
+6. 层标题用英文 + 图标（📌📎🎯💡⚙️⚖️⚠️📝）
+7. **入库 (写完回填)**:
+   - 新数学公式 → 按 `math-concept-library` 条目格式添加到 `resources/*.md`
+   - 新概念/术语 → 按 `concept-glossary` 条目格式添加到 `resources/*.md`
+   - 已有条目 → 更新其 `Appears In` 字段，补充交叉引用
+
+### 两种输出模式
+
+**模式 A（默认）：直接在 slides 上加笔记**
+- 笔记直接添加到 `[topic]_slides.md` 中每个概念后面
+- 适合快速复习，slides 和 notes 在一个文件中
+
+**模式 B：生成独立笔记文件**
+- 总结为独立的 `[topic]_notes.md`
+- 适合深度学习，笔记可以独立展开
 
 ### 命令
 
 ```
 读取 skill: .shared/skills/learning-note_taking/SKILL.md
-总结为笔记
+读取 skill: .shared/skills/math-concept-library/SKILL.md
+读取 skill: .shared/skills/concept-glossary/SKILL.md
+查阅两个库的 resources/ 中的已有条目
+在格式化的 slides 上添加笔记（模式 A）
+或 总结为独立笔记文件（模式 B）
+新公式写回 math-concept-library/resources/
+新概念写回 concept-glossary/resources/
 ```
 
 ### 输出
 
-- `courses/[course]/notes/[topic]_notes.md`
+- 模式 A: `courses/[course]/notes/[topic]_slides.md` (带笔记版本)
+- 模式 B: `courses/[course]/notes/[topic]_notes.md` (独立笔记)
 
 ---
 
 ## Phase 2: 实现演示 💻
 
-**Skill**: `learning-code_generation`
+**Skills**: `learning-code_generation`, `dev-code_comment`, `math-concept-library`, `concept-glossary`
 
-基于笔记生成独立可运行的 Python 演示脚本。
+基于笔记生成独立可运行的 Python 演示脚本。代码注释中的算法/概念解释从知识库复用。
 
 ### 步骤
 
@@ -140,12 +202,15 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 2. 用合成数据实现核心算法（`sklearn.datasets`, `numpy`）
 3. 可视化保存到 `[topic]_complete_demo_pages/`
 4. 使用 `os.path.join(os.path.dirname(os.path.abspath(__file__)), ...)` 确保路径安全
-5. 运行脚本，验证逻辑与 Phase 1 理论一致
+5. **代码注释**: 按 `dev-code_comment` 规范添加双语注释，算法/概念注释模板中的术语解释和公式从 `math-concept-library` 和 `concept-glossary` 复用
+6. 运行脚本，验证逻辑与 Phase 1 理论一致
 
 ### 命令
 
 ```
 读取 skill: .shared/skills/learning-code_generation/SKILL.md
+读取 skill: .shared/skills/dev-code_comment/SKILL.md
+查阅 math-concept-library + concept-glossary 复用注释素材
 生成演示脚本
 运行验证
 ```
@@ -154,6 +219,54 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 - `courses/[course]/notes/[topic]_complete_demo.py`
 - `courses/[course]/notes/[topic]_complete_demo_pages/`
+
+---
+
+## Phase 2.5: 脚本转 Notebook 📒
+
+**Skill**: `learning-notebook_conversion`
+
+将 Phase 2 的 `.py` 演示脚本转换为 Jupyter Notebook，方便交互式学习。
+
+### 步骤
+
+1. 使用 `convert_to_notebook.py` 将 `[topic]_complete_demo.py` 转换为 `.ipynb`
+
+```bash
+uv run python .shared/skills/learning-notebook_conversion/scripts/convert_to_notebook.py courses/[course]/notes/[topic]_complete_demo.py
+```
+
+2. 替换 `plt.close()` 为 `plt.show()`（使图片在 notebook 内联显示）
+
+```python
+import nbformat
+with open('notebook.ipynb', 'r', encoding='utf-8') as f:
+    nb = nbformat.read(f, as_version=4)
+for cell in nb.cells:
+    if cell.cell_type == 'code':
+        cell.source = cell.source.replace('plt.close()', 'plt.show()')
+with open('notebook.ipynb', 'w', encoding='utf-8') as f:
+    nbformat.write(nb, f)
+```
+
+3. 执行所有 cells 生成内联输出
+
+```bash
+jupyter nbconvert --to notebook --execute [topic]_complete_demo.ipynb --output [topic]_complete_demo.ipynb
+```
+
+### 命令
+
+```
+读取 skill: .shared/skills/learning-notebook_conversion/SKILL.md
+转换 .py → .ipynb
+替换 plt.close() → plt.show()
+执行所有 cells
+```
+
+### 输出
+
+- `courses/[course]/notes/[topic]_complete_demo.ipynb`
 
 ---
 
@@ -268,12 +381,13 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 courses/
 └── ml/
     └── notes/
-        ├── svm_slides.md                   # Phase 0: 原始提取
+        ├── svm_slides.md                   # Phase 0 + 0.5: 格式化的幻灯片
         ├── svm_slides_images/              # Phase 0: 提取的图片
         │   ├── slide1_img1.png
         │   └── slide2_img1.png
         ├── svm_notes.md                    # Phase 1: 理论笔记
         ├── svm_complete_demo.py            # Phase 2: 演示脚本
+        ├── svm_complete_demo.ipynb          # Phase 2.5: 演示 Notebook
         ├── svm_complete_demo_pages/        # Phase 2: 参考图片
         │   ├── svm_demo_plot1.png
         │   └── svm_demo_plot2.png
@@ -292,6 +406,7 @@ courses/
 | `/generate-study-material ml svm --no-scrape`| 完整流程 (跳过抓取)| Phase 0           |
 | `/generate-study-material ml svm --from=phase1` | 从笔记提取开始 | Phase 1           |
 | `/generate-study-material ml svm --from=phase2` | 从 Demo 开始   | Phase 2           |
+| `/generate-study-material ml svm --from=phase2.5` | 从 .py→.ipynb 开始 | Phase 2.5     |
 | `/generate-study-material ml svm --from=phase3` | 从 NB 合成开始 | Phase 3           |
 | `/generate-study-material ml svm --phase=4`  | 只运行审查        | Phase 4           |
 | `/generate-study-material ml svm --phase=5`  | 只生成测验题      | Phase 5           |
@@ -311,4 +426,10 @@ courses/
 
 ## 📎 关联 Skill 文档
 
-详细规范请参考: `.shared/skills/learning-automated_study_material/SKILL.md`
+- 整体规范: `.shared/skills/learning-automated_study_material/SKILL.md`
+- 📱 数学公式库: `.shared/skills/math-concept-library/SKILL.md` — 公式的标准解读、直觉类比、分步解读复用库
+- 📖 概念术语库: `.shared/skills/concept-glossary/SKILL.md` — 术语定义、历史背景、类比、交叉引用复用库
+- 💬 代码注释: `.shared/skills/dev-code_comment/SKILL.md` — 双语代码注释规范，算法/概念注释模板
+
+> 💡 两个知识库都是**滚雪球式积累**：每次写笔记时查库复用 → 写完后新条目入库 → 下次写笔记时可复用的素材更多
+> 💡 `dev-code_comment` 的算法注释模板（术语解释 + 定义/公式/举例/优点）与知识库条目格式互通，确保笔记和代码中的解释一致
