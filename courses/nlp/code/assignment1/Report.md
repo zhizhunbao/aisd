@@ -48,19 +48,12 @@ The dataset is first split into training (80%) and test (20%) sets **before** an
 ### Preprocessing Steps
 
 1. **Lowercasing:** Convert all text to lowercase to ensure case-insensitive matching (e.g., "Good" → "good").
-
 2. **HTML Tag Removal:** Remove HTML tags such as `<br/>` using regex pattern `<[^>]+>`.
-
 3. **Punctuation and Special Character Removal:** Remove all non-alphabetic characters, retaining only letters and spaces.
-
 4. **Extra Whitespace Removal:** Collapse multiple spaces into a single space and strip leading/trailing whitespace.
-
 5. **Tokenization:** Split text into individual word tokens using NLTK's `word_tokenize()`.
-
 6. **Stop Word Removal:** Remove common English stop words (e.g., "the", "is", "a") using NLTK's built-in stop word list.
-
 7. **Lemmatization:** Reduce words to their dictionary base form using NLTK's `WordNetLemmatizer` (e.g., "running" → "run").
-
 8. **Short Token Removal:** Remove tokens shorter than 2 characters.
 
 ### Preprocessing Example
@@ -126,14 +119,14 @@ All 6 models are evaluated on the same test set (10,000 samples).
 
 ### 6.1 Results Summary
 
-| Feature Type | Model               | Accuracy   | F-score    |
-| :----------- | :------------------ | :--------- | :--------- |
-| n-gram (BoW) | Logistic Regression | 0.7003     | 0.6881     |
-| n-gram (BoW) | Linear SVM          | 0.6728     | 0.6658     |
-| TF-IDF       | Logistic Regression | **0.7192** | 0.6716     |
-| TF-IDF       | Linear SVM          | 0.7148     | **0.6860** |
-| Word2Vec     | Logistic Regression | 0.6838     | 0.6110     |
-| Word2Vec     | Linear SVM          | 0.6777     | 0.5840     |
+| Feature Type | Model               | Accuracy         | F-score          |
+| :----------- | :------------------ | :--------------- | :--------------- |
+| n-gram (BoW) | Logistic Regression | 0.7003           | 0.6881           |
+| n-gram (BoW) | Linear SVM          | 0.6728           | 0.6658           |
+| TF-IDF       | Logistic Regression | **0.7192** | 0.6716           |
+| TF-IDF       | Linear SVM          | 0.7148           | **0.6860** |
+| Word2Vec     | Logistic Regression | 0.6838           | 0.6110           |
+| Word2Vec     | Linear SVM          | 0.6777           | 0.5840           |
 
 **Best model:** Logistic Regression + TF-IDF (Accuracy: 0.7192, F1: 0.6716)
 
@@ -155,9 +148,7 @@ Key observations:
 **Feature representation comparison:**
 
 1. **TF-IDF** achieves the best accuracy (0.7192) among the three representations. The IDF weighting effectively highlights discriminative terms while downweighting common words, providing a more informative signal than raw BoW counts.
-
 2. **n-gram (BoW)** performs slightly below TF-IDF (0.7003 vs 0.7192). While it captures term frequency, it does not account for the relative importance of terms across the corpus.
-
 3. **Word2Vec** underperforms sparse representations (0.6838 best). This is likely because: (a) average pooling dilutes strong sentiment signals from individual words, (b) the 100-dimensional dense vectors may not capture enough discriminative detail compared to 10,000-dimensional sparse representations, and (c) the model was trained on the limited training corpus.
 
 **Classifier comparison:**
@@ -216,74 +207,111 @@ The default parameter `C=1.0` turned out to be optimal for both models, which su
 
 ### 8.2 Error Categories
 
-| Category                                        | Count |
-| :---------------------------------------------- | :---- |
-| Misclassified by ALL representations            | 2,310 |
-| Misclassified by BoW/TF-IDF ONLY (not Word2Vec) | 1,108 |
-| Misclassified by Word2Vec ONLY (not BoW/TF-IDF) | 563   |
+| Category                                        | Count | Description                                                             | 中文说明                                             |
+| :---------------------------------------------- | :---- | :---------------------------------------------------------------------- | :--------------------------------------------------- |
+| Misclassified by ALL representations            | 2,310 | Text is inherently ambiguous; all methods fail to classify correctly    | 所有方法都误分类，文本本身模糊，难以正确分类         |
+| Misclassified by BoW/TF-IDF ONLY (not Word2Vec) | 1,108 | Requires semantic understanding that bag-of-words models cannot capture | 仅词袋/TF-IDF 误分类，需要语义理解，词袋模型无法捕获 |
+| Misclassified by Word2Vec ONLY (not BoW/TF-IDF) | 563   | Key sentiment words are diluted after averaging into a single vector    | 仅 Word2Vec 误分类，关键词明确但向量平均后信号被稀释 |
 
-### 8.3 Analysis of Misclassification Patterns
+### 8.3 Analysis of Misclassification Patterns / 误分类模式分析
 
 **Samples misclassified by ALL representations (2,310 samples):**
 
+> **所有表示方法都误分类的样本（2,310 个）：**
+>
+
 These are inherently difficult examples that no feature representation can handle correctly.
 
-_Example 1:_ A review with true label 3 was predicted as 5 by all models:
+> 这些是本质上难以分类的样本，任何特征表示方法都无法正确处理。
+>
+
+_Example 1 / 示例 1:_ A review with true label 3 was predicted as 5 by all models:
+
+> 真实标签为 3 的评论被所有模型预测为 5：
+>
 
 > "I signed up to get this as a 'subscribe & save' item. It was briefly under ten dollars..."
 
 This review contains a mix of factual statements and mild complaints, making the sentiment ambiguous.
 
-_Example 2:_ A review with true label 5 was predicted as 1 by all models:
+> 该评论混合了客观陈述和轻微抱怨，使得情感倾向模糊不清。
+>
+
+_Example 2 / 示例 2:_ A review with true label 5 was predicted as 1 by all models:
+
+> 真实标签为 5 的评论被所有模型预测为 1：
+>
 
 > "Not only kept her clear, she put much needed weight on after diagnosed with a chronic illness..."
 
 The presence of negative-sounding words ("chronic illness", "not") misleads all models despite the overall positive sentiment.
 
+> 尽管整体情感是正面的，但负面词汇（"chronic illness"、"not"）误导了所有模型。
+>
+
 **Samples misclassified by BoW/TF-IDF ONLY (1,108 samples):**
+
+> **仅 BoW/TF-IDF 误分类的样本（1,108 个）：**
+>
 
 These cases succeed with Word2Vec but fail with sparse representations, indicating a need for semantic understanding.
 
-_Example:_ A true label 5 review was predicted as 4 by BoW but correctly as 5 by Word2Vec:
+> 这些样本 Word2Vec 能正确分类但稀疏表示失败，说明需要语义层面的理解。
+>
+
+_Example / 示例:_ A true label 5 review was predicted as 4 by BoW but correctly as 5 by Word2Vec:
+
+> 真实标签为 5 的评论被 BoW 预测为 4，但 Word2Vec 正确预测为 5：
+>
 
 > "This is a great new flavor of Kool-Aid, a non-carbonated drink..."
 
 Word2Vec captures the overall positive semantic tone, while BoW gets distracted by neutral descriptive terms.
 
+> Word2Vec 捕获了整体正面的语义基调，而 BoW 被中性描述词干扰。
+>
+
 **Samples misclassified by Word2Vec ONLY (563 samples):**
+
+> **仅 Word2Vec 误分类的样本（563 个）：**
+>
 
 These cases succeed with sparse representations but fail with embeddings.
 
-_Example:_ A true label 1 review was correctly predicted as 1 by BoW/TF-IDF but predicted as 5 by Word2Vec:
+> 这些样本稀疏表示能正确分类但嵌入方法失败。
+>
+
+_Example / 示例:_ A true label 1 review was correctly predicted as 1 by BoW/TF-IDF but predicted as 5 by Word2Vec:
+
+> 真实标签为 1 的评论被 BoW/TF-IDF 正确预测为 1，但 Word2Vec 预测为 5：
+>
 
 > "This tastes pretty much like your plain old Liptons tea. I LOVE cassis flavor and was so looking forward..."
 
 Strong sentiment keywords ("LOVE", "looking forward") are directly captured by BoW/TF-IDF, but averaging these with neutral words dilutes the signal in Word2Vec.
 
+> 强烈的情感关键词（"LOVE"、"looking forward"）被 BoW/TF-IDF 直接捕获，但在 Word2Vec 中这些词与中性词平均后信号被稀释。
+>
+
 ### 8.4 Linguistic and Semantic Error Causes
 
-| Error Cause     | Description                               | Affected Representations |
-| :-------------- | :---------------------------------------- | :----------------------- |
-| Ambiguity       | Words with different meanings in contexts | All                      |
-| Sarcasm/Irony   | Positive words, negative intent           | All                      |
-| Mixed sentiment | Both positive and negative in one review  | All                      |
-| Short text      | Insufficient features for prediction      | Especially Word2Vec      |
-| Class boundary  | Subtle differences between scores 2–4     | All                      |
-| Synonym usage   | Uncommon words for common sentiments      | BoW/TF-IDF               |
-| Signal dilution | Key sentiment words averaged out          | Word2Vec                 |
+| Error Cause     | Description                               | 中文说明                                           | Affected Representations |
+| :-------------- | :---------------------------------------- | :------------------------------------------------- | :----------------------- |
+| Ambiguity       | Words with different meanings in contexts | 歧义：词语在不同语境下有不同含义                   | All                      |
+| Sarcasm/Irony   | Positive words, negative intent           | 讽刺/反讽：表面正面用词但实际负面意图              | All                      |
+| Mixed sentiment | Both positive and negative in one review  | 混合情感：评论同时包含正面和负面内容               | All                      |
+| Short text      | Insufficient features for prediction      | 短文本：信息不足，特征稀疏，难以准确分类           | Especially Word2Vec      |
+| Class boundary  | Subtle differences between scores 2–4    | 类别边界：Score 2-4 情感差异微妙，难以区分         | All                      |
+| Synonym usage   | Uncommon words for common sentiments      | 同义词：使用不常见词表达常见情感，词袋模型无法识别 | BoW/TF-IDF               |
+| Signal dilution | Key sentiment words averaged out          | 信号稀释：关键情感词在向量平均后被中性词淹没       | Word2Vec                 |
 
 ## 9. Conclusion
 
 1. **TF-IDF** is the most effective feature representation for this task, achieving the highest accuracy of **0.7192**.
-
 2. **n-gram (BoW)** performs comparably but without IDF weighting to downweight common terms.
-
 3. **Word2Vec** with mean pooling underperforms sparse representations due to signal dilution in averaging.
-
 4. **Logistic Regression** and **Linear SVM** achieve similar performance, with LR slightly better on TF-IDF.
-
 5. **Hyperparameter tuning** confirmed that default parameters (C=1.0) are near-optimal for both classifiers.
-
 6. **Error analysis** reveals most errors occur at class boundaries (scores 2–4). Sarcasm, mixed sentiment, and labeling noise are common error causes across all representations.
 
 ## References

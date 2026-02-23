@@ -4,114 +4,149 @@
 
 ---
 
-### CNN / Convolutional Neural Network (卷积神经网络)
+### Backpropagation Through Time, BPTT (时间反向传播)
 
-**Tags:** `#deep_learning` `#cnn` `#ml-week3`
+**Tags:** `#rnn` `#gradient` `#training` `#ml-week4`
 
-**📌 Definition (定义):**
+**📌 One-line Definition:**
+> BPTT is the backpropagation algorithm applied to unrolled RNNs, where gradients are computed across all time steps and summed to update the shared weights.
+>> BPTT是应用于展开RNN的反向传播算法，梯度在所有时间步上计算并求和以更新共享权重。
 
-> A feed-forward neural network designed to process grid-like data (images) using convolution layers with local connectivity and weight sharing, drastically reducing parameters compared to fully-connected networks while preserving spatial structure.
->
-> > 一种前馈神经网络，使用具有局部连接和权重共享的卷积层来处理网格形数据（图像），与全连接网络相比大幅减少参数，同时保留空间结构。
+**💡 Intuition (直觉理解):**
+> **The telephone game backward:** The error message at the end needs to travel back through every person (time step). Each person might distort it (multiply by < 1 or > 1), causing the message to vanish or explode.
+>> **反向传话游戏：** 最后的错误消息需要通过每个人（时间步）传回。每个人可能扭曲它（乘以<1或>1），导致消息消失或爆炸。
 
-**💡 Analogy (类比):**
+**🔗 Related Concepts:**
+→ see: Vanishing Gradient Problem (the main issue BPTT faces)
+→ see: LSTM (addresses BPTT's limitations)
 
-> MLP reads a book by looking at all letters simultaneously. CNN reads with a magnifying glass — examining one small patch at a time, sliding across the page, recognizing letters → words → sentences.
->
-> > MLP 像同时看所有字母来猜故事。CNN 像用放大镜看书——每次只放大检查一小块，在页面上滑动，从字母→单词→句子逐级识别。
-
-**⚖️ Contrast (易混淆对比):**
-
-> | Aspect                       | MLP for images             | CNN                  |
-> | ---------------------------- | -------------------------- | -------------------- |
-> | Parameters (1000×1000 image) | ~1 billion                 | ~hundreds            |
-> | Spatial structure            | ❌ Destroyed by flattening | ✅ Preserved         |
-> | Translation invariance       | ❌ No                      | ✅ Yes (via pooling) |
-
-**🔗 Related Concepts (关联概念):**
-
-> → see: Convolution (核心操作)
-> → see: Pooling (降采样)
-> → see: ReLU (标准激活函数)
-
-**📚 Appears In (出现课程):**
-
-> - ML Week 3: Convolutional Neural Networks
+**📚 Appears In:**
+- ML Week 4 §8 (Backpropagation and BPTT)
 
 ---
 
-### Convolution (卷积)
+### Feed Forward Network, FFN (前馈网络)
 
-**Tags:** `#deep_learning` `#cnn` `#ml-week3`
+**Tags:** `#architecture` `#basic` `#ml-week4`
 
-**📌 Definition (定义):**
+**📌 One-line Definition:**
+> A neural network where connections between nodes do NOT form a cycle. Information moves only forward: input → hidden → output, with no memory of previous inputs.
+>> 一种神经网络，节点之间的连接不形成循环。信息只向前移动：输入 → 隐藏层 → 输出，没有对先前输入的记忆。
 
-> A mathematical operation where a small filter/kernel slides across an input image, computing element-wise multiplication and summation at each position to produce a feature map that highlights specific patterns (edges, textures, etc.).
->
-> > 一种数学操作，小的滤波器/核在输入图像上滑动，在每个位置进行逐元素乘法和求和，产生突出特定模式（边缘、纹理等）的特征图。
+**💡 Intuition (直觉理解):**
+> **Goldfish memory:** Each input is processed independently. If you feed the same input twice, you get the exact same output — the network has no "memory" of what it saw before.
+>> **金鱼记忆：** 每个输入都独立处理。如果你两次输入相同的数据，你会得到完全相同的输出 — 网络对之前看到的没有"记忆"。
 
-**💡 Analogy (类比):**
+**⚖️ Compare:**
+| Feature | FFN | RNN |
+|---|---|---|
+| Memory | None | Hidden state stores past |
+| Input | Fixed-size | Sequential, variable |
+| Use case | Image classification | Text, speech, time series |
 
-> Like a flashlight illuminating a small region of a dark painting. Slide it around and it "lights up" when it finds the feature it's looking for (e.g., a vertical edge).
->
-> > 像手电筒照亮黑暗画作的一小块区域。在画上移动，当找到它要找的特征（如竖直边缘）时就"亮起来"。
-
-**⚠️ Common Mistake (常见错误):**
-
-> Filter depth must match input channels: RGB input (3 channels) requires 3-channel filters (e.g., 3×3×3). Multiple filters produce multiple output channels.
->
-> > 滤波器深度必须匹配输入通道数：RGB 输入（3通道）需要 3 通道滤波器（如 3×3×3）。多个滤波器产生多个输出通道。
-
-**📚 Appears In (出现课程):**
-
-> - ML Week 3: Convolution Operation
+**📚 Appears In:**
+- ML Week 4 §1 (Review of FFN)
 
 ---
 
-### Pooling (池化)
+### Long Short-Term Memory, LSTM (长短期记忆)
 
-**Tags:** `#deep_learning` `#cnn` `#ml-week3`
+**Tags:** `#rnn` `#architecture` `#sequence` `#ml-week4`
 
-**📌 Definition (定义):**
+**📌 One-line Definition:**
+> LSTM is a gated RNN architecture with a cell state that acts as a "gradient highway," enabling learning of long-term dependencies without vanishing gradients.
+>> LSTM是一种门控RNN架构，具有作为"梯度高速公路"的细胞状态，能够在不发生梯度消失的情况下学习长期依赖。
 
-> A downsampling operation that reduces spatial dimensions by taking the max or average value within non-overlapping windows. Has NO learnable parameters.
->
-> > 一种降采样操作，通过在不重叠的窗口内取最大值或平均值来减小空间维度。没有可学习参数。
+**📐 Key Components:**
 
-**⚖️ Contrast (易混淆对比):**
+$$\begin{aligned}
+f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) & \text{(Forget gate)} \\
+i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) & \text{(Input gate)} \\
+\tilde{C}_t &= \tanh(W_C \cdot [h_{t-1}, x_t] + b_C) & \text{(Candidate)} \\
+C_t &= f_t \odot C_{t-1} + i_t \odot \tilde{C}_t & \text{(Cell state)} \\
+o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) & \text{(Output gate)} \\
+h_t &= o_t \odot \tanh(C_t) & \text{(Hidden state)}
+\end{aligned}$$
 
-> | Aspect       | Max Pooling                    | Average Pooling   |
-> | ------------ | ------------------------------ | ----------------- |
-> | Operation    | Takes maximum                  | Takes average     |
-> | Effect       | Preserves strongest activation | Smooths features  |
-> | Modern usage | ✅ Standard                    | Rare (older nets) |
+**💡 Intuition (直觉理解):**
+> **The notebook analogy:** Cell state = a notebook. Forget gate = eraser (decide what to erase). Input gate + candidate = pencil (decide what to write). Output gate = what to read aloud from the notebook.
+>> **笔记本类比：** 细胞状态 = 笔记本。遗忘门 = 橡皮擦（决定擦除什么）。输入门 + 候选值 = 铅笔（决定写什么）。输出门 = 从笔记本大声读出什么。
 
-**📚 Appears In (出现课程):**
+**⚖️ Compare:**
+| Feature | LSTM | GRU |
+|---|---|---|
+| Gates | 3 (forget, input, output) | 2 (reset, update) |
+| States | 2 (C_t and h_t) | 1 (h_t only) |
+| Parameters | More | Fewer |
 
-> - ML Week 3: Pooling Layers
+**🔗 Related Concepts:**
+→ see: Vanishing Gradient Problem (what LSTM solves)
+→ see: RNN (the base architecture)
+→ see: GRU (simpler alternative)
+
+**📚 Appears In:**
+- ML Week 4 §10 (LSTM)
 
 ---
 
-### ReLU / Rectified Linear Unit (修正线性单元)
+### Recurrent Neural Network, RNN (循环神经网络)
 
-**Tags:** `#deep_learning` `#activation` `#ml-week3`
+**Tags:** `#architecture` `#sequence` `#ml-week4`
 
-**📌 Definition (定义):**
+**📌 One-line Definition:**
+> RNN is a neural network where the hidden state at time t depends on both the current input x_t and the previous hidden state h_{t-1}, enabling processing of sequential data with memory.
+>> RNN是一种神经网络，其中时间t的隐藏状态同时依赖于当前输入x_t和先前隐藏状态h_{t-1}，从而能够带记忆地处理序列数据。
 
-> An activation function that outputs the input directly if positive, zero otherwise: f(x) = max(0, x). The standard choice for hidden layers in modern CNNs due to fast computation and reduced vanishing gradient problem.
->
-> > 一种激活函数，正输入直接输出，否则输出零：f(x) = max(0, x)。由于计算快速且减轻梯度消失问题，是现代 CNN 隐藏层的标准选择。
+**📐 Core Formula:**
 
-**⚖️ Contrast (易混淆对比):**
+$$h_t = f(W_x \cdot x_t + W_h \cdot h_{t-1})$$
 
-> | Activation | Range   | Vanishing Gradient?  | Speed   |
-> | ---------- | ------- | -------------------- | ------- |
-> | Sigmoid    | (0, 1)  | ❌ Yes               | Slow    |
-> | Tanh       | (-1, 1) | ❌ Yes               | Medium  |
-> | ReLU       | [0, ∞)  | ✅ No (for positive) | ✅ Fast |
+- $h_t$ = hidden state at time $t$
+- $x_t$ = input at time $t$
+- $W_x$, $W_h$ = weight matrices (shared across all time steps)
+- $f$ = activation function (typically tanh)
 
-**📚 Appears In (出现课程):**
+**💡 Intuition (直觉理解):**
+> **The note-passing analogy:** Imagine students in a row. Each student gets a note from the previous student (h_{t-1}) and sees something new (x_t). They write a new note combining both and pass it forward. The final note contains info from everyone.
+>> **传纸条类比：** 想象一排学生。每个学生从前一个学生那里收到一张纸条（h_{t-1}），并看到新东西（x_t）。他们写一张结合两者的新纸条并传递。最后的纸条包含所有人的信息。
 
-> - ML Week 3: Activation Functions
+**🔗 Related Concepts:**
+→ see: FFN (non-recurrent baseline)
+→ see: LSTM (addresses RNN's limitations)
+→ see: BPTT (how RNN is trained)
+
+**📚 Appears In:**
+- ML Week 4 §5 (Recurrent Neural Networks)
+
+---
+
+### Vanishing Gradient Problem (梯度消失问题)
+
+**Tags:** `#gradient` `#training` `#rnn` `#ml-week4`
+
+**📌 One-line Definition:**
+> The vanishing gradient problem occurs when gradients become exponentially small during backpropagation through many layers or time steps, preventing the network from learning long-range dependencies.
+>> 梯度消失问题发生在反向传播通过许多层或时间步时梯度变得指数级小，阻止网络学习长程依赖。
+
+**💡 Intuition (直觉理解):**
+> **The fading echo:** Imagine shouting in a canyon. Each bounce loses energy. After 100 bounces, the echo is inaudible. Vanishing gradients are similar — the "error signal" fades as it travels back through time.
+>> **衰减回声：** 想象在峡谷中喊叫。每次反弹都会失去能量。100次反弹后，回声听不见了。梯度消失类似 — "错误信号"在通过时间向后传播时衰减。
+
+**⚙️ Cause:**
+> When using tanh/sigmoid, derivatives are in (0,1). Multiplying many values < 1 → product → 0. Example: 0.5^100 ≈ 10^-30.
+>> 使用tanh/sigmoid时，导数在(0,1)之间。乘以许多<1的值 → 乘积 → 0。例如：0.5^100 ≈ 10^-30。
+
+**⚙️ Solutions:**
+1. **LSTM/GRU** — gate-controlled information flow
+2. **Gradient Clipping** — cap gradient magnitude
+3. **Layer/Batch Normalization** — keep activations in stable range
+4. **ReLU** (partial) — derivative = 1 for positive inputs
+
+**🔗 Related Concepts:**
+→ see: LSTM (solves this problem)
+→ see: BPTT (where this problem occurs)
+
+**📚 Appears In:**
+- ML Week 4 §9 (Vanishing Gradient Problem)
 
 ---

@@ -46,7 +46,7 @@ class HybridPDFConverter:
     def convert(self, output_path: Path, dpi: int = 200):
         """Convert PDF to markdown"""
         
-        print(f"📄 Converting: {self.pdf_path.name}")
+        print(f"[PDF] Converting: {self.pdf_path.name}")
         print(f"   Method: Hybrid (pdfplumber text + PyMuPDF images)")
         if self.extract_formulas:
             print(f"   Formula extraction: Enabled")
@@ -134,7 +134,7 @@ class HybridPDFConverter:
         content = '\n'.join(md_lines)
         output_path.write_text(content, encoding='utf-8')
         
-        print(f"\n✅ Converted: {self.pdf_path.name} → {output_path.name}")
+        print(f"\n[OK] Converted: {self.pdf_path.name} -> {output_path.name}")
         print(f"   Pages: {len(pdf_plumber.pages)}")
         print(f"   Images: {images_dir}/")
     
@@ -372,7 +372,7 @@ def main():
     converter.convert(args.output, dpi=args.dpi)
     
     print("\n" + "=" * 60)
-    print("✅ Conversion complete!")
+    print("[OK] Conversion complete!")
     print("=" * 60)
     print(f"\nOutput: {args.output}")
     print(f"Images: {args.output.parent / f'{args.output.stem}_pages'}/")

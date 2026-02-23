@@ -233,6 +233,60 @@ batch_size = 16  # or even 8
 
 ## Reference Scripts
 
-See `courses/rl/scripts/` for complete implementation:
-- `vectorize_textbook.py` - Full vectorization pipeline
-- `query_textbook.py` - Interactive and CLI query interface
+**通用脚本（推荐）:**
+- `courses/self-study/vectorize_all.py` - 批量向量化所有 17 本教材（Ollama nomic-embed-text）
+- `courses/self-study/query_books.py` - 跨教材语义搜索（CLI + 交互模式）
+
+**旧版单本脚本:**
+- `.shared/skills/learning-textbook_vectorization/scripts/vectorize_textbook.py`
+- `.shared/skills/learning-textbook_vectorization/scripts/query_textbook.py`
+
+## Integration with generate-study-material Workflow
+
+本 skill 在工作流中的使用方式：
+
+### Phase 1（笔记）中使用
+
+遇到概念/公式时，除了查 `math-concept-library` 和 `concept-glossary`，还要搜教材：
+
+```bash
+# 搜索多本教材对同一概念的解释
+uv run python courses/self-study/query_books.py "concept name" --top-k 5
+```
+
+用搜索结果中的多本书解释来丰富笔记内容，提供多角度理解。
+
+### Phase 2（代码）中使用
+
+遇到算法实现细节不确定时，搜教材找伪代码或推导：
+
+```bash
+uv run python courses/self-study/query_books.py "algorithm pseudocode" --top-k 3
+```
+
+### Python 代码中调用
+
+```python
+# 在笔记生成脚本中直接导入
+import sys
+sys.path.insert(0, "courses/self-study")
+from query_books import load_vectors, search, get_query_embedding
+
+chunks = load_vectors()  # 加载所有教材
+results = search("SVM kernel trick", chunks, top_k=5)
+for chunk, score in results:
+    print(f"{score:.3f} | {chunk['book']} {chunk['chapter']} p.{chunk['page']}")
+    print(chunk['text'][:200])
+```
+
+### 向量文件位置
+
+```
+courses/self-study/
+├── ml/      → barber, bishop, esl, goodfellow, kelleher, murphy_pml1, murphy_pml2, shalev
+├── math/    → mml, boyd, mackay, grinstead, downey
+├── nlp/     → jurafsky
+├── cv/      → szeliski
+├── rl/      → sutton
+└── graphs/  → hamilton
+```

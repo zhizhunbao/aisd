@@ -1,0 +1,15 @@
+{
+  "name": "textbook-search",
+  "displayName": "Textbook Search (三路混合检索)",
+  "description": "三路混合教材检索系统：向量语义搜索 + BM25 关键词搜索 + TOC 目录导航。使用 Ollama 本地模型，完全免费。",
+  "keywords": [
+    "textbook", "search", "vector", "BM25", "TOC",
+    "semantic search", "hybrid search", "embedding",
+    "Ollama", "nomic-embed-text", "ChromaDB",
+    "教材搜索", "向量化", "混合检索", "语义搜索"
+  ],
+  "category": "learning",
+  "version": "2.0.0",
+  "author": "AISD",
+  "tags": ["pdf", "nlp", "search", "study", "rag"]
+}

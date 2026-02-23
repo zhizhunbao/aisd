@@ -20,16 +20,17 @@ description: Comprehensive PDF processing toolkit. Use when (1) extracting text/
 
 Choose the right tool for your task:
 
-| Task               | Best Library                | Why                          |
-| ------------------ | --------------------------- | ---------------------------- |
-| Extract text       | `pymupdf` (fitz)            | Fast, accurate, hybrid mode  |
-| Extract tables     | `pdfplumber`                | Excellent table detection    |
-| Merge/split PDFs   | `pypdf`                     | Fast and lightweight         |
-| Create PDFs        | `reportlab`                 | Professional output          |
-| Fill forms         | `pypdf` or `pdf-lib` (JS)   | Form field support           |
-| Extract images     | `pymupdf` (fitz)            | Built-in, preserves quality  |
-| OCR scanned PDFs   | `pytesseract` + `pdf2image` | Industry standard            |
-| Convert to MD      | `pymupdf` (fitz)            | Best for slides and academic |
+| Task             | Best Library                   | Why                                           |
+| ---------------- | ------------------------------ | --------------------------------------------- |
+| Extract text     | `pymupdf` (fitz)               | Fast, accurate, hybrid mode                   |
+| Extract tables   | `pdfplumber`                   | Excellent table detection                     |
+| Merge/split PDFs | `pypdf`                        | Fast and lightweight                          |
+| **Split by TOC** | `scripts/pdf_section_split.py` | Auto-read bookmarks, fallback to page headers |
+| Create PDFs      | `reportlab`                    | Professional output                           |
+| Fill forms       | `pypdf` or `pdf-lib` (JS)      | Form field support                            |
+| Extract images   | `pymupdf` (fitz)               | Built-in, preserves quality                   |
+| OCR scanned PDFs | `pytesseract` + `pdf2image`    | Industry standard                             |
+| Convert to MD    | `pymupdf` (fitz)               | Best for slides and academic                  |
 
 ## Core Workflows
 
@@ -109,7 +110,7 @@ with open("merged.pdf", "wb") as output:
     writer.write(output)
 ```
 
-**Split:**
+**Split by page:**
 
 ```python
 reader = PdfReader("input.pdf")
@@ -119,6 +120,24 @@ for i, page in enumerate(reader.pages):
     with open(f"page_{i+1}.pdf", "wb") as output:
         writer.write(output)
 ```
+
+**Split by TOC sections (recommended for textbooks):**
+
+```bash
+# Auto-reads PDF bookmarks, splits into section-level PDFs
+python scripts/pdf_section_split.py textbook.pdf --stats   # Preview
+python scripts/pdf_section_split.py textbook.pdf           # Split all
+python scripts/pdf_section_split.py textbook.pdf --chapter 2  # One chapter
+```
+
+This reads the PDF's built-in Table of Contents and splits into ~3-5 page sections,
+reducing token cost by ~30x compared to processing whole books.
+
+**Fallback for PDFs without bookmarks:** If no built-in TOC is found, the script
+automatically scans running page headers (e.g., "CHAPTER N. TITLE" / "N.M. SECTION")
+to detect chapter/section boundaries. This works for many academic textbooks
+(e.g., Grinstead & Snell's Probability).
+无书签回退：若 PDF 无内嵌目录，脚本会自动扫描运行页眉检测章节边界。
 
 **For command-line alternatives:** See `references/cli_tools.md`
 
@@ -207,20 +226,20 @@ def pdf_to_markdown(pdf_path: str, output_path: str = None):
     pdf_path = Path(pdf_path)
     if output_path is None:
         output_path = pdf_path.with_suffix('.md')
-    
+
     doc = pymupdf.open(pdf_path)
     markdown_content = []
-    
+
     for page_num, page in enumerate(doc, 1):
         markdown_content.append(f"## Page {page_num}\n")
-        
+
         # Extract text in markdown format
         text = page.get_text("text")  # or "blocks" for structured
         markdown_content.append(text)
         markdown_content.append("\n---\n")
-    
+
     doc.close()
-    
+
     # Write to file
     Path(output_path).write_text("\n".join(markdown_content), encoding='utf-8')
     print(f"✓ Converted: {pdf_path.name} → {output_path}")
@@ -240,22 +259,22 @@ def pdf_slides_to_markdown(pdf_path: str, output_path: str = None):
     pdf_path = Path(pdf_path)
     if output_path is None:
         output_path = pdf_path.with_suffix('.md')
-    
+
     output_dir = output_path.parent
     img_dir = output_dir / f"{output_path.stem}_images"
     img_dir.mkdir(exist_ok=True)
-    
+
     doc = pymupdf.open(pdf_path)
     markdown_content = []
-    
+
     for page_num, page in enumerate(doc, 1):
         markdown_content.append(f"## Slide {page_num}\n")
-        
+
         # Extract text
         text = page.get_text()
         if text.strip():
             markdown_content.append(text)
-        
+
         # Extract images
         images = page.get_images()
         for img_idx, img in enumerate(images):
@@ -264,11 +283,11 @@ def pdf_slides_to_markdown(pdf_path: str, output_path: str = None):
             img_path = img_dir / f"slide{page_num}_img{img_idx}.{base_image['ext']}"
             img_path.write_bytes(base_image["image"])
             markdown_content.append(f"\n![Image]({img_path.relative_to(output_dir)})\n")
-        
+
         markdown_content.append("\n---\n")
-    
+
     doc.close()
-    
+
     Path(output_path).write_text("\n".join(markdown_content), encoding='utf-8')
     print(f"✓ Converted: {pdf_path.name} → {output_path}")
     print(f"  Images: {len(list(img_dir.glob('*')))} extracted")
@@ -388,16 +407,42 @@ course/
 
 ## Quick Reference
 
-| Task           | Best Tool        | Command/Code                      |
-| -------------- | ---------------- | --------------------------------- |
-| Extract text   | `pymupdf`        | `page.get_text()`                 |
-| Extract tables | `pdfplumber`     | `page.extract_tables()`           |
-| Merge PDFs     | `pypdf`          | See workflows above               |
-| Fill forms     | `pypdf`          | `update_page_form_field_values()` |
-| Create PDFs    | `reportlab`      | Canvas or Platypus                |
-| OCR scanned    | `pytesseract`    | Convert to image first            |
-| Extract images | `pymupdf`        | `page.get_images()`               |
-| Convert to MD  | `pymupdf`        | See workflow 8 above              |
+| Task           | Best Tool              | Command/Code                      |
+| -------------- | ---------------------- | --------------------------------- |
+| Extract text   | `pymupdf`              | `page.get_text()`                 |
+| Extract tables | `pdfplumber`           | `page.extract_tables()`           |
+| Merge PDFs     | `pypdf`                | See workflows above               |
+| Split by TOC   | `pdf_section_split.py` | `--stats` to preview, auto-split  |
+| Fill forms     | `pypdf`                | `update_page_form_field_values()` |
+| Create PDFs    | `reportlab`            | Canvas or Platypus                |
+| OCR scanned    | `pytesseract`          | Convert to image first            |
+| Extract images | `pymupdf`              | `page.get_images()`               |
+| Convert to MD  | `pymupdf`              | See workflow 8 above              |
+
+## Book Splitters (Custom Scripts)
+
+For academic textbooks with non-standard TOC structures, use custom splitters in `scripts/book_splitters/`:
+
+| Script | Book | Strategy |
+|--------|------|----------|
+| `split_bishop.py` | Bishop PRML | L1 numbered chapters, skip non-numbered |
+| `split_murphy.py` | Murphy PML1/PML2 | Parts + Chapters, find same-level end pages |
+| `split_esl.py` | ESL | No TOC, scan running headers at y=90 |
+| `split_barber.py` | Barber BRML | No TOC, scan running headers at y=16 |
+| `split_goodfellow.py` | Goodfellow DL | Standard TOC structure |
+| `split_kelleher.py` | Kelleher ML | Appendices as separate chapters |
+| `split_shalev.py` | Shalev-Shwartz UML | Extract sections from TOC pages |
+
+**Usage:**
+```bash
+cd <book_directory>
+python path/to/scripts/book_splitters/split_bishop.py
+```
+
+**Key patterns for custom splitters:**
+1. `find_end_page()` - Find next entry at same/higher TOC level
+2. Header scanning - For PDFs without embedded TOC
+3. Chapter number regex - Skip non-chapter L1 entries (e.g., "COVER", "Preface")
 
 ## Advanced Topics
 
