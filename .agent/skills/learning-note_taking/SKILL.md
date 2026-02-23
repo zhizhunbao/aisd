@@ -533,6 +533,74 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 - **Border point:** not core, but within ε of a core — 边界点：不是核心但在核心点ε内
 ```
 
+### 10. Teacher Material Formatting Mode (教师资料格式化模式)
+
+当处理**教师原始资料**（Lab PDF、Assignment 文档等）时，使用 **纯格式化 + 翻译** 模式，**不添加 📝 Notes 块**。
+
+**适用场景：**
+
+- Lab 实验指导文档（如 `CST8507 Lab 3_W26.pdf`）
+- Assignment 作业说明文档
+- 任何教师分发的操作/说明性 PDF
+
+**与 Slides 笔记的区别：**
+
+| 维度 | Slides 笔记模式 (§1-§9) | 教师资料格式化模式 (§10) |
+|------|------------------------|------------------------|
+| 📝 Notes 块 | ✅ 必须，9 层框架 | ❌ **不加** |
+| 中文翻译 | 在 `>>` 嵌套引用块中 | 在同一行 ` — 中文翻译` |
+| 内容深度 | 深度分析、类比、陷阱 | 仅翻译，不额外分析 |
+| 页面截图 | 保留 | 保留 |
+| 原文保真 | ✅ Fidelity Rule | ✅ Fidelity Rule |
+
+**格式规则：**
+
+1. **保留页面截图**：`![Page N](path/page_NNN.png)` 直接放在页面开头
+2. **标题格式**：`**English Title — 中文标题**`
+3. **正文要点**：`- English verbatim from PDF — 中文翻译`（同一行，` — ` 分隔）
+4. **表格**：表头和内容都加双语 `English — 中文`
+5. **代码块**：原样保留，不翻译
+6. **移除模板结构**：去掉 `### 📷 Page Image`、`### 📝 Text Content`、`### ✍️ Notes` 等 PDF 转换工具生成的模板标记
+7. **Fidelity Rule 适用**：英文部分忠实还原原文，中文部分自然翻译
+
+**结构模板：**
+
+```markdown
+## Page N
+
+![Page N](path/page_NNN.png)
+
+**Document Title — 文档标题**
+
+**Section Heading — 章节标题**
+
+- Original text from PDF — 中文翻译
+- Another point from PDF — 另一个要点的中文翻译
+  1. Sub-step from PDF — 子步骤翻译
+  2. Another sub-step — 另一个子步骤
+
+| Column — 列名 | Description — 描述 |
+|---|---|
+| value1 | Meaning of value1 — value1 的含义 |
+```
+
+**示例（Lab PDF）：**
+
+```markdown
+## Page 1
+
+![Page 1](CST8507_Lab_3_W26_pages/page_001.png)
+
+**CST8507: Natural Language Processing — CST8507：自然语言处理**
+
+**Lab 3: Word Embedding — 实验 3：词嵌入**
+
+**Objective — 目标**
+
+- Load pre-trained word vectors. — 加载预训练词向量。
+- Evaluate embeddings using intrinsic metrics — 使用内在评价指标评估词嵌入
+```
+
 ## Examples
 
 ### Example 1: Math/Algorithm Concept (Eigenvalues)

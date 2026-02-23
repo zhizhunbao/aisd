@@ -98,6 +98,42 @@ if __name__ == "__main__":
     main()
 ```
 
+**⚠️ RULE: Sub-Step Dividers (for complex steps)**
+
+When a step contains multiple logical phases, add sub-step dividers inside the same cell using `--- Step N.M` format with 40-char `-` lines. Each sub-step header: Chinese first line, English second line.
+
+```python
+# ============================================================
+# 步骤 1：加载并探索数据集
+# Step 1: Load and explore dataset
+# ============================================================
+
+# ----------------------------------------
+# 步骤 1.1：加载数据集
+# Step 1.1: Load dataset
+# ----------------------------------------
+DATA_PATH = "data.csv"
+df_full = pd.read_csv(DATA_PATH)
+print(f"Dataset shape: {df_full.shape}")
+
+# ----------------------------------------
+# 步骤 1.2：选择所需列
+# Step 1.2: Select required columns
+# ----------------------------------------
+df = df_full[["col1", "col2", "target"]].copy()
+
+# ----------------------------------------
+# 步骤 1.3：计算统计信息
+# Step 1.3: Compute statistics
+# ----------------------------------------
+print(f"Min: {df['target'].min():.2f}")
+print(f"Max: {df['target'].max():.2f}")
+```
+
+- **Main step**: 60-char `=` dividers — one per cell
+- **Sub-step**: 40-char `-` dividers — multiple per cell, only when the step has ≥ 2 distinct phases
+- **Both levels**: Chinese line first, English line second
+
 ### 3. Output Formatting Requirements
 
 **⚠️ PRINCIPLE 1: Raw Data Integrity**

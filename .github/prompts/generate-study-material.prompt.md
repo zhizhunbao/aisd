@@ -6,12 +6,14 @@
 
 指定课程和材料类型:
 - 课程: ml | mv | nlp | rl
-- 类型: notes | quiz | flashcards | summary
+- 类型: notes | quiz | flashcards | summary | lab
 
 ## 执行步骤
 
 1. **读取工作流**: `.shared/workflows/generate-study-material.md`
-2. **定位资源**: 查找 `courses/{course}/slides/` 和 `data/{course}/`
+2. **定位资源**: 
+   - Slides 流程: 查找 `courses/{course}/slides/` 和 `data/{course}/`
+   - Lab 流程: 查找 `courses/{course}/labs/` 和 `courses/{course}/code/lab{N}/`
 3. **提取内容**: 分析关键概念
 4. **生成材料**: 创建学习内容
 
@@ -29,4 +31,8 @@
 
 ```
 /generate-study-material nlp quiz lab2
+```
+
+```
+/generate-study-material nlp lab3
 ```

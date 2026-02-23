@@ -52,6 +52,10 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 5: 测验 (Quiz)                                         │
 │   ↓ learning-quiz_generation skill                          │
+├─────────────────────────────────────────────────────────────┤
+│ Phase L: 实验格式化 (Lab Formatting) ← 独立流程             │
+│   ↓ Lab PDF → 格式化 + 中文翻译（不加 Notes）              │
+│   ↓ dev-pdf_processing + learning-note_taking §10           │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -403,6 +407,62 @@ courses/
 
 ---
 
+## Phase L: 实验资料格式化 🧪 (Lab Material Formatting)
+
+**Skills**: `learning-note_taking` (§10 教师资料格式化模式), `dev-pdf_processing`
+
+对实验（Lab）PDF 进行格式化和中文翻译。**不生成 Notes 块**，只做格式整理 + 双语翻译。
+
+### 适用场景
+
+- 收到新的 Lab PDF，需要格式化为可读的 Markdown
+- 需要中英双语版本方便理解
+- Lab 内容与 slides 主题不完全对应
+
+### 步骤
+
+1. **转换 Lab PDF**（如果没有 markdown 版）:
+   ```bash
+   uv run python .shared/skills/dev-pdf_processing/scripts/pdf_to_md_hybrid.py "courses/[course]/labs/Lab_X.pdf" -o "courses/[course]/labs/Lab_X.md"
+   ```
+
+2. **格式化 Lab MD**:
+   - 使用 `learning-note_taking` §10 教师资料格式化模式
+   - 移除 PDF 转换工具生成的模板标记（`### 📷`、`### 📝`、`### ✍️`）
+   - 保留页面截图 `![Page N](...)`
+   - 所有文本加中文翻译：`English — 中文翻译`
+   - 表格双语化
+   - 代码块原样保留
+   - **不加 📝 Notes 块**
+
+3. **输出**: `courses/[course]/labs/Lab_X.md`（原地格式化）
+
+### 命令
+
+```
+/generate-study-material [course] lab[N]
+
+示例:
+/generate-study-material nlp lab3
+/generate-study-material ml lab2
+```
+
+### 输出
+
+- `courses/[course]/labs/Lab_X.md`（格式化 + 中文翻译的 Lab 文档）
+
+### 与 Slides 流程的区别
+
+| 维度 | Slides 流程 (Phase 0-5) | Lab 流程 (Phase L) |
+|------|------------------------|-------------------|
+| 输入 | PPT/PDF slides | Lab PDF |
+| 处理方式 | 格式化 + 深度 Notes | **仅格式化 + 翻译** |
+| 📝 Notes | ✅ 9 层框架 | ❌ 不加 |
+| 产出 | 多文件（slides+notes+demo+quiz） | 单文件（格式化的 Lab MD） |
+| 何时使用 | 课前预习/课后复习 | 收到 Lab PDF 时 |
+
+---
+
 ## 💡 快捷子命令
 
 | 命令                                         | 说明              | 从哪个 Phase 开始 |
@@ -415,6 +475,7 @@ courses/
 | `/generate-study-material ml svm --from=phase3` | 从 NB 合成开始 | Phase 3           |
 | `/generate-study-material ml svm --phase=4`  | 只运行审查        | Phase 4           |
 | `/generate-study-material ml svm --phase=5`  | 只生成测验题      | Phase 5           |
+| `/generate-study-material nlp lab3`          | Lab 格式化+翻译   | Phase L           |
 
 ---
 
