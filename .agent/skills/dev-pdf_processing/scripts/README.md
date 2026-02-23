@@ -112,16 +112,77 @@ Used internally by `pdf_to_md_hybrid.py` to improve formula readability.
 
 ---
 
+### 5. `pdf_section_split.py` - TOC Section Splitter
+
+**Automatic PDF splitter** - reads PDF's built-in TOC bookmarks to split by sections.
+
+**Features:**
+
+- ✅ Auto-reads PDF Table of Contents (bookmarks/outline)
+- ✅ Splits by chapter sections (e.g., 2.1, 2.2, 2.3...)
+- ✅ Auto-computes section boundaries from TOC
+- ✅ Generates `toc.json` manifest for downstream processing
+- ✅ No manual config needed - fully automatic
+- ✅ Stats mode to preview before splitting
+
+**Usage:**
+
+```bash
+# Show section statistics (no splitting)
+python pdf_section_split.py textbook.pdf --stats
+
+# Split all chapters into sections/chNN/ directories
+python pdf_section_split.py textbook.pdf
+
+# Split only chapter 2
+python pdf_section_split.py textbook.pdf --chapter 2
+
+# Custom output directory
+python pdf_section_split.py textbook.pdf --output my_sections/
+```
+
+**Output structure:**
+
+```
+sections/
+├── toc.json                              # Full TOC with page ranges
+├── ch02/
+│   ├── sec_2.1_systems_of_linear_equations.pdf
+│   ├── sec_2.2_matrices.pdf
+│   └── ...
+├── ch03/
+│   └── ...
+```
+
+**Best for:**
+
+- Large textbooks that are too big to process per-chapter
+- Reducing token cost by processing 3-5 pages at a time instead of 30-50
+- Granular study material generation (one section = one note-taking session)
+- Any PDF with built-in TOC bookmarks
+
+**Why use this:**
+
+| Granularity     | Pages per unit | ~Tokens per unit | Token savings |
+| --------------- | -------------- | ---------------- | ------------- |
+| Whole book      | 400            | ~200k            | baseline      |
+| Per chapter     | 30-50          | ~70k-140k        | ~5x           |
+| **Per section** | **3-5**        | **~5k-15k**      | **~30x**      |
+
+---
+
 ## 📋 Quick Decision Guide
 
-| Use Case                      | Recommended Tool      |
-| ----------------------------- | --------------------- |
-| General course notes          | `pdf_converter.py`    |
-| Bilingual study materials     | `pdf_converter.py`    |
-| Need full page screenshots    | `pdf_to_md_hybrid.py` |
-| Math/physics with formulas    | `pdf_to_md_hybrid.py` |
-| Scanned documents (OCR)       | `pdf_to_image_md.py`  |
-| Complex layouts with diagrams | `pdf_to_image_md.py`  |
+| Use Case                       | Recommended Tool       |
+| ------------------------------ | ---------------------- |
+| General course notes           | `pdf_converter.py`     |
+| Bilingual study materials      | `pdf_converter.py`     |
+| Need full page screenshots     | `pdf_to_md_hybrid.py`  |
+| Math/physics with formulas     | `pdf_to_md_hybrid.py`  |
+| Scanned documents (OCR)        | `pdf_to_image_md.py`   |
+| Complex layouts with diagrams  | `pdf_to_image_md.py`   |
+| **Split textbook by sections** | `pdf_section_split.py` |
+| **Reduce token cost**          | `pdf_section_split.py` |
 
 ---
 
@@ -157,3 +218,4 @@ See `SKILL.md` for comprehensive PDF processing techniques:
 3. **For OCR needs**: Use `pdf_to_image_md.py` with higher DPI (300)
 4. **Image quality**: Higher DPI gives better quality but larger files
 5. **Bilingual notes**: Add `--bilingual` flag to any converter
+6. **Large textbooks**: Use `pdf_section_split.py` first to split by TOC, then convert each section individually to save tokens

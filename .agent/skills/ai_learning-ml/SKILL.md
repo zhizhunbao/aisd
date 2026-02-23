@@ -77,6 +77,29 @@ Explain the behavior change when increasing or decreasing the value.
 - **No Redundant Headers**: Skip headers like "[Parameter Intuition]". Start directly with the explanation.
 - **Actionable Analogies**: Use analogies that imply **decisions** (e.g., "myopic vs farsighted", "strict vs easy-going").
 
+### 5. Storyline Comments (故事线注释)
+
+For import blocks and concept explanation blocks, use a **storyline narrative** that follows a causal chain: **problem → motivation → solution → next problem**.
+
+- **Bilingual**: Chinese on top, English on bottom (same rule as all comments).
+- **Numbered steps**: Use ❶❷❸❹ to mark each step in the causal chain.
+- **Each step answers**: "Why do we need this?" — motivated by the previous step's gap.
+
+- **Example (import block)**:
+  ```python
+  # 🎬 故事线：从"有原始数据"到"能预测结果"，我们需要哪些工具？
+  # 🎬 Storyline: from "raw data" to "predictions", what tools do we need?
+  #
+  # ❶ 首先，我们需要一个计算引擎 → TensorFlow
+  #    First, we need a computation engine → TensorFlow
+  #    但直接用太底层，所以它自带了 Keras 简化工具包
+  #    But it's too low-level, so it ships with Keras as a simplified toolkit
+  #
+  # ❷ 有了引擎，我们要搭模型 → Sequential
+  #    With the engine, we need to build a model → Sequential
+  #    ...
+  ```
+
 ## Resources
 
 - **Lab Materials**: `courses/[course]/labs/` (Original PDFs/Docs)

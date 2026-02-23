@@ -304,20 +304,21 @@ If you explained a formula that is **not yet in** `math-concept-library/resource
 
 ### 8. Image Description Protocol (图片描述规范)
 
-**EVERY image** in the notes gets a bilingual description — whether it shows a step-by-step process, a concept diagram, a comparison, or an example.
+**EVERY image** in the notes gets a single-line bilingual title — placed directly below the image.
 
 **Rules:**
 
-1. **Each image gets its own bilingual description** — plain text (NOT inside `>` blockquote), placed directly below the image
-2. **English paragraph first** (bold title), then **Chinese paragraph** (bold title) on the next line
-3. Descriptions must explain **what the image visually shows** — describe diagrams, matrices, highlighted elements, arrows, colors, labels, etc. so a reader can understand **without seeing the image**
-4. The **`📝 Notes` block** still appears **once** at the end of the entire section (after all images), providing deeper analysis
-5. **Image descriptions ≠ Notes.** Descriptions = "what you see"; Notes = "what it means and why it matters"
-6. **Main text bullet points** under an image must follow the **Fidelity Rule** (see §10 below)
-7. **Per-slide bullet placement:** Each slide's bullet points MUST appear **directly after that slide's image + description** — NEVER grouped together after multiple slides. The order is always: `image → description → that slide's bullet points → next image → ...`
+1. **Each image gets ONE line:** `**Slide Title:** — 中文翻译` — plain text (NOT inside `>` blockquote), placed directly below the image
+2. **Single line format:** `**English Title:** — 中文翻译` — English title from the slide followed by ` — ` and a direct Chinese translation of the title. NO separate English/Chinese paragraphs.
+3. **NO image visual descriptions** — do NOT write paragraphs describing what the image shows (e.g., "Diagram showing...", "Slide showing..."). The title is just a translation of the slide title, NOT a description of the image content.
+4. **NO duplicate titles** — if the slide title and the image description are the same text, keep only ONE line with the `— 中文` format. Do NOT have both a description line and a separate slide text line.
+5. The **`📝 Notes` block** still appears **once** at the end of the entire section (after all images), providing deeper analysis
+6. **Main text bullet points** under an image must follow the **Fidelity Rule** (see §10 below): `English verbatim from slide — 中文翻译` on the same line
+7. **Per-slide bullet placement:** Each slide's bullet points MUST appear **directly after that slide's image + title** — NEVER grouped together after multiple slides. The order is always: `image → title → that slide's bullet points → next image → ...`
 8. **No cross-slide merging:** Do NOT combine, rewrite, or reorganize bullet points from multiple slides into one unified list. Each slide's text is transcribed **separately** where it belongs. The Notes block at the end is where you synthesize and analyze across slides.
+9. **Do NOT touch `📝 Notes` blocks** — they already have bilingual content and follow a different format.
 
-**Applies to:** step-by-step algorithm walkthroughs, concept definition slides, comparison diagrams, before/after examples, formula illustration slides — ALL images.
+**Applies to:** ALL images — step-by-step algorithm walkthroughs, concept definition slides, comparison diagrams, before/after examples, formula illustration slides.
 
 **Structure:**
 
@@ -326,18 +327,14 @@ If you explained a formula that is **not yet in** `math-concept-library/resource
 
 ![Page N](path/to/image.png)
 
-**English title:** Describe what the image shows — key visual elements, labeled parts, highlighted areas, colors, arrows. Mention the slide title if visible.
-
-**中文标题：** 中文描述 — 关键视觉元素、标注部分、高亮区域、颜色、箭头。
+**Slide Title:** — 幻灯片标题中文翻译
 
 - Verbatim bullet point from THIS slide — 中文翻译
-- Another bullet point from THIS slide — 另一个要点
+- Another bullet point from THIS slide — 另一个要点的中文翻译
 
 ![Page N+1](path/to/next_image.png)
 
-**English title:** Next image description...
-
-**中文标题：** 下一张图描述...
+**Next Slide Title:** — 下一张幻灯片标题
 
 - Bullet points from THIS slide (Page N+1) — 中文翻译
 
@@ -345,24 +342,25 @@ If you explained a formula that is **not yet in** `math-concept-library/resource
 > (deep analysis of the entire section — 7-layer framework)
 ```
 
-**Example 1** (step-by-step process — agglomerative clustering):
+**Example 1** (concept slide):
 
 ```markdown
-![Page 24](week6_clustering_slides_pages/page_024.png)
+![Page 38](lecture1_slides_pages/page_038.png)
 
-**Steps 1 & 2:** Start with individual points and a proximity matrix. Left: scatter plot where each point = one cluster. Right: N×N distance matrix (p1–p5…). Bottom: dendrogram with each point as a leaf node — no merges yet.
+**Language is Ambiguous: Words Have Many Meanings:** — 语言是歧义的：词有多种含义
 
-**步骤 1 和 2：** 从单个数据点开始，建立距离矩阵。左侧：散点图，每个点 = 一个簇。右侧：N×N 距离矩阵（p1–p5…）。底部：树状图初始状态，每个点各自为叶节点，尚未发生任何合并。
+- word "bass" can refer to a type of fish or a low-frequency sound. — 词"bass"可以指一种鱼或低频声音。
+- The word "bank" can refer to a financial institution or the edge of a river. — 词"bank"可以指金融机构或河岸。
 ```
 
-**Example 2** (concept diagram — DBSCAN point types):
+**Example 2** (title-only slide with reference):
 
 ```markdown
-![Page 37](week6_clustering_slides_pages/page_037.png)
+![Page 25](lecture1_slides_pages/page_025.png)
 
-**Diagram of three point types (MinPts = 7):** Three overlapping circles with radius Eps. Right circle (labeled "core point", point **A**): has ≥ 7 points within its ε-circle → core. Middle circle (labeled "border point", point **B**): < 7 points in own circle, but inside A's circle → border. Left circle (labeled "noise point", point **C**): < 7 points and not in any core's circle → noise.
+**History of NLP:** — NLP历史
 
-**三种点类型示意图（MinPts = 7）：** 三个半径为Eps的重叠圆。右侧圆（标注"core point"，点**A**）：ε圆内有≥7个点 → 核心点。中间圆（标注"border point"，点**B**）：自己圆内不足7个，但在A的圆内 → 边界点。左侧圆（标注"noise point"，点**C**）：圆内不足7个，也不在任何核心点圆内 → 噪声点。
+Ref: https://example.com/nlp-history
 ```
 
 ### 9. Layer-Specific Best Practices (各层最佳实践)

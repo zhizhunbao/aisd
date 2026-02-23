@@ -34,10 +34,12 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │   ↓ learning-note_taking skill                              │
 │   ↓ + math-concept-library (公式库, 滋雪球式积累)           │
 │   ↓ + concept-glossary (术语库, 滋雪球式积累)              │
+│   ↓ + textbook-vectorization (教材语义搜索, 多书交叉参考) │
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 2: 演示 (Demo)                                         │
 │   ↓ learning-code_generation + dev-code_comment skills      │
 │   ↓ + math-concept-library / concept-glossary (复用注释)    │
+│   ↓ + textbook-vectorization (搜索伪代码/推导细节)       │
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 2.5: 转换 (Convert .py → .ipynb)                       │
 │   ↓ learning-notebook_conversion skill                      │
@@ -141,9 +143,9 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ## Phase 1: 添加笔记 🧠
 
-**Skills**: `learning-note_taking`, `math-concept-library`, `concept-glossary`
+**Skills**: `learning-note_taking`, `math-concept-library`, `concept-glossary`, `textbook-vectorization`
 
-在 Phase 0.5 格式化好的 `_slides.md` 上直接添加深度双语笔记。同时滋雪球式完善两个知识库。
+在 Phase 0.5 格式化好的 `_slides.md` 上直接添加深度双语笔记。同时滋雪球式完善两个知识库，并利用教材语义搜索获取多书交叉参考。
 
 ### 步骤
 
@@ -151,6 +153,7 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 2. **查库 (先查再写)**:
    - 遇到数学公式 → 查阅 `math-concept-library/resources/`，复用已有的定义、直觉类比和分步解读
    - 遇到概念/术语 → 查阅 `concept-glossary/resources/`，复用已有的定义、类比、历史背景
+   - 遇到核心概念 → 用 `query_books.py` 搜索多本教材的解释，获取多角度理解
 3. 将 `📝 Notes:` 占位符替换为深度双语笔记（7 层框架）
 4. 每个笔记块至少 3 层有内容
 5. 英文在 `>` 引用块，中文在 `>>` 嵌套引用块
@@ -177,6 +180,7 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 读取 skill: .shared/skills/math-concept-library/SKILL.md
 读取 skill: .shared/skills/concept-glossary/SKILL.md
 查阅两个库的 resources/ 中的已有条目
+搜索教材: uv run python courses/self-study/query_books.py "核心概念" --top-k 5
 在格式化的 slides 上添加笔记（模式 A）
 或 总结为独立笔记文件（模式 B）
 新公式写回 math-concept-library/resources/
@@ -192,9 +196,9 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ## Phase 2: 实现演示 💻
 
-**Skills**: `learning-code_generation`, `dev-code_comment`, `math-concept-library`, `concept-glossary`
+**Skills**: `learning-code_generation`, `dev-code_comment`, `math-concept-library`, `concept-glossary`, `textbook-vectorization`
 
-基于笔记生成独立可运行的 Python 演示脚本。代码注释中的算法/概念解释从知识库复用。
+基于笔记生成独立可运行的 Python 演示脚本。代码注释中的算法/概念解释从知识库复用。遇到实现细节不确定时，用 `query_books.py` 搜索教材中的伪代码或推导过程。
 
 ### 步骤
 
@@ -211,6 +215,7 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 读取 skill: .shared/skills/learning-code_generation/SKILL.md
 读取 skill: .shared/skills/dev-code_comment/SKILL.md
 查阅 math-concept-library + concept-glossary 复用注释素材
+搜索教材: uv run python courses/self-study/query_books.py "算法名 pseudocode" --top-k 3
 生成演示脚本
 运行验证
 ```
@@ -430,6 +435,10 @@ courses/
 - 📱 数学公式库: `.shared/skills/math-concept-library/SKILL.md` — 公式的标准解读、直觉类比、分步解读复用库
 - 📖 概念术语库: `.shared/skills/concept-glossary/SKILL.md` — 术语定义、历史背景、类比、交叉引用复用库
 - 💬 代码注释: `.shared/skills/dev-code_comment/SKILL.md` — 双语代码注释规范，算法/概念注释模板
+- 📚 教材搜索: `.shared/skills/learning-textbook_vectorization/SKILL.md` — 17 本教材向量化语义搜索
+  - 向量化: `uv run python courses/self-study/vectorize_all.py`
+  - 搜索: `uv run python courses/self-study/query_books.py "查询内容"`
 
 > 💡 两个知识库都是**滚雪球式积累**：每次写笔记时查库复用 → 写完后新条目入库 → 下次写笔记时可复用的素材更多
 > 💡 `dev-code_comment` 的算法注释模板（术语解释 + 定义/公式/举例/优点）与知识库条目格式互通，确保笔记和代码中的解释一致
+> 💡 教材语义搜索提供**多书交叉参考**：遇到概念时搜索多本教材的解释，获取不同角度的理解

@@ -9,11 +9,11 @@ Proactively load specialized skills when user queries match keywords below. Skil
 ## Core Rules
 
 1. **Automatic Detection**: Scan user queries for keywords (English or Chinese) and load matching skills immediately
-2. **File Location**: Skills are in `.skills/{skill-name}/SKILL.md`
+2. **File Location**: Skills are in `.agent/skills/{skill-name}/SKILL.md`
 3. **Matching Strategy**: Support exact matches, partial matches, and related terms
 4. **Priority**: When multiple skills match, prefer the most specific one
 5. **Validation**: Before applying, verify SKILL.md has proper structure (objectives, use cases, instructions)
-6. **References**: Load additional context from `.skills/{skill-name}/references/` if available
+6. **References**: Load additional context from `.agent/skills/{skill-name}/references/` if available
 7. **Clarification**: If ambiguous, ask user which skill domain they need
 
 
@@ -34,6 +34,34 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | pdf, extract, convert, markdown, bilingual, translation, academic, paper, slides, 提取, 转换, 双语, 中英文, 翻译, 学术, 论文, 课件 | `dev-pdf_processing` |
 | translation, technical translation, bilingual documentation, terminology, localization, i18n, 翻译, 技术翻译, 双语文档, 术语, 本地化 | `dev-translation` |
 | document review, documentation quality, consistency check, accuracy, readability, technical writing, content organization, error detection, check document, 文档审查, 文档质量, 一致性检查, 准确性, 可读性, 技术写作, 内容组织, 错误检测, 检查文档 | `dev-document_review` |
+| code comment, annotation, docstring, JSDoc, 代码注释, 注释规范 | `dev-code_comment` |
+| code review, review, PR review, pull request, 代码审查, 代码评审 | `dev-code_reviewer` |
+| communication standards, team communication, 沟通规范, 团队沟通 | `dev-communication_standards` |
+| documentation standards, doc standards, 文档规范, 文档标准 | `dev-documentation_standards` |
+| markdown check, markdown lint, markdownlint, md check, markdown 检查, MD 检查 | `dev-markdown_check` |
+| product manager, PM, product management, 产品经理, 产品管理 | `dev-product_manager` |
+| quality standards, code quality, quality assurance, 质量标准, 代码质量 | `dev-quality_standards` |
+| security, security standards, vulnerability, OWASP, 安全, 安全规范, 漏洞 | `dev-security_standards` |
+| architect, system architect, 架构师, 系统架构师 | `dev-senior_architect` |
+| backend, backend development, server-side, 后端, 后端开发 | `dev-senior_backend` |
+| data engineer, data pipeline, ETL, 数据工程师, 数据管道 | `dev-senior_data_engineer` |
+| devops, CI/CD, deployment, infrastructure, 运维, 部署, 基础设施 | `dev-senior_devops` |
+| frontend, frontend development, React, Vue, 前端, 前端开发 | `dev-senior_frontend` |
+| fullstack, full-stack, full stack, 全栈, 全栈开发 | `dev-senior_fullstack` |
+| QA, quality assurance, testing, test strategy, 测试, 质量保证, 测试策略 | `dev-senior_qa` |
+| security engineer, penetration test, security audit, 安全工程师, 渗透测试, 安全审计 | `dev-senior_security` |
+| source annotation, source reference, citation, 来源标注, 引用标注 | `dev-source_annotation` |
+| TDD, test driven development, test first, 测试驱动开发 | `dev-tdd_guide` |
+| tech stack, technology evaluation, framework comparison, 技术栈, 技术评估, 框架对比 | `dev-tech_stack_evaluator` |
+| UX designer, user experience design, 用户体验设计师 | `dev-ux_designer` |
+| weka, data mining, ARFF, J48, 数据挖掘 | `dev-weka` |
+
+### 📖 Concepts & Math
+
+| Keywords | Skill |
+| --- | --- |
+| glossary, concept, terminology, definition, 术语, 概念, 词汇表, 定义 | `concept-glossary` |
+| math, mathematics, formula, equation, linear algebra, calculus, probability, statistics, 数学, 公式, 方程, 线性代数, 微积分, 概率, 统计 | `math-concept-library` |
 
 ### 🤖 AI Technology
 
@@ -130,6 +158,80 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | tutoring, 补习 | `education-tutoring` |
 | child education, 子女教育 | `education-child_education` |
 
+### 🍽️ Daily Life
+
+| Keywords | Skill |
+| --- | --- |
+| delivery, package delivery, 快递, 包裹 | `daily_life-delivery` |
+| dining, restaurant, eating out, 餐饮, 外出就餐 | `daily_life-dining` |
+| internet service, ISP, broadband, WiFi, 网络服务, 宽带 | `daily_life-internet` |
+| mobile, telecom, phone plan, SIM, 手机, 电信, 话费 | `daily_life-mobile_telecom` |
+| pets, pet care, veterinary, 宠物, 宠物护理, 兽医 | `daily_life-pets` |
+| secondhand, used items, thrift, 二手, 二手物品 | `daily_life-secondhand` |
+| shopping, online shopping, deals, 购物, 网购 | `daily_life-shopping` |
+| storage, self storage, 仓储, 存储 | `daily_life-storage` |
+
+### 🍕 Food & Shopping
+
+| Keywords | Skill |
+| --- | --- |
+| deals, coupons, discounts, 优惠, 折扣, 优惠券 | `food_shopping-deals` |
+| grocery, supermarket, 超市, 杂货 | `food_shopping-grocery` |
+| restaurants, food recommendations, 餐厅推荐, 美食 | `food_shopping-restaurants` |
+
+### 🔧 Home Services
+
+| Keywords | Skill |
+| --- | --- |
+| cleaning, house cleaning, 清洁, 家政 | `home_services-cleaning` |
+| repair, home repair, maintenance, 维修, 家庭维修 | `home_services-repair` |
+
+### ⚖️ Legal
+
+| Keywords | Skill |
+| --- | --- |
+| consumer rights, refund, complaint, 消费者权益, 退款, 投诉 | `legal-consumer_rights` |
+| labor rights, employment law, 劳动权益, 劳动法 | `legal-labor_rights` |
+| legal consultation, lawyer, 法律咨询, 律师 | `legal-legal_consultation` |
+| rental contract, lease, 租房合同, 租约 | `legal-rental_contract` |
+| traffic accident, car accident, 交通事故, 车祸 | `legal-traffic_accident` |
+
+### 🎭 Social & Leisure
+
+| Keywords | Skill |
+| --- | --- |
+| Chinese community, 华人社区, 中文社区 | `social-chinese_community` |
+| cultural events, festivals, 文化活动, 节日 | `social-cultural_events` |
+| dating, relationships, 约会, 交友 | `social-dating` |
+| religion, church, temple, 宗教, 教堂, 寺庙 | `social-religion` |
+| volunteering, volunteer, 志愿者, 义工 | `social-volunteering` |
+| entertainment, movies, concerts, 娱乐, 电影, 演唱会 | `leisure-entertainment` |
+| fitness, gym, exercise, workout, 健身, 运动, 锻炼 | `leisure-fitness` |
+
+### 🎉 Life Events
+
+| Keywords | Skill |
+| --- | --- |
+| funeral, memorial, 葬礼, 追悼 | `life_events-funeral` |
+| wedding, marriage, 婚礼, 结婚 | `life_events-wedding` |
+
+### ✈️ Travel
+
+| Keywords | Skill |
+| --- | --- |
+| car rental, rent a car, 租车 | `travel-car_rental` |
+| hotel, accommodation, lodging, 酒店, 住宿 | `travel-hotel` |
+| travel flight, booking flight, 旅行机票, 订机票 | `travel-travel_flight` |
+| travel planning, itinerary, trip, vacation, 旅行规划, 行程, 度假 | `travel-travel_planning` |
+
+### 📱 Communication
+
+| Keywords | Skill |
+| --- | --- |
+| internet service, ISP, provider, 网络服务商 | `communication-internet_service` |
+| phone plan, mobile plan, carrier, 手机套餐, 运营商 | `communication-phone_plan` |
+| shipping, mail, courier, 邮寄, 快递, 物流 | `communication-shipping` |
+
 ### 📝 Learning & Study
 
 | Keywords | Skill |
@@ -144,6 +246,14 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | brightspace scraper, scrape brightspace, download course, course materials, scrape slides, scrape labs, LMS scraper, brightspace抓取, 抓取课程, 下载课程, 课程资料, 抓取slides, 抓取labs, 学习平台抓取 | `learning-brightspace_scraper` |
 | textbook vectorization, pdf vectorization, semantic search textbook, embedding textbook, query textbook, knowledge base, 教科书向量化, PDF向量化, 语义搜索, 知识库 | `learning-textbook_vectorization` |
 | bilingual content, dual language, translation template, bilingual markdown, original and translation, 双语内容, 双语模板, 翻译模板, 中英对照 | `learning-bilingual_content` |
+| automated study material, auto generate, study material generation, 自动生成学习材料 | `learning-automated_study_material` |
+| code screenshot, screenshot code, carbon, 代码截图 | `learning-code_screenshot` |
+| lecture storyline, lecture flow, lecture outline, 课程故事线, 讲座大纲 | `learning-lecture_storyline` |
+| logic consistency, logical check, reasoning check, 逻辑一致性, 逻辑检查 | `learning-logic_consistency` |
+| quiz, quiz generation, practice questions, exam prep, 测验, 生成题目, 练习题, 考试准备 | `learning-quiz_generation` |
+| quiz notes, quiz note taking, 测验笔记 | `learning-quiz_note_taking` |
+| slide formatting, format slides, presentation format, 幻灯片格式, 格式化幻灯片 | `learning-slide_formatting` |
+| tutorial notebook, tutorial, interactive tutorial, 教程 notebook, 交互式教程 | `learning-tutorial_notebook` |
 
 
 ## Execution Workflow
@@ -153,8 +263,8 @@ When a user query is received:
 1. **Scan for keywords** - Check query text against all keyword mappings (case-insensitive, both languages)
 2. **Identify matches** - List all skills with matching keywords
 3. **Select skill** - Choose the most specific match; if tied, ask user to clarify
-4. **Load skill file** - Read `.skills/{skill-name}/SKILL.md`
+4. **Load skill file** - Read `.agent/skills/{skill-name}/SKILL.md`
 5. **Validate structure** - Ensure file contains objectives, use cases, and instructions sections
-6. **Load references** - If `.skills/{skill-name}/references/` exists, load relevant files
+6. **Load references** - If `.agent/skills/{skill-name}/references/` exists, load relevant files
 7. **Apply guidance** - Follow the skill's instructions to assist the user
 8. **Silent operation** - Don't announce that you're loading a skill; just apply it naturally

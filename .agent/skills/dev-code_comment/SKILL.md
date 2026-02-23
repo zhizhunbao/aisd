@@ -14,15 +14,15 @@ description: 中英文双语代码注释规范。Use when (1) 为代码添加注
 
 ## Comment Rules Overview
 
-| Location | Language | Format |
-|----------|----------|--------|
-| File-level docstring | English only | Standard docstring |
-| Code block divider | Chinese + English | 60 '=' separator with bilingual title |
-| Function docstring | Chinese + English | Two-line format: Chinese line, English line |
-| Method/Function Documentation | Bilingual | Box-style Header ABOVE definition |
-| Inline comments | Chinese + English | Chinese line, English line, above code |
-| Algorithm/Concept comments | Chinese + English | Structured template: 定义/公式/举例/优点 |
-| Step Output | English | print_step usage for formatted I/O |
+| Location                      | Language          | Format                                      |
+| ----------------------------- | ----------------- | ------------------------------------------- |
+| File-level docstring          | English only      | Standard docstring                          |
+| Code block divider            | Chinese + English | 60 '=' separator with bilingual title       |
+| Function docstring            | Chinese + English | Two-line format: Chinese line, English line |
+| Method/Function Documentation | Bilingual         | Box-style Header ABOVE definition           |
+| Inline comments               | Chinese + English | Chinese line, English line, above code      |
+| Algorithm/Concept comments    | Chinese + English | Structured template: 定义/公式/举例/优点    |
+| Step Output                   | English           | print_step usage for formatted I/O          |
 
 ## 1. File-level Docstring (English Only)
 
@@ -47,6 +47,7 @@ Use exactly 60 '=' characters to separate major logical sections (Steps, Phases,
 ```
 
 **Rules:**
+
 - Exactly 60 '=' characters.
 - Chinese title first, then English title.
 - Placed between major logical blocks.
@@ -110,16 +111,19 @@ For algorithms, mathematical concepts, or technical definitions, use a **structu
 ### ⚠️ 严格规则 / Strict Rules
 
 **只允许以下两个 section（不允许自定义 section）:**
+
 1. `-------- 术语解释 / Terminology --------`
 2. `-------- 算法原理 / Algorithm --------`
 
 **❌ 禁止自定义子项名称，如:**
+
 - ❌ `输出格式 / Output Format`
 - ❌ `评估意义 / Evaluation Significance`
 - ❌ `训练流程 / Training Process`
 - ❌ `分析要点 / Analysis Points`
 
 **✅ 如需说明这些内容，应放入标准子项中:**
+
 - 输出格式 → 放入 `举例 / Example:`
 - 意义/目的 → 放入 `定义 / Definition:` 或 `优点 / Advantages:`
 - 流程/步骤 → 放入 `举例 / Example:`
@@ -131,11 +135,13 @@ For algorithms, mathematical concepts, or technical definitions, use a **structu
 **格式:** `【术语名 English Term】`
 
 **每个术语必须包含:**
+
 - 中文定义（一行）
 - 英文定义（一行）
 - 公式（如有，紧跟定义后）
 
 **示例:**
+
 ```python
 # -------- 术语解释 / Terminology --------
 #
@@ -156,14 +162,15 @@ For algorithms, mathematical concepts, or technical definitions, use a **structu
 
 **必须包含的 4 个子项（顺序固定）:**
 
-| 序号 | 子项 | 说明 |
-|------|------|------|
-| 1 | `定义 / Definition:` | 算法的核心定义，一句话概括 |
-| 2 | `公式 / Formula:` | 数学公式（无公式写 "无 / N/A"） |
-| 3 | `举例 / Example:` | 具体的计算例子，用数字演示 |
-| 4 | `优点 / Advantages:` | 算法的优势（至少 1-2 点） |
+| 序号 | 子项                 | 说明                            |
+| ---- | -------------------- | ------------------------------- |
+| 1    | `定义 / Definition:` | 算法的核心定义，一句话概括      |
+| 2    | `公式 / Formula:`    | 数学公式（无公式写 "无 / N/A"） |
+| 3    | `举例 / Example:`    | 具体的计算例子，用数字演示      |
+| 4    | `优点 / Advantages:` | 算法的优势（至少 1-2 点）       |
 
 **示例 / Example:**
+
 ```python
 # -------- 算法原理 / Algorithm --------
 #
@@ -185,6 +192,7 @@ For algorithms, mathematical concepts, or technical definitions, use a **structu
 ```
 
 ### Complete Template Example
+
 ```python
 # ================================================================
 # 概念：卷积神经网络 (CNN)
@@ -222,8 +230,8 @@ For algorithms, mathematical concepts, or technical definitions, use a **structu
 model = Sequential([...])
 ```
 
-
 **Example 1: Evaluation Metric (Accuracy)**
+
 ```python
 # ================================================================
 # 评估指标 1：Accuracy（准确率）
@@ -249,6 +257,7 @@ acc = accuracy_score(y_test, y_pred)
 ```
 
 **Example 2: Machine Learning Algorithm (Logistic Regression)**
+
 ```python
 # ================================================================
 # 分类器 1：Logistic Regression（逻辑回归）
@@ -277,6 +286,7 @@ model = LogisticRegression(max_iter=1000, multi_class="multinomial")
 ```
 
 **Example 3: NLP Feature Extraction (TF-IDF)**
+
 ```python
 # ================================================================
 # 特征提取：TF-IDF（词频-逆文档频率）
@@ -305,6 +315,7 @@ tfidf_vectorizer = TfidfVectorizer(ngram_range=(1,2), max_features=5000)
 ```
 
 **Example 4: Hyperparameter (Regularization)**
+
 ```python
 # ================================================================
 # 超参数：C（正则化强度的倒数）
@@ -370,6 +381,7 @@ model = LogisticRegression()
 ```
 
 **When to Use This Template:**
+
 - Machine learning algorithms (Logistic Regression, SVM, Random Forest, etc.)
 - Evaluation metrics (Accuracy, F1-score, Precision, Recall, etc.)
 - Mathematical concepts (Confusion Matrix, Cross-entropy, Gradient Descent, etc.)
@@ -379,11 +391,13 @@ model = LogisticRegression()
 - Loss functions and optimization algorithms
 
 **When to Add Terminology Section:**
+
 - When using terms like: sigmoid, softmax, 交叉熵, 损失函数, 超平面, 支持向量, etc.
 - When the algorithm has domain-specific jargon
 - When teaching/learning code where understanding concepts is important
 
 **Rules:**
+
 - Place the template **directly above** the related code
 - Use `# ================================================================` (64 characters) for top and bottom borders
 - Include **at minimum**: 定义/Definition, 公式/Formula (if applicable), 举例/Example
@@ -408,6 +422,7 @@ def reset() -> tuple:
 ```
 
 **Rules:**
+
 - Use triple quotes `"""`
 - Chinese description on first line
 - English description on second line
@@ -415,10 +430,11 @@ def reset() -> tuple:
 - No parameter or return value details in docstring (use section headers instead, see below)
 
 ### 2.1 Class, Method & Function Documentation (Box-Style Headers)
- 
+
 For all classes, functions, and class methods, use box-style section headers:
 
 **Module-level Classes or Functions:**
+
 ```python
 # ============================================================
 # QLearningAgent: 封装有 Q-Table 及其更新法则的强化学习类
@@ -455,6 +471,7 @@ def train(env, episodes: int, gamma: float, line_width: int) -> tuple[list, list
 ```
 
 **Rules for Methods:**
+
 - Place the header **above** the `def` inside the class.
 - Align descriptions vertically under the parameter name.
 - English-only section headers (`Parameters:`, `Returns:`, `Notes:`).
@@ -475,6 +492,7 @@ steps += 1
 ```
 
 **Rules:**
+
 - Comment goes ABOVE the code, NOT beside it
 - Chinese line first, English line immediately after (no blank line between)
 - Blank line AFTER comments and before next code block
@@ -510,6 +528,7 @@ GAMMA = 0.9
 ```
 
 **Rules:**
+
 - Blank line after each code block
 - No blank line between Chinese and English comments
 - Comments always above code, never beside it
@@ -585,6 +604,8 @@ hist = cv2.calcHist([img], [i], None, [256], [0, 256])
 
 ## 7. Import Comments
 
+### 7.1 Simple Imports (单独/不相关的 import)
+
 Add bilingual comments above imports:
 
 ```python
@@ -598,6 +619,69 @@ import os
 import time
 import random
 ```
+
+### 7.2 Storyline Imports (故事线风格 — 用于有逻辑关联的 import 组)
+
+When multiple imports form a **logical pipeline** (e.g., ML/DL framework, data processing chain), use a **storyline narrative** with a causal chain: **problem → motivation → solution → next problem**.
+
+**Rules:**
+
+- Use ❶❷❸❹ numbered steps to show the causal chain
+- **Chinese on top, English on bottom** (same as all comments)
+- Each step answers: "Why do we need this?" — motivated by the previous step's gap
+- Wrap in `# ================================================================` (64 chars) borders
+- All `import` statements go together **after** the storyline block
+
+**Example:**
+
+```python
+# ================================================================
+# 导入 TensorFlow 和 Keras 模块
+# Import TensorFlow and Keras modules
+# ================================================================
+#
+# 🎬 故事线：从"有一堆温度数据"到"能预测未来温度"，我们需要哪些工具？
+# 🎬 Storyline: from "a pile of temperature data" to "predicting future temps", what tools do we need?
+#
+# ❶ 首先，我们需要一个能做大量数学运算的引擎 → TensorFlow
+#    First, we need an engine for heavy math (matrix ops, gradients) → TensorFlow
+#    但直接用太底层了，所以它自带了 Keras 这个简化工具包
+#    But raw TensorFlow is too low-level, so it ships with Keras as a simplified toolkit
+#
+# ❷ 有了引擎，我们要搭建一个神经网络模型 → Sequential
+#    With the engine ready, we need to build a model → Sequential
+#    Sequential 就是"流水线"：按顺序放入各层，数据自动从头流到尾
+#    Sequential is a "pipeline": stack layers in order, data flows start to end
+#
+# ❸ 流水线里放什么层？取决于任务需求：
+#    What layers go in? Depends on the task:
+#    → Dense：全连接层，每个神经元看到上一层所有输出
+#      Dense: fully connected layer, each neuron sees all previous outputs
+#    → SimpleRNN：循环层，逐步处理时间数据，有"记忆"能力
+#      SimpleRNN: recurrent layer, processes time data step by step, has "memory"
+#    → Dropout：随机关掉一部分神经元，防止过拟合
+#      Dropout: randomly shuts off neurons, prevents overfitting
+#    → Flatten：把二维数据拍平成一维，因为 Dense 只接受一维输入
+#      Flatten: reshapes 2D to 1D, because Dense only accepts 1D input
+#
+# ❹ 模型有了，但神经网络不能直接吃一整条时间序列
+#    Model is ready, but neural networks can't consume an entire time series
+#    它需要固定大小的"输入→输出"样本对 → TimeseriesGenerator
+#    They need fixed-size "input→output" pairs → TimeseriesGenerator
+#
+# ================================================================
+
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, SimpleRNN, Dropout, Flatten
+from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
+```
+
+**When to use storyline style:**
+
+- ML/DL framework imports (TensorFlow, Keras, PyTorch, scikit-learn pipelines)
+- Data processing chains (load → transform → visualize)
+- Any group of 3+ related imports that form a logical workflow
 
 ## 10. Environment Setup Pattern
 
@@ -669,6 +753,7 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 ```
 
 **Rules:**
+
 - Constants go at module level (after imports) or class level (class attributes)
 - Use UPPER_SNAKE_CASE naming
 - Each constant gets a bilingual comment explaining its purpose

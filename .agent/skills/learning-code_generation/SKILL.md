@@ -369,27 +369,12 @@ current_date = datetime.now().strftime('%Y-%m-%d')
 
 ### 8. Submission Reminder
 
-**⚠️ IMPORTANT: Submission reminders are for debugging purposes ONLY.**
+**⚠️ DO NOT include submission reminders in generated code.**
 
-The reminder section should:
-
-- Be placed at the very END of the script
-- Be separated from the last step's output
-- **NOT appear in output screenshots** (use `generate_output_screenshots.py` which captures step-by-step output, not the entire run)
-
-```python
-# Only print reminder after all steps are complete (debugging only)
-print()
-print("=" * 60)
-print("Reminder:")
-print("1. Take screenshots of code from Google Colab")
-print("2. Paste screenshots into Lab1AnswerTemplate.md")
-print("3. Fill in descriptions for each step")
-print("4. Convert markdown to .docx for submission")
-print("=" * 60)
-```
-
-**Note:** When generating output screenshots with `learning-code_screenshot` skill, each step's output is captured separately, so submission reminders won't appear in the screenshots.
+- No "Reminder:" print blocks at the end of scripts
+- No "Lab completed successfully!" messages
+- The script should end naturally after the last required step
+- Submission reminders look AI-generated and add noise to output
 
 ## Validation
 

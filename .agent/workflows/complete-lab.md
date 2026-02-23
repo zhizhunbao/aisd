@@ -142,9 +142,10 @@ description: Complete course lab/assignment from start to submission - universal
 
 1. **必须**先阅读 `.shared/skills/learning-code_generation/SKILL.md`
 2. **必须**严格遵守 `.shared/skills/dev-code_comment/SKILL.md` 的双语注释规范
-3. 根据作业要求生成 Python 代码
-4. 为每个步骤添加双语注释 (中文在上，英文在下)
-5. 转换为 Jupyter Notebook
+3. **推荐**参考 `.github/` 目录下克隆的机器学习开源框架（如 `numpy`, `tensorflow`, `keras`, `scikit-learn` 等）源码中的高质量 Docstring 和官方文档，以提升代码解释的专业性、准确性和清晰度。
+4. 根据作业要求生成 Python 代码
+5. 为每个步骤添加双语注释 (中文在上，英文在下)
+6. 转换为 Jupyter Notebook
 
 ### ⚠️ 关键规范 (CRITICAL)
 
@@ -160,6 +161,7 @@ description: Complete course lab/assignment from start to submission - universal
 ```
 读取 skill: .shared/skills/learning-code_generation/SKILL.md
 读取 skill: .shared/skills/dev-code_comment/SKILL.md
+参考开源源码: 当说明核心 API 时，可检索 `.github/` 目录下（如 `keras` 或 `scikit-learn`）的官方 Docstring 作为参考
 生成 Python 代码 (courses/[course]/code/lab[n]/lab[n]_*.py)
 读取 skill: .shared/skills/learning-notebook_conversion/SKILL.md
 转换为 Notebook (courses/[course]/code/lab[n]/lab[n]_*.ipynb)
@@ -302,6 +304,7 @@ python .shared/skills/learning-md_to_docx/scripts/convert_md_to_docx.py Lab[N]_A
 ```
 
 脚本自动：
+
 - 移除图片 alt text (如 "Step 1 Code" → 不显示)
 - 处理相对路径
 - 验证输出

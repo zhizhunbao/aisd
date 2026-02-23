@@ -1,20 +1,12 @@
 {
   "name": "textbook-vectorization",
-  "displayName": "Textbook Vectorization",
-  "description": "Vectorize PDF textbooks for semantic search and quick concept lookup",
-  "keywords": [
-    "textbook",
-    "vectorization",
-    "pdf",
-    "semantic search",
-    "embedding",
-    "knowledge base",
-    "教科书",
-    "向量化",
-    "语义搜索"
-  ],
+  "displayName": "Textbook Vectorization [DEPRECATED]",
+  "description": "⚠️ DEPRECATED — 已迁移至 learning-textbook_search，请使用新 skill",
+  "deprecated": true,
+  "replacedBy": "learning-textbook_search",
+  "keywords": [],
   "category": "learning",
   "version": "1.0.0",
   "author": "AI Skills",
-  "tags": ["pdf", "nlp", "search", "study"]
+  "tags": []
 }

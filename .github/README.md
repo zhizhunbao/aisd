@@ -16,11 +16,13 @@
 - **文档**: https://docs.bmad-method.org
 
 **核心特性：**
+
 - YAML 格式的 Agent 和 Workflow 定义
 - 支持 Claude Code、Cursor、Windsurf、Roo 等多 IDE
 - 完整的软件开发生命周期覆盖
 
 **关键目录：**
+
 ```
 BMAD-METHOD/
 ├── src/modules/          # Agent 和 Workflow 模块
@@ -31,6 +33,7 @@ BMAD-METHOD/
 ```
 
 **Workflow YAML 格式示例：**
+
 ```yaml
 config_source: _bmad/bmm/config.yaml
 discover_inputs:
@@ -41,6 +44,7 @@ nextStepFile: steps/step-02-vision.md
 ```
 
 **Agent YAML 格式示例：**
+
 ```yaml
 name: analyst
 persona: Requirements Analyst
@@ -52,6 +56,7 @@ menu:
 ```
 
 **标准工作流：**
+
 ```
 /product-brief → /create-prd → /create-architecture → /create-epics-and-stories → /dev-story → /code-review
 ```
@@ -66,16 +71,19 @@ menu:
 - **博客**: https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/
 
 **四阶段工作流：**
+
 ```
 /specify → /plan → /tasks → /implement
 ```
 
 **核心理念：**
+
 - Specification 作为"真相来源"
 - 代码是规格的实现产物
 - 支持 GitHub Copilot、Claude Code、Gemini CLI
 
 **关键目录：**
+
 ```
 spec-kit/
 ├── docs/                 # 方法论文档
@@ -87,6 +95,7 @@ spec-kit/
 ```
 
 **初始化命令：**
+
 ```bash
 pip install specify-cli
 specify init
@@ -106,6 +115,7 @@ specify init
 2. **Bug 修复**：Report → Analyze → Fix → Verify
 
 **关键目录：**
+
 ```
 claude-code-spec-workflow/
 ├── src/                  # 核心逻辑
@@ -127,6 +137,7 @@ claude-code-spec-workflow/
 **已采用平台：** Claude Code、Cursor、VS Code、GitHub Copilot、OpenAI Codex、Windsurf、Amp、Goose
 
 **Skill 最小结构：**
+
 ```
 my-skill/
 ├── SKILL.md              # 必需，包含 YAML frontmatter
@@ -136,6 +147,7 @@ my-skill/
 ```
 
 **SKILL.md 格式：**
+
 ```markdown
 ---
 name: my-skill
@@ -145,10 +157,12 @@ description: Skill description
 # My Skill
 
 ## Instructions
+
 ...
 ```
 
 **关键目录：**
+
 ```
 skills/
 ├── spec/                 # Agent Skills 规范定义
@@ -165,6 +179,7 @@ skills/
 - **GitHub**: https://github.com/alirezarezvani/claude-skills
 
 **包含的 Skills 分类：**
+
 - `agents/` - 子 Agent 定义
 - `commands/` - 命令脚本
 - `engineering-team/` - 工程团队相关
@@ -185,12 +200,14 @@ skills/
 - **GitHub**: https://github.com/ruvnet/claude-flow
 
 **特性：**
+
 - 108 个专业 AI Agent
 - 15 个多 Agent 工作流编排器
 - 129 个 Agent Skills
 - 支持 MCP 协议
 
 **关键目录：**
+
 ```
 claude-flow/
 ├── agents/               # Agent 定义
@@ -230,19 +247,97 @@ claude-flow/
 
 ---
 
+## 开源课程 Slides (Open Course Slides)
+
+经典名校课程资料，用于自学。详见 [courses/self-study/](../courses/self-study/)
+
+### 17. Imperial MML Book
+
+> **Mathematics for Machine Learning 完整书籍 + Coursera Slides**
+
+- **本地**: `imperial-mml-book/`, `imperial-mml-notes/`
+- **GitHub**: https://github.com/mml-book/mml-book.github.io
+- **官网**: https://mml-book.github.io/
+
+### 18. Stanford CS229 Machine Learning
+
+> **斯坦福机器学习经典课程 (Andrew Ng) - 19 个 PDF Notes**
+
+- **本地**: `stanford-cs229/`
+- **GitHub**: https://github.com/maxim5/cs229-2018-autumn
+
+### 19. NLP Course - University of Copenhagen
+
+> **含 LLM Alignment 等前沿 NLP 内容 - 15 个 Slides PDF**
+
+- **本地**: `copenhagen-nlp/`
+- **GitHub**: https://github.com/coastalcph/nlp-course
+
+---
+
+## 机器学习开源框架参考 (Machine Learning Open Source Projects)
+
+本目录克隆了以下主流机器学习开源框架的源码，以便参考其优秀的官方文档、Docstring 和代码组织规范，用于辅助完善本地项目代码的注释与可读性：
+
+### 24. NumPy
+
+> **Python 科学计算的基础包 (The fundamental package for scientific computing with Python)**
+
+- **GitHub**: https://github.com/numpy/numpy
+
+### 25. TensorFlow
+
+> **Google 开源的端到端机器学习平台 (An Open Source Machine Learning Framework for Everyone)**
+
+- **GitHub**: https://github.com/tensorflow/tensorflow
+
+### 26. Keras
+
+> **专为人类而非机器设计的深度学习 API (Deep Learning for humans)**
+
+- **GitHub**: https://github.com/keras-team/keras
+
+### 27. PyTorch
+
+> **Meta 开源的机器学习框架，注重灵活性与动态计算图 (Tensors and Dynamic neural networks in Python with strong GPU acceleration)**
+
+- **GitHub**: https://github.com/pytorch/pytorch
+
+### 28. Scikit-learn
+
+> **基于 Python 的机器学习模块 (Machine Learning in Python)**
+
+- **GitHub**: https://github.com/scikit-learn/scikit-learn
+
+### 29. Hands-On Machine Learning (3rd Edition)
+
+> **Aurélien Géron 《机器学习实战》配套代码**
+
+- **本地**: `handson-ml3/`
+- **GitHub**: https://github.com/ageron/handson-ml3
+
+### 30. Keras Code Examples
+
+> **Keras 官方代码示例库**
+
+- **本地**: `keras-io/`
+- **GitHub**: https://github.com/keras-team/keras-io
+
+---
+
 ## 迁移指南
 
 ### 从本项目 Skills 迁移到其他平台
 
 本项目的 Skills 位于 `.shared/skills/`，遵循 Agent Skills 规范，可直接用于：
 
-| 平台 | 配置方式 |
-|------|----------|
-| Claude Code | 在 `CLAUDE.md` 或 `.claude/settings.json` 中引用 |
-| Cursor | 在 `.cursorrules` 或 `.cursor/rules/` 中引用 |
-| Windsurf | 在 `.windsurfrules` 中引用 |
-| Kiro | 在 `.kiro/` 目录中配置 |
-| VS Code Copilot | 在 `.github/copilot-instructions.md` 中引用 |
+| 平台            | 配置方式                                         |
+| --------------- | ------------------------------------------------ |
+| Claude Code     | 在 `CLAUDE.md` 或 `.claude/settings.json` 中引用 |
+| Cursor          | 在 `.cursorrules` 或 `.cursor/rules/` 中引用     |
+| Windsurf        | 在 `.windsurfrules` 中引用                       |
+| Kiro            | 在 `.kiro/` 目录中配置                           |
+| VS Code Copilot | 在 `.github/copilot-instructions.md` 中引用      |
 
 ### 创建跨平台 Workflow
 
@@ -285,6 +380,7 @@ phases:
 ## 快速开始
 
 ### 1. 学习工作流规范
+
 ```bash
 # 阅读 BMAD-METHOD 文档
 cat .github/BMAD-METHOD/docs/workflow-reference.md
@@ -294,6 +390,7 @@ cat .github/spec-kit/spec-driven.md
 ```
 
 ### 2. 学习 Skill 规范
+
 ```bash
 # 阅读 Agent Skills 规范
 cat .github/skills/spec/
@@ -303,6 +400,7 @@ ls .github/skills/skills/
 ```
 
 ### 3. 创建自己的 Workflow
+
 ```bash
 # 参考 BMAD 创建 workflow
 mkdir -p .agent/workflows/my-workflow

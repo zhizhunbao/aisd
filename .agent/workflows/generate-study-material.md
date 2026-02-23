@@ -35,21 +35,15 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │   ↓ + math-concept-library (公式库, 滋雪球式积累)           │
 │   ↓ + concept-glossary (术语库, 滋雪球式积累)              │
 ├─────────────────────────────────────────────────────────────┤
-│ Phase 2: 演示 (Demo)                                         │
-│   ↓ learning-code_generation + dev-code_comment skills      │
-│   ↓ + math-concept-library / concept-glossary (复用注释)    │
-├─────────────────────────────────────────────────────────────┤
-│ Phase 2.5: 转换 (Convert .py → .ipynb)                       │
-│   ↓ learning-notebook_conversion skill                      │
-├─────────────────────────────────────────────────────────────┤
-│ Phase 3: 合成 (Synthesize)                                   │
-│   ↓ learning-notebook_conversion skill                      │
-├─────────────────────────────────────────────────────────────┤
-│ Phase 4: 审查 (Review)                                       │
-│   ↓ learning-logic_consistency, learning-code_consistency   │
-├─────────────────────────────────────────────────────────────┤
-│ Phase 5: 测验 (Quiz)                                         │
-│   ↓ learning-quiz_generation skill                          │
+│ Phase 1.5: 故事线 (Storyline)                                │
+│   ↓ learning-lecture_storyline skill                        │
+│   ↓ 将笔记重组为"打怪升级"式技术演进叙事                   │
+├──────────────────── ⛔ DISABLED ────────────────────────────┤
+│ Phase 2: 演示 (Demo)                          ⛔ DISABLED   │
+│ Phase 2.5: 转换 (Convert .py → .ipynb)        ⛔ DISABLED   │
+│ Phase 3: 合成 (Synthesize)                    ⛔ DISABLED   │
+│ Phase 4: 审查 (Review)                        ⛔ DISABLED   │
+│ Phase 5: 测验 (Quiz)                          ⛔ DISABLED   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -163,10 +157,12 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 ### 两种输出模式
 
 **模式 A（默认）：直接在 slides 上加笔记**
+
 - 笔记直接添加到 `[topic]_slides.md` 中每个概念后面
 - 适合快速复习，slides 和 notes 在一个文件中
 
 **模式 B：生成独立笔记文件**
+
 - 总结为独立的 `[topic]_notes.md`
 - 适合深度学习，笔记可以独立展开
 
@@ -190,7 +186,50 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ---
 
-## Phase 2: 实现演示 💻
+## Phase 1.5: 故事线生成 📖
+
+**Skill**: `learning-lecture_storyline`
+
+将 Phase 1 的笔记重组为"打怪升级"式技术演进叙事，揭示概念间的因果逻辑链。
+
+> **Slides tell you WHAT to learn. A storyline tells you WHY each idea exists.**
+
+### 核心理念
+
+传统笔记按主题块展示 (A, B, C, D)。故事线则展示因果链：
+- A 有问题 → 催生 B
+- B 改进了 A 但有新缺陷 → 催生 C
+- C 解决了 B 的缺陷但带来新挑战 → 催生 D
+
+### 步骤
+
+1. **读取源材料**: Phase 1 生成的 `[topic]_slides.md` 或 `[topic]_notes.md`
+2. **识别核心问题**: 整讲在解决什么？（如："如何预测下一个词？"）
+3. **绘制技术演进链**: 列出每个方案的优点、致命问题、过渡点
+4. **按故事模板写章节**:
+   - 🎬 序幕：核心问题
+   - 📚 第N章：方案N（❌ 失败/⚠️ 有缺陷/✅ 解决）
+   - 🗺️ 全局回顾：ASCII 技术演进路线图
+   - 🎓 考试重点检查清单
+5. **质量检查**: 因果完整性、零跳跃原则、转折标记
+
+### 命令
+
+```
+读取 skill: .shared/skills/learning-lecture_storyline/SKILL.md
+基于 Phase 1 笔记生成故事线
+```
+
+### 输出
+
+- `courses/[course]/notes/[topic]_storyline.md`
+
+---
+
+<!-- ⛔⛔⛔ PHASE 2-5 DISABLED — 工作流在 Phase 1.5 结束后停止 ⛔⛔⛔ -->
+<!-- 如需重新启用，删除各 Phase 的 ⛔ DISABLED 标记 -->
+
+## Phase 2: 实现演示 💻 ⛔ DISABLED
 
 **Skills**: `learning-code_generation`, `dev-code_comment`, `math-concept-library`, `concept-glossary`
 
@@ -222,7 +261,7 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 
 ---
 
-## Phase 2.5: 脚本转 Notebook 📒
+## Phase 2.5: 脚本转 Notebook 📒 ⛔ DISABLED
 
 **Skill**: `learning-notebook_conversion`
 
@@ -270,7 +309,7 @@ jupyter nbconvert --to notebook --execute [topic]_complete_demo.ipynb --output [
 
 ---
 
-## Phase 3: 交互合成 📓
+## Phase 3: 交互合成 📓 ⛔ DISABLED
 
 **Skill**: `learning-notebook_conversion`
 
@@ -302,7 +341,7 @@ jupyter nbconvert --to notebook --execute [topic]_complete_demo.ipynb --output [
 
 ---
 
-## Phase 4: 执行与审查 ✅
+## Phase 4: 执行与审查 ✅ ⛔ DISABLED
 
 **Skills**: `learning-logic_consistency`, `learning-code_consistency`
 
@@ -348,7 +387,7 @@ jupyter nbconvert --to notebook --execute [topic]_complete_demo.ipynb --output [
 
 ---
 
-## Phase 5: 知识测验 ✍️
+## Phase 5: 知识测验 ✍️ ⛔ DISABLED
 
 **Skill**: `learning-quiz_generation`
 
@@ -386,6 +425,7 @@ courses/
         │   ├── slide1_img1.png
         │   └── slide2_img1.png
         ├── svm_notes.md                    # Phase 1: 理论笔记
+        ├── svm_storyline.md                # Phase 1.5: 故事线叙事
         ├── svm_complete_demo.py            # Phase 2: 演示脚本
         ├── svm_complete_demo.ipynb          # Phase 2.5: 演示 Notebook
         ├── svm_complete_demo_pages/        # Phase 2: 参考图片
@@ -400,16 +440,17 @@ courses/
 
 ## 💡 快捷子命令
 
-| 命令                                         | 说明              | 从哪个 Phase 开始 |
-| -------------------------------------------- | ----------------- | ----------------- |
-| `/generate-study-material ml svm`            | 完整流程 (含抓取) | Phase -1          |
-| `/generate-study-material ml svm --no-scrape`| 完整流程 (跳过抓取)| Phase 0           |
-| `/generate-study-material ml svm --from=phase1` | 从笔记提取开始 | Phase 1           |
-| `/generate-study-material ml svm --from=phase2` | 从 Demo 开始   | Phase 2           |
-| `/generate-study-material ml svm --from=phase2.5` | 从 .py→.ipynb 开始 | Phase 2.5     |
-| `/generate-study-material ml svm --from=phase3` | 从 NB 合成开始 | Phase 3           |
-| `/generate-study-material ml svm --phase=4`  | 只运行审查        | Phase 4           |
-| `/generate-study-material ml svm --phase=5`  | 只生成测验题      | Phase 5           |
+| 命令                                              | 说明                | 从哪个 Phase 开始 |
+| ------------------------------------------------- | ------------------- | ----------------- |
+| `/generate-study-material ml svm`                 | 完整流程 (含抓取)   | Phase -1          |
+| `/generate-study-material ml svm --no-scrape`     | 完整流程 (跳过抓取) | Phase 0           |
+| `/generate-study-material ml svm --from=phase1`   | 从笔记提取开始      | Phase 1           |
+| `/generate-study-material ml svm --from=phase1.5` | 从故事线生成开始    | Phase 1.5         |
+| `/generate-study-material ml svm --from=phase2`   | 从 Demo 开始        | Phase 2           |
+| `/generate-study-material ml svm --from=phase2.5` | 从 .py→.ipynb 开始  | Phase 2.5         |
+| `/generate-study-material ml svm --from=phase3`   | 从 NB 合成开始      | Phase 3           |
+| `/generate-study-material ml svm --phase=4`       | 只运行审查          | Phase 4           |
+| `/generate-study-material ml svm --phase=5`       | 只生成测验题        | Phase 5           |
 
 ---
 
@@ -430,6 +471,7 @@ courses/
 - 📱 数学公式库: `.shared/skills/math-concept-library/SKILL.md` — 公式的标准解读、直觉类比、分步解读复用库
 - 📖 概念术语库: `.shared/skills/concept-glossary/SKILL.md` — 术语定义、历史背景、类比、交叉引用复用库
 - 💬 代码注释: `.shared/skills/dev-code_comment/SKILL.md` — 双语代码注释规范，算法/概念注释模板
+- 📖 故事线生成: `.shared/skills/learning-lecture_storyline/SKILL.md` — 将笔记重组为"打怪升级"式技术演进叙事
 
 > 💡 两个知识库都是**滚雪球式积累**：每次写笔记时查库复用 → 写完后新条目入库 → 下次写笔记时可复用的素材更多
 > 💡 `dev-code_comment` 的算法注释模板（术语解释 + 定义/公式/举例/优点）与知识库条目格式互通，确保笔记和代码中的解释一致

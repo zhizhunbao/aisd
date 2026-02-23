@@ -39,3 +39,7 @@ data/
 *.csv
 *.zip
 !courses/ml/code/lab1/diabetes.csv
+
+# Textbook PDF sections (generated from originals, too large for git)
+courses/self-study/*/_sources/
+courses/self-study/_search_data/

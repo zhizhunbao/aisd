@@ -1,0 +1,5262 @@
+{
+  "topics": {
+    "inference": {
+      "count": 34,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch24",
+          "title": "Inference",
+          "sections": [
+            "24.1 Observed Linear Dynamical Systems",
+            "24.2 Auto-Regressive Models",
+            "24.3 Latent Linear Dynamical Systems",
+            "24.4 Inference",
+            "24.5 Learning Linear Dynamical Systems",
+            "24.6 Switching Auto-Regressive Models",
+            "24.7 Code",
+            "24.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch27",
+          "title": "Markov Chain Monte Carlo (MCMC)",
+          "sections": [
+            "27.1 Introduction",
+            "27.2 Ancestral Sampling",
+            "27.3 Gibbs Sampling",
+            "27.4 Markov Chain Monte Carlo (MCMC)",
+            "27.5 Auxiliary Variable Methods",
+            "27.6 Importance Sampling",
+            "27.7 Code",
+            "27.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch28",
+          "title": "Properties of Kullback-Leibler Variational Inference",
+          "sections": [
+            "28.1 Introduction",
+            "28.2 The Laplace approximation",
+            "28.3 Properties of Kullback-Leibler Variational Inference",
+            "28.4 Variational Bounding Using KL(q|p)",
+            "28.5 Mutual Information Maximisation : A KL Variational Approach",
+            "28.6 Loopy Belief Propagation",
+            "28.7 Expectation Propagation",
+            "28.8 MAP for MRFs",
+            "28.9 Further Reading",
+            "28.10 Code",
+            "28.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch28",
+          "title": "Variational Bounding Using KL(q|p)",
+          "sections": [
+            "28.1 Introduction",
+            "28.2 The Laplace approximation",
+            "28.3 Properties of Kullback-Leibler Variational Inference",
+            "28.4 Variational Bounding Using KL(q|p)",
+            "28.5 Mutual Information Maximisation : A KL Variational Approach",
+            "28.6 Loopy Belief Propagation",
+            "28.7 Expectation Propagation",
+            "28.8 MAP for MRFs",
+            "28.9 Further Reading",
+            "28.10 Code",
+            "28.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch28",
+          "title": "Mutual Information Maximisation : A KL Variational Approach",
+          "sections": [
+            "28.1 Introduction",
+            "28.2 The Laplace approximation",
+            "28.3 Properties of Kullback-Leibler Variational Inference",
+            "28.4 Variational Bounding Using KL(q|p)",
+            "28.5 Mutual Information Maximisation : A KL Variational Approach",
+            "28.6 Loopy Belief Propagation",
+            "28.7 Expectation Propagation",
+            "28.8 MAP for MRFs",
+            "28.9 Further Reading",
+            "28.10 Code",
+            "28.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "Marginal Inference",
+          "sections": [
+            "5.1 Marginal Inference",
+            "5.2 Other Forms of Inference",
+            "5.3 Inference in Multiply-Connected Graphs",
+            "5.4 Message Passing for Continuous Distributions",
+            "5.5 Notes",
+            "5.6 Code",
+            "5.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "Other Forms of Inference",
+          "sections": [
+            "5.1 Marginal Inference",
+            "5.2 Other Forms of Inference",
+            "5.3 Inference in Multiply-Connected Graphs",
+            "5.4 Message Passing for Continuous Distributions",
+            "5.5 Notes",
+            "5.6 Code",
+            "5.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "Inference in Multiply-Connected Graphs",
+          "sections": [
+            "5.1 Marginal Inference",
+            "5.2 Other Forms of Inference",
+            "5.3 Inference in Multiply-Connected Graphs",
+            "5.4 Message Passing for Continuous Distributions",
+            "5.5 Notes",
+            "5.6 Code",
+            "5.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Probabilistic Inference and Planning",
+          "sections": [
+            "7.1 Expected Utility",
+            "7.2 Decision Trees",
+            "7.3 Extending Bayesian Networks for Decisions",
+            "7.4 Solving Inﬂuence Diagrams",
+            "7.5 Markov Decision Processes",
+            "7.6 Temporally Unbounded MDPs",
+            "7.7 Probabilistic Inference and Planning",
+            "7.8 Further Topics",
+            "7.9 Code",
+            "7.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Learning as Inference",
+          "sections": [
+            "9.1 Learning as Inference",
+            "9.2 Maximum A Posteriori and Maximum Likelihood",
+            "9.3 Bayesian Belief Network Training",
+            "9.4 Maximum Likelihood for Undirected models",
+            "9.5 Properties of Maximum Likelihood",
+            "9.6 Code",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Variational Bayes",
+          "sections": [
+            "11.1 Hidden Variables and Missing Data",
+            "11.2 Expectation Maximisation",
+            "11.3 Extensions of EM",
+            "11.4 A Failure Case for EM",
+            "11.5 Variational Bayes",
+            "11.6 Bayesian Methods and ML-II",
+            "11.7 Optimising the Likelihood by Gradient Methods",
+            "11.8 Code",
+            "11.9 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Approximate Inference",
+          "sections": [
+            "10.1 Variational Inference",
+            "10.2 Illustration: Variational Mixture of Gaussians",
+            "10.3 Variational Linear Regression",
+            "10.4 Exponential Family Distributions",
+            "10.5 Local Variational Methods",
+            "10.6 Variational Logistic Regression",
+            "10.7 Expectation Propagation",
+            "10.ex Exercises"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Model Inference and Averaging",
+          "sections": [
+            "8.1 Introduction",
+            "8.2 The Bootstrap and Maximum Likelihood Methods",
+            "8.3 Bayesian Methods",
+            "8.4 Relationship Between the Bootstrap and Bayesian Inference",
+            "8.5 The EM Algorithm",
+            "8.6 MCMC for Sampling from the Posterior",
+            "8.7 Bagging",
+            "8.8 Model Averaging and Stacking",
+            "8.9 Stochastic Search: Bumping"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Monte Carlo Methods",
+          "sections": [
+            "17.1 Sampling and Monte Carlo Methods",
+            "17.2 Importance Sampling",
+            "17.3 Markov Chain Monte Carlo Methods",
+            "17.4 Gibbs Sampling",
+            "17.5 The Challenge of Mixing between Separated Modes"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch19",
+          "title": "Approximate Inference",
+          "sections": [
+            "19.1 Inference as Optimization",
+            "19.2 Expectation Maximization",
+            "19.3 MAP Inference and Sparse Coding",
+            "19.4 Variational Inference and Learning",
+            "19.5 Learned Approximate Inference"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch02",
+          "title": "Probability, Entropy, And Inference",
+          "sections": [
+            "2.1 Probabilities and ensembles",
+            "2.2 The meaning of probability",
+            "2.3 Forward probabilities and inverse probabilities",
+            "2.4 Deﬁnition of entropy and related functions",
+            "2.5 Decomposability of the entropy",
+            "2.6 Gibbs’ inequality",
+            "2.7 Jensen’s inequality for convex functions",
+            "2.8 Exercises",
+            "2.9 Further exercises",
+            "2.10 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch03",
+          "title": "More About Inference",
+          "sections": [
+            "3.1 A ﬁrst inference problem",
+            "3.2 The bent coin",
+            "3.3 The bent coin and model comparison",
+            "3.4 An example of legal evidence",
+            "3.5 Exercises",
+            "3.6 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch20",
+          "title": "An Example Inference Task: Clustering",
+          "sections": [
+            "20.1 K-means clustering",
+            "20.2 Soft K-means clustering",
+            "20.3 Conclusion",
+            "20.4 Exercises",
+            "20.5 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch21",
+          "title": "Exact Inference By Complete Enumeration",
+          "sections": [
+            "21.1 The burglar alarm",
+            "21.2 Exact inference for continuous hypothesis spaces"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch29",
+          "title": "Monte Carlo Methods",
+          "sections": [
+            "29.1 The problems to be solved",
+            "29.2 Importance sampling",
+            "29.3 Rejection sampling",
+            "29.4 The Metropolis–Hastings method",
+            "29.5 Gibbs sampling",
+            "29.6 Terminology for Markov chain Monte Carlo methods",
+            "29.7 Slice sampling",
+            "29.8 Practicalities",
+            "29.9 Further practical issues",
+            "29.10 Summary",
+            "29.11 Exercises",
+            "29.12 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch30",
+          "title": "Eﬃcient Monte Carlo Methods",
+          "sections": [
+            "30.1 Hamiltonian Monte Carlo",
+            "30.2 Overrelaxation",
+            "30.3 Simulated annealing",
+            "30.4 Skilling’s multi-state leapfrog method",
+            "30.5 Monte Carlo algorithms as communication channels",
+            "30.6 Multi-state methods",
+            "30.7 Methods that do not necessarily help",
+            "30.8 Further exercises",
+            "30.9 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch32",
+          "title": "Exact Monte Carlo Sampling",
+          "sections": [
+            "32.1 The problem with Monte Carlo methods",
+            "32.2 Exact sampling concepts",
+            "32.3 Exact sampling from interesting distributions",
+            "32.4 Exercises",
+            "32.5 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch33",
+          "title": "Variational Methods",
+          "sections": [
+            "33.1 Variational free energy minimization",
+            "33.2 Variational free energy minimization for spin systems",
+            "33.3 Example: mean ﬁeld theory for the ferromagnetic Ising model",
+            "33.4 Variational methods in inference and data modelling",
+            "33.5 The case of an unknown Gaussian: approximating the posterior",
+            "33.6 Interlude",
+            "33.7 K-means clustering and the expectation–maximization algo-",
+            "33.8 Variational methods other than free energy minimization",
+            "33.9 Further exercises",
+            "33.10 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch35",
+          "title": "Random Inference Topics",
+          "sections": [
+            "35.1 What do you know if you are ignorant?",
+            "35.2 The Luria–Delbr¨uck distribution",
+            "35.3 Inferring causation",
+            "35.4 Further exercises",
+            "35.5 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch37",
+          "title": "Bayesian Inference And Sampling Theory",
+          "sections": [
+            "37.1 A medical example",
+            "37.2 Dependence of p-values on irrelevant information",
+            "37.3 Conﬁdence intervals",
+            "37.4 Some compromise positions",
+            "37.5 Further exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch41",
+          "title": "Learning As Inference",
+          "sections": [
+            "41.1 Neural network learning as inference",
+            "41.2 Illustration for a neuron with two weights",
+            "41.3 Beyond optimization: making predictions",
+            "41.4 Monte Carlo implementation of a single neuron",
+            "41.5 Implementing inference with Gaussian approximations"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Inference algorithms: an overview",
+          "sections": [
+            "7.1 Introduction",
+            "7.2 Common inference patterns",
+            "7.3 Exact inference algorithms",
+            "7.4 Approximate inference algorithms",
+            "7.5 Evaluating approximate inference algorithms"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Variational inference",
+          "sections": [
+            "10.1 Introduction",
+            "10.2 Gradient-based VI",
+            "10.3 Coordinate ascent VI",
+            "10.4 More accurate variational posteriors",
+            "10.5 Tighter bounds",
+            "10.6 Wake-sleep algorithm",
+            "10.7 Expectation propagation (EP)"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Monte Carlo methods",
+          "sections": [
+            "11.1 Introduction",
+            "11.2 Monte Carlo integration",
+            "11.3 Generating random samples from simple distributions",
+            "11.4 Rejection sampling",
+            "11.5 Importance sampling",
+            "11.6 Controlling Monte Carlo variance"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Markov chain Monte Carlo",
+          "sections": [
+            "12.1 Introduction",
+            "12.2 Metropolis-Hastings algorithm",
+            "12.3 Gibbs sampling",
+            "12.4 Auxiliary variable MCMC",
+            "12.5 Hamiltonian Monte Carlo (HMC)",
+            "12.6 MCMC convergence",
+            "12.7 Stochastic gradient MCMC",
+            "12.8 Reversible jump (transdimensional) MCMC",
+            "12.9 Annealing methods"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Sequential Monte Carlo",
+          "sections": [
+            "13.1 Introduction",
+            "13.2 Particle filtering",
+            "13.3 Proposal distributions",
+            "13.4 Rao-Blackwellized particle filtering (RBPF)",
+            "13.5 Extensions of the particle filter",
+            "13.6 SMC samplers"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Variational autoencoders",
+          "sections": [
+            "21.1 Introduction",
+            "21.2 VAE basics",
+            "21.3 VAE generalizations",
+            "21.4 Avoiding posterior collapse",
+            "21.5 VAEs with hierarchical structure",
+            "21.6 Vector quantization VAE"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch05",
+          "title": "Monte Carlo Methods",
+          "sections": [
+            "5.1 Monte Carlo Prediction",
+            "5.2 Monte Carlo Estimation of Action Values",
+            "5.3 Monte Carlo Control",
+            "5.4 Monte Carlo Control without Exploring Starts",
+            "5.5 Off-policy Prediction via Importance Sampling",
+            "5.6 Incremental Implementation",
+            "5.7 Off-policy Monte Carlo Control",
+            "5.8 *Discounting-aware Importance Sampling",
+            "5.9 *Per-decision Importance Sampling",
+            "5.10 Summary"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch17",
+          "title": "Bayesian modeling and inference",
+          "sections": [
+            "17.1 Estimation theory",
+            "17.2 Maximum likelihood estimation and least squares",
+            "17.3 Robust statistics",
+            "17.4 Prior models and Bayesian inference",
+            "17.5 Markov random fields",
+            "17.6 Uncertainty estimation (error analysis)"
+          ]
+        }
+      ]
+    },
+    "probability": {
+      "count": 24,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch01",
+          "title": "Probability Refresher",
+          "sections": [
+            "1.1 Probability Refresher",
+            "1.2 Probabilistic Reasoning",
+            "1.3 Prior, Likelihood and Posterior",
+            "1.4 Further worked examples",
+            "1.5 Code",
+            "1.6 Notes",
+            "1.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch28",
+          "title": "Expectation Propagation",
+          "sections": [
+            "28.1 Introduction",
+            "28.2 The Laplace approximation",
+            "28.3 Properties of Kullback-Leibler Variational Inference",
+            "28.4 Variational Bounding Using KL(q|p)",
+            "28.5 Mutual Information Maximisation : A KL Variational Approach",
+            "28.6 Loopy Belief Propagation",
+            "28.7 Expectation Propagation",
+            "28.8 MAP for MRFs",
+            "28.9 Further Reading",
+            "28.10 Code",
+            "28.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Expectation Maximisation",
+          "sections": [
+            "11.1 Hidden Variables and Missing Data",
+            "11.2 Expectation Maximisation",
+            "11.3 Extensions of EM",
+            "11.4 A Failure Case for EM",
+            "11.5 Variational Bayes",
+            "11.6 Bayesian Methods and ML-II",
+            "11.7 Optimising the Likelihood by Gradient Methods",
+            "11.8 Code",
+            "11.9 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch19",
+          "title": "Covariance Functions",
+          "sections": [
+            "19.1 Non-Parametric Prediction",
+            "19.2 Gaussian Process Prediction",
+            "19.3 Covariance Functions",
+            "19.4 Analysis of Covariance Functions",
+            "19.5 Gaussian Processes for Classiﬁcation",
+            "19.6 Further Reading",
+            "19.7 Code",
+            "19.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch19",
+          "title": "Analysis of Covariance Functions",
+          "sections": [
+            "19.1 Non-Parametric Prediction",
+            "19.2 Gaussian Process Prediction",
+            "19.3 Covariance Functions",
+            "19.4 Analysis of Covariance Functions",
+            "19.5 Gaussian Processes for Classiﬁcation",
+            "19.6 Further Reading",
+            "19.7 Code",
+            "19.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Expectation Maximisation for Mixture Models",
+          "sections": [
+            "20.1 Density Estimation Using Mixtures",
+            "20.2 Expectation Maximisation for Mixture Models",
+            "20.3 The Gaussian Mixture Model",
+            "20.4 Mixture of Experts",
+            "20.5 Indicator Models",
+            "20.6 Mixed Membership Models",
+            "20.7 Further Reading",
+            "20.8 Code",
+            "20.9 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch02",
+          "title": "Probability Distributions",
+          "sections": [
+            "2.1 Binary Variables",
+            "2.2 Multinomial Variables",
+            "2.3 The Gaussian Distribution",
+            "2.4 The Exponential Family",
+            "2.5 Nonparametric Methods",
+            "2.ex Exercises"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch03",
+          "title": "Probability mass functions",
+          "sections": [
+            "3.1 Pmfs",
+            "3.2 Plotting PMFs",
+            "3.3 Other visualizations",
+            "3.4 The class size paradox",
+            "3.5 DataFrame indexing",
+            "3.6 Exercises",
+            "3.7 Glossary"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch06",
+          "title": "Probability density functions",
+          "sections": [
+            "6.1 PDFs",
+            "6.2 Kernel density estimation",
+            "6.3 The distribution framework",
+            "6.4 Hist implementation",
+            "6.5 Pmf implementation",
+            "6.6 Cdf implementation",
+            "6.7 Moments",
+            "6.8 Skewness",
+            "6.9 Exercises",
+            "6.10 Glossary"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Probability and Information Theory",
+          "sections": [
+            "3.1 Why Probability?",
+            "3.2 Random Variables",
+            "3.3 Probability Distributions",
+            "3.4 Marginal Probability",
+            "3.5 Conditional Probability",
+            "3.6 The Chain Rule of Conditional Probabilities",
+            "3.7 Independence and Conditional Independence",
+            "3.8 Expectation, Variance and Covariance",
+            "3.9 Common Probability Distributions",
+            "3.10 Useful Properties of Common Functions",
+            "3.11 Bayes’ Rule",
+            "3.12 Technical Details of Continuous Variables",
+            "3.13 Information Theory",
+            "3.14 Structured Probabilistic Models"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch01",
+          "title": "Discrete Probability Distributions",
+          "sections": [
+            "1.1 Simulation Of Discrete Probabilities",
+            "1.2 Discrete Probability Distributions"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch02",
+          "title": "Continuous Probability Densities",
+          "sections": [
+            "2.1 Simulation Of Continuous Probabilities",
+            "2.2 Continuous Density Functions"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch04",
+          "title": "Conditional Probability",
+          "sections": [
+            "4.1 Discrete Conditional Probability",
+            "4.2 Continuous Conditional Probability",
+            "4.3 Paradoxes"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch06",
+          "title": "Expected Value And Variance",
+          "sections": [
+            "6.1 Expected Value",
+            "6.2 Variance Of Discrete Random Variables",
+            "6.3 Continuous Random Variables"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch07",
+          "title": "Sums Of Random Variables",
+          "sections": [
+            "7.1 Sums Of Discrete Random Variables",
+            "7.2 Sums Of Continuous Random Variables"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "appB",
+          "title": "Introduction to Probability for Machine Learning",
+          "sections": [
+            "B.1 Probability Basics",
+            "B.2 Probability Distributions and Summing Out",
+            "B.3 Some Useful Probability Rules",
+            "B.4 Summary"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "Probability-Based Learning",
+          "sections": [
+            "6.1 Big Idea",
+            "6.2 Fundamentals",
+            "6.3 Standard Approach: The Naive Bayes Model",
+            "6.4 Extensions and Variations",
+            "6.5 Summary",
+            "6.6 Further Reading",
+            "6.7 Exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch02",
+          "title": "Probability, Entropy, And Inference",
+          "sections": [
+            "2.1 Probabilities and ensembles",
+            "2.2 The meaning of probability",
+            "2.3 Forward probabilities and inverse probabilities",
+            "2.4 Deﬁnition of entropy and related functions",
+            "2.5 Decomposability of the entropy",
+            "2.6 Gibbs’ inequality",
+            "2.7 Jensen’s inequality for convex functions",
+            "2.8 Exercises",
+            "2.9 Further exercises",
+            "2.10 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch08",
+          "title": "Dependent Random Variables",
+          "sections": [
+            "8.1 More about entropy",
+            "8.2 Exercises",
+            "8.3 Further exercises",
+            "8.4 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch23",
+          "title": "Useful Probability Distributions",
+          "sections": [
+            "23.1 Distributions over integers",
+            "23.2 Distributions over unbounded real numbers",
+            "23.3 Distributions over positive real numbers",
+            "23.4 Distributions over periodic variables",
+            "23.5 Distributions over probabilities",
+            "23.6 Further exercises"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch06",
+          "title": "6 Probability and Distributions",
+          "sections": [
+            "6.1 Construction of a Probability Space",
+            "6.2 Discrete and Continuous Probabilities",
+            "6.3 Sum Rule, Product Rule, and Bayes' Theorem",
+            "6.4 Summary Statistics and Independence",
+            "6.5 Gaussian Distribution",
+            "6.6 Conjugacy and the Exponential Family",
+            "6.7 Change of Variables/Inverse Transform",
+            "6.8 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch02",
+          "title": "Probability: Univariate Models",
+          "sections": [
+            "2.1 Introduction",
+            "2.2 Random variables",
+            "2.3 Bayes' rule",
+            "2.4 Bernoulli and binomial distributions",
+            "2.5 Categorical and multinomial distributions",
+            "2.6 Univariate Gaussian (normal) distribution",
+            "2.7 Some other common univariate distributions *",
+            "2.8 Transformations of random variables *",
+            "2.9 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Probability: Multivariate Models",
+          "sections": [
+            "3.1 Joint distributions for multiple random variables",
+            "3.2 The multivariate Gaussian (normal) distribution",
+            "3.3 Linear Gaussian systems *",
+            "3.4 The exponential family *",
+            "3.5 Mixture models",
+            "3.6 Probabilistic graphical models *",
+            "3.7 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch02",
+          "title": "Probability",
+          "sections": [
+            "2.1 Introduction",
+            "2.2 Some common probability distributions",
+            "2.3 Gaussian joint distributions",
+            "2.4 The exponential family",
+            "2.5 Transformations of random variables",
+            "2.6 Markov chains",
+            "2.7 Divergence measures between probability distributions"
+          ]
+        }
+      ]
+    },
+    "bayesian": {
+      "count": 22,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch01",
+          "title": "Prior, Likelihood and Posterior",
+          "sections": [
+            "1.1 Probability Refresher",
+            "1.2 Probabilistic Reasoning",
+            "1.3 Prior, Likelihood and Posterior",
+            "1.4 Further worked examples",
+            "1.5 Code",
+            "1.6 Notes",
+            "1.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Extending Bayesian Networks for Decisions",
+          "sections": [
+            "7.1 Expected Utility",
+            "7.2 Decision Trees",
+            "7.3 Extending Bayesian Networks for Decisions",
+            "7.4 Solving Inﬂuence Diagrams",
+            "7.5 Markov Decision Processes",
+            "7.6 Temporally Unbounded MDPs",
+            "7.7 Probabilistic Inference and Planning",
+            "7.8 Further Topics",
+            "7.9 Code",
+            "7.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Maximum A Posteriori and Maximum Likelihood",
+          "sections": [
+            "9.1 Learning as Inference",
+            "9.2 Maximum A Posteriori and Maximum Likelihood",
+            "9.3 Bayesian Belief Network Training",
+            "9.4 Maximum Likelihood for Undirected models",
+            "9.5 Properties of Maximum Likelihood",
+            "9.6 Code",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Bayesian Belief Network Training",
+          "sections": [
+            "9.1 Learning as Inference",
+            "9.2 Maximum A Posteriori and Maximum Likelihood",
+            "9.3 Bayesian Belief Network Training",
+            "9.4 Maximum Likelihood for Undirected models",
+            "9.5 Properties of Maximum Likelihood",
+            "9.6 Code",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Maximum Likelihood for Undirected models",
+          "sections": [
+            "9.1 Learning as Inference",
+            "9.2 Maximum A Posteriori and Maximum Likelihood",
+            "9.3 Bayesian Belief Network Training",
+            "9.4 Maximum Likelihood for Undirected models",
+            "9.5 Properties of Maximum Likelihood",
+            "9.6 Code",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Properties of Maximum Likelihood",
+          "sections": [
+            "9.1 Learning as Inference",
+            "9.2 Maximum A Posteriori and Maximum Likelihood",
+            "9.3 Bayesian Belief Network Training",
+            "9.4 Maximum Likelihood for Undirected models",
+            "9.5 Properties of Maximum Likelihood",
+            "9.6 Code",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Estimation using Maximum Likelihood",
+          "sections": [
+            "10.1 Naive Bayes and Conditional Independence",
+            "10.2 Estimation using Maximum Likelihood",
+            "10.3 Bayesian Naive Bayes",
+            "10.4 Tree Augmented Naive Bayes",
+            "10.5 Code",
+            "10.6 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Bayesian Naive Bayes",
+          "sections": [
+            "10.1 Naive Bayes and Conditional Independence",
+            "10.2 Estimation using Maximum Likelihood",
+            "10.3 Bayesian Naive Bayes",
+            "10.4 Tree Augmented Naive Bayes",
+            "10.5 Code",
+            "10.6 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Tree Augmented Naive Bayes",
+          "sections": [
+            "10.1 Naive Bayes and Conditional Independence",
+            "10.2 Estimation using Maximum Likelihood",
+            "10.3 Bayesian Naive Bayes",
+            "10.4 Tree Augmented Naive Bayes",
+            "10.5 Code",
+            "10.6 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Variational Bayes",
+          "sections": [
+            "11.1 Hidden Variables and Missing Data",
+            "11.2 Expectation Maximisation",
+            "11.3 Extensions of EM",
+            "11.4 A Failure Case for EM",
+            "11.5 Variational Bayes",
+            "11.6 Bayesian Methods and ML-II",
+            "11.7 Optimising the Likelihood by Gradient Methods",
+            "11.8 Code",
+            "11.9 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Optimising the Likelihood by Gradient Methods",
+          "sections": [
+            "11.1 Hidden Variables and Missing Data",
+            "11.2 Expectation Maximisation",
+            "11.3 Extensions of EM",
+            "11.4 A Failure Case for EM",
+            "11.5 Variational Bayes",
+            "11.6 Bayesian Methods and ML-II",
+            "11.7 Optimising the Likelihood by Gradient Methods",
+            "11.8 Code",
+            "11.9 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Occam’s Razor and Bayesian Complexity Penalisation",
+          "sections": [
+            "12.1 Comparing Models the Bayesian Way",
+            "12.2 Illustrations : coin tossing",
+            "12.3 Occam’s Razor and Bayesian Complexity Penalisation",
+            "12.4 A continuous example : curve ﬁtting",
+            "12.5 Approximating the Model Likelihood",
+            "12.6 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Approximating the Model Likelihood",
+          "sections": [
+            "12.1 Comparing Models the Bayesian Way",
+            "12.2 Illustrations : coin tossing",
+            "12.3 Occam’s Razor and Bayesian Complexity Penalisation",
+            "12.4 A continuous example : curve ﬁtting",
+            "12.5 Approximating the Model Likelihood",
+            "12.6 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Bayes versus Empirical Decisions",
+          "sections": [
+            "13.1 Styles of Learning",
+            "13.2 Supervised Learning",
+            "13.3 Bayes versus Empirical Decisions",
+            "13.4 Representing Data",
+            "13.5 Bayesian Hypothesis Testing for Outcome Analysis",
+            "13.6 Code",
+            "13.7 Notes",
+            "13.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Bayesian Hypothesis Testing for Outcome Analysis",
+          "sections": [
+            "13.1 Styles of Learning",
+            "13.2 Supervised Learning",
+            "13.3 Bayes versus Empirical Decisions",
+            "13.4 Representing Data",
+            "13.5 Bayesian Hypothesis Testing for Outcome Analysis",
+            "13.6 Code",
+            "13.7 Notes",
+            "13.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Factor Analysis : Maximum Likelihood",
+          "sections": [
+            "21.1 Factor Analysis",
+            "21.2 Factor Analysis : Maximum Likelihood",
+            "21.3 Interlude: Modelling Faces",
+            "21.4 Probabilistic Principal Components Analysis",
+            "21.5 Canonical Correlation Analysis and Factor Analysis",
+            "21.6 Independent Components Analysis",
+            "21.7 Code",
+            "21.8 Exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch22",
+          "title": "Maximum Likelihood And Clustering",
+          "sections": [
+            "22.1 Maximum likelihood for one Gaussian",
+            "22.2 Maximum likelihood for a mixture of Gaussians",
+            "22.3 Enhancements to soft K-means",
+            "22.4 A fatal ﬂaw of maximum likelihood",
+            "22.5 Further exercises",
+            "22.6 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch37",
+          "title": "Bayesian Inference And Sampling Theory",
+          "sections": [
+            "37.1 A medical example",
+            "37.2 Dependence of p-values on irrelevant information",
+            "37.3 Conﬁdence intervals",
+            "37.4 Some compromise positions",
+            "37.5 Further exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Bayesian neural networks",
+          "sections": [
+            "17.1 Introduction",
+            "17.2 Priors for BNNs",
+            "17.3 Posteriors for BNNs",
+            "17.4 Generalization in Bayesian deep learning",
+            "17.5 Online inference",
+            "17.6 Hierarchical Bayesian neural networks"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch31",
+          "title": "Nonparametric Bayesian models",
+          "sections": [
+            "31.1 Introduction"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch31",
+          "title": "PAC-Bayes",
+          "sections": [
+            "31.1 PAC-Bayes Bounds",
+            "31.2 Bibliographic Remarks",
+            "31.3 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch17",
+          "title": "Bayesian modeling and inference",
+          "sections": [
+            "17.1 Estimation theory",
+            "17.2 Maximum likelihood estimation and least squares",
+            "17.3 Robust statistics",
+            "17.4 Prior models and Bayesian inference",
+            "17.5 Markov random fields",
+            "17.6 Uncertainty estimation (error analysis)"
+          ]
+        }
+      ]
+    },
+    "distribution": {
+      "count": 18,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Graphically Representing Distributions",
+          "sections": [
+            "3.1 Probabilistic Inference in Structured Distributions",
+            "3.2 Graphically Representing Distributions",
+            "3.3 Belief Networks",
+            "3.4 Causality",
+            "3.5 Parameterising Belief Networks",
+            "3.6 Further Reading",
+            "3.7 Code",
+            "3.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "Constructing a Junction Tree for Singly-Connected Distributions",
+          "sections": [
+            "6.1 Clustering Variables",
+            "6.2 Clique Graphs",
+            "6.3 Junction Trees",
+            "6.4 Constructing a Junction Tree for Singly-Connected Distributions",
+            "6.5 Junction Trees for Multiply-Connected Distributions",
+            "6.6 The Junction Tree Algorithm",
+            "6.7 Finding the Most Likely State",
+            "6.8 Reabsorption : Converting a Junction Tree to a Directed Network",
+            "6.9 The Need For Approximations",
+            "6.10 Code",
+            "6.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "Junction Trees for Multiply-Connected Distributions",
+          "sections": [
+            "6.1 Clustering Variables",
+            "6.2 Clique Graphs",
+            "6.3 Junction Trees",
+            "6.4 Constructing a Junction Tree for Singly-Connected Distributions",
+            "6.5 Junction Trees for Multiply-Connected Distributions",
+            "6.6 The Junction Tree Algorithm",
+            "6.7 Finding the Most Likely State",
+            "6.8 Reabsorption : Converting a Junction Tree to a Directed Network",
+            "6.9 The Need For Approximations",
+            "6.10 Code",
+            "6.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Summarising distributions",
+          "sections": [
+            "8.1 Distributions",
+            "8.2 Summarising distributions",
+            "8.3 Discrete Distributions",
+            "8.4 Continuous Distributions",
+            "8.5 Multivariate Distributions",
+            "8.6 Multivariate Gaussian",
+            "8.7 Exponential Family",
+            "8.8 The Kullback-Leibler Divergence KL(q|p)",
+            "8.9 Code",
+            "8.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Discrete Distributions",
+          "sections": [
+            "8.1 Distributions",
+            "8.2 Summarising distributions",
+            "8.3 Discrete Distributions",
+            "8.4 Continuous Distributions",
+            "8.5 Multivariate Distributions",
+            "8.6 Multivariate Gaussian",
+            "8.7 Exponential Family",
+            "8.8 The Kullback-Leibler Divergence KL(q|p)",
+            "8.9 Code",
+            "8.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Continuous Distributions",
+          "sections": [
+            "8.1 Distributions",
+            "8.2 Summarising distributions",
+            "8.3 Discrete Distributions",
+            "8.4 Continuous Distributions",
+            "8.5 Multivariate Distributions",
+            "8.6 Multivariate Gaussian",
+            "8.7 Exponential Family",
+            "8.8 The Kullback-Leibler Divergence KL(q|p)",
+            "8.9 Code",
+            "8.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Multivariate Distributions",
+          "sections": [
+            "8.1 Distributions",
+            "8.2 Summarising distributions",
+            "8.3 Discrete Distributions",
+            "8.4 Continuous Distributions",
+            "8.5 Multivariate Distributions",
+            "8.6 Multivariate Gaussian",
+            "8.7 Exponential Family",
+            "8.8 The Kullback-Leibler Divergence KL(q|p)",
+            "8.9 Code",
+            "8.10 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch02",
+          "title": "Probability Distributions",
+          "sections": [
+            "2.1 Binary Variables",
+            "2.2 Multinomial Variables",
+            "2.3 The Gaussian Distribution",
+            "2.4 The Exponential Family",
+            "2.5 Nonparametric Methods",
+            "2.ex Exercises"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch02",
+          "title": "Distributions",
+          "sections": [
+            "2.1 Histograms",
+            "2.2 Representing histograms",
+            "2.3 Plotting histograms",
+            "2.4 NSFG variables",
+            "2.5 Outliers",
+            "2.6 First babies",
+            "2.7 Summarizing distributions",
+            "2.8 Variance",
+            "2.9 Effect size",
+            "2.10 Reporting results",
+            "2.11 Exercises",
+            "2.12 Glossary"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch04",
+          "title": "Cumulative distribution functions",
+          "sections": [
+            "4.1 The limits of PMFs",
+            "4.2 Percentiles",
+            "4.3 CDFs",
+            "4.4 Representing CDFs",
+            "4.5 Comparing CDFs",
+            "4.6 Percentile-based statistics",
+            "4.7 Random numbers",
+            "4.8 Comparing percentile ranks",
+            "4.9 Exercises",
+            "4.10 Glossary"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch05",
+          "title": "Modeling distributions",
+          "sections": [
+            "5.1 The exponential distribution",
+            "5.2 The normal distribution",
+            "5.3 Normal probability plot",
+            "5.4 The lognormal distribution",
+            "5.5 The Pareto distribution",
+            "5.6 Generating random numbers",
+            "5.7 Why model?",
+            "5.8 Exercises",
+            "5.9 Glossary"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch06",
+          "title": "Probability density functions",
+          "sections": [
+            "6.1 PDFs",
+            "6.2 Kernel density estimation",
+            "6.3 The distribution framework",
+            "6.4 Hist implementation",
+            "6.5 Pmf implementation",
+            "6.6 Cdf implementation",
+            "6.7 Moments",
+            "6.8 Skewness",
+            "6.9 Exercises",
+            "6.10 Glossary"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch01",
+          "title": "Discrete Probability Distributions",
+          "sections": [
+            "1.1 Simulation Of Discrete Probabilities",
+            "1.2 Discrete Probability Distributions"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch05",
+          "title": "Distributions And Densities",
+          "sections": [
+            "5.1 Important Distributions",
+            "5.2 Important Densities"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch23",
+          "title": "Useful Probability Distributions",
+          "sections": [
+            "23.1 Distributions over integers",
+            "23.2 Distributions over unbounded real numbers",
+            "23.3 Distributions over positive real numbers",
+            "23.4 Distributions over periodic variables",
+            "23.5 Distributions over probabilities",
+            "23.6 Further exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch47",
+          "title": "Low-Density Parity-Check Codes",
+          "sections": [
+            "47.1 Theoretical properties",
+            "47.2 Practical decoding",
+            "47.3 Decoding with the sum–product algorithm",
+            "47.4 Pictorial demonstration of Gallager codes",
+            "47.5 Density evolution",
+            "47.6 Improving Gallager codes",
+            "47.7 Fast encoding of low-density parity-check codes",
+            "47.8 Further reading",
+            "47.9 Exercises",
+            "47.10 Solutions"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch06",
+          "title": "6 Probability and Distributions",
+          "sections": [
+            "6.1 Construction of a Probability Space",
+            "6.2 Discrete and Continuous Probabilities",
+            "6.3 Sum Rule, Product Rule, and Bayes' Theorem",
+            "6.4 Summary Statistics and Independence",
+            "6.5 Gaussian Distribution",
+            "6.6 Conjugacy and the Exponential Family",
+            "6.7 Change of Variables/Inverse Transform",
+            "6.8 Further Reading"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch11",
+          "title": "11 Density Estimation with Gaussian Mixture Models",
+          "sections": [
+            "11.1 Gaussian Mixture Model",
+            "11.2 Parameter Learning via Maximum Likelihood",
+            "11.3 EM Algorithm",
+            "11.4 Latent-Variable Perspective",
+            "11.5 Further Reading"
+          ]
+        }
+      ]
+    },
+    "reinforcement_learning": {
+      "count": 17,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch27",
+          "title": "Markov Chain Monte Carlo (MCMC)",
+          "sections": [
+            "27.1 Introduction",
+            "27.2 Ancestral Sampling",
+            "27.3 Gibbs Sampling",
+            "27.4 Markov Chain Monte Carlo (MCMC)",
+            "27.5 Auxiliary Variable Methods",
+            "27.6 Importance Sampling",
+            "27.7 Code",
+            "27.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Interlude: Modelling Faces",
+          "sections": [
+            "21.1 Factor Analysis",
+            "21.2 Factor Analysis : Maximum Likelihood",
+            "21.3 Interlude: Modelling Faces",
+            "21.4 Probabilistic Principal Components Analysis",
+            "21.5 Canonical Correlation Analysis and Factor Analysis",
+            "21.6 Independent Components Analysis",
+            "21.7 Code",
+            "21.8 Exercises"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Monte Carlo Methods",
+          "sections": [
+            "17.1 Sampling and Monte Carlo Methods",
+            "17.2 Importance Sampling",
+            "17.3 Markov Chain Monte Carlo Methods",
+            "17.4 Gibbs Sampling",
+            "17.5 The Challenge of Mixing between Separated Modes"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch02",
+          "title": "Neighborhood Overlap Detection",
+          "sections": [
+            "2.1 Graph Statistics and Kernel Methods",
+            "2.2 Neighborhood Overlap Detection",
+            "2.3 Graph Laplacians and Spectral Methods",
+            "2.4 Towards Learned Representations"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Beyond Prediction: Reinforcement Learning",
+          "sections": [
+            "11.1 Big Idea",
+            "11.2 Fundamentals",
+            "11.3 Standard Approach: Q-Learning, Off-Policy Temporal-Difference Learning",
+            "11.4 Extensions and Variations",
+            "11.5 Summary",
+            "11.6 Further Reading",
+            "11.7 Exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch29",
+          "title": "Monte Carlo Methods",
+          "sections": [
+            "29.1 The problems to be solved",
+            "29.2 Importance sampling",
+            "29.3 Rejection sampling",
+            "29.4 The Metropolis–Hastings method",
+            "29.5 Gibbs sampling",
+            "29.6 Terminology for Markov chain Monte Carlo methods",
+            "29.7 Slice sampling",
+            "29.8 Practicalities",
+            "29.9 Further practical issues",
+            "29.10 Summary",
+            "29.11 Exercises",
+            "29.12 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch30",
+          "title": "Eﬃcient Monte Carlo Methods",
+          "sections": [
+            "30.1 Hamiltonian Monte Carlo",
+            "30.2 Overrelaxation",
+            "30.3 Simulated annealing",
+            "30.4 Skilling’s multi-state leapfrog method",
+            "30.5 Monte Carlo algorithms as communication channels",
+            "30.6 Multi-state methods",
+            "30.7 Methods that do not necessarily help",
+            "30.8 Further exercises",
+            "30.9 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch32",
+          "title": "Exact Monte Carlo Sampling",
+          "sections": [
+            "32.1 The problem with Monte Carlo methods",
+            "32.2 Exact sampling concepts",
+            "32.3 Exact sampling from interesting distributions",
+            "32.4 Exercises",
+            "32.5 Solutions"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Monte Carlo methods",
+          "sections": [
+            "11.1 Introduction",
+            "11.2 Monte Carlo integration",
+            "11.3 Generating random samples from simple distributions",
+            "11.4 Rejection sampling",
+            "11.5 Importance sampling",
+            "11.6 Controlling Monte Carlo variance"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Markov chain Monte Carlo",
+          "sections": [
+            "12.1 Introduction",
+            "12.2 Metropolis-Hastings algorithm",
+            "12.3 Gibbs sampling",
+            "12.4 Auxiliary variable MCMC",
+            "12.5 Hamiltonian Monte Carlo (HMC)",
+            "12.6 MCMC convergence",
+            "12.7 Stochastic gradient MCMC",
+            "12.8 Reversible jump (transdimensional) MCMC",
+            "12.9 Annealing methods"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Sequential Monte Carlo",
+          "sections": [
+            "13.1 Introduction",
+            "13.2 Particle filtering",
+            "13.3 Proposal distributions",
+            "13.4 Rao-Blackwellized particle filtering (RBPF)",
+            "13.5 Extensions of the particle filter",
+            "13.6 SMC samplers"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch35",
+          "title": "Reinforcement learning",
+          "sections": [
+            "35.1 Introduction",
+            "35.2 Value-based RL",
+            "35.3 Policy-based RL",
+            "35.4 Model-based RL",
+            "35.5 Off-policy learning",
+            "35.6 Control as inference"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch05",
+          "title": "Monte Carlo Methods",
+          "sections": [
+            "5.1 Monte Carlo Prediction",
+            "5.2 Monte Carlo Estimation of Action Values",
+            "5.3 Monte Carlo Control",
+            "5.4 Monte Carlo Control without Exploring Starts",
+            "5.5 Off-policy Prediction via Importance Sampling",
+            "5.6 Incremental Implementation",
+            "5.7 Off-policy Monte Carlo Control",
+            "5.8 *Discounting-aware Importance Sampling",
+            "5.9 *Per-decision Importance Sampling",
+            "5.10 Summary"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch09",
+          "title": "On-policy Prediction with Approximation",
+          "sections": [
+            "9.1 Value-function Approximation",
+            "9.2 The Prediction Objective (VE)",
+            "9.3 Stochastic-gradient and Semi-gradient Methods",
+            "9.4 Linear Methods",
+            "9.5 Feature Construction for Linear Methods",
+            "9.6 Selecting Step-Size Parameters Manually",
+            "9.7 Nonlinear Function Approximation: Artificial Neural Networks",
+            "9.8 Least-Squares TD",
+            "9.9 Memory-based Function Approximation",
+            "9.10 Kernel-based Function Approximation",
+            "9.11 Looking Deeper at On-policy Learning: Interest and Emphasis",
+            "9.12 Summary"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch10",
+          "title": "On-policy Control with Approximation",
+          "sections": [
+            "10.1 Episodic Semi-gradient Control",
+            "10.2 Semi-gradient n-step Sarsa",
+            "10.3 Average Reward: A New Problem Setting for Continuing Tasks",
+            "10.4 Deprecating the Discounted Setting",
+            "10.5 Differential Semi-gradient n-step Sarsa",
+            "10.6 Summary"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch11",
+          "title": "*Off-policy Methods with Approximation",
+          "sections": [
+            "11.1 Semi-gradient Methods",
+            "11.2 Examples of Off-policy Divergence",
+            "11.3 The Deadly Triad",
+            "11.4 Linear Value-function Geometry",
+            "11.5 Gradient Descent in the Bellman Error",
+            "11.6 The Bellman Error is Not Learnable",
+            "11.7 Gradient-TD Methods",
+            "11.8 Emphatic-TD Methods",
+            "11.9 Reducing Variance",
+            "11.10 Summary"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch13",
+          "title": "Policy Gradient Methods",
+          "sections": [
+            "13.1 Policy Approximation and its Advantages",
+            "13.2 The Policy Gradient Theorem",
+            "13.3 REINFORCE: Monte Carlo Policy Gradient",
+            "13.4 REINFORCE with Baseline",
+            "13.5 Actor–Critic Methods",
+            "13.6 Policy Gradient for Continuing Problems",
+            "13.7 Policy Parameterization for Continuous Actions",
+            "13.8 Summary"
+          ]
+        }
+      ]
+    },
+    "neural_networks": {
+      "count": 16,
+      "references": [
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "Neural Networks",
+          "sections": [
+            "5.1 Feed-forward Network Functions",
+            "5.2 Network Training",
+            "5.3 Error Backpropagation",
+            "5.4 The Hessian Matrix",
+            "5.5 Regularization in Neural Networks",
+            "5.6 Mixture Density Networks",
+            "5.7 Bayesian Neural Networks",
+            "5.ex Exercises"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "Deep Feedforward Networks",
+          "sections": [
+            "6.1 Example: Learning XOR",
+            "6.2 Gradient-Based Learning",
+            "6.3 Hidden Units",
+            "6.4 Architecture Design",
+            "6.5 Back-Propagation and Other Diﬀerentiation Algo-",
+            "6.6 Historical Notes"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Regularization for Deep Learning",
+          "sections": [
+            "7.1 Parameter Norm Penalties",
+            "7.2 Norm Penalties as Constrained Optimization",
+            "7.3 Regularization and Under-Constrained Problems",
+            "7.4 Dataset Augmentation",
+            "7.5 Noise Robustness",
+            "7.6 Semi-Supervised Learning",
+            "7.7 Multi-Task Learning",
+            "7.8 Early Stopping",
+            "7.9 Parameter Tying and Parameter Sharing",
+            "7.10 Sparse Representations",
+            "7.11 Bagging and Other Ensemble Methods",
+            "7.12 Dropout",
+            "7.13 Adversarial Training",
+            "7.14 Tangent Distance, Tangent Prop, and Manifold"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch16",
+          "title": "Structured Probabilistic Models for Deep Learning",
+          "sections": [
+            "16.1 The Challenge of Unstructured Modeling",
+            "16.2 Using Graphs to Describe Model Structure",
+            "16.3 Sampling from Graphical Models",
+            "16.4 Advantages of Structured Modeling",
+            "16.5 Learning about Dependencies",
+            "16.6 Inference and Approximate Inference",
+            "16.7 The Deep Learning Approach to Structured Prob-"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch05",
+          "title": "The Graph Neural Network Model",
+          "sections": [
+            "5.1 Neural Message Passing",
+            "5.2 Generalized Neighborhood Aggregation",
+            "5.3 Generalized Update Methods",
+            "5.4 Edge Features and Multi-relational GNNs",
+            "5.5 Graph Pooling",
+            "5.6 Generalized Message Passing"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch06",
+          "title": "Graph Neural Networks in Practice",
+          "sections": [
+            "6.1 Applications and Loss Functions",
+            "6.2 Eﬃciency Concerns and Node Sampling",
+            "6.3 Parameter Sharing and Regularization"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch06",
+          "title": "Neural Networks",
+          "sections": [
+            "6.1 Units",
+            "6.2 The XOR problem",
+            "6.3 Feedforward Neural Networks",
+            "6.4 Feedforward networks for NLP: Classification",
+            "6.5 Embeddings as the input to neural net classifiers",
+            "6.6 Training Neural Nets",
+            "6.7 Summary",
+            "6.8 Historical Notes"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Deep Learning",
+          "sections": [
+            "8.1 Big Idea",
+            "8.2 Fundamentals",
+            "8.3 Standard Approach: Backpropagation and Gradient Descent",
+            "8.4 Extensions and Variations",
+            "8.5 Summary",
+            "8.6 Further Reading",
+            "8.7 Exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch38",
+          "title": "Introduction To Neural Networks",
+          "sections": [
+            "38.1 Memories",
+            "38.2 Terminology"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Neural Networks for Tabular Data",
+          "sections": [
+            "13.1 Introduction",
+            "13.2 Multilayer perceptrons (MLPs)",
+            "13.3 Backpropagation",
+            "13.4 Training neural networks",
+            "13.5 Regularization",
+            "13.6 Other kinds of feedforward networks *",
+            "13.7 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch14",
+          "title": "Neural Networks for Images",
+          "sections": [
+            "14.1 Introduction",
+            "14.2 Common layers",
+            "14.3 Common architectures for image classification",
+            "14.4 Other forms of convolution *",
+            "14.5 Solving other discriminative vision tasks with CNNs *",
+            "14.6 Generating images by inverting CNNs *"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Neural Networks for Sequences",
+          "sections": [
+            "15.1 Introduction",
+            "15.2 Recurrent neural networks (RNNs)",
+            "15.3 1d CNNs",
+            "15.4 Attention",
+            "15.5 Transformers",
+            "15.6 Efficient transformers *",
+            "15.7 Language models and unsupervised representation learning"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch16",
+          "title": "Deep neural networks",
+          "sections": [
+            "16.1 Introduction",
+            "16.2 Building blocks of differentiable circuits",
+            "16.3 Canonical examples of neural networks"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Bayesian neural networks",
+          "sections": [
+            "17.1 Introduction",
+            "17.2 Priors for BNNs",
+            "17.3 Posteriors for BNNs",
+            "17.4 Generalization in Bayesian deep learning",
+            "17.5 Online inference",
+            "17.6 Hierarchical Bayesian neural networks"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Neural Networks",
+          "sections": [
+            "20.1 Feedforward Neural Networks",
+            "20.2 Learning Neural Networks",
+            "20.3 The Expressive Power of Neural Networks",
+            "20.4 The Sample Complexity of Neural Networks",
+            "20.5 The Runtime of Learning Neural Networks",
+            "20.6 SGD and Backpropagation",
+            "20.7 Summary",
+            "20.8 Bibliographic Remarks",
+            "20.9 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch05",
+          "title": "Deep Learning",
+          "sections": [
+            "5.1 Supervised learning",
+            "5.2 Unsupervised learning",
+            "5.3 Deep neural networks",
+            "5.4 Convolutional neural networks",
+            "5.5 More complex models",
+            "5.6 Additional reading",
+            "5.7 Exercises"
+          ]
+        }
+      ]
+    },
+    "graphical_models": {
+      "count": 16,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Belief Networks",
+          "sections": [
+            "3.1 Probabilistic Inference in Structured Distributions",
+            "3.2 Graphically Representing Distributions",
+            "3.3 Belief Networks",
+            "3.4 Causality",
+            "3.5 Parameterising Belief Networks",
+            "3.6 Further Reading",
+            "3.7 Code",
+            "3.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch23",
+          "title": "Markov Models",
+          "sections": [
+            "23.1 Markov Models",
+            "23.2 Hidden Markov Models",
+            "23.3 Learning HMMs",
+            "23.4 Related Models",
+            "23.5 Applications",
+            "23.6 Code",
+            "23.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch23",
+          "title": "Hidden Markov Models",
+          "sections": [
+            "23.1 Markov Models",
+            "23.2 Hidden Markov Models",
+            "23.3 Learning HMMs",
+            "23.4 Related Models",
+            "23.5 Applications",
+            "23.6 Code",
+            "23.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch27",
+          "title": "Markov Chain Monte Carlo (MCMC)",
+          "sections": [
+            "27.1 Introduction",
+            "27.2 Ancestral Sampling",
+            "27.3 Gibbs Sampling",
+            "27.4 Markov Chain Monte Carlo (MCMC)",
+            "27.5 Auxiliary Variable Methods",
+            "27.6 Importance Sampling",
+            "27.7 Code",
+            "27.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Parameterising Belief Networks",
+          "sections": [
+            "3.1 Probabilistic Inference in Structured Distributions",
+            "3.2 Graphically Representing Distributions",
+            "3.3 Belief Networks",
+            "3.4 Causality",
+            "3.5 Parameterising Belief Networks",
+            "3.6 Further Reading",
+            "3.7 Code",
+            "3.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch04",
+          "title": "Markov Networks",
+          "sections": [
+            "4.1 Graphical Models",
+            "4.2 Markov Networks",
+            "4.3 Chain Graphical Models",
+            "4.4 Expressiveness of Graphical Models",
+            "4.5 Factor Graphs",
+            "4.6 Notes",
+            "4.7 Code",
+            "4.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch04",
+          "title": "Chain Graphical Models",
+          "sections": [
+            "4.1 Graphical Models",
+            "4.2 Markov Networks",
+            "4.3 Chain Graphical Models",
+            "4.4 Expressiveness of Graphical Models",
+            "4.5 Factor Graphs",
+            "4.6 Notes",
+            "4.7 Code",
+            "4.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch04",
+          "title": "Expressiveness of Graphical Models",
+          "sections": [
+            "4.1 Graphical Models",
+            "4.2 Markov Networks",
+            "4.3 Chain Graphical Models",
+            "4.4 Expressiveness of Graphical Models",
+            "4.5 Factor Graphs",
+            "4.6 Notes",
+            "4.7 Code",
+            "4.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Markov Decision Processes",
+          "sections": [
+            "7.1 Expected Utility",
+            "7.2 Decision Trees",
+            "7.3 Extending Bayesian Networks for Decisions",
+            "7.4 Solving Inﬂuence Diagrams",
+            "7.5 Markov Decision Processes",
+            "7.6 Temporally Unbounded MDPs",
+            "7.7 Probabilistic Inference and Planning",
+            "7.8 Further Topics",
+            "7.9 Code",
+            "7.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Bayesian Belief Network Training",
+          "sections": [
+            "9.1 Learning as Inference",
+            "9.2 Maximum A Posteriori and Maximum Likelihood",
+            "9.3 Bayesian Belief Network Training",
+            "9.4 Maximum Likelihood for Undirected models",
+            "9.5 Properties of Maximum Likelihood",
+            "9.6 Code",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Graphical Models",
+          "sections": [
+            "8.1 Bayesian Networks",
+            "8.2 Conditional Independence",
+            "8.3 Markov Random Fields",
+            "8.4 Inference in Graphical Models",
+            "8.ex Exercises"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Undirected Graphical Models",
+          "sections": [
+            "17.1 Introduction",
+            "17.2 Markov Graphs and Their Properties",
+            "17.3 Undirected Graphical Models for Continuous Variables",
+            "17.4 Undirected Graphical Models for Discrete Variables"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch11",
+          "title": "Markov Chains",
+          "sections": [
+            "11.1 Introduction",
+            "11.2 Absorbing Markov Chains",
+            "11.3 Ergodic Markov Chains",
+            "11.4 Fundamental Limit Theorem",
+            "11.5 Mean First Passage Time"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch04",
+          "title": "Graphical models",
+          "sections": [
+            "4.1 Introduction",
+            "4.2 Directed graphical models (Bayes nets)",
+            "4.3 Undirected graphical models (Markov random fields)",
+            "4.4 Conditional random fields (CRFs)",
+            "4.5 Comparing directed and undirected PGMs",
+            "4.6 PGM extensions",
+            "4.7 Structural causal models"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Markov chain Monte Carlo",
+          "sections": [
+            "12.1 Introduction",
+            "12.2 Metropolis-Hastings algorithm",
+            "12.3 Gibbs sampling",
+            "12.4 Auxiliary variable MCMC",
+            "12.5 Hamiltonian Monte Carlo (HMC)",
+            "12.6 MCMC convergence",
+            "12.7 Stochastic gradient MCMC",
+            "12.8 Reversible jump (transdimensional) MCMC",
+            "12.9 Annealing methods"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch03",
+          "title": "Finite Markov Decision Processes",
+          "sections": [
+            "3.1 The Agent–Environment Interface",
+            "3.2 Goals and Rewards",
+            "3.3 Returns and Episodes",
+            "3.4 Unified Notation for Episodic and Continuing Tasks",
+            "3.5 Policies and Value Functions",
+            "3.6 Optimal Policies and Optimal Value Functions",
+            "3.7 Optimality and Approximation",
+            "3.8 Summary"
+          ]
+        }
+      ]
+    },
+    "optimization": {
+      "count": 13,
+      "references": [
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch01",
+          "title": "Mathematical optimization",
+          "sections": [
+            "1.1 Mathematical optimization",
+            "1.2 Least-squares and linear programming",
+            "1.3 Convex optimization",
+            "1.4 Nonlinear optimization",
+            "1.5 Outline",
+            "1.6 Notation",
+            "1.7 Bibliography"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch03",
+          "title": "Convex optimization",
+          "sections": [
+            "3.1 Basic properties and examples",
+            "3.2 Operations that preserve convexity",
+            "3.3 The conjugate function",
+            "3.4 Quasiconvex functions",
+            "3.5 Log-concave and log-convex functions",
+            "3.6 Convexity with respect to generalized inequalities",
+            "3.7 Bibliography",
+            "3.8 Exercises"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch04",
+          "title": "Nonlinear optimization",
+          "sections": [
+            "4.1 Optimization problems",
+            "4.2 Convex optimization",
+            "4.3 Linear optimization problems",
+            "4.4 Quadratic optimization problems",
+            "4.5 Geometric programming",
+            "4.6 Generalized inequality constraints",
+            "4.7 Vector optimization",
+            "4.8 Bibliography",
+            "4.9 Exercises"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch07",
+          "title": "Convex sets",
+          "sections": [
+            "7.1 Parametric distribution estimation",
+            "7.2 Nonparametric distribution estimation",
+            "7.3 Optimal detector design and hypothesis testing",
+            "7.4 Chebyshev and Chernoff bounds",
+            "7.5 Experiment design",
+            "7.6 Bibliography",
+            "7.7 Exercises"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch08",
+          "title": "Convex functions",
+          "sections": [
+            "8.1 Projection on a set",
+            "8.2 Distance between sets",
+            "8.3 Euclidean distance and angle problems",
+            "8.4 Extremal volume ellipsoids",
+            "8.5 Centering",
+            "8.6 Classification",
+            "8.7 Placement and location",
+            "8.8 Floor planning",
+            "8.9 Bibliography",
+            "8.10 Exercises"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch09",
+          "title": "Convex optimization problems",
+          "sections": [
+            "9.1 Unconstrained minimization problems",
+            "9.2 Descent methods",
+            "9.3 Gradient descent method",
+            "9.4 Steepest descent method",
+            "9.5 Newton's method",
+            "9.6 Self-concordance",
+            "9.7 Implementation",
+            "9.8 Bibliography",
+            "9.9 Exercises"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Optimization for Training Deep Models",
+          "sections": [
+            "8.1 How Learning Diﬀers from Pure Optimization",
+            "8.2 Challenges in Neural Network Optimization",
+            "8.3 Basic Algorithms",
+            "8.4 Parameter Initialization Strategies",
+            "8.5 Algorithms with Adaptive Learning Rates",
+            "8.6 Approximate Second-Order Methods",
+            "8.7 Optimization Strategies and Meta-Algorithms"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch07",
+          "title": "7 Continuous Optimization",
+          "sections": [
+            "7.1 Optimization Using Gradient Descent",
+            "7.2 Constrained Optimization and Lagrange Multipliers",
+            "7.3 Convex Optimization",
+            "7.4 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Optimization",
+          "sections": [
+            "8.1 Introduction",
+            "8.2 First-order methods",
+            "8.3 Second-order methods",
+            "8.4 Stochastic gradient descent",
+            "8.5 Constrained optimization",
+            "8.6 Proximal gradient method *",
+            "8.7 Bound optimization *",
+            "8.8 Blackbox and derivative free optimization",
+            "8.9 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "Optimization",
+          "sections": [
+            "6.1 Introduction",
+            "6.2 Automatic differentiation",
+            "6.3 Stochastic optimization",
+            "6.4 Natural gradient descent",
+            "6.5 Bound optimization (MM) algorithms",
+            "6.6 Bayesian optimization",
+            "6.7 Derivative-free optimization",
+            "6.8 Optimal transport",
+            "6.9 Submodular optimization"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Convex Learning Problems",
+          "sections": [
+            "12.1 Convexity, Lipschitzness, and Smoothness",
+            "12.2 Convex Learning Problems",
+            "12.3 Surrogate Loss Functions",
+            "12.4 Summary",
+            "12.5 Bibliographic Remarks",
+            "12.6 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch14",
+          "title": "Stochastic Gradient Descent",
+          "sections": [
+            "14.1 Gradient Descent",
+            "14.2 Subgradients",
+            "14.3 Stochastic Gradient Descent (SGD)",
+            "14.4 Variants",
+            "14.5 Learning with SGD",
+            "14.6 Summary",
+            "14.7 Bibliographic Remarks",
+            "14.8 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch04",
+          "title": "Model fitting and optimization",
+          "sections": [
+            "4.1 Scattered data interpolation",
+            "4.2 Variational methods and regularization",
+            "4.3 Markov random fields",
+            "4.4 Additional reading",
+            "4.5 Exercises"
+          ]
+        }
+      ]
+    },
+    "linear_algebra": {
+      "count": 12,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Matrix Decomposition Methods",
+          "sections": [
+            "15.1 High-Dimensional Spaces – Low Dimensional Manifolds",
+            "15.2 Principal Components Analysis",
+            "15.3 High Dimensional Data",
+            "15.4 Latent Semantic Analysis",
+            "15.5 PCA With Missing Data",
+            "15.6 Matrix Decomposition Methods",
+            "15.7 Kernel PCA",
+            "15.8 Canonical Correlation Analysis",
+            "15.9 Notes",
+            "15.10 Code",
+            "15.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Support Vector Machines",
+          "sections": [
+            "17.1 Introduction: Fitting A Straight Line",
+            "17.2 Linear Parameter Models for Regression",
+            "17.3 The Dual Representation and Kernels",
+            "17.4 Linear Parameter Models for Classiﬁcation",
+            "17.5 The Kernel Trick for Classiﬁcation",
+            "17.6 Support Vector Machines",
+            "17.7 Soft Zero-One Loss for Outlier Robustness",
+            "17.8 Notes",
+            "17.9 Code",
+            "17.10 Exercises"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch19",
+          "title": "Numerical linear algebra background",
+          "sections": 6
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch02",
+          "title": "Linear Algebra",
+          "sections": [
+            "2.1 Scalars, Vectors, Matrices and Tensors",
+            "2.2 Multiplying Matrices and Vectors",
+            "2.3 Identity and Inverse Matrices",
+            "2.4 Linear Dependence and Span",
+            "2.5 Norms",
+            "2.6 Special Kinds of Matrices and Vectors",
+            "2.7 Eigendecomposition",
+            "2.8 Singular Value Decomposition",
+            "2.9 The Moore-Penrose Pseudoinverse",
+            "2.10 The Trace Operator",
+            "2.11 The Determinant",
+            "2.12 Example: Principal Components Analysis"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "appD",
+          "title": "Introduction to Linear Algebra",
+          "sections": [
+            "D.1 Basic Types",
+            "D.2 Transpose",
+            "D.3 Multiplication",
+            "D.4 Summary"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch02",
+          "title": "2 Linear Algebra",
+          "sections": [
+            "2.1 Systems of Linear Equations",
+            "2.2 Matrices",
+            "2.3 Solving Systems of Linear Equations",
+            "2.4 Vector Spaces",
+            "2.5 Linear Independence",
+            "2.6 Basis and Rank",
+            "2.7 Linear Mappings",
+            "2.8 Affine Spaces",
+            "2.9 Further Reading"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch04",
+          "title": "4 Matrix Decompositions",
+          "sections": [
+            "4.1 Determinant and Trace",
+            "4.2 Eigenvalues and Eigenvectors",
+            "4.3 Cholesky Decomposition",
+            "4.4 Eigendecomposition and Diagonalization",
+            "4.5 Singular Value Decomposition",
+            "4.6 Matrix Approximation",
+            "4.7 Matrix Phylogeny",
+            "4.8 Further Reading"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch05",
+          "title": "5 Vector Calculus",
+          "sections": [
+            "5.1 Differentiation of Univariate Functions",
+            "5.2 Partial Differentiation and Gradients",
+            "5.3 Gradients of Vector-Valued Functions",
+            "5.4 Gradients of Matrices",
+            "5.5 Useful Identities for Computing Gradients",
+            "5.6 Backpropagation and Automatic Differentiation",
+            "5.7 Higher-Order Derivatives",
+            "5.8 Linearization and Multivariate Taylor Series",
+            "5.9 Further Reading"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch12",
+          "title": "12 Classification with Support Vector Machines",
+          "sections": [
+            "12.1 Separating Hyperplanes",
+            "12.2 Primal Support Vector Machine",
+            "12.3 Dual Support Vector Machine",
+            "12.4 Kernels",
+            "12.5 Numerical Solution",
+            "12.6 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Linear Algebra",
+          "sections": [
+            "7.1 Introduction",
+            "7.2 Matrix multiplication",
+            "7.3 Matrix inversion",
+            "7.4 Eigenvalue decomposition (EVD)",
+            "7.5 Singular value decomposition (SVD)",
+            "7.6 Other matrix decompositions *",
+            "7.7 Solving systems of linear equations *",
+            "7.8 Matrix calculus",
+            "7.9 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Support Vector Machines",
+          "sections": [
+            "15.1 Margin and Hard-SVM",
+            "15.2 Soft-SVM and Norm Regularization",
+            "15.3 Optimality Conditions and “Support Vectors”*",
+            "15.4 Duality*",
+            "15.5 Implementing Soft-SVM Using SGD",
+            "15.6 Summary",
+            "15.7 Bibliographic Remarks",
+            "15.8 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch16",
+          "title": "Linear algebra and numerical techniques",
+          "sections": [
+            "16.1 Matrix decompositions",
+            "16.2 Linear least squares",
+            "16.3 Non-linear least squares",
+            "16.4 Direct sparse matrix techniques",
+            "16.5 Iterative techniques"
+          ]
+        }
+      ]
+    },
+    "statistics": {
+      "count": 12,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Estimation using Maximum Likelihood",
+          "sections": [
+            "10.1 Naive Bayes and Conditional Independence",
+            "10.2 Estimation using Maximum Likelihood",
+            "10.3 Bayesian Naive Bayes",
+            "10.4 Tree Augmented Naive Bayes",
+            "10.5 Code",
+            "10.6 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Bayesian Hypothesis Testing for Outcome Analysis",
+          "sections": [
+            "13.1 Styles of Learning",
+            "13.2 Supervised Learning",
+            "13.3 Bayes versus Empirical Decisions",
+            "13.4 Representing Data",
+            "13.5 Bayesian Hypothesis Testing for Outcome Analysis",
+            "13.6 Code",
+            "13.7 Notes",
+            "13.8 Exercises"
+          ]
+        },
+        {
+          "book": "boyd",
+          "subject": "math",
+          "chapter": "ch12",
+          "title": "Statistical estimation",
+          "sections": 7
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch08",
+          "title": "Estimation",
+          "sections": [
+            "8.1 The estimation game",
+            "8.2 Guess the variance",
+            "8.3 Sampling distributions",
+            "8.4 Sampling bias",
+            "8.5 Exponential distributions",
+            "8.6 Exercises",
+            "8.7 Glossary"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch09",
+          "title": "Hypothesis testing",
+          "sections": [
+            "9.1 Classical hypothesis testing",
+            "9.2 HypothesisTest",
+            "9.3 Testing a difference in means",
+            "9.4 Other test statistics",
+            "9.5 Testing a correlation",
+            "9.6 Testing proportions",
+            "9.7 Chi-squared tests",
+            "9.8 First babies again",
+            "9.9 Errors",
+            "9.10 Power",
+            "9.11 Replication",
+            "9.12 Exercises",
+            "9.13 Glossary"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch02",
+          "title": "Graph Statistics and Kernel Methods",
+          "sections": [
+            "2.1 Graph Statistics and Kernel Methods",
+            "2.2 Neighborhood Overlap Detection",
+            "2.3 Graph Laplacians and Spectral Methods",
+            "2.4 Towards Learned Representations"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "appA",
+          "title": "Descriptive Statistics and Data Visualization for Machine Learning",
+          "sections": [
+            "A.1 Descriptive Statistics for Continuous Features",
+            "A.2 Descriptive Statistics for Categorical Features",
+            "A.3 Populations and Samples",
+            "A.4 Data Visualization"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch11",
+          "title": "11 Density Estimation with Gaussian Mixture Models",
+          "sections": [
+            "11.1 Gaussian Mixture Model",
+            "11.2 Parameter Learning via Maximum Likelihood",
+            "11.3 EM Algorithm",
+            "11.4 Latent-Variable Perspective",
+            "11.5 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch04",
+          "title": "Statistics",
+          "sections": [
+            "4.1 Introduction",
+            "4.2 Maximum likelihood estimation (MLE)",
+            "4.3 Empirical risk minimization (ERM)",
+            "4.4 Other estimation methods *",
+            "4.5 Regularization",
+            "4.6 Bayesian statistics *",
+            "4.7 Frequentist statistics *",
+            "4.8 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Statistics",
+          "sections": [
+            "3.1 Introduction",
+            "3.2 Bayesian statistics",
+            "3.3 Frequentist statistics",
+            "3.4 Conjugate priors",
+            "3.5 Noninformative priors",
+            "3.6 Hierarchical priors",
+            "3.7 Empirical Bayes",
+            "3.8 Model selection",
+            "3.9 Model checking",
+            "3.10 Hypothesis testing",
+            "3.11 Missing data"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch09",
+          "title": "Motion estimation",
+          "sections": [
+            "9.1 Translational alignment",
+            "9.2 Parametric motion",
+            "9.3 Optical flow",
+            "9.4 Layered motion",
+            "9.5 Additional reading",
+            "9.6 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch12",
+          "title": "Depth estimation",
+          "sections": [
+            "12.1 Epipolar geometry",
+            "12.2 Sparse correspondence",
+            "12.3 Dense correspondence",
+            "12.4 Local methods",
+            "12.5 Global optimization",
+            "12.6 Deep neural networks",
+            "12.7 Multi-view stereo",
+            "12.8 Monocular depth estimation",
+            "12.9 Additional reading",
+            "12.10 Exercises"
+          ]
+        }
+      ]
+    },
+    "ner": {
+      "count": 11,
+      "references": [
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Deep Generative Models",
+          "sections": [
+            "20.1 Boltzmann Machines",
+            "20.2 Restricted Boltzmann Machines",
+            "20.3 Deep Belief Networks",
+            "20.4 Deep Boltzmann Machines",
+            "20.5 Boltzmann Machines for Real-Valued Data",
+            "20.6 Convolutional Boltzmann Machines",
+            "20.7 Boltzmann Machines for Structured or Sequential",
+            "20.8 Other Boltzmann Machines",
+            "20.9 Back-Propagation through Random Operations",
+            "20.10 Directed Generative Nets",
+            "20.11 Drawing Samples from Autoencoders",
+            "20.12 Generative Stochastic Networks",
+            "20.13 Other Generation Schemes",
+            "20.14 Evaluating Generative Models",
+            "20.15 Conclusion"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch10",
+          "title": "Generating Functions",
+          "sections": [
+            "10.1 Discrete Distributions",
+            "10.2 Branching Processes",
+            "10.3 Continuous Densities"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch08",
+          "title": "Traditional Graph Generation Approaches",
+          "sections": [
+            "8.1 Overview of Traditional Approaches",
+            "8.2 Erd¨os-R´enyi Model",
+            "8.3 Stochastic Block Models",
+            "8.4 Preferential Attachment",
+            "8.5 Traditional Applications"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch09",
+          "title": "Deep Generative Models",
+          "sections": [
+            "9.1 Variational Autoencoder Approaches",
+            "9.2 Adversarial Approaches",
+            "9.3 Autoregressive Methods",
+            "9.4 Evaluating Graph Generation",
+            "9.5 Molecule Generation"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Generalized Linear Models *",
+          "sections": [
+            "12.1 Introduction",
+            "12.2 Examples",
+            "12.3 GLMs with non-canonical link functions",
+            "12.4 Maximum likelihood estimation",
+            "12.5 Worked example: predicting insurance claims"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Generalized linear models",
+          "sections": [
+            "15.1 Introduction",
+            "15.2 Linear regression",
+            "15.3 Logistic regression",
+            "15.4 Probit regression",
+            "15.5 Multilevel (hierarchical) GLMs"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Generative models: an overview",
+          "sections": [
+            "20.1 Introduction",
+            "20.2 Types of generative model",
+            "20.3 Goals of generative modeling",
+            "20.4 Evaluating generative models",
+            "20.5 Training objectives"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch24",
+          "title": "Energy-based models",
+          "sections": [
+            "24.1 Introduction",
+            "24.2 Maximum likelihood training",
+            "24.3 Score matching (SM)",
+            "24.4 Noise contrastive estimation",
+            "24.5 Other methods"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch26",
+          "title": "Generative adversarial networks",
+          "sections": [
+            "26.1 Introduction",
+            "26.2 Learning by comparison",
+            "26.3 Generative adversarial networks",
+            "26.4 Conditional GANs",
+            "26.5 Inference with GANs",
+            "26.6 Neural architectures in GANs",
+            "26.7 Applications"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch24",
+          "title": "Generative Models",
+          "sections": [
+            "24.1 Maximum Likelihood Estimator",
+            "24.2 Naive Bayes",
+            "24.3 Linear Discriminant Analysis",
+            "24.4 Latent Variables and the EM Algorithm",
+            "24.5 Bayesian Reasoning",
+            "24.6 Summary",
+            "24.7 Bibliographic Remarks",
+            "24.8 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch25",
+          "title": "Feature Selection and Generation",
+          "sections": [
+            "25.1 Feature Selection",
+            "25.2 Feature Manipulation and Normalization",
+            "25.3 Feature Learning",
+            "25.4 Summary",
+            "25.5 Bibliographic Remarks",
+            "25.6 Exercises"
+          ]
+        }
+      ]
+    },
+    "gaussian": {
+      "count": 11,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch25",
+          "title": "Gaussian Sum Filtering",
+          "sections": [
+            "25.1 Introduction",
+            "25.2 The Switching LDS",
+            "25.3 Gaussian Sum Filtering",
+            "25.4 Gaussian Sum Smoothing",
+            "25.5 Reset Models",
+            "25.6 Code",
+            "25.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch25",
+          "title": "Gaussian Sum Smoothing",
+          "sections": [
+            "25.1 Introduction",
+            "25.2 The Switching LDS",
+            "25.3 Gaussian Sum Filtering",
+            "25.4 Gaussian Sum Smoothing",
+            "25.5 Reset Models",
+            "25.6 Code",
+            "25.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Multivariate Gaussian",
+          "sections": [
+            "8.1 Distributions",
+            "8.2 Summarising distributions",
+            "8.3 Discrete Distributions",
+            "8.4 Continuous Distributions",
+            "8.5 Multivariate Distributions",
+            "8.6 Multivariate Gaussian",
+            "8.7 Exponential Family",
+            "8.8 The Kullback-Leibler Divergence KL(q|p)",
+            "8.9 Code",
+            "8.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch18",
+          "title": "Regression With Additive Gaussian Noise",
+          "sections": [
+            "18.1 Regression With Additive Gaussian Noise",
+            "18.2 Classiﬁcation",
+            "18.3 Code",
+            "18.4 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch19",
+          "title": "Gaussian Process Prediction",
+          "sections": [
+            "19.1 Non-Parametric Prediction",
+            "19.2 Gaussian Process Prediction",
+            "19.3 Covariance Functions",
+            "19.4 Analysis of Covariance Functions",
+            "19.5 Gaussian Processes for Classiﬁcation",
+            "19.6 Further Reading",
+            "19.7 Code",
+            "19.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch19",
+          "title": "Gaussian Processes for Classiﬁcation",
+          "sections": [
+            "19.1 Non-Parametric Prediction",
+            "19.2 Gaussian Process Prediction",
+            "19.3 Covariance Functions",
+            "19.4 Analysis of Covariance Functions",
+            "19.5 Gaussian Processes for Classiﬁcation",
+            "19.6 Further Reading",
+            "19.7 Code",
+            "19.8 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "The Gaussian Mixture Model",
+          "sections": [
+            "20.1 Density Estimation Using Mixtures",
+            "20.2 Expectation Maximisation for Mixture Models",
+            "20.3 The Gaussian Mixture Model",
+            "20.4 Mixture of Experts",
+            "20.5 Indicator Models",
+            "20.6 Mixed Membership Models",
+            "20.7 Further Reading",
+            "20.8 Code",
+            "20.9 Exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch45",
+          "title": "Gaussian Processes",
+          "sections": [
+            "45.1 Standard methods for nonlinear regression",
+            "45.2 From parametric models to Gaussian processes",
+            "45.3 Using a given Gaussian process model in regression",
+            "45.4 Examples of covariance functions",
+            "45.5 Adaptation of Gaussian process models",
+            "45.6 Classiﬁcation",
+            "45.7 Discussion"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch11",
+          "title": "11 Density Estimation with Gaussian Mixture Models",
+          "sections": [
+            "11.1 Gaussian Mixture Model",
+            "11.2 Parameter Learning via Maximum Likelihood",
+            "11.3 EM Algorithm",
+            "11.4 Latent-Variable Perspective",
+            "11.5 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch08",
+          "title": "Gaussian filtering and smoothing",
+          "sections": [
+            "8.1 Introduction",
+            "8.2 Inference for linear-Gaussian SSMs",
+            "8.3 Inference based on local linearization",
+            "8.4 Inference based on the unscented transform",
+            "8.5 Other variants of the Kalman filter",
+            "8.6 Assumed density filtering",
+            "8.7 Other inference methods for SSMs"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch18",
+          "title": "Gaussian processes",
+          "sections": [
+            "18.1 Introduction",
+            "18.2 Mercer kernels",
+            "18.3 GPs with Gaussian likelihoods",
+            "18.4 GPs with non-Gaussian likelihoods",
+            "18.5 Scaling GP inference to large datasets",
+            "18.6 Learning the kernel",
+            "18.7 GPs and DNNs",
+            "18.8 Gaussian processes for time series forecasting"
+          ]
+        }
+      ]
+    },
+    "regression": {
+      "count": 9,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Linear Parameter Models for Regression",
+          "sections": [
+            "17.1 Introduction: Fitting A Straight Line",
+            "17.2 Linear Parameter Models for Regression",
+            "17.3 The Dual Representation and Kernels",
+            "17.4 Linear Parameter Models for Classiﬁcation",
+            "17.5 The Kernel Trick for Classiﬁcation",
+            "17.6 Support Vector Machines",
+            "17.7 Soft Zero-One Loss for Outlier Robustness",
+            "17.8 Notes",
+            "17.9 Code",
+            "17.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch18",
+          "title": "Regression With Additive Gaussian Noise",
+          "sections": [
+            "18.1 Regression With Additive Gaussian Noise",
+            "18.2 Classiﬁcation",
+            "18.3 Code",
+            "18.4 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Linear Models for Regression",
+          "sections": [
+            "3.1 Linear Basis Function Models",
+            "3.2 The Bias-Variance Decomposition",
+            "3.3 Bayesian Linear Regression",
+            "3.4 Bayesian Model Comparison",
+            "3.5 The Evidence Approximation",
+            "3.6 Limitations of Fixed Basis Functions",
+            "3.ex Exercises"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch11",
+          "title": "Regression",
+          "sections": [
+            "11.1 StatsModels",
+            "11.2 Multiple regression",
+            "11.3 Nonlinear relationships",
+            "11.4 Data mining",
+            "11.5 Prediction",
+            "11.6 Logistic regression",
+            "11.7 Estimating parameters",
+            "11.8 Implementation",
+            "11.9 Accuracy",
+            "11.10 Exercises",
+            "11.11 Glossary"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Linear Methods for Regression",
+          "sections": [
+            "3.1 Introduction",
+            "3.2 Linear Regression Models and Least Squares",
+            "3.3 Subset Selection",
+            "3.4 Shrinkage Methods",
+            "3.5 Methods Using Derived Input Directions",
+            "3.6 Discussion: A Comparison of the Selection and Shrinkage Methods",
+            "3.7 Multiple Outcome Shrinkage and Selection",
+            "3.8 More on the Lasso and Related Path Algorithms",
+            "3.9 Computational Considerations"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch04",
+          "title": "Logistic Regression",
+          "sections": [
+            "4.1 Machine learning and classification",
+            "4.2 The sigmoid function",
+            "4.3 Classification with Logistic Regression",
+            "4.4 Learning in Logistic Regression",
+            "4.5 The cross-entropy loss function",
+            "4.6 Gradient Descent",
+            "4.7 Multinomial logistic regression",
+            "4.8 Learning in Multinomial Logistic Regression",
+            "4.9 Evaluation: Precision, Recall, F-measure",
+            "4.10 Test sets and Cross-validation",
+            "4.11 Statistical Significance Testing",
+            "4.12 Avoiding Harms in Classification",
+            "4.13 Interpreting models",
+            "4.14 Advanced: Regularization",
+            "4.15 Advanced: Deriving the Gradient Equation",
+            "4.16 Summary",
+            "4.17 Historical Notes",
+            "4.18 Exercises"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch09",
+          "title": "9 Linear Regression",
+          "sections": [
+            "9.1 Problem Formulation",
+            "9.2 Parameter Estimation",
+            "9.3 Bayesian Linear Regression",
+            "9.4 Maximum Likelihood as Orthogonal Projection",
+            "9.5 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Logistic Regression",
+          "sections": [
+            "10.1 Introduction",
+            "10.2 Binary logistic regression",
+            "10.3 Multinomial logistic regression",
+            "10.4 Robust logistic regression *",
+            "10.5 Bayesian logistic regression *",
+            "10.6 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Linear Regression",
+          "sections": [
+            "11.1 Introduction",
+            "11.2 Least squares linear regression",
+            "11.3 Ridge regression",
+            "11.4 Lasso regression",
+            "11.5 Regression splines *",
+            "11.6 Robust linear regression *",
+            "11.7 Bayesian linear regression *",
+            "11.8 Exercises"
+          ]
+        }
+      ]
+    },
+    "generative": {
+      "count": 8,
+      "references": [
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch14",
+          "title": "Autoencoders",
+          "sections": [
+            "14.1 Undercomplete Autoencoders",
+            "14.2 Regularized Autoencoders",
+            "14.3 Representational Power, Layer Size and Depth",
+            "14.4 Stochastic Encoders and Decoders",
+            "14.5 Denoising Autoencoders",
+            "14.6 Learning Manifolds with Autoencoders",
+            "14.7 Contractive Autoencoders",
+            "14.8 Predictive Sparse Decomposition",
+            "14.9 Applications of Autoencoders"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Deep Generative Models",
+          "sections": [
+            "20.1 Boltzmann Machines",
+            "20.2 Restricted Boltzmann Machines",
+            "20.3 Deep Belief Networks",
+            "20.4 Deep Boltzmann Machines",
+            "20.5 Boltzmann Machines for Real-Valued Data",
+            "20.6 Convolutional Boltzmann Machines",
+            "20.7 Boltzmann Machines for Structured or Sequential",
+            "20.8 Other Boltzmann Machines",
+            "20.9 Back-Propagation through Random Operations",
+            "20.10 Directed Generative Nets",
+            "20.11 Drawing Samples from Autoencoders",
+            "20.12 Generative Stochastic Networks",
+            "20.13 Other Generation Schemes",
+            "20.14 Evaluating Generative Models",
+            "20.15 Conclusion"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch09",
+          "title": "Deep Generative Models",
+          "sections": [
+            "9.1 Variational Autoencoder Approaches",
+            "9.2 Adversarial Approaches",
+            "9.3 Autoregressive Methods",
+            "9.4 Evaluating Graph Generation",
+            "9.5 Molecule Generation"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Generative models: an overview",
+          "sections": [
+            "20.1 Introduction",
+            "20.2 Types of generative model",
+            "20.3 Goals of generative modeling",
+            "20.4 Evaluating generative models",
+            "20.5 Training objectives"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Variational autoencoders",
+          "sections": [
+            "21.1 Introduction",
+            "21.2 VAE basics",
+            "21.3 VAE generalizations",
+            "21.4 Avoiding posterior collapse",
+            "21.5 VAEs with hierarchical structure",
+            "21.6 Vector quantization VAE"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch25",
+          "title": "Diffusion models",
+          "sections": [
+            "25.1 Introduction",
+            "25.2 Denoising diffusion probabilistic models (DDPMs)",
+            "25.3 Score-based generative models (SGMs)",
+            "25.4 Continuous time models using differential equations",
+            "25.5 Speeding up diffusion models",
+            "25.6 Conditional generation",
+            "25.7 Diffusion for discrete state spaces"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch26",
+          "title": "Generative adversarial networks",
+          "sections": [
+            "26.1 Introduction",
+            "26.2 Learning by comparison",
+            "26.3 Generative adversarial networks",
+            "26.4 Conditional GANs",
+            "26.5 Inference with GANs",
+            "26.6 Neural architectures in GANs",
+            "26.7 Applications"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch24",
+          "title": "Generative Models",
+          "sections": [
+            "24.1 Maximum Likelihood Estimator",
+            "24.2 Naive Bayes",
+            "24.3 Linear Discriminant Analysis",
+            "24.4 Latent Variables and the EM Algorithm",
+            "24.5 Bayesian Reasoning",
+            "24.6 Summary",
+            "24.7 Bibliographic Remarks",
+            "24.8 Exercises"
+          ]
+        }
+      ]
+    },
+    "information_theory": {
+      "count": 7,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch28",
+          "title": "Mutual Information Maximisation : A KL Variational Approach",
+          "sections": [
+            "28.1 Introduction",
+            "28.2 The Laplace approximation",
+            "28.3 Properties of Kullback-Leibler Variational Inference",
+            "28.4 Variational Bounding Using KL(q|p)",
+            "28.5 Mutual Information Maximisation : A KL Variational Approach",
+            "28.6 Loopy Belief Propagation",
+            "28.7 Expectation Propagation",
+            "28.8 MAP for MRFs",
+            "28.9 Further Reading",
+            "28.10 Code",
+            "28.11 Exercises"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch03",
+          "title": "Probability and Information Theory",
+          "sections": [
+            "3.1 Why Probability?",
+            "3.2 Random Variables",
+            "3.3 Probability Distributions",
+            "3.4 Marginal Probability",
+            "3.5 Conditional Probability",
+            "3.6 The Chain Rule of Conditional Probabilities",
+            "3.7 Independence and Conditional Independence",
+            "3.8 Expectation, Variance and Covariance",
+            "3.9 Common Probability Distributions",
+            "3.10 Useful Properties of Common Functions",
+            "3.11 Bayes’ Rule",
+            "3.12 Technical Details of Continuous Variables",
+            "3.13 Information Theory",
+            "3.14 Structured Probabilistic Models"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch01",
+          "title": "Introduction To Information Theory",
+          "sections": [
+            "1.1 How can we achieve perfect communication over an imperfect,",
+            "1.2 Error-correcting codes for the binary symmetric channel",
+            "1.3 What performance can the best codes achieve?",
+            "1.4 Summary",
+            "1.5 Further exercises",
+            "1.6 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch02",
+          "title": "Probability, Entropy, And Inference",
+          "sections": [
+            "2.1 Probabilities and ensembles",
+            "2.2 The meaning of probability",
+            "2.3 Forward probabilities and inverse probabilities",
+            "2.4 Deﬁnition of entropy and related functions",
+            "2.5 Decomposability of the entropy",
+            "2.6 Gibbs’ inequality",
+            "2.7 Jensen’s inequality for convex functions",
+            "2.8 Exercises",
+            "2.9 Further exercises",
+            "2.10 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch15",
+          "title": "Further Exercises On Information Theory",
+          "sections": 0
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "Information Theory",
+          "sections": [
+            "6.1 Entropy",
+            "6.2 Relative entropy (KL divergence) *",
+            "6.3 Mutual information *",
+            "6.4 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "Information theory",
+          "sections": [
+            "5.1 KL divergence",
+            "5.2 Entropy",
+            "5.3 Mutual information",
+            "5.4 Data compression (source coding)",
+            "5.5 Error-correcting codes (channel coding)",
+            "5.6 The information bottleneck",
+            "5.7 Algorithmic information theory"
+          ]
+        }
+      ]
+    },
+    "pca": {
+      "count": 7,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Principal Components Analysis",
+          "sections": [
+            "15.1 High-Dimensional Spaces – Low Dimensional Manifolds",
+            "15.2 Principal Components Analysis",
+            "15.3 High Dimensional Data",
+            "15.4 Latent Semantic Analysis",
+            "15.5 PCA With Missing Data",
+            "15.6 Matrix Decomposition Methods",
+            "15.7 Kernel PCA",
+            "15.8 Canonical Correlation Analysis",
+            "15.9 Notes",
+            "15.10 Code",
+            "15.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "PCA With Missing Data",
+          "sections": [
+            "15.1 High-Dimensional Spaces – Low Dimensional Manifolds",
+            "15.2 Principal Components Analysis",
+            "15.3 High Dimensional Data",
+            "15.4 Latent Semantic Analysis",
+            "15.5 PCA With Missing Data",
+            "15.6 Matrix Decomposition Methods",
+            "15.7 Kernel PCA",
+            "15.8 Canonical Correlation Analysis",
+            "15.9 Notes",
+            "15.10 Code",
+            "15.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Kernel PCA",
+          "sections": [
+            "15.1 High-Dimensional Spaces – Low Dimensional Manifolds",
+            "15.2 Principal Components Analysis",
+            "15.3 High Dimensional Data",
+            "15.4 Latent Semantic Analysis",
+            "15.5 PCA With Missing Data",
+            "15.6 Matrix Decomposition Methods",
+            "15.7 Kernel PCA",
+            "15.8 Canonical Correlation Analysis",
+            "15.9 Notes",
+            "15.10 Code",
+            "15.11 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Probabilistic Principal Components Analysis",
+          "sections": [
+            "21.1 Factor Analysis",
+            "21.2 Factor Analysis : Maximum Likelihood",
+            "21.3 Interlude: Modelling Faces",
+            "21.4 Probabilistic Principal Components Analysis",
+            "21.5 Canonical Correlation Analysis and Factor Analysis",
+            "21.6 Independent Components Analysis",
+            "21.7 Code",
+            "21.8 Exercises"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch10",
+          "title": "10 Dimensionality Reduction with Principal Component Analysis",
+          "sections": [
+            "10.1 Problem Setting",
+            "10.2 Maximum Variance Perspective",
+            "10.3 Projection Perspective",
+            "10.4 Eigenvector Computation and Low-Rank Approximations",
+            "10.5 PCA in High Dimensions",
+            "10.6 Key Steps of PCA in Practice",
+            "10.7 Latent Variable Perspective",
+            "10.8 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch20",
+          "title": "Dimensionality Reduction",
+          "sections": [
+            "20.1 Principal components analysis (PCA)",
+            "20.2 Factor analysis *",
+            "20.3 Autoencoders",
+            "20.4 Manifold learning *",
+            "20.5 Word embeddings",
+            "20.6 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch23",
+          "title": "Dimensionality Reduction",
+          "sections": [
+            "23.1 Principal Component Analysis (PCA)",
+            "23.2 Random Projections",
+            "23.3 Compressed Sensing",
+            "23.4 PCA or Compressed Sensing?",
+            "23.5 Summary",
+            "23.6 Bibliographic Remarks",
+            "23.7 Exercises"
+          ]
+        }
+      ]
+    },
+    "image": {
+      "count": 6,
+      "references": [
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "appA",
+          "title": "Descriptive Statistics and Data Visualization for Machine Learning",
+          "sections": [
+            "A.1 Descriptive Statistics for Continuous Features",
+            "A.2 Descriptive Statistics for Categorical Features",
+            "A.3 Populations and Samples",
+            "A.4 Data Visualization"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch14",
+          "title": "Neural Networks for Images",
+          "sections": [
+            "14.1 Introduction",
+            "14.2 Common layers",
+            "14.3 Common architectures for image classification",
+            "14.4 Other forms of convolution *",
+            "14.5 Solving other discriminative vision tasks with CNNs *",
+            "14.6 Generating images by inverting CNNs *"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch02",
+          "title": "Image formation",
+          "sections": [
+            "2.1 Geometric primitives and transformations",
+            "2.2 Photometric image formation",
+            "2.3 The digital camera",
+            "2.4 Additional reading",
+            "2.5 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch03",
+          "title": "Image processing",
+          "sections": [
+            "3.1 Point operators",
+            "3.2 Linear filtering",
+            "3.3 More neighborhood operators",
+            "3.4 Fourier transforms",
+            "3.5 Pyramids and wavelets",
+            "3.6 Geometric transformations",
+            "3.7 Additional reading",
+            "3.8 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch08",
+          "title": "Image alignment and stitching",
+          "sections": [
+            "8.1 Pairwise alignment",
+            "8.2 Image stitching",
+            "8.3 Global alignment",
+            "8.4 Compositing",
+            "8.5 Additional reading",
+            "8.6 Exercises"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch14",
+          "title": "Image-based rendering",
+          "sections": [
+            "14.1 View interpolation",
+            "14.2 Layered depth images",
+            "14.3 Light fields and Lumigraphs",
+            "14.4 Environment mattes",
+            "14.5 Video-based rendering",
+            "14.6 Neural rendering",
+            "14.7 Additional reading",
+            "14.8 Exercises"
+          ]
+        }
+      ]
+    },
+    "embedding": {
+      "count": 6,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "The Dual Representation and Kernels",
+          "sections": [
+            "17.1 Introduction: Fitting A Straight Line",
+            "17.2 Linear Parameter Models for Regression",
+            "17.3 The Dual Representation and Kernels",
+            "17.4 Linear Parameter Models for Classiﬁcation",
+            "17.5 The Kernel Trick for Classiﬁcation",
+            "17.6 Support Vector Machines",
+            "17.7 Soft Zero-One Loss for Outlier Robustness",
+            "17.8 Notes",
+            "17.9 Code",
+            "17.10 Exercises"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Representation Learning",
+          "sections": [
+            "15.1 Greedy Layer-Wise Unsupervised Pretraining",
+            "15.2 Transfer Learning and Domain Adaptation",
+            "15.3 Semi-Supervised Disentangling of Causal Factors",
+            "15.4 Distributed Representation",
+            "15.5 Exponential Gains from Depth",
+            "15.6 Providing Clues to Discover Underlying Causes"
+          ]
+        },
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch02",
+          "title": "Towards Learned Representations",
+          "sections": [
+            "2.1 Graph Statistics and Kernel Methods",
+            "2.2 Neighborhood Overlap Detection",
+            "2.3 Graph Laplacians and Spectral Methods",
+            "2.4 Towards Learned Representations"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch05",
+          "title": "Embeddings",
+          "sections": [
+            "5.1 Lexical Semantics",
+            "5.2 Vector Semantics: The Intuition",
+            "5.3 Simple count-based embeddings",
+            "5.4 Cosine for measuring similarity",
+            "5.5 Word2vec",
+            "5.6 Visualizing Embeddings",
+            "5.7 Semantic properties of embeddings",
+            "5.8 Bias and Embeddings",
+            "5.9 Evaluating Vector Models",
+            "5.10 Summary",
+            "5.11 Historical Notes",
+            "5.12 Exercises"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch23",
+          "title": "Graph Embeddings *",
+          "sections": [
+            "23.1 Introduction",
+            "23.2 Graph Embedding as an Encoder/Decoder Problem",
+            "23.3 Shallow graph embeddings",
+            "23.4 Graph Neural Networks",
+            "23.5 Deep graph embeddings",
+            "23.6 Applications"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch32",
+          "title": "Representation learning",
+          "sections": [
+            "32.1 Introduction",
+            "32.2 Evaluating and comparing learned representations",
+            "32.3 Approaches for learning representations",
+            "32.4 Theory of representation learning"
+          ]
+        }
+      ]
+    },
+    "calculus": {
+      "count": 4,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Optimising the Likelihood by Gradient Methods",
+          "sections": [
+            "11.1 Hidden Variables and Missing Data",
+            "11.2 Expectation Maximisation",
+            "11.3 Extensions of EM",
+            "11.4 A Failure Case for EM",
+            "11.5 Variational Bayes",
+            "11.6 Bayesian Methods and ML-II",
+            "11.7 Optimising the Likelihood by Gradient Methods",
+            "11.8 Code",
+            "11.9 Exercises"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch05",
+          "title": "5 Vector Calculus",
+          "sections": [
+            "5.1 Differentiation of Univariate Functions",
+            "5.2 Partial Differentiation and Gradients",
+            "5.3 Gradients of Vector-Valued Functions",
+            "5.4 Gradients of Matrices",
+            "5.5 Useful Identities for Computing Gradients",
+            "5.6 Backpropagation and Automatic Differentiation",
+            "5.7 Higher-Order Derivatives",
+            "5.8 Linearization and Multivariate Taylor Series",
+            "5.9 Further Reading"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch14",
+          "title": "Stochastic Gradient Descent",
+          "sections": [
+            "14.1 Gradient Descent",
+            "14.2 Subgradients",
+            "14.3 Stochastic Gradient Descent (SGD)",
+            "14.4 Variants",
+            "14.5 Learning with SGD",
+            "14.6 Summary",
+            "14.7 Bibliographic Remarks",
+            "14.8 Exercises"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch13",
+          "title": "Policy Gradient Methods",
+          "sections": [
+            "13.1 Policy Approximation and its Advantages",
+            "13.2 The Policy Gradient Theorem",
+            "13.3 REINFORCE: Monte Carlo Policy Gradient",
+            "13.4 REINFORCE with Baseline",
+            "13.5 Actor–Critic Methods",
+            "13.6 Policy Gradient for Continuing Problems",
+            "13.7 Policy Parameterization for Continuous Actions",
+            "13.8 Summary"
+          ]
+        }
+      ]
+    },
+    "classification": {
+      "count": 6,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch16",
+          "title": "Fisher’s Linear Discriminant",
+          "sections": [
+            "16.1 Supervised Linear Projections",
+            "16.2 Fisher’s Linear Discriminant",
+            "16.3 Canonical Variates",
+            "16.4 Using non-Gaussian Data Distributions",
+            "16.5 Code",
+            "16.6 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch04",
+          "title": "Linear Models for Classification",
+          "sections": [
+            "4.1 Discriminant Functions",
+            "4.2 Probabilistic Generative Models",
+            "4.3 Probabilistic Discriminative Models",
+            "4.4 The Laplace Approximation",
+            "4.5 Bayesian Logistic Regression",
+            "4.ex Exercises"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Flexible Discriminants",
+          "sections": [
+            "12.1 Introduction",
+            "12.2 The Support Vector Classiﬁer",
+            "12.3 Support Vector Machines and Kernels",
+            "12.4 Generalizing Linear Discriminant Analysis",
+            "12.5 Flexible Discriminant Analysis",
+            "12.6 Penalized Discriminant Analysis",
+            "12.7 Mixture Discriminant Analysis"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Case Study: Galaxy Classification",
+          "sections": [
+            "13.1 Business Understanding",
+            "13.2 Data Understanding",
+            "13.3 Data Preparation",
+            "13.4 Modeling",
+            "13.5 Evaluation",
+            "13.6 Deployment"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch12",
+          "title": "12 Classification with Support Vector Machines",
+          "sections": [
+            "12.1 Separating Hyperplanes",
+            "12.2 Primal Support Vector Machine",
+            "12.3 Dual Support Vector Machine",
+            "12.4 Kernels",
+            "12.5 Numerical Solution",
+            "12.6 Further Reading"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Linear Discriminant Analysis",
+          "sections": [
+            "9.1 Introduction",
+            "9.2 Gaussian discriminant analysis",
+            "9.3 Naive Bayes classifiers",
+            "9.4 Generative vs discriminative classifiers",
+            "9.5 Exercises"
+          ]
+        }
+      ]
+    },
+    "decision_tree": {
+      "count": 6,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Decision Trees",
+          "sections": [
+            "7.1 Expected Utility",
+            "7.2 Decision Trees",
+            "7.3 Extending Bayesian Networks for Decisions",
+            "7.4 Solving Inﬂuence Diagrams",
+            "7.5 Markov Decision Processes",
+            "7.6 Temporally Unbounded MDPs",
+            "7.7 Probabilistic Inference and Planning",
+            "7.8 Further Topics",
+            "7.9 Code",
+            "7.10 Exercises"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Boosting and Additive Trees",
+          "sections": [
+            "10.1 Boosting Methods",
+            "10.2 Boosting Fits an Additive Model",
+            "10.3 Forward Stagewise Additive Modeling",
+            "10.4 Exponential Loss and AdaBoost",
+            "10.5 Why Exponential Loss?",
+            "10.6 Loss Functions and Robustness",
+            "10.7 “Oﬀ-the-Shelf” Procedures for Data Mining",
+            "10.8 Example: Spam Data",
+            "10.9 Boosting Trees",
+            "10.10 Numerical Optimization via Gradient Boosting",
+            "10.11 Right-Sized Trees for Boosting",
+            "10.12 Regularization",
+            "10.13 Interpretation",
+            "10.14 Illustrations"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Random Forests",
+          "sections": [
+            "15.1 Introduction",
+            "15.2 Deﬁnition of Random Forests",
+            "15.3 Details of Random Forests",
+            "15.4 Analysis of Random Forests"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch18",
+          "title": "Trees, Forests, Bagging, and Boosting",
+          "sections": [
+            "18.1 Classification and regression trees (CART)",
+            "18.2 Ensemble learning",
+            "18.3 Bagging",
+            "18.4 Random forests",
+            "18.5 Boosting",
+            "18.6 Interpreting tree ensembles"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Boosting",
+          "sections": [
+            "10.1 Weak Learnability",
+            "10.2 AdaBoost",
+            "10.3 Linear Combinations of Base Hypotheses",
+            "10.4 AdaBoost for Face Recognition",
+            "10.5 Summary",
+            "10.6 Bibliographic Remarks",
+            "10.7 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch18",
+          "title": "Decision Trees",
+          "sections": [
+            "18.1 Sample Complexity",
+            "18.2 Decision Tree Algorithms",
+            "18.3 Random Forests",
+            "18.4 Summary",
+            "18.5 Bibliographic Remarks",
+            "18.6 Exercises"
+          ]
+        }
+      ]
+    },
+    "evaluation": {
+      "count": 5,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Bayesian Hypothesis Testing for Outcome Analysis",
+          "sections": [
+            "13.1 Styles of Learning",
+            "13.2 Supervised Learning",
+            "13.3 Bayes versus Empirical Decisions",
+            "13.4 Representing Data",
+            "13.5 Bayesian Hypothesis Testing for Outcome Analysis",
+            "13.6 Code",
+            "13.7 Notes",
+            "13.8 Exercises"
+          ]
+        },
+        {
+          "book": "downey",
+          "subject": "math",
+          "chapter": "ch09",
+          "title": "Hypothesis testing",
+          "sections": [
+            "9.1 Classical hypothesis testing",
+            "9.2 HypothesisTest",
+            "9.3 Testing a difference in means",
+            "9.4 Other test statistics",
+            "9.5 Testing a correlation",
+            "9.6 Testing proportions",
+            "9.7 Chi-squared tests",
+            "9.8 First babies again",
+            "9.9 Errors",
+            "9.10 Power",
+            "9.11 Replication",
+            "9.12 Exercises",
+            "9.13 Glossary"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch10",
+          "title": "Post-training: Instruction Tuning, Alignment, and Test-Time Compute",
+          "sections": [
+            "10.1 Instruction Tuning",
+            "10.2 Learning from Preferences",
+            "10.3 LLM Alignment via Preference-Based Learning",
+            "10.4 Test-time Compute",
+            "10.5 Summary",
+            "10.6 Historical Notes"
+          ]
+        },
+        {
+          "book": "kelleher",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Evaluation",
+          "sections": [
+            "9.1 Big Idea",
+            "9.2 Fundamentals",
+            "9.3 Standard Approach: Misclassification Rate on a Hold-Out Test Set",
+            "9.4 Extensions and Variations",
+            "9.5 Summary",
+            "9.6 Further Reading",
+            "9.7 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch11",
+          "title": "Model Selection and Validation",
+          "sections": [
+            "11.1 Model Selection Using SRM",
+            "11.2 Validation",
+            "11.3 What to Do If Learning Fails",
+            "11.4 Summary",
+            "11.5 Exercises"
+          ]
+        }
+      ]
+    },
+    "hmm": {
+      "count": 5,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch23",
+          "title": "Hidden Markov Models",
+          "sections": [
+            "23.1 Markov Models",
+            "23.2 Hidden Markov Models",
+            "23.3 Learning HMMs",
+            "23.4 Related Models",
+            "23.5 Applications",
+            "23.6 Code",
+            "23.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch23",
+          "title": "Learning HMMs",
+          "sections": [
+            "23.1 Markov Models",
+            "23.2 Hidden Markov Models",
+            "23.3 Learning HMMs",
+            "23.4 Related Models",
+            "23.5 Applications",
+            "23.6 Code",
+            "23.7 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch27",
+          "title": "Markov Chain Monte Carlo (MCMC)",
+          "sections": [
+            "27.1 Introduction",
+            "27.2 Ancestral Sampling",
+            "27.3 Gibbs Sampling",
+            "27.4 Markov Chain Monte Carlo (MCMC)",
+            "27.5 Auxiliary Variable Methods",
+            "27.6 Importance Sampling",
+            "27.7 Code",
+            "27.8 Exercises"
+          ]
+        },
+        {
+          "book": "grinstead",
+          "subject": "math",
+          "chapter": "ch11",
+          "title": "Markov Chains",
+          "sections": [
+            "11.1 Introduction",
+            "11.2 Absorbing Markov Chains",
+            "11.3 Ergodic Markov Chains",
+            "11.4 Fundamental Limit Theorem",
+            "11.5 Mean First Passage Time"
+          ]
+        },
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Markov chain Monte Carlo",
+          "sections": [
+            "12.1 Introduction",
+            "12.2 Metropolis-Hastings algorithm",
+            "12.3 Gibbs sampling",
+            "12.4 Auxiliary variable MCMC",
+            "12.5 Hamiltonian Monte Carlo (HMC)",
+            "12.6 MCMC convergence",
+            "12.7 Stochastic gradient MCMC",
+            "12.8 Reversible jump (transdimensional) MCMC",
+            "12.9 Annealing methods"
+          ]
+        }
+      ]
+    },
+    "ensemble": {
+      "count": 5,
+      "references": [
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Boosting and Additive Trees",
+          "sections": [
+            "10.1 Boosting Methods",
+            "10.2 Boosting Fits an Additive Model",
+            "10.3 Forward Stagewise Additive Modeling",
+            "10.4 Exponential Loss and AdaBoost",
+            "10.5 Why Exponential Loss?",
+            "10.6 Loss Functions and Robustness",
+            "10.7 “Oﬀ-the-Shelf” Procedures for Data Mining",
+            "10.8 Example: Spam Data",
+            "10.9 Boosting Trees",
+            "10.10 Numerical Optimization via Gradient Boosting",
+            "10.11 Right-Sized Trees for Boosting",
+            "10.12 Regularization",
+            "10.13 Interpretation",
+            "10.14 Illustrations"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Random Forests",
+          "sections": [
+            "15.1 Introduction",
+            "15.2 Deﬁnition of Random Forests",
+            "15.3 Details of Random Forests",
+            "15.4 Analysis of Random Forests"
+          ]
+        },
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch16",
+          "title": "Ensemble Learning",
+          "sections": [
+            "16.1 Introduction",
+            "16.2 Boosting and Regularization Paths",
+            "16.3 Learning Ensembles"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch18",
+          "title": "Trees, Forests, Bagging, and Boosting",
+          "sections": [
+            "18.1 Classification and regression trees (CART)",
+            "18.2 Ensemble learning",
+            "18.3 Bagging",
+            "18.4 Random forests",
+            "18.5 Boosting",
+            "18.6 Interpreting tree ensembles"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Boosting",
+          "sections": [
+            "10.1 Weak Learnability",
+            "10.2 AdaBoost",
+            "10.3 Linear Combinations of Base Hypotheses",
+            "10.4 AdaBoost for Face Recognition",
+            "10.5 Summary",
+            "10.6 Bibliographic Remarks",
+            "10.7 Exercises"
+          ]
+        }
+      ]
+    },
+    "nlp": {
+      "count": 5,
+      "references": [
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch03",
+          "title": "N-gram Language Models",
+          "sections": [
+            "3.1 N-Grams",
+            "3.2 Evaluating Language Models: Training and Test Sets",
+            "3.3 Evaluating Language Models: Perplexity",
+            "3.4 Sampling sentences from a language model",
+            "3.5 Generalizing vs. overfitting the training set",
+            "3.6 Smoothing, Interpolation, and Backoff",
+            "3.7 Advanced: Perplexity's Relation to Entropy",
+            "3.8 Summary",
+            "3.9 Historical Notes",
+            "3.10 Exercises"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch07",
+          "title": "Large Language Models",
+          "sections": [
+            "7.1 Three architectures for language models",
+            "7.2 Conditional Generation of Text: The Intuition",
+            "7.3 Prompting",
+            "7.4 Generation and Sampling",
+            "7.5 Training Large Language Models",
+            "7.6 Evaluating Large Language Models",
+            "7.7 Ethical and Safety Issues with Language Models",
+            "7.8 Summary",
+            "7.9 Historical Notes"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch09",
+          "title": "Masked Language Models",
+          "sections": [
+            "9.1 Bidirectional Transformer Encoders",
+            "9.2 Training Bidirectional Encoders",
+            "9.3 Contextual Embeddings",
+            "9.4 Fine-Tuning for Classification",
+            "9.5 Fine-Tuning for Sequence Labeling: Named Entity Recognition",
+            "9.6 Summary",
+            "9.7 Historical Notes"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch16",
+          "title": "Text-to-Speech",
+          "sections": [
+            "16.1 TTS overview",
+            "16.2 Using a codec to learn discrete audio tokens",
+            "16.3 VALL-E: Generating audio with 2-stage LM",
+            "16.4 TTS Evaluation",
+            "16.5 Other speech tasks",
+            "16.6 Spoken Language Models",
+            "16.7 Summary",
+            "16.8 Historical Notes",
+            "16.9 Exercises"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch18",
+          "title": "Context-Free Grammars and Constituency Parsing",
+          "sections": [
+            "18.1 Constituency",
+            "18.2 Context-Free Grammars",
+            "18.3 Treebanks",
+            "18.4 Grammar Equivalence and Normal Form",
+            "18.5 Ambiguity",
+            "18.6 CKY Parsing: A Dynamic Programming Approach",
+            "18.7 Span-Based Neural Constituency Parsing",
+            "18.8 Evaluating Parsers",
+            "18.9 Heads and Head-Finding",
+            "18.10 Summary",
+            "18.11 Historical Notes",
+            "18.12 Exercises"
+          ]
+        }
+      ]
+    },
+    "clustering": {
+      "count": 4,
+      "references": [
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch20",
+          "title": "An Example Inference Task: Clustering",
+          "sections": [
+            "20.1 K-means clustering",
+            "20.2 Soft K-means clustering",
+            "20.3 Conclusion",
+            "20.4 Exercises",
+            "20.5 Solutions"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch22",
+          "title": "Maximum Likelihood And Clustering",
+          "sections": [
+            "22.1 Maximum likelihood for one Gaussian",
+            "22.2 Maximum likelihood for a mixture of Gaussians",
+            "22.3 Enhancements to soft K-means",
+            "22.4 A fatal ﬂaw of maximum likelihood",
+            "22.5 Further exercises",
+            "22.6 Solutions"
+          ]
+        },
+        {
+          "book": "murphy_pml1",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Clustering",
+          "sections": [
+            "21.1 Introduction",
+            "21.2 Hierarchical agglomerative clustering",
+            "21.3 K means clustering",
+            "21.4 Clustering using mixture models",
+            "21.5 Spectral clustering *",
+            "21.6 Biclustering *"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch22",
+          "title": "Clustering",
+          "sections": [
+            "22.1 Linkage-Based Clustering Algorithms",
+            "22.2 k-Means and Other Cost Minimization Clusterings",
+            "22.3 Spectral Clustering",
+            "22.4 Information Bottleneck*",
+            "22.5 A High Level View of Clustering",
+            "22.6 Summary",
+            "22.7 Bibliographic Remarks",
+            "22.8 Exercises"
+          ]
+        }
+      ]
+    },
+    "svm": {
+      "count": 4,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Support Vector Machines",
+          "sections": [
+            "17.1 Introduction: Fitting A Straight Line",
+            "17.2 Linear Parameter Models for Regression",
+            "17.3 The Dual Representation and Kernels",
+            "17.4 Linear Parameter Models for Classiﬁcation",
+            "17.5 The Kernel Trick for Classiﬁcation",
+            "17.6 Support Vector Machines",
+            "17.7 Soft Zero-One Loss for Outlier Robustness",
+            "17.8 Notes",
+            "17.9 Code",
+            "17.10 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Sparse Kernel Machines",
+          "sections": [
+            "7.1 Maximum Margin Classifiers",
+            "7.2 Relevance Vector Machines"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch12",
+          "title": "12 Classification with Support Vector Machines",
+          "sections": [
+            "12.1 Separating Hyperplanes",
+            "12.2 Primal Support Vector Machine",
+            "12.3 Dual Support Vector Machine",
+            "12.4 Kernels",
+            "12.5 Numerical Solution",
+            "12.6 Further Reading"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Support Vector Machines",
+          "sections": [
+            "15.1 Margin and Hard-SVM",
+            "15.2 Soft-SVM and Norm Regularization",
+            "15.3 Optimality Conditions and “Support Vectors”*",
+            "15.4 Duality*",
+            "15.5 Implementing Soft-SVM Using SGD",
+            "15.6 Summary",
+            "15.7 Bibliographic Remarks",
+            "15.8 Exercises"
+          ]
+        }
+      ]
+    },
+    "policy_gradient": {
+      "count": 4,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch17",
+          "title": "Support Vector Machines",
+          "sections": [
+            "17.1 Introduction: Fitting A Straight Line",
+            "17.2 Linear Parameter Models for Regression",
+            "17.3 The Dual Representation and Kernels",
+            "17.4 Linear Parameter Models for Classiﬁcation",
+            "17.5 The Kernel Trick for Classiﬁcation",
+            "17.6 Support Vector Machines",
+            "17.7 Soft Zero-One Loss for Outlier Robustness",
+            "17.8 Notes",
+            "17.9 Code",
+            "17.10 Exercises"
+          ]
+        },
+        {
+          "book": "mml",
+          "subject": "math",
+          "chapter": "ch12",
+          "title": "12 Classification with Support Vector Machines",
+          "sections": [
+            "12.1 Separating Hyperplanes",
+            "12.2 Primal Support Vector Machine",
+            "12.3 Dual Support Vector Machine",
+            "12.4 Kernels",
+            "12.5 Numerical Solution",
+            "12.6 Further Reading"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Support Vector Machines",
+          "sections": [
+            "15.1 Margin and Hard-SVM",
+            "15.2 Soft-SVM and Norm Regularization",
+            "15.3 Optimality Conditions and “Support Vectors”*",
+            "15.4 Duality*",
+            "15.5 Implementing Soft-SVM Using SGD",
+            "15.6 Summary",
+            "15.7 Bibliographic Remarks",
+            "15.8 Exercises"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch13",
+          "title": "Policy Gradient Methods",
+          "sections": [
+            "13.1 Policy Approximation and its Advantages",
+            "13.2 The Policy Gradient Theorem",
+            "13.3 REINFORCE: Monte Carlo Policy Gradient",
+            "13.4 REINFORCE with Baseline",
+            "13.5 Actor–Critic Methods",
+            "13.6 Policy Gradient for Continuing Problems",
+            "13.7 Policy Parameterization for Continuous Actions",
+            "13.8 Summary"
+          ]
+        }
+      ]
+    },
+    "mdp": {
+      "count": 4,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Markov Decision Processes",
+          "sections": [
+            "7.1 Expected Utility",
+            "7.2 Decision Trees",
+            "7.3 Extending Bayesian Networks for Decisions",
+            "7.4 Solving Inﬂuence Diagrams",
+            "7.5 Markov Decision Processes",
+            "7.6 Temporally Unbounded MDPs",
+            "7.7 Probabilistic Inference and Planning",
+            "7.8 Further Topics",
+            "7.9 Code",
+            "7.10 Exercises"
+          ]
+        },
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Temporally Unbounded MDPs",
+          "sections": [
+            "7.1 Expected Utility",
+            "7.2 Decision Trees",
+            "7.3 Extending Bayesian Networks for Decisions",
+            "7.4 Solving Inﬂuence Diagrams",
+            "7.5 Markov Decision Processes",
+            "7.6 Temporally Unbounded MDPs",
+            "7.7 Probabilistic Inference and Planning",
+            "7.8 Further Topics",
+            "7.9 Code",
+            "7.10 Exercises"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch03",
+          "title": "Finite Markov Decision Processes",
+          "sections": [
+            "3.1 The Agent–Environment Interface",
+            "3.2 Goals and Rewards",
+            "3.3 Returns and Episodes",
+            "3.4 Unified Notation for Episodic and Continuing Tasks",
+            "3.5 Policies and Value Functions",
+            "3.6 Optimal Policies and Optimal Value Functions",
+            "3.7 Optimality and Approximation",
+            "3.8 Summary"
+          ]
+        },
+        {
+          "book": "sutton",
+          "subject": "rl",
+          "chapter": "ch04",
+          "title": "Dynamic Programming",
+          "sections": [
+            "4.1 Policy Evaluation (Prediction)",
+            "4.2 Policy Improvement",
+            "4.3 Policy Iteration",
+            "4.4 Value Iteration",
+            "4.5 Asynchronous Dynamic Programming",
+            "4.6 Generalized Policy Iteration",
+            "4.7 Efficiency of Dynamic Programming",
+            "4.8 Summary"
+          ]
+        }
+      ]
+    },
+    "em": {
+      "count": 3,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch26",
+          "title": "Tractable Continuous Latent Variable Models",
+          "sections": [
+            "26.1 Introduction",
+            "26.2 Stochastic Hopﬁeld Networks",
+            "26.3 Learning Sequences",
+            "26.4 Tractable Continuous Latent Variable Models",
+            "26.5 Neural Models",
+            "26.6 Code",
+            "26.7 Exercises"
+          ]
+        },
+        {
+          "book": "bishop",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Continuous Latent Variables",
+          "sections": [
+            "12.1 Principal Component Analysis",
+            "12.2 Probabilistic PCA",
+            "12.3 Kernel PCA",
+            "12.4 Nonlinear Latent Variable Models",
+            "12.ex Exercises"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch34",
+          "title": "Independent Component Analysis And Latent Variable Modelling",
+          "sections": [
+            "34.1 Latent variable models",
+            "34.2 The generative model for independent component analysis",
+            "34.3 A covariant, simpler, and faster learning algorithm",
+            "34.4 Exercises"
+          ]
+        }
+      ]
+    },
+    "vc_dimension": {
+      "count": 3,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch12",
+          "title": "Occam’s Razor and Bayesian Complexity Penalisation",
+          "sections": [
+            "12.1 Comparing Models the Bayesian Way",
+            "12.2 Illustrations : coin tossing",
+            "12.3 Occam’s Razor and Bayesian Complexity Penalisation",
+            "12.4 A continuous example : curve ﬁtting",
+            "12.5 Approximating the Model Likelihood",
+            "12.6 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "The Bias-Complexity Tradeoﬀ",
+          "sections": [
+            "5.1 The No-Free-Lunch Theorem",
+            "5.2 Error Decomposition",
+            "5.3 Summary",
+            "5.4 Bibliographic Remarks",
+            "5.5 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch06",
+          "title": "The VC-Dimension",
+          "sections": [
+            "6.1 Inﬁnite-Size Classes Can Be Learnable",
+            "6.2 The VC-Dimension",
+            "6.3 Examples",
+            "6.4 The Fundamental Theorem of PAC learning",
+            "6.5 Proof of Theorem 6.7",
+            "6.6 Summary",
+            "6.7 Bibliographic remarks",
+            "6.8 Exercises"
+          ]
+        }
+      ]
+    },
+    "regularization": {
+      "count": 3,
+      "references": [
+        {
+          "book": "esl",
+          "subject": "ml",
+          "chapter": "ch05",
+          "title": "Basis Expansions and Regularization",
+          "sections": [
+            "5.1 Introduction",
+            "5.2 Piecewise Polynomials and Splines",
+            "5.3 Filtering and Feature Extraction",
+            "5.4 Smoothing Splines",
+            "5.5 Automatic Selection of the Smoothing Parameters",
+            "5.6 Nonparametric Logistic Regression",
+            "5.7 Multidimensional Splines",
+            "5.8 Regularization and Reproducing Kernel Hilbert Spaces",
+            "5.9 Wavelet Smoothing"
+          ]
+        },
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Regularization for Deep Learning",
+          "sections": [
+            "7.1 Parameter Norm Penalties",
+            "7.2 Norm Penalties as Constrained Optimization",
+            "7.3 Regularization and Under-Constrained Problems",
+            "7.4 Dataset Augmentation",
+            "7.5 Noise Robustness",
+            "7.6 Semi-Supervised Learning",
+            "7.7 Multi-Task Learning",
+            "7.8 Early Stopping",
+            "7.9 Parameter Tying and Parameter Sharing",
+            "7.10 Sparse Representations",
+            "7.11 Bagging and Other Ensemble Methods",
+            "7.12 Dropout",
+            "7.13 Adversarial Training",
+            "7.14 Tangent Distance, Tangent Prop, and Manifold"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch13",
+          "title": "Regularization and Stability",
+          "sections": [
+            "13.1 Regularized Loss Minimization",
+            "13.2 Stable Rules Do Not Overﬁt",
+            "13.3 Tikhonov Regularization as a Stabilizer",
+            "13.4 Controlling the Fitting-Stability Tradeoﬀ",
+            "13.5 Summary",
+            "13.6 Bibliographic Remarks",
+            "13.7 Exercises"
+          ]
+        }
+      ]
+    },
+    "object_detection": {
+      "count": 2,
+      "references": [
+        {
+          "book": "hamilton",
+          "subject": "graphs",
+          "chapter": "ch02",
+          "title": "Neighborhood Overlap Detection",
+          "sections": [
+            "2.1 Graph Statistics and Kernel Methods",
+            "2.2 Neighborhood Overlap Detection",
+            "2.3 Graph Laplacians and Spectral Methods",
+            "2.4 Towards Learned Representations"
+          ]
+        },
+        {
+          "book": "szeliski",
+          "subject": "cv",
+          "chapter": "ch07",
+          "title": "Feature detection and matching",
+          "sections": [
+            "7.1 Points and patches",
+            "7.2 Edges and contours",
+            "7.3 Contour tracking",
+            "7.4 Lines and vanishing points",
+            "7.5 Segmentation",
+            "7.6 Additional reading",
+            "7.7 Exercises"
+          ]
+        }
+      ]
+    },
+    "cnn": {
+      "count": 2,
+      "references": [
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch09",
+          "title": "Convolutional Networks",
+          "sections": [
+            "9.1 The Convolution Operation",
+            "9.2 Motivation",
+            "9.3 Pooling",
+            "9.4 Convolution and Pooling as an Inﬁnitely Strong",
+            "9.5 Variants of the Basic Convolution Function",
+            "9.6 Structured Outputs",
+            "9.7 Data Types",
+            "9.8 Eﬃcient Convolution Algorithms",
+            "9.9 Random or Unsupervised Features",
+            "9.10 The Neuroscientiﬁc Basis for Convolutional Net-",
+            "9.11 Convolutional Networks and the History of Deep"
+          ]
+        },
+        {
+          "book": "mackay",
+          "subject": "math",
+          "chapter": "ch48",
+          "title": "Convolutional Codes And Turbo Codes",
+          "sections": [
+            "48.1 Introduction to convolutional codes",
+            "48.2 Linear-feedback shift-registers",
+            "48.3 Decoding convolutional codes",
+            "48.4 Turbo codes",
+            "48.5 Parity-check matrices of convolutional codes and turbo codes",
+            "48.6 Solutions"
+          ]
+        }
+      ]
+    },
+    "segmentation": {
+      "count": 2,
+      "references": [
+        {
+          "book": "barber",
+          "subject": "ml",
+          "chapter": "ch15",
+          "title": "Latent Semantic Analysis",
+          "sections": [
+            "15.1 High-Dimensional Spaces – Low Dimensional Manifolds",
+            "15.2 Principal Components Analysis",
+            "15.3 High Dimensional Data",
+            "15.4 Latent Semantic Analysis",
+            "15.5 PCA With Missing Data",
+            "15.6 Matrix Decomposition Methods",
+            "15.7 Kernel PCA",
+            "15.8 Canonical Correlation Analysis",
+            "15.9 Notes",
+            "15.10 Code",
+            "15.11 Exercises"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch21",
+          "title": "Semantic Role Labeling",
+          "sections": [
+            "21.1 Semantic Roles",
+            "21.2 Diathesis Alternations",
+            "21.3 Semantic Roles: Problems with Thematic Roles",
+            "21.4 The Proposition Bank",
+            "21.5 FrameNet",
+            "21.6 Semantic Role Labeling",
+            "21.7 Selectional Restrictions",
+            "21.8 Primitive Decomposition of Predicates",
+            "21.9 Summary",
+            "21.10 Historical Notes",
+            "21.11 Exercises"
+          ]
+        }
+      ]
+    },
+    "rnn": {
+      "count": 2,
+      "references": [
+        {
+          "book": "goodfellow",
+          "subject": "ml",
+          "chapter": "ch10",
+          "title": "Sequence Modeling: Recurrent and Recursive Nets",
+          "sections": [
+            "10.1 Unfolding Computational Graphs",
+            "10.2 Recurrent Neural Networks",
+            "10.3 Bidirectional RNNs",
+            "10.4 Encoder-Decoder Sequence-to-Sequence Architec-",
+            "10.5 Deep Recurrent Networks",
+            "10.6 Recursive Neural Networks",
+            "10.7 The Challenge of Long-Term Dependencies",
+            "10.8 Echo State Networks",
+            "10.9 Leaky Units and Other Strategies for Multiple",
+            "10.10 The Long Short-Term Memory and Other Gated",
+            "10.11 Optimization for Long-Term Dependencies",
+            "10.12 Explicit Memory"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch13",
+          "title": "RNNs and LSTMs",
+          "sections": [
+            "13.1 Recurrent Neural Networks",
+            "13.2 RNNs as Language Models",
+            "13.3 RNNs for other NLP tasks",
+            "13.4 Stacked and Bidirectional RNN architectures",
+            "13.5 The LSTM",
+            "13.6 Summary: Common RNN NLP Architectures",
+            "13.7 The Encoder-Decoder Model with RNNs",
+            "13.8 Attention",
+            "13.9 Summary",
+            "13.10 Historical Notes"
+          ]
+        }
+      ]
+    },
+    "pac_learning": {
+      "count": 2,
+      "references": [
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch07",
+          "title": "Nonuniform Learnability",
+          "sections": [
+            "7.1 Nonuniform Learnability",
+            "7.2 Structural Risk Minimization",
+            "7.3 Minimum Description Length and Occam’s Razor",
+            "7.4 Other Notions of Learnability – Consistency",
+            "7.5 Discussing the Diﬀerent Notions of Learnability",
+            "7.6 Summary",
+            "7.7 Bibliographic Remarks",
+            "7.8 Exercises"
+          ]
+        },
+        {
+          "book": "shalev",
+          "subject": "ml",
+          "chapter": "ch29",
+          "title": "Multiclass Learnability",
+          "sections": [
+            "29.1 The Natarajan Dimension",
+            "29.2 The Multiclass Fundamental Theorem",
+            "29.3 Calculating the Natarajan Dimension",
+            "29.4 On Good and Bad ERMs",
+            "29.5 Bibliographic Remarks",
+            "29.6 Exercises"
+          ]
+        }
+      ]
+    },
+    "parsing": {
+      "count": 2,
+      "references": [
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch18",
+          "title": "Context-Free Grammars and Constituency Parsing",
+          "sections": [
+            "18.1 Constituency",
+            "18.2 Context-Free Grammars",
+            "18.3 Treebanks",
+            "18.4 Grammar Equivalence and Normal Form",
+            "18.5 Ambiguity",
+            "18.6 CKY Parsing: A Dynamic Programming Approach",
+            "18.7 Span-Based Neural Constituency Parsing",
+            "18.8 Evaluating Parsers",
+            "18.9 Heads and Head-Finding",
+            "18.10 Summary",
+            "18.11 Historical Notes",
+            "18.12 Exercises"
+          ]
+        },
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch19",
+          "title": "Dependency Parsing",
+          "sections": [
+            "19.1 Dependency Relations",
+            "19.2 Transition-Based Dependency Parsing",
+            "19.3 Graph-Based Dependency Parsing",
+            "19.4 Evaluation",
+            "19.5 Summary",
+            "19.6 Historical Notes",
+            "19.7 Exercises"
+          ]
+        }
+      ]
+    },
+    "vae": {
+      "count": 1,
+      "references": [
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch21",
+          "title": "Variational autoencoders",
+          "sections": [
+            "21.1 Introduction",
+            "21.2 VAE basics",
+            "21.3 VAE generalizations",
+            "21.4 Avoiding posterior collapse",
+            "21.5 VAEs with hierarchical structure",
+            "21.6 Vector quantization VAE"
+          ]
+        }
+      ]
+    },
+    "gan": {
+      "count": 1,
+      "references": [
+        {
+          "book": "murphy_pml2",
+          "subject": "ml",
+          "chapter": "ch26",
+          "title": "Generative adversarial networks",
+          "sections": [
+            "26.1 Introduction",
+            "26.2 Learning by comparison",
+            "26.3 Generative adversarial networks",
+            "26.4 Conditional GANs",
+            "26.5 Inference with GANs",
+            "26.6 Neural architectures in GANs",
+            "26.7 Applications"
+          ]
+        }
+      ]
+    },
+    "tokenization": {
+      "count": 1,
+      "references": [
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch02",
+          "title": "Words and Tokens",
+          "sections": [
+            "2.1 Words",
+            "2.2 Morphemes: Parts of Words",
+            "2.3 Unicode",
+            "2.4 Subword Tokenization: Byte-Pair Encoding",
+            "2.5 Corpora",
+            "2.6 Regular Expressions",
+            "2.7 Simple Unix Tools for Word Tokenization",
+            "2.8 Rule-based tokenization",
+            "2.9 Minimum Edit Distance",
+            "2.10 Summary",
+            "2.11 Historical Notes",
+            "2.12 Exercises"
+          ]
+        }
+      ]
+    },
+    "transformer": {
+      "count": 1,
+      "references": [
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch08",
+          "title": "Transformers",
+          "sections": [
+            "8.1 Attention",
+            "8.2 Transformer Blocks",
+            "8.3 Parallelizing computation using a single matrix X",
+            "8.4 The input: embeddings for token and position",
+            "8.5 The Language Modeling Head",
+            "8.6 More on Sampling",
+            "8.7 Training",
+            "8.8 Dealing with Scale",
+            "8.9 Interpreting the Transformer",
+            "8.10 Summary",
+            "8.11 Historical Notes"
+          ]
+        }
+      ]
+    },
+    "sentiment": {
+      "count": 1,
+      "references": [
+        {
+          "book": "jurafsky",
+          "subject": "nlp",
+          "chapter": "ch22",
+          "title": "Lexicons for Sentiment, Affect, and Connotation",
+          "sections": [
+            "22.1 Defining Emotion",
+            "22.2 Available Sentiment and Affect Lexicons",
+            "22.3 Creating Affect Lexicons by Human Labeling",
+            "22.4 Semi-supervised Induction of Affect Lexicons",
+            "22.5 Supervised Learning of Word Sentiment",
+            "22.6 Using Lexicons for Sentiment Recognition",
+            "22.7 Using Lexicons for Affect Recognition",
+            "22.8 Lexicon-based methods for Entity-Centric Affect",
+            "22.9 Connotation Frames",
+            "22.10 Summary",
+            "22.11 Historical Notes",
+            "22.12 Exercises"
+          ]
+        }
+      ]
+    }
+  },
+  "stats": {
+    "total_topics": 43,
+    "total_references": 331
+  }
+}

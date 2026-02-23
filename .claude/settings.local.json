@@ -6,7 +6,10 @@
       "Bash(cmd //c \"mklink /J templates ..\\\\.shared\\\\templates\")",
       "Bash(git add:*)",
       "Bash(pip install:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(uv run python .shared/skills/dev-pdf_processing/scripts/pdf_to_md_hybrid.py \"courses/ml/slides/Week5_NaiveBayes.pdf\" -o \"courses/ml/notes/week5_naivebayes_slides.md\")",
+      "Bash(find:*)",
+      "Bash(git clone:*)"
     ]
   }
 }

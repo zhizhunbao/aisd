@@ -1,2017 +1,827 @@
-# lecture 5 W26
+﻿# Week 5: 语言模型导论 (Introduction to Language Model)
 
-**Source:** `lecture_5_W26.pdf`  
-**Total Pages:** 63  
-**Format:** Hybrid (pdfplumber + PyMuPDF)
+> Source: `lecture_5_W26.pdf`
+> Total slides: 63
+> Instructor: Hala Own, Ph.D.
 
 ---
 
-## Page 1
-
-### 📷 Page Image
+## 1. 课程议程 (Lesson Agenda)
 
 ![Page 1](lecture5_slides_pages/page_001.png)
 
-### 📝 Text Content
-
-**CST8507: NATURAL**
-
-LANGUAGE PROCESSING
-WEEK#5
-INTRODUCTION TO
-LANGUAGE MODEL
-DEVELOPED BY
-HALA OWN, PH.D.
-
-
-### ✍️ Notes
-
-> 本讲主题：语言模型导论 (Introduction to Language Model)
-> 涵盖从统计方法 (N-gram) 到神经网络 (RNN/LSTM) 的语言模型演进
-
----
-
-## Page 2
-
-### 📷 Page Image
+**CST8507: Natural Language Processing — Week #5: Introduction to Language Model** — CST8507自然语言处理，第5周：语言模型导论
 
 ![Page 2](lecture5_slides_pages/page_002.png)
 
-### 📝 Text Content
+**Lesson Agenda:** — 本节课议程：
 
-**Lesson Agenda**
-
-
-• Lab
-
-• Text Collection(overview)
-
-• Language Model
-
-• N-gram
-
-• NN Language model
-
-• Recurrent Neural Networks RNN
-
-• LSTMs
-
-Page
-
-
-### ✍️ Notes
-
-> 本周内容涵盖以下几大主题：
-> - **文本收集 (Text Collection):** 如何从社交平台获取数据（X API, Web Scraping）
-> - **语言模型 (Language Model):** 预测下一个词的任务
-> - **N-gram:** 基于统计的语言模型
-> - **神经网络语言模型 (NN Language Model):** 用神经网络替代统计方法
-> - **循环神经网络 (RNN):** 处理序列数据的网络
-> - **长短时记忆网络 (LSTM):** 解决 RNN 梯度消失的改进方案
+- Lab — 实验
+- Text Collection (overview) — 文本收集（概述）
+- Language Model — 语言模型
+- N-gram — N元语法
+- NN Language model — 神经网络语言模型
+- Recurrent Neural Networks RNN — 循环神经网络RNN
+- LSTMs — 长短时记忆网络
 
 ---
 
-## Page 3
+## 2. 文本收集 (Text Collection)
 
-### 📷 Page Image
+### 2.1 NLP开发生命周期 (NLP Development Life Cycle)
 
 ![Page 3](lecture5_slides_pages/page_003.png)
 
-### 📝 Text Content
+**NLP Development Life Cycle:** Circular pipeline diagram showing iterative stages: Requirements gathering → Data collection → Text preprocessing → Feature extraction → Model building → Evaluation → Deployment → Gather more data / Improve the model. — NLP开发生命周期循环流程图。
 
-**NLP Development Life Cycle**
-
-Requirements
-gathering
-Gather more Improve the
-data model
-
-
-### ✍️ Notes
-
-> NLP 项目的典型开发流程是一个**迭代循环**：
-> - **需求收集 (Requirements Gathering):** 明确任务目标
-> - **收集更多数据 (Gather More Data):** 数据不够时需扩充
-> - **改进模型 (Improve the Model):** 根据反馈调整
->
-> **💡 提示:** NLP 不是一次完成的，通常需要多轮迭代才能达到理想效果
-
----
-
-## Page 4
-
-### 📷 Page Image
+### 2.2 社交平台数据 (Social Media Data)
 
 ![Page 4](lecture5_slides_pages/page_004.png)
 
-### 📝 Text Content
+**Data generated in one minute on various social platforms:** Infographic showing massive volumes of data produced each minute across platforms. — 各社交平台每分钟生成的数据量信息图。
 
-**Data generated in one minute on various social platforms**
+Ref: https://localiq.com/blog/what-happens-in-an-internet-minute/
 
-Image source: HTTPs://localiq.com/blog/what-happens-in-an-internet-minute/
-
-
-### ✍️ Notes
-
-> **社交平台数据量:** 各社交平台每分钟生成海量数据，是 NLP 的重要数据来源
-
----
-
-## Page 5
-
-### 📷 Page Image
+### 2.3 推文收集与X API (Tweet Collecting & X API)
 
 ![Page 5](lecture5_slides_pages/page_005.png)
 
-### 📝 Text Content
-
-**Text Collection**
-
-
-• Tweet Collecting
-
-• X API
-
-
-### ✍️ Notes
-
-> **推文收集方式:**
-> - **X API (Twitter API):** 通过官方开发者接口获取推文数据
-> - 需要先创建 X Developer Account
-
----
-
-## Page 6
-
-### 📷 Page Image
+**Text Collection:** Tweet Collecting, X API — 文本收集：推文收集，X API
 
 ![Page 6](lecture5_slides_pages/page_006.png)
 
-### 📝 Text Content
+**Create X Developer Account:** Reference link for creating a developer account to access X API. — 创建X开发者账户。
 
-**Create X Developer Account**
+Ref: https://help.rssground.com/articles/233141-how-to-create-x-twitter-developer-app
 
-https://help.rssground.com/articles/233141-how-to-create-x-twitter-
-developer-app
-
-
-### ✍️ Notes
-
-> 需要先创建 X Developer Account 才能使用 X API 获取推文数据
-
----
-
-## Page 7
-
-### 📷 Page Image
+### 2.4 网页抓取 (Web Scraping)
 
 ![Page 7](lecture5_slides_pages/page_007.png)
 
-### 📝 Text Content
+**Web Scraping: Extraction of data from a website** — 网页抓取：从网站提取数据
 
-**Web Scraping:Extraction of data from a website**
-
-Python libraries are widely used for parsing HTML:
-1. Beautiful Soup: A popular library for parsing HTML and XML documents. It
-simplifies extracting data from web pages and has an active community with
-detailed documentation.
-2. lxml: Known for its speed, lxml is one of the fastest parsing libraries available. It
-receives regular updates, with the latest released in July 2023.
-3. html5lib: A pure-Python library designed to conform to the WHATWG
-Web Hypertext Application Technology Working Group HTML
-( )
-specification, ensuring compatibility with major web browsers.
-
-
-### ✍️ Notes
-
-> **网页抓取 (Web Scraping):** 从网站提取数据的技术
-> - **Beautiful Soup:** 最流行的 HTML/XML 解析库，社区活跃，文档详尽
-> - **lxml:** 速度最快的解析库之一
-> - **html5lib:** 纯 Python 库，遵循 WHATWG 规范，与主流浏览器兼容
->
-> **💡 提示:** Web Scraping 需要注意网站的 robots.txt 和使用条款
-
----
-
-## Page 8
-
-### 📷 Page Image
+- **Beautiful Soup:** Popular library for parsing HTML and XML documents — 流行的HTML/XML解析库
+- **lxml:** Known for its speed, one of the fastest parsing libraries — 以速度闻名的解析库
+- **html5lib:** Pure-Python library conforming to WHATWG HTML specification — 纯Python库，遵循WHATWG规范
 
 ![Page 8](lecture5_slides_pages/page_008.png)
 
-### 📝 Text Content
+**Demo:** In-class code demonstration. — 课堂代码演示。
 
-**Demo**
-
-
-• Inclass code
-
-
-### ✍️ Notes
-
-> [Add your notes here]
+> **📝 Notes:**
+>
+> **🎯 Why:**
+> **(1) Why text collection matters for LM (为什么文本收集对语言模型重要):**
+>
+> Language models learn patterns from data — the MORE text you feed them, the better they predict. Social media generates billions of words per minute, making it the largest free "training set" on earth.
+>
+> > 语言模型从数据中学习模式——喂的文本越多，预测越好。社交媒体每分钟产生数十亿词，是地球上最大的免费"训练集"。
+>
+> **(2) API vs Scraping trade-off (API与抓取的权衡):**
+>
+> APIs give structured, authorized data but are rate-limited and often costly. Web scraping can access any public page but may violate terms of service. In practice, use APIs when available; fall back to scraping for non-API sources.
+>
+> > API提供结构化、授权的数据，但有速率限制且通常收费。网页抓取可以访问任何公开页面，但可能违反服务条款。实践中优先用API；非API来源才用抓取。
+>
+> **💡 Intuition:**
+> **(1) Fishing analogy (钓鱼类比):**
+>
+> API = fishing with a permit at a stocked pond — controlled, reliable, limited. Scraping = fishing in the open ocean — unlimited fish, but you need your own boat and net (parsing tools), and you might get in trouble (legal issues).
+>
+> > API = 在有许可证的鱼塘钓鱼——可控、可靠、有限。抓取 = 在公海捕鱼——鱼无限多，但你需要自己的船和网（解析工具），还可能惹麻烦（法律问题）。
+>
+> **⚠️ Pitfall:**
+> **(1) robots.txt and rate limits (robots.txt和速率限制):**
+>
+> Always check a website's `robots.txt` before scraping. Ignoring it can get your IP blocked or lead to legal action. Also respect rate limits — sending 1000 requests/second will get you banned.
+>
+> > 抓取前务必检查网站的`robots.txt`。忽略它可能导致IP被封或法律问题。也要遵守速率限制——每秒发送1000个请求会被封禁。
 
 ---
 
-## Page 9
-
-### 📷 Page Image
+## 3. 概率论回顾 (Probability Theory Reminder)
 
 ![Page 9](lecture5_slides_pages/page_009.png)
 
-### 📝 Text Content
+**Reminder: Probability Theory** — 回顾：概率论
 
-**Reminder**
-
-PROBABILITY THEORY
-
-
-### ✍️ Notes
-
-> 概率论是语言模型的数学基础，需要复习以下核心概念
-
----
-
-## Page 10
-
-### 📷 Page Image
+### 3.1 有放回抽样 (Sampling with Replacement)
 
 ![Page 10](lecture5_slides_pages/page_010.png)
 
-### 📝 Text Content
+**Basic Probability Theory: Sampling with replacement** — 基础概率论：有放回抽样
 
-**Basic Probability Theory: Sampling with**
-
-replacement
-Pick a random shape, then put it back in the bag.
-P( ) = 2/15 P( ) = 1/15 P( or ) = 2/15
-P(blue) = 5/15 P(red) = 5/15 P( |red) = 3/5
-P(blue | ) = 2/5 P( ) = 5/15
-CS447: Natural Language Processing (J. Hockenmaier) 10
-
-
-### ✍️ Notes
-
-> **有放回抽样:** 每次抽取后将物品放回袋中，再进行下一次抽取
-> - 每次抽取是**独立事件**，概率不变
-> - P(形状) = 该形状数量 / 总数量
-> - 例如：P(blue) = 5/15, P(red) = 5/15
-
----
-
-## Page 11
-
-### 📷 Page Image
+Pick a random shape, then put it back in the bag. Examples of probability calculations with shapes and colors. — 随机挑选一个形状，然后放回袋中。使用形状和颜色进行概率计算的例子。
 
 ![Page 11](lecture5_slides_pages/page_011.png)
 
-### 📝 Text Content
+**Sampling with replacement — Sequence probability:** The probability of drawing a specific sequence is the product of individual probabilities. — 抽取特定序列的概率是各个概率的乘积。
 
-**Sampling with replacement**
-
-Pick a random shape, then put it back in the bag.
-What sequence of shapes will you draw?
-P( )
-= 1/15 × 1/15 × 1/15 × 2/15
-= 2/50625
-P( )
-= 3/15 × 2/15 × 2/15 × 3/15
-= 36/50625
-P( ) = 2/15 P( ) = 1/15 P( or ) = 2/15
-P(blue) = 5/15 P(red) = 5/15 P( |red) = 3/5
-P(blue | ) = 2/5 P( ) = 5/15
-CS447: Natural Language Processing (J. Hockenmaier) 11
-
-
-### ✍️ Notes
-
-> **序列概率:** 连续抽取多个物品的概率等于各次概率的**乘积**
-> - 例：P(序列) = 1/15 × 1/15 × 1/15 × 2/15 = 2/50625
->
-> **💡 提示:** 语言模型中，"预测下一个词" 就类似于有放回抽样的概率计算
-
----
-
-## Page 12
-
-### 📷 Page Image
+### 3.2 条件概率 (Conditional Probability)
 
 ![Page 12](lecture5_slides_pages/page_012.png)
 
-### 📝 Text Content
+**Conditional Probability:** P(X|Y) = P(X, Y) / P(Y) — The probability that one event occurs given that another event has already occurred. — 条件概率：在另一事件已发生的情况下，某事件发生的概率。
 
-**Conditional Probability P(X, Y )**
-
-P(X|Y ) =
-P(Y )
-The conditional probability of X given Y, Probability that one event occurs
-given that another event has already occurred.
-CS447: Natural Language Processing (J. Hockenmaier) 12
-
-
-### ✍️ Notes
-
-> **条件概率公式:**
-> ```
-> P(X|Y) = P(X, Y) / P(Y)
-> ```
-> - P(X|Y)：已知 Y 发生的条件下，X 发生的概率
-> - P(X, Y)：X 和 Y 同时发生的**联合概率**
-> - P(Y)：Y 发生的概率
->
-> **💡 提示:** 条件概率是语言模型的核心——"已知前面的词，下一个词出现的概率"
-
----
-
-## Page 13
-
-### 📷 Page Image
+### 3.3 链式法则 (Chain Rule of Probability)
 
 ![Page 13](lecture5_slides_pages/page_013.png)
 
-### 📝 Text Content
+**Chain Rule of Probability:** The chain rule expresses a joint probability as a product of conditional probabilities. For a sequence of events X1, X2, ..., Xn: P(X1, X2, ..., Xn) = P(X1) _ P(X2|X1) _ P(X3|X1,X2) \* ... — 链式法则将联合概率表示为条件概率的乘积。
 
-**Chain Rule of Probability**
-
-The chain rule expresses a joint probability as a product of conditional
-probabilities.
-For a sequence of events
-𝑿 , 𝑿 , … , 𝑿
-𝟏 𝟐 𝒏
-
-
-### ✍️ Notes
-
-> **链式法则:** 将联合概率分解为一系列条件概率的乘积
-> - 对于事件序列 X₁, X₂, ..., Xₙ：
-> ```
-> P(X₁, X₂, ..., Xₙ) = P(X₁) × P(X₂|X₁) × P(X₃|X₁,X₂) × ... × P(Xₙ|X₁,...,Xₙ₋₁)
-> ```
-> - 这是语言模型计算句子概率的数学基础
+> **📝 Notes:**
 >
-> **💡 提示:** 链式法则在 N-gram 模型中被简化——只考虑前 n-1 个词
+> **📌 What:**
+> **(1) Chain rule for language (语言中的链式法则):**
+>
+> The chain rule is THE mathematical foundation of language modeling. P("the students opened their books") = P("the") x P("students"|"the") x P("opened"|"the students") x P("their"|"the students opened") x P("books"|"the students opened their"). Every LM — from N-gram to GPT — is trying to estimate these conditional probabilities.
+>
+> > 链式法则是语言建模的数学基础。每个LM——从N-gram到GPT——都在试图估计这些条件概率。
+>
+> **🎯 Why:**
+> **(1) Why probability review before LM (为什么在LM之前回顾概率):**
+>
+> Language models ARE probability models. A LM assigns a probability to every possible sequence of words. Without understanding conditional probability and chain rule, the math behind every LM technique is incomprehensible.
+>
+> > 语言模型就是概率模型。LM为每个可能的词序列分配概率。不理解条件概率和链式法则，每种LM技术背后的数学都无法理解。
+>
+> **💡 Intuition:**
+> **(1) Domino chain analogy (多米诺骨牌类比):**
+>
+> The chain rule is like dominoes: each word's probability depends on all the words that came before it. P("books" | "the students opened their") is one domino — it only falls because all previous dominoes fell in a specific order.
+>
+> > 链式法则就像多米诺骨牌：每个词的概率取决于它之前的所有词。
+>
+> **📝 Exam:**
+> **(1) 计算题 (Calculation):**
+>
+> "Use the chain rule to express P('I love NLP')." -> P("I") x P("love"|"I") x P("NLP"|"I love").
+>
+> > "用链式法则表达P('I love NLP')。" -> P("I") x P("love"|"I") x P("NLP"|"I love")。
 
 ---
 
-## Page 14
+## 4. 语言建模 (Language Modeling)
 
-### 📷 Page Image
+### 4.1 语言模型定义 (Definition)
 
 ![Page 14](lecture5_slides_pages/page_014.png)
 
-### 📝 Text Content
-
-**LANGUAGE MODELING**
-
-
-### ✍️ Notes
-
-> **语言建模 (Language Modeling):** 预测下一个词的任务
-> - 给定一个词序列，计算下一个词的概率分布
-> - 执行该任务的系统称为**语言模型 (Language Model, LM)**
-
----
-
-## Page 15
-
-### 📷 Page Image
+**Language Modeling** — 语言建模
 
 ![Page 15](lecture5_slides_pages/page_015.png)
 
-### 📝 Text Content
+**Language Modeling: the task of predicting what word comes next** — 预测下一个词的任务
 
-**the task of predicting what word comes next**
+- "the students opened their \_\_\_" -> books / minds / exams / laptops — 示例：给定上下文预测下一个词
+- Given a sequence of words, compute the probability distribution of the next word — 给定词序列，计算下一个词的概率分布
+- A system that does this is called a **Language Model** — 执行此任务的系统称为**语言模型**
 
-Language Modeling:
-books
-minds
-the students opened their-------
-exams
-laptops
-Given a sequence of words
-compute the probability distribution of the next word
-Where can be any word in the vocabulary
-➢ A system that does this is called a Language Model.
-
-
-### ✍️ Notes
-
-> **语言建模定义:** 给定一个词序列，计算下一个词的概率分布
-> - 例："the students opened their ____" → books? minds? exams? laptops?
-> - 执行该任务的系统称为**语言模型 (Language Model, LM)**
-
----
-
-## Page 16
-
-### 📷 Page Image
+### 4.2 语言模型应用 (Popular Usages)
 
 ![Page 16](lecture5_slides_pages/page_016.png)
 
-### 📝 Text Content
+**Popular Usages:** Applications of language models in real-world tasks. — 语言模型的实际应用。
 
-**Popular Usages**
-
-
-### ✍️ Notes
-
-> **常见应用:** 自动补全、机器翻译、语音识别、文本生成等
-
----
-
-## Page 17
-
-### 📷 Page Image
+### 4.3 语言建模目标 (Goal of Language Modeling)
 
 ![Page 17](lecture5_slides_pages/page_017.png)
 
-### 📝 Text Content
+**Goal of Language Modeling:** Learn patterns in text and predict the next word (or sequence of words) based on prior context. — 目标：学习文本中的模式，基于先前上下文预测下一个词（或词序列）。
 
-**Goal of Language Modeling**
-
-learn patterns in text and predict the
-next word (or sequence of words)
-based on prior context.
-
-
-### ✍️ Notes
-
-> **目标:** 学习文本中的模式，根据上下文预测下一个词或词序列
+> **📝 Notes:**
+>
+> **📌 What:**
+> **(1) Language Model definition (语言模型定义):**
+>
+> A Language Model (LM) is a probability distribution over sequences of words. Given context words w1, w2, ..., wt-1, it computes P(wt | w1, ..., wt-1) for every word wt in the vocabulary. The word with highest probability is the model's "prediction."
+>
+> > 语言模型(LM)是词序列上的概率分布。给定上下文词，它计算词汇表中每个词的条件概率。概率最高的词是模型的"预测"。
+>
+> **🎯 Why:**
+> **(1) Why LMs are the foundation of modern NLP (为什么LM是现代NLP的基础):**
+>
+> LMs are behind autocomplete, machine translation, speech recognition, text generation, and chatbots. GPT-4, Claude, Gemini — they are ALL language models at their core. Understanding LMs means understanding the engine behind all modern AI assistants.
+>
+> > LM是自动完成、机器翻译、语音识别、文本生成和聊天机器人的基础。GPT-4、Claude、Gemini——它们的核心都是语言模型。理解LM就是理解所有现代AI助手背后的引擎。
+>
+> **💡 Intuition:**
+> **(1) Autocomplete on your phone (手机自动完成类比):**
+>
+> Every time your phone suggests the next word while texting, that's a language model. It has learned from billions of texts that after "How are" the most likely next word is "you" (not "dog" or "purple"). That's P("you" | "How are") being very high.
+>
+> > 每次手机在输入时建议下一个词，那就是语言模型在工作。它从数十亿文本中学到"How are"之后最可能的下一个词是"you"。
+>
+> **📝 Exam:**
+> **(1) 定义题 (Definition):**
+>
+> "What is a Language Model?" -> A probability distribution over sequences of words that predicts the next word given previous context. Formally: P(wt | w1, ..., wt-1).
+>
+> > "什么是语言模型？" -> 词序列上的概率分布，给定之前的上下文预测下一个词。
 
 ---
 
-## Page 18
+## 5. N-gram语言模型 (N-gram Language Modeling)
 
-### 📷 Page Image
+### 5.1 N-gram基本思想 (N-gram Basic Idea)
 
 ![Page 18](lecture5_slides_pages/page_018.png)
 
-### 📝 Text Content
+**N-gram Language Modeling:** IDEA: Collect statistics about how frequent different n-grams are, and use these to predict next word. — 思想：收集不同n-gram的频率统计，用这些来预测下一个词。
 
-**N-gram Language Modeling**
+Ref: https://devopedia.org/n-gram-model
 
-IDEA: Collect statistics about how frequent different n-grams are, and use these to
-predict next word.
-Image source: https://devopedia.org/n-gram-model
-
-
-### ✍️ Notes
-
-> **核心思想:** 收集不同 N-gram（连续 N 个词）的频率统计，用这些统计来预测下一个词
->
-> **N-gram 类型:**
-> - Unigram (1-gram): 单个词
-> - Bigram (2-gram): 两个连续词
-> - Trigram (3-gram): 三个连续词
-> - 4-gram: 四个连续词
-
----
-
-## Page 19
-
-### 📷 Page Image
+### 5.2 N-gram与链式法则 (N-gram & Chain Rule)
 
 ![Page 19](lecture5_slides_pages/page_019.png)
 
-### 📝 Text Content
-
-**N-gram Language Modeling…**
-
-
-• For example, if we have sequence of tokens , then the probability to see
-
-these tokens in this order is:
-Using chain Rule
-This is what our LM provides
-
-
-### ✍️ Notes
-
-> **计算方式（使用链式法则 + 简化假设）:**
-> - 句子概率 P(w₁w₂...wₙ) = ∏ P(wᵢ | wᵢ₋ₙ₊₁...wᵢ₋₁)
-> - 只看前 n-1 个词，不看更远的历史
-
----
-
-## Page 20
-
-### 📷 Page Image
+**N-gram Language Modeling:** For a sequence of tokens, the probability is computed using the chain rule. The LM provides the conditional probability at each step. — 对于token序列，使用链式法则计算概率。
 
 ![Page 20](lecture5_slides_pages/page_020.png)
 
-### 📝 Text Content
+**Language Modeling: N-gram -- Markov Assumption:** We approximate by only looking at the preceding n-1 words instead of the full history. P(wt | w1...wt-1) approx P(wt | wt-n+1...wt-1). Recall conditional probability: P(B|A) = P(A,B)/P(A). — 马尔可夫假设：只看前n-1个词来近似。
 
-**Language Modeling: n gram…**
-
-n-1 words
-Our assumption
-Recall the definition of conditional
-probabilities
-p(B|A) = P(A,B)/P(A)
-P(A,B) = P(A)P(B|A)
-
-
-### ✍️ Notes
-
-> **条件概率回顾:**
-> ```
-> p(B|A) = P(A,B) / P(A)
-> P(A,B) = P(A) × P(B|A)
-> ```
-
----
-
-## Page 21
-
-### 📷 Page Image
+### 5.3 4-gram示例 (4-gram Example)
 
 ![Page 21](lecture5_slides_pages/page_021.png)
 
-### 📝 Text Content
+**N-gram Language Models: Example using 4-gram** — 4-gram示例：
 
-**n-gram Language Models: Example using 4- gram**
+- "as the proctor started the clock the students opened their \_\_\_" — 示例句子
+- Discard all but the last 3 words (fixed window of n-1=3) — 丢弃除最后3个词外的所有词
+- In the corpus: "students opened their" occurred 1000 times — 在语料库中出现1000次
+- "students opened their books" occurred 400 times -> P(books | students opened their) = 0.4
+- "students opened their exams" occurred 100 times -> P(exams | students opened their) = 0.1
 
-as the proctor started the clock the students opened their
-discard
-fixed window
-For example, suppose that in the corpus:
-students opened their” occurred 1000 times
-
-• “
-
-• “students opened their books” occurred 400 times
-
-• ➔P(books | students opened their) = 0.4
-
-• “students opened their exams” occurred 100 times
-
-• ➔P(exams | students opened their) = 0.1
-
-
-### ✍️ Notes
-
-> [Add your notes here]
-
----
-
-## Page 22
-
-### 📷 Page Image
+### 5.4 N-gram局限性 (N-gram Limitations)
 
 ![Page 22](lecture5_slides_pages/page_022.png)
 
-### 📝 Text Content
+**N-grams: Limitations and Challenges** — N-gram的局限性与挑战：
 
-**N-grams : limitations and challenges**
+- **Data Sparsity** — 数据稀疏性
+- **Computational Complexity** — 计算复杂度
+- **Context Limitations** — 上下文限制
 
-
-• Data Sparsity
-
-• Computational Complexity
-
-• Context Limitations
-
-
-### ✍️ Notes
-
-> N-gram 模型存在三大主要问题：
-> - **数据稀疏 (Data Sparsity):** 很多 N-gram 组合在训练数据中从未出现过，概率为 0
-> - **计算复杂度 (Computational Complexity):** N 越大，需要存储的 N-gram 组合数呈指数增长
-> - **上下文限制 (Context Limitations):** 只能看前 n-1 个词，无法捕捉更远的依赖关系
+> **📝 Notes:**
 >
-> **💡 提示:** 这些局限性催生了基于神经网络的语言模型
+> **📌 What:**
+> **(1) N-gram model definition (N-gram模型定义):**
+>
+> An N-gram model predicts the next word using only the previous N-1 words (Markov assumption). Unigram (N=1): P(w) -- no context. Bigram (N=2): P(w|w-1) -- one previous word. Trigram (N=3): P(w|w-2,w-1) -- two previous words. Probabilities are estimated by counting n-gram frequencies in a corpus.
+>
+> > N-gram模型仅使用前N-1个词（马尔可夫假设）预测下一个词。Unigram(N=1)：无上下文。Bigram(N=2)：一个前词。Trigram(N=3)：两个前词。概率通过统计语料库中n-gram频率来估计。
+>
+> **🎯 Why:**
+> **(1) Why the Markov assumption is necessary (为什么马尔可夫假设必要):**
+>
+> The chain rule requires P(wt | w1...wt-1) -- conditioning on the ENTIRE history. But most word combinations never appear in any corpus (sparsity). By truncating to n-1 words, we get enough counts to estimate probabilities reliably. The trade-off: longer n = more context but more sparsity.
+>
+> > 链式法则需要以全部历史为条件。但大多数词组合在语料库中从未出现（稀疏性）。截断到n-1个词，我们获得足够的计数来可靠估计概率。权衡：n越长 = 更多上下文但更稀疏。
+>
+> **⚙️ How:**
+> **(1) N-gram probability calculation (N-gram概率计算):**
+>
+> P(wt | wt-n+1...wt-1) = Count(wt-n+1...wt) / Count(wt-n+1...wt-1). Example: P(books | students opened their) = Count("students opened their books") / Count("students opened their") = 400/1000 = 0.4.
+>
+> > P(wt | wt-n+1...wt-1) = Count(wt-n+1...wt) / Count(wt-n+1...wt-1)。示例：P(books | students opened their) = 400/1000 = 0.4。
+>
+> **💡 Intuition:**
+> **(1) Goldfish memory analogy (金鱼记忆类比):**
+>
+> An N-gram model has the memory of a goldfish -- it only remembers the last N-1 words. A bigram model reading "as the proctor started the clock the students opened their \_\_\_" only sees "their" and predicts from there. All the rich context about proctors and clocks? Gone.
+>
+> > N-gram模型拥有金鱼般的记忆——只记得最后N-1个词。Bigram模型读到长句时只看到最后一个词来预测。关于监考官和计时器的丰富上下文？全忘了。
+>
+> **⚖️ Compare:**
+> **(1) N-gram size trade-offs (N-gram大小权衡):**
+>
+> | N   | Name    | Context  | Sparsity  | Example            |
+> | --- | ------- | -------- | --------- | ------------------ |
+> | 1   | Unigram | None     | None      | P(the)             |
+> | 2   | Bigram  | 1 word   | Low       | P(cat\|the)        |
+> | 3   | Trigram | 2 words  | Medium    | P(sat\|the cat)    |
+> | 4   | 4-gram  | 3 words  | High      | P(on\|the cat sat) |
+> | 5+  | 5-gram+ | 4+ words | Very high | Often zero counts  |
+>
+> > | N   | 名称    | 上下文 | 稀疏性 | 示例               |
+> > | --- | ------- | ------ | ------ | ------------------ |
+> > | 1   | Unigram | 无     | 无     | P(the)             |
+> > | 2   | Bigram  | 1词    | 低     | P(cat\|the)        |
+> > | 3   | Trigram | 2词    | 中     | P(sat\|the cat)    |
+> > | 4   | 4-gram  | 3词    | 高     | P(on\|the cat sat) |
+> > | 5+  | 5-gram+ | 4+词   | 非常高 | 经常零计数         |
+>
+> **⚠️ Pitfall:**
+> **(1) Sparsity = zero probability trap (稀疏性 = 零概率陷阱):**
+>
+> If "students opened their laptops" never appears in the training corpus, P(laptops | students opened their) = 0. This makes the ENTIRE sentence probability zero, even if every other word is common. Solutions: smoothing (add-k), backoff (fall back to shorter n-gram), interpolation.
+>
+> > 如果"students opened their laptops"从未出现在训练语料库中，概率为0。这使整个句子概率为零。解决方案：平滑（add-k）、回退、插值。
+>
+> **(2) N-gram cannot capture semantic similarity (N-gram无法捕获语义相似性):**
+>
+> N-gram treats "cat" and "dog" as completely different tokens. Even if "the dog barked" appears 1000 times, it tells us NOTHING about P(barked | the cat). There's no notion of word similarity -- this is what neural LMs solve with embeddings.
+>
+> > N-gram将"cat"和"dog"视为完全不同的token。即使"the dog barked"出现1000次，也不能告诉我们P(barked | the cat)。没有词相似性概念——这是神经LM用嵌入解决的问题。
+>
+> **📝 Exam:**
+> **(1) 计算题 (Calculation):**
+>
+> "Given corpus counts: 'I love' appeared 100 times, 'I love NLP' appeared 30 times. What is P(NLP | I love)?" -> 30/100 = 0.3.
+>
+> > "给定语料库计数：'I love'出现100次，'I love NLP'出现30次。P(NLP | I love)是多少？" -> 30/100 = 0.3。
+>
+> **(2) 概念题 (Conceptual):**
+>
+> "What are the three main limitations of N-gram LMs?" -> Data sparsity (many n-grams never observed), context limitation (only n-1 words of history), no word similarity (treats each word as independent symbol).
+>
+> > "N-gram LM的三个主要局限是什么？" -> 数据稀疏性、上下文限制（仅n-1词历史）、无词相似性（将每个词视为独立符号）。
 
 ---
 
-## Page 23
+## 6. 神经网络语言模型 (Neural Network Language Models)
 
-### 📷 Page Image
+### 6.1 神经网络回顾 (Neural Nets Quick Review)
 
 ![Page 23](lecture5_slides_pages/page_023.png)
 
-### 📝 Text Content
-
-**Neural Network Based Language Models**
-
-
-### ✍️ Notes
-
-> N-gram 的局限性催生了基于神经网络的语言模型，用神经网络学习词的表示和概率分布
-
----
-
-## Page 24
-
-### 📷 Page Image
+**Neural Network Based Language Models** — 基于神经网络的语言模型
 
 ![Page 24](lecture5_slides_pages/page_024.png)
 
-### 📝 Text Content
+**A Quick Review Of Neural Nets:** — 神经网络快速回顾：
 
-**A Quick Review Of Neural Nets**
+- **Input layer:** a set of features; each arrow = a weight (float) telling how much each input contributes — 输入层：一组特征；每个箭头 = 一个权重
+- **Hidden layer:** some combination of all inputs — 隐藏层：所有输入的某种组合
+- **Output layer:** final prediction — 输出层：最终预测
+- **Backpropagation:** adjusts weights to improve accuracy — 反向传播：调整权重以提高准确率
 
-
-• Input layer is a set of features; each arrow represents a
-
-HiddenLayer
-weight (float number) that tells us how much each input
-contributes to each following step.
-InputLayer
-
-• Each node in the hidden layer is some combination of all
-
-the inputs. The hidden layer acts as the ‘input’ for the
-output layer.
-OutputLayer
-
-• Backpropagation allows us to adjust the weights to improve
-
-accuracy and find the ‘correct’ way to combine the inputs
-and hidden layers to get the best possible results.
-
-
-### ✍️ Notes
-
-> **三层结构:**
-> - **输入层 (Input Layer):** 一组特征值
-> - **隐藏层 (Hidden Layer):** 对所有输入的某种组合
-> - **输出层 (Output Layer):** 最终预测结果
->
-> **关键概念:**
-> - **权重 (Weight):** 每个箭头代表一个权重（浮点数），表示每个输入对下一步的贡献程度
-> - **反向传播 (Backpropagation):** 调整权重以提高准确率的算法
-
----
-
-## Page 25
-
-### 📷 Page Image
+### 6.2 感知器 (Perceptron)
 
 ![Page 25](lecture5_slides_pages/page_025.png)
 
-### 📝 Text Content
+**NN basic element: Perceptron / Neuron:** Diagram showing input attributes x1...xm with weights w1...wm, summing function v = sum(wj\*xj) + b, activation function, and output y. — 感知器/神经元：输入属性通过权重求和，经激活函数输出。
 
-**NN basic element: Perceptron or**
-
-Neuron
-Activation
-x W1 function
-1 v
-Input
-x
-Attribute 2 w 2 Output
-values class
-Summing function y
-x w
-m m
-weights
- 
- ( − )
-x = +1
-w
-
-v
-w
-=
-=
-
-j
-m
-=
-b
-w
-j
-x
-j
-bias
-
-
-### ✍️ Notes
-
-> **感知器是神经网络的基本单元:**
-> - 输入: x₁, x₂, ..., xₘ（属性值）
-> - 权重: w₁, w₂, ..., wₘ
-> - 求和函数: v = Σ(wⱼ × xⱼ) + b（其中 b 是偏置 bias）
-> - 激活函数 (Activation Function): 将求和结果映射为输出 y
->
-> **💡 提示:** 每个神经元本质上是 "加权求和 + 非线性变换"
-
----
-
-## Page 26
-
-### 📷 Page Image
+### 6.3 固定窗口神经网络LM (Fixed-window NN LM)
 
 ![Page 26](lecture5_slides_pages/page_026.png)
 
-### 📝 Text Content
-
-**Language Model: Neural Nets**
-
-as the proctor started the clock the students opened their -----?-----
---
-discard
-fixed window
-
-
-### ✍️ Notes
-
-> [Add your notes here]
-
----
-
-## Page 27
-
-### 📷 Page Image
+**Language Model: Neural Nets:** "as the proctor started the clock the students opened their \_\_\_" — Same problem but now using NN. Discard all but fixed window. — 使用NN解决相同问题，只保留固定窗口。
 
 ![Page 27](lecture5_slides_pages/page_027.png)
 
-### 📝 Text Content
+**Language Model: Neural Nets -- Architecture:** Bottom: words as one-hot vectors ("the students opened their"). Middle: concatenated word embeddings e = [e1;e2;e3;e4]. Hidden layer: h = f(We + b1). Output: y-hat = softmax(Uh + b2) -- probability over entire vocabulary. — 固定窗口NN LM架构图。
 
-**Language Model: Neural Nets …**
+**固定窗口NN LM架构图：** 底部为one-hot向量输入，通过嵌入矩阵转为词嵌入，拼接后送入隐藏层，最终softmax输出词汇表上的概率分布。
 
-books
-laptops
-output distribution
-a zoo
-hidden layer
-concatenated word embeddings
-words / one-hot vectors
-the students opened their
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning" course.
-
-
-### ✍️ Notes
-
-> **输入结构:** 词的 one-hot 向量 → 词嵌入 (Word Embeddings) → 拼接 → 隐藏层 → 输出分布
-> - 输出: 词汇表中每个词的概率分布
-
----
-
-## Page 28
-
-### 📷 Page Image
+### 6.4 固定窗口NN的局限 (Fixed-window NN Limitations)
 
 ![Page 28](lecture5_slides_pages/page_028.png)
 
-### 📝 Text Content
-
-**as the proctor started the clock the students opened their ------------**
-
-Feed Forword NN: Limitation...
-discard
-fixed window
-
-
-### ✍️ Notes
-
-> **前馈 NN 的局限性:** 固定窗口大小，仍然无法处理任意长度的输入
-
----
-
-## Page 29
-
-### 📷 Page Image
+**Feed Forward NN: Limitation** — 前馈NN的局限：Still uses fixed window, discards earlier context. — 仍使用固定窗口，丢弃更早的上下文。
 
 ![Page 29](lecture5_slides_pages/page_029.png)
 
-### 📝 Text Content
+**Feed Forward NN: Limitation -- Sentiment example:** — 情感分析示例：
 
-**Feed Forword NN: Limitation**
-
-“The food was good, not bad at all”
-“The food was bad, not good at all”
-
-
-### ✍️ Notes
-
-> **固定窗口问题示例:** 含义完全相反，但固定窗口可能看到相同的局部上下文
-
----
-
-## Page 30
-
-### 📷 Page Image
+- "The food was good, not bad at all" (positive) — 正面
+- "The food was bad, not good at all" (negative) — 负面
+- If the window only sees "not bad at all" vs "not good at all", they look very similar! — 如果窗口只看到最后几个词，两句看起来非常相似！
 
 ![Page 30](lecture5_slides_pages/page_030.png)
 
-### 📝 Text Content
+**Feed Forward NN: Limitation -- Variable length:** Short vs long reviews require different context lengths. — 短评和长评需要不同的上下文长度。
 
-**Feed Forword NN: Limitation…**
-
-“Just watched the new movie. Loved it! #entertained”
-“The storyline was captivating, the characters were well-
-developed, and the cinematography was impressive. Overall,
-a fantastic movie night! #movienight #recommend”
-
-
-### ✍️ Notes
-
-> [Add your notes here]
+> **📝 Notes:**
+>
+> **📌 What:**
+> **(1) Fixed-window NN LM architecture (固定窗口NN LM架构):**
+>
+> Input: concatenate embeddings of last n words -> e = [e1;e2;...;en]. Hidden: h = f(We + b1) where f is an activation (tanh/ReLU). Output: y-hat = softmax(Uh + b2) gives probability over vocabulary. Key improvement over N-gram: word embeddings capture semantic similarity.
+>
+> > 输入：拼接最后n个词的嵌入。隐藏层：h = f(We + b1)。输出：y-hat = softmax(Uh + b2)。相比N-gram的关键改进：词嵌入捕获语义相似性。
+>
+> **🎯 Why:**
+> **(1) Why NN LM improves over N-gram (为什么NN LM优于N-gram):**
+>
+> N-gram treats "cat" and "dog" as unrelated symbols. NN LM uses word embeddings where similar words have similar vectors. If the model learned P(barked | the dog) is high, it can also predict P(barked | the cat) is not-zero, because "dog" and "cat" have similar embeddings. This solves the sparsity problem.
+>
+> > N-gram将"cat"和"dog"视为无关符号。NN LM使用词嵌入，相似词有相似向量。这解决了稀疏性问题。
+>
+> **⚠️ Pitfall:**
+> **(1) Fixed window remains a fatal flaw (固定窗口仍是致命缺陷):**
+>
+> Even with embeddings, the window is FIXED. Enlarging the window means: (1) more parameters in W (scales linearly), (2) window never "large enough" for long documents. No fixed window handles "She put the book that she bought at the store on the \_\_\_" which needs 10+ words of context.
+>
+> > 即使有嵌入，窗口仍是固定的。扩大窗口意味着更多参数且永远"不够大"。
+>
+> **(2) "Good not bad" vs "Bad not good" trap ("好不坏" vs "坏不好" 陷阱):**
+>
+> If the window only sees "not bad at all" vs "not good at all", they look nearly identical. Fixed-window models can't see the EARLIER part of the sentence that reverses the meaning. You need memory of the full sentence.
+>
+> > 如果窗口只看到最后几个词，两个相反含义的句子看起来几乎相同。固定窗口模型看不到句子前面反转含义的部分。
 
 ---
 
-## Page 31
-
-### 📷 Page Image
+## 7. 序列建模动机与UAT (Sequence Modeling Motivations & UAT)
 
 ![Page 31](lecture5_slides_pages/page_031.png)
 
-### 📝 Text Content
+**Sequence Modeling: Motivations** — 序列建模动机：
 
-**Sequence Modeling: Motivations**
-
-
-• Handle variable length sequence data
-
-• Track long term dependency
-
-• Maintain information about order
-
-• Share information across the sequence
-
-
-### ✍️ Notes
-
-> **这一页是关键转折点：** 前面刚讲完 N-gram（Page 22）和 Feed Forward NN（Page 28-30）的局限性，这里列出了我们**真正需要**的四个能力，为引出 RNN 做铺垫。
->
-> **四个核心需求:**
-> - **处理变长序列数据 (Handle Variable Length Sequence Data):**
->   句子可以是 3 个词，也可以是 300 个词。N-gram 和 FFNN 用固定窗口大小（如 4-gram），无法灵活处理不同长度的输入。
-> - **追踪长期依赖关系 (Track Long-Term Dependency):**
->   例: "The **cat**, which sat on the mat, **was** sleeping." 中 "cat" 和 "was" 相隔很远，但有语法依赖（主谓一致）。N-gram 短窗口捕捉不到。
-> - **维护顺序信息 (Maintain Information About Order):**
->   "dog bites man" ≠ "man bites dog"，词的顺序至关重要，模型必须区分相同词在不同位置的含义。
-> - **在序列中共享信息 (Share Information Across the Sequence):**
->   模型在一个位置学到的模式应能复用到其他位置（如学到 "like" 后接名词，既适用于 "I like cats" 也适用于 "You like dogs"）。
->
-> **💡 提示:** 这四个需求恰好是 N-gram 和 FFNN 都无法满足的。接下来的 RNN 通过**隐藏状态 (hidden state)** 在时间步之间传递信息，天然支持变长输入、长期依赖、顺序保持和参数共享——正好对应这四个需求。
-
----
-
-## Page 32
-
-### 📷 Page Image
+- Handle variable length sequence data — 处理变长序列数据
+- Track long term dependency — 追踪长期依赖
+- Maintain information about order — 维护顺序信息
+- Share information across the sequence — 在序列中共享信息
 
 ![Page 32](lecture5_slides_pages/page_032.png)
 
-### 📝 Text Content
+**DNN: Universal Approximation Theorem (UAT):** Proven by George Cybenko in 1989. A neural network with a single sufficiently wide hidden layer can approximate any continuous function. — 通用逼近定理：1989年Cybenko证明。
 
-**DNN: Universal Approximation Theorem (UAT)**
-
-proven by George Cybenko in 1989
-
-
-### ✍️ Notes
-
-> **通用近似定理 (Universal Approximation Theorem, UAT):**
-> 由 George Cybenko 于 1989 年证明。
+> **📝 Notes:**
 >
-> **核心含义:** 一个具有**至少一个隐藏层**且隐藏层有**足够多神经元**的前馈神经网络，可以以**任意精度**近似任意连续函数。
+> **📌 What:**
+> **(1) Four requirements for sequence modeling (序列建模的四个需求):**
 >
-> **重点看上面三张彩色图（决策边界 Decision Boundary）:**
-> - **中图 — 最简单:** 决策边界几乎是**直线/V 形**，红蓝区域用直线分隔
-> - **左图 — 中等复杂:** 决策边界是一条**平滑曲线**，把红蓝区域弯曲地分开
-> - **右图 — 最复杂:** 决策边界极其**扭曲不规则**，像锯齿波一样，红蓝区域交错复杂
+> These four requirements are exactly what N-gram and fixed-window NN CANNOT satisfy: (1) variable length, (2) long-term dependency, (3) order, (4) parameter sharing. RNN satisfies ALL four.
 >
-> **这三张图的核心信息:**
-> 不管分类问题多复杂（决策边界多扭曲），只要神经网络够深够宽，理论上**都能学出来**。
-> 下面三个网络结构图差别不大，只是示意不同架构对应不同复杂度的决策边界。
+> > 这四个需求正是N-gram和固定窗口NN无法满足的。RNN满足全部四个。
 >
-> **关键理解:**
-> - 网络越深越宽 → 决策边界越精细复杂 → 能拟合越复杂的函数
-> - UAT 说的是"**理论上可行**"，实际训练能否学到取决于数据量、优化算法等
-> - 这为后续的 RNN（本质也是深度网络）提供了理论支撑：DNN 能近似任意函数 → 用 DNN 建模语言有理论基础
+> **⚠️ Pitfall:**
+> **(1) UAT doesn't guarantee learning (UAT不保证学到):**
 >
-> **💡 提示:** UAT 是"深度学习为什么有效"的数学理论基础之一，但它只保证**存在性**（一定存在这样的网络），不保证我们一定能**找到**它
+> UAT says a NN CAN approximate any function -- it doesn't say gradient descent WILL find the right weights. It's an existence theorem, not a learning guarantee.
+>
+> > UAT说NN能逼近任何函数——不是说梯度下降一定能找到正确权重。这是存在性定理，不是学习保证。
 
 ---
 
-## Page 33
+## 8. 循环神经网络 (Recurrent Neural Networks -- RNN)
 
-### 📷 Page Image
+### 8.1 RNN核心思想 (Core Idea of RNN)
 
 ![Page 33](lecture5_slides_pages/page_033.png)
 
-### 📝 Text Content
+**Core idea of RNN: Stateful computation:** Diagram showing RNN cell with input xt, hidden state ht (with self-loop), and output yt. Formula: yt, ht = f(xt, ht-1). The self-loop arrow represents the recurrence. — RNN核心思想：有状态计算。
 
-**Core idea of Recurrent Neural Networks (RNNs) RNNs**
-
-Stateful computation
-y
-t
-h
-t
-x
-t
-y , h = f (x , h )
-t t t t -
-
-
-### ✍️ Notes
-
-> **RNN 的核心思想: 有状态的计算 (Stateful Computation)**
->
-> **图解读（从下到上）:**
-> - **xₜ（粉红色圆）:** 当前时间步的**输入**（例如当前词的词嵌入）
-> - **hₜ（蓝色方块）:** 当前时间步的**隐藏状态**（Hidden State），是 RNN 的"记忆"
-> - **yₜ（绿色圆）:** 当前时间步的**输出**（例如预测下一个词的概率分布）
-> - **hₜ 右侧的自循环箭头:** 这是 RNN 的关键！hₜ 会被传递回自己，作为**下一步的输入之一**
->
-> **核心公式:**
-> ```
-> yₜ, hₜ = f(xₜ, hₜ₋₁)
-> ```
-> - 输入: 当前词 xₜ + 上一步的隐藏状态 hₜ₋₁
-> - 输出: 当前预测 yₜ + 新的隐藏状态 hₜ（传给下一步）
->
-> **与 FFNN 的关键区别:**
-> - **FFNN:** 每次输入独立处理，没有记忆，处理完就忘了
-> - **RNN:** 通过 hₜ 把"之前看过的所有信息"压缩传递下去，有**记忆能力**
->
-> **NLP 例子:** 处理句子 "the students opened their"
-> - t=1: 输入 "the" → 产生 h₁（记住了 "the"）
-> - t=2: 输入 "students" + h₁ → 产生 h₂（记住了 "the students"）
-> - t=3: 输入 "opened" + h₂ → 产生 h₃（记住了 "the students opened"）
-> - t=4: 输入 "their" + h₃ → 预测下一个词（如 "books"）
->
-> **💡 提示:** hₜ 就像一个**不断更新的摘要**，把之前所有输入的信息压缩在一个向量里。这正好解决了 Page 31 提到的四个需求：变长输入、长期依赖、顺序信息、信息共享
-
----
-
-## Page 34
-
-### 📷 Page Image
+**RNN核心图：** 输入xt进入RNN单元，结合上一步的隐藏状态ht-1，产生输出yt和新的隐藏状态ht。自循环箭头表示递归。
 
 ![Page 34](lecture5_slides_pages/page_034.png)
 
-### 📝 Text Content
+**Core idea of RNN (unrolled):** Unrolled view showing the same RNN cell replicated at each timestep: h1, h2, ..., ht. Formula: ht = Wh*ht-1 + We*et + b. Same weights Wh are used at EVERY timestep (parameter sharing). — 展开后的RNN：同一RNN单元在每个时间步复制。
 
-**Core idea of RNNs …**
-
-Stateful computation
-y y y
-t 1 t
-h h h h
-t 0 1 t
-x x x
-t 1 t
-h = 𝑊 x + 𝑊 h +b
-
-*[Mathematical formula - see image above]*
-
-
-### ✍️ Notes
-
-> **这页展示了 RNN 的两种视角:**
->
-> **左边 — 折叠 (Folded) 形式:** 就是 Page 33 的图，ht 有一个自循环箭头（代表记忆循环传递）
->
-> **右边 — 展开 (Unrolled) 形式:** 把自循环在时间轴上展开，清楚看到信息如何一步步传递：
-> - h0 -> h1 -> ... -> ht（隐藏状态从左到右传递）
-> - 每个时间步都接收一个输入 xt 和前一步的隐藏状态
-> - 每个时间步都可以产生一个输出 yt
->
-> **核心公式:**
-> ```
-> ht = Wx * xt + Wh * ht-1 + b
-> ```
-> - **Wx:** 输入到隐藏状态的权重矩阵（怎么理解当前输入）
-> - **Wh:** 隐藏状态到隐藏状态的权重矩阵（怎么保留历史记忆）
-> - **b:** 偏置项
-> - **关键:** Wx 和 Wh 在**所有时间步共享**（同一套权重重复使用）
->
-> **💡 提示:** 权重共享有两大好处：
-> 1. 参数量不随序列长度增长（不管句子多长，权重矩阵就那几个）
-> 2. 在一个位置学到的模式可以泛化到其他位置
-
----
-
-## Page 35
-
-### 📷 Page Image
-
-![Page 35](lecture5_slides_pages/page_035.png)
-
-### 📝 Text Content
-
-**How we train the**
-
-=negative logprob
-of“students”
-model
-Loss
-Predicted
-prob dists
-…
-the students opened their exams …
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **这张图非常重要！完整展示了 RNN 语言模型的训练流程（从下到上）:**
->
-> **第 1 层 — 输入词 (底部):** x(1)="the", x(2)="students", x(3)="opened", x(4)="their"
->
-> **第 2 层 — 词嵌入 E:** 通过嵌入矩阵 **E** 将 one-hot 向量转为词嵌入向量 e(1), e(2), ...
->
-> **第 3 层 — 隐藏状态（红色节点）:** 通过权重矩阵 **We**（输入）和 **Wh**（历史）计算隐藏状态
-> - h(0) -> h(1) -> h(2) -> h(3) -> h(4)（信息从左到右传递）
-> - 注意每一步之间的箭头都标着 **Wh**（同一个权重矩阵，参数共享）
->
-> **第 4 层 — 预测输出 y-hat:** 通过权重矩阵 **U** 将隐藏状态映射为概率分布
-> - y-hat(1) 是模型对 "the 后面是什么词" 的预测
-> - y-hat(2) 是模型对 "the students 后面是什么词" 的预测
->
-> **第 5 层 — 损失 J(theta):** 每个时间步计算一个损失
-> - 损失 = **负对数概率 (Negative Log Probability)**
-> - 例: J(1) = -log P("students" | "the")
-> - 真实下一个词是 "students"，看模型给它多高的概率
-> - 概率越高 -> -log 值越小 -> 损失越小 -> 模型预测越好
->
-> **💡 提示:** 三个权重矩阵 E, Wh, U 在所有时间步**共享**——这就是 RNN 参数高效的原因
-
----
-
-## Page 36
-
-### 📷 Page Image
-
-![Page 36](lecture5_slides_pages/page_036.png)
-
-### 📝 Text Content
-
-**=negative logprob**
-
-How we train the
-of“opened”
-Loss
-model
-Predicted
-prob dists
-…
-Corpus the students opened their exams …
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 35-38 是同一张图，每页高亮不同的时间步:**
->
-> 这页高亮的是 **J(2)(θ)** — 第 2 个时间步的损失
-> - 输入: x(1)="the", x(2)="students"
-> - 真实下一个词: "opened"
-> - 损失: J(2) = -log P("opened" | "the students")
->
-> **设计意图:** 老师通过逐步高亮让你看清楚每个时间步分别计算哪个词的损失
-
----
-
-## Page 37
-
-### 📷 Page Image
-
-![Page 37](lecture5_slides_pages/page_037.png)
-
-### 📝 Text Content
-
-**How we train the**
-
-=negative logprob
-of“their”
-model
-Loss
-Predicted
-prob dists
-…
-Corpus the students opened their exams …
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> 高亮 **J(3)(θ)** — 第 3 个时间步的损失
-> - 输入: x(1)="the", x(2)="students", x(3)="opened"
-> - 真实下一个词: "their"
-> - 损失: J(3) = -log P("their" | "the students opened")
-
----
-
-## Page 38
-
-### 📷 Page Image
-
-![Page 38](lecture5_slides_pages/page_038.png)
-
-### 📝 Text Content
-
-**=negative logprob**
-
-How we train the
-of“exams”
-Loss
-model
-Predicted
-prob dists
-…
-Corpus the students opened their exams …
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> 高亮 **J(4)(θ)** — 第 4 个时间步的损失
-> - 输入: x(1)="the", x(2)="students", x(3)="opened", x(4)="their"
-> - 真实下一个词: "exams"
-> - 损失: J(4) = -log P("exams" | "the students opened their")
-
----
-
-## Page 39
-
-### 📷 Page Image
-
-![Page 39](lecture5_slides_pages/page_039.png)
-
-### 📝 Text Content
-
-**Loss + + + + … =**
-
-Predicted
-probability How we train the
-distribution
-model
-…
-Corpus
-the students opened their exams …
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **这页是 Page 35-38 的总结！把所有时间步的损失加起来:**
->
-> **总损失公式:**
-> ```
-> J(θ) = (1/T) × ∑ J(t)(θ)    (t = 1 到 T)
-> ```
-> - 将每个时间步的损失 J(1), J(2), J(3), J(4), ... 全部**加起来取平均**
-> - 这个总损失就是我们要最小化的目标
-> - 通过反向传播 (Backpropagation) 调整所有权重 E, Wh, We, U
->
-> **训练流程总结 (Page 35-39):**
-> 1. 前向传播: 输入词 -> 词嵌入 -> 隐藏状态 -> 预测分布
-> 2. 计算损失: 每个时间步的 -log P(真实下一个词)
-> 3. 总损失: 所有时间步损失的平均值
-> 4. 反向传播: 根据总损失调整权重
->
-> **💡 提示:** 这就是为什么叫 "Language Model" — 模型学习的就是“给定前文，下一个词最可能是什么”
-
----
-
-## Page 40
-
-### 📷 Page Image
+### 8.2 RNN语言模型 (RNN Language Model)
 
 ![Page 40](lecture5_slides_pages/page_040.png)
 
-### 📝 Text Content
+**Language Model: RNN -- Full architecture:** Bottom: words ("the students opened their") as one-hot vectors. Word embeddings: e(t) = E*x(t) via embedding matrix E. Hidden states: h(t) = sigma(Wh*h(t-1) + We*e(t) + b1), where h(0) is the initial state. Output: y-hat(t) = softmax(U*h(t) + b2). Same Wh at every step. — RNN LM完整架构图。
 
-**output distribution**
+**RNN LM架构图：** 底部为one-hot输入，通过嵌入矩阵E转为嵌入。隐藏状态通过Wh在时间步间传递（参数共享）。输出经softmax产生词汇表上的概率。
 
-Language
-books
-laptops
-Model: RNN
-a zoo
-hidden states
-is the initial hidden state
-word embeddings
-the students opened their
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **这页是 RNN 语言模型的完整架构图，带所有公式！**
->
-> **三个核心公式（从下到上）:**
->
-> **1. 词嵌入 (Word Embeddings):**
-> ```
-> e(t) = E * x(t)
-> ```
-> - x(t) ∈ R^|V| 是 one-hot 向量（词汇表大小的维度）
-> - E 是嵌入矩阵，将高维 one-hot 转为低维密集向量
->
-> **2. 隐藏状态 (Hidden States):**
-> ```
-> h(t) = σ(Wh * h(t-1) + We * e(t) + b1)
-> ```
-> - σ 是激活函数（如 tanh 或 sigmoid）
-> - h(0) 是初始隐藏状态（通常初始化为零向量）
-> - Wh 和 We 在所有时间步共享
->
-> **3. 输出分布 (Output Distribution):**
-> ```
-> y-hat(t) = softmax(U * h(t) + b2) ∈ R^|V|
-> ```
-> - 通过 softmax 将隐藏状态映射为词汇表上的概率分布
-> - 图中右上角的柱状图就是这个分布："books" 概率最高，"laptops" 较低，"a zoo" 更低
->
-> **💡 提示:** 这页把 Page 33-39 的所有内容综合在一张图里，是复习 RNN 语言模型的最佳参考图
-
----
-
-## Page 41
-
-### 📷 Page Image
+### 8.3 RNN vs 传统NN (RNN vs Traditional NN)
 
 ![Page 41](lecture5_slides_pages/page_041.png)
 
-### 📝 Text Content
+**Difference between NN and RNN:** Side-by-side comparison. Traditional NN for LM (left) vs RNN for LM (right). Key difference: RNN has recurrent connections that carry information across timesteps. — 传统NN与RNN的区别。
 
-**Difference between NN and RNN**
+### 8.4 RNN训练 (Training RNN)
 
-RNN for LM
-Traditional NN for LM
-Image source: NLP in Action text book, O'Reilly
+![Page 35](lecture5_slides_pages/page_035.png)
 
+![Page 36](lecture5_slides_pages/page_036.png)
 
-### ✍️ Notes
+![Page 37](lecture5_slides_pages/page_037.png)
 
-> **这页直观对比了传统 NN 和 RNN 的结构差异：**
+![Page 38](lecture5_slides_pages/page_038.png)
+
+**How we train the RNN model:** Step-by-step training on "the students opened their exams": At each timestep, compute loss = negative log probability of the correct next word. Loss at step t = -log P(correct word at t+1). — RNN训练逐步演示。
+
+![Page 39](lecture5_slides_pages/page_039.png)
+
+**Total loss:** J = (1/T) \* sum(Jt) — average of per-step losses over the corpus. — 总损失 = 各步损失的平均值。
+
+> **📝 Notes:**
 >
-> | | 左图: Traditional NN for LM | 右图: RNN for LM |
-> |---|---|---|
-> | **输入方式** | 所有词同时输入一个 Hidden layer | 每个词按顺序逐个输入 |
-> | **Hidden layer** | 只有 1 个，不连接 | 多个，且彼此**水平连接**（箭头从左到右） |
-> | **输出** | 1 个 Associated label | 每个时间步都有输出（但可以选择忽略） |
-> | **顺序信息** | 丢失了！所有词混在一起 | 保留了！每个词按时间步处理 |
-> | **记忆** | 无 | 有！隐藏状态在时间步间传递 |
+> **📌 What:**
+> **(1) RNN definition (RNN定义):**
 >
-> **右图重要细节:**
-> - 只有最后一个时间步的输出是 "Output"，前面都是 "Ignored output"
-> - 这是因为此例中只关心句子最终的输出（如情感分类）
-> - 但在语言模型中，每个时间步的输出都会用到（如 Page 35-39 所示）
-> - error = y_true_label - y_output（简单的差值损失）
+> An RNN processes sequences by maintaining a hidden state ht that gets updated at each timestep: ht = sigma(Wh*ht-1 + We*et + b). The SAME weights (Wh, We) are used at every timestep -- this is "parameter sharing." The hidden state acts as a "memory" that carries information from all previous words.
 >
-> **💡 核心区别:** 传统 NN 把 "The clown car sped into the arena" 当成一个无序的词袋 (bag of words)；RNN 把 "Today was a good day." 作为有序序列处理，每步都记住前文
+> > RNN通过维护隐藏状态ht处理序列。每个时间步使用相同的权重（参数共享）。隐藏状态充当"记忆"，携带来自所有先前词的信息。
+>
+> **🎯 Why:**
+> **(1) Why RNN solves the four sequence requirements (为什么RNN解决了四个序列需求):**
+>
+> (1) Variable length: RNN processes any number of timesteps -- just keep running. (2) Long-term dependency: hidden state carries info forward indefinitely (in theory). (3) Order: position matters -- h3 differs if words at positions 1-2 differ. (4) Parameter sharing: same Wh at every step -- knowledge at position 5 transfers to position 50.
+>
+> > (1) 变长：RNN处理任意数量的时间步。(2) 长期依赖：隐藏状态无限向前传递信息（理论上）。(3) 顺序：位置重要。(4) 参数共享：每步相同Wh。
+>
+> **💡 Intuition:**
+> **(1) Assembly line worker analogy (流水线工人类比):**
+>
+> An RNN is like a worker on an assembly line who processes items one by one. At each position, the worker receives: (1) the new item (input xt), (2) a note from the previous position about what came before (hidden state ht-1). The worker writes a new note (ht) combining both and passes it to the next position. The SAME worker handles every position (parameter sharing).
+>
+> > RNN就像流水线上的工人，逐个处理物品。每个位置，工人收到新物品和上一位置的便条，写新便条传给下一位置。同一个工人处理每个位置（参数共享）。
+>
+> **⚖️ Compare:**
+> **(1) N-gram vs Fixed-window NN vs RNN (三种方法对比):**
+>
+> | Feature           | N-gram         | Fixed-window NN  | RNN                        |
+> | ----------------- | -------------- | ---------------- | -------------------------- |
+> | Word similarity   | None           | Yes (embeddings) | Yes (embeddings)           |
+> | Variable length   | No             | No               | Yes                        |
+> | Long-range deps   | No (n-1 words) | No (window size) | Yes (hidden state)         |
+> | Parameter sharing | N/A            | No               | Yes (same W at every step) |
+>
+> > | 特性       | N-gram | 固定窗口NN | RNN            |
+> > | ---------- | ------ | ---------- | -------------- |
+> > | 词相似性   | 无     | 有（嵌入） | 有（嵌入）     |
+> > | 变长输入   | 否     | 否         | 是             |
+> > | 长距离依赖 | 否     | 否         | 是（隐藏状态） |
+> > | 参数共享   | 不适用 | 否         | 是             |
+>
+> **📝 Exam:**
+> **(1) 概念题 (Conceptual):**
+>
+> "What is parameter sharing in RNN and why does it matter?" -> The same weight matrices (Wh, We) are used at every timestep. This means: (1) the model can handle any input length with fixed parameters, (2) patterns learned at one position generalize to other positions.
+>
+> > "RNN中的参数共享是什么，为什么重要？" -> 每个时间步使用相同的权重矩阵。模型用固定参数处理任意长度输入，一个位置学到的模式泛化到其他位置。
 
 ---
 
-## Page 42
+## 9. 梯度消失问题 (Vanishing Gradient Problem)
 
-### 📷 Page Image
-
-![Page 42](lecture5_slides_pages/page_042.png)
-
-### 📝 Text Content
-
-**Fun With RNN Language Model**
-
-
-• https://medium.com/@samim/obama-rnn-machine-
-
-generated-political-speeches-c8abd18a2ea0
-
-
-### ✍️ Notes
-
-> **趣味应用:** 用 RNN 语言模型生成 Obama 风格的政治演讲
->
-> 这个例子展示了 RNN LM 的实际应用：
-> - 用大量 Obama 演讲词训练 RNN 语言模型
-> - 模型学会了 Obama 的用词习惯、句式结构
-> - 然后用模型自动生成新的演讲词
->
-> **💡 提示:** 这就是现代 ChatGPT 等文本生成 AI 的最早雏形——原理相同，只是规模和架构进化了
-
----
-
-## Page 43
-
-### 📷 Page Image
+### 9.1 时序反向传播 (Backpropagation Through Time -- BPTT)
 
 ![Page 43](lecture5_slides_pages/page_043.png)
 
-### 📝 Text Content
+**Back Propagation in RNN:** Backpropagation Through Time (BPTT). — RNN中的反向传播：时序反向传播。
 
-**Back Propagation in RNN**
-
-Backpropagation Through Time (BPTT).
-
-
-### ✍️ Notes
-
-> **时间反向传播 (Backpropagation Through Time, BPTT):**
->
-> **图中的箭头含义:**
-> - **黑色箭头 (->):** 前向传播（从左到右）— 输入 -> Hidden -> 输出
-> - **红色箭头 (<-):** 反向传播（从右到左）— 误差信号往回传
->
-> **训练过程:**
-> 1. **前向传播:** 输入 "Today was a good day ." → 每个时间步算出隐藏状态和输出 y0~y5
-> 2. **计算误差:** error = sum(y_true_label[i] - y[i] for i in range(6))
-> 3. **反向传播:** 误差从最后一个时间步往回传（红色箭头），更新每个时间步的权重
->
-> **为什么叫 "时间反向传播"?**
-> - 普通网络的反向传播是从上层往下层传
-> - RNN 多了一个维度: 除了上下层之间，还要在**时间步之间**（从右到左）传播误差
-> - 因此叫做 "Through Time"
->
-> **💡 提示:** BPTT 的问题是当序列很长时，梯度会在时间步之间不断相乘，导致**梯度消失 (Vanishing Gradient)** — 这就是下一页 (Page 44) 的内容
-
----
-
-## Page 44
-
-### 📷 Page Image
+### 9.2 梯度消失直觉 (Vanishing Gradient Intuition)
 
 ![Page 44](lecture5_slides_pages/page_044.png)
 
-### 📝 Text Content
-
-**RNN Vanishing Gradient Intuition**
-
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 44-49 是同一张图的逐步动画，展示梯度消失的直觉：**
->
-> **这页 (Page 44) — 起点:**
-> - 图中展示了 4 个隐藏状态 h(1) → h(2) → h(3) → h(4)，之间用**同一个权重 W** 连接
-> - 损失 J(4)(θ) 在最右边的 h(4) 上方
-> - **问题:** 我们想更新 h(1) 的参数，但 J(4) 的梯度要从 h(4) 一路传回 h(1)
-> - 每经过一步都要乘以 W 的导数 → 如果 W 的值 < 1，多次相乘后梯度趋近于 0
->
-> **💡 类比:** 想象你在传话游戏中，每个人只能以 50% 音量传递消息。经过 4 个人后，声音就几乎听不到了 — 这就是梯度消失
-
----
-
-## Page 45
-
-### 📷 Page Image
-
 ![Page 45](lecture5_slides_pages/page_045.png)
-
-### 📝 Text Content
-
-**Vanishing gradient intuition**
-
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 45 — 提出问题:**
-> - 图中 h(1) 被蓝色高亮，反向箭头从 h(4) 回指向 h(1)
-> - 底部公式: **∂J(4)/∂h(1) = ?**
-> - 意思是: J(4) 的损失对 h(1) 的梯度是多少？
-> - h(1) 距离 J(4) 有 3 步之遥，梯度要经过 h(2)、h(3)、h(4) 才能传到 h(1)
->
-> **💡 提示:** 这就是在问 "最早的输入对最终损失有多大影响？" — 如果影响趋近 0，模型就无法学习远距离依赖
-
----
-
-## Page 46
-
-### 📷 Page Image
 
 ![Page 46](lecture5_slides_pages/page_046.png)
 
-### 📝 Text Content
-
-**Vanishing gradient intuition**
-
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 46 — 用链式法则 (Chain Rule) 分解（第 1 步）:**
-> - 左上角展示了链式法则公式: dy/dx = (dy/du) × (du/dx)
-> - h(2) 被蓝色高亮 — 表示梯度传播到 h(2) 这一步
-> - 底部公式:
->   ```
->   ∂J(4)/∂h(1) = ∂h(2)/∂h(1) × ∂J(4)/∂h(2)
->   ```
-> - 意思是: 先看 h(1) 对 h(2) 的影响，再看 h(2) 对 J(4) 的影响，两者相乘
->
-> **💡 提示:** Chain Rule 就是微积分中的链式求导法则 — 复合函数的导数等于各层导数的乘积
-
----
-
-## Page 47
-
-### 📷 Page Image
-
 ![Page 47](lecture5_slides_pages/page_047.png)
-
-### 📝 Text Content
-
-**Vanishing gradient intuition**
-
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 47 — 继续展开链式法则（第 2 步）:**
-> - h(3) 被蓝色高亮 — 梯度继续传播到 h(3)
-> - 底部公式进一步展开:
->   ```
->   ∂J(4)/∂h(1) = ∂h(2)/∂h(1) × ∂h(3)/∂h(2) × ∂J(4)/∂h(3)
->   ```
-> - 现在有 **2 个梯度项** 相乘了
->
-> **💡 提示:** 注意每一项 ∂h(t+1)/∂h(t) 本质上就是权重矩阵 W 的某种变换（取决于激活函数的导数）
-
----
-
-## Page 48
-
-### 📷 Page Image
 
 ![Page 48](lecture5_slides_pages/page_048.png)
 
-### 📝 Text Content
-
-**Vanishing gradient intuition**
-
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 48 — 完全展开链式法则（第 3 步）:**
-> - h(4) 被蓝色高亮 — 梯度传播的最后一步
-> - 蓝色大箭头从 J(4)(θ) 向下指向 h(4)（损失传入隐藏状态）
-> - 底部公式完全展开:
->   ```
->   ∂J(4)/∂h(1) = ∂h(2)/∂h(1) × ∂h(3)/∂h(2) × ∂h(4)/∂h(3) × ∂J(4)/∂h(4)
->   ```
-> - 现在有 **3 个梯度项** 相乘！
->
-> **💡 关键观察:** 如果每个 ∂h(t+1)/∂h(t) 都 < 1（比如 0.5），那么 3 次相乘后 = 0.5³ = 0.125，梯度已经缩小到原来的 1/8
-
----
-
-## Page 49
-
-### 📷 Page Image
-
 ![Page 49](lecture5_slides_pages/page_049.png)
 
-### 📝 Text Content
+**Vanishing gradient intuition:** Step-by-step animation showing how gradients shrink as they flow backward through many timesteps. At each step, the gradient is multiplied by Wh -- if |Wh| < 1, the gradient shrinks exponentially. — 梯度消失直觉：逐步展示梯度在多个时间步中向后流动时如何缩小。
 
-**Vanishing gradient intuition**
-
-These slides are sourced from Stanford's "Natural Language Processing with Deep Learning"
-course.
-
-
-### ✍️ Notes
-
-> **Page 49 — 揭示梯度消失的根源！（总结页）**
->
-> - 图中所有隐藏状态都被标注，反向箭头贯穿整个序列
-> - 底部公式中，3 个梯度项被**紫色方框**圈出:
->   ```
->   ∂J(4)/∂h(1) = [∂h(2)/∂h(1)] × [∂h(3)/∂h(2)] × [∂h(4)/∂h(3)] × ∂J(4)/∂h(4)
->   ```
-> - 左下角问: **"What happens if these are small?"**
-> - 右下角回答: **"Vanishing gradient problem: When these are small, the gradient signal gets smaller and smaller as it backpropagates further"**
->
-> **数学解释:**
-> - 如果每个 ∂h(t+1)/∂h(t) ≈ 0.1
-> - 那么 3 个相乘: 0.1 × 0.1 × 0.1 = 0.001
-> - 如果序列长度是 100: 0.1^99 ≈ 0 → 梯度**完全消失**
-> - h(1) 几乎收不到任何来自 J(4) 的梯度信号 → 无法学习远距离依赖
->
-> **💡 反过来想:** 如果每个梯度项 > 1（比如 2），那么 2^99 会**爆炸** → 这就是**梯度爆炸 (Exploding Gradient)** 问题
-
----
-
-## Page 50
-
-### 📷 Page Image
+### 9.3 为什么梯度消失是问题 (Why Vanishing Gradient is a Problem)
 
 ![Page 50](lecture5_slides_pages/page_050.png)
 
-### 📝 Text Content
+**Why Vanishing Gradients is Problem:** Vanishing gradients occur when gradient values become too small, causing the model to stop learning or learn extremely slowly. Earlier layers receive exponentially smaller gradients. — 梯度消失导致模型停止学习或极慢学习。
 
-**Why Vanishing Gradients is Problem**
-
-Vanishing gradients occur when the values of a gradient are too small
-and the model stops learning or takes way too long as a result
-Learning Rate
-Input Layer Output Layer
-
-
-### ✍️ Notes
-
-> **为什么梯度消失是严重问题 (Why Vanishing Gradients is Problem):**
->
-> **Slide 原文:** "Vanishing gradients occur when the values of a gradient are too small and the model stops learning or takes way too long as a result"
->
-> **图示解读:**
-> - 从左到右: Input Layer (橙色) → 多个 Hidden Layer (蓝色) → Output Layer (红色)
-> - 每个 Hidden Layer 上方有一个**紫色柱子**代表 Learning Rate（学习率/梯度大小）
-> - 注意柱子**越靠近 Input Layer 越矮** → 靠近输入的层梯度越小越学不动
-> - 靠近 Output Layer 的梯度还算正常，但越往回传越弱
->
-> **后果:**
-> 1. **前面的层几乎不更新** — 离输出远的层收到的梯度趋近于 0，权重不变化
-> 2. **模型学不到长距离依赖** — 对应 RNN: 早期时间步的词对后面的预测几乎无影响
-> 3. **训练停滞或极慢** — 模型看似在训练，实际前面的层已经 "冻住" 了
->
-> **💡 提示:** 梯度消失是 RNN 最大的弱点，直接催生了 **LSTM (Long Short-Term Memory)** 和 **GRU (Gated Recurrent Unit)** 的发明 — 它们用"门控机制"来让梯度能顺利传过很长的序列
-
----
-
-## Page 51
-
-### 📷 Page Image
+### 9.4 梯度消失实例 (Vanishing Gradient Example)
 
 ![Page 51](lecture5_slides_pages/page_051.png)
 
-### 📝 Text Content
+**Vanishing Gradients Problem -- Example:** "When she tried to print her tickets, she found that the printer was out of toner. She went to the stationery store to buy more toner. It was very overpriced. After installing the toner into the printer, she finally printed her \_\_\_" — The RNN needs to connect "tickets" (7th word) to the prediction at the end. With vanishing gradients, this signal is lost. — RNN需要将"tickets"与结尾的预测连接。梯度消失使这个信号丢失。
 
-**Vanishing Gradients Problem…**
-
-Example
-When she tried to print her tickets, she found that the printer
-was out of toner. She went to the stationery store to buy more
-toner. It was very overpriced. After installing the toner into the
-printer, she finally printed her-------------------
-RNN-LM needs to model the dependency between “tickets” on
-the 7th step and the target word “tickets” at the end
-
-
-### ✍️ Notes
-
-> **梯度消失的实际 NLP 例子:**
+> **📝 Notes:**
 >
-> **原文:**
-> "When she tried to print her **tickets**, she found that the printer was out of toner. She went to the stationery store to buy more toner. It was very overpriced. After installing the toner into the printer, she finally printed her ___________"
+> **📌 What:**
+> **(1) BPTT and vanishing gradient (BPTT和梯度消失):**
 >
-> **分析:**
-> - 人类一眼就知道空格应该填 **"tickets"** — 因为整个故事都在讲打印机票
-> - 但对 RNN 来说，"tickets" 出现在第 7 个词，而要预测的位置在最后（隔了约 30 个词）
-> - RNN-LM 需要 **model the dependency**（建模依赖关系）：第 7 步的 "tickets" ↔ 最后的 "tickets"
-> - 由于梯度消失，第 7 步的信息传到最后时梯度几乎为 0 → 模型**学不到这个依赖**
+> In BPTT, gradients flow from the loss at timestep T back to timestep 1. At each step, the gradient is multiplied by dht/dht-1 which involves Wh. If the eigenvalues of Wh < 1, the gradient shrinks exponentially: gradient proportional to (Wh)^T -> 0 as T grows. This means early words have essentially zero influence on the loss.
 >
-> **💡 提示:** 这就是为什么 RNN 在实际应用中处理长文本效果差 — 它理论上能看到所有历史，但梯度消失让它**实际上只能记住近几步**
+> > 在BPTT中，梯度从时间步T的损失向后流到时间步1。每步梯度乘以涉及Wh的导数。如果Wh特征值<1，梯度指数缩小。这意味着早期词对损失基本没有影响。
+>
+> **🎯 Why:**
+> **(1) Why this is fatal for language (为什么这对语言是致命的):**
+>
+> Language has LONG-RANGE dependencies. "The cat, which sat on the warm mat in the sunlit room, purred loudly." The verb "purred" depends on "cat" -- 12 words back. If the gradient from "purred" vanishes before reaching "cat", the model CANNOT learn this dependency.
+>
+> > 语言有长距离依赖。动词"purred"依赖于12个词之前的"cat"。如果梯度在到达"cat"之前消失，模型无法学习这种依赖关系。
+>
+> **💡 Intuition:**
+> **(1) Telephone game analogy (传话游戏类比):**
+>
+> Vanishing gradient = playing telephone: by the time the message passes through 20 people, it's completely garbled. The gradient signal from step 100 passes through 100 matrix multiplications to reach step 1 -- it gets exponentially weaker at each step.
+>
+> > 梯度消失 = 传话游戏：消息经过20个人后完全变形。第100步的梯度信号经过100次矩阵乘法才到达第1步——每步都指数减弱。
+>
+> **⚠️ Pitfall:**
+> **(1) Exploding gradient is the opposite problem (梯度爆炸是相反的问题):**
+>
+> If |Wh| > 1, gradients EXPLODE exponentially instead of vanishing. This causes NaN losses and training crashes. Solution: gradient clipping. Vanishing gradients are harder to fix -- LSTM is the architectural solution.
+>
+> > 如果|Wh| > 1，梯度指数爆炸。导致NaN损失和训练崩溃。解决方案：梯度裁剪。梯度消失更难修复——LSTM是架构层面的解决方案。
+>
+> **📝 Exam:**
+> **(1) 概念题 (Conceptual):**
+>
+> "Explain the vanishing gradient problem in RNNs." -> During BPTT, gradients are multiplied by Wh at each timestep. If |Wh| < 1, gradients shrink exponentially, preventing the model from learning long-range dependencies. Solution: LSTM with its cell state "conveyor belt."
+>
+> > "解释RNN中的梯度消失问题。" -> BPTT中，梯度在每个时间步乘以Wh。如果|Wh| < 1，梯度指数缩小。解决方案：LSTM及其细胞状态"传送带"。
 
 ---
 
-## Page 52
+## 10. 长短时记忆网络 (Long Short-Term Memory -- LSTM)
 
-### 📷 Page Image
+### 10.1 LSTM简介 (LSTM Introduction)
 
 ![Page 52](lecture5_slides_pages/page_052.png)
 
-### 📝 Text Content
+**Long Short-Term Memory (LSTM):** — LSTM：
 
-**Long Short-Term Memory (LSTM)**
+- Hochreiter & Schmidhuber (1997) solved the problem of getting an RNN to remember things for a long time — 解决了RNN长期记忆问题
+- At each timestep t, LSTM maintains two key components: — 每个时间步维护两个关键组件：
+  - **Hidden state** -- captures short-term dependencies — 隐藏状态——捕获短期依赖
+  - **Cell state** -- acts as a memory unit, storing long-term information — 细胞状态——充当记忆单元，存储长期信息
 
-
-• Hochreiter & Schmidhuber (1997) solved the problem of getting an
-
-RNN to remember things for a long time.
-
-• At each timestep t, the LSTM maintains two key components:
-
-• Hidden state – captures short-term dependencies.
-
-• Cell state – acts as a memory unit, storing long-term information.
-
-
-### ✍️ Notes
-
-> **LSTM (Long Short-Term Memory)** 由 **Hochreiter & Schmidhuber** 于 **1997 年**提出
->
-> **核心思想:** 专门为解决 RNN 的梯度消失问题而设计 — 让网络能"记住"长期信息
->
-> **与标准 RNN 的关键区别 — 每个时间步维护两个状态:**
->
-> | 状态 | 名称 | 作用 | 类比 |
-> |------|------|------|------|
-> | **hₜ** | Hidden State（隐藏状态） | 捕捉**短期**依赖 | 工作记忆（正在想的事） |
-> | **cₜ** | Cell State（细胞状态） | 存储**长期**信息 | 长期记忆（背景知识） |
->
-> **💡 类比:** 标准 RNN 只有一个笔记本（hₜ），什么都往里写，写满就覆盖。LSTM 多了一个保险箱（cₜ），重要信息锁进去，不会被轻易覆盖
-
----
-
-## Page 53
-
-### 📷 Page Image
+### 10.2 LSTM门控机制 (LSTM Gates)
 
 ![Page 53](lecture5_slides_pages/page_053.png)
 
-### 📝 Text Content
+**LSTM Key Concepts -- Three specialized gates:** — 三个专用门：
 
-**Long Short-Term Memory (LSTM)**
+- **Forget gate** -- decides which information to erase — 遗忘门——决定擦除哪些信息
+- **Input gate** -- determines what new information should be stored — 输入门——决定存储什么新信息
+- **Output gate** -- regulates what information is passed to the next timestep — 输出门——调节传递到下一时间步的信息
+- Each gate takes values between 0 (closed) and 1 (open) dynamically — 每个门的值在0（关）和1（开）之间动态变化
 
-Key Concepts:
-
-• Unlike standard RNNs, LSTMs can control the flow of information through
-
-three specialized gates:
-
-• Forget gate – decides which information to erase.
-
-• Input gate – determines what new information should be stored.
-
-• Output gate – regulates what information is passed to the next timestep.
-
-• Each gate is represented as a vector of size n and can take values between
-
-(closed) and 1 (open) dynamically, based on the current context.
-
-
-### ✍️ Notes
-
-> **LSTM 的三个门 (Gates) — 核心创新:**
->
-> LSTM 与标准 RNN 的根本区别：LSTM 可以**主动控制信息流**，而不是被动地让所有信息都通过
->
-> | 门 | 英文 | 功能 | 类比 |
-> |---|------|------|------|
-> | **遗忘门 fₜ** | Forget Gate | 决定从旧记忆中**丢弃**哪些信息 | 清理保险箱：过期的票据扔掉 |
-> | **输入门 iₜ** | Input Gate | 决定**存入**什么新信息 | 往保险箱放新东西 |
-> | **输出门 oₜ** | Output Gate | 控制**输出**什么信息到下一步 | 从保险箱取出需要的东西 |
->
-> **门的数学本质:**
-> - 每个门是一个**大小为 n 的向量**（n = 隐藏层维度）
-> - 值域: **0（完全关闭）到 1（完全打开）**
-> - 通过 **Sigmoid 函数 σ** 实现（输出总在 0~1 之间）
-> - 值是**动态计算**的，根据当前输入 xₜ 和上一步 hₜ₋₁ 决定
->
-> **💡 为什么门能解决梯度消失？** 因为 Cell State 的更新用的是**加法**（而非乘法），梯度可以沿着 Cell State 这条"高速公路"顺畅流过，不会不断缩小
-
----
-
-## Page 54
-
-### 📷 Page Image
+### 10.3 LSTM架构图 (LSTM Architecture Diagram)
 
 ![Page 54](lecture5_slides_pages/page_054.png)
 
-### 📝 Text Content
+**LSTM at time stamp T:** Detailed architecture diagram showing: Previous Cell State -> (x forget) -> (+ new input) -> New Cell State. Previous Hidden State + Input Data -> Forget gate (sigma), Input gate (sigma + tanh), Output gate (sigma). Operations: x = Pointwise Multiplication, + = Pointwise Addition, tanh = Pointwise Tanh, sigma = Sigmoid Activated NN. — LSTM在时间步T的详细架构图。
 
-**Long Short -Term Memory (LSTM)**
+**LSTM架构图：** 展示细胞状态（顶部传送带）如何通过遗忘门选择性擦除、通过输入门选择性添加新信息。输出门决定隐藏状态中输出细胞状态的哪些部分。
 
-LSTM at time stamp T
-Image source: https://towardsdatascience.com/lstm-networks-a-detailed-
-explanation-8fae6aefc7f9
-
-
-### ✍️ Notes
-
-> **LSTM 内部结构完整图示（时间步 T）：**
->
-> **三个输入（左侧）:**
-> - 🟠 **Previous Cell State** (cₜ₋₁) — 上一步的长期记忆（橙色，顶部水平线）
-> - 🔵 **Previous Hidden State** (hₜ₋₁) — 上一步的短期记忆（蓝色，中间）
-> - 🔵 **Input Data xₜ** — 当前时间步的输入（蓝色，底部）
->
-> **两个输出（右侧）:**
-> - 🟠 **New Cell State** (cₜ) — 更新后的长期记忆
-> - 🔵 **New Hidden State** (hₜ) — 更新后的短期记忆
->
-> **图中的符号含义（图例）:**
-> - **×** = Pointwise Multiplication（逐元素相乘）— 门控操作
-> - **+** = Pointwise Addition（逐元素相加）— 信息合并
-> - **σ** = Sigmoid Activated NN — 输出 0~1 的门控值
-> - **tanh** (绿色方框) = Tanh Activated NN — 输出 -1~1 的候选值
-> - **tanh** (黄色圆角) = Pointwise Tanh (Not a NN) — 单纯的 tanh 变换
->
-> **信息流（从左到右）:**
-> 1. Cell State 沿顶部水平线流过（这就是"高速公路"）
-> 2. 第 1 个 × 节点 = Forget Gate（决定丢弃什么）
-> 3. + 节点 = 加入新信息（Input Gate 的输出）
-> 4. 最右侧 × 节点 = Output Gate（决定输出什么作为新 hₜ）
->
-> **💡 关键观察:** Cell State 线（顶部橙色线）几乎是直通的，只经过一次乘法和一次加法 — 这就是梯度能顺利传播的原因
-
----
-
-## Page 55
-
-### 📷 Page Image
+### 10.4 LSTM三步详解 (LSTM Step-by-Step)
 
 ![Page 55](lecture5_slides_pages/page_055.png)
 
-### 📝 Text Content
-
-**Long Short Term Memory (LSTM): step**
-
-f
-t
-h
-t
-x
-t
-Forget gate: decide what parts of old state to forget
-
-
-### ✍️ Notes
-
-> **Step 1 — 遗忘门 (Forget Gate):**
->
-> **公式:**
-> ```
-> fₜ = σ(W_f · [hₜ₋₁, xₜ] + b_f)
-> ```
->
-> **公式解读:**
-> - **输入:** 将 hₜ₋₁ 和 xₜ **拼接** (concatenate) 成一个向量 [hₜ₋₁, xₜ]
-> - **W_f:** 遗忘门的权重矩阵
-> - **b_f:** 偏置项
-> - **σ (Sigmoid):** 将结果压缩到 **0~1** 之间
-> - **输出 fₜ:** 一个 0~1 的向量，每个元素代表对应维度的"遗忘程度"
->   - fₜ = 1 → 完全保留该维度的旧记忆
->   - fₜ = 0 → 完全遗忘该维度的旧记忆
->
-> **图中高亮部分:**
-> - 左侧灰色区域：hₜ 和 xₜ 输入到第一个 σ 节点
-> - σ 节点输出 fₜ → 向上指向第一个 × 节点
-> - × 节点: Previous Cell State × fₜ = 遗忘后的旧记忆
->
-> **💡 例子:** 在处理 "她买了一只**猫**。... 后来她养了一只**狗**。" 时，遗忘门会在看到 "狗" 时让 fₜ 趋近 0，遗忘之前关于 "猫" 的部分记忆，为新信息腾出空间
-
----
-
-## Page 56
-
-### 📷 Page Image
+**LSTM Step 1 -- Forget gate:** ft = sigma(Wf \* [ht-1, xt] + bf). Decides what parts of old cell state to forget. — 第1步：遗忘门，决定遗忘旧细胞状态的哪些部分。
 
 ![Page 56](lecture5_slides_pages/page_056.png)
 
-### 📝 Text Content
-
-**Long Short Term Memory (LSTM):step2**
-
-c
-t
-𝑐ෝ i
-𝑡 t
-h
-t
-x
-t
-Input gate: decide how to update the cell state
-
-
-### ✍️ Notes
-
-> **Step 2 - 输入门 (Input Gate):**
-> - 输入: hₜ₋₁ 和 xₜ
-> - 输出: iₜ 和 c̃ₜ（候选新记忆）
-> - 更新细胞状态: cₜ = fₜ × cₜ₋₁ + iₜ × c̃ₜ
-
----
-
-## Page 57
-
-### 📷 Page Image
+**LSTM Step 2 -- Input gate:** it = sigma(Wi _ [ht-1, xt] + bi) and c-tilde-t = tanh(Wc _ [ht-1, xt] + bc). Decides what new information to store. ct = ft _ ct-1 + it _ c-tilde-t. — 第2步：输入门，决定存储什么新信息。
 
 ![Page 57](lecture5_slides_pages/page_057.png)
 
-### 📝 Text Content
+**LSTM Step 3 -- Output gate:** ot = sigma(Wo _ [ht-1, xt] + bo). ht = ot _ tanh(ct). Decides what to output as hidden state. — 第3步：输出门，决定输出什么作为隐藏状态。
 
-**Long Short Term Memory (LSTM):step3**
-
-c
-t
-c
-t
-o
-t
-ht
-h
-t
-x
-t
-Finally, decide what to output as hidden state
-
-
-### ✍️ Notes
-
-> **Step 3 - 输出门 (Output Gate):**
-> - 输入: hₜ₋₁ 和 xₜ
-> - 输出: oₜ — 决定从细胞状态中输出什么作为隐藏状态
-> - hₜ = oₜ × tanh(cₜ)
->
-> **💡 提示:** LSTM 的核心优势是细胞状态 cₜ 可以像"传送带"一样，让梯度几乎无损地传递到很远的时间步
-
----
-
-## Page 58
-
-### 📷 Page Image
+### 10.5 LSTM完整总结图 (LSTM Complete Summary)
 
 ![Page 58](lecture5_slides_pages/page_058.png)
 
-### 📝 Text Content
+**LSTM Complete Summary:** Annotated diagram showing all operations: Compute the forget gate -> Forget some cell content -> Write some new cell content -> Compute the input gate -> Compute the new cell content -> Compute the output gate -> Output some cell content to the hidden state. — LSTM完整总结注释图。
 
-**Long Short Term Memory (LSTM)**
-
-Write some new cell content
-Output some cell content
-to the hidden state
-Forget some
-cell content
-Computethe
-forget gate
-Computethe
-inputgate
-Computethe
-output gate
-Computethe
-new cell content
-
-
-### ✍️ Notes
-
-> 每个时间步的完整操作：
-> 1. **计算遗忘门 (Compute Forget Gate)** → 丢弃部分旧记忆
-> 2. **计算输入门 (Compute Input Gate)** → 准备新信息
-> 3. **计算新的细胞内容 (Compute New Cell Content)** → 候选记忆
-> 4. **写入新细胞内容 (Write New Cell Content)** → 更新细胞状态
-> 5. **计算输出门 (Compute Output Gate)** → 选择输出
-> 6. **输出部分细胞内容到隐藏状态 (Output to Hidden State)**
-
----
-
-## Page 59
-
-### 📷 Page Image
-
-![Page 59](lecture5_slides_pages/page_059.png)
-
-### 📝 Text Content
-
-**LSTM Great resources**
-
-
-• https://colah.github.io/posts/2015-08-Understanding-
-
-LSTMs/
-
-
-### ✍️ Notes
-
-> [Add your notes here]
-
----
-
-## Page 60
-
-### 📷 Page Image
+### 10.6 Keras实现 (Keras Implementation)
 
 ![Page 60](lecture5_slides_pages/page_060.png)
 
-### 📝 Text Content
+**Keras -- Simplifying LSTMs in Python:** — Keras简化LSTM：
 
-**Keras – Simplifying LSTMs in Python**
-
-Keras is a Python package that makes building and training TensorFlow neural
-networks really simple. We’ll be working with the ”Sequential” model which lets you
-add layers one at a time. As an example, let’s see how to build a 1-layer LSTM
-model with 10 hidden nodes.
+```python
 from keras.models import Sequential
 from keras.layers import Dense, Activation, LSTM
+
 model = Sequential()
 model.add(LSTM(10, input_shape=(TIMESTEPS, FEATURE_LENGTH)))
 model.add(Dense(NUMBER_OF_OUTPUT_NODES))
 model.add(Activation('softmax'))
+```
 
-
-### ✍️ Notes
-
-> **Keras** 是简化 TensorFlow 神经网络构建和训练的 Python 包
+> **📝 Notes:**
 >
-> **一层 LSTM 示例（10个隐藏节点）:**
-> - `LSTM(10)`: 10 个隐藏节点
-> - `input_shape=(TIMESTEPS, FEATURE_LENGTH)`: 时间步数 × 特征长度
-> - `Dense`: 全连接层
-> - `softmax`: 输出每个类别的概率
+> **📌 What:**
+> **(1) LSTM cell state = long-term memory (LSTM细胞状态 = 长期记忆):**
+>
+> The cell state ct is a vector that flows through time with only minor linear interactions (pointwise multiply and add). This "conveyor belt" allows information to pass unchanged across many timesteps. The three gates control what gets on/off this conveyor belt. This is how LSTM solves the vanishing gradient problem -- gradients can flow along the cell state without exponential decay.
+>
+> > 细胞状态ct是一个向量，仅通过少量线性交互在时间中流动。这条"传送带"允许信息不变地跨越多个时间步。三个门控制什么上/下传送带。这就是LSTM如何解决梯度消失。
+>
+> **🎯 Why:**
+> **(1) Why three gates instead of one (为什么需要三个门而非一个):**
+>
+> Each gate serves a distinct purpose: Forget gate = "should I keep remembering the subject 'cat' from 20 words ago?" Input gate = "this new word 'dog' is important, should I memorize it?" Output gate = "I need to predict a verb -- should I use the subject info in my memory?" Without separate gates, the model can't independently control reading, writing, and erasing memory.
+>
+> > 每个门有不同目的：遗忘门决定是否继续记住旧信息。输入门决定是否记忆新信息。输出门决定是否使用记忆中的信息。没有独立门控，模型无法独立控制读写擦除。
+>
+> **💡 Intuition:**
+> **(1) Notebook with pencil and eraser analogy (笔记本与铅笔橡皮类比):**
+>
+> Cell state = a notebook. Forget gate = eraser (selectively erase old notes). Input gate = pencil (selectively write new notes). Output gate = reading glasses (selectively read notes to answer the current question). RNN = a whiteboard that gets fully erased and rewritten at every step -- no selective memory control.
+>
+> > 细胞状态 = 笔记本。遗忘门 = 橡皮。输入门 = 铅笔。输出门 = 老花镜。RNN = 每步被完全擦除和重写的白板。
+>
+> **⚙️ How:**
+> **(1) LSTM computation pipeline (LSTM计算流水线):**
+>
+> Step 1: ft = sigma(Wf*[ht-1, xt] + bf) -- what to forget
+> Step 2: it = sigma(Wi*[ht-1, xt] + bi), c-tilde = tanh(Wc*[ht-1, xt] + bc) -- what to add
+> Step 3: ct = ft . ct-1 + it . c-tilde -- update cell state
+> Step 4: ot = sigma(Wo*[ht-1, xt] + bo), ht = ot . tanh(ct) -- compute output
+>
+> > 步骤1：遗忘门 -> 步骤2：输入门+候选 -> 步骤3：更新细胞状态 -> 步骤4：输出门+隐藏状态
+>
+> **⚖️ Compare:**
+> **(1) RNN vs LSTM comparison (RNN与LSTM对比):**
+>
+> | Feature          | RNN                       | LSTM                            |
+> | ---------------- | ------------------------- | ------------------------------- |
+> | Long-term memory | Poor (vanishing gradient) | Good (cell state conveyor belt) |
+> | Gates            | None                      | 3 (forget, input, output)       |
+> | Parameters       | Fewer                     | ~4x more                        |
+> | Training speed   | Faster per step           | Slower per step                 |
+> | Gradient flow    | Exponential decay         | Linear highway                  |
+>
+> > | 特性         | RNN            | LSTM                 |
+> > | ------------ | -------------- | -------------------- |
+> > | 长期记忆     | 差（梯度消失） | 好（细胞状态传送带） |
+> > | 门控         | 无             | 3个                  |
+> > | 参数量       | 较少           | 约4倍                |
+> > | 每步训练速度 | 更快           | 更慢                 |
+> > | 梯度流       | 指数衰减       | 线性通道             |
+>
+> **⚠️ Pitfall:**
+> **(1) LSTM doesn't eliminate vanishing gradient entirely (LSTM并非完全消除梯度消失):**
+>
+> LSTM MITIGATES vanishing gradients via the cell state highway, but doesn't completely solve it. For very long sequences (1000+ tokens), even LSTM struggles. This is one reason Transformers eventually replaced LSTMs.
+>
+> > LSTM通过细胞状态通道减轻梯度消失，但并非完全解决。对于超长序列（1000+ token），LSTM仍然困难。这是Transformer最终取代LSTM的原因之一。
+>
+> **📝 Exam:**
+> **(1) 对比题 (Comparison):**
+>
+> "What are the three gates in LSTM and their functions?" -> Forget gate: sigma, decides what to erase from cell state. Input gate: sigma+tanh, decides what new info to store. Output gate: sigma, decides what to output from cell state as hidden state.
+>
+> > "LSTM的三个门及其功能？" -> 遗忘门：决定擦除什么。输入门：决定存储什么新信息。输出门：决定从细胞状态输出什么。
+>
+> **(2) 概念题 (Conceptual):**
+>
+> "How does LSTM solve the vanishing gradient problem?" -> The cell state acts as a linear highway -- information flows through with only pointwise operations (multiply by forget gate, add via input gate). This avoids the repeated matrix multiplications that cause exponential gradient decay in vanilla RNN.
+>
+> > "LSTM如何解决梯度消失？" -> 细胞状态作为线性通道——信息仅通过逐元素操作流动。避免了原始RNN中导致梯度指数衰减的重复矩阵乘法。
 
 ---
 
-## Page 61
-
-### 📷 Page Image
+## 11. 语言模型评估 (Evaluating Language Models)
 
 ![Page 61](lecture5_slides_pages/page_061.png)
 
-### 📝 Text Content
+**Evaluating Language Models -- Perplexity:** — 评估语言模型——困惑度：
 
-**Evaluating Language Models**
+- The standard evaluation metric for Language Models is **perplexity** — 标准评估指标是**困惑度**
+- Formula: perplexity = product over t=1 to T of (1 / P_LM(x(t+1) | x(t),...,x(1)))^(1/T) — normalized by number of words
+- **Low perplexity** -> the model predicts the text well — 低困惑度表示模型预测良好
+- **High perplexity** -> the text is unexpected for the model — 高困惑度表示文本对模型出乎意料
+- Perplexity (PPL) measures **how confused** a language model is when predicting the next word — PPL衡量语言模型预测下一个词时的"困惑程度"
 
-
-• The standard evaluation metric for Language Models is perplexity.
-
-Normalized by
-number of words
-Inverse probability of corpus, according to Language Model
-→
-Low perplexity the model predicts the text well
-→
-High perplexity the text is unexpected for the model
-Perplexity (PPL) measures how confused a language model is when predicting the
-next word in a sentence.
-
-
-### ✍️ Notes
-
-> **困惑度 (Perplexity, PPL):** 语言模型的**标准评估指标**
+> **📝 Notes:**
 >
-> **定义:** 衡量语言模型在预测下一个词时有多"困惑"
-> - PPL = 语料库的逆概率，按词数归一化
-> - **PPL 低** → 模型预测文本效果**好**（模型"不困惑"）
-> - **PPL 高** → 模型认为文本是**出乎意料的**（模型"很困惑"）
+> **📌 What:**
+> **(1) Perplexity definition (困惑度定义):**
 >
-> **💡 提示:** PPL可以理解为"模型在每个位置平均需要从多少个词中做选择"——PPL=10 意味着模型平均在 10 个等可能的词中选择
+> Perplexity = exponentiation of the average negative log likelihood. PPL = exp(-(1/T) \* sum(log P(wt | w1...wt-1))). Equivalently, it's the inverse probability of the test set, normalized by the number of words. Lower PPL = better model. A model with PPL=50 is "as confused as if it were choosing uniformly among 50 words at each step."
+>
+> > 困惑度 = 平均负对数似然的指数。PPL = 50 意味着"模型在每步像在50个词中均匀选择一样困惑"。越低越好。
+>
+> **🎯 Why:**
+> **(1) Why not just use accuracy (为什么不用准确率):**
+>
+> The vocabulary is huge (50,000+ words). Getting the exact top-1 word right is very hard. Perplexity captures "how close" the model was -- if P(correct word) = 0.8, that's much better than P(correct word) = 0.01, even though both might be "wrong."
+>
+> > 词汇量巨大（50,000+词）。正确预测top-1词非常困难。困惑度捕获模型"有多接近"。
+>
+> **💡 Intuition:**
+> **(1) Multiple choice test analogy (多选题类比):**
+>
+> PPL = average number of choices the model is confused between. PPL=10 means the model narrows down to ~10 plausible words at each position on average. PPL=2 means it's almost always deciding between 2 words. PPL=1 means it's perfectly certain.
+>
+> > PPL = 模型平均在多少个选项间困惑。PPL=10意味着每个位置平均缩小到约10个合理词。PPL=1意味着完全确定。
+>
+> **📝 Exam:**
+> **(1) 概念题 (Conceptual):**
+>
+> "What does a perplexity of 30 mean?" -> The model is, on average, as uncertain as if it were choosing uniformly among 30 words at each position. Lower is better.
+>
+> > "困惑度30意味着什么？" -> 模型平均像在30个词中均匀选择一样不确定。越低越好。
 
 ---
 
-## Page 62
-
-### 📷 Page Image
+## 12. 总结与问答 (Summary & Q&A)
 
 ![Page 62](lecture5_slides_pages/page_062.png)
 
-### 📝 Text Content
+**Summary:** — 总结：
 
-**Summary**
-
-
-• We introduced the concepts of recurrent neural networks
-
-and how it can be applied to language problems.
-
-• RNNs can be trained with a straightforward extension of
-
-the backpropagation algorithm.
-
-• How LSTM used for text generation
-
-• Applications of LSTM for sequence-to-sequence
-
-modeling
-
-
-### ✍️ Notes
-
-> 本讲关键要点：
-> 1. **语言模型** 的任务是预测下一个词
-> 2. **N-gram** 基于统计频率，简单但有数据稀疏和上下文限制
-> 3. **前馈 NN** 使用固定窗口，仍无法处理变长序列
-> 4. **RNN** 通过隐藏状态传递实现变长序列处理
-> 5. **梯度消失** 使 RNN 难以学习长距离依赖
-> 6. **LSTM** 通过三个门（遗忘、输入、输出）和细胞状态解决梯度消失问题
-> 7. **困惑度 (Perplexity)** 是评估语言模型的标准指标
->
-> **技术演进路线:**
-> ```
-> 统计方法 (N-gram) → 前馈 NN → RNN → LSTM → (下一讲: Transformer?)
-> ```
-
----
-
-## Page 63
-
-### 📷 Page Image
+- We introduced the concepts of recurrent neural networks and how they can be applied to language problems — 介绍了循环神经网络及其语言应用
+- RNNs can be trained with backpropagation through time (BPTT) — RNN可通过BPTT训练
+- How LSTM is used for text generation — LSTM如何用于文本生成
+- Applications of LSTM for sequence-to-sequence modeling — LSTM在序列到序列建模中的应用
 
 ![Page 63](lecture5_slides_pages/page_063.png)
 
-### 📝 Text Content
-
-Q&A
-
-
-### ✍️ Notes
-
-> [Add your notes here]
-
----
+**Q&A** — 问答环节
