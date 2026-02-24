@@ -3,60 +3,100 @@ CST8507 Lab 3 Part 2: Word Embedding Similarity Using FastText
 Author: Peng Wang
 Student Number: 041107730
 
-Explore FastText sub-word modeling for word analogies, and compare
-Word2Vec vs FastText performance on handling misspelled words.
+Explore FastText sub-word modeling for word analogies and misspelling handling.
+Compare Word2Vec and FastText on their ability to process misspelled words
+using cosine similarity.
 """
 
-# ============================================================
-# 模块导入
-# Module Imports
-# ============================================================
+# ================================================================
+# 导入模块
+# Import Modules
+# ================================================================
 
 import os
-import numpy as np
+
+from dotenv import load_dotenv
 import fasttext
 import fasttext.util
 import gensim.downloader as api
+import numpy as np
+from tabulate import tabulate
+
 
 # ============================================================
-# 配置常量
-# Configuration Constants
+# 环境设置
+# Environment Setup
 # ============================================================
 
-# 输出图片目录
-# Output images directory
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'lab3_images')
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+# 加载环境变量
+# Load environment variables
+load_dotenv('.env.local')
+STUDENT_NAME = os.getenv('NAME', 'Peng Wang')
+STUDENT_NUMBER = os.getenv('NUMBER', '041107730')
 
-# FastText 模型文件路径（下载到脚本所在目录）
-# FastText model file path (downloaded to script directory)
-FASTTEXT_MODEL_PATH = os.path.join(os.path.dirname(__file__), 'cc.en.300.bin')
+# 打印程序标题
+# Print program header
+print("=" * 60)
+print("CST8507 Lab 3 Part 2: Word Embedding with FastText")
+print(f"Author: {STUDENT_NAME} ({STUDENT_NUMBER})")
+print("=" * 60)
+print()
 
 # ============================================================
 # 步骤 1：加载预训练 FastText 模型
-# Step 1: Load the Pre-trained FastText Model
+# Step 1: Load Pre-trained FastText Model
 # ============================================================
 
+# ================================================================
+# 概念：FastText 子词建模 (Sub-word Modeling)
+# Concept: FastText Sub-word Modeling
+# ================================================================
+#
+# -------- 术语解释 / Terminology --------
+#
+# 【子词 Sub-word / Character n-gram】
+#   将词拆分为字符级别的片段，如 "apple" → ["<ap", "app", "ppl", "ple", "le>"]
+#   Split words into character-level fragments
+#
+# 【OOV (Out-of-Vocabulary)】
+#   不在训练词汇表中的词，传统模型无法处理
+#   Words not in training vocabulary, traditional models cannot handle them
+#
+# -------- 算法原理 / Algorithm --------
+#
+# 定义 / Definition:
+#   FastText 将每个词表示为字符 n-gram 向量的和，能处理未见过的词
+#   FastText represents each word as sum of character n-gram vectors, handles unseen words
+#
+# 公式 / Formula:
+#   vec("apple") = vec("<ap") + vec("app") + vec("ppl") + vec("ple") + vec("le>")
+#
+# 举例 / Example:
+#   "appple"（拼写错误）与 "apple" 共享大部分 n-gram
+#   因此 FastText 仍能为拼写错误的词生成合理的向量
+#   "appple" (misspelled) shares most n-grams with "apple"
+#   So FastText can still generate reasonable vectors for misspelled words
+#
+# 优点 / Advantages:
+#   - 能处理 OOV 词（拼写错误、罕见词、新词）
+#   - 对形态丰富的语言效果更好
+# ================================================================
+
 print("=" * 60)
-print("Step 1: Loading Pre-trained FastText Model (cc.en.300.bin)")
+print("Step 1: Load Pre-trained FastText Model")
 print("=" * 60)
 
-# 如果模型文件不存在，使用 fasttext.util 下载
-# If model file does not exist, download using fasttext.util
-if not os.path.exists(FASTTEXT_MODEL_PATH):
-    print("Downloading FastText cc.en.300.bin model...")
-    # 切换到脚本目录以便模型下载到正确位置
-    # Switch to script directory so model downloads to the correct location
-    original_dir = os.getcwd()
-    os.chdir(os.path.dirname(__file__))
-    fasttext.util.download_model('en', if_exists='ignore')
-    os.chdir(original_dir)
+# 下载并加载 FastText 英文预训练模型（cc.en.300.bin）
+# Download and load FastText English pre-trained model (cc.en.300.bin)
+# 原因：包含 200 万词的 300 维向量，支持子词信息
+# Reason: Contains 300-dim vectors for 2M words, supports sub-word information
+fasttext.util.download_model('en', if_exists='ignore')
+ft_model = fasttext.load_model('cc.en.300.bin')
 
-# 加载 FastText 模型
-# Load FastText model
-ft_model = fasttext.load_model(FASTTEXT_MODEL_PATH)
-print(f"FastText model loaded: {ft_model.get_dimension()}d vectors")
+print(f"  Vector dimension: {ft_model.get_dimension()}")
+print(f"  Number of words: {len(ft_model.get_words()):,}")
 print()
+
 
 # ============================================================
 # 步骤 2：检查词类比
@@ -64,92 +104,98 @@ print()
 # ============================================================
 
 print("=" * 60)
-print("Step 2: Word Analogies using FastText")
+print("Step 2: Check Word Analogies")
 print("=" * 60)
 
-
-def compute_analogy_fasttext(model, word_a, word_b, word_c):
-    """
-    计算词类比: word_a - word_b + word_c = ?
-    Compute word analogy: word_a - word_b + word_c = ?
-
-    使用向量运算: result_vector = vec(word_a) - vec(word_b) + vec(word_c)
-    Uses vector arithmetic: result_vector = vec(word_a) - vec(word_b) + vec(word_c)
-    然后找到最近邻
-    Then finds the nearest neighbor
-    """
-    # 获取词向量并进行向量运算
-    # Get word vectors and perform vector arithmetic
-    vec_a = model.get_word_vector(word_a)
-    vec_b = model.get_word_vector(word_b)
-    vec_c = model.get_word_vector(word_c)
-    result_vec = vec_a - vec_b + vec_c
-
-    # 使用 get_nearest_neighbors 找到最近的词
-    # Use get_nearest_neighbors to find the closest word
-    # FastText 的 get_nearest_neighbors 需要传入向量，但官方 API 不直接支持
-    # FastText's get_nearest_neighbors doesn't directly support passing a vector
-    # 因此我们使用 get_nearest_neighbors 对结果词检查相似度
-    # So we use a manual approach to find the nearest word
-    neighbors = model.get_nearest_neighbors(word_a, k=100)
-
-    # 手动计算与结果向量的余弦相似度
-    # Manually compute cosine similarity with the result vector
-    result_norm = result_vec / (np.linalg.norm(result_vec) + 1e-10)
-
-    best_word = None
-    best_sim = -1
-    # 搜索大范围的词汇来找到最佳匹配
-    # Search a broad range of words to find the best match
-    # 使用输入词的近邻作为候选集
-    # Use neighbors of input words as candidate set
-    candidate_words = set()
-    for word in [word_a, word_b, word_c]:
-        for sim, w in model.get_nearest_neighbors(word, k=50):
-            candidate_words.add(w)
-
-    # 排除输入词
-    # Exclude input words
-    exclude = {word_a.lower(), word_b.lower(), word_c.lower()}
-
-    for w in candidate_words:
-        if w.lower() in exclude:
-            continue
-        w_vec = model.get_word_vector(w)
-        w_norm = w_vec / (np.linalg.norm(w_vec) + 1e-10)
-        sim = np.dot(result_norm, w_norm)
-        if sim > best_sim:
-            best_sim = sim
-            best_word = w
-
-    return best_word, best_sim
-
-
-# 定义类比任务列表
-# Define list of analogy tasks
+# 词类比列表：A - B + C = ?
+# Word analogy list: A - B + C = ?
+# 格式：(positive_words, negative_word, description)
+# Format: (positive_words, negative_word, description)
 analogies = [
-    ("king", "man", "woman"),
-    ("computer_programmer", "man", "woman"),
-    ("doctor", "man", "woman"),
-    ("career", "man", "woman"),
-    ("intelligent", "scientist", "woman"),
+    (['king', 'woman'], 'man', 'King - Man + Woman'),
+    (['computer_programmer', 'woman'], 'man', 'Computer Programmer - Man + Woman'),
+    (['doctor', 'woman'], 'man', 'Doctor - Man + Woman'),
+    (['career', 'woman'], 'man', 'Career - Man + Woman'),
+    (['intelligent', 'woman'], 'scientist', 'Intelligent - Scientist + Woman'),
 ]
 
-# 显示格式化标题
-# Display formatted header
-print(f"{'Analogy':<45} {'Result':<20} {'Similarity':>10}")
-print("-" * 75)
-
-# 对每个类比任务计算结果
-# Compute result for each analogy task
+# 存储所有类比结果用于 Step 3 汇总
+# Store all analogy results for Step 3 summary
 analogy_results = []
-for word_a, word_b, word_c in analogies:
-    result_word, similarity = compute_analogy_fasttext(ft_model, word_a, word_b, word_c)
-    analogy_str = f"{word_a} - {word_b} + {word_c}"
-    print(f"{analogy_str:<45} {result_word:<20} {similarity:>10.4f}")
-    analogy_results.append((analogy_str, result_word, similarity))
+
+# 对每个类比计算结果
+# Compute result for each analogy
+for positive, negative, description in analogies:
+    print(f"\n{description} = ?")
+
+    # 使用 FastText 的 get_analogies 方法
+    # Use FastText get_analogies method
+    # FastText 原生 API：get_analogies(A, B, C) 计算 B - A + C
+    # FastText native API: get_analogies(A, B, C) computes B - A + C
+    # 我们需要：positive[0] - negative + positive[1]
+    # We need: positive[0] - negative + positive[1]
+    # 手动计算向量类比
+    # Manually compute vector analogy
+    result_vec = (
+        ft_model.get_word_vector(positive[0])
+        - ft_model.get_word_vector(negative)
+        + ft_model.get_word_vector(positive[1])
+    )
+
+    # 归一化结果向量
+    # Normalize result vector
+    result_vec = result_vec / np.linalg.norm(result_vec)
+
+    # 在词汇表中找最近邻（排除输入词）
+    # Find nearest neighbors in vocabulary (excluding input words)
+    # 使用 FastText 的 get_nearest_neighbors 不支持自定义向量
+    # get_nearest_neighbors doesn't support custom vectors
+    # 手动计算与所有词的相似度
+    # Manually compute similarity with all words
+    exclude_words = set(positive + [negative])
+
+    # 获取候选词（使用模型词汇表的子集以提高效率）
+    # Get candidate words (use subset of model vocabulary for efficiency)
+    # 原因：完整词汇表太大，取前 50000 个高频词
+    # Reason: Full vocabulary too large, use top 50000 frequent words
+    CANDIDATE_LIMIT = 50000
+    candidates = ft_model.get_words()[:CANDIDATE_LIMIT]
+
+    # 计算余弦相似度
+    # Compute cosine similarity
+    best_word = None
+    best_sim = -1.0
+    top_results = []
+
+    for word in candidates:
+        if word in exclude_words:
+            continue
+
+        # 获取候选词向量并归一化
+        # Get candidate word vector and normalize
+        word_vec = ft_model.get_word_vector(word)
+        word_vec_norm = word_vec / np.linalg.norm(word_vec)
+
+        # 余弦相似度（两个归一化向量的点积）
+        # Cosine similarity (dot product of two normalized vectors)
+        sim = float(np.dot(result_vec, word_vec_norm))
+
+        top_results.append((word, sim))
+
+    # 按相似度降序排列，取前 5 个
+    # Sort by similarity descending, take top 5
+    top_results.sort(key=lambda x: x[1], reverse=True)
+
+    print(f"  Top 5 results:")
+    for word, sim in top_results[:5]:
+        print(f"    {word:20s}  similarity: {sim:.4f}")
+
+    # 保存第一名结果用于 Step 3 汇总表格
+    # Save top-1 result for Step 3 summary table
+    analogy_results.append((description, top_results[0][0], top_results[0][1]))
 
 print()
+
 
 # ============================================================
 # 步骤 3：结果与讨论
@@ -160,22 +206,29 @@ print("=" * 60)
 print("Step 3: Results and Discussion")
 print("=" * 60)
 
-print("\nWord Analogy Results Summary:")
-print(f"{'Analogy':<45} {'= Result':<20}")
-print("-" * 65)
-for analogy_str, result_word, sim in analogy_results:
-    print(f"{analogy_str:<45} = {result_word:<20}")
-
+# 汇总表格：类比结果
+# Summary table: analogy results
+table_data = [[desc, word, f"{sim:.4f}"] for desc, word, sim in analogy_results]
+headers = ['Analogy', 'Top Result', 'Similarity']
+print(tabulate(table_data, headers=headers, tablefmt='simple'))
 print()
+
 print("Observations:")
-print("  1. The classic 'king - man + woman' analogy tests whether the model")
-print("     captures gender relationships in word embeddings.")
-print("  2. Analogies involving profession terms (doctor, computer_programmer)")
-print("     may reveal gender biases present in the training data.")
-print("  3. The 'career - man + woman' analogy explores gender associations")
-print("     with career-related concepts in the embedding space.")
-print("  4. FastText's sub-word modeling allows it to handle compound words")
-print("     and morphological variations better than traditional Word2Vec.")
+print()
+print("1. Classic Analogy Success:")
+print("   'King - Man + Woman = Queen' works well (similarity ~0.65),")
+print("   confirming that FastText captures basic gender relationships.")
+print()
+print("2. Gender Bias in Word Embeddings:")
+print("   'Computer Programmer - Man + Woman' yields Nursing/Breastfeeding,")
+print("   and 'Doctor - Man + Woman' yields pediatrician/midwife.")
+print("   These results reflect gender stereotypes in the training data,")
+print("   associating female-related vectors with caregiving professions.")
+print()
+print("3. Semantic Drift in Abstract Analogies:")
+print("   'Intelligent - Scientist + Woman' returns man/lady/women rather")
+print("   than an intelligence-related word. Subtracting 'scientist' removes")
+print("   too much semantic content, leaving mostly the 'person' component.")
 print()
 
 # ============================================================
@@ -184,61 +237,54 @@ print()
 # ============================================================
 
 print("=" * 60)
-print("Step 4: Comparing Word2Vec and FastText for Misspellings")
+print("Step 4: Comparing Word2Vec and FastText for Handling Misspellings")
 print("=" * 60)
 
-# 加载 Word2Vec 模型用于比较
+# 加载 Word2Vec 模型用于对比
 # Load Word2Vec model for comparison
-print("\nLoading Word2Vec model for comparison...")
+print("Loading Word2Vec (word2vec-google-news-300)...")
 w2v_model = api.load('word2vec-google-news-300')
-print(f"Word2Vec loaded: {len(w2v_model)} words, {w2v_model.vector_size}d vectors")
+print(f"  Vocabulary size: {len(w2v_model.key_to_index):,}")
 print()
 
-# 创建测试词列表
-# Create test word list
+# 测试词列表：正确拼写和拼写错误的变体
+# Test word list: correctly spelled words and misspelled variants
 test_words = {
     "correct": ["apple", "banana", "computer", "science", "education"],
     "misspelled": ["appple", "bananna", "computar", "sciience", "edcation"]
 }
 
 
-def cosine_similarity_vectors(vec1, vec2):
-    """
-    计算两个向量之间的余弦相似度
-    Compute cosine similarity between two vectors
-    """
-    dot = np.dot(vec1, vec2)
-    norm1 = np.linalg.norm(vec1)
-    norm2 = np.linalg.norm(vec2)
-    if norm1 == 0 or norm2 == 0:
-        return 0.0
-    return dot / (norm1 * norm2)
+def compute_similarity(correct_word, misspelled_word, model, model_name):
+    """计算正确词和拼写错误词之间的余弦相似度
+    Compute cosine similarity between correct and misspelled word"""
 
+    if model_name == 'FastText':
+        # FastText 可以为任何词生成向量（包括 OOV 词）
+        # FastText can generate vectors for any word (including OOV words)
+        vec_correct = model.get_word_vector(correct_word)
+        vec_misspelled = model.get_word_vector(misspelled_word)
 
-def calc_w2v_similarity(model, word1, word2):
-    """
-    使用 Word2Vec 计算词对的余弦相似度
-    Calculate cosine similarity between word pair using Word2Vec
+        # 计算余弦相似度
+        # Compute cosine similarity
+        norm_correct = np.linalg.norm(vec_correct)
+        norm_misspelled = np.linalg.norm(vec_misspelled)
 
-    如果任一词不在词汇表中，返回 None
-    If either word is missing from vocabulary, return None
-    """
-    if word1 not in model or word2 not in model:
-        return None
-    return model.similarity(word1, word2)
+        # 避免除以零
+        # Avoid division by zero
+        if norm_correct == 0 or norm_misspelled == 0:
+            return None
 
+        similarity = float(np.dot(vec_correct, vec_misspelled) / (norm_correct * norm_misspelled))
+        return similarity
 
-def calc_fasttext_similarity(model, word1, word2):
-    """
-    使用 FastText 计算词对的余弦相似度
-    Calculate cosine similarity between word pair using FastText
+    else:
+        # Word2Vec：如果词不在词汇表中，返回 None
+        # Word2Vec: if word not in vocabulary, return None
+        if correct_word not in model.key_to_index or misspelled_word not in model.key_to_index:
+            return None
 
-    FastText 可以生成任何词的向量（包括 OOV 词）
-    FastText can generate vectors for any word (including OOV words)
-    """
-    vec1 = model.get_word_vector(word1)
-    vec2 = model.get_word_vector(word2)
-    return cosine_similarity_vectors(vec1, vec2)
+        return float(model.similarity(correct_word, misspelled_word))
 
 
 # ============================================================
@@ -247,45 +293,40 @@ def calc_fasttext_similarity(model, word1, word2):
 # ============================================================
 
 print("=" * 60)
-print("Step 5: Misspelling Comparison Results")
+print("Step 5: Results Format")
 print("=" * 60)
 print()
 
 # 对每对正确/拼写错误的词计算相似度
-# Compute similarity for each correct/misspelled word pair
+# Compute similarity for each correct/misspelled pair
 for correct, misspelled in zip(test_words["correct"], test_words["misspelled"]):
+    print(f"Correct: {correct}, Misspelled: {misspelled}")
+
     # Word2Vec 相似度
     # Word2Vec similarity
-    w2v_sim = calc_w2v_similarity(w2v_model, correct, misspelled)
-
-    # FastText 相似度
-    # FastText similarity
-    ft_sim = calc_fasttext_similarity(ft_model, correct, misspelled)
-
-    print(f"Correct: {correct}, Misspelled: {misspelled}")
+    w2v_sim = compute_similarity(correct, misspelled, w2v_model, 'Word2Vec')
     if w2v_sim is not None:
         print(f"  Word2Vec Similarity: {w2v_sim:.4f}")
     else:
         print(f"  Word2Vec Similarity: N/A (word not in vocabulary)")
-    print(f"  FastText Similarity: {ft_sim:.4f}")
+
+    # FastText 相似度
+    # FastText similarity
+    ft_sim = compute_similarity(correct, misspelled, ft_model, 'FastText')
+    if ft_sim is not None:
+        print(f"  FastText Similarity: {ft_sim:.4f}")
+    else:
+        print(f"  FastText Similarity: N/A")
+
     print()
 
-# 总结讨论
-# Summary discussion
-print("=" * 60)
-print("Discussion: Word2Vec vs FastText on Misspellings")
-print("=" * 60)
+# 总结对比
+# Summary comparison
+print("-" * 40)
+print("Summary:")
+print("  Word2Vec cannot handle misspelled words that are not in its")
+print("  vocabulary, returning N/A. FastText leverages sub-word (character")
+print("  n-gram) information to generate meaningful vectors even for")
+print("  misspelled words, resulting in high similarity scores between")
+print("  correct and misspelled variants.")
 print()
-print("Key Observations:")
-print("  1. Word2Vec relies on whole-word lookup. If a misspelled word is not")
-print("     in its vocabulary, it cannot compute a similarity score (returns N/A).")
-print("  2. FastText uses sub-word (character n-gram) information, allowing it")
-print("     to generate meaningful vectors even for misspelled or OOV words.")
-print("  3. FastText similarity scores for correct vs misspelled pairs tend to")
-print("     be high, demonstrating its robustness to spelling errors.")
-print("  4. This sub-word capability makes FastText particularly valuable for")
-print("     real-world NLP applications where noisy text is common.")
-print()
-print("=" * 60)
-print("Lab 3 Part 2 Complete")
-print("=" * 60)

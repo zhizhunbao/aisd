@@ -3,53 +3,84 @@ CST8507 Lab 3 Part 1: Evaluating Semantic Similarity with Human Judgments
 Author: Peng Wang
 Student Number: 041107730
 
-Evaluate how well Word2Vec and GloVe pre-trained word embedding models
-capture human-judged semantic similarity using the SimLex-999 benchmark.
+Evaluate how well Word2Vec and GloVe pre-trained word embeddings capture
+human-judged semantic similarity using the SimLex-999 benchmark dataset.
+Compare embedding-based cosine similarity scores against human annotations.
 """
 
-# ============================================================
-# 模块导入
-# Module Imports
-# ============================================================
+# ================================================================
+# 导入模块
+# Import Modules
+# ================================================================
 
 import os
+
+from dotenv import load_dotenv
 import pandas as pd
-import numpy as np
 import gensim.downloader as api
-from scipy.stats import spearmanr
+from tabulate import tabulate
+
 
 # ============================================================
-# 配置常量
-# Configuration Constants
+# 环境设置
+# Environment Setup
 # ============================================================
 
-# SimLex-999 数据文件路径
-# Path to the SimLex-999 dataset file
-SIMLEX_FILE = os.path.join(
-    os.path.dirname(__file__), '..', '..', 'labs', 'SimLex-999.txt'
-)
+# 加载环境变量
+# Load environment variables
+load_dotenv('.env.local')
+STUDENT_NAME = os.getenv('NAME', 'Peng Wang')
+STUDENT_NUMBER = os.getenv('NUMBER', '041107730')
 
-# 选取的高相似度词对数量
+# SimLex-999 数据集路径（兼容脚本和 Notebook 两种运行方式）
+# SimLex-999 dataset path (compatible with both script and Notebook execution)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__)) if '__file__' in dir() else os.getcwd()
+SIMLEX_PATH = os.path.join(SCRIPT_DIR, '..', '..', 'labs', 'SimLex-999.txt')
+
+# 高相似度词对数量
 # Number of top similar word pairs to select
 TOP_N = 60
 
-# 输出图片目录
-# Output images directory
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'lab3_images')
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+# 设置 pandas 显示选项
+# Set pandas display options
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', 1000)
+pd.set_option('display.expand_frame_repr', False)
+
+# 打印程序标题
+# Print program header
+print("=" * 60)
+print("CST8507 Lab 3 Part 1: Evaluating Semantic Similarity")
+print(f"Author: {STUDENT_NAME} ({STUDENT_NUMBER})")
+print("=" * 60)
+print()
 
 # ============================================================
 # 步骤 1：探索数据
 # Step 1: Explore Your Data
 # ============================================================
 
-# 加载 SimLex-999 数据集（制表符分隔）
-# Load the SimLex-999 dataset (tab-separated)
-df = pd.read_csv(SIMLEX_FILE, sep='\t')
+# 加载 SimLex-999 数据集（制表符分隔文件）
+# Load SimLex-999 dataset (tab-separated file)
+df = pd.read_csv(SIMLEX_PATH, sep='\t')
 
-# 选取 word1、word2 和 SimLex999 三列
-# Select the three columns: word1, word2, and SimLex999
+# 选择所需的三列：word1, word2, SimLex999
+# Select the three required columns: word1, word2, SimLex999
 df_selected = df[['word1', 'word2', 'SimLex999']].copy()
+
+# 显示数据集基本信息
+# Display basic dataset information
+print("=" * 60)
+print("Step 1: Explore Your Data")
+print("=" * 60)
+print(f"Total word pairs: {len(df_selected)}")
+print()
+
+# 显示前 5 行数据
+# Display first 5 rows
+print("First 5 word pairs:")
+print(df_selected.head())
+print()
 
 # 计算并显示 SimLex999 相似度列的最小值、平均值和最大值
 # Compute and display min, average, and max similarity values
@@ -57,127 +88,187 @@ sim_min = df_selected['SimLex999'].min()
 sim_avg = df_selected['SimLex999'].mean()
 sim_max = df_selected['SimLex999'].max()
 
-print("=" * 60)
-print("Step 1: SimLex-999 Dataset Statistics")
-print("=" * 60)
-print(f"Total word pairs: {len(df_selected)}")
 print(f"Minimum similarity: {sim_min:.2f}")
 print(f"Average similarity: {sim_avg:.2f}")
 print(f"Maximum similarity: {sim_max:.2f}")
 print()
 
-# 显示数据前 5 行
-# Display the first 5 rows
-print("First 5 rows of the dataset:")
-print(df_selected.head().to_string(index=False))
-print()
 
 # ============================================================
 # 步骤 2：选择高相似度词对
 # Step 2: Select Highly Similar Word Pairs
 # ============================================================
 
-# 按 SimLex999 分数降序排列
+# 按 SimLex999 相似度分数降序排列
 # Sort by SimLex999 similarity score in descending order
-df_sorted = df_selected.sort_values(by='SimLex999', ascending=False)
+df_sorted = df_selected.sort_values('SimLex999', ascending=False)
 
-# 选取相似度最高的前 60 个词对
-# Select the top 60 word pairs with the highest similarity scores
-top_60 = df_sorted.head(TOP_N).reset_index(drop=True)
+# 选择相似度最高的前 60 个词对
+# Select top 60 word pairs with highest similarity scores
+df_top60 = df_sorted.head(TOP_N).reset_index(drop=True)
 
 print("=" * 60)
-print(f"Step 2: Top {TOP_N} Word Pairs (Highest SimLex999 Scores)")
+print("Step 2: Select Highly Similar Word Pairs")
 print("=" * 60)
-print(top_60.to_string(index=False))
+print(f"Top {TOP_N} word pairs (sorted by SimLex999 descending):")
+print(df_top60.to_string(index=True))
 print()
 
 # ============================================================
-# 步骤 3：加载预训练词嵌入模型
+# 步骤 3：加载两个预训练词嵌入模型
 # Step 3: Load Two Pre-trained Word Embedding Models
 # ============================================================
 
-# 加载 Word2Vec 模型（Google News 300维）
-# Load Word2Vec model (Google News 300-dimensional)
+# ================================================================
+# 概念：词嵌入 (Word Embedding)
+# Concept: Word Embedding
+# ================================================================
+#
+# -------- 术语解释 / Terminology --------
+#
+# 【Word2Vec】
+#   Google 提出的词嵌入模型，在 Google News 数据集上训练
+#   Word embedding model by Google, trained on Google News dataset
+#
+# 【GloVe (Global Vectors)】
+#   Stanford 提出的词嵌入模型，基于全局词共现矩阵
+#   Word embedding model by Stanford, based on global word co-occurrence matrix
+#
+# 【余弦相似度 Cosine Similarity】
+#   衡量两个向量方向的相似程度，值域 [-1, 1]
+#   Measures directional similarity between two vectors, range [-1, 1]
+#
+# -------- 算法原理 / Algorithm --------
+#
+# 定义 / Definition:
+#   将词映射到高维向量空间，语义相似的词在空间中距离更近
+#   Map words to high-dimensional vector space, semantically similar words are closer
+#
+# 公式 / Formula:
+#   cosine_similarity(A, B) = (A · B) / (||A|| × ||B||)
+#
+# 举例 / Example:
+#   vec("king") 和 vec("queen") 的余弦相似度约 0.65
+#   vec("king") - vec("man") + vec("woman") ≈ vec("queen")
+#
+# 优点 / Advantages:
+#   - 捕捉词的语义关系和类比关系
+#   - 预训练模型可直接使用，无需重新训练
+# ================================================================
+
 print("=" * 60)
-print("Step 3: Loading Pre-trained Word Embedding Models")
+print("Step 3: Load Two Pre-trained Word Embedding Models")
 print("=" * 60)
+
+# 加载 Word2Vec 模型（word2vec-google-news-300）
+# Load Word2Vec model (word2vec-google-news-300)
+# 原因：300 维向量，在约 1000 亿词的 Google News 上训练
+# Reason: 300-dimensional vectors, trained on ~100 billion words from Google News
 print("Loading Word2Vec (word2vec-google-news-300)...")
 w2v_model = api.load('word2vec-google-news-300')
-print(f"  Word2Vec loaded: {len(w2v_model)} words, {w2v_model.vector_size}d vectors")
+print(f"  Vocabulary size: {len(w2v_model.key_to_index):,}")
+print(f"  Vector dimension: {w2v_model.vector_size}")
+print()
 
-# 加载 GloVe 模型（Wikipedia + Gigaword 300维）
-# Load GloVe model (Wikipedia + Gigaword 300-dimensional)
+# 加载 GloVe 模型（glove-wiki-gigaword-300）
+# Load GloVe model (glove-wiki-gigaword-300)
+# 原因：300 维向量，在 Wikipedia + Gigaword 语料上训练
+# Reason: 300-dimensional vectors, trained on Wikipedia + Gigaword corpus
 print("Loading GloVe (glove-wiki-gigaword-300)...")
 glove_model = api.load('glove-wiki-gigaword-300')
-print(f"  GloVe loaded: {len(glove_model)} words, {glove_model.vector_size}d vectors")
+print(f"  Vocabulary size: {len(glove_model.key_to_index):,}")
+print(f"  Vector dimension: {glove_model.vector_size}")
 print()
+
 
 # ============================================================
 # 步骤 4：计算基于嵌入的相似度
 # Step 4: Computing Embedding-Based Similarity
 # ============================================================
 
-# 定义计算相似度的函数
-# Define a function to compute similarity
-def compute_similarity(model, word1, word2):
-    """
-    计算两个词之间的余弦相似度
-    Compute cosine similarity between two words using a given model
-    """
-    try:
-        return model.similarity(word1, word2)
-    except KeyError:
-        return None
+print("=" * 60)
+print("Step 4: Computing Embedding-Based Similarity")
+print("=" * 60)
 
-# 对前 60 个词对分别计算 Word2Vec 和 GloVe 相似度
-# Compute Word2Vec and GloVe similarity for each of the top 60 pairs
-w2v_similarities = []
-glove_similarities = []
+# 存储结果的列表
+# List to store results
+results = []
 
-for _, row in top_60.iterrows():
-    w1, w2 = row['word1'], row['word2']
+# 对前 60 个词对分别计算 Word2Vec 和 GloVe 的余弦相似度
+# Compute cosine similarity using Word2Vec and GloVe for top 60 pairs
+for _, row in df_top60.iterrows():
+    w1 = row['word1']
+    w2 = row['word2']
+    simlex_score = row['SimLex999']
 
-    # Word2Vec 相似度
-    # Word2Vec similarity
-    w2v_sim = compute_similarity(w2v_model, w1, w2)
-    w2v_similarities.append(w2v_sim)
+    # 计算 Word2Vec 相似度
+    # Compute Word2Vec similarity
+    # 如果词不在词汇表中，返回 None
+    # If word not in vocabulary, return None
+    if w1 in w2v_model.key_to_index and w2 in w2v_model.key_to_index:
+        sim_w2v = w2v_model.similarity(w1, w2)
+    else:
+        sim_w2v = None
 
-    # GloVe 相似度
-    # GloVe similarity
-    glove_sim = compute_similarity(glove_model, w1, w2)
-    glove_similarities.append(glove_sim)
+    # 计算 GloVe 相似度
+    # Compute GloVe similarity
+    if w1 in glove_model.key_to_index and w2 in glove_model.key_to_index:
+        sim_glove = glove_model.similarity(w1, w2)
+    else:
+        sim_glove = None
 
-# 将结果添加到 DataFrame
-# Add results to the DataFrame
-top_60['similarity_w2v'] = w2v_similarities
-top_60['similarity_glove'] = glove_similarities
+    results.append({
+        'word1': w1,
+        'word2': w2,
+        'similarity_w2v': sim_w2v,
+        'similarity_glove': sim_glove,
+        'SimLex999': simlex_score,
+    })
+
+# 创建结果 DataFrame
+# Create results DataFrame
+df_results = pd.DataFrame(results)
+
+# 统计词汇覆盖情况
+# Count vocabulary coverage
+w2v_missing = df_results['similarity_w2v'].isna().sum()
+glove_missing = df_results['similarity_glove'].isna().sum()
+print(f"Word2Vec: {TOP_N - w2v_missing}/{TOP_N} pairs computed ({w2v_missing} missing)")
+print(f"GloVe:    {TOP_N - glove_missing}/{TOP_N} pairs computed ({glove_missing} missing)")
+print()
 
 # ============================================================
-# 步骤 5：结果格式
-# Step 5: Results Format
+# 步骤 5：结果表格
+# Step 5: Results Table
 # ============================================================
 
-# 创建结果表格
-# Create and display the results table
 print("=" * 60)
 print("Step 5: Results Table")
 print("=" * 60)
 
-# 格式化显示表格
-# Format display table
-results_display = top_60.copy()
-results_display.columns = ['word1', 'word2', 'similarity_SimLex999',
-                            'similarity_w2v', 'similarity_glove']
+# 格式化结果表格
+# Format results table
+table_data = []
+for _, row in df_results.iterrows():
+    # 格式化相似度分数，None 显示为 "N/A"
+    # Format similarity scores, None displayed as "N/A"
+    w2v_str = f"{row['similarity_w2v']:.4f}" if row['similarity_w2v'] is not None else "N/A"
+    glove_str = f"{row['similarity_glove']:.4f}" if row['similarity_glove'] is not None else "N/A"
 
-# 格式化数值为 4 位小数
-# Format numeric values to 4 decimal places
-for col in ['similarity_SimLex999', 'similarity_w2v', 'similarity_glove']:
-    results_display[col] = results_display[col].apply(
-        lambda x: f"{x:.4f}" if x is not None else "N/A"
-    )
+    table_data.append([
+        row['word1'],
+        row['word2'],
+        w2v_str,
+        glove_str,
+        f"{row['SimLex999']:.2f}",
+    ])
 
-print(results_display.to_string(index=False))
+# 使用 tabulate 打印格式化表格
+# Print formatted table using tabulate
+headers = ['word1', 'word2', 'similarity_w2v', 'similarity_glove', 'SimLex999']
+print(tabulate(table_data, headers=headers, tablefmt='simple'))
 print()
+
 
 # ============================================================
 # 步骤 6：分析与讨论
@@ -188,98 +279,103 @@ print("=" * 60)
 print("Step 6: Analysis and Discussion")
 print("=" * 60)
 
-# 过滤掉包含 None 的行以便分析
-# Filter out rows with None values for analysis
-valid_mask = (top_60['similarity_w2v'].notna()) & (top_60['similarity_glove'].notna())
-valid_data = top_60[valid_mask]
+# ----------------------------------------
+# 步骤 6.1：计算整体相关性
+# Step 6.1: Compute overall correlation
+# ----------------------------------------
 
-# 计算 Spearman 相关系数
-# Compute Spearman correlation coefficients
-w2v_corr, w2v_pval = spearmanr(valid_data['SimLex999'], valid_data['similarity_w2v'])
-glove_corr, glove_pval = spearmanr(valid_data['SimLex999'], valid_data['similarity_glove'])
+# 过滤掉缺失值后计算 Pearson 相关系数
+# Compute Pearson correlation after filtering missing values
+df_valid_w2v = df_results.dropna(subset=['similarity_w2v'])
+df_valid_glove = df_results.dropna(subset=['similarity_glove'])
 
-print(f"\nSpearman Correlation with SimLex-999 (top {TOP_N} pairs):")
-print(f"  Word2Vec: r = {w2v_corr:.4f} (p = {w2v_pval:.4e})")
-print(f"  GloVe:    r = {glove_corr:.4f} (p = {glove_pval:.4e})")
+# Word2Vec 与 SimLex999 的相关性
+# Correlation between Word2Vec and SimLex999
+corr_w2v = df_valid_w2v['similarity_w2v'].corr(df_valid_w2v['SimLex999'])
+
+# GloVe 与 SimLex999 的相关性
+# Correlation between GloVe and SimLex999
+corr_glove = df_valid_glove['similarity_glove'].corr(df_valid_glove['SimLex999'])
+
+print("Pearson Correlation with SimLex999 (top 60 pairs):")
+print(f"  Word2Vec: {corr_w2v:.4f}")
+print(f"  GloVe:    {corr_glove:.4f}")
+print()
 
 # 判断哪个模型更好
 # Determine which model aligns better
-if abs(w2v_corr) > abs(glove_corr):
-    better_model = "Word2Vec"
+if corr_w2v > corr_glove:
+    print("Word2Vec shows higher correlation with human judgments for the top-60 pairs.")
 else:
-    better_model = "GloVe"
+    print("GloVe shows higher correlation with human judgments for the top-60 pairs.")
+print()
 
-print(f"\n  => {better_model} shows better alignment with human judgments.")
+# ----------------------------------------
+# 步骤 6.2：嵌入低估人类相似度的示例
+# Step 6.2: Examples where embeddings underestimate human similarity
+# ----------------------------------------
 
-# 计算嵌入相似度的均值
-# Compute average embedding similarities
-w2v_mean = valid_data['similarity_w2v'].mean()
-glove_mean = valid_data['similarity_glove'].mean()
-simlex_mean = valid_data['SimLex999'].mean()
+print("Examples where embeddings underestimate human similarity:")
+print("-" * 40)
 
-print(f"\nAverage Similarity Scores (top {TOP_N} pairs):")
-print(f"  SimLex-999: {simlex_mean:.4f}")
-print(f"  Word2Vec:   {w2v_mean:.4f}")
-print(f"  GloVe:      {glove_mean:.4f}")
+# 找出 SimLex999 分数高但嵌入相似度低的词对
+# Find pairs with high SimLex999 but low embedding similarity
+# 使用 SimLex999 归一化到 [0,1] 范围进行比较
+# Normalize SimLex999 to [0,1] range for comparison
+df_analysis = df_results.copy()
+df_analysis['simlex_norm'] = df_analysis['SimLex999'] / 10.0
 
-# 找出嵌入低估人类相似度的例子
-# Highlight examples where embeddings underestimate human similarity
-# SimLex999 分数先归一化到 0-1 范围以便与余弦相似度比较
-# Normalize SimLex999 scores to 0-1 range for comparison with cosine similarity
-valid_data_analysis = valid_data.copy()
-valid_data_analysis['simlex_normalized'] = valid_data_analysis['SimLex999'] / 10.0
+# Word2Vec 低估的示例（差值最大的前 5 个）
+# Word2Vec underestimation examples (top 5 largest gaps)
+df_w2v_valid = df_analysis.dropna(subset=['similarity_w2v']).copy()
+df_w2v_valid['gap_w2v'] = df_w2v_valid['simlex_norm'] - df_w2v_valid['similarity_w2v']
+underest_w2v = df_w2v_valid.nlargest(5, 'gap_w2v')
 
-# 找出 Word2Vec 比归一化 SimLex 低很多的词对
-# Find pairs where Word2Vec significantly underestimates human similarity
-valid_data_analysis['w2v_diff'] = (
-    valid_data_analysis['simlex_normalized'] - valid_data_analysis['similarity_w2v']
-)
-valid_data_analysis['glove_diff'] = (
-    valid_data_analysis['simlex_normalized'] - valid_data_analysis['similarity_glove']
-)
-
-# 显示低估最严重的 5 个词对
-# Show 5 pairs where embeddings underestimate similarity the most
-print("\nTop 5 pairs where Word2Vec underestimates human similarity:")
-underest_w2v = valid_data_analysis.nlargest(5, 'w2v_diff')
+print("\nWord2Vec underestimates (largest gaps):")
 for _, row in underest_w2v.iterrows():
-    print(f"  {row['word1']:>12} - {row['word2']:<12}  "
+    print(f"  {row['word1']:12s} - {row['word2']:12s}  "
           f"SimLex={row['SimLex999']:.2f}  W2V={row['similarity_w2v']:.4f}  "
-          f"Diff={row['w2v_diff']:.4f}")
+          f"Gap={row['gap_w2v']:.4f}")
 
-print("\nTop 5 pairs where GloVe underestimates human similarity:")
-underest_glove = valid_data_analysis.nlargest(5, 'glove_diff')
+# GloVe 低估的示例
+# GloVe underestimation examples
+df_glove_valid = df_analysis.dropna(subset=['similarity_glove']).copy()
+df_glove_valid['gap_glove'] = df_glove_valid['simlex_norm'] - df_glove_valid['similarity_glove']
+underest_glove = df_glove_valid.nlargest(5, 'gap_glove')
+
+print("\nGloVe underestimates (largest gaps):")
 for _, row in underest_glove.iterrows():
-    print(f"  {row['word1']:>12} - {row['word2']:<12}  "
+    print(f"  {row['word1']:12s} - {row['word2']:12s}  "
           f"SimLex={row['SimLex999']:.2f}  GloVe={row['similarity_glove']:.4f}  "
-          f"Diff={row['glove_diff']:.4f}")
-
-# Word2Vec 和 GloVe 行为比较
-# Compare Word2Vec and GloVe behavior
-print("\nComparison of Word2Vec vs GloVe Behavior:")
-print(f"  - Word2Vec average cosine similarity: {w2v_mean:.4f}")
-print(f"  - GloVe average cosine similarity:    {glove_mean:.4f}")
-
-if w2v_mean > glove_mean:
-    print("  - Word2Vec tends to assign higher similarity scores overall.")
-else:
-    print("  - GloVe tends to assign higher similarity scores overall.")
-
-print(f"  - Word2Vec Spearman r = {w2v_corr:.4f}")
-print(f"  - GloVe Spearman r    = {glove_corr:.4f}")
-print(f"  - {better_model} correlates better with human-judged semantic similarity.")
+          f"Gap={row['gap_glove']:.4f}")
 print()
 
-print("Discussion Summary:")
-print("  Both Word2Vec and GloVe capture semantic similarity to some extent,")
-print("  but neither perfectly matches human judgments. Word2Vec is trained on")
-print("  Google News data while GloVe is trained on Wikipedia + Gigaword.")
-print("  The training corpus influences which semantic relationships each model")
-print("  captures best. Pairs with very high SimLex scores (near 10) tend to be")
-print("  synonyms, which both models handle reasonably well. However, for some")
-print("  pairs, both models underestimate similarity, often because the words")
-print("  appear in different contexts in their training data.")
+# ----------------------------------------
+# 步骤 6.3：Word2Vec 与 GloVe 行为比较
+# Step 6.3: Compare Word2Vec and GloVe behavior
+# ----------------------------------------
+
+print("Word2Vec vs GloVe Comparison:")
+print("-" * 40)
+
+# 计算两个模型的平均相似度
+# Compute average similarity for both models
+avg_w2v = df_valid_w2v['similarity_w2v'].mean()
+avg_glove = df_valid_glove['similarity_glove'].mean()
+
+print(f"  Average similarity (Word2Vec): {avg_w2v:.4f}")
+print(f"  Average similarity (GloVe):    {avg_glove:.4f}")
 print()
-print("=" * 60)
-print("Lab 3 Part 1 Complete")
-print("=" * 60)
+
+# 找出两个模型差异最大的词对
+# Find pairs with largest difference between models
+df_both = df_results.dropna(subset=['similarity_w2v', 'similarity_glove']).copy()
+df_both['model_diff'] = abs(df_both['similarity_w2v'] - df_both['similarity_glove'])
+top_diff = df_both.nlargest(5, 'model_diff')
+
+print("Pairs with largest difference between Word2Vec and GloVe:")
+for _, row in top_diff.iterrows():
+    print(f"  {row['word1']:12s} - {row['word2']:12s}  "
+          f"W2V={row['similarity_w2v']:.4f}  GloVe={row['similarity_glove']:.4f}  "
+          f"Diff={row['model_diff']:.4f}")
+print()

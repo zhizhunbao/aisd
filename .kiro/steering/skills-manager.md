@@ -247,6 +247,7 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | textbook vectorization, pdf vectorization, semantic search textbook, embedding textbook, query textbook, knowledge base, 教科书向量化, PDF向量化, 语义搜索, 知识库 | `learning-textbook_vectorization` |
 | bilingual content, dual language, translation template, bilingual markdown, original and translation, 双语内容, 双语模板, 翻译模板, 中英对照 | `learning-bilingual_content` |
 | automated study material, auto generate, study material generation, 自动生成学习材料 | `learning-automated_study_material` |
+| cheat sheet, cheatsheet, exam sheet, crib sheet, review sheet, 小抄, 速查表, 考试小抄, 复习表 | `learning-cheat_sheet` |
 | code screenshot, screenshot code, carbon, 代码截图 | `learning-code_screenshot` |
 | lecture storyline, lecture flow, lecture outline, 课程故事线, 讲座大纲 | `learning-lecture_storyline` |
 | logic consistency, logical check, reasoning check, 逻辑一致性, 逻辑检查 | `learning-logic_consistency` |

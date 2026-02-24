@@ -204,23 +204,21 @@ This approach:
 
    ⚠️ Do NOT use PowerShell for this - it will corrupt Chinese characters!
 
-3. **Add markdown cells** for better documentation:
-   - Title and metadata at top
-   - Section headers before major steps
-   - Explanations for complex logic
+3. **Markdown header cells are auto-generated** by the conversion script:
+   - Each step marker (`# ============ / # Step N: ... / # ============`) automatically gets a Markdown cell inserted before it with `## Step N: Title`
+   - No need to manually add markdown cells for step headers
+   - The script extracts the English title line from the step marker block
 
 4. **Verify cell order**:
+   - Each step should have: Markdown header cell → Code cell
    - Logical flow maintained
    - No circular dependencies
    - Outputs display correctly
 
-5. **Format markdown cells**:
-
-   ```markdown
-   ## Step 1: Import Libraries
-
-   Import required packages for data analysis.
-   ```
+5. **Notebook header requirements** (per instructor guidelines):
+   - Use Markdown cells (not code cells) for section headers
+   - Use `#` for main titles, `##` for step headings
+   - Headers should clearly describe the task or step
 
 ### 4. Batch Conversion
 

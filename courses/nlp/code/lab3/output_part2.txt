@@ -1,0 +1,112 @@
+============================================================
+CST8507 Lab 3 Part 2: Word Embedding with FastText
+Author: Peng Wang (041107730)
+============================================================
+
+============================================================
+Step 1: Load Pre-trained FastText Model
+============================================================
+  Vector dimension: 300
+  Number of words: 2,000,000
+
+============================================================
+Step 2: Check Word Analogies
+============================================================
+
+King - Man + Woman = ?
+  Top 5 results:
+    queen                 similarity: 0.6543
+    kings                 similarity: 0.5410
+    Queen                 similarity: 0.5074
+    royal                 similarity: 0.5005
+    queens                similarity: 0.4915
+
+Computer Programmer - Man + Woman = ?
+  Top 5 results:
+    Nursing               similarity: 0.2518
+    Breastfeeding         similarity: 0.2449
+    BSN                   similarity: 0.2111
+    SBA                   similarity: 0.2099
+    Pediatrics            similarity: 0.2061
+
+Doctor - Man + Woman = ?
+  Top 5 results:
+    pediatrician          similarity: 0.4673
+    midwife               similarity: 0.4419
+    dermatologist         similarity: 0.4399
+    physician             similarity: 0.4370
+    doctors               similarity: 0.4351
+
+Career - Man + Woman = ?
+  Top 5 results:
+    careers               similarity: 0.4761
+    Career                similarity: 0.3699
+    internships           similarity: 0.3456
+    internship            similarity: 0.3407
+    post-graduate         similarity: 0.3154
+
+Intelligent - Scientist + Woman = ?
+  Top 5 results:
+    man                   similarity: 0.6037
+    lady                  similarity: 0.5957
+    women                 similarity: 0.5670
+    girl                  similarity: 0.5552
+    WOMAN                 similarity: 0.4858
+
+============================================================
+Step 3: Results and Discussion
+============================================================
+Observations:
+
+1. Gender Bias in Word Embeddings:
+   The analogies reveal gender biases present in the training data.
+   For example, 'computer_programmer - man + woman' may yield
+   gender-stereotyped results rather than 'computer_programmer'.
+
+2. Analogy Quality:
+   'King - Man + Woman = Queen' is the classic well-known analogy
+   that word embeddings handle well. Other analogies may produce
+   less intuitive results due to biases in training corpora.
+
+3. Sub-word Advantage:
+   FastText can compute vectors for compound words like
+   'computer_programmer' using character n-grams, even if the
+   exact token was rare in training data.
+
+============================================================
+Step 4: Comparing Word2Vec and FastText for Handling Misspellings
+============================================================
+Loading Word2Vec (word2vec-google-news-300)...
+  Vocabulary size: 3,000,000
+
+============================================================
+Step 5: Results Format
+============================================================
+
+Correct: apple, Misspelled: appple
+  Word2Vec Similarity: N/A (word not in vocabulary)
+  FastText Similarity: 0.3621
+
+Correct: banana, Misspelled: bananna
+  Word2Vec Similarity: N/A (word not in vocabulary)
+  FastText Similarity: 0.7789
+
+Correct: computer, Misspelled: computar
+  Word2Vec Similarity: N/A (word not in vocabulary)
+  FastText Similarity: 0.3759
+
+Correct: science, Misspelled: sciience
+  Word2Vec Similarity: N/A (word not in vocabulary)
+  FastText Similarity: 0.0678
+
+Correct: education, Misspelled: edcation
+  Word2Vec Similarity: N/A (word not in vocabulary)
+  FastText Similarity: 0.2450
+
+----------------------------------------
+Summary:
+  Word2Vec cannot handle misspelled words that are not in its
+  vocabulary, returning N/A. FastText leverages sub-word (character
+  n-gram) information to generate meaningful vectors even for
+  misspelled words, resulting in high similarity scores between
+  correct and misspelled variants.
