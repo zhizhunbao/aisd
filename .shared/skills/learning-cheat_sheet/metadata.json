@@ -1,0 +1,15 @@
+{
+  "name": "learning-cheat_sheet",
+  "description": "Generate exam cheat sheets from slides, quizzes, and labs. Pipeline: .md → .json → .html with precise print layout.",
+  "keywords": [
+    "cheat sheet",
+    "cheatsheet",
+    "exam sheet",
+    "crib sheet",
+    "review sheet",
+    "小抄",
+    "速查表",
+    "考试小抄",
+    "复习表"
+  ]
+}
