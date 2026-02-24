@@ -43,3 +43,7 @@ data/
 # Textbook PDF sections (generated from originals, too large for git)
 courses/self-study/*/_sources/
 courses/self-study/_search_data/
+
+# FastText pretrained models (large binary files)
+*.bin
+*.bin.gz
