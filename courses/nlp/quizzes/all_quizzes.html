@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CST8507 NLP All Quizzes</title>
+    
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; background-color: #f7f9fa; color: #333; line-height: 1.6; }
+        .header-content { text-align: center; margin-bottom: 40px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .quiz { background: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; border-left: 5px solid #3498db; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1, h2, h3 { color: #2c3e50; }
+        h2 { border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; margin-top: 0; font-size: 1.4em; }
+        .prompt { margin-bottom: 20px; font-size: 1.1em; }
+        .prompt blockquote { padding: 10px 15px; margin: 15px 0; border-left: 4px solid #3498db; background: #eaf2f8; color: #2980b9; border-radius: 0 4px 4px 0; font-size: 0.95em; }
+        .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .option { padding: 15px 20px; border: 2px solid #e0e6ed; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; background: #fff; font-size: 1.05em; display: flex; align-items: baseline; }
+        .option-id { font-weight: bold; margin-right: 15px; background: #ecf0f1; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9em; flex-shrink: 0; }
+        .option:hover { border-color: #bdc3c7; background: #fdfdfd; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .option.selected { border-color: #3498db; background: #ebf5fb; }
+        .option.selected .option-id { background: #3498db; color: white; }
+        .option.correct { border-color: #2ecc71; background: #eafaf1; cursor: default; }
+        .option.correct .option-id { background: #2ecc71; color: white; }
+        .option.incorrect { border-color: #e74c3c; background: #fadbd8; cursor: default; }
+        .option.incorrect .option-id { background: #e74c3c; color: white; }
+        .btn { padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.2s; box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3); }
+        .btn:hover { background: #2980b9; box-shadow: 0 4px 6px rgba(41, 128, 185, 0.4); transform: translateY(-1px); }
+        .btn:disabled { background: #95a5a6; cursor: not-allowed; box-shadow: none; transform: none; }
+        .answer-block { margin-top: 25px; padding: 20px; border-radius: 8px; background: #fdfefe; display: none; border: 1px solid #dcdde1; box-shadow: inner 0 2px 4px rgba(0,0,0,0.02); }
+        .answer-block.visible { display: block; animation: fadeIn 0.4s ease; }
+        .answer-block p { margin-top: 0; }
+        .answer-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; background: #2ecc71; color: white; font-weight: bold; margin-top: 5px; }
+        .explanation { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #dcdde1; }
+        .explanation blockquote { background: #fff3e0; border-left: 4px solid #f39c12; padding: 10px 15px; margin: 10px 0; color: #d35400; }
+        code { background: #f1f2f6; padding: 3px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9em; color: #e84118; }
+        pre { background: #2d3436; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        pre code { background: none; color: inherit; padding: 0; font-size: 0.85em; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 10px; border: 1px solid #dfe6e9; text-align: left; }
+        th { background: #f1f2f6; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+<div class="header-content"><h1>CST8507 NLP All Quizzes — 全部测验合集</h1>
+<blockquote>
+<p>💡 <strong>使用说明</strong>: 所有题目的答案和解析均已直接显示在下方。</p>
+</blockquote>
+<hr />
+<h1>Quiz 1 — NLP概述 (Introduction to NLP)</h1>
+<p>Topic: NLP Overview, AI/ML/DL Hierarchy, NLP Tasks &amp; Challenges</p>
+<hr /></div>
+<div class="quiz" id="q-0">
+<h2>Q1.1 (1 point)</h2>
+<div class="prompt"><p>Which deep learning architecture, introduced in 2017, demonstrated remarkable performance in various NLP tasks and marked a turning point in natural language understanding?</p>
+<blockquote>
+<p>哪种深度学习架构于2017年提出，在各种NLP任务中表现卓越，并标志着自然语言理解的转折点？</p>
+</blockquote></div>
+<div class="options" id="opts-0">
+<div class="option" id="opt-0-A" data-id="A" onclick="selectOption(0, 'A')">
+<span class="option-id">A</span> <span>Long Short-Term Memory (LSTM)</span>
+</div>
+<div class="option" id="opt-0-B" data-id="B" onclick="selectOption(0, 'B')">
+<span class="option-id">B</span> <span>Convolutional Neural Network (CNN)</span>
+</div>
+<div class="option" id="opt-0-C" data-id="C" onclick="selectOption(0, 'C')">
+<span class="option-id">C</span> <span>Transformer</span>
+</div>
+<div class="option" id="opt-0-D" data-id="D" onclick="selectOption(0, 'D')">
+<span class="option-id">D</span> <span>Recurrent Neural Network (RNN)</span>
+</div>
+</div>
+<button class="btn" id="btn-0" onclick="checkAnswer(0, 'C')">Submit</button>
+<div class="answer-block" id="ans-0">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">C</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The Transformer architecture was introduced in 2017 by Google in the paper "Attention is All You Need," featuring the self-attention mechanism that revolutionized NLP. <strong>Why C</strong>: Only the Transformer was the 2017 breakthrough that fundamentally changed the field.</p>
+<blockquote>
+<p>Transformer 架构于 2017 年由 Google 在论文 "Attention is All You Need" 中提出，引入了自注意力机制（Self-Attention），成为 NLP 领域的转折点。<strong>为什么是 C</strong>：只有 Transformer 是 2017 年提出并彻底改变 NLP 的架构。</p>
+</blockquote>
+<ul>
+<li><strong>A/D</strong>: LSTM (1997) and RNN appeared much earlier; while once dominant, they were not the 2017 turning point.</li>
+<li><strong>B</strong>: CNN is primarily for image tasks; while applicable to NLP, it was not the landmark architecture of 2017.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A/D 错</strong>：LSTM (1997) 和 RNN 更早出现，虽然曾是主流但并非 2017 年的突破。</li>
+<li><strong>B 错</strong>：CNN 主要用于图像任务，在 NLP 中有应用但未成为 2017 年的标志性转折。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Transformer (2017, "Attention is All You Need") — self-attention mechanism, the turning point of modern NLP.
+<strong>关键</strong>: Transformer（2017，"Attention is All You Need"）— 自注意力机制，现代 NLP 的转折点。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-1">
+<h2>Q1.2 (1 point)</h2>
+<div class="prompt"><p>The main challenge in sentiment analysis lies in the complexity of human emotions and language, so it requires a deeper understanding of language and context.</p>
+<blockquote>
+<p>情感分析的主要挑战在于人类情感和语言的复杂性，因此它需要对语言和上下文有更深层次的理解。</p>
+</blockquote></div>
+<div class="options" id="opts-1">
+<div class="option" id="opt-1-A" data-id="A" onclick="selectOption(1, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-1-B" data-id="B" onclick="selectOption(1, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-1" onclick="checkAnswer(1, 'A')">Submit</button>
+<div class="answer-block" id="ans-1">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The core difficulty of sentiment analysis lies in the complexity of human emotional expression, including sarcasm, irony, and metaphor. <strong>Why True</strong>: Accurately determining sentiment requires deep semantic understanding beyond simple keyword matching.</p>
+<blockquote>
+<p>情感分析的核心难点在于人类语言表达情感的复杂性，包括讽刺、反语、隐喻等。<strong>为什么是 True</strong>：准确判断情感需要深层语义理解，而非仅靠关键词匹配。</p>
+</blockquote>
+<p><strong>Key</strong>: Sentiment analysis requires deep contextual understanding due to sarcasm, irony, and ambiguity in human language.
+<strong>关键</strong>: 情感分析需要深层上下文理解，因为人类语言中存在讽刺、反语和歧义。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-2">
+<h2>Q1.3 (1 point)</h2>
+<div class="prompt"><p>Which of the following is not an example of natural language generation?</p>
+<blockquote>
+<p>以下哪项不是自然语言生成（NLG）的示例？</p>
+</blockquote></div>
+<div class="options" id="opts-2">
+<div class="option" id="opt-2-A" data-id="A" onclick="selectOption(2, 'A')">
+<span class="option-id">A</span> <span>Converting speech to text</span>
+</div>
+<div class="option" id="opt-2-B" data-id="B" onclick="selectOption(2, 'B')">
+<span class="option-id">B</span> <span>Translating a document from English to French</span>
+</div>
+<div class="option" id="opt-2-C" data-id="C" onclick="selectOption(2, 'C')">
+<span class="option-id">C</span> <span>Writing a news article</span>
+</div>
+<div class="option" id="opt-2-D" data-id="D" onclick="selectOption(2, 'D')">
+<span class="option-id">D</span> <span>Text Classification</span>
+</div>
+</div>
+<button class="btn" id="btn-2" onclick="checkAnswer(2, 'D')">Submit</button>
+<div class="answer-block" id="ans-2">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">D</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+NLG (Natural Language Generation) refers to systems that <strong>produce</strong> new natural language text. <strong>Why D</strong>: Text Classification assigns text to predefined categories — it is an NLU (Natural Language Understanding) task, not generation.</p>
+<blockquote>
+<p>NLG（自然语言生成）是指系统<strong>产出</strong>新的自然语言文本。<strong>为什么是 D</strong>：文本分类是将文本归入预定义类别，属于 NLU（自然语言理解）任务，不生成新文本。</p>
+</blockquote>
+<ul>
+<li><strong>A</strong>: Speech-to-Text (ASR) is more recognition than generation, but in this question context it's not the best answer since it doesn't "generate" creative text either.</li>
+<li><strong>B/C</strong>: Translation and news article writing both involve producing text, so they are NLG tasks.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A</strong>：语音转文本 (ASR) 偏识别，但此题语境下不是最佳答案。</li>
+<li><strong>B/C</strong>：翻译和新闻写作都涉及文本生成，属于 NLG。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Text Classification = NLU (understanding); NLG = producing new text output (translation, writing, summarization).
+<strong>关键</strong>: 文本分类 = NLU（理解）；NLG = 产出新文本（翻译、写作、摘要）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-3">
+<h2>Q1.4 (1 point)</h2>
+<div class="prompt"><p>A document is a raw or semi-structured piece of text (such as an article or report), whereas knowledge refers to structured, interpreted information such as facts, entities, or relationships extracted from documents.</p>
+<blockquote>
+<p>文档是原始或半结构化的文本（如文章或报告），而知识是指从文档中提取的结构化、经过解释的信息，如事实、实体或关系。</p>
+</blockquote></div>
+<div class="options" id="opts-3">
+<div class="option" id="opt-3-A" data-id="A" onclick="selectOption(3, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-3-B" data-id="B" onclick="selectOption(3, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-3" onclick="checkAnswer(3, 'A')">Submit</button>
+<div class="answer-block" id="ans-3">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+A document is raw text material; knowledge is structured information (entities, relationships, facts) extracted from it. <strong>Why True</strong>: This is the standard distinction between Document and Knowledge in NLP.</p>
+<blockquote>
+<p>文档是原始文本素材，知识是从中提取的结构化信息（如实体、关系、事实）。<strong>为什么是 True</strong>：这正是 NLP 中 Document vs Knowledge 的标准区分。</p>
+</blockquote>
+<p><strong>Key</strong>: Document = raw/semi-structured text; Knowledge = structured, interpreted information (entities, facts, relationships).
+<strong>关键</strong>: 文档 = 原始/半结构化文本；知识 = 结构化、解释过的信息（实体、事实、关系）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-4">
+<h2>Q1.5 (1 point)</h2>
+<div class="prompt"><p>Variation in NLP is a challenge because language data is often highly skewed, with a few words being very frequent and a vast number of words occurring rarely.</p>
+<blockquote>
+<p>NLP中的变异性是一个挑战，因为语言数据往往高度偏斜——少数词非常高频，而大量词极少出现。</p>
+</blockquote></div>
+<div class="options" id="opts-4">
+<div class="option" id="opt-4-A" data-id="A" onclick="selectOption(4, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-4-B" data-id="B" onclick="selectOption(4, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-4" onclick="checkAnswer(4, 'A')">Submit</button>
+<div class="answer-block" id="ans-4">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Language data follows Zipf's Law: a few high-frequency words dominate, while the vast majority of unique words are rare, forming a long-tail distribution. <strong>Why True</strong>: This skewed distribution is a core NLP challenge, making it difficult for models to learn semantics of rare words.</p>
+<blockquote>
+<p>语言数据遵循齐普夫定律（Zipf's Law）：少数高频词占据大量出现次数，大量低频词极少出现，形成长尾分布。<strong>为什么是 True</strong>：这种分布不均是 NLP 的核心挑战之一，导致模型难以充分学习低频词的语义。</p>
+</blockquote>
+<p><strong>Key</strong>: Zipf's Law — few words are very frequent, most words are rare. This skewed distribution is a key NLP challenge.
+<strong>关键</strong>: 齐普夫定律 — 少数词非常高频，大多数词极少出现。这种偏斜分布是 NLP 的关键挑战。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-5">
+<h2>Q1.6 (1 point)</h2>
+<div class="prompt"><p>Which of the following best describes the relationship between AI, ML, DL, and NLP?</p>
+<blockquote>
+<p>以下哪项最能描述 AI、ML、DL 和 NLP 之间的关系？</p>
+</blockquote></div>
+<div class="options" id="opts-5">
+<div class="option" id="opt-5-A" data-id="A" onclick="selectOption(5, 'A')">
+<span class="option-id">A</span> <span>AI is a subset of ML, ML is a subset of DL, and NLP is unrelated to these fields.</span>
+</div>
+<div class="option" id="opt-5-B" data-id="B" onclick="selectOption(5, 'B')">
+<span class="option-id">B</span> <span>DL and ML are unrelated to AI, while NLP is the main branch of AI.</span>
+</div>
+<div class="option" id="opt-5-C" data-id="C" onclick="selectOption(5, 'C')">
+<span class="option-id">C</span> <span>AI is a subset of DL, ML is a subset of DL, and NLP is subset of ML</span>
+</div>
+<div class="option" id="opt-5-D" data-id="D" onclick="selectOption(5, 'D')">
+<span class="option-id">D</span> <span>NLP is a subset of AI focused on language tasks; ML is an approach to achieve AI; DL is a type of ML.</span>
+</div>
+</div>
+<button class="btn" id="btn-5" onclick="checkAnswer(5, 'D')">Submit</button>
+<div class="answer-block" id="ans-5">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">D</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The correct hierarchy: AI (broadest) ⊃ ML (a way to achieve AI) ⊃ DL (a branch of ML); NLP is an application domain of AI. <strong>Why D</strong>: Only D correctly describes this nested relationship.</p>
+<blockquote>
+<p>正确的层级关系：AI（最大范畴）⊃ ML（AI 的实现路径之一）⊃ DL（ML 的分支）；NLP 是 AI 的一个应用领域。<strong>为什么是 D</strong>：只有 D 正确描述了这个嵌套关系。</p>
+</blockquote>
+<ul>
+<li><strong>A</strong>: Hierarchy inverted — AI is the parent, not a subset.</li>
+<li><strong>B</strong>: ML and DL are subfields of AI, not unrelated.</li>
+<li><strong>C</strong>: AI is not a subset of DL — it's the opposite.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A 错</strong>：层级颠倒，AI 是父类不是子类。</li>
+<li><strong>B 错</strong>：ML 和 DL 都是 AI 的子领域，并非无关。</li>
+<li><strong>C 错</strong>：AI 不是 DL 的子集，恰好相反。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: AI ⊃ ML ⊃ DL; NLP is an AI application domain focused on language tasks.
+<strong>关键</strong>: AI ⊃ ML ⊃ DL；NLP 是 AI 中专注语言任务的应用领域。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-6">
+<h2>Q1.7 (1 point)</h2>
+<div class="prompt"><p>Text summarization is challenging because the system must select the most important information while maintaining coherence, context, and meaning from the original text. In text summarization, there is no need to maintain the overall meaning and coherence of the original text while extracting key information.</p>
+<blockquote>
+<p>文本摘要具有挑战性，因为系统必须在保持连贯性、上下文和原意的同时选取最重要的信息。在文本摘要中，提取关键信息时不需要保持原文的整体含义和连贯性。</p>
+</blockquote></div>
+<div class="options" id="opts-6">
+<div class="option" id="opt-6-A" data-id="A" onclick="selectOption(6, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-6-B" data-id="B" onclick="selectOption(6, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-6" onclick="checkAnswer(6, 'B')">Submit</button>
+<div class="answer-block" id="ans-6">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+⚠️ <strong>Trap question</strong>: The first half is correct (summarization must maintain coherence), but the second half contradicts itself by claiming "no need to maintain meaning and coherence." <strong>Why False</strong>: Text summarization MUST preserve meaning and logical coherence while extracting key information.</p>
+<blockquote>
+<p>⚠️ <strong>陷阱题</strong>：题干前半句正确（摘要需保持连贯性），但后半句自相矛盾地声称"不需要保持整体含义和连贯性"。<strong>为什么是 False</strong>：文本摘要必须在提取关键信息的同时保持原文的意义和逻辑连贯性。</p>
+</blockquote>
+<p><strong>Key</strong>: Text summarization MUST preserve meaning and coherence — the statement contradicts itself.
+<strong>关键</strong>: 文本摘要必须保持原文含义和连贯性 — 题干自相矛盾。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-7">
+<h2>Q1.8 (1 point)</h2>
+<div class="prompt"><p>The goal of NLP is to develop algorithms and models that can understand, interpret, and generate human language in a way that is useful and meaningful.</p>
+<blockquote>
+<p>NLP的目标是开发能够以有用且有意义的方式理解、解释和生成人类语言的算法和模型。</p>
+</blockquote></div>
+<div class="options" id="opts-7">
+<div class="option" id="opt-7-A" data-id="A" onclick="selectOption(7, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-7-B" data-id="B" onclick="selectOption(7, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-7" onclick="checkAnswer(7, 'A')">Submit</button>
+<div class="answer-block" id="ans-7">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+This is the standard definition of NLP. <strong>Why True</strong>: The goal of NLP is precisely to enable computers to understand, interpret, and generate human language meaningfully.</p>
+<blockquote>
+<p>这是 NLP 的标准定义。<strong>为什么是 True</strong>：NLP 的目标正是让计算机理解、解释和生成人类语言。</p>
+</blockquote>
+<p><strong>Key</strong>: NLP aims to develop algorithms that understand, interpret, and generate human language meaningfully.
+<strong>关键</strong>: NLP 旨在开发能有意义地理解、解释和生成人类语言的算法。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-8">
+<h2>Q1.9 (1 point)</h2>
+<div class="prompt"><p>AI aims to create systems that rely only on fixed rules and do not involve learning, while machine learning is an unrelated field that does not use data to make predictions.</p>
+<blockquote>
+<p>AI旨在创建仅依赖固定规则且不涉及学习的系统，而机器学习是一个与之无关的领域，不使用数据进行预测。</p>
+</blockquote></div>
+<div class="options" id="opts-8">
+<div class="option" id="opt-8-A" data-id="A" onclick="selectOption(8, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-8-B" data-id="B" onclick="selectOption(8, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-8" onclick="checkAnswer(8, 'B')">Submit</button>
+<div class="answer-block" id="ans-8">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Modern AI is not limited to fixed rules (like expert systems); it includes learning-based approaches. ML is a core branch of AI that specifically learns from data to make predictions. <strong>Why False</strong>: Both claims in the statement are wrong — AI encompasses learning capabilities, and ML is a subset of AI, not an "unrelated field."</p>
+<blockquote>
+<p>现代 AI 不仅限于固定规则（如专家系统），更包括从数据中学习的方法。ML 是 AI 的核心分支，专门通过数据学习来做预测。<strong>为什么是 False</strong>：题干两个断言都错——AI 包含学习能力，ML 也不是"无关领域"而是 AI 的子集。</p>
+</blockquote>
+<p><strong>Key</strong>: AI includes learning-based systems (not just fixed rules); ML is a core subset of AI that learns from data.
+<strong>关键</strong>: AI 包含基于学习的系统（不仅是固定规则）；ML 是 AI 的核心子集，从数据中学习。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-9">
+<h2>Q1.10 (1 point)</h2>
+<div class="prompt"><p>In the Alan Turing test, a human evaluator interacts through text with two unseen participants: one human and one machine. If the evaluator cannot reliably tell which one is the machine based on the conversation, the machine is said to have passed the Turing Test.</p>
+<blockquote>
+<p>在图灵测试中，一个人类评估者通过文字与两个看不见的参与者（一个人和一台机器）交互。如果评估者无法根据对话可靠地判断哪个是机器，则该机器被认为通过了图灵测试。</p>
+</blockquote></div>
+<div class="options" id="opts-9">
+<div class="option" id="opt-9-A" data-id="A" onclick="selectOption(9, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-9-B" data-id="B" onclick="selectOption(9, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-9" onclick="checkAnswer(9, 'A')">Submit</button>
+<div class="answer-block" id="ans-9">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+This is an accurate description of the Turing Test (1950). <strong>Why True</strong>: The core criterion of the Turing Test is — if an evaluator cannot distinguish the machine from the human in text-based conversation, the machine is considered intelligent.</p>
+<blockquote>
+<p>这是图灵测试（Turing Test, 1950）的准确描述。<strong>为什么是 True</strong>：图灵测试的核心标准是——如果评估者无法区分机器和人的对话，则认为机器具有智能。</p>
+</blockquote>
+<p><strong>Key</strong>: Turing Test (1950) — if an evaluator cannot distinguish machine from human in text conversation, the machine passes.
+<strong>关键</strong>: 图灵测试（1950）— 如果评估者无法在文字对话中区分机器和人类，则机器通过测试。</p>
+<hr />
+<h1>Quiz 2 — 文本预处理与正则 (Text Preprocessing &amp; Regex)</h1>
+<p>Topic: Tokenization, Stemming, Lemmatization, Regex, Text Cleaning</p></div>
+</div>
+</div>
+<div class="quiz" id="q-10">
+<h2>Q2.1 (1 point)</h2>
+<div class="prompt"><p>The process of converting raw text into a sequence of units that a model can process.</p>
+<blockquote>
+<p>将原始文本转换为模型可以处理的单元序列的过程。</p>
+</blockquote></div>
+<div class="options" id="opts-10">
+<div class="option" id="opt-10-A" data-id="A" onclick="selectOption(10, 'A')">
+<span class="option-id">A</span> <span>Tokenization</span>
+</div>
+<div class="option" id="opt-10-B" data-id="B" onclick="selectOption(10, 'B')">
+<span class="option-id">B</span> <span>Lemmatization</span>
+</div>
+<div class="option" id="opt-10-C" data-id="C" onclick="selectOption(10, 'C')">
+<span class="option-id">C</span> <span>Stemming</span>
+</div>
+</div>
+<button class="btn" id="btn-10" onclick="checkAnswer(10, 'A')">Submit</button>
+<div class="answer-block" id="ans-10">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Tokenization is the process of splitting continuous text into minimal semantic units (tokens) — the first step in the NLP pipeline. <strong>Why A</strong>: Only Tokenization describes the process of "converting raw text into a sequence of processable units."</p>
+<blockquote>
+<p>分词（Tokenization）是将连续文本切割为最小语义单元（Token）的过程，是 NLP 管道的第一步。<strong>为什么是 A</strong>：只有 Tokenization 描述的是"将文本转化为模型可处理的单元序列"这个过程。</p>
+</blockquote>
+<ul>
+<li><strong>B</strong>: Lemmatization reduces words to their dictionary base form (e.g., "running" → "run"), not splitting text.</li>
+<li><strong>C</strong>: Stemming crudely removes suffixes to get word roots, also not splitting text.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>B 错</strong>：Lemmatization（词元化）是将词还原为词典原形（如 "running" → "run"），不是切分文本。</li>
+<li><strong>C 错</strong>：Stemming（词干提取）是粗暴地去除后缀获取词根，也不是切分文本。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Tokenization = splitting raw text into processable units (tokens). First step in NLP pipeline.
+<strong>关键</strong>: 分词 = 将原始文本切分为可处理的单元（token）。NLP 管道的第一步。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-11">
+<h2>Q2.2 (1 point)</h2>
+<div class="prompt"><p>For which of the following tasks we shouldn't do stemming/lemmatization?</p>
+<blockquote>
+<p>对于以下哪项任务我们不应该进行词干提取/词元化？</p>
+</blockquote></div>
+<div class="options" id="opts-11">
+<div class="option" id="opt-11-A" data-id="A" onclick="selectOption(11, 'A')">
+<span class="option-id">A</span> <span>Sentiment Analysis</span>
+</div>
+<div class="option" id="opt-11-B" data-id="B" onclick="selectOption(11, 'B')">
+<span class="option-id">B</span> <span>Poetry Analysis</span>
+</div>
+<div class="option" id="opt-11-C" data-id="C" onclick="selectOption(11, 'C')">
+<span class="option-id">C</span> <span>Text Classification</span>
+</div>
+</div>
+<button class="btn" id="btn-11" onclick="checkAnswer(11, 'B')">Submit</button>
+<div class="answer-block" id="ans-11">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+In poetry analysis, the original word forms, tenses, and endings are crucial for rhyme, rhythm, and rhetoric. <strong>Why B</strong>: Stemming/Lemmatization would destroy word form variations, losing rhyme and rhetorical information essential to poetry.</p>
+<blockquote>
+<p>诗歌分析中，词汇的原始形态、时态变化和词尾韵律对押韵、节奏至关重要。<strong>为什么是 B</strong>：Stemming/Lemmatization 会破坏词形变化，从而丢失诗歌中的韵律和修辞信息。</p>
+</blockquote>
+<ul>
+<li><strong>A/C</strong>: In sentiment analysis and text classification, word normalization typically helps reduce feature space and improve model performance.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A/C</strong>：情感分析和文本分类中，词形归一化通常有助于减少特征空间、提升模型性能。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Poetry relies on exact word forms for rhyme/rhythm; stemming/lemmatization would destroy this information.
+<strong>关键</strong>: 诗歌依赖精确的词形来实现韵律/节奏；词干提取/词元化会破坏这些信息。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-12">
+<h2>Q2.3 (1 point)</h2>
+<div class="prompt"><p>SpaCy does not provide a built-in function for Stemming</p>
+<blockquote>
+<p>SpaCy 没有提供内置的词干提取（Stemming）功能。</p>
+</blockquote></div>
+<div class="options" id="opts-12">
+<div class="option" id="opt-12-A" data-id="A" onclick="selectOption(12, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-12-B" data-id="B" onclick="selectOption(12, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-12" onclick="checkAnswer(12, 'A')">Submit</button>
+<div class="answer-block" id="ans-12">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+SpaCy's design philosophy favors dictionary-based Lemmatization, so it does not include built-in Stemming functionality. <strong>Why True</strong>: SpaCy considers Lemmatization more accurate and does not provide a Stemming API. Use NLTK's PorterStemmer or SnowballStemmer for stemming.</p>
+<blockquote>
+<p>SpaCy 的设计理念偏向使用基于词典的 Lemmatization，因此没有内置 Stemming 功能。<strong>为什么是 True</strong>：SpaCy 认为 Lemmatization 更准确，不提供 Stemming API。如需 Stemming 可使用 NLTK 的 PorterStemmer 或 SnowballStemmer。</p>
+</blockquote>
+<p><strong>Key</strong>: SpaCy provides lemmatization only, no built-in stemming. Use NLTK (PorterStemmer, SnowballStemmer) for stemming.
+<strong>关键</strong>: SpaCy 只提供词元化，无内置词干提取。词干提取使用 NLTK（PorterStemmer、SnowballStemmer）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-13">
+<h2>Q2.4 (1 point)</h2>
+<div class="prompt"><p>The following rgx will match all the words ended with a hyphen(-):</p>
+<blockquote>
+<p>以下正则表达式将匹配所有以连字符（-）结尾的单词：</p>
+</blockquote>
+<p><code>rgx = r'\b\w+[-]\w+\b'</code></p></div>
+<div class="options" id="opts-13">
+<div class="option" id="opt-13-A" data-id="A" onclick="selectOption(13, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-13-B" data-id="B" onclick="selectOption(13, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-13" onclick="checkAnswer(13, 'B')">Submit</button>
+<div class="answer-block" id="ans-13">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+⚠️ <strong>Regex trap</strong>: The regex <code>\b\w+[-]\w+\b</code> matches <strong>compound words with a hyphen in the middle</strong> (e.g., "high-tech", "well-known"), NOT words ending with a hyphen. <strong>Why False</strong>: The pattern requires <code>\w+</code> (one or more word characters) on both sides of the hyphen, so the hyphen must be in the middle, not at the end.</p>
+<blockquote>
+<p>⚠️ <strong>正则陷阱</strong>：该正则 <code>\b\w+[-]\w+\b</code> 匹配的是<strong>中间含连字符的复合词</strong>（如 "high-tech"、"well-known"），而非以连字符结尾的词。<strong>为什么是 False</strong>：模式要求连字符两侧都有 <code>\w+</code>（一个或多个单词字符），因此连字符必须在词中间，不可能在末尾。</p>
+</blockquote>
+<p><strong>Key</strong>: <code>\b\w+[-]\w+\b</code> matches hyphenated compound words (e.g., "high-tech"), NOT words ending with a hyphen.
+<strong>关键</strong>: <code>\b\w+[-]\w+\b</code> 匹配含连字符的复合词（如 "high-tech"），不是以连字符结尾的词。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-14">
+<h2>Q2.5 (1 point)</h2>
+<div class="prompt"><p>Text cleaning removes noise (like special characters, irrelevant symbols, and unnecessary spaces) and standardizes the text (e.g., converting to lowercase), is essential for improving the quality of the data and the performance of NLP models.</p>
+<blockquote>
+<p>文本清洗去除噪声（如特殊字符、无关符号和多余空格）并标准化文本（如转为小写），这对于提高数据质量和NLP模型性能至关重要。</p>
+</blockquote></div>
+<div class="options" id="opts-14">
+<div class="option" id="opt-14-A" data-id="A" onclick="selectOption(14, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-14-B" data-id="B" onclick="selectOption(14, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-14" onclick="checkAnswer(14, 'A')">Submit</button>
+<div class="answer-block" id="ans-14">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Text cleaning reduces noise and feature space dimensionality by removing special characters and extra spaces, and standardizing case. <strong>Why True</strong>: Cleaned text is more normalized, reducing irrelevant variants the model must handle, thus improving performance.</p>
+<blockquote>
+<p>文本清洗通过去除特殊字符、多余空格并统一大小写，能有效降低噪声和特征空间维度。<strong>为什么是 True</strong>：清洗后的文本更规范，减少了模型需要处理的无关变体，从而提升模型性能。</p>
+</blockquote>
+<p><strong>Key</strong>: Text cleaning removes noise (special chars, extra spaces) and standardizes text (lowercasing) → improved model performance.
+<strong>关键</strong>: 文本清洗去除噪声（特殊字符、多余空格）并标准化文本（小写化）→ 提升模型性能。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-15">
+<h2>Q2.6 (1 point)</h2>
+<div class="prompt"><p>Consider you have the following list that represents the USA's state names:</p>
+<blockquote>
+<p>假设你有以下代表美国州名的列表：</p>
+</blockquote>
+<pre><code class="language-python">states = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado',
+          'Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho',
+          'Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana',
+          'Maine','Maryland','Massachusetts','Michigan','Minnesota',
+          'Mississippi','Missouri','Montana','Nebraska','Nevada',
+          'New Hampshire','New Jersey','New Mexico','New York',
+          'North Carolina','North Dakota','Ohio','Oklahoma','Oregon',
+          'Pennsylvania','Rhode Island','South Carolina','South Dakota',
+          'Tennessee','Texas','Utah','Vermont','Virginia','Washington',
+          'West Virginia','Wisconsin','Wyoming']
+</code></pre>
+<p>Which python expression outputs which state names start and end with a "vowel" character?</p>
+<blockquote>
+<p>哪个 Python 表达式可以输出以元音字符开头和结尾的州名？</p>
+</blockquote></div>
+<div class="options" id="opts-15">
+<div class="option" id="opt-15-A" data-id="A" onclick="selectOption(15, 'A')">
+<span class="option-id">A</span> <span><code>[s for s in states if s[0].lower() in 'aeiou' and s[1] in 'aeiou']</code></span>
+</div>
+<div class="option" id="opt-15-B" data-id="B" onclick="selectOption(15, 'B')">
+<span class="option-id">B</span> <span><code>[s for s in states if s[0].lower() in 'aeiou' and s[-1] in 'aeiou']</code></span>
+</div>
+<div class="option" id="opt-15-C" data-id="C" onclick="selectOption(15, 'C')">
+<span class="option-id">C</span> <span><code>[s for s in states if s[1].lower() in 'aeiou' and s[-1] in 'aeiou']</code></span>
+</div>
+</div>
+<button class="btn" id="btn-15" onclick="checkAnswer(15, 'B')">Submit</button>
+<div class="answer-block" id="ans-15">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+We need to check whether the first and last characters are vowels. <strong>Why B</strong>: <code>s[0]</code> gets the first character, <code>s[-1]</code> gets the last character, and both check <code>in 'aeiou'</code> for vowel membership.</p>
+<blockquote>
+<p>需要检查首字母和末尾字母是否为元音。<strong>为什么是 B</strong>：<code>s[0]</code> 取首字母，<code>s[-1]</code> 取末尾字母，两者都检查是否在 <code>'aeiou'</code> 中。</p>
+</blockquote>
+<ul>
+<li><strong>A</strong>: <code>s[1]</code> gets the <strong>second</strong> character, not the last.</li>
+<li><strong>C</strong>: <code>s[1]</code> gets the second character, not the first.</li>
+<li><strong>Note</strong>: <code>s[0].lower()</code> handles uppercase first letters; <code>s[-1]</code> happens to be lowercase so <code>.lower()</code> isn't needed, but strictly speaking it should be added.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A 错</strong>：<code>s[1]</code> 取的是第二个字符，不是末尾字符。</li>
+<li><strong>C 错</strong>：<code>s[1]</code> 取第二个字符，不是首字母。</li>
+<li><strong>注意</strong>：<code>s[0].lower()</code> 处理大写首字母，<code>s[-1]</code> 末尾恰好小写不需要 <code>.lower()</code>，但严格来说应加上。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: <code>s[0]</code> = first char, <code>s[-1]</code> = last char. Check both <code>in 'aeiou'</code> for vowel start and end.
+<strong>关键</strong>: <code>s[0]</code> = 首字符，<code>s[-1]</code> = 末字符。两者都检查 <code>in 'aeiou'</code> 判断元音开头和结尾。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-16">
+<h2>Q2.7 (1 point)</h2>
+<div class="prompt"><p>When might you use lemmatizing over stemming?</p>
+<blockquote>
+<p>什么时候你应该选择词元化（lemmatizing）而非词干提取（stemming）？</p>
+</blockquote></div>
+<div class="options" id="opts-16">
+<div class="option" id="opt-16-A" data-id="A" onclick="selectOption(16, 'A')">
+<span class="option-id">A</span> <span>when accuracy is preferred more than speed</span>
+</div>
+<div class="option" id="opt-16-B" data-id="B" onclick="selectOption(16, 'B')">
+<span class="option-id">B</span> <span>when non-dictionary words are allowed to appear in the output</span>
+</div>
+<div class="option" id="opt-16-C" data-id="C" onclick="selectOption(16, 'C')">
+<span class="option-id">C</span> <span>when the data file contains a large number of simple words</span>
+</div>
+<div class="option" id="opt-16-D" data-id="D" onclick="selectOption(16, 'D')">
+<span class="option-id">D</span> <span>when speed is preferred more than accuracy</span>
+</div>
+</div>
+<button class="btn" id="btn-16" onclick="checkAnswer(16, 'A')">Submit</button>
+<div class="answer-block" id="ans-16">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Lemmatization uses dictionary lookup to restore words to their standard base form — more accurate but slower than Stemming. <strong>Why A</strong>: When accuracy matters more than speed, Lemmatization is the better choice.</p>
+<blockquote>
+<p>Lemmatization 通过词典查询将词还原为标准形式，比 Stemming 更准确但更慢。<strong>为什么是 A</strong>：当准确性比速度更重要时，应选择 Lemmatization。</p>
+</blockquote>
+<ul>
+<li><strong>B</strong>: Lemmatization output consists of valid dictionary words; Stemming may produce non-dictionary forms (e.g., "studi").</li>
+<li><strong>C/D</strong>: Simple words and speed-priority scenarios are better suited for Stemming.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>B 错</strong>：Lemmatization 产出的是词典中的合法词，Stemming 才可能产出非词典词（如 "studi"）。</li>
+<li><strong>C/D 错</strong>：简单词和速度优先的场景更适合 Stemming。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Lemmatization = dictionary-based, accurate but slower; Stemming = rule-based suffix stripping, faster but less accurate.
+<strong>关键</strong>: 词元化 = 基于词典，准确但较慢；词干提取 = 基于规则去后缀，更快但不太准确。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-17">
+<h2>Q2.8 (1 point)</h2>
+<div class="prompt"><p>Pick the stemming action</p>
+<blockquote>
+<p>选出词干提取（stemming）的操作：</p>
+</blockquote></div>
+<div class="options" id="opts-17">
+<div class="option" id="opt-17-A" data-id="A" onclick="selectOption(17, 'A')">
+<span class="option-id">A</span> <span>was, am, is, are ----&gt; be</span>
+</div>
+<div class="option" id="opt-17-B" data-id="B" onclick="selectOption(17, 'B')">
+<span class="option-id">B</span> <span>helped, helps -----&gt; help</span>
+</div>
+<div class="option" id="opt-17-C" data-id="C" onclick="selectOption(17, 'C')">
+<span class="option-id">C</span> <span>troubled, troubling, trouble ------&gt; trouble</span>
+</div>
+</div>
+<button class="btn" id="btn-17" onclick="checkAnswer(17, 'B')">Submit</button>
+<div class="answer-block" id="ans-17">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Stemming obtains word stems by stripping common suffixes (-ed, -s, -ing) through pure rule-based operations. <strong>Why B</strong>: "helped" strips <code>-ed</code>, "helps" strips <code>-s</code> — both achieve the stem "help" through simple suffix removal.</p>
+<blockquote>
+<p>Stemming 通过剥离常见后缀（如 -ed, -s, -ing）来获取词干，是纯规则操作。<strong>为什么是 B</strong>："helped" 去掉 <code>-ed</code>、"helps" 去掉 <code>-s</code>，都通过简单的后缀剥离得到词干 "help"。</p>
+</blockquote>
+<ul>
+<li><strong>A</strong>: "was/am/is/are → be" is Lemmatization — it requires dictionary knowledge to map irregular verb forms.</li>
+<li><strong>C</strong>: "troubled/troubling → trouble" may seem like suffix removal, but "trouble → trouble" shows no change — this is more of a Lemmatization result.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A 错</strong>："was/am/is/are → be" 是 Lemmatization，因为需要词典知识来映射不规则变形。</li>
+<li><strong>C 错</strong>："troubled/troubling → trouble" 虽然看似后缀剥离，但 "trouble → trouble" 没有变化，更像 Lemmatization 的结果。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Stemming = simple suffix removal (-ed, -s, -ing). Irregular forms (was→be) require lemmatization.
+<strong>关键</strong>: 词干提取 = 简单去后缀（-ed, -s, -ing）。不规则变形（was→be）需要词元化。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-18">
+<h2>Q2.9 (1 point)</h2>
+<div class="prompt"><p>Consider the provided code snippet:</p>
+<blockquote>
+<p>考虑以下代码片段：</p>
+</blockquote>
+<pre><code class="language-python">Text = 'I love NLP and I am read9y to study in 5 hours per Day'
+regex = '[a-zA-Z]\w*d+'
+print(re.findall(regex, Text))
+</code></pre>
+<p>The output is: <code>['and']</code></p>
+<blockquote>
+<p>输出结果是：<code>['and']</code></p>
+</blockquote></div>
+<div class="options" id="opts-18">
+<div class="option" id="opt-18-A" data-id="A" onclick="selectOption(18, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-18-B" data-id="B" onclick="selectOption(18, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-18" onclick="checkAnswer(18, 'B')">Submit</button>
+<div class="answer-block" id="ans-18">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The regex <code>[a-zA-Z]\w*d+</code> matches: starts with a letter → any number of word characters → ends with one or more <code>d</code>. <strong>Why False</strong>: This regex doesn't only match <code>"and"</code> — it also matches <code>"read"</code> (from "read9y", since <code>d</code> ends it) and <code>"stud"</code> (from "study"), producing multiple results.</p>
+<blockquote>
+<p>正则 <code>[a-zA-Z]\w*d+</code> 匹配：以字母开头 → 任意个单词字符 → 以一个或多个 <code>d</code> 结尾的序列。<strong>为什么是 False</strong>：该正则不仅匹配 <code>"and"</code>，还会匹配其他以 <code>d</code> 结尾的子串，输出不止一个结果。</p>
+</blockquote>
+<ul>
+<li><strong>Note</strong>: <code>\w</code> includes digits, so patterns within "read9y" and "study" can also produce matches ending in <code>d</code>.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>注意</strong>：<code>\w</code> 包含数字，所以 "read9y" 和 "study" 中的子模式也能产生以 <code>d</code> 结尾的匹配。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: <code>[a-zA-Z]\w*d+</code> matches any substring starting with a letter and ending with 'd'. Output includes multiple matches, not just 'and'.
+<strong>关键</strong>: <code>[a-zA-Z]\w*d+</code> 匹配以字母开头、以 'd' 结尾的任意子串。输出包含多个匹配，不只是 'and'。</p>
+<hr />
+<h1>Quiz 3 — 文本表示 (Text Representation)</h1>
+<p>Topic: Edit Distance, Bag of Words, TF-IDF, Cosine Similarity, CountVectorizer</p></div>
+</div>
+</div>
+<div class="quiz" id="q-19">
+<h2>Q3.1 (1 point)</h2>
+<div class="prompt"><p>Given the words "intention" and "execution", what is the minimum number of operations required to transform "intention" into "execution"?</p>
+<blockquote>
+<p>给定单词 "intention" 和 "execution"，将 "intention" 转换为 "execution" 所需的最小操作次数是多少？</p>
+</blockquote></div>
+<div class="options" id="opts-19">
+<div class="option" id="opt-19-A" data-id="A" onclick="selectOption(19, 'A')">
+<span class="option-id">A</span> <span>3</span>
+</div>
+<div class="option" id="opt-19-B" data-id="B" onclick="selectOption(19, 'B')">
+<span class="option-id">B</span> <span>4</span>
+</div>
+<div class="option" id="opt-19-C" data-id="C" onclick="selectOption(19, 'C')">
+<span class="option-id">C</span> <span>5</span>
+</div>
+<div class="option" id="opt-19-D" data-id="D" onclick="selectOption(19, 'D')">
+<span class="option-id">D</span> <span>6</span>
+</div>
+</div>
+<button class="btn" id="btn-19" onclick="checkAnswer(19, 'C')">Submit</button>
+<div class="answer-block" id="ans-19">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">C</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+This is the classic Levenshtein edit distance problem, with allowed operations: insertion, deletion, substitution. <strong>Why 5</strong>: Through dynamic programming, transforming "intention" → "execution" requires a minimum of 5 operations.</p>
+<blockquote>
+<p>这是经典的 Levenshtein 编辑距离（Edit Distance）问题，允许的操作有插入、删除、替换。<strong>为什么是 5</strong>：通过动态规划计算，"intention" → "execution" 最少需要 5 步操作。</p>
+</blockquote>
+<ul>
+<li><strong>$d(s_1, s_2)$</strong>: Edit distance — the minimum number of operations to transform string $s_1$ into $s_2$</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>$d(s_1, s_2)$</strong>: 编辑距离 — 将字符串 $s_1$ 转换为 $s_2$ 的最小操作数</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Levenshtein (edit) distance = minimum insertions, deletions, substitutions to transform one string into another.
+<strong>关键</strong>: 编辑距离 = 通过插入、删除、替换将一个字符串转换为另一个的最小操作数。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-20">
+<h2>Q3.2 (1 point)</h2>
+<div class="prompt"><p>In a Bag of Words representation, the order of words in a document is crucial, and each word is treated as dependent on its surrounding words.</p>
+<blockquote>
+<p>在词袋（Bag of Words）表示中，文档中单词的顺序至关重要，每个单词都被视为依赖于其周围的单词。</p>
+</blockquote></div>
+<div class="options" id="opts-20">
+<div class="option" id="opt-20-A" data-id="A" onclick="selectOption(20, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-20-B" data-id="B" onclick="selectOption(20, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-20" onclick="checkAnswer(20, 'B')">Submit</button>
+<div class="answer-block" id="ans-20">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The core characteristic of BoW (Bag of Words) is that it <strong>ignores word order</strong> and treats each word as an independent feature. <strong>Why False</strong>: The statement claims "word order is crucial" and "words are dependent on context" — these are exactly what BoW does NOT have. BoW only cares about word frequency.</p>
+<blockquote>
+<p>BoW（词袋模型）的核心特征就是<strong>忽略词序</strong>，每个词被视为独立的特征。<strong>为什么是 False</strong>：题干说"词序至关重要"和"词与上下文相关"，这恰好是 BoW 不具备的特性。BoW 只关注词频。</p>
+</blockquote>
+<p><strong>Key</strong>: Bag of Words ignores word order and treats each word independently — only word frequency matters.
+<strong>关键</strong>: 词袋模型忽略词序，将每个词视为独立特征 — 只关注词频。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-21">
+<h2>Q3.3 (1 point)</h2>
+<div class="prompt"><p>The inverse document frequency (IDF) of a word is calculated by dividing the total number of documents by the number of documents containing the word.</p>
+<blockquote>
+<p>单词的逆文档频率（IDF）通过将文档总数除以包含该单词的文档数来计算。</p>
+</blockquote></div>
+<div class="options" id="opts-21">
+<div class="option" id="opt-21-A" data-id="A" onclick="selectOption(21, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-21-B" data-id="B" onclick="selectOption(21, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-21" onclick="checkAnswer(21, 'A')">Submit</button>
+<div class="answer-block" id="ans-21">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The IDF formula is $IDF(t) = \log\frac{N}{df(t)}$, where $N$ is the total number of documents and $df(t)$ is the number of documents containing word $t$. <strong>Why True</strong>: The statement describes exactly the core IDF calculation logic — total documents divided by documents containing the word (usually with log applied).</p>
+<blockquote>
+<p>IDF 的计算公式为 $IDF(t) = \log\frac{N}{df(t)}$，其中 $N$ 是总文档数，$df(t)$ 是包含词 $t$ 的文档数。<strong>为什么是 True</strong>：题干描述的正是 IDF 的核心计算逻辑——用总文档数除以包含该词的文档数（通常取对数）。</p>
+</blockquote>
+<ul>
+<li><strong>$N$</strong>: Total number of documents in corpus (语料库总文档数)</li>
+<li><strong>$df(t)$</strong>: Number of documents containing word $t$ (包含词 $t$ 的文档数)</li>
+<li><strong>$IDF(t) = \log\frac{N}{df(t)}$</strong>: Inverse Document Frequency (逆文档频率)</li>
+</ul>
+<p><strong>Key</strong>: $IDF(t) = \log\frac{N}{df(t)}$ — words appearing in fewer documents get higher IDF scores.
+<strong>关键</strong>: 出现在越少文档中的词获得越高的 IDF 分数。$IDF(t) = \log\frac{N}{df(t)}$</p></div>
+</div>
+</div>
+<div class="quiz" id="q-22">
+<h2>Q3.4 (1 point)</h2>
+<div class="prompt"><p>If the cosine similarity between the word vectors for Word A and Word B is close to 1, it means that Word A and Word B are considered highly similar in meaning.</p>
+<blockquote>
+<p>如果词A和词B的词向量之间的余弦相似度接近1，则意味着它们在语义上被认为高度相似。</p>
+</blockquote></div>
+<div class="options" id="opts-22">
+<div class="option" id="opt-22-A" data-id="A" onclick="selectOption(22, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-22-B" data-id="B" onclick="selectOption(22, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-22" onclick="checkAnswer(22, 'A')">Submit</button>
+<div class="answer-block" id="ans-22">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Cosine similarity measures the directional angle between two vectors, with value range $[-1, 1]$. <strong>Why True</strong>: When cosine similarity is close to 1, the two vectors point in nearly the same direction, indicating high semantic similarity in embedding space.</p>
+<blockquote>
+<p>余弦相似度衡量两个向量的方向夹角，值域为 $[-1, 1]$。<strong>为什么是 True</strong>：当余弦相似度接近 1 时，两个向量方向近乎一致，在词嵌入空间中表示语义高度相似。</p>
+</blockquote>
+<ul>
+<li><strong>$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{||\vec{A}|| \times ||\vec{B}||}$</strong>: Cosine similarity formula (余弦相似度公式)</li>
+<li>Close to 1 = same direction (similar); close to 0 = orthogonal (unrelated); close to -1 = opposite (contrary)</li>
+</ul>
+<blockquote>
+<ul>
+<li>接近 1 = 方向一致（相似）；接近 0 = 正交（无关）；接近 -1 = 方向相反（相反）</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Cosine similarity close to 1 → vectors point in same direction → semantically similar.
+<strong>关键</strong>: 余弦相似度接近 1 → 向量方向一致 → 语义相似。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-23">
+<h2>Q3.5 (1 point)</h2>
+<div class="prompt"><p>One of the disadvantages of using TF-IDF is:</p>
+<blockquote>
+<p>使用TF-IDF的缺点之一是：</p>
+</blockquote></div>
+<div class="options" id="opts-23">
+<div class="option" id="opt-23-A" data-id="A" onclick="selectOption(23, 'A')">
+<span class="option-id">A</span> <span>It produces low-dimensional dense vectors</span>
+</div>
+<div class="option" id="opt-23-B" data-id="B" onclick="selectOption(23, 'B')">
+<span class="option-id">B</span> <span>It considers the context and semantic relationships between words</span>
+</div>
+<div class="option" id="opt-23-C" data-id="C" onclick="selectOption(23, 'C')">
+<span class="option-id">C</span> <span>It does not consider the context and semantic relationships between words</span>
+</div>
+<div class="option" id="opt-23-D" data-id="D" onclick="selectOption(23, 'D')">
+<span class="option-id">D</span> <span>It captures word order information</span>
+</div>
+</div>
+<button class="btn" id="btn-23" onclick="checkAnswer(23, 'C')">Submit</button>
+<div class="answer-block" id="ans-23">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">C</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+TF-IDF is a bag-of-words statistical method with no semantic understanding capability. <strong>Why C</strong>: TF-IDF only computes word frequency and document frequency — it cannot capture contextual relationships or word meaning.</p>
+<blockquote>
+<p>TF-IDF 是基于词袋模型的统计方法，不具备语义理解能力。<strong>为什么是 C</strong>：TF-IDF 只统计词频和文档频率，无法捕捉上下文关系或词义。</p>
+</blockquote>
+<ul>
+<li><strong>A</strong>: TF-IDF produces high-dimensional sparse vectors (vocabulary size), not low-dimensional dense ones.</li>
+<li><strong>B/D</strong>: These are capabilities TF-IDF does NOT have — it understands neither semantic relationships nor word order.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A 错</strong>：TF-IDF 产生的是高维稀疏向量（词汇表大小），不是低维密集向量。</li>
+<li><strong>B/D 错</strong>：这些是 TF-IDF <strong>不具备</strong>的能力——它既不理解语义关系，也不保留词序。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: TF-IDF is a bag-of-words statistical method — no context, no semantics, no word order. High-dimensional and sparse.
+<strong>关键</strong>: TF-IDF 是词袋统计方法 — 无上下文、无语义、无词序。高维且稀疏。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-24">
+<h2>Q3.6 (1 point)</h2>
+<div class="prompt"><p>Given the following TF values for a word across different documents:</p>
+<blockquote>
+<p>给定一个词在不同文档中的以下TF值：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>TF Calculation</th>
+<th>TF Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d1</td>
+<td>25/127</td>
+<td>≈ 0.1969</td>
+</tr>
+<tr>
+<td>d2</td>
+<td>3/250</td>
+<td>= 0.0120</td>
+</tr>
+<tr>
+<td>d3</td>
+<td>20/650</td>
+<td>≈ 0.0308</td>
+</tr>
+<tr>
+<td>d9</td>
+<td>15/125</td>
+<td>= 0.1200</td>
+</tr>
+<tr>
+<td>d1000</td>
+<td>20/800</td>
+<td>= 0.0250</td>
+</tr>
+</tbody>
+</table>
+<p>The proposed ascending order by TF is: [d2, d1000, d3, d1, d9]</p>
+<blockquote>
+<p>提出的按TF升序排列为：[d2, d1000, d3, d1, d9]</p>
+</blockquote></div>
+<div class="options" id="opts-24">
+<div class="option" id="opt-24-A" data-id="A" onclick="selectOption(24, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-24-B" data-id="B" onclick="selectOption(24, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-24" onclick="checkAnswer(24, 'B')">Submit</button>
+<div class="answer-block" id="ans-24">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Calculate and sort TF values: d2(0.012) &lt; d1000(0.025) &lt; d3(0.031) &lt; d9(0.120) &lt; d1(0.197). <strong>Why False</strong>: The proposed order [d2, d1000, d3, <strong>d1, d9</strong>] has d1 and d9 swapped.</p>
+<blockquote>
+<p>计算各文档的 TF 值并排序：d2(0.012) &lt; d1000(0.025) &lt; d3(0.031) &lt; d9(0.120) &lt; d1(0.197)。<strong>为什么是 False</strong>：题目给出的排序 [d2, d1000, d3, <strong>d1, d9</strong>] 中，d1 和 d9 的位置反了。</p>
+</blockquote>
+<ul>
+<li><strong>Correct ascending order (正确升序)</strong>: [d2, d1000, d3, d9, d1]</li>
+<li><strong>$TF(t,d) = \frac{f(t,d)}{|d|}$</strong>: Term Frequency = word count in document / total words in document</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>$TF(t,d) = \frac{f(t,d)}{|d|}$</strong>: 词频 = 词在文档中出现的次数 / 文档总词数</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Correct ascending TF order: [d2, d1000, d3, d9, d1]. The proposal swapped d1 and d9.
+<strong>关键</strong>: 正确升序 TF 排列：[d2, d1000, d3, d9, d1]。题目把 d1 和 d9 位置搞反了。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-25">
+<h2>Q3.7 (1 point)</h2>
+<div class="prompt"><p>Given two word vectors:</p>
+<blockquote>
+<p>给定两个词向量：</p>
+</blockquote>
+<ul>
+<li>$w_1 = (0.2, 0.2, 0.3, 0.7)$</li>
+<li>$w_2 = (0.3, 0.4, 0.8, 0.5)$</li>
+</ul>
+<p>Calculate the cosine similarity.</p>
+<blockquote>
+<p>计算余弦相似度。</p>
+</blockquote></div>
+<button class="btn" id="btn-25" onclick="checkAnswer(25, 'None')">Show Answer</button>
+<div class="answer-block" id="ans-25">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">≈ 0.8421</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Step-by-step cosine similarity calculation:</p>
+<ol>
+<li><strong>Dot product</strong>: $w_1 \cdot w_2 = 0.2 \times 0.3 + 0.2 \times 0.4 + 0.3 \times 0.8 + 0.7 \times 0.5 = 0.06 + 0.08 + 0.24 + 0.35 = 0.73$</li>
+<li><strong>Magnitude</strong>: $||w_1|| = \sqrt{0.04 + 0.04 + 0.09 + 0.49} = \sqrt{0.66} \approx 0.8124$</li>
+<li><strong>Magnitude</strong>: $||w_2|| = \sqrt{0.09 + 0.16 + 0.64 + 0.25} = \sqrt{1.14} \approx 1.0677$</li>
+<li><strong>Cosine similarity</strong>: $\cos(\theta) = \frac{0.73}{0.8124 \times 1.0677} \approx \frac{0.73}{0.8674} \approx 0.8421$</li>
+</ol>
+<blockquote>
+<p>余弦相似度计算步骤：</p>
+<ol>
+<li><strong>点积</strong>：$w_1 \cdot w_2 = 0.06 + 0.08 + 0.24 + 0.35 = 0.73$</li>
+<li><strong>模长</strong>：$||w_1|| = \sqrt{0.66} \approx 0.8124$</li>
+<li><strong>模长</strong>：$||w_2|| = \sqrt{1.14} \approx 1.0677$</li>
+<li><strong>结果</strong>：$\cos(\theta) = \frac{0.73}{0.8124 \times 1.0677} \approx 0.8421$</li>
+</ol>
+</blockquote>
+<p><strong>Key</strong>: $\cos(\theta) = \frac{w_1 \cdot w_2}{||w_1|| \times ||w_2||} = \frac{0.73}{0.8124 \times 1.0677} \approx 0.8421$
+<strong>关键</strong>: $\cos(\theta) = \frac{w_1 \cdot w_2}{||w_1|| \times ||w_2||} = \frac{0.73}{0.8124 \times 1.0677} \approx 0.8421$</p></div>
+</div>
+</div>
+<div class="quiz" id="q-26">
+<h2>Q3.8 (1 point)</h2>
+<div class="prompt"><blockquote>
+<p>考虑以下代码，声称的输出是否正确？</p>
+</blockquote>
+<pre><code class="language-python">cv = CountVectorizer(ngram_range=(1,2)).fit(
+    [&quot;I love NLP&quot;, &quot;He love NLP&quot;, &quot;good man&quot;]
+)
+cv.transform([&quot;love&quot;]).toarray()
+</code></pre>
+<p>Claimed output / 声称的输出: <code>array([[0, 0, 1, 0, 0, 0, 0]], dtype=int64)</code></p></div>
+<div class="options" id="opts-26">
+<div class="option" id="opt-26-A" data-id="A" onclick="selectOption(26, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-26-B" data-id="B" onclick="selectOption(26, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-26" onclick="checkAnswer(26, 'B')">Submit</button>
+<div class="answer-block" id="ans-26">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+<code>CountVectorizer(ngram_range=(1,2))</code> generates a vocabulary of both unigrams and bigrams. <strong>Why False</strong>: The training corpus produces more than 7 features, so the vector length should be longer than claimed.</p>
+<blockquote>
+<p><code>CountVectorizer(ngram_range=(1,2))</code> 会生成 unigram 和 bigram 的词汇表。<strong>为什么是 False</strong>：训练语料会生成超过 7 个特征词，向量维度不止 7。</p>
+</blockquote>
+<ul>
+<li><strong>Vocabulary includes (词汇表包含)</strong>: unigrams ("good", "he", "love", "man", "nlp") + bigrams ("good man", "he love", "love nlp") = at least 8 features</li>
+<li>Input <code>"love"</code> only matches unigram "love", so only that position is 1, but the vector dimension should be 8+, not 7</li>
+</ul>
+<blockquote>
+<ul>
+<li>输入 <code>"love"</code> 只匹配 unigram "love"，除 "love" 位置为 1 外其余为 0，但向量维度应为 8+，不是 7</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: <code>CountVectorizer(ngram_range=(1,2))</code> creates both unigrams and bigrams. The claimed vector length (7) is incorrect.
+<strong>关键</strong>: <code>CountVectorizer(ngram_range=(1,2))</code> 同时生成 unigram 和 bigram。声称的向量长度（7）不正确。</p>
+<hr />
+<h1>Quiz 4 — 词嵌入 (Word Embeddings)</h1>
+<p>Topic: TF-IDF, Word Embeddings, Word2Vec (CBOW &amp; Skip-gram), GloVe, Self-Supervised Learning</p></div>
+</div>
+</div>
+<div class="quiz" id="q-27">
+<h2>Q4.1 (1 point)</h2>
+<div class="prompt"><p>While TF-IDF is useful for some applications (like search engines), its high-dimensional nature can make it difficult to use efficiently for tasks like deep learning-based NLP.</p>
+<blockquote>
+<p>虽然TF-IDF对某些应用（如搜索引擎）很有用，但其高维特性使其在深度学习NLP任务中难以高效使用。</p>
+</blockquote></div>
+<div class="options" id="opts-27">
+<div class="option" id="opt-27-A" data-id="A" onclick="selectOption(27, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-27-B" data-id="B" onclick="selectOption(27, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-27" onclick="checkAnswer(27, 'A')">Submit</button>
+<div class="answer-block" id="ans-27">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A (True)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+TF-IDF produces vectors with dimensions equal to vocabulary size (typically tens to hundreds of thousands), and these vectors are highly sparse. <strong>Why True</strong>: Deep learning models work better with low-dimensional dense vectors (e.g., Word2Vec's 100–300 dimensions); high-dimensional sparse vectors lead to computational inefficiency and overfitting.</p>
+<blockquote>
+<p>TF-IDF 产生的向量维度等于词汇表大小（通常数万到数十万），且向量高度稀疏。<strong>为什么是 True</strong>：深度学习模型更适合处理低维密集向量（如 Word2Vec 的 100-300 维），高维稀疏向量会导致计算效率低下和过拟合。</p>
+</blockquote>
+<p><strong>Key</strong>: TF-IDF = high-dimensional sparse vectors; DL prefers low-dimensional dense embeddings.
+<strong>关键</strong>: TF-IDF = 高维稀疏向量；深度学习偏好低维密集嵌入。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-28">
+<h2>Q4.2 (1 point)</h2>
+<div class="prompt"><p>Which of the following equations should hold for an effective word embedding?</p>
+<blockquote>
+<p>对于有效的词嵌入，以下哪个等式应该成立？</p>
+</blockquote></div>
+<div class="options" id="opts-28">
+<div class="option" id="opt-28-A" data-id="A" onclick="selectOption(28, 'A')">
+<span class="option-id">A</span> <span>e_boy − e_brother ≈ e_sister − e_girl</span>
+</div>
+<div class="option" id="opt-28-B" data-id="B" onclick="selectOption(28, 'B')">
+<span class="option-id">B</span> <span>e_boy − e_girl ≈ e_brother − e_sister</span>
+</div>
+<div class="option" id="opt-28-C" data-id="C" onclick="selectOption(28, 'C')">
+<span class="option-id">C</span> <span>e_boy − e_girl ≈ e_sister − e_brother</span>
+</div>
+</div>
+<button class="btn" id="btn-28" onclick="checkAnswer(28, 'B')">Submit</button>
+<div class="answer-block" id="ans-28">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">e*boy − e_girl ≈ e_brother − e_sister</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Effective word embeddings capture semantic relationships through vector arithmetic (analogy reasoning). <strong>Why this option</strong>: The difference between boy and girl represents the "gender" relationship; the difference between brother and sister should reflect the same "gender" relationship: $e<em>{boy} - e</em>{girl} \approx e*{brother} - e_{sister}$.</p>
+<blockquote>
+<p>有效的词嵌入能通过向量运算捕捉语义关系（类比推理）。<strong>为什么是第二项</strong>：boy 和 girl 的差异代表"性别"关系，brother 和 sister 的差异也应体现相同的"性别"关系。</p>
+</blockquote>
+<ul>
+<li><strong>Option 1</strong>: boy - brother represents a "role type" difference, not parallel with sister - girl.</li>
+<li><strong>Option 3</strong>: Direction is reversed — sister - brother is opposite to boy - girl.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>第一项错</strong>：boy - brother 表示"角色类型"差异，与 sister - girl 不对等。</li>
+<li><strong>第三项错</strong>：方向反了，sister - brother 与 boy - girl 方向相反。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Word analogy: $e_{boy} - e_{girl} \approx e_{brother} - e_{sister}$ — same semantic relationship (gender) preserved in vector space.
+<strong>关键</strong>: 词类比：$e_{boy} - e_{girl} \approx e_{brother} - e_{sister}$ — 向量空间中保持相同语义关系（性别）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-29">
+<h2>Q4.3 (1 point)</h2>
+<div class="prompt"><p>The self-supervision method in neural language modeling avoids the need for hand-labeled supervision signals by using surrounding words as implicit training data for classifiers.</p>
+<blockquote>
+<p>神经语言建模中的自监督方法通过使用周围的词作为分类器的隐式训练数据，从而避免了对手工标注监督信号的需求。</p>
+</blockquote></div>
+<div class="options" id="opts-29">
+<div class="option" id="opt-29-A" data-id="A" onclick="selectOption(29, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-29-B" data-id="B" onclick="selectOption(29, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-29" onclick="checkAnswer(29, 'A')">Submit</button>
+<div class="answer-block" id="ans-29">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A (True)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Self-supervised learning generates training signals from the data itself, requiring no manual labeling. <strong>Why True</strong>: Language models automatically obtain supervision signals by predicting missing or next words from context (e.g., CBOW predicts center word from context, Skip-gram predicts context from center word).</p>
+<blockquote>
+<p>自监督学习（Self-Supervised Learning）从数据本身生成训练信号，无需人工标注。<strong>为什么是 True</strong>：语言模型通过预测上下文中的缺失词或下一个词来自动获得监督信号（如 CBOW 用上下文预测中心词，Skip-gram 用中心词预测上下文）。</p>
+</blockquote>
+<p><strong>Key</strong>: Self-supervised learning generates labels from data itself (e.g., predicting missing/next words from context).
+<strong>关键</strong>: 自监督学习从数据本身生成标签（如从上下文预测缺失词/下一个词）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-30">
+<h2>Q4.4 (1 point)</h2>
+<div class="prompt"><p>One advantage of GloVe over other word embedding methods is that it is global in the sense that it considers the entire corpus to learn relationships between words, and local in the sense that it considers the co-occurrence of words within a limited context window.</p>
+<blockquote>
+<p>GloVe相比其他词嵌入方法的一个优势是：它是全局的（考虑整个语料库来学习词间关系），同时也是局部的（考虑有限上下文窗口内的词共现）。</p>
+</blockquote></div>
+<div class="options" id="opts-30">
+<div class="option" id="opt-30-A" data-id="A" onclick="selectOption(30, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-30-B" data-id="B" onclick="selectOption(30, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-30" onclick="checkAnswer(30, 'A')">Submit</button>
+<div class="answer-block" id="ans-30">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A (True)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+GloVe (Global Vectors for Word Representation) combines two information sources. <strong>Why True</strong>:</p>
+<ul>
+<li><strong>Global</strong>: Uses the entire corpus to build a global word co-occurrence matrix, counting co-occurrence across all word pairs.</li>
+<li><strong>Local</strong>: Co-occurrence statistics are based on a limited context window, only considering nearby words.</li>
+<li>This combination captures both global statistical patterns and local contextual relationships.</li>
+</ul>
+<blockquote>
+<p>GloVe（全局词向量表示）结合了两种信息来源。<strong>为什么是 True</strong>：</p>
+<ul>
+<li><strong>全局（Global）</strong>：利用整个语料库构建全局词共现矩阵。</li>
+<li><strong>局部（Local）</strong>：共现统计基于有限的上下文窗口。</li>
+<li>这种结合使 GloVe 既能捕捉全局统计规律，又能反映局部上下文关系。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: GloVe = <strong>Glo</strong>bal (corpus-wide co-occurrence matrix) + <strong>Ve</strong>ctors (local context window). Combines both perspectives.
+<strong>关键</strong>: GloVe = 全局（语料级共现矩阵）+ 向量（局部上下文窗口）。结合两种视角。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-31">
+<h2>Q4.5 (1 point)</h2>
+<div class="prompt"><p>Suppose you learn a word embedding for a vocabulary of 1000 words. Should the embedding vectors be 1000 dimensional to capture the full range of variation and meaning in those words?</p>
+<blockquote>
+<p>假设你为1000个单词的词汇表学习词嵌入。嵌入向量是否应该是1000维的，以捕捉这些词的全部变化范围和含义？</p>
+</blockquote></div>
+<div class="options" id="opts-31">
+<div class="option" id="opt-31-A" data-id="A" onclick="selectOption(31, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-31-B" data-id="B" onclick="selectOption(31, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-31" onclick="checkAnswer(31, 'B')">Submit</button>
+<div class="answer-block" id="ans-31">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B (False)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The core value of word embeddings lies in <strong>dimensionality reduction</strong> — representing word meaning in far fewer dimensions than vocabulary size. <strong>Why False</strong>: 1000 dimensions equals one-hot encoding size, which defeats the purpose of embeddings. Typical embedding dimensions are 50–300, compressing semantic information into a low-dimensional dense space.</p>
+<blockquote>
+<p>词嵌入的核心价值在于<strong>降维</strong>——用远低于词汇表大小的维度来表示词义。<strong>为什么是 False</strong>：1000 维就等于 one-hot 编码的维度，失去了嵌入的意义。典型的嵌入维度为 50-300 维，通过学习将语义信息压缩到低维密集空间。</p>
+</blockquote>
+<p><strong>Key</strong>: Embedding dim ≪ vocabulary size. Typical: 50–300 dimensions. 1000-dim = one-hot — defeats the purpose.
+<strong>关键</strong>: 嵌入维度 ≪ 词汇表大小。典型：50-300 维。1000 维 = one-hot，失去意义。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-32">
+<h2>Q4.6 (1 point)</h2>
+<div class="prompt"><p>What is the default dimensionality of word embeddings in the Gensim Word2Vec method?</p>
+<blockquote>
+<p>Gensim Word2Vec 方法中词嵌入的默认维度是多少？</p>
+</blockquote></div>
+<div class="options" id="opts-32">
+<div class="option" id="opt-32-A" data-id="A" onclick="selectOption(32, 'A')">
+<span class="option-id">A</span> <span>4000</span>
+</div>
+<div class="option" id="opt-32-B" data-id="B" onclick="selectOption(32, 'B')">
+<span class="option-id">B</span> <span>120</span>
+</div>
+<div class="option" id="opt-32-C" data-id="C" onclick="selectOption(32, 'C')">
+<span class="option-id">C</span> <span>100</span>
+</div>
+<div class="option" id="opt-32-D" data-id="D" onclick="selectOption(32, 'D')">
+<span class="option-id">D</span> <span>10</span>
+</div>
+</div>
+<button class="btn" id="btn-32" onclick="checkAnswer(32, 'C')">Submit</button>
+<div class="answer-block" id="ans-32">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">100</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The default vector dimension parameter in Gensim's Word2Vec model is <code>vector_size = 100</code>. <strong>Why 100</strong>: This is the Gensim default setting, providing a balance between accuracy and computational efficiency for most tasks.</p>
+<blockquote>
+<p>Gensim 库中 Word2Vec 模型的默认向量维度参数 <code>vector_size = 100</code>。<strong>为什么是 100</strong>：这是 Gensim 的默认设置，在大多数任务中提供了准确性和计算效率的平衡。</p>
+</blockquote>
+<ul>
+<li>4000 is too large (computationally expensive); 10 is too small (insufficient expressiveness); 120 is not the default.</li>
+</ul>
+<blockquote>
+<ul>
+<li>4000 太大（计算昂贵）；10 太小（表达力不足）；120 不是默认值。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Gensim Word2Vec default: <code>vector_size=100</code>. Adjustable based on corpus size and task needs.
+<strong>关键</strong>: Gensim Word2Vec 默认：<code>vector_size=100</code>。可根据语料大小和任务需求调整。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-33">
+<h2>Q4.7 (1 point)</h2>
+<div class="prompt"><p>Word2Vec consists of two main techniques: CBOW (Continuous Bag of Words) and Skip-gram.</p>
+<blockquote>
+<p>Word2Vec由两种主要技术组成：CBOW（连续词袋模型）和 Skip-gram。</p>
+</blockquote></div>
+<div class="options" id="opts-33">
+<div class="option" id="opt-33-A" data-id="A" onclick="selectOption(33, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-33-B" data-id="B" onclick="selectOption(33, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-33" onclick="checkAnswer(33, 'A')">Submit</button>
+<div class="answer-block" id="ans-33">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A (True)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Word2Vec includes two training architectures. <strong>Why True</strong>:</p>
+<ul>
+<li><strong>CBOW</strong>: Predicts the center word from context words (Context → Word), better for frequent words.</li>
+<li><strong>Skip-gram</strong>: Predicts context words from the center word (Word → Context), better for rare words and small corpora.</li>
+</ul>
+<blockquote>
+<p>Word2Vec 包含两种训练架构。<strong>为什么是 True</strong>：</p>
+<ul>
+<li><strong>CBOW</strong>：用上下文词预测中心词（Context → Word），适合高频词。</li>
+<li><strong>Skip-gram</strong>：用中心词预测上下文词（Word → Context），适合低频词和小语料。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Word2Vec = CBOW (context→word, frequent words) + Skip-gram (word→context, rare words).
+<strong>关键</strong>: Word2Vec = CBOW（上下文→中心词，适合高频词）+ Skip-gram（中心词→上下文，适合低频词）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-34">
+<h2>Q4.8 (1 point)</h2>
+<div class="prompt"><p>Is the goal of the Skip-Gram model to determine the central word based on its surrounding context words?</p>
+<blockquote>
+<p>Skip-Gram模型的目标是根据周围的上下文词来确定中心词吗？</p>
+</blockquote></div>
+<div class="options" id="opts-34">
+<div class="option" id="opt-34-A" data-id="A" onclick="selectOption(34, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-34-B" data-id="B" onclick="selectOption(34, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-34" onclick="checkAnswer(34, 'B')">Submit</button>
+<div class="answer-block" id="ans-34">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B (False)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+⚠️ <strong>Easy to confuse</strong>: The statement describes CBOW's function, not Skip-gram's. <strong>Why False</strong>: Skip-gram's goal is to predict surrounding context words FROM the center word (Word → Context) — the opposite of what the statement says.</p>
+<blockquote>
+<p>⚠️ <strong>易混淆题</strong>：题干描述的是 CBOW 的功能，而非 Skip-gram。<strong>为什么是 False</strong>：Skip-gram 的目标是用中心词预测周围的上下文词（Word → Context），与题干所述相反。</p>
+</blockquote>
+<ul>
+<li><strong>Skip-gram</strong>: Input center word → predict context words</li>
+<li><strong>CBOW</strong>: Input context words → predict center word (what the statement actually describes)</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>Skip-gram</strong>：输入中心词 → 预测上下文词</li>
+<li><strong>CBOW</strong>：输入上下文词 → 预测中心词（题干描述的就是这个）</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Skip-gram: <strong>center word → context words</strong>. CBOW: context words → center word. Don't confuse them!
+<strong>关键</strong>: Skip-gram：中心词 → 上下文词。CBOW：上下文词 → 中心词。别搞混！</p></div>
+</div>
+</div>
+<div class="quiz" id="q-35">
+<h2>Q4.9 (1 point)</h2>
+<div class="prompt"><p>Most modern NLP algorithms do not use embeddings as the representation of word meaning.</p>
+<blockquote>
+<p>大多数现代NLP算法不使用嵌入（embeddings）作为词义的表示方式。</p>
+</blockquote></div>
+<div class="options" id="opts-35">
+<div class="option" id="opt-35-A" data-id="A" onclick="selectOption(35, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-35-B" data-id="B" onclick="selectOption(35, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-35" onclick="checkAnswer(35, 'B')">Submit</button>
+<div class="answer-block" id="ans-35">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B (False)</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Modern NLP heavily relies on word embeddings as the foundational representation. <strong>Why False</strong>: From Word2Vec, GloVe to pre-trained models like BERT and GPT, embeddings are the core component. Virtually all modern NLP algorithms use embeddings to represent word meaning.</p>
+<blockquote>
+<p>现代 NLP 高度依赖词嵌入作为基础表示。<strong>为什么是 False</strong>：从 Word2Vec、GloVe 到 BERT、GPT 等预训练模型，嵌入都是核心组件。几乎所有现代 NLP 算法都使用嵌入来表示词义。</p>
+</blockquote>
+<p><strong>Key</strong>: Modern NLP relies heavily on embeddings (Word2Vec, GloVe, BERT, GPT). Embeddings are THE standard word representation.
+<strong>关键</strong>: 现代 NLP 高度依赖嵌入（Word2Vec、GloVe、BERT、GPT）。嵌入是标准词表示方式。</p>
+<hr />
+<h2>Quick Review Notes / 快速复习</h2>
+<table>
+<thead>
+<tr>
+<th>Concept / 概念</th>
+<th>Key Point / 要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TF-IDF</td>
+<td>Sparse, high-dimensional, no semantics / 稀疏、高维、无语义</td>
+</tr>
+<tr>
+<td>Embeddings / 词嵌入</td>
+<td>Dense, low-dimensional, semantic / 密集、低维、有语义</td>
+</tr>
+<tr>
+<td>Self-supervised / 自监督</td>
+<td>Data generates its own labels / 数据自生成标签</td>
+</tr>
+<tr>
+<td>GloVe</td>
+<td>Global statistics + local context / 全局统计 + 局部上下文</td>
+</tr>
+<tr>
+<td>Word2Vec</td>
+<td>CBOW + Skip-gram</td>
+</tr>
+<tr>
+<td>CBOW</td>
+<td>Context → Word / 上下文 → 中心词</td>
+</tr>
+<tr>
+<td>Skip-gram</td>
+<td>Word → Context / 中心词 → 上下文</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>Quiz 5 — RNN与语言模型 (RNN &amp; Language Models)</h1>
+<p>Topic: RNN, LSTM, Gradient, N-gram Language Models, Learning Rate, Training Data</p></div>
+</div>
+</div>
+<div class="quiz" id="q-36">
+<h2>Q5.1 (1 point)</h2>
+<div class="prompt"><p>In the context of Recurrent Neural Networks (RNNs), the gradient refers to the rate of change of the loss function with respect to the network's parameters (weights and biases). During the training process, these gradients are computed using backpropagation to adjust the model's parameters in order to minimize the loss and improve the model's performance.</p>
+<blockquote>
+<p>在循环神经网络（RNN）中，梯度是指损失函数相对于网络参数（权重和偏置）的变化率。在训练过程中，这些梯度通过反向传播计算，用于调整模型参数以最小化损失并提升模型性能。</p>
+</blockquote></div>
+<div class="options" id="opts-36">
+<div class="option" id="opt-36-A" data-id="A" onclick="selectOption(36, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-36-B" data-id="B" onclick="selectOption(36, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-36" onclick="checkAnswer(36, 'A')">Submit</button>
+<div class="answer-block" id="ans-36">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+This is the standard definition of gradients in RNN training. <strong>Why True</strong>: The gradient $\frac{\partial L}{\partial \theta}$ represents the rate of change of the loss function with respect to parameters. In RNNs, gradients are computed via BPTT (Backpropagation Through Time), then used with gradient descent to update parameters and minimize loss.</p>
+<blockquote>
+<p>这是 RNN 训练中梯度的标准定义。<strong>为什么是 True</strong>：梯度 $\frac{\partial L}{\partial \theta}$ 表示损失函数对参数的变化率，通过时序反向传播（BPTT）计算梯度，然后用梯度下降法更新参数以最小化损失。</p>
+</blockquote>
+<ul>
+<li><strong>$\frac{\partial L}{\partial \theta}$</strong>: Partial derivative of loss w.r.t. parameters (gradient) / 损失函数对参数的偏导数（梯度）</li>
+<li><strong>BPTT</strong>: Backpropagation Through Time — the specialized backpropagation algorithm for RNNs / 时序反向传播，RNN 专用的反向传播算法</li>
+</ul>
+<p><strong>Key</strong>: Gradient = $\frac{\partial L}{\partial \theta}$, computed via BPTT in RNNs, used to minimize loss by adjusting weights and biases.
+<strong>关键</strong>: 梯度 = $\frac{\partial L}{\partial \theta}$，在 RNN 中通过 BPTT 计算，用于调整权重和偏置以最小化损失。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-37">
+<h2>Q5.2 (1 point)</h2>
+<div class="prompt"><p>"Stateful computation" in the context of Recurrent Neural Networks (RNNs) refers to maintaining internal memory states across multiple inputs.</p>
+<blockquote>
+<p>在循环神经网络（RNN）中，"有状态计算"是指在多个输入之间维持内部记忆状态。</p>
+</blockquote></div>
+<div class="options" id="opts-37">
+<div class="option" id="opt-37-A" data-id="A" onclick="selectOption(37, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-37-B" data-id="B" onclick="selectOption(37, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-37" onclick="checkAnswer(37, 'A')">Submit</button>
+<div class="answer-block" id="ans-37">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The core feature of RNNs is "stateful computation" — transferring information between time steps through hidden state $h_t$. <strong>Why True</strong>: At each time step, the RNN receives the current input and previous hidden state: $h_t = f(W_h h_{t-1} + W_x x_t + b)$. This mechanism enables RNNs to maintain memory across multiple inputs.</p>
+<blockquote>
+<p>RNN 的核心特征就是"有状态计算"——通过隐藏状态 $h_t$ 在时间步之间传递信息。<strong>为什么是 True</strong>：RNN 在每个时间步接收当前输入和上一步的隐藏状态 $h_t = f(W_h h_{t-1} + W_x x_t + b)$，使其能跨多个输入维持记忆。</p>
+</blockquote>
+<ul>
+<li><strong>$h_t$</strong>: Hidden state — carries historical information across time steps / 隐藏状态，携带历史信息</li>
+</ul>
+<p><strong>Key</strong>: Stateful computation = RNN maintains hidden state $h_t$ across time steps, carrying information from previous inputs.
+<strong>关键</strong>: 有状态计算 = RNN 跨时间步维持隐藏状态 $h_t$，携带之前输入的信息。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-38">
+<h2>Q5.3 (1 point)</h2>
+<div class="prompt"><p>Publicly available datasets, such as news articles, social media posts, and web pages, are commonly used as sources of data for training NLP models, as they provide a diverse range of language usage and context.</p>
+<blockquote>
+<p>公开可用的数据集（如新闻文章、社交媒体帖子和网页）通常用作训练NLP模型的数据来源，因为它们提供了多样化的语言使用和上下文。</p>
+</blockquote></div>
+<div class="options" id="opts-38">
+<div class="option" id="opt-38-A" data-id="A" onclick="selectOption(38, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-38-B" data-id="B" onclick="selectOption(38, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-38" onclick="checkAnswer(38, 'A')">Submit</button>
+<div class="answer-block" id="ans-38">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+NLP model training relies on large-scale, diverse text datasets. <strong>Why True</strong>: News, social media, and web data cover various genres, topics, and expressions, providing rich linguistic diversity and contextual information essential for robust model training.</p>
+<blockquote>
+<p>NLP 模型训练依赖大规模多样化文本数据集。<strong>为什么是 True</strong>：新闻、社交媒体、网页等公开数据涵盖了各种文体、话题和表达方式，为模型提供了丰富的语言多样性和上下文信息。</p>
+</blockquote>
+<p><strong>Key</strong>: Public datasets (news, social media, web) provide diverse language patterns essential for training robust NLP models.
+<strong>关键</strong>: 公开数据集（新闻、社交媒体、网页）提供训练稳健 NLP 模型所需的多样化语言模式。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-39">
+<h2>Q5.4 (1 point)</h2>
+<div class="prompt"><p>Suppose we have the following sentence:</p>
+<blockquote>
+<p>假设我们有以下句子：</p>
+</blockquote>
+<p>"Sunny days make people feel <strong>____</strong>."</p>
+<p>Let's assume we have a corpus, and we count the occurrences:</p>
+<blockquote>
+<p>假设我们有一个语料库，并统计了以下出现次数：</p>
+</blockquote>
+<ul>
+<li>Count("feel"): 100 occurrences</li>
+<li>Count("feel happy"): 40 occurrences</li>
+<li>Count("happy"): 30 occurrences</li>
+</ul>
+<p>The conditional probability P("happy" | "feel") is:</p>
+<blockquote>
+<p>条件概率 P("happy" | "feel") 是：</p>
+</blockquote></div>
+<div class="options" id="opts-39">
+<div class="option" id="opt-39-A" data-id="A" onclick="selectOption(39, 'A')">
+<span class="option-id">A</span> <span>0.2</span>
+</div>
+<div class="option" id="opt-39-B" data-id="B" onclick="selectOption(39, 'B')">
+<span class="option-id">B</span> <span>0.4</span>
+</div>
+<div class="option" id="opt-39-C" data-id="C" onclick="selectOption(39, 'C')">
+<span class="option-id">C</span> <span>0</span>
+</div>
+<div class="option" id="opt-39-D" data-id="D" onclick="selectOption(39, 'D')">
+<span class="option-id">D</span> <span>0.3</span>
+</div>
+</div>
+<button class="btn" id="btn-39" onclick="checkAnswer(39, 'B')">Submit</button>
+<div class="answer-block" id="ans-39">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Conditional probability formula: $P(w_2|w_1) = \frac{Count(w_1, w_2)}{Count(w_1)}$. <strong>Why 0.4</strong>:</p>
+<ul>
+<li>$P(\text{"happy"} | \text{"feel"}) = \frac{Count(\text{"feel happy"})}{Count(\text{"feel"})} = \frac{40}{100} = 0.4$</li>
+<li><strong>Note</strong>: Count("happy") = 30 is a <strong>distractor</strong> — conditional probability only uses the co-occurrence count divided by the conditioning word count.</li>
+</ul>
+<blockquote>
+<p>条件概率公式：$P(w_2|w_1) = \frac{Count(w_1, w_2)}{Count(w_1)}$。<strong>为什么是 0.4</strong>：</p>
+<ul>
+<li>$P(\text{"happy"} | \text{"feel"}) = \frac{40}{100} = 0.4$</li>
+<li><strong>注意</strong>：Count("happy") = 30 是<strong>干扰信息</strong>，条件概率只用共现次数除以条件词总次数。</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>$P(w_2|w_1) = \frac{Count(w_1 w_2)}{Count(w_1)}$</strong>: N-gram conditional probability (Bigram model) / N-gram 条件概率（Bigram 模型）</li>
+</ul>
+<p><strong>Key</strong>: $P(\text{happy}|\text{feel}) = \frac{Count(\text{feel happy})}{Count(\text{feel})} = \frac{40}{100} = 0.4$. Count("happy") alone is a distractor.
+<strong>关键</strong>: $P(happy|feel) = \frac{Count(feel\ happy)}{Count(feel)} = \frac{40}{100} = 0.4$。Count("happy") 单独出现是干扰信息。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-40">
+<h2>Q5.5 (1 point)</h2>
+<div class="prompt"><p>What is a significant advantage of Recurrent Neural Networks (RNNs) over traditional feedforward neural networks (FFNs) that makes them particularly suited for natural language processing tasks?</p>
+<blockquote>
+<p>循环神经网络（RNN）相比传统前馈神经网络（FFN）的一个显著优势是什么，使其特别适合自然语言处理任务？</p>
+</blockquote></div>
+<div class="options" id="opts-40">
+<div class="option" id="opt-40-A" data-id="A" onclick="selectOption(40, 'A')">
+<span class="option-id">A</span> <span>RNNs maintain an internal state that allows them to model sequential dependencies, which is crucial for tasks like language modeling and machine translation.</span>
+</div>
+<div class="option" id="opt-40-B" data-id="B" onclick="selectOption(40, 'B')">
+<span class="option-id">B</span> <span>RNNs can process fixed-length input sequences, making them ideal for tasks with static input sizes.</span>
+</div>
+<div class="option" id="opt-40-C" data-id="C" onclick="selectOption(40, 'C')">
+<span class="option-id">C</span> <span>RNNs only process input in a single forward pass, making them more efficient than FFNs for sequential tasks.</span>
+</div>
+<div class="option" id="opt-40-D" data-id="D" onclick="selectOption(40, 'D')">
+<span class="option-id">D</span> <span>RNNs are faster to train than FFNs because they do not require backpropagation.</span>
+</div>
+</div>
+<button class="btn" id="btn-40" onclick="checkAnswer(40, 'A')">Submit</button>
+<div class="answer-block" id="ans-40">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The core advantage of RNNs over FFNs is the ability to process sequential data and model temporal dependencies. <strong>Why A</strong>: RNNs pass information between time steps via hidden state $h_t$, capturing sequential dependencies crucial for language modeling and machine translation.</p>
+<blockquote>
+<p>RNN 相比 FFN 的核心优势在于能处理序列数据并建模时序依赖关系。<strong>为什么是 A</strong>：RNN 通过隐藏状态 $h_t$ 在时间步之间传递信息，捕捉序列中的依赖关系，对语言建模和机器翻译至关重要。</p>
+</blockquote>
+<ul>
+<li><strong>B</strong>: RNNs can handle <strong>variable-length</strong> sequences — that's precisely their advantage, not "fixed-length."</li>
+<li><strong>C</strong>: RNNs compute at every time step and use BPTT for backpropagation — not "a single forward pass."</li>
+<li><strong>D</strong>: RNNs require backpropagation (BPTT) and are typically slower than FFNs due to sequential unrolling.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>B 错</strong>：RNN 能处理<strong>变长</strong>序列，这恰恰是它的优势，不限于固定长度。</li>
+<li><strong>C 错</strong>：RNN 在每个时间步都进行计算，并通过 BPTT 反向传播，不是"单次前向传播"。</li>
+<li><strong>D 错</strong>：RNN 需要反向传播（BPTT），且由于序列展开通常比 FFN 更慢。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: RNN advantage over FFN: internal state $h_t$ models sequential dependencies — essential for language tasks.
+<strong>关键</strong>: RNN 相比 FFN 的优势：内部状态 $h_t$ 建模序列依赖 — 对语言任务至关重要。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-41">
+<h2>Q5.6 (1 point)</h2>
+<div class="prompt"><p>Which of the following best explains why LSTMs are able to handle long-term dependencies better than standard RNNs?</p>
+<blockquote>
+<p>以下哪项最能解释为什么LSTM比标准RNN更能处理长期依赖关系？</p>
+</blockquote></div>
+<div class="options" id="opts-41">
+<div class="option" id="opt-41-A" data-id="A" onclick="selectOption(41, 'A')">
+<span class="option-id">A</span> <span>Because LSTMs use more hidden layers, which automatically prevent vanishing gradients.</span>
+</div>
+<div class="option" id="opt-41-B" data-id="B" onclick="selectOption(41, 'B')">
+<span class="option-id">B</span> <span>Because LSTMs replace the recurrent connection with a fully connected feedforward network.</span>
+</div>
+<div class="option" id="opt-41-C" data-id="C" onclick="selectOption(41, 'C')">
+<span class="option-id">C</span> <span>Because LSTMs use gating mechanisms that regulate information flow and help preserve gradients over long sequences.</span>
+</div>
+<div class="option" id="opt-41-D" data-id="D" onclick="selectOption(41, 'D')">
+<span class="option-id">D</span> <span>Because LSTMs remove backpropagation and instead rely only on forward propagation.</span>
+</div>
+</div>
+<button class="btn" id="btn-41" onclick="checkAnswer(41, 'C')">Submit</button>
+<div class="answer-block" id="ans-41">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">C</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+LSTMs solve the standard RNN's vanishing gradient problem through three gating mechanisms. <strong>Why C</strong>:</p>
+<ul>
+<li><strong>Forget Gate</strong>: Decides which old information to discard</li>
+<li><strong>Input Gate</strong>: Decides which new information to store</li>
+<li><strong>Output Gate</strong>: Decides which information to output</li>
+<li>These gates allow gradients to flow along the cell state over long distances, preventing vanishing gradients.</li>
+</ul>
+<blockquote>
+<p>LSTM 通过三个门控机制解决了标准 RNN 的梯度消失问题。<strong>为什么是 C</strong>：</p>
+<ul>
+<li><strong>遗忘门（Forget Gate）</strong>：决定丢弃哪些旧信息</li>
+<li><strong>输入门（Input Gate）</strong>：决定存储哪些新信息</li>
+<li><strong>输出门（Output Gate）</strong>：决定输出哪些信息</li>
+<li>这些门控机制允许梯度沿细胞状态长距离传播，避免梯度消失。</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>A</strong>: More layers don't automatically prevent vanishing gradients — the key is the gating mechanism.</li>
+<li><strong>B</strong>: LSTMs are still recurrent architectures — they don't replace recurrence with feedforward networks.</li>
+<li><strong>D</strong>: LSTMs still require backpropagation for training.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A 错</strong>：层数多不能自动防止梯度消失，关键是门控机制。</li>
+<li><strong>B 错</strong>：LSTM 仍然是循环结构，没有替换为前馈网络。</li>
+<li><strong>D 错</strong>：LSTM 仍需反向传播来训练。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: LSTM gates (forget, input, output) regulate information flow, preserving gradients across long sequences — solving vanishing gradient.
+<strong>关键</strong>: LSTM 门控（遗忘门、输入门、输出门）调节信息流，跨长序列保持梯度 — 解决梯度消失。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-42">
+<h2>Q5.7 (1 point)</h2>
+<div class="prompt"><p>The core idea of an n-gram language model is to predict the next word by understanding the semantic meaning of entire sentences and applying deep reasoning.</p>
+<blockquote>
+<p>N-gram语言模型的核心思想是通过理解整个句子的语义含义并应用深层推理来预测下一个词。</p>
+</blockquote></div>
+<div class="options" id="opts-42">
+<div class="option" id="opt-42-A" data-id="A" onclick="selectOption(42, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-42-B" data-id="B" onclick="selectOption(42, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-42" onclick="checkAnswer(42, 'B')">Submit</button>
+<div class="answer-block" id="ans-42">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+N-gram models are shallow, statistics-based methods without deep semantic understanding. <strong>Why False</strong>: N-gram models only rely on the frequency of the previous $n-1$ words to predict the next word ($P(w_n|w_1,...,w_{n-1})$). They don't understand sentence meaning or perform "deep reasoning."</p>
+<blockquote>
+<p>N-gram 模型是基于统计的浅层方法，不具备深层语义理解能力。<strong>为什么是 False</strong>：N-gram 模型只依赖前 $n-1$ 个词的出现频率来预测下一个词，不理解句子含义，也不进行"深层推理"。</p>
+</blockquote>
+<ul>
+<li><strong>$P(w_n|w_{n-N+1},...,w_{n-1})$</strong>: N-gram conditional probability — only looks at the previous N-1 words / N-gram 条件概率 — 只看前 N-1 个词</li>
+<li>N-gram limitations / N-gram 局限：no semantic understanding (无语义理解), fixed window size (固定窗口), sparsity (稀疏性)</li>
+</ul>
+<p><strong>Key</strong>: N-gram = statistical frequency-based prediction from previous N-1 words. No semantic understanding or deep reasoning.
+<strong>关键</strong>: N-gram = 基于统计频率从前 N-1 个词预测。无语义理解，无深层推理。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-43">
+<h2>Q5.8 (1 point)</h2>
+<div class="prompt"><p>When the learning rate is set too low, the training process will become much faster, and the model will reach the optimal solution quickly because small weight updates allow for faster progress.</p>
+<blockquote>
+<p>当学习率设置得过低时，训练过程会变得更快，模型会迅速达到最优解，因为较小的权重更新可以带来更快的进展。</p>
+</blockquote></div>
+<div class="options" id="opts-43">
+<div class="option" id="opt-43-A" data-id="A" onclick="selectOption(43, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-43-B" data-id="B" onclick="selectOption(43, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-43" onclick="checkAnswer(43, 'B')">Submit</button>
+<div class="answer-block" id="ans-43">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Too low a learning rate causes training to become <strong>slower</strong>, not faster — the opposite of what the statement claims. <strong>Why False</strong>: A very small learning rate means each parameter update is tiny ($\theta = \theta - \alpha \cdot \nabla L$), requiring many more iterations to converge, and potentially getting stuck in local optima.</p>
+<blockquote>
+<p>学习率过低会导致训练<strong>变慢</strong>而非变快，与题干所述相反。<strong>为什么是 False</strong>：过小的学习率意味着每次参数更新幅度极小，需要更多迭代才能收敛，甚至可能卡在局部最优。</p>
+</blockquote>
+<ul>
+<li><strong>Too low learning rate / 学习率过低</strong>: Extremely slow convergence, may get stuck in local optima / 收敛极慢，可能陷入局部最优</li>
+<li><strong>Too high learning rate / 学习率过高</strong>: Oscillation/divergence, may skip the optimal solution / 振荡不收敛，可能跳过最优解</li>
+<li><strong>$\alpha$</strong>: Learning rate — controls the step size of parameter updates / 学习率，控制参数更新步长</li>
+</ul>
+<p><strong>Key</strong>: Low learning rate → slow convergence (not faster). Too high → oscillation/divergence. Need balanced $\alpha$.
+<strong>关键</strong>: 低学习率 → 收敛慢（不是更快）。过高 → 振荡/发散。需要平衡的 $\alpha$。</p>
+</details></div>
+</div>
+</div>
+
+    <script>
+        function selectOption(qIndex, optId) {
+            const btn = document.getElementById(`btn-${qIndex}`);
+            if (btn.disabled) return;
+            
+            const opts = document.querySelectorAll(`#opts-${qIndex} .option`);
+            opts.forEach(o => o.classList.remove('selected'));
+            
+            const clicked = document.getElementById(`opt-${qIndex}-${optId}`);
+            clicked.classList.add('selected');
+        }
+
+        function checkAnswer(qIndex, correctId) {
+            const btn = document.getElementById(`btn-${qIndex}`);
+            const ansBlock = document.getElementById(`ans-${qIndex}`);
+            
+            btn.disabled = true;
+            ansBlock.classList.add('visible');
+            
+            if (correctId && correctId !== 'None') {
+                const opts = document.querySelectorAll(`#opts-${qIndex} .option`);
+                opts.forEach(o => {
+                    const id = o.dataset.id;
+                    if (id === correctId) {
+                        o.classList.add('correct');
+                    } else if (o.classList.contains('selected')) {
+                        o.classList.add('incorrect');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

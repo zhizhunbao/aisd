@@ -13,6 +13,9 @@ Add deep, insightful bilingual (Chinese + English) study notes to lecture materi
 
 Slides already cover **What** and **How**. Notes must add the layers that slides miss.
 
+> ⚠️ **Cross-cutting Rule:** When notes include formulas, conclusions, or non-trivial claims, follow the **Source Citation & Proof Rule** (`learning-source_citation` SKILL.md). Every claim must cite a textbook source; every conclusion must have a proof or derivation. No unsourced content (不能拍脑袋).
+> ⚠️ **通用规则：** 当笔记中包含公式、结论或重要论述时，必须遵守**来源引证与证明规则**（`learning-source_citation` SKILL.md）。所有论述必须注明教科书来源，结论必须附带证明或推导。
+
 ❌ **BAD (shallow):** Restating slide content in another language
 
 ```
@@ -80,75 +83,65 @@ Rules:
 >
 > English explanation with depth — answer WHY, not just WHAT.
 >
->> 中文解释 — 回答"为什么"，而不是重复"是什么"。
->>
+> > 中文解释 — 回答"为什么"，而不是重复"是什么"。
 >
 > **(2) Reason B (原因B):**
 >
 > Another insight about why this matters.
 >
->> 另一个关于为什么重要的洞察。
->>
+> > 另一个关于为什么重要的洞察。
 >
 > **💡 Intuition:**
 > **(1) Analogy A (类比A):**
 >
 > Think of it like [analogy]...
 >
->> 类比：就像[类比]...
->>
+> > 类比：就像[类比]...
 >
 > **(2) Analogy B (类比B):**
 >
 > Another way to think about it...
 >
->> 另一种理解方式...
->>
+> > 另一种理解方式...
 >
 > **⚖️ Compare:**
 > **(1) X vs Y:**
 >
 > Key difference is...
 >
->> 关键区别在于...
->>
+> > 关键区别在于...
 >
 > **(2) X vs Z:**
 >
 > Another comparison...
 >
->> 另一个对比...
->>
+> > 另一个对比...
 >
 > **⚠️ Pitfall:**
 > **(1) Confusion trap (混淆陷阱):**
 >
 > Don't confuse X with Y — they look similar but...
 >
->> 不要混淆 X 和 Y — 它们看起来相似但...
->>
+> > 不要混淆 X 和 Y — 它们看起来相似但...
 >
 > **(2) Common mistake (常见错误):**
 >
 > Students often forget that...
 >
->> 学生经常忘记...
->>
+> > 学生经常忘记...
 >
 > **📝 Exam:**
 > **(1) 计算题 (Calculation):**
 >
 > Given [input], calculate [output]. → Show formula → plug in → result.
 >
->> 给定[输入]，计算[输出]。→ 列公式 → 代入 → 结果。
->>
+> > 给定[输入]，计算[输出]。→ 列公式 → 代入 → 结果。
 >
 > **(2) 概念题 (Conceptual):**
 >
 > "Explain why X is needed." → Because [reason].
 >
->> "解释为什么需要X。" → 因为[原因]。
->>
+> > "解释为什么需要X。" → 因为[原因]。
 ```
 
 ### 4. Language Rules
@@ -197,6 +190,7 @@ When a section contains a **math formula**, notes require special handling:
 **⓪ Check `math-concept-library` first (先查公式库):**
 
 Before writing any formula explanation, look up the concept in `.shared/skills/math-concept-library/resources/`:
+
 - `signal_processing.md` — Filters, convolution, frequency domain
 - `calculus.md` — Derivatives, gradients, optimization
 - `linear_algebra.md` — Matrices, transformations, eigenvalues
@@ -208,6 +202,7 @@ If the concept **exists**: reuse its definition, intuition, and formula breakdow
 If the concept **does not exist**: write the explanation from scratch, then **add it to the library** after completing the notes (see step C below).
 
 **A) Main text (BEFORE the notes block):**
+
 - Write the formula with **full expansion** (compact → expanded)
 - Below the formula, list a **symbol legend**: every variable's meaning, type, and range
 
@@ -222,19 +217,19 @@ If the concept **does not exist**: write the explanation from scratch, then **ad
 
 **B) Inside the notes block, use these dedicated formula layers:**
 
-| Layer | Icon | Purpose | NOT for |
-| --- | --- | --- | --- |
-| **Formula** | 📐 | Break down formula structure: what each part does | Analogies or calculations |
-| **Example** | 🔢 | Set up a clear problem, then walk through calculation | Exam questions |
-| **Exam** | 📝 | Predict exam question types | Worked calculations |
+| Layer       | Icon | Purpose                                               | NOT for                   |
+| ----------- | ---- | ----------------------------------------------------- | ------------------------- |
+| **Formula** | 📐   | Break down formula structure: what each part does     | Analogies or calculations |
+| **Example** | 🔢   | Set up a clear problem, then walk through calculation | Exam questions            |
+| **Exam**    | 📝   | Predict exam question types                           | Worked calculations       |
 
 **Distinction between layers:**
 
-| | 💡 Intuition | 📐 Formula | 🔢 Example |
-|---|---|---|---|
-| **Approach** | Analogy / mental model | Structural reading of the formula | Plug in real numbers |
-| **Style** | "It's like magnets..." | "Σᵢ means for each cluster, Σₓ means for each point..." | "Given {1,3,7,9}, SSE = ..." |
-| **Goal** | Build intuition | Understand the math notation | Verify you can compute it |
+|              | 💡 Intuition           | 📐 Formula                                              | 🔢 Example                   |
+| ------------ | ---------------------- | ------------------------------------------------------- | ---------------------------- |
+| **Approach** | Analogy / mental model | Structural reading of the formula                       | Plug in real numbers         |
+| **Style**    | "It's like magnets..." | "Σᵢ means for each cluster, Σₓ means for each point..." | "Given {1,3,7,9}, SSE = ..." |
+| **Goal**     | Build intuition        | Understand the math notation                            | Verify you can compute it    |
 
 **Layer order:**
 
@@ -264,42 +259,42 @@ If you explained a formula that is **not yet in** `math-concept-library/resource
 > **💡 Intuition:**
 > Analogy: think of it like [real-world analogy].
 >
->> 类比：就像[现实类比]。
->>
+> > 类比：就像[现实类比]。
 >
 > **📐 Formula:**
 > Reading the formula piece by piece:
+>
 > - Σᵢ: iterate over all K clusters
 > - Σₓ∈Cᵢ: for each point x in cluster i
 > - ‖x - mᵢ‖²: squared distance from x to centroid mᵢ
 > - Overall: sum up all these squared distances = total "spread"
 >
->> 逐段读公式：
->> - Σᵢ：遍历所有K个簇
->> - Σₓ∈Cᵢ：对簇i中的每个点x
->> - ‖x - mᵢ‖²：x到质心mᵢ的平方距离
->> - 整体：把所有平方距离加起来 = 总"散布程度"
->>
+> > 逐段读公式：
+> >
+> > - Σᵢ：遍历所有K个簇
+> > - Σₓ∈Cᵢ：对簇i中的每个点x
+> > - ‖x - mᵢ‖²：x到质心mᵢ的平方距离
+> > - 整体：把所有平方距离加起来 = 总"散布程度"
 >
 > **🔢 Example:**
 > **Problem:** We have 4 data points in 1D: {1, 3, 7, 9}. They've been assigned to 2 clusters: C₁={1,3} and C₂={7,9}.
 > **Question:** What is the SSE?
 > **Solution:**
+>
 > - Centroid m₁ = (1+3)/2 = 2, centroid m₂ = (7+9)/2 = 8
 > - SSE = (1-2)² + (3-2)² + (7-8)² + (9-8)² = 1+1+1+1 = **4**
 >
->> **题目：** 4个1维数据点：{1, 3, 7, 9}。分为2个簇：C₁={1,3}，C₂={7,9}。
->> **问：** SSE是多少？
->> **解：**
->> - 质心 m₁ = (1+3)/2 = 2，m₂ = (7+9)/2 = 8
->> - SSE = (1-2)² + (3-2)² + (7-8)² + (9-8)² = 1+1+1+1 = **4**
->>
+> > **题目：** 4个1维数据点：{1, 3, 7, 9}。分为2个簇：C₁={1,3}，C₂={7,9}。
+> > **问：** SSE是多少？
+> > **解：**
+> >
+> > - 质心 m₁ = (1+3)/2 = 2，m₂ = (7+9)/2 = 8
+> > - SSE = (1-2)² + (3-2)² + (7-8)² + (9-8)² = 1+1+1+1 = **4**
 >
 > **📝 Exam:**
 > "Given these clusters, compute SSE." Must show: formula → plug in each point → sum.
 >
->> "给定这些簇，计算SSE。" 必须展示：公式 → 代入每个点 → 求和。
->>
+> > "给定这些簇，计算SSE。" 必须展示：公式 → 代入每个点 → 求和。
 ```
 
 ### 8. Image Description Protocol (图片描述规范)
@@ -309,7 +304,7 @@ If you explained a formula that is **not yet in** `math-concept-library/resource
 **Rules:**
 
 1. **Each image gets ONE line:** `**Slide Title:** — 中文翻译` — plain text (NOT inside `>` blockquote), placed directly below the image
-2. **Single line format:** `**English Title:** — 中文翻译` — English title from the slide followed by ` — ` and a direct Chinese translation of the title. NO separate English/Chinese paragraphs.
+2. **Single line format:** `**English Title:** — 中文翻译` — English title from the slide followed by `—` and a direct Chinese translation of the title. NO separate English/Chinese paragraphs.
 3. **NO image visual descriptions** — do NOT write paragraphs describing what the image shows (e.g., "Diagram showing...", "Slide showing..."). The title is just a translation of the slide title, NOT a description of the image content.
 4. **NO duplicate titles** — if the slide title and the image description are the same text, keep only ONE line with the `— 中文` format. Do NOT have both a description line and a separate slide text line.
 5. The **`📝 Notes` block** still appears **once** at the end of the entire section (after all images), providing deeper analysis
@@ -373,17 +368,17 @@ Patterns learned from effective note-taking:
 
 **Per-layer structure:**
 
-| Layer | Sub-layer format | Example |
-|---|---|---|
-| 📌 **What** | `(1) Concept A:` / `(2) Concept B:` | (1) Filter/Kernel / (2) Convolution operation |
-| 🎯 **Why** | `(1) Reason A:` / `(2) Reason B:` | (1) Why learnable filters? / (2) Why padding matters? |
-| 💡 **Intuition** | `(1) Analogy A:` / `(2) Analogy B:` | (1) Convolution as a question / (2) Stride as zoom level |
-| ⚙️ **How** | `(1) Step/mechanism A:` / `(2) Step B:` | (1) Forward pass / (2) Backward pass |
-| 📐 **Formula** | `(1) Formula A:` / `(2) Formula B:` | (1) SSE breakdown / (2) Entropy breakdown |
-| 🔢 **Example** | `(1) Scenario A:` / `(2) Scenario B:` | (1) Predict with max pool / (2) Predict with avg pool |
-| ⚖️ **Compare** | `(1) Comparison A:` / `(2) Comparison B:` | (1) CNN vs RNN / (2) Max vs Avg Pooling |
-| ⚠️ **Pitfall** | `(1) Mistake A:` / `(2) Mistake B:` | (1) Chaining effect / (2) "Including itself" trap |
-| 📝 **Exam** | `(1) 题型A (Type A):` / `(2) 题型B:` | (1) 计算题 / (2) 概念题 / (3) 对比题 |
+| Layer            | Sub-layer format                          | Example                                                  |
+| ---------------- | ----------------------------------------- | -------------------------------------------------------- |
+| 📌 **What**      | `(1) Concept A:` / `(2) Concept B:`       | (1) Filter/Kernel / (2) Convolution operation            |
+| 🎯 **Why**       | `(1) Reason A:` / `(2) Reason B:`         | (1) Why learnable filters? / (2) Why padding matters?    |
+| 💡 **Intuition** | `(1) Analogy A:` / `(2) Analogy B:`       | (1) Convolution as a question / (2) Stride as zoom level |
+| ⚙️ **How**       | `(1) Step/mechanism A:` / `(2) Step B:`   | (1) Forward pass / (2) Backward pass                     |
+| 📐 **Formula**   | `(1) Formula A:` / `(2) Formula B:`       | (1) SSE breakdown / (2) Entropy breakdown                |
+| 🔢 **Example**   | `(1) Scenario A:` / `(2) Scenario B:`     | (1) Predict with max pool / (2) Predict with avg pool    |
+| ⚖️ **Compare**   | `(1) Comparison A:` / `(2) Comparison B:` | (1) CNN vs RNN / (2) Max vs Avg Pooling                  |
+| ⚠️ **Pitfall**   | `(1) Mistake A:` / `(2) Mistake B:`       | (1) Chaining effect / (2) "Including itself" trap        |
+| 📝 **Exam**      | `(1) 题型A (Type A):` / `(2) 题型B:`      | (1) 计算题 / (2) 概念题 / (3) 对比题                     |
 
 **Summary:** **ALL layers** must use `**(N) Name:**` numbered sub-items to force categorization. The only exceptions are when a layer has a highly specialized internal structure (e.g., a table inside a Compare sub-item, or a Problem/Solution block inside an Example sub-item), but the top-level categorization must still be numbered sub-items.
 
@@ -396,25 +391,22 @@ Patterns learned from effective note-taking:
 > A small matrix (e.g., 3×3, 5×5) with pre-set or learned weights.
 > Also called a convolution matrix. Each weight determines how much the corresponding pixel contributes.
 >
->> 一个小矩阵（如3×3、5×5），具有预设或学习到的权重。
->> 也叫卷积矩阵。每个权重决定对应像素的贡献度。
->>
+> > 一个小矩阵（如3×3、5×5），具有预设或学习到的权重。
+> > 也叫卷积矩阵。每个权重决定对应像素的贡献度。
 >
 > **(2) Convolution operation (卷积运算):**
 >
 > The kernel slides across the image; at each position it computes a weighted sum of the covered pixels, producing one output value. The full sliding process is called convolution.
 >
->> 核在图像上滑动，每个位置对覆盖的像素做加权和，产生一个输出值。整个滑动过程称为卷积。
->>
+> > 核在图像上滑动，每个位置对覆盖的像素做加权和，产生一个输出值。整个滑动过程称为卷积。
 >
 > **(3) Weighted sum vs weighted average (加权和 vs 加权平均):**
 >
 > Weighted sum = Σ(pixel × weight). Weighted average = Σ(pixel × weight) / Σ(weight).
 > Blur kernels (all positive, sum=1) are true weighted averages. Sharpening/edge kernels (negative weights, sum≠1) are weighted sums but NOT averages.
 >
->> 加权和 = Σ(像素 × 权重)。加权平均 = Σ(像素 × 权重) / Σ(权重)。
->> 模糊核（全正，和=1）是真正的加权平均。锐化/边缘核（有负权重，和≠1）是加权和但不是平均。
->>
+> > 加权和 = Σ(像素 × 权重)。加权平均 = Σ(像素 × 权重) / Σ(权重)。
+> > 模糊核（全正，和=1）是真正的加权平均。锐化/边缘核（有负权重，和≠1）是加权和但不是平均。
 ```
 
 ❌ **BAD — monolithic paragraph (hard to parse):**
@@ -425,12 +417,12 @@ Patterns learned from effective note-taking:
 ```
 
 **Rules:**
+
 1. Use `**(N) Concept Name (中文名):**` format — bold number, bold concept, colon
 2. Each sub-point has its own English block + Chinese `>>` block
 3. Order sub-points logically: foundational concept first, derived/comparative concepts later
 4. If a sub-point itself is long, it can have bullet points inside
 5. Minimum 2 sub-items per layer (if only 1 point, still number it as `(1)` for consistency)
-
 
 ---
 
@@ -445,10 +437,10 @@ When comparing 2+ concepts/methods, always use a markdown table inside the block
 > | Shape | Spherical | Any shape |
 > | Noise | No handling | Built-in |
 >
->> | 特性 | 方法A | 方法B |
->> |---|---|---|
->> | 形状 | 仅球形 | 任意形状 |
->> | 噪声 | 无处理 | 内置 |
+> > | 特性 | 方法A  | 方法B    |
+> > | ---- | ------ | -------- |
+> > | 形状 | 仅球形 | 任意形状 |
+> > | 噪声 | 无处理 | 内置     |
 ```
 
 **⚠️ Pitfall — number multiple items:**
@@ -461,9 +453,9 @@ When there are multiple pitfalls, use **(1), (2), (3)** numbering with bold keyw
 > (2) **"Including itself"** in core point count is a classic exam trap.
 > (3) **Varying density:** single ε can't handle clusters with different densities.
 >
->> (1) **链接效应：** MIN方法可能通过噪声桥连接远距离簇。
->> (2) 核心点计数中**"包括自身"**是经典考试陷阱。
->> (3) **密度不均：** 单一ε无法处理不同密度的簇。
+> > (1) **链接效应：** MIN方法可能通过噪声桥连接远距离簇。
+> > (2) 核心点计数中**"包括自身"**是经典考试陷阱。
+> > (3) **密度不均：** 单一ε无法处理不同密度的簇。
 ```
 
 **📝 Exam — include expected answers and question types:**
@@ -477,20 +469,17 @@ Don't just state the question — also include the expected answer pattern so st
 > (1) **定义题 (Definition):**
 > "What does image sharpening do?" → Enhances edges and details by amplifying the difference between a pixel and its neighbors.
 >
->> "图像锐化做什么？" → 通过放大像素与邻居的差异来增强边缘和细节。
->>
+> > "图像锐化做什么？" → 通过放大像素与邻居的差异来增强边缘和细节。
 >
 > (2) **公式解释题 (Formula explanation):**
 > "Explain unsharp masking." → `sharpened = original + α × (original − blurred)`.
 >
->> "解释反锐化掩模。" → `锐化 = 原始 + α × (原始 − 模糊)`。
->>
+> > "解释反锐化掩模。" → `锐化 = 原始 + α × (原始 − 模糊)`。
 >
 > (3) **推理题 (Reasoning):**
 > "Why should you blur before sharpening?" → Sharpening amplifies ALL high-frequency content, including noise.
 >
->> "为什么应该先模糊再锐化？" → 锐化放大所有高频内容，包括噪声。
->>
+> > "为什么应该先模糊再锐化？" → 锐化放大所有高频内容，包括噪声。
 ```
 
 ✅ **GOOD — simple (single question type, or short list):**
@@ -500,31 +489,33 @@ Don't just state the question — also include the expected answer pattern so st
 > "Which method is prone to chaining?" → MIN.
 > "Which method tends to produce compact clusters?" → MAX or Ward.
 >
->> "哪种方法容易产生链接效应？" → MIN。
->> "哪种方法倾向产生紧凑簇？" → MAX 或 Ward。
->>
+> > "哪种方法容易产生链接效应？" → MIN。
+> > "哪种方法倾向产生紧凑簇？" → MAX 或 Ward。
 ```
 
 **Main text bullets — Fidelity Rule (原文保真规则):**
 
-Bullet points in the main text (outside Notes block) must **preserve the original PPT/PDF text verbatim** in English, then append a Chinese translation with ` — `.
+Bullet points in the main text (outside Notes block) must **preserve the original PPT/PDF text verbatim** in English, then append a Chinese translation with `—`.
 
-**⚠️ CRITICAL: Do NOT paraphrase, shorten, restructure, or reword the original English text.** The English portion is a direct transcription of the slide — it must match the source material exactly. Only the Chinese translation after ` — ` is added by the note-taker.
+**⚠️ CRITICAL: Do NOT paraphrase, shorten, restructure, or reword the original English text.** The English portion is a direct transcription of the slide — it must match the source material exactly. Only the Chinese translation after `—` is added by the note-taker.
 
 ❌ **BAD (paraphrased):**
+
 ```markdown
 - Filtering manipulates or enhances an image by altering its pixels — 滤波通过改变像素来操作或增强图像
 ```
 
 ✅ **GOOD (verbatim from PPT):**
+
 ```markdown
 - Filtering in image processing is a technique used to manipulate or enhance an image by **altering its pixels**. It's a fundamental tool that can either **amplify certain features** or **suppress unwanted distortions** — 图像处理中的滤波是一种通过**改变像素**来操作或增强图像的技术。它是一种基本工具，可以**放大某些特征**或**抑制不需要的失真**
 ```
 
 **Rules:**
+
 1. **English = exact copy** from the original slide (preserve full sentences, highlighted keywords, punctuation)
 2. **Bold keywords** should match what the slide visually emphasizes (colored text, underlined, bold)
-3. **Chinese = natural translation** appended after ` — ` (not word-for-word translation)
+3. **Chinese = natural translation** appended after `—` (not word-for-word translation)
 4. **Do NOT split** one slide bullet into multiple bullets — keep the original structure
 5. **When in doubt**, view the slide image (`page_NNN.png`) to verify the original text
 
@@ -545,19 +536,19 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 
 **与 Slides 笔记的区别：**
 
-| 维度 | Slides 笔记模式 (§1-§9) | 教师资料格式化模式 (§10) |
-|------|------------------------|------------------------|
-| 📝 Notes 块 | ✅ 必须，9 层框架 | ❌ **不加** |
-| 中文翻译 | 在 `>>` 嵌套引用块中 | 在同一行 ` — 中文翻译` |
-| 内容深度 | 深度分析、类比、陷阱 | 仅翻译，不额外分析 |
-| 页面截图 | 保留 | 保留 |
-| 原文保真 | ✅ Fidelity Rule | ✅ Fidelity Rule |
+| 维度        | Slides 笔记模式 (§1-§9) | 教师资料格式化模式 (§10) |
+| ----------- | ----------------------- | ------------------------ |
+| 📝 Notes 块 | ✅ 必须，9 层框架       | ❌ **不加**              |
+| 中文翻译    | 在 `>>` 嵌套引用块中    | 在同一行 ` — 中文翻译`   |
+| 内容深度    | 深度分析、类比、陷阱    | 仅翻译，不额外分析       |
+| 页面截图    | 保留                    | 保留                     |
+| 原文保真    | ✅ Fidelity Rule        | ✅ Fidelity Rule         |
 
 **格式规则：**
 
 1. **保留页面截图**：`![Page N](path/page_NNN.png)` 直接放在页面开头
 2. **标题格式**：`**English Title — 中文标题**`
-3. **正文要点**：`- English verbatim from PDF — 中文翻译`（同一行，` — ` 分隔）
+3. **正文要点**：`- English verbatim from PDF — 中文翻译`（同一行，`—` 分隔）
 4. **表格**：表头和内容都加双语 `English — 中文`
 5. **代码块**：原样保留，不翻译
 6. **移除模板结构**：去掉 `### 📷 Page Image`、`### 📝 Text Content`、`### ✍️ Notes` 等 PDF 转换工具生成的模板标记
@@ -579,9 +570,9 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
   1. Sub-step from PDF — 子步骤翻译
   2. Another sub-step — 另一个子步骤
 
-| Column — 列名 | Description — 描述 |
-|---|---|
-| value1 | Meaning of value1 — value1 的含义 |
+| Column — 列名 | Description — 描述                |
+| ------------- | --------------------------------- |
+| value1        | Meaning of value1 — value1 的含义 |
 ```
 
 **示例（Lab PDF）：**
@@ -614,18 +605,16 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > Eigenvectors reveal the "natural axes" of a transformation.
 > A complex matrix transformation, viewed along eigenvector directions, becomes simple scaling.
 >
->> 特征向量揭示了变换的"本质方向"。
->> 复杂的矩阵变换，沿特征向量方向看就变成了简单的缩放。
->>
+> > 特征向量揭示了变换的"本质方向"。
+> > 复杂的矩阵变换，沿特征向量方向看就变成了简单的缩放。
 >
 > **(2) Foundation for PCA (PCA的基础):**
 >
 > PCA uses eigenvectors for dimensionality reduction — finding directions of maximum variance.
 > Without eigenvectors, there's no principled way to choose which dimensions to keep.
 >
->> PCA 用特征向量降维 — 找到数据方差最大的方向。
->> 没有特征向量，就无法有原则地选择保留哪些维度。
->>
+> > PCA 用特征向量降维 — 找到数据方差最大的方向。
+> > 没有特征向量，就无法有原则地选择保留哪些维度。
 >
 > **💡 Intuition:**
 > **(1) Revolving door analogy (旋转门类比):**
@@ -634,19 +623,17 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > But one direction only pushes it forward/backward without rotation —
 > that direction is the "eigenvector", the displacement magnitude is the "eigenvalue".
 >
->> 想象推旋转门。大部分方向推会让门转动。
->> 但有一个方向推只会让门前后移动不转 —
->> 那个方向就是"特征向量"，移动幅度就是"特征值"。
->>
+> > 想象推旋转门。大部分方向推会让门转动。
+> > 但有一个方向推只会让门前后移动不转 —
+> > 那个方向就是"特征向量"，移动幅度就是"特征值"。
 >
 > **(2) Stretching rubber sheet (拉伸橡胶布):**
 >
 > A matrix is like stretching a rubber sheet. Most points move in complex ways.
 > Eigenvectors are the directions that only get stretched (or compressed), never rotated.
 >
->> 矩阵就像拉伸橡胶布。大部分点移动方式复杂。
->> 特征向量是只被拉伸（或压缩）而不被旋转的方向。
->>
+> > 矩阵就像拉伸橡胶布。大部分点移动方式复杂。
+> > 特征向量是只被拉伸（或压缩）而不被旋转的方向。
 >
 > **⚙️ How:**
 > **(1) Derivation of characteristic equation (特征方程推导):**
@@ -654,9 +641,8 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > Why det(A-λI) = 0? Because Av = λv rearranges to (A-λI)v = 0.
 > For non-zero v to exist, (A-λI) must be singular, meaning its determinant is 0.
 >
->> 为什么 det(A-λI) = 0？因为 Av = λv 移项得 (A-λI)v = 0。
->> 要有非零解 v，(A-λI) 必须不可逆，即行列式为 0。
->>
+> > 为什么 det(A-λI) = 0？因为 Av = λv 移项得 (A-λI)v = 0。
+> > 要有非零解 v，(A-λI) 必须不可逆，即行列式为 0。
 >
 > **⚖️ Compare:**
 > **(1) Eigendecomposition vs SVD:**
@@ -664,9 +650,8 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > Eigen requires square matrices; SVD works for any matrix.
 > SVD is essentially eigendecomposition applied to AᵀA.
 >
->> 特征分解要求方阵，SVD 对任意矩阵都有效。
->> SVD 本质是对 AᵀA 做特征分解。
->>
+> > 特征分解要求方阵，SVD 对任意矩阵都有效。
+> > SVD 本质是对 AᵀA 做特征分解。
 >
 > **⚠️ Pitfall:**
 > **(1) Complex eigenvalues (复数特征值):**
@@ -674,18 +659,16 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > Not all matrices have real eigenvalues. Rotation matrices have complex eigenvalues —
 > because no direction stays unchanged after rotation.
 >
->> 不是所有矩阵都有实数特征值。旋转矩阵的特征值是复数 —
->> 因为旋转后没有方向保持不变。
->>
+> > 不是所有矩阵都有实数特征值。旋转矩阵的特征值是复数 —
+> > 因为旋转后没有方向保持不变。
 >
 > **(2) Confusing eigenvalue with eigenvector (混淆特征值和特征向量):**
 >
 > The eigenvalue λ is the scaling factor; the eigenvector v is the direction.
 > Students often swap which is which in exam answers.
 >
->> 特征值 λ 是缩放因子；特征向量 v 是方向。
->> 学生在考试中经常搞混哪个是哪个。
->>
+> > 特征值 λ 是缩放因子；特征向量 v 是方向。
+> > 学生在考试中经常搞混哪个是哪个。
 ```
 
 ### Example 2: CV/ML Concept (Max Pooling)
@@ -698,32 +681,28 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 >
 > After convolution, feature maps are too large — expensive to compute and store.
 >
->> 卷积后特征图太大，计算和存储成本高。
->>
+> > 卷积后特征图太大，计算和存储成本高。
 >
 > **(2) Add positional tolerance (增加位置容忍度):**
 >
 > We care about WHETHER a feature exists, not its exact pixel location.
 > Pooling adds spatial invariance — a cat shifted by 2 pixels still gets detected.
 >
->> 我们关心特征"有没有"，而不是"在哪个精确像素"。
->> 池化增加空间不变性 — 猫移动2像素仍然能被检测到。
->>
+> > 我们关心特征"有没有"，而不是"在哪个精确像素"。
+> > 池化增加空间不变性 — 猫移动2像素仍然能被检测到。
 >
 > **💡 Intuition:**
 > **(1) Map zoom analogy (地图缩放类比):**
 >
 > Like zooming out on a map — you lose street-level detail but still see city shapes.
 >
->> 像缩小地图 — 丢失街道细节但保留城市轮廓。
->>
+> > 像缩小地图 — 丢失街道细节但保留城市轮廓。
 >
 > **(2) Strongest signal wins (最强信号胜出):**
 >
 > Max pooling keeps the strongest signal in each region, like picking the loudest voice in each room.
 >
->> 最大池化保留每个区域中最强的信号，像从每个房间里挑出最大声的声音。
->>
+> > 最大池化保留每个区域中最强的信号，像从每个房间里挑出最大声的声音。
 >
 > **⚠️ Pitfall:**
 > **(1) No learnable parameters (无可学习参数):**
@@ -731,16 +710,14 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > Pooling has NO learnable parameters — don't confuse it with convolution.
 > Convolution learns filters; pooling just applies a fixed rule (max or average).
 >
->> 池化没有可学习参数 — 不要跟卷积层混淆。
->> 卷积学习滤波器；池化只是应用固定规则（取最大值或平均值）。
->>
+> > 池化没有可学习参数 — 不要跟卷积层混淆。
+> > 卷积学习滤波器；池化只是应用固定规则（取最大值或平均值）。
 >
 > **(2) Information loss (信息损失):**
 >
 > Aggressive pooling (large kernel or stride) can destroy fine-grained spatial details needed for tasks like segmentation.
 >
->> 激进的池化（大核或大步长）会破坏分割等任务需要的精细空间细节。
->>
+> > 激进的池化（大核或大步长）会破坏分割等任务需要的精细空间细节。
 >
 > **📝 Exam:**
 > **(1) 计算题 (Calculation):**
@@ -748,16 +725,14 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > Given input size 4×4 with 2×2 pooling and stride 2, output is 2×2.
 > Formula: output = (input - pool_size) / stride + 1.
 >
->> 给定 4×4 输入，2×2 池化，stride=2，输出为 2×2。
->> 公式：output = (input - pool_size) / stride + 1。
->>
+> > 给定 4×4 输入，2×2 池化，stride=2，输出为 2×2。
+> > 公式：output = (input - pool_size) / stride + 1。
 >
 > **(2) 对比题 (Comparison):**
 >
 > "Max pooling vs average pooling — when to use which?" → Max for feature detection (keep strongest), average for smooth downsampling.
 >
->> "最大池化 vs 平均池化 — 什么时候用哪个？" → 最大用于特征检测（保留最强），平均用于平滑下采样。
->>
+> > "最大池化 vs 平均池化 — 什么时候用哪个？" → 最大用于特征检测（保留最强），平均用于平滑下采样。
 ```
 
 ### Example 3: Math Formula (SSE in K-Means)
@@ -777,31 +752,30 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 >
 > Like measuring how "scattered" iron filings are around magnets. Each filing's distance to its magnet is squared and summed. Tighter clusters = lower total.
 >
->> 像测量铁屑围绕磁铁的"散布程度"。每个铁屑到磁铁的距离平方后求和。越紧凑 = 总和越小。
->>
+> > 像测量铁屑围绕磁铁的"散布程度"。每个铁屑到磁铁的距离平方后求和。越紧凑 = 总和越小。
 >
 > **(2) Why squared? (为什么平方？):**
 >
 > Squaring penalizes outliers more heavily — a point 10 units away contributes 100, not 10. This makes SSE sensitive to distant points.
 >
->> 平方会更重地惩罚离群点 — 距离10的点贡献100而不是10。这使SSE对远距离点敏感。
->>
+> > 平方会更重地惩罚离群点 — 距离10的点贡献100而不是10。这使SSE对远距离点敏感。
 >
 > **📐 Formula:**
 > **(1) SSE breakdown (SSE逐段拆解):**
 >
 > Reading SSE = Σᵢ Σₓ∈Cᵢ ‖x - mᵢ‖² piece by piece:
+>
 > - Σᵢ: iterate over all K clusters (i = 1, 2, ..., K)
 > - Σₓ∈Cᵢ: for each data point x that belongs to cluster i
 > - ‖x - mᵢ‖²: compute the squared Euclidean distance from x to its centroid mᵢ
 > - Overall: sum up ALL these squared distances across ALL clusters = total "spread"
 >
->> 逐段读 SSE = Σᵢ Σₓ∈Cᵢ ‖x - mᵢ‖²：
->> - Σᵢ：遍历所有K个簇（i = 1, 2, ..., K）
->> - Σₓ∈Cᵢ：对属于簇i的每个数据点x
->> - ‖x - mᵢ‖²：算x到它的质心mᵢ的平方欧氏距离
->> - 整体：把所有簇中所有点的平方距离加起来 = 总"散布程度"
->>
+> > 逐段读 SSE = Σᵢ Σₓ∈Cᵢ ‖x - mᵢ‖²：
+> >
+> > - Σᵢ：遍历所有K个簇（i = 1, 2, ..., K）
+> > - Σₓ∈Cᵢ：对属于簇i的每个数据点x
+> > - ‖x - mᵢ‖²：算x到它的质心mᵢ的平方欧氏距离
+> > - 整体：把所有簇中所有点的平方距离加起来 = 总"散布程度"
 >
 > **🔢 Example:**
 > **(1) 1D SSE calculation (一维SSE计算):**
@@ -809,34 +783,33 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 > **Problem:** We have 4 data points in 1D: {1, 3, 7, 9}. They've been assigned to 2 clusters: C₁={1,3} and C₂={7,9}.
 > **Question:** What is the SSE?
 > **Solution:**
+>
 > - Centroid m₁ = (1+3)/2 = 2, centroid m₂ = (7+9)/2 = 8
 > - Cluster 1: (1-2)² + (3-2)² = 1 + 1 = 2
 > - Cluster 2: (7-8)² + (9-8)² = 1 + 1 = 2
 > - SSE = 2 + 2 = **4**
 >
->> **题目：** 4个1维数据点：{1, 3, 7, 9}。分为2个簇：C₁={1,3}，C₂={7,9}。
->> **问：** SSE是多少？
->> **解：**
->> - 质心 m₁ = (1+3)/2 = 2，m₂ = (7+9)/2 = 8
->> - 簇1：(1-2)² + (3-2)² = 1 + 1 = 2
->> - 簇2：(7-8)² + (9-8)² = 1 + 1 = 2
->> - SSE = 2 + 2 = **4**
->>
+> > **题目：** 4个1维数据点：{1, 3, 7, 9}。分为2个簇：C₁={1,3}，C₂={7,9}。
+> > **问：** SSE是多少？
+> > **解：**
+> >
+> > - 质心 m₁ = (1+3)/2 = 2，m₂ = (7+9)/2 = 8
+> > - 簇1：(1-2)² + (3-2)² = 1 + 1 = 2
+> > - 簇2：(7-8)² + (9-8)² = 1 + 1 = 2
+> > - SSE = 2 + 2 = **4**
 >
 > **📝 Exam:**
 > **(1) 计算题 (Calculation):**
 >
 > "Given these clusters, compute SSE." Must show: formula → plug in each point → sum.
 >
->> "给定这些簇，计算SSE。" 必须展示：公式 → 代入每个点 → 求和。
->>
+> > "给定这些簇，计算SSE。" 必须展示：公式 → 代入每个点 → 求和。
 >
 > **(2) 概念题 (Conceptual):**
 >
 > "What happens to SSE as K increases?" → SSE always decreases (more clusters = tighter fit), but eventually overfits.
 >
->> "K增大时SSE会怎样？" → SSE总是下降（更多簇 = 更紧密），但最终过拟合。
->>
+> > "K增大时SSE会怎样？" → SSE总是下降（更多簇 = 更紧密），但最终过拟合。
 ```
 
 ### Example 4: Concept Comparison Section (Inter-Cluster Distance Methods)
@@ -850,9 +823,9 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 
 **MIN（单链接）：** 同样的两个簇图，但现在一条黄色线连接了两个最近的点（每个簇各一个）— 使用最短跨簇距离。"MIN"被高亮。直觉：只有最近的那一对点有关系。
 
-| Method | Definition | Also Called |
-|---|---|---|
-| **MIN** | Min distance between any two points | Nearest neighbor |
+| Method  | Definition                          | Also Called       |
+| ------- | ----------------------------------- | ----------------- |
+| **MIN** | Min distance between any two points | Nearest neighbor  |
 | **MAX** | Max distance between any two points | Farthest neighbor |
 
 > **📝 Notes:**
@@ -862,68 +835,59 @@ Bullet points in the main text (outside Notes block) must **preserve the origina
 >
 > Five methods to compute d(AB, C) after merging A and B: MIN, MAX, Average, Centroid, Ward.
 >
->> 合并A和B后计算d(AB, C)的五种方法：MIN、MAX、Average、Centroid、Ward。
->>
+> > 合并A和B后计算d(AB, C)的五种方法：MIN、MAX、Average、Centroid、Ward。
 >
 > **(2) Shape determinism (形状决定性):**
 >
 > The choice of linkage method completely determines the dendrogram shape — same data, different method → completely different tree.
 >
->> 链接方法的选择完全决定树状图形状 — 同一数据、不同方法 → 完全不同的树。
->>
+> > 链接方法的选择完全决定树状图形状 — 同一数据、不同方法 → 完全不同的树。
 >
 > **💡 Intuition:**
 > **(1) Country distance analogy (国家距离类比):**
 >
 > Measuring "distance" between two countries: MIN = nearest border crossing, MAX = farthest cities, Average = all city pairs, Centroid = capitals, Ward = population spread increase.
 >
->> 测量两国"距离"：MIN = 最近边境，MAX = 最远城市，Average = 所有城市对，质心 = 首都，Ward = 人口扩散增量。
->>
+> > 测量两国"距离"：MIN = 最近边境，MAX = 最远城市，Average = 所有城市对，质心 = 首都，Ward = 人口扩散增量。
 >
 > **⚖️ Compare:**
 > **(1) Method comparison table (方法对比表):**
 >
-> | Method | Tendency | Weakness |
-> |---|---|---|
-> | MIN | Chain-like | Chaining from noise |
-> | MAX | Compact | Breaks large clusters |
-> | Ward | Compact, min SSE | Biased to equal sizes |
+> | Method | Tendency         | Weakness              |
+> | ------ | ---------------- | --------------------- |
+> | MIN    | Chain-like       | Chaining from noise   |
+> | MAX    | Compact          | Breaks large clusters |
+> | Ward   | Compact, min SSE | Biased to equal sizes |
 >
->> | 方法 | 倾向 | 弱点 |
->> |---|---|---|
->> | MIN | 链状 | 噪声导致链接 |
->> | MAX | 紧凑 | 拆分大簇 |
->> | Ward | 紧凑、最小SSE | 偏向等大小 |
->>
+> > | 方法 | 倾向          | 弱点         |
+> > | ---- | ------------- | ------------ |
+> > | MIN  | 链状          | 噪声导致链接 |
+> > | MAX  | 紧凑          | 拆分大簇     |
+> > | Ward | 紧凑、最小SSE | 偏向等大小   |
 >
 > **⚠️ Pitfall:**
 > **(1) Chaining effect (链接效应):**
 >
 > MIN merges through noise bridges — a few stray points between distant clusters can chain them together.
 >
->> MIN通过噪声桥合并 — 远距离簇之间的几个散点可以把它们串联起来。
->>
+> > MIN通过噪声桥合并 — 远距离簇之间的几个散点可以把它们串联起来。
 >
 > **(2) Dendrogram inversions (树状图反转):**
 >
 > Centroid method can produce later merges at lower distances — the dendrogram "goes backward", which is confusing.
 >
->> 质心方法可能后续合并距离反而更低 — 树状图"倒退"，令人困惑。
->>
+> > 质心方法可能后续合并距离反而更低 — 树状图"倒退"，令人困惑。
 >
 > **📝 Exam:**
 > **(1) 计算题 (Calculation):**
 >
 > "Compute inter-cluster distance using MIN/MAX/Average." → MIN = smallest entry, MAX = largest, Average = sum ÷ count.
 >
->> "用MIN/MAX/Average计算簇间距离。" → MIN = 最小值，MAX = 最大值，Average = 总和 ÷ 个数。
->>
+> > "用MIN/MAX/Average计算簇间距离。" → MIN = 最小值，MAX = 最大值，Average = 总和 ÷ 个数。
 >
 > **(2) 推理题 (Reasoning):**
 >
 > "Which method is most sensitive to outliers?" → MIN, because a single outlier point can bridge two clusters.
 >
->> "哪种方法对离群值最敏感？" → MIN，因为一个离群点就能桥接两个簇。
->>
+> > "哪种方法对离群值最敏感？" → MIN，因为一个离群点就能桥接两个簇。
 ```
-

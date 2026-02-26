@@ -432,6 +432,7 @@ $$...LaTeX 公式...$$     ← 带教科书方程编号 (Book Eq. X.Y)
 
 1. **找出 Slides 的推导缺口**: 对比 Storyline 和 Slides，找出"给了结论但没推导"的公式
 2. **识别教科书中的对应推导**: 在 `courses/self-study/` 中找到对应 PDF sections
+   - **RL 课程额外资源**: `courses/self-study/rl/david_silver_lectures/` 包含 David Silver 的 10 讲 UCL RL 课程 PDF（L1-L10），可作为 Sutton & Barto 教科书的补充参考
 3. **批量转换**: 用 `batch_pdf_to_md.py` 将相关 PDF 转为 .md
    ```bash
    python .agent/skills/dev-pdf_processing/scripts/batch_pdf_to_md.py \

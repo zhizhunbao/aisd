@@ -82,6 +82,12 @@ Advanced:    MacKay
 |------|--------|-------|
 | **Reinforcement Learning: An Introduction (2nd ed)** | Sutton & Barto | RL Theory, TD Learning, Policy Gradient |
 
+### Lecture Slides
+
+| Course | Lectures | Source |
+|--------|----------|--------|
+| **David Silver RL Course (UCL)** | 10 | [YouTube Playlist](https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLMZdRRhAoLnKFxZlmFoFp0uHVvN2PSE9T) |
+
 ---
 
 ## Graph Learning
@@ -117,6 +123,8 @@ self-study/
 │   └── szeliski_cv.pdf          → szeliski_sections/
 ├── rl/_sources/
 │   └── sutton_barto_rl_intro.pdf → sutton_sections/
+│   david_silver_lectures/
+│   ├── L1-intro_RL.pdf ... L10-games.pdf
 └── graphs/_sources/
     └── hamilton_grl.pdf         → hamilton_sections/
 ```

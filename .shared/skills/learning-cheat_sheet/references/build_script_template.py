@@ -1,19 +1,21 @@
 """
-Cheat Sheet HTML Builder Template
-==================================
+Cheat Sheet HTML Builder (v2 — Simplified)
+============================================
 Reads a structured JSON file and produces a print-ready HTML cheat sheet.
 
-Layout: 8.5in x 11in (US Letter), 3 columns per page, 3 weeks per page.
-Top-left 5cm x 5cm signature/proctor box on each page.
+Layout: 11in x 8.5in (US Letter Landscape), 4 columns per page.
+Each section = bullets + optional table. No colored boxes.
 
-Usage:
-    uv run python build_cheatsheet.py
+Usage (run directly from skill directory, no need to copy):
+    uv run python build_script_template.py <input.json> [output.html]
 
-Customize:
-    - INPUT_JSON: path to the structured JSON data file
-    - OUTPUT_HTML: path for the generated HTML file
-    - WEEKS_PER_PAGE: how many weeks to group per page (default: 3)
-    - QUIZ_TO_WEEK: mapping from quiz names to week IDs
+    If output.html is not specified, it defaults to the same name as
+    the input JSON with '_final.html' suffix (e.g. midterm_cheat_sheet.json
+    → midterm_cheat_sheet_final.html).
+
+Examples:
+    uv run python .agent/skills/learning-cheat_sheet/references/build_script_template.py courses/ml/notes/midterm_cheat_sheet.json
+    uv run python .agent/skills/learning-cheat_sheet/references/build_script_template.py courses/nlp/notes/midterm_cheat_sheet.json courses/nlp/notes/output.html
 """
 
 import json
@@ -21,67 +23,41 @@ import sys
 from pathlib import Path
 
 # ============================================================
-# Configuration — customize these for each course/exam
-# ============================================================
-INPUT_JSON = "cheat_sheet.json"       # 输入 JSON 文件路径
-OUTPUT_HTML = "cheat_sheet_final.html" # 输出 HTML 文件路径
-WEEKS_PER_PAGE = 3                     # 每页显示的周数
-
-# Quiz → Week mapping (根据课程调整)
-# Map quiz titles to week IDs for merging key points
-QUIZ_TO_WEEK = {
-    # "Quiz 1 — Topic": "W1",
-    # "Quiz 2 — Topic": "W2",
-}
-
-# ============================================================
-# CSS — print-optimized layout
+# CSS — print-optimized, simplified layout
 # ============================================================
 CSS = r"""
-@page { size: 8.5in 11in; margin: 4mm; }
+@page { size: 11in 8.5in; margin: 4mm; }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: 'Consolas','Courier New',monospace;
   font-size: 5pt;
-  line-height: 1.18;
-  color: #000;
+  line-height: 1.2;
+  color: #111;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 .page {
-  width: 20.4cm;
-  height: 27.1cm;
+  width: 27.1cm;
+  height: 20.4cm;
   overflow: hidden;
   position: relative;
   page-break-after: always;
   column-count: 3;
   column-gap: 4px;
-  column-rule: 0.3px solid #ccc;
+  column-rule: 0.3px solid #ddd;
 }
 .page:last-child { page-break-after: avoid; }
-.sig {
-  width: 5cm;
-  height: 5cm;
-  border: 1.5px dashed #999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 7pt;
-  color: #bbb;
-  background: #fff;
-  margin-bottom: 4px;
-  break-inside: avoid;
-}
+
 .hdr {
   column-span: all;
   text-align: center;
-  font-size: 6.5pt;
+  font-size: 6pt;
   font-weight: bold;
-  border-bottom: 0.8px solid #000;
+  border-bottom: 0.6px solid #333;
   padding-bottom: 1px;
   margin-bottom: 2px;
 }
+/* ── Week block ── */
 .wk {
   break-inside: avoid;
   border: 0.3px solid #ddd;
@@ -91,22 +67,29 @@ body {
 .wt {
   font-size: 5.5pt;
   font-weight: bold;
-  background: #222;
+  background: #1a1a2e;
   color: #fff;
-  padding: 0.5px 3px;
-  margin: -1.5px -2px 1px -2px;
+  padding: 0.8px 3px;
+  margin: -1.5px -2px 1.5px -2px;
+  letter-spacing: 0.2px;
 }
+/* ── Section title ── */
 .st {
-  font-size: 5.2pt;
+  font-size: 5pt;
   font-weight: bold;
-  border-bottom: 0.3px solid #888;
-  margin: 1.5px 0 0.5px 0;
+  border-bottom: 0.4px solid #999;
+  margin: 2px 0 0.5px 0;
+  padding-bottom: 0.3px;
 }
+/* ── Bullets ── */
+ul { padding-left: 7px; margin: 0.3px 0; }
+li { margin: 0; font-size: 4.8pt; line-height: 1.18; }
+/* ── Tables ── */
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 0.5px 0;
-  font-size: 4.8pt;
+  font-size: 4.7pt;
 }
 th, td {
   border: 0.3px solid #ccc;
@@ -115,13 +98,11 @@ th, td {
   vertical-align: top;
 }
 th { background: #eee; font-weight: bold; }
-ul { padding-left: 7px; margin: 0.3px 0; }
-li { margin: 0; font-size: 4.8pt; }
+tr:nth-child(even) td { background: #fafafa; }
+/* ── Inline code ── */
 code { background:#eee; padding:0 1px; font-size:4.5pt; }
-.f { background:#f5f5e0; padding:0.5px 2px; margin:0.5px 0; font-size:4.8pt; }
-.w { background:#fff1f1; padding:0.5px 2px; margin:0.5px 0; border-left:1.5px solid #d33; font-size:4.7pt; }
-.g { background:#f0f7f0; padding:0.5px 2px; margin:0.5px 0; border-left:1.5px solid #3a3; font-size:4.7pt; }
-.kp { background:#f0f0ff; padding:0.5px 2px; margin:1px 0; border-left:1.5px solid #33a; font-size:4.7pt; }
+/* ── Code blocks ── */
+.code { background:#f5f5f5; padding:1px 2px; font-size:4.5pt; white-space:pre-wrap; border-left:1.5px solid #1a1a2e; margin:0.5px 0; }
 """
 
 
@@ -142,35 +123,22 @@ def render_table(t: dict) -> str:
 
 
 def render_section(sec: dict) -> str:
-    """Render a single section within a week block."""
+    """Render a single section: title + bullets + optional table."""
     h = f'<div class="st">{esc(sec["title"])}</div>'
-    if "content" in sec:
+    # Bullets (content)
+    if "content" in sec and sec["content"]:
         h += "<ul>" + "".join(f"<li>{c}</li>" for c in sec["content"]) + "</ul>"
+    # Table
     if "table" in sec:
         h += render_table(sec["table"])
-    if "formulas" in sec:
-        h += '<div class="f">' + "<br>".join(sec["formulas"]) + "</div>"
-    if "examples" in sec:
-        for ex in sec["examples"]:
-            h += f'<div class="g"><b>{esc(ex["label"])}</b><br>'
-            h += "<br>".join(ex["steps"]) + "</div>"
-    if "content_extra" in sec:
-        h += "<ul>" + "".join(f"<li>{c}</li>" for c in sec["content_extra"]) + "</ul>"
-    if "traps" in sec:
-        h += '<div class="w">' + "<br>".join("⚠️ " + t for t in sec["traps"]) + "</div>"
     return h
 
 
-def render_week(wk: dict, keypoints: list | None = None) -> str:
-    """Render a full week block with optional quiz key points."""
+def render_week(wk: dict) -> str:
+    """Render a full week block."""
     h = f'<div class="wk"><div class="wt">{wk["id"]}: {esc(wk["title"])}</div>'
     for sec in wk["sections"]:
         h += render_section(sec)
-    if keypoints:
-        h += '<div class="kp"><b>📌 Key Points</b><ul>'
-        for kp in keypoints:
-            h += f"<li>{kp}</li>"
-        h += "</ul></div>"
     return h + "</div>"
 
 
@@ -194,38 +162,24 @@ def render_flash(cards: list) -> str:
 # ============================================================
 # Main build logic
 # ============================================================
-def build(input_path: str = INPUT_JSON, output_path: str = OUTPUT_HTML):
+def build(input_path: str, output_path: str):
     data = json.loads(Path(input_path).read_text(encoding="utf-8"))
 
-    # Build quiz key points per week
-    week_keypoints: dict[str, list[str]] = {}
-    for quiz in data.get("quiz_answers", []):
-        wk = QUIZ_TO_WEEK.get(quiz["quiz"], "")
-        if wk:
-            if wk not in week_keypoints:
-                week_keypoints[wk] = []
-            for q in quiz["questions"]:
-                week_keypoints[wk].append(q.get("topic", q.get("key_point", "")))
+    # Collect pages from JSON
+    json_pages = data.get("pages", [])
 
-    # Collect all weeks
+    pages_content: list[tuple] = []
     all_weeks: list[dict] = []
-    for page in data.get("pages", data.get("sides", [])):
-        for wk in page["weeks"]:
+
+    for page_def in json_pages:
+        page_week_ids = []
+        page_html = ""
+        for wk in page_def["weeks"]:
             all_weeks.append(wk)
-
-    weeks_by_id = {wk["id"]: wk for wk in all_weeks}
-    week_ids = [wk["id"] for wk in all_weeks]
-
-    # Group weeks into pages
-    pages_content: list[str] = []
-    for i in range(0, len(week_ids), WEEKS_PER_PAGE):
-        chunk = week_ids[i:i + WEEKS_PER_PAGE]
-        content = ""
-        for wid in chunk:
-            wk = weeks_by_id[wid]
-            kp = week_keypoints.get(wid)
-            content += render_week(wk, kp)
-        pages_content.append((chunk, content))
+            wid = wk["id"]
+            page_week_ids.append(wid)
+            page_html += render_week(wk)
+        pages_content.append((page_week_ids, page_html))
 
     # Add milestones and flash cards to last page
     if data.get("milestones"):
@@ -245,7 +199,7 @@ def build(input_path: str = INPUT_JSON, output_path: str = OUTPUT_HTML):
         pages_html += f"""
 <div class="page">
   <div class="hdr">{esc(title)} — PAGE {page_num} ({range_label})</div>
-  <div class="sig">Proctor<br>Signature<br><span style="font-size:5pt">(5cm × 5cm)</span></div>
+
   {content}
 </div>
 """
@@ -269,8 +223,33 @@ def build(input_path: str = INPUT_JSON, output_path: str = OUTPUT_HTML):
         print(f"   Page {idx+1}: {'+'.join(chunk)}")
 
 
+# ============================================================
+# CLI entry point
+# ============================================================
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python build_script_template.py <input.json> [output.html]")
+        print()
+        print("  input.json   Path to the structured cheat sheet JSON file")
+        print("  output.html  (optional) Path for generated HTML file")
+        print("               Defaults to <input_stem>_final.html")
+        sys.exit(1)
+
+    input_json = Path(sys.argv[1]).resolve()
+    if not input_json.exists():
+        print(f"❌ Input file not found: {input_json}")
+        sys.exit(1)
+
+    if len(sys.argv) > 2:
+        output_html = Path(sys.argv[2]).resolve()
+    else:
+        # Default: same directory as input, with _final.html suffix
+        output_html = input_json.parent / (input_json.stem + "_final.html")
+
+    print(f"📄 Input:  {input_json}")
+    print(f"📝 Output: {output_html}")
+    build(str(input_json), str(output_html))
+
+
 if __name__ == "__main__":
-    # Allow overriding paths via command line args
-    inp = sys.argv[1] if len(sys.argv) > 1 else INPUT_JSON
-    out = sys.argv[2] if len(sys.argv) > 2 else OUTPUT_HTML
-    build(inp, out)
+    main()

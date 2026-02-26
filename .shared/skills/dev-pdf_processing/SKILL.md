@@ -20,17 +20,18 @@ description: Comprehensive PDF processing toolkit. Use when (1) extracting text/
 
 Choose the right tool for your task:
 
-| Task             | Best Library                   | Why                                           |
-| ---------------- | ------------------------------ | --------------------------------------------- |
-| Extract text     | `pymupdf` (fitz)               | Fast, accurate, hybrid mode                   |
-| Extract tables   | `pdfplumber`                   | Excellent table detection                     |
-| Merge/split PDFs | `pypdf`                        | Fast and lightweight                          |
-| **Split by TOC** | `scripts/pdf_section_split.py` | Auto-read bookmarks, fallback to page headers |
-| Create PDFs      | `reportlab`                    | Professional output                           |
-| Fill forms       | `pypdf` or `pdf-lib` (JS)      | Form field support                            |
-| Extract images   | `pymupdf` (fitz)               | Built-in, preserves quality                   |
-| OCR scanned PDFs | `pytesseract` + `pdf2image`    | Industry standard                             |
-| Convert to MD    | `pymupdf` (fitz)               | Best for slides and academic                  |
+| Task             | Best Library                   | Why                                            |
+| ---------------- | ------------------------------ | ---------------------------------------------- |
+| Extract text     | `pymupdf` (fitz)               | Fast, accurate, hybrid mode                    |
+| Extract tables   | `pdfplumber`                   | Excellent table detection                      |
+| Merge/split PDFs | `pypdf`                        | Fast and lightweight                           |
+| **Split by TOC** | `scripts/pdf_section_split.py` | Auto-read bookmarks, fallback to page headers  |
+| **Batch to MD**  | `scripts/batch_pdf_to_md.py`   | Convert \*\_sections/ PDFs to .md with filters |
+| Create PDFs      | `reportlab`                    | Professional output                            |
+| Fill forms       | `pypdf` or `pdf-lib` (JS)      | Form field support                             |
+| Extract images   | `pymupdf` (fitz)               | Built-in, preserves quality                    |
+| OCR scanned PDFs | `pytesseract` + `pdf2image`    | Industry standard                              |
+| Convert to MD    | `pymupdf` (fitz)               | Best for slides and academic                   |
 
 ## Core Workflows
 
@@ -423,23 +424,25 @@ course/
 
 For academic textbooks with non-standard TOC structures, use custom splitters in `scripts/book_splitters/`:
 
-| Script | Book | Strategy |
-|--------|------|----------|
-| `split_bishop.py` | Bishop PRML | L1 numbered chapters, skip non-numbered |
-| `split_murphy.py` | Murphy PML1/PML2 | Parts + Chapters, find same-level end pages |
-| `split_esl.py` | ESL | No TOC, scan running headers at y=90 |
-| `split_barber.py` | Barber BRML | No TOC, scan running headers at y=16 |
-| `split_goodfellow.py` | Goodfellow DL | Standard TOC structure |
-| `split_kelleher.py` | Kelleher ML | Appendices as separate chapters |
-| `split_shalev.py` | Shalev-Shwartz UML | Extract sections from TOC pages |
+| Script                | Book               | Strategy                                    |
+| --------------------- | ------------------ | ------------------------------------------- |
+| `split_bishop.py`     | Bishop PRML        | L1 numbered chapters, skip non-numbered     |
+| `split_murphy.py`     | Murphy PML1/PML2   | Parts + Chapters, find same-level end pages |
+| `split_esl.py`        | ESL                | No TOC, scan running headers at y=90        |
+| `split_barber.py`     | Barber BRML        | No TOC, scan running headers at y=16        |
+| `split_goodfellow.py` | Goodfellow DL      | Standard TOC structure                      |
+| `split_kelleher.py`   | Kelleher ML        | Appendices as separate chapters             |
+| `split_shalev.py`     | Shalev-Shwartz UML | Extract sections from TOC pages             |
 
 **Usage:**
+
 ```bash
 cd <book_directory>
 python path/to/scripts/book_splitters/split_bishop.py
 ```
 
 **Key patterns for custom splitters:**
+
 1. `find_end_page()` - Find next entry at same/higher TOC level
 2. Header scanning - For PDFs without embedded TOC
 3. Chapter number regex - Skip non-chapter L1 entries (e.g., "COVER", "Preface")
