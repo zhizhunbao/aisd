@@ -52,22 +52,6 @@
 
 - **Classification Margin:** Distance between the hyperplane and the vectors closest to the hyperplane (support vectors) — **分类间隔：** 超平面与距离超平面最近的向量（支持向量）之间的距离
 
-> **📝 Notes:**
->
-> **🎯 Why:**
-> **(1) Why maximize the margin? (为什么要最大化间隔？):**
->
-> A larger margin provides a wider "safety buffer" for future unseen data points. Small margins might overfit and misclassify new points that deviate slightly from the training data.
->
->> 更大的间隔为未来未见的数据点提供了更宽的"安全缓冲"。小间隔可能导致过拟合，从而错分稍微偏离训练数据的新数据点。
->>
->
-> **(2) The Street analogy (街道类比):**
->
-> Imagine placing a multi-lane highway between the two classes of dots. You want to build the widest possible highway without running over any dots. The center line of the highway is your decision boundary.
->
->> 想象在两类点之间修建一条多车道高速公路。你想在不压到任何点的前提下，修出最宽的高速公路。公路的中心线就是你的决策边界。
->>
 
 ---
 
@@ -102,31 +86,6 @@
 - SVM is a supervised algorithm that works best on small complex datasets. — SVM 是一种监督学习算法，在小型复杂数据集上效果最好。
 - SVM can be used for classification and regression tasks but generally used more for classification. — SVM 可用于分类和回归任务，但通常更多用于分类。
 
-> **📝 Notes:**
->
-> **📌 What:**
-> **(1) Hyperplane (超平面):**
->
-> A subspace whose dimension is one less than that of its ambient space. For 2D data, it's a 1D line. For 3D data, it's a 2D plane.
->
->> 一个维数比其所在空间小一维的子空间。对于2D数据，它是1D的线。对于3D数据，它是2D的平面。
->>
->
-> **🎯 Why:**
-> **(1) Why "Support" Vectors? (为什么叫"支持"向量？):**
->
-> They literally "support" the margin boundaries like pillars holding up a roof. If you move or remove these points, the margin entirely shifts.
->
->> 它们就像支撑屋顶的柱子一样在字面上"支撑"着间隔的边界。如果你移动或移除这些点，整个间隔就会发生偏移。
->>
->
-> **⚠️ Pitfall:**
-> **(1) Ignoring non-support vectors (忽略非支持向量):**
->
-> A striking property of SVM is that once the optimal boundary is found, all points outside the margin boundaries don't matter at all. You can delete 90% of your training dataset as long as you keep the support vectors, and the model stays exactly the same.
->
->> SVM最引人注目的性质是：一旦找到最优边界，位于间隔边界之外的所有点就完全无关紧要了。只要保留支持向量，你甚至可以删除90%的训练数据，模型也依然完全不变。
->>
 
 ---
 
@@ -201,46 +160,6 @@
   - Subject to the constraint: $y_i (w \cdot x_i + b) \ge 1$ — 满足约束条件：$y_i (w \cdot x_i + b) \ge 1$
 - This method is called Maximum Margin Classifier (MMC). — 这种方法称为最大间隔分类器（MMC）。
 
-> **📝 Notes:**
->
-> **💡 Intuition:**
-> **(1) Why minimize ||w|| to maximize margin? (为什么最小化||w||就是最大化间隔？):**
->
-> By definition, the margin width equals $2/||w||$. Since we want to make the margin as wide as possible, mathematically, minimizing the denominator $||w||$ maximizes the entire fraction.
->
->> 根据定义，间隔的宽度等于 $2/||w||$。由于我们想使间隔尽可能宽，从数学上讲，最小化分母 $||w||$ 就会最大化整个分数。
->>
->
-> **📐 Formula:**
-> **(1) Constraint $y_i (w \cdot x_i + b) \ge 1$ (约束解析):**
->
-> - For a true positive, $y = +1$, so we enforce $(w \cdot x_i + b) \ge 1$.
-> - For a true negative, $y = -1$, so we enforce $(w \cdot x_i + b) \le -1$. Multiplying both sides by $-1$ flips the inequality, giving $(-1)(w \cdot x_i + b) \ge 1$.
-> - This elegant single formula perfectly covers both correctness boundaries.
->
->> - 对于真实的正类点，$y=+1$，我们强制 $(w \cdot x_i + b) \ge 1$。
->> - 对于真实的负类点，$y=-1$，我们强制 $(w \cdot x_i + b) \le -1$。两边同乘 $-1$ 会翻转不等号，得到 $-(w \cdot x_i + b) \ge 1$。
->> - 这个优美的单一公式完美地涵盖了两种正确性的边界条件。
->>
->
-> **⚠️ Pitfall:**
-> **(1) MMC assumes perfect separability (MMC假定完美线性可分):**
->
-> The constraint $\ge 1$ means literally ZERO points are allowed inside the street margin or on the wrong side. If the data is overlapping even a little, this optimization has no mathematical solution!
->
->> $\ge 1$的约束意味着绝对不允许任何点进入间隔"街道"内，或越界到错误的半区。如果数据哪怕有最微小的重叠交叉，这个优化在数学上也会无解！
->>
->
-> **📖 教材深入 (Textbook Deep Dive):**
->
-> **为什么最小化 $\|w\|$ 就是最大化间隔？几何推导过程：**
->
-> 设超平面为 $\langle w, x \rangle + b = 0$，任意一点 $x_a$ 到超平面的距离 $r = \frac{|\langle w, x_a \rangle + b|}{\|w\|}$。对于支持向量，$\langle w, x_a \rangle + b = \pm 1$，所以 $r = \frac{1}{\|w\|}$，总间隔宽度 = $\frac{2}{\|w\|}$。
->
-> 因此，"最大化间隔" 等价于 "最小化 $\|w\|$"，实际中为了方便求导，我们最小化 $\frac{1}{2}\|w\|^2$（去掉根号，加系数简化梯度）。
->
-> — *Mathematics for Machine Learning*, Ch.12.2
->
 
 ---
 
@@ -269,38 +188,6 @@
 - We need to use **soft-margin** instead of hard margin – by allowing a few misclassifications. — 我们需要使用**软间隔**而不是硬间隔——即允许少量的错误分类。
 - This method is called **Support Vector Classifier (SVC)**. — 这种方法称为**支持向量分类器 (SVC)**。
 
-> **📝 Notes:**
->
-> **📍 What:**
-> **(1) Soft Margin (软间隔):**
->
-> An approach that introduces "slack variables" ($\xi_i$) to the constraints. It mathematically says "Be outside the margin, but if you absolutely MUST cross the line, pay a penalty."
->
->> 这种方法向约束条件中引入了"松弛变量" ($\xi_i$)。它的数学含义是"请待在间隔之外，但如果你绝对必须越界，就要支付惩罚代价。"
->>
->
-> **🎯 Why:**
-> **(1) Robustness to Noise (对噪声的鲁棒性):**
->
-> If you have one random red dot sitting deep in the blue territory (an outlier), a Hard Margin model would be ruined trying to dodge it. Soft margins ignore the noise entirely by choosing to cleanly misclassify the outlier rather than wrecking the entire decision boundary holding all other points steady.
->
->> 如果你在蓝色区域深处有一个随机的红色点（异常值），硬间隔模型在试图避开它时会彻底崩溃失效。软间隔会通过选择"直接错分"这个异常值，来无视噪声，而不是为了迁就它而毁掉用来稳固有占绝大部分其他点的整个决策边界。
->>
->
-> **📖 教材深入 (Textbook Deep Dive):**
->
-> **软间隔的完整优化目标是什么？**
->
-> $$\min_{w,b,\xi} \frac{1}{2}\|w\|^2 + C\sum_{n=1}^{N}\xi_n$$
->
-> 约束: $y_n(\langle w, x_n \rangle + b) \ge 1 - \xi_n$，且 $\xi_n \ge 0$
->
-> 直白理解：第一项 $\|w\|^2$ 是让间隔尽量**宽**，第二项 $C\sum\xi_n$ 是让越界**少**。$C$ 就是两者之间的"天平"——$C$ 大 → 不容忍犯错（接近硬间隔）；$C$ 小 → 宽容犯错（更宽的间隔）。
->
-> 当 $\xi_n = 0$ 时，点在间隔外（安全）；$0 < \xi_n < 1$ 时，点在间隔内但没越界（被容忍）；$\xi_n > 1$ 时，点跑到了错误一边（被错分了）。
->
-> — *Mathematics for Machine Learning*, Ch.12.2; *Bayesian Reasoning*, Ch.17.6
->
 
 ---
 
@@ -356,41 +243,6 @@
 
 **线性核 vs 多项式核 (示例2)：** 进一步验证非线性灵活度的例子。
 
-> **📝 Notes:**
->
-> **💡 Intuition:**
-> **(1) The "Kernel Trick" (核技巧类比):**
->
-> Imagine trying to compute how far apart two cities are in a higher-dimensional 3D globe coordinate system using only flat 2D maps. The Kernel Trick is like a magic formula that gives you the exact 3D distance between cities purely by doing math on their 2D flat-map grid coordinates, saving you the computational cost of mapping out the entire 3D sphere.
->
->> 想象你试图仅凭平面的2D地图，却要计算两个城市在高维的3D地球坐标系上有隔得多远。核技巧就像一个神奇的公式，它仅通过在它们2D平面的地图坐标上做数学运算，就能给出精确的3D真实距离，省去了构建展现整个3D球体所需的庞大计算成本。
->>
->
-> **⚖️ Compare:**
->
-> | Kernel         | Use cases                                     | Pros / Cons                                                                      |
-> | -------------- | --------------------------------------------- | -------------------------------------------------------------------------------- |
-> | Linear         | Text classification, naturally separable data | Very fast. High bias.                                                            |
-> | Polynomial     | Images, curved boundaries                     | Tunable degree. Slow at high degrees.                                            |
-> | RBF (Gaussian) | Great default choice for anything             | Handles infinite dims. Very high variance (can easily overfit if$C$ is wrong). |
->
->> | 核类型     | 用例                         | 优缺点                                                                 |
->> | ---------- | ---------------------------- | ---------------------------------------------------------------------- |
->> | 线性       | 文本分类、自然线性可分的数据 | 极快。高偏差。                                                         |
->> | 多项式核   | 图像、曲线边界               | 幂度灵活可调。随着阶数增加极度缓慢。                                   |
->> | RBF (高斯) | 首选万金油                   | 能处理无限维特征映射。模型极度灵活高方差 (如果$C$调不对极易过拟合)。 |
->>
->
-> **📖 教材深入 (Textbook Deep Dive):**
->
-> **核技巧到底省了什么？**
->
-> 很多算法（SVM、PCA、Ridge 回归）的核心计算其实只依赖数据点之间的**内积** $\langle x_i, x_j \rangle$，而不需要知道 $x_i$ 本身长什么样。核函数 $K(x_i, x_j) = \langle \phi(x_i), \phi(x_j) \rangle$ 直接算出高维空间的内积值，**完全跳过了**把数据映射到高维的步骤。
->
-> 举个具体例子：RBF（高斯）核 $K(x,y) = e^{-\gamma\|x-y\|^2}$ 对应的是**无穷维**特征空间的内积（可以用泰勒展开证明）。如果你真的要先映射再算内积，维度是∞，算不了。但核函数只需要原始数据就能给出结果——这就是"技巧"所在。
->
-> — *Pattern Recognition and ML (Bishop)*, Ch.6; *Understanding ML (Shalev)*, Ch.16
->
 
 ---
 
@@ -424,30 +276,6 @@
   - **Lower value:** loosely fit the train data, more data points will influence the decision boundary. decision boundary will be more generic (may cause underfitting) — 较小值：松散拟合数据，较多数据点影响边界，可能欠拟合。
   - **Higher value:** fewer data points will influence the decision boundary. So, this may cause overfitting — 较高值：少数孤立点会极大地影响决策边界收缩（就像高斯孤岛）。极易过拟合。
 
-> **📝 Notes:**
->
-> **💡 Intuition:**
-> **(1) Parameter C (Cost of violation) (惩罚系数 C):**
->
-> Think of $C$ as the "Cost". A low $C$ means mistakes are cheap ("soft" margin). A high $C$ means mistakes are expensive, so the model panics and aggressively wiggles the boundary trying to perfectly enclose every single point.
->
->> 把 $C$ 当作违例"成本"。低 $C$ 意味着犯错成本很低（非常"软"的间隔）。高 $C$ 意味着错分代价极为高昂，所以模型会恐慌并剧烈地扭曲决策面，拼命地试图完美圈出包裹每一个孤立点。
->>
->
-> **(2) Parameter Gamma (Sphere of Influence) ($\gamma$ 影响范围):**
->
-> Gamma is the radius of influence of a single support vector. Low Gamma = points have a massive radius of influence, creating smooth/broad boundaries. High Gamma = short radius, creating tight "islands" around the support vectors.
->
->> Gamma 是单个支持向量能波及的"辐射半径"。低 Gamma = 每个点的影响范围特别广，从而产生极平滑且广阔的边界。高 Gamma = 影响只局限在点周围很短的距离，从而在个别数据点周围形成死气沉沉的独立"孤岛边界"。
->>
->
-> **📝 Exam:**
-> **(1) 调节选择题 (Tuning / Overfitting choice):**
->
-> "Your SVM model is heavily overfitting the training data. Which settings should you adjust?" → Decrease $C$ and decrease $\gamma$. This forces looser rules and broader, less sensitive boundaries.
->
->> "你的支持向量机模型严重过拟合训练数据。你应当调整哪些设定？" → 降低 $C$ 和降低 $\gamma$。这将迫使使用更宽松的模型限制和更广泛、不那么敏感的决策波段。
->>
 
 ---
 
@@ -471,23 +299,6 @@
   - Poor performance on overlapping classes — 如果类分布严重重叠交融无边界，效果极差
   - Highly sensitive to the type of kernel — 极其依赖你选择对了哪个核并调优好了其专属超参数
 
-> **📝 Notes:**
->
-> **🎯 Why:**
-> **(1) Memory Efficient (内存高效的原因):**
->
-> In inference mode (predicting new data), the SVM ONLY needs the coordinates of its retained Support Vectors. The rest of the multimillion-point training dataset is literally deleted from RAM.
->
->> 在预测推理阶段，SVM 只需要保留那些被选为支持向量（Support Vectors）的点的位置坐标就够了。剩下的那几百万行用来给模型学基本轮廓的训练数据可以直接从内存中全部抛弃删除。
->>
->
-> **⚠️ Pitfall:**
-> **(1) The O(N²) Trap for Big Data (大数据的平方陷阱):**
->
-> SVM solves a quadratic optimization problem. The training time scales roughly between $O(n_{samples}^2)$ and $O(n_{samples}^3)$. Training an SVM on 1,000 points takes seconds. Training it on 1 million points could take weeks. This is why Deep Learning killed SVMs for massive scale data.
->
->> SVM 背后求解的是一个二次最优化问题。它的训练时间大致位于 $O(长_{样本}^2)$ 到 $O(长度_{样本}^3)$ 比例缩放之间递增。把 1,000 个点喂给 SVM 大约就几秒；然而把 100万样本点丢进去，跑上几个星期都算不完。这就是在大规模数据时代，大家全面倒向深度学习的原因。
->>
 
 ---
 

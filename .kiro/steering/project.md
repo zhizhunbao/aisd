@@ -8,7 +8,8 @@ Personal AI study and development workspace.
 
 ## Directory Structure
 
-- `.shared/` - 共享配置（skills, prompts, commands）
+- `.agent/` - Agent 配置（skills, workflows, agents, templates）
+- `.shared/` - 共享配置（prompts, commands, data）
 - `.github/` - 参考仓库
 - `courses/` - 课程材料
 

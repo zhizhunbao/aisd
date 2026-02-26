@@ -5,7 +5,7 @@ fileMatchPattern: "**/SKILL.md"
 
 # Skill File Specification
 
-Follow this specification when creating or editing SKILL.md files in `backend/scripts/data/skills/`.
+Follow this specification when creating or editing SKILL.md files in `.agent/skills/`.
 
 ## Directory Structure
 

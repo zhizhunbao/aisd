@@ -7,18 +7,22 @@ description: Reorganize lecture slides into a coherent storyline narrative for d
 
 ## Objectives
 
-Transform fragmented lecture slides into a **coherent narrative story** that reveals the logical progression of ideas, making technical concepts easier to understand by showing *why* each new concept was needed (problem → motivation → solution → new problem → ...).
+Transform fragmented lecture slides into a **coherent narrative story** that reveals the logical progression of ideas, making technical concepts easier to understand by showing _why_ each new concept was needed (problem → motivation → solution → new problem → ...).
 
 ## Core Philosophy
 
 > **Slides tell you WHAT to learn. A storyline tells you WHY each idea exists.**
 
 Traditional slides present topics in blocks (A, B, C, D). A storyline connects them causally:
+
 - A has a problem → which motivates B
 - B improves on A but still has a flaw → which motivates C
 - C solves B's flaw but introduces a new challenge → which motivates D
 
 This "打怪升级" (boss-fight progression) structure maps naturally to how technology evolves.
+
+> ⚠️ **Cross-cutting Rule:** Follow the **Source Citation & Proof Rule** (`learning-source_citation` SKILL.md). Key technical claims must cite textbook sources; formulas embedded in the storyline must reference their derivation (e.g., "详见 tutorial §N").
+> ⚠️ **通用规则：** 遵守**来源引证与证明规则**（`learning-source_citation` SKILL.md）。关键技术论述须注明教科书来源，嵌入的公式须指向推导出处（如"详见 tutorial §N"）。
 
 ## Instructions
 
@@ -46,26 +50,33 @@ Use this **standard narrative template**:
 ---
 
 ## 🎬 序幕：我们要解决什么问题？
+
 [定义核心问题，给出直观例子，说明为什么重要]
 
 ## 📚 第一章：[数学/理论基础]
+
 [为后续方案铺垫必要的知识]
 
 ## 🧮 第二章：方案一——[名称]（❌ 失败/部分成功）
+
 [介绍方案 → 展示效果 → 暴露致命问题 → 🔑 故事转折点]
 
 ## 🧠 第三章：方案二——[名称]（⚠️ 有缺陷）
+
 [由上一章的问题引出 → 介绍方案 → 暴露新问题 → 🔑 故事转折点]
 
 ## 🏰 第四章：方案三——[名称]（✅ 解决！）
+
 [由上一章的问题引出 → 介绍方案 → 解释为什么能解决前面的问题]
 
 ## 📏 [评估/应用章节]（如适用）
 
 ## 🗺️ 全局回顾：技术演进路线图
+
 [ASCII 路线图 + 对比表格]
 
 ## 🎓 考试/复习重点检查清单
+
 [Checklist 形式]
 ```
 
@@ -85,12 +96,12 @@ For each chapter, follow these writing guidelines:
 
 对每个核心概念，按以下四层递进解释：
 
-| 层次 | 内容 | 示例 |
-|------|------|------|
-| **① 一句话定义** | 用最通俗的语言 | "RNN = 一个神经元 + 一根回忆线" |
-| **② 公式/原理** | 精确的数学描述 | `hₜ = Wₓ·xₜ + Wₕ·hₜ₋₁ + b` |
-| **③ 具体例子** | 用课程中的例子走一遍 | "the students opened their..." |
-| **④ 类比/记忆技巧** | 生活化比喻 | "hₜ 就像不断更新的笔记" |
+| 层次                | 内容                 | 示例                            |
+| ------------------- | -------------------- | ------------------------------- |
+| **① 一句话定义**    | 用最通俗的语言       | "RNN = 一个神经元 + 一根回忆线" |
+| **② 公式/原理**     | 精确的数学描述       | `hₜ = Wₓ·xₜ + Wₕ·hₜ₋₁ + b`      |
+| **③ 具体例子**      | 用课程中的例子走一遍 | "the students opened their..."  |
+| **④ 类比/记忆技巧** | 生活化比喻           | "hₜ 就像不断更新的笔记"         |
 
 #### 3.3 Transitions — Problem → Solution Arc
 
@@ -109,11 +120,11 @@ For each chapter, follow these writing guidelines:
 在新方案引入后，用对比表格清晰展示进步：
 
 ```markdown
-| 维度 | 旧方案 | 新方案 |
-|------|:---:|:---:|
-| 能力1 | ❌ | ✅ |
-| 能力2 | ❌ | ✅ |
-| 新问题 | N/A | ⚠️ 描述 |
+| 维度   | 旧方案 | 新方案  |
+| ------ | :----: | :-----: |
+| 能力1  |   ❌   |   ✅    |
+| 能力2  |   ❌   |   ✅    |
+| 新问题 |  N/A   | ⚠️ 描述 |
 ```
 
 ### Phase 4: Write the Global Review
@@ -124,23 +135,23 @@ For each chapter, follow these writing guidelines:
 
 ```markdown
 ┌─────────────────────────────────────────┐
-│         技术演进路线图                     │
-│                                         │
-│  方案1                                   │
-│    ✅ 优点                               │
-│    ❌ 致命问题                            │
-│              │                          │
-│              ▼                          │
-│  方案2                                   │
-│    ✅ 解决了方案1的问题                    │
-│    ❌ 新的致命问题                         │
-│              │                          │
-│              ▼                          │
-│  方案3                                   │
-│    ✅ 解决了方案2的问题                    │
-│              │                          │
-│              ▼                          │
-│  下一站：...                             │
+│ 技术演进路线图 │
+│ │
+│ 方案1 │
+│ ✅ 优点 │
+│ ❌ 致命问题 │
+│ │ │
+│ ▼ │
+│ 方案2 │
+│ ✅ 解决了方案1的问题 │
+│ ❌ 新的致命问题 │
+│ │ │
+│ ▼ │
+│ 方案3 │
+│ ✅ 解决了方案2的问题 │
+│ │ │
+│ ▼ │
+│ 下一站：... │
 └─────────────────────────────────────────┘
 ```
 
@@ -148,9 +159,9 @@ For each chapter, follow these writing guidelines:
 
 ```markdown
 | 从 → 到 | 解决了什么核心问题？ |
-|----------|-------------------|
-| A → B | [一句话] |
-| B → C | [一句话] |
+| ------- | -------------------- |
+| A → B   | [一句话]             |
+| B → C   | [一句话]             |
 ```
 
 #### 4.3 Review Checklist
@@ -172,18 +183,21 @@ For each chapter, follow these writing guidelines:
 ## Formatting Rules
 
 ### Language
+
 - **主体语言**: 中文
 - **术语处理**: 首次出现时用 "中文 (English)" 格式，之后可只用中英文任一
 - **公式**: 用 code block 或 inline code 展示，确保可读性
 - **Emoji**: 章节标题使用 emoji 增加视觉区分（🎬📚🧮🧠🏰📏🗺️🎓）
 
 ### Structure
+
 - 用 `---` 分隔符隔开主要章节
 - 每章内用 `###` 级别标题划分小节
 - 对比用表格，流程用代码块缩进，重点用加粗
 - 类比和记忆技巧用 `> 💡` blockquote 高亮
 
 ### Naming Convention
+
 - 输出文件名: `[topic]_storyline.md`
 - 存放位置: `courses/[course]/notes/`
 

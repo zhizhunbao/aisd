@@ -34,25 +34,25 @@ inclusion: always
 
 完成课程 Lab/Assignment 时，**必须**读取并遵循完整工作流：
 
-#[[file:.shared/workflows/complete-lab.md]]
+#[[file:.agent/workflows/complete-lab.md]]
 
 ## 其他可用工作流
 
-以下工作流在 `.shared/workflows/` 中可用，按需读取：
+以下工作流在 `.agent/workflows/` 中可用，按需读取：
 
 | 工作流文件 | 用途 |
 | --- | --- |
-| #[[file:.shared/workflows/complete-lab.md]] | 通用课程作业完成流程 |
-| #[[file:.shared/workflows/complete-lab-rl.md]] | 强化学习课程专用 |
-| #[[file:.shared/workflows/complete-assignment-rl.md]] | 强化学习 Assignment 专用 |
-| #[[file:.shared/workflows/generate-study-material.md]] | 生成学习材料 |
-| #[[file:.shared/workflows/midterm-review.md]] | 期中复习 |
-| #[[file:.shared/workflows/scrape-content.md]] | 抓取网页内容 |
-| #[[file:.shared/workflows/explore-repo.md]] | 探索代码仓库 |
+| #[[file:.agent/workflows/complete-lab.md]] | 通用课程作业完成流程 |
+| #[[file:.agent/workflows/complete-lab-rl.md]] | 强化学习课程专用 |
+| #[[file:.agent/workflows/complete-assignment-rl.md]] | 强化学习 Assignment 专用 |
+| #[[file:.agent/workflows/generate-study-material.md]] | 生成学习材料 |
+| #[[file:.agent/workflows/midterm-review.md]] | 期中复习 |
+| #[[file:.agent/workflows/scrape-content.md]] | 抓取网页内容 |
+| #[[file:.agent/workflows/explore-repo.md]] | 探索代码仓库 |
 
 ## 完整开发流程（Full BMAD Flow）
 
-详细步骤参考：#[[file:.shared/workflows/full-development/workflow.md]]
+详细步骤参考：#[[file:.agent/workflows/full-development/workflow.md]]
 
 当用户需要从零开始构建功能时，按以下阶段推进：
 

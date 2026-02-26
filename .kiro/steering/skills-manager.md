@@ -62,6 +62,7 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | --- | --- |
 | glossary, concept, terminology, definition, 术语, 概念, 词汇表, 定义 | `concept-glossary` |
 | math, mathematics, formula, equation, linear algebra, calculus, probability, statistics, 数学, 公式, 方程, 线性代数, 微积分, 概率, 统计 | `math-concept-library` |
+| bilingual math, math format, bilingual formula, 双语数学, 数学格式, 双语公式 | `math-bilingual-format` |
 
 ### 🤖 AI Technology
 
@@ -254,6 +255,9 @@ Proactively load specialized skills when user queries match keywords below. Skil
 | quiz, quiz generation, practice questions, exam prep, 测验, 生成题目, 练习题, 考试准备 | `learning-quiz_generation` |
 | quiz notes, quiz note taking, 测验笔记 | `learning-quiz_note_taking` |
 | slide formatting, format slides, presentation format, 幻灯片格式, 格式化幻灯片 | `learning-slide_formatting` |
+| math foundations, math prerequisites, math basis, textbook math, 数学基础, 数学前置, 数学前置知识, math for ML, math for deep learning | `learning-math_foundations` |
+| source citation, cite source, reference, textbook citation, 来源引证, 引用来源, 教科书引用, 出处 | `learning-source_citation` |
+| textbook search, search textbook, find in textbook, textbook lookup, 教科书搜索, 搜索教科书, 查找教科书 | `learning-textbook_search` |
 | tutorial notebook, tutorial, interactive tutorial, 教程 notebook, 交互式教程 | `learning-tutorial_notebook` |
 
 

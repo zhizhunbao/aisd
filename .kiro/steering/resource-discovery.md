@@ -67,4 +67,4 @@ For benchmarking providers or frameworks, see `discover/evaluate/`:
 - Implement required methods
 - Run: `uv run python -m scripts.discover.evaluate.llm.run_benchmark`
 
-**For detailed guide:** See `backend/scripts/data/skills/dev-resource_discovery/SKILL.md`
+**For detailed guide:** See `.agent/skills/dev-resource_discovery/SKILL.md`

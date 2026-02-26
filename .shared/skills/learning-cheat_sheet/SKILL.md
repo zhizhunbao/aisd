@@ -20,8 +20,13 @@ courses/{course}/notes/
 ├── {exam}_cheat_sheet.md           # Step 1 output (human-readable)
 ├── {exam}_cheat_sheet.json         # Step 2 output (structured data)
 ├── {exam}_cheat_sheet.html         # Step 3 output (print-ready)
+├── md_to_json_{exam}.py            # Convert script (MD → JSON)
 └── build_{exam}_cheat_sheet.py     # Build script (JSON → HTML)
 ```
+
+**Script templates in `references/`:**
+- `md_to_json_template.py` — MD → JSON conversion
+- `build_script_template.py` — JSON → HTML generation
 
 Where `{exam}` = exam name in snake_case, e.g.:
 - `midterm_cheat_sheet.md` — 期中
@@ -100,6 +105,22 @@ Examples:
 - ❌ `cos(θ) = (A · B) / (‖A‖ × ‖B‖)` — FORBIDDEN plain text
 - ❌ `IDF = log(N/df)` — FORBIDDEN ASCII math
 
+##### ⚠️⚠️⚠️ CRITICAL — Define Before Reference (再三强调)
+
+**Terms MUST be defined BEFORE they are referenced.** Do NOT use a term in formulas, examples, or code before its definition appears in `#### 📖 Definitions`.
+
+**Structure order matters:**
+1. `#### 📖 Definitions` — define ALL terms used in this section first
+2. `#### 📐 Formulas` — only use terms already defined above
+3. `#### 📝 Examples` — only use terms already defined above
+4. Other sections follow...
+
+Examples:
+- ❌ BAD: Core Concepts formula mentions "MMC Goal" but MMC is defined in SVM Types section below
+- ✅ GOOD: MMC formula appears in SVM Types section where MMC is defined
+
+**If a term belongs to a different section, move the formula/example to that section.** Do NOT forward-reference undefined terms.
+
 ##### ⚠️⚠️⚠️ CRITICAL — Completeness / Zero Omission (再三强调)
 
 **EVERY piece of testable knowledge from slides, quizzes, and labs MUST be included.** Do NOT summarize. Do NOT condense. Do NOT skip "obvious" content.
@@ -116,6 +137,32 @@ Checklist per source file:
 - Every diagram description → included as text
 
 If the cheat sheet feels "too short", you MISSED content. Go back and re-read every source file line by line.
+
+##### ⚠️⚠️⚠️ CRITICAL — Worked Examples / Hand Calculations (再三强调)
+
+**EVERY worked example and hand calculation from slides MUST be included with FULL step-by-step details.** Exams often require students to perform calculations by hand — these examples are the most testable content.
+
+Must-include worked examples (non-exhaustive):
+- **PCA**: Eigenvalue → Variance ratio calculation (e.g., λ=[2.94, 0.92] → 73%, 23%)
+- **CNN**: Output size calculation with padding/stride (e.g., 6×6 * 3×3 → 4×4)
+- **Naive Bayes**: Full classification with P(X|Y) decomposition and Gaussian PDF
+- **Conditional Probability**: Dice/card examples with P(A|B) = P(A∩B)/P(B)
+- **Clustering**: SSE/SSB calculation for K=1 vs K=2
+- **Silhouette Coefficient**: a, b, s calculation for a specific point
+- **SVM**: Margin width calculation (2/||w||)
+- **LSTM**: Gate output calculation (forget, input, output)
+
+Format in `#### Examples`:
+```markdown
+#### Examples
+- **PCA Variance Calculation**:
+  - Eigenvalues: λ = [2.94, 0.92, 0.15, 0.02]
+  - Total = 4.03
+  - PC1 = 2.94/4.03 = **0.73 (73%)**
+  - PC1 + PC2 = 0.96 → **96% information retained**
+```
+
+**If slides show a calculation with numbers, the cheat sheet MUST show the same calculation with all intermediate steps.**
 
 ##### ⚠️⚠️⚠️ CRITICAL — Comparison Tables (再三强调)
 
@@ -148,31 +195,127 @@ Format:
 
 If a comparison exists in slides but is missing from the cheat sheet, you MISSED content. Go back and add it.
 
+##### ⚠️⚠️⚠️ CRITICAL — Code-Formula Correspondence (再三强调)
+
+**Code in `#### Code` MUST correspond to formulas in `#### Formulas`.** Every formula should have matching sklearn/library code, and every code block should reference its formula in comments.
+
+Format: `# MethodName (LibraryClass): formula → output_range`
+
+Examples:
+- ✅ `# Normalization (MinMaxScaler): x' = (x - min) / (max - min) → [0,1]`
+- ✅ `# Standardization (StandardScaler): z = (x - μ) / σ → mean=0, std=1`
+- ❌ Standalone sklearn code without formula reference
+- ❌ Formula in `#### Formulas` with no matching code
+
+Code section must show:
+1. **Import statements** — all required libraries
+2. **Train/test split** — proper data preparation workflow
+3. **fit() on train only** — prevent data leakage
+4. **transform() on both** — apply learned parameters
+5. **Common mistakes** — comment what NOT to do
+
 ##### Other Rules
 
 - **Language**: primarily English; Chinese only for `(中文)` annotations
 - **Trap questions**: prefix with `⚠️`, include false statement + correction
 
-#### Markdown Template
+#### Markdown Template (6-Layer Structure)
+
+Use `####` headings to separate 6 content types within each section. This enables reliable parsing by `md_to_json.py`.
+
+**Layer Structure:**
+```
+# Title                    ← Level 1: Root
+## W1: Topic               ← Level 2: Week
+### Section Name           ← Level 3: Section
+#### Definitions           ← Level 4: Content Type (1 of 6)
+- bullet                   ← Level 5: Items
+```
+
+**6 Content Types (must use exact `####` headings):**
+
+| # | `####` Heading | JSON Field | Purpose |
+|---|----------------|------------|---------|
+| 1 | `#### Definitions` | `content` | 定义、概念、要点 |
+| 2 | `#### Comparisons` | `table` | 对比表格 |
+| 3 | `#### Formulas` | `formulas` | LaTeX 公式 |
+| 4 | `#### Examples` | `examples` | 示例、步骤 |
+| 5 | `#### Traps` | `traps` | ⚠️ 易错点 |
+| 6 | `#### Code` | `code` | Python 代码 |
+
+**Template:**
 
 ```markdown
 # [Course Code] [Exam] Cheat Sheet (W1–WN)
 
 > Merged from slides + quizzes + labs. ⚠️ = common trap questions.
 
-## W1: [Topic]
+---
 
-- **Term** (Full Name, 中文) = definition
-- **Formula**: $LaTeX$
-- ⚠️ "false statement" → **False** (correction)
+## W1: [Topic] (中文)
 
-| Comparison | A | B |
+### Section Name (中文)
+
+#### Definitions
+- **Term (Full Name, 中文)** = definition
+- **Another Term (中文)** = definition
+
+#### Comparisons
+| Dimension | A | B |
 |---|---|---|
+| Speed | Fast | Slow |
+| Accuracy | Low | High |
+
+#### Formulas
+- $P(w_t | w_{t-1}) = \frac{C(w_{t-1}, w_t)}{C(w_{t-1})}$
+- $\text{TF-IDF} = TF \times IDF$
+
+#### Examples
+- **Example 1**: Input "Hello World" → Output ["Hello", "World"]
+- **Example 2**: Step 1 → Step 2 → Step 3
+
+#### Traps
+- ⚠️ "false statement" → **False** (correction)
+- ⚠️ "another trap" → **False** (why)
+
+#### Code
+```python
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Normalization (MinMaxScaler): x' = (x - min) / (max - min) → [0,1]
+minmax = MinMaxScaler()
+minmax.fit(X_train)                    # learn min, max from train
+X_train_norm = minmax.transform(X_train)
+X_test_norm = minmax.transform(X_test)  # use train's min, max
+
+# Standardization (StandardScaler): z = (x - μ) / σ → mean=0, std=1
+scaler = StandardScaler()
+scaler.fit(X_train)                    # learn μ, σ from train
+X_train_std = scaler.transform(X_train)
+X_test_std = scaler.transform(X_test)  # use train's μ, σ
+
+# WRONG: fit_transform on test = data leakage!
+```
+
+**Code Section Rules:**
+- **Formula in comment**: Each sklearn method MUST have its formula as inline comment
+- **Format**: `# MethodName (SklearnClass): formula → output_range`
+- **Match Formulas section**: Code must correspond to formulas defined in `#### Formulas`
+- **Show workflow**: Include train/test split, fit on train, transform on both
+- **Highlight pitfalls**: Comment common mistakes (e.g., data leakage)
+
+### Another Section
+...
 
 ---
 
-## W2: [Topic]
+## W2: [Topic] (中文)
 ...
+
+---
 
 ## Milestones
 
@@ -185,37 +328,38 @@ If a comparison exists in slides but is missing from the cheat sheet, you MISSED
 ✅ Key point 2
 ```
 
+**Notes:**
+- Not all 6 content types are required in every section — only include what's relevant
+- Order of `####` headings within a section doesn't matter
+- Empty sections can be omitted entirely
+
 ### Step 2: Convert to `{exam}_cheat_sheet.json`
 
-Transform the markdown into structured JSON. Schema:
+1. Copy the conversion script template from `references/md_to_json_template.py` to `courses/{course}/notes/md_to_json_{exam}.py`
+2. Update the config variables at the top:
+   - `INPUT_MD` = `"{exam}_cheat_sheet.md"`
+   - `OUTPUT_JSON` = `"{exam}_cheat_sheet.json"`
+3. Run: `uv run python md_to_json_{exam}.py`
+
+**JSON Schema:**
 
 ```json
 {
   "title": "Course Exam Cheat Sheet (W1-WN)",
   "description": "Merged from slides + quizzes + labs.",
-  "layout": {
-    "page_size": "8.5in x 11in",
-    "weeks_per_page": 3,
-    "signature_box": "5cm x 5cm top-left"
-  },
-  "pages": [
+  "weeks": [
     {
-      "label": "PAGE 1 (W1–W3)",
-      "weeks": [
+      "id": "W1",
+      "title": "Topic (中文)",
+      "sections": [
         {
-          "id": "W1",
-          "title": "Topic (中文)",
-          "sections": [
-            {
-              "title": "Section Name",
-              "content": ["bullet points"],
-              "table": { "headers": [], "rows": [[]] },
-              "formulas": ["LaTeX strings"],
-              "examples": [{ "label": "str", "steps": ["str"] }],
-              "traps": ["trap descriptions"],
-              "content_extra": ["additional bullets"]
-            }
-          ]
+          "title": "Section Name",
+          "content": ["bullet points"],
+          "table": { "headers": [], "rows": [[]] },
+          "formulas": ["LaTeX strings"],
+          "examples": [{ "label": "str", "steps": ["str"] }],
+          "traps": ["trap descriptions"],
+          "code": [{ "lang": "python", "snippet": "code here" }]
         }
       ]
     }
@@ -231,13 +375,19 @@ Transform the markdown into structured JSON. Schema:
 }
 ```
 
-Mapping rules:
-- Every markdown bullet → `content[]`
-- Every markdown table → `table` with `headers` + `rows`
-- Every `$formula$` → `formulas[]` (keep LaTeX)
-- Every `⚠️` line → `traps[]`
-- Every worked example → `examples[]` with `label` + `steps`
-- Quiz key points → `quiz_answers[]`, mapped to weeks
+**Mapping rules (#### heading → JSON field):**
+
+| Markdown `####` | JSON Field | Parsing Rule |
+|-----------------|------------|--------------|
+| `#### Definitions` | `content[]` | Each `- bullet` → string |
+| `#### Comparisons` | `table` | Parse markdown table → `{headers, rows}` |
+| `#### Formulas` | `formulas[]` | Each `- $...$` → LaTeX string |
+| `#### Examples` | `examples[]` | Each `- **Label**: ...` → `{label, steps}` |
+| `#### Traps` | `traps[]` | Each `- ⚠️ ...` → string |
+| `#### Code` | `code[]` | Each ` ```python ``` ` → `{lang, snippet}` |
+
+- `## Milestones` table → `milestones[]`
+- `## Quiz Quick Review` → `quiz_answers[]`
 
 ### Step 3: Build `{exam}_cheat_sheet.html`
 
