@@ -1,0 +1,25 @@
+ResNet-18 Classification Report
+============================================================
+              precision    recall  f1-score   support
+
+    Bluebell       0.94      0.94      0.94        16
+   Buttercup       0.67      0.75      0.71        16
+   Coltsfoot       0.79      0.69      0.73        16
+     Cowslip       0.53      0.50      0.52        16
+      Crocus       0.76      0.81      0.79        16
+    Daffodil       0.70      0.44      0.54        16
+       Daisy       0.89      1.00      0.94        16
+   Dandelion       0.88      0.94      0.91        16
+  Fritillary       0.83      0.94      0.88        16
+        Iris       1.00      0.69      0.81        16
+  LilyValley       0.81      0.81      0.81        16
+       Pansy       0.90      0.56      0.69        16
+    Snowdrop       0.79      0.69      0.73        16
+   Sunflower       0.70      0.88      0.78        16
+   TigerLily       0.94      1.00      0.97        16
+       Tulip       0.50      0.62      0.56        16
+  Windflower       0.67      0.88      0.76        16
+
+    accuracy                           0.77       272
+   macro avg       0.78      0.77      0.77       272
+weighted avg       0.78      0.77      0.77       272

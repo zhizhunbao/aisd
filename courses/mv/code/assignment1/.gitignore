@@ -1,0 +1,13 @@
+# Checkpoint files (too large for git)
+*.pth
+last_checkpoint
+
+# Dataset (can be regenerated)
+data/
+
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc

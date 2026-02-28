@@ -1,0 +1,25 @@
+MobileNet V2 Classification Report
+============================================================
+              precision    recall  f1-score   support
+
+    Bluebell       0.94      1.00      0.97        16
+   Buttercup       1.00      0.88      0.93        16
+   Coltsfoot       0.86      0.75      0.80        16
+     Cowslip       0.78      0.88      0.82        16
+      Crocus       0.78      0.88      0.82        16
+    Daffodil       0.93      0.81      0.87        16
+       Daisy       1.00      1.00      1.00        16
+   Dandelion       0.89      1.00      0.94        16
+  Fritillary       0.94      0.94      0.94        16
+        Iris       1.00      0.94      0.97        16
+  LilyValley       1.00      0.81      0.90        16
+       Pansy       1.00      0.81      0.90        16
+    Snowdrop       0.83      0.94      0.88        16
+   Sunflower       1.00      1.00      1.00        16
+   TigerLily       0.89      1.00      0.94        16
+       Tulip       0.67      0.75      0.71        16
+  Windflower       0.94      0.94      0.94        16
+
+    accuracy                           0.90       272
+   macro avg       0.91      0.90      0.90       272
+weighted avg       0.91      0.90      0.90       272
