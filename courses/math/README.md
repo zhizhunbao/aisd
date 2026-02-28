@@ -16,19 +16,20 @@
 
 ### Calculus (微积分)
 
-| File                                                        | Topic          | Lines | Course Dependencies  |
-| ----------------------------------------------------------- | -------------- | ----- | -------------------- |
-| [derivatives.md](calculus/derivatives.md)                   | 导数与偏导数   | ~120  | All training         |
-| [chain_rule_gradients.md](calculus/chain_rule_gradients.md) | 链式法则与梯度 | ~126  | CNN-BP(W3), BPTT(W4) |
-| [geometric_series.md](calculus/geometric_series.md)         | 几何级数与折扣回报 | ~130 | RL(W1), all RL weeks |
+| File                                                        | Topic              | Lines | Course Dependencies  |
+| ----------------------------------------------------------- | ------------------ | ----- | -------------------- |
+| [derivatives.md](calculus/derivatives.md)                   | 导数与偏导数       | ~120  | All training         |
+| [chain_rule_gradients.md](calculus/chain_rule_gradients.md) | 链式法则与梯度     | ~126  | CNN-BP(W3), BPTT(W4) |
+| [geometric_series.md](calculus/geometric_series.md)         | 几何级数与折扣回报 | ~130  | RL(W1), all RL weeks |
 
 ### Probability (概率论)
 
-| File                                                                 | Topic            | Lines | Course Dependencies     |
-| -------------------------------------------------------------------- | ---------------- | ----- | ----------------------- |
-| [conditional_probability.md](probability/conditional_probability.md) | 条件概率         | ~248  | NB(W5), RL(W1)          |
-| [bayes_theorem.md](probability/bayes_theorem.md)                     | 贝叶斯定理       | ~174  | NB(W5), BBN(W5)         |
-| [markov_chains.md](probability/markov_chains.md)                     | 马尔可夫链与MDP  | ~120  | RL(W1-W2), all RL weeks |
+| File                                                                 | Topic           | Lines | Course Dependencies     |
+| -------------------------------------------------------------------- | --------------- | ----- | ----------------------- |
+| [conditional_probability.md](probability/conditional_probability.md) | 条件概率        | ~248  | NB(W5), RL(W1)          |
+| [bayes_theorem.md](probability/bayes_theorem.md)                     | 贝叶斯定理      | ~174  | NB(W5), BBN(W5)         |
+| [markov_chains.md](probability/markov_chains.md)                     | 马尔可夫链与MDP | ~120  | RL(W1-W2), all RL weeks |
+| [cross_entropy.md](probability/cross_entropy.md)                     | 交叉熵与信息论  | ~140  | MV Assignment 1, ML(W4) |
 
 ### Statistics (统计学)
 
@@ -47,16 +48,17 @@
 
 ### General (通用数学工具)
 
-| File                                | Topic              | Lines | Course Dependencies      |
-| ----------------------------------- | ------------------ | ----- | ------------------------ |
-| [argmax.md](general/argmax.md)      | Argmax 与贪婪选择  | ~100  | RL(W1), ML(W5 MAP)       |
+| File                                     | Topic             | Lines | Course Dependencies     |
+| ---------------------------------------- | ----------------- | ----- | ----------------------- |
+| [argmax.md](general/argmax.md)           | Argmax 与贪婪选择 | ~100  | RL(W1), ML(W5 MAP)      |
+| [convolution.md](general/convolution.md) | 卷积运算          | ~160  | MV(W2,W4), Assignment 1 |
 
 ## 📐 Dependency Map (依赖关系)
 
 ```
 vectors_matrices ──→ inner_product ──→ norms_distances
 │
-eigenvalues_svd ◀────┘
+ eigenvalues_svd ◀────┘
 
 derivatives ──→ chain_rule_gradients ──→ gradient_descent
 │
@@ -68,8 +70,10 @@ conditional_probability ──→ bayes_theorem
 │                        ╲──→ markov_chains
 │
 mean_variance ──→ gaussian_distribution ──→ mle
+cross_entropy ◀── (依赖 derivatives)
 
 argmax (独立)
+convolution (独立，来自信号处理)
 ```
 
 ## 🔗 Course Reading Lists (课程阅读清单)
@@ -84,6 +88,7 @@ argmax (独立)
 | ML W6 Clustering    | `mean_variance` ✅ → `norms_distances` ✅ → `gaussian_distribution` ✅ → `mle` ✅         |
 | RL W1 RL Intro      | `conditional_probability` ✅ → `markov_chains` ✅ + `geometric_series` ✅ + `argmax` ✅   |
 | RL W2 MDP           | `markov_chains` ✅ + `geometric_series` ✅                                                |
+| MV Assignment 1     | `convolution` ✅ → `chain_rule_gradients` ✅ → `gradient_descent` ✅ + `cross_entropy` ✅ |
 
 ## 📖 Primary Sources
 

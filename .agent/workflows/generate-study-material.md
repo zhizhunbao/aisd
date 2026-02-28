@@ -38,6 +38,10 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │   ↓ learning-lecture_storyline skill                        │
 │   ↓ 基于老师 slides，重组为因果叙事                         │
 ├─────────────────────────────────────────────────────────────┤
+│ Phase 1.55: 历史线 (History Timeline)              ← NEW      │
+│   ↓ learning-lecture_history skill                          │
+│   ↓ 将技术概念按历史脉络排列，理解演进因果                 │
+├─────────────────────────────────────────────────────────────┤
 │ Phase 1.6: 数学基础 (Math Foundations)             ← NEW      │
 │   ↓ learning-math_foundations skill                         │
 │   ↓ 从教科书提取本主题需要的数学前置知识                   │
@@ -81,6 +85,8 @@ Phase 1 双语翻译    → 老师 slides 加中英文翻译（基础）
     ↓
 Phase 1.5 故事线    → 把碎片化 slides 重组为因果叙事（宏观）
     ↓
+Phase 1.55 历史线   → 将技术概念按年代排列，理解演进因果（纵深）
+    ↓
 Phase 1.6 数学基础  → 从教科书提取本主题的数学前置知识（补基础）
     ↓
 Phase 1.7 教程      → 用自己教科书合成独立教程（加深）
@@ -92,6 +98,7 @@ Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参�
 | -------------------- | -------------------- | ------------ | --------------------- |
 | **Translation**      | 老师 slides          | 读懂内容     | 双语课堂笔记          |
 | **Storyline**        | 老师 slides + Notes  | 整体理解     | 故事书                |
+| **History Timeline** | slides + 文献        | 技术演进脉络 | 年代大事记            |
 | **Math Foundations** | 教科书（数学部分）   | 补数学前置   | 数学预习手册          |
 | **Tutorial**         | 自己的教科书         | 深度理解     | 参考书 → 独立教程文件 |
 | **Cheat Sheet**      | 老师 slides+quiz+lab | 考试速查     | 小抄（3件套）         |
@@ -248,6 +255,51 @@ Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参�
 
 ---
 
+## Phase 1.55: 历史线 🕰️
+
+**Skill**: `learning-lecture_history`
+
+将课程中涉及的技术概念按**历史年代**排列，帮助学生理解"为什么会有这个技术"——每个技术都是对前一个技术局限性的回应。
+
+### 与 Phase 1.5 的区别
+
+|          | Phase 1.5 故事线        | Phase 1.55 历史线        |
+| -------- | ----------------------- | ------------------------ |
+| **视角** | 一次课内部的逻辑线      | **跨越多年的演进线**     |
+| **组织** | 按因果逻辑（问题→方案） | **按年代顺序**           |
+| **范围** | 当前主题                | 当前主题 + 前身技术      |
+| **核心** | "为什么需要这个概念？"  | **"这个技术从哪来的？"** |
+
+### 步骤
+
+1. 读取 Phase 1.5 Storyline，识别涉及的技术节点
+2. 回溯每个技术的**直接前身**（不需要写领域综述，只覆盖课程涉及的）
+3. 按 `learning-lecture_history` skill 模板写出历史线：
+   - 📍 全景时间线（ASCII 时间轴图）
+   - 每站：之前的问题 → 核心创新 → 关键人物 → 里程碑数据 → 遗留问题 → 课程关联
+   - 📊 对比总结表
+   - 🎯 考试相关知识点
+
+### 跳过条件
+
+- 主题是纯数学/纯理论，没有明确的技术演进关系
+- 主题只涉及一个技术，没有前身也没有后续
+
+### 命令
+
+```
+读取 skill: .agent/skills/learning-lecture_history/SKILL.md
+识别 Storyline 中的技术节点
+回溯前身技术
+生成历史线
+```
+
+### 输出
+
+- `courses/[course]/notes/[topic]_history.md`
+
+---
+
 ## Phase 1.6: 数学基础 📐
 
 **Skill**: `learning-math_foundations`
@@ -256,12 +308,12 @@ Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参�
 
 ### 与其他阶段的区别
 
-|                  | Phase 1.6 数学基础              | Phase 1.7 教程                   | Phase 1.9 `_math.md`       |
-| ---------------- | ------------------------------- | -------------------------------- | -------------------------- |
-| **核心问题**     | "这个主题需要哪些数学工具？"    | "教科书怎么推导/证明的？"        | "考试要用哪些公式？"       |
-| **内容**         | 纯数学定义 + 定理 + 手算练习   | ML 特定的推导过程                | Slides 公式速查            |
-| **来源**         | 数学教科书（MML, Grinstead 等）| ML 教科书（Murphy, Bishop 等）   | 课程 Slides                |
-| **复用性**       | 跨主题共享（多个主题复用同一文件）| 主题专属                       | 主题专属                   |
+|              | Phase 1.6 数学基础                 | Phase 1.7 教程                 | Phase 1.9 `_math.md` |
+| ------------ | ---------------------------------- | ------------------------------ | -------------------- |
+| **核心问题** | "这个主题需要哪些数学工具？"       | "教科书怎么推导/证明的？"      | "考试要用哪些公式？" |
+| **内容**     | 纯数学定义 + 定理 + 手算练习       | ML 特定的推导过程              | Slides 公式速查      |
+| **来源**     | 数学教科书（MML, Grinstead 等）    | ML 教科书（Murphy, Bishop 等） | 课程 Slides          |
+| **复用性**   | 跨主题共享（多个主题复用同一文件） | 主题专属                       | 主题专属             |
 
 ### 步骤
 
@@ -801,21 +853,22 @@ courses/
 
 ## 💡 快捷子命令
 
-| 命令                                              | 说明                | 从哪个 Phase 开始 |
-| ------------------------------------------------- | ------------------- | ----------------- |
-| `/generate-study-material ml svm`                 | 完整流程 (含抓取)   | Phase -1          |
-| `/generate-study-material ml svm --no-scrape`     | 完整流程 (跳过抓取) | Phase 0           |
-| `/generate-study-material ml svm --from=phase1`   | 从笔记提取开始      | Phase 1           |
-| `/generate-study-material ml svm --from=phase1.5` | 从故事线开始        | Phase 1.5         |
-| `/generate-study-material ml svm --from=phase1.6` | 从数学基础开始      | Phase 1.6         |
-| `/generate-study-material ml svm --from=phase1.7` | 从教科书教程开始    | Phase 1.7         |
-| `/generate-study-material ml svm --from=phase1.9` | 从速查表开始        | Phase 1.9         |
-| `/generate-study-material ml svm --from=phase2`   | 从 Demo 开始        | Phase 2           |
-| `/generate-study-material ml svm --from=phase2.5` | 从 .py→.ipynb 开始  | Phase 2.5         |
-| `/generate-study-material ml svm --from=phase3`   | 从 NB 合成开始      | Phase 3           |
-| `/generate-study-material ml svm --phase=4`       | 只运行审查          | Phase 4           |
-| `/generate-study-material ml svm --phase=5`       | 只生成测验题        | Phase 5           |
-| `/generate-study-material nlp lab3`               | Lab 格式化+翻译     | Phase L           |
+| 命令                                               | 说明                | 从哪个 Phase 开始 |
+| -------------------------------------------------- | ------------------- | ----------------- |
+| `/generate-study-material ml svm`                  | 完整流程 (含抓取)   | Phase -1          |
+| `/generate-study-material ml svm --no-scrape`      | 完整流程 (跳过抓取) | Phase 0           |
+| `/generate-study-material ml svm --from=phase1`    | 从笔记提取开始      | Phase 1           |
+| `/generate-study-material ml svm --from=phase1.5`  | 从故事线开始        | Phase 1.5         |
+| `/generate-study-material ml svm --from=phase1.55` | 从历史线开始        | Phase 1.55        |
+| `/generate-study-material ml svm --from=phase1.6`  | 从数学基础开始      | Phase 1.6         |
+| `/generate-study-material ml svm --from=phase1.7`  | 从教科书教程开始    | Phase 1.7         |
+| `/generate-study-material ml svm --from=phase1.9`  | 从速查表开始        | Phase 1.9         |
+| `/generate-study-material ml svm --from=phase2`    | 从 Demo 开始        | Phase 2           |
+| `/generate-study-material ml svm --from=phase2.5`  | 从 .py→.ipynb 开始  | Phase 2.5         |
+| `/generate-study-material ml svm --from=phase3`    | 从 NB 合成开始      | Phase 3           |
+| `/generate-study-material ml svm --phase=4`        | 只运行审查          | Phase 4           |
+| `/generate-study-material ml svm --phase=5`        | 只生成测验题        | Phase 5           |
+| `/generate-study-material nlp lab3`                | Lab 格式化+翻译     | Phase L           |
 
 ---
 
@@ -833,6 +886,7 @@ courses/
 ## 📎 关联 Skill 文档
 
 - 整体规范: `.shared/skills/learning-automated_study_material/SKILL.md`
+- 🕰️ 历史线: `.agent/skills/learning-lecture_history/SKILL.md` — 将技术概念按年代排列，理解演进因果
 - 📐 数学基础: `.agent/skills/learning-math_foundations/SKILL.md` — 从教科书提取数学前置知识，每个公式有出处
 - 📱 数学公式库: `.shared/skills/math-concept-library/SKILL.md` — 公式的标准解读、直觉类比、分步解读复用库
 - 📖 概念术语库: `.shared/skills/concept-glossary/SKILL.md` — 术语定义、历史背景、类比、交叉引用复用库
