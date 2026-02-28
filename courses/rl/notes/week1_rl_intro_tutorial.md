@@ -1,9 +1,9 @@
 # Week 1 教程：强化学习基础概念深入
 
 > **数学前置：** [条件概率](../../math/probability/conditional_probability.md) | [马尔可夫链与MDP](../../math/probability/markov_chains.md) | [几何级数与折扣回报](../../math/calculus/geometric_series.md) | [Argmax](../../math/general/argmax.md)
-> **教科书来源：** Sutton & Barto, *Reinforcement Learning: An Introduction* (2nd ed.), Chapter 1
+> **教科书来源：** Sutton & Barto, *Reinforcement Learning: An Introduction* (2nd ed.), Chapter 1; David Silver, UCL RL Course, Lecture 1 (Introduction to RL)
 
-本教程补充 Slides 未深入讲解的内容，基于 Sutton & Barto 教科书 Chapter 1。
+本教程补充 Slides 未深入讲解的内容，基于 Sutton & Barto 教科书 Chapter 1 和 David Silver L1 讲义。
 
 ---
 
@@ -145,7 +145,133 @@ Slides 用餐厅例子简单提到了 exploitation vs exploration。Sutton 给�
 
 ---
 
-## §5 RL 的整体视角：完整的、交互的、目标导向的 Agent
+## §5 可观测性：MDP vs POMDP
+
+> 📚 Ref: David Silver L1 Slides 23-24; Sutton §3.1 (MDP), §17.3 (POMDP)
+
+### 5.1 Slides 没讲什么？
+
+Slides 提到了 MDP（Markov Decision Process），但没有解释**完全可观测**和**部分可观测**的区别。Silver 在 L1 中明确区分了这两种情况。
+
+> ⚠️ **Slides 未覆盖：** Fully Observable vs Partially Observable 的正式定义和 POMDP 的三种状态构建方法。
+> — 📚 David Silver L1 Slides 23-24
+
+### 5.2 完全可观测环境（Fully Observable → MDP）
+
+当 agent 能直接观察到环境状态时：
+
+$O_t = S_t^a = S_t^e$
+
+Agent 状态 = 环境状态 = 信息状态。这就是 **MDP**（Markov Decision Process）。
+
+**例子：** CliffWalking — agent 知道自己在哪个格子（完整的环境状态），所以是 MDP。
+
+### 5.3 部分可观测环境（Partially Observable → POMDP）
+
+当 agent 不能直接观察到完整的环境状态时：
+
+$O_t \neq S_t^e$
+
+Agent 必须自己构建状态表示 $S_t^a$。Silver 给出了三种方法：
+
+| 方法 | 公式 | 含义 | 例子 |
+|------|------|------|------|
+| 完整历史 | $S_t^a = H_t$ | 记住所有过去的事 | 最安全但最慢 |
+| 信念状态 | $S_t^a = (P[S_t^e = s_1], ..., P[S_t^e = s_n])$ | 对环境状态的概率估计 | 扑克牌：估计对手手牌的概率 |
+| 循环神经网络 | $S_t^a = \sigma(S_{t-1}^a W_s + O_t W_o)$ | 用 RNN 压缩历史 | 现代深度 RL 方法 |
+
+**实际例子：**
+- 扑克牌：你只看到自己的牌和公共牌（观测），不知道对手的牌（环境状态）
+- 机器人导航：摄像头只看到局部视野，不知道完整地图
+- 股票交易：只看到当前价格，不知道市场的完整状态
+
+> 💡 **本课程的简化：** 我们主要处理 MDP（完全可观测），如 CliffWalking、Gymnasium 环境。但理解 POMDP 的存在很重要——现实世界大多数问题都是部分可观测的。
+
+---
+
+## §6 Prediction vs Control：RL 的两个核心子问题
+
+> 📚 Ref: David Silver L1 Slides 43-45
+
+### 6.1 Slides 没讲什么？
+
+Slides 简单提到了 Prediction vs Control，但没有用具体的数值例子来说明区别。Silver 用 Gridworld 给出了清晰的对比。
+
+> ⚠️ **Slides 未覆盖：** Prediction 和 Control 的 Gridworld 数值例子，展示两者输出的本质区别。
+> — 📚 David Silver L1 Slides 44-45
+
+### 6.2 Prediction（预测）
+
+**问题：** 给定一个策略 $\pi$，评估它有多好。
+
+**输入：** MDP + 策略 $\pi$
+**输出：** 价值函数 $v_\pi(s)$
+
+**Silver 的 Gridworld 例子（Slide 44）：** 5×5 网格，均匀随机策略（每个方向 25%），两个特殊位置 A→A'（+10）和 B→B'（+5）。Prediction 的结果是每个格子的价值数字（如 A 格 = 8.8，角落 = 负值）。
+
+### 6.3 Control（控制）
+
+**问题：** 找到最优策略 $\pi_*$。
+
+**输入：** MDP（不给策略）
+**输出：** 最优价值函数 $v_*(s)$ + 最优策略 $\pi_*(s)$
+
+**Silver 的 Gridworld 例子（Slide 45）：** 同一个 5×5 网格，但现在求最优。结果是每个格子的最优价值（都比随机策略高）+ 每个格子的最优动作箭头。
+
+### 6.4 两者的关系
+
+| | Prediction | Control |
+|---|---|---|
+| 输入 | MDP + 策略 $\pi$ | MDP |
+| 输出 | $v_\pi(s)$ | $v_*(s)$ + $\pi_*(s)$ |
+| 问题 | "这个策略有多好？" | "最好的策略是什么？" |
+| 类比 | 给你一条路线，算总时间 | 找最短路线 |
+
+> 💡 **关键洞察：** Control 通常需要先解决 Prediction。要找最优策略，你需要能评估任意策略的好坏。这就是为什么很多 RL 算法（如 Policy Iteration）交替进行 Prediction 和 Control。
+
+---
+
+## §7 Learning vs Planning：两种决策方式
+
+> 📚 Ref: David Silver L1 Slides 37-39
+
+### 7.1 Slides 没讲什么？
+
+Slides 提到了 Learning vs Planning，但没有用 Silver 的 Atari 例子来具体说明区别。
+
+> ⚠️ **Slides 未深入：** Silver 用 Atari 游戏的两种玩法来对比 Learning 和 Planning。
+> — 📚 David Silver L1 Slides 38-39
+
+### 7.2 Learning（学习）
+
+- 环境**未知**
+- Agent 直接与环境交互
+- 从真实经验中改进策略
+
+**Atari 例子（Silver Slide 38）：** 不知道游戏规则，直接用手柄玩，看屏幕像素和分数，通过试错学习。
+
+### 7.3 Planning（规划）
+
+- 环境模型**已知**
+- Agent 在脑中模拟（不需要真实交互）
+- 通过计算找到最优策略
+
+**Atari 例子（Silver Slide 39）：** 知道游戏规则（有完美模拟器），可以在脑中"如果我按左会怎样？如果按右呢？"，用树搜索找最优动作。
+
+### 7.4 对比
+
+| | Learning | Planning |
+|---|---|---|
+| 环境模型 | 未知 | 已知 |
+| 数据来源 | 真实交互 | 模拟 |
+| 方法 | Q-Learning, SARSA | Dynamic Programming, Tree Search |
+| 类比 | 真的去餐厅吃 | 看点评想象 |
+
+> 💡 **本课程重点：** 主要学 Learning（model-free 方法），因为大多数现实问题的环境模型是未知的。
+
+---
+
+## §8 RL 的整体视角：完整的、交互的、目标导向的 Agent
 
 > 📚 Ref: Sutton §1.1, p.3
 
@@ -172,4 +298,7 @@ Slides 用餐厅例子简单提到了 exploitation vs exploration。Sutton 给�
 | §3 四大子元素 | Sutton §1.3, p.6 | Policy, Reward, Value, Model 精确定义 | ⚠️ 部分（有定义但缺少教科书的深度洞察） |
 | §3 奖励 vs 价值 | Sutton §1.3, p.6 | 即时 vs 长期，快乐 vs 远见 | ⚠️ 部分（提到了但未用 Sutton 的类比） |
 | §4 探索-利用困境 | Sutton §1.1, p.3 | RL 独有的挑战 | ⚠️ 部分（有餐厅例子但未说明是 RL 独有的） |
-| §5 整体视角 | Sutton §1.1, p.3 | 完整交互目标导向 agent | ❌ 未覆盖 |
+| §5 MDP vs POMDP | **Silver L1 Slides 23-24** | 完全可观测 vs 部分可观测，POMDP 三种状态构建 | ❌ 未覆盖（Slides 只提到 MDP，未讨论 POMDP） |
+| §6 Prediction vs Control | **Silver L1 Slides 43-45** | 评估策略 vs 找最优策略，Gridworld 数值例子 | ⚠️ 部分（提到了但无数值例子） |
+| §7 Learning vs Planning | **Silver L1 Slides 37-39** | 从经验学 vs 从模型规划，Atari 对比 | ⚠️ 部分（提到了但未用 Silver 的 Atari 例子） |
+| §8 整体视角 | Sutton §1.1, p.3 | 完整交互目标导向 agent | ❌ 未覆盖 |

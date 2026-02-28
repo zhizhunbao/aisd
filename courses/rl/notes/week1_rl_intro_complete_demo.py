@@ -11,6 +11,10 @@ Demonstrates core RL concepts from Week 1:
 - Value Function estimation
 - Q-Learning on Cliff Walking (simplified)
 - Exploration vs Exploitation tradeoff
+- Discount factor γ effect
+- RL Agent taxonomy
+- Prediction vs Control (Silver L1 Gridworld example)
+- MDP vs POMDP (Silver L1 observability)
 """
 
 import os
@@ -750,6 +754,196 @@ plt.close()
 print(f"Saved: {fig_path}")
 
 print("\n" + "=" * 60)
+print("All visualizations saved to:")
+print(f"  {OUTPUT_DIR}")
+print("=" * 60)
+
+
+# ============================================================
+# 步骤 10：Prediction vs Control — Silver Gridworld 数值演示
+# Step 10: Prediction vs Control — Silver's Gridworld Example
+# ============================================================
+
+# 📚 Ref: David Silver L1 Slides 43-45
+# Prediction: 给定策略，计算 V(s) — "这个策略有多好？"
+# Control: 找最优策略和 V*(s) — "最好的策略是什么？"
+# Silver 用 5x5 Gridworld 演示了两者的区别
+
+print("\n" + "=" * 60)
+print("Step 10: Prediction vs Control (Silver L1 Gridworld)")
+print("=" * 60)
+
+# 5x5 Gridworld 定义
+# 特殊位置：A(0,1)→A'(4,1) +10, B(0,3)→B'(2,3) +5
+# 其他位置：走出边界 -1，否则 0
+GRID5 = 5
+GAMMA_GRID = 0.9
+
+def grid5_step(state, action):
+    """5x5 Gridworld 转移函数 / 5x5 Gridworld transition."""
+    r, c = state
+    # 特殊位置 A 和 B
+    if (r, c) == (0, 1):  # A → A'
+        return (4, 1), 10
+    if (r, c) == (0, 3):  # B → B'
+        return (2, 3), 5
+
+    dr, dc = ACTIONS[action]
+    nr, nc = r + dr, c + dc
+    if nr < 0 or nr >= GRID5 or nc < 0 or nc >= GRID5:
+        return (r, c), -1  # 撞墙：留在原地，-1
+    return (nr, nc), 0
+
+# --- Prediction: 均匀随机策略下的 V(s) ---
+# --- Prediction: V(s) under uniform random policy ---
+# 用迭代策略评估（Iterative Policy Evaluation）
+V_pred = np.zeros((GRID5, GRID5))
+for _ in range(1000):
+    V_new = np.zeros_like(V_pred)
+    for r in range(GRID5):
+        for c in range(GRID5):
+            for a in range(4):  # 均匀随机：每个动作 0.25
+                ns, reward = grid5_step((r, c), a)
+                V_new[r, c] += 0.25 * (reward + GAMMA_GRID * V_pred[ns[0], ns[1]])
+    V_pred = V_new
+
+# --- Control: 最优策略下的 V*(s) ---
+# --- Control: V*(s) under optimal policy ---
+V_opt = np.zeros((GRID5, GRID5))
+for _ in range(1000):
+    V_new = np.zeros_like(V_opt)
+    for r in range(GRID5):
+        for c in range(GRID5):
+            max_val = float('-inf')
+            for a in range(4):
+                ns, reward = grid5_step((r, c), a)
+                val = reward + GAMMA_GRID * V_opt[ns[0], ns[1]]
+                max_val = max(max_val, val)
+            V_new[r, c] = max_val
+    V_opt = V_new
+
+# 提取最优策略
+# Extract optimal policy
+policy_opt = np.zeros((GRID5, GRID5), dtype=int)
+for r in range(GRID5):
+    for c in range(GRID5):
+        best_val = float('-inf')
+        for a in range(4):
+            ns, reward = grid5_step((r, c), a)
+            val = reward + GAMMA_GRID * V_opt[ns[0], ns[1]]
+            if val > best_val:
+                best_val = val
+                policy_opt[r, c] = a
+
+# 可视化
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+# 左图：Prediction（随机策略的 V）
+im1 = ax1.imshow(V_pred, cmap='RdYlGn', aspect='equal')
+ax1.set_title('Prediction: V_π(s) under random policy\n(Silver L1 Slide 44)', fontsize=11)
+plt.colorbar(im1, ax=ax1, label='V(s)')
+for r in range(GRID5):
+    for c in range(GRID5):
+        label = f'{V_pred[r, c]:.1f}'
+        if (r, c) == (0, 1): label = f'A\n{V_pred[r, c]:.1f}'
+        if (r, c) == (0, 3): label = f'B\n{V_pred[r, c]:.1f}'
+        if (r, c) == (4, 1): label = f"A'\n{V_pred[r, c]:.1f}"
+        if (r, c) == (2, 3): label = f"B'\n{V_pred[r, c]:.1f}"
+        ax1.text(c, r, label, ha='center', va='center', fontsize=9)
+ax1.set_xticks(range(GRID5)); ax1.set_yticks(range(GRID5))
+
+# 右图：Control（最优策略的 V* + 箭头）
+im2 = ax2.imshow(V_opt, cmap='RdYlGn', aspect='equal')
+ax2.set_title('Control: V*(s) + optimal policy π*\n(Silver L1 Slide 45)', fontsize=11)
+plt.colorbar(im2, ax=ax2, label='V*(s)')
+for r in range(GRID5):
+    for c in range(GRID5):
+        val_label = f'{V_opt[r, c]:.1f}'
+        arrow = ARROW_SYMBOLS[policy_opt[r, c]]
+        if (r, c) == (0, 1): val_label = f'A\n{V_opt[r, c]:.1f}'
+        elif (r, c) == (0, 3): val_label = f'B\n{V_opt[r, c]:.1f}'
+        else: val_label = f'{arrow}\n{V_opt[r, c]:.1f}'
+        ax2.text(c, r, val_label, ha='center', va='center', fontsize=9)
+ax2.set_xticks(range(GRID5)); ax2.set_yticks(range(GRID5))
+
+plt.tight_layout()
+fig_path = os.path.join(OUTPUT_DIR, 'fig6_prediction_vs_control.png')
+plt.savefig(fig_path, dpi=150, bbox_inches='tight')
+plt.close()
+print(f"Saved: {fig_path}")
+
+print(f"\nPrediction (random policy) — V(A) = {V_pred[0, 1]:.1f}, V(B) = {V_pred[0, 3]:.1f}")
+print(f"Control (optimal policy)   — V*(A) = {V_opt[0, 1]:.1f}, V*(B) = {V_opt[0, 3]:.1f}")
+print(f"\nKey insight: V*(s) >= V_π(s) for all states.")
+print(f"Prediction asks 'how good is THIS policy?'")
+print(f"Control asks 'what is the BEST policy?'")
+
+
+# ============================================================
+# 步骤 11：MDP vs POMDP 概念演示
+# Step 11: MDP vs POMDP Concept Demo
+# ============================================================
+
+# 📚 Ref: David Silver L1 Slides 23-24
+# MDP: agent 直接观察环境状态 (O_t = S_t^e)
+# POMDP: agent 只能部分观察 (O_t ≠ S_t^e)
+
+print("\n" + "=" * 60)
+print("Step 11: MDP vs POMDP (Silver L1 Slides 23-24)")
+print("=" * 60)
+
+# 用 4x4 网格演示：MDP 中 agent 知道精确位置
+# POMDP 中 agent 只知道周围墙壁信息（局部观测）
+GRID_POMDP = 4
+
+def get_wall_observation(state, grid_size=GRID_POMDP):
+    """POMDP 观测：只能感知四个方向是否有墙 / Observe walls in 4 directions."""
+    r, c = state
+    obs = {
+        'up': r == 0,
+        'down': r == grid_size - 1,
+        'left': c == 0,
+        'right': c == grid_size - 1,
+    }
+    return obs
+
+# 展示两个不同位置可能有相同的观测（POMDP 的歧义性）
+states_to_check = [(1, 1), (1, 2), (0, 0), (0, 3)]
+
+print(f"\nMDP: Agent knows exact state (row, col)")
+print(f"POMDP: Agent only observes nearby walls\n")
+print(f"{'State':>8} | {'Observation (walls)':>30} | {'Ambiguous?':>10}")
+print("-" * 55)
+
+obs_map = {}
+for s in states_to_check:
+    obs = get_wall_observation(s)
+    walls = [d for d, is_wall in obs.items() if is_wall]
+    obs_key = tuple(sorted(walls)) if walls else ('none',)
+    obs_str = ', '.join(walls) if walls else 'none'
+
+    if obs_key in obs_map:
+        ambiguous = f"Same as {obs_map[obs_key]}"
+    else:
+        obs_map[obs_key] = s
+        ambiguous = "Unique"
+
+    print(f"{str(s):>8} | walls: {obs_str:>23} | {ambiguous:>10}")
+
+print(f"""
+Key insight (Silver L1 Slide 24):
+  MDP:   O_t = S_t^a = S_t^e  (agent sees everything)
+  POMDP: O_t ≠ S_t^e          (agent sees partial info)
+
+  In POMDP, agent must BUILD its own state representation:
+  1. Complete history: S_t^a = H_t
+  2. Belief state: S_t^a = probability distribution over S_t^e
+  3. RNN: S_t^a = σ(S_{{t-1}}^a · W_s + O_t · W_o)
+
+  This course focuses on MDP (fully observable).
+""")
+
+print("=" * 60)
 print("All visualizations saved to:")
 print(f"  {OUTPUT_DIR}")
 print("=" * 60)

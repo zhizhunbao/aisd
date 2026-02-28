@@ -54,7 +54,7 @@
 
 - State = compressed history: $S_t = f(H_t)$ — 状态 = 历史的压缩：$S_t = f(H_t)$
 - Programmer chooses function $f$ — critically affects learning — 程序员选择函数 $f$——直接影响学习效果
-- Environment state $S_t^e$ is always Markov — 环境状态 $S_t^e$ 始终满足马尔可夫性
+- Environment state $S_t^{env}$ is always Markov — 环境状态 $S_t^{env}$ 始终满足马尔可夫性
 - Full history $H_t$ is trivially Markov — 完整历史 $H_t$ 平凡地满足马尔可夫性
 
 ### Traps — 陷阱
