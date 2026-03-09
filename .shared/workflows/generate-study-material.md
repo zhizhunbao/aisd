@@ -428,6 +428,28 @@ $$...LaTeX 公式...$$     ← 带教科书方程编号 (Book Eq. X.Y)
 
 **目的：** 读者看到公式时，每个字母都能立刻对到具体的东西，不需要回翻前面找定义。
 
+#### 规则9: 实验代码分析输出预解读（Output Pre-explanation Rule）
+
+**适用场景：** 当 Tutorial 对应的实验代码中包含**分析/讨论类步骤**（如 "Step 6: Analysis and Discussion"），且这些步骤会打印数值结果（Pearson 相关系数、Gap 值、平均相似度、模型对比差值等）时，Tutorial 必须**提前解释这些输出**。
+
+**目标模式：** 学生先读 Tutorial → 了解"Step N 会打印什么、每个数字什么含义" → 再去运行代码 → 每一行输出都能立刻理解，不需要查文档。
+
+**触发条件（满足任一即触发）：**
+- 代码中有含 "Analysis"、"Discussion"、"Evaluation"、"Comparison" 字样的步骤标题
+- 代码输出包含：相关系数、Gap/Diff/差值、underestimate/overestimate、模型 A vs 模型 B 对比
+- 实验步骤中有"解读输出含义"类型的任务说明
+
+**操作方式：**  
+→ 由 **Phase LG**（Lab Output Guide）执行，生成独立文件 `lab[N]_output_guide.md`。  
+Tutorial 末尾只需添加一行引用链接，不在 Tutorial 内部展开解读内容：  
+`> 📋 输出解读 → [lab[N]_output_guide.md](./lab[N]_output_guide.md)`
+
+**实例参考：** `courses/nlp/notes/lab3_output_guide.md`
+- §1: Part 1 Step 6 — Pearson/Gap/Avg/Diff 输出解读
+- §2: Part 2 — 类比相似度/Observations/拼写容错输出解读
+
+**反面示例：** ❌ Tutorial 只讲了余弦相似度的公式推导，没有解释"Step 6 运行后会打印什么数字、这些数字该怎么读"。学生看到 `Pearson: 0.09` 时，不知道这是好是坏。
+
 ### 步骤
 
 1. **找出 Slides 的推导缺口**: 对比 Storyline 和 Slides，找出"给了结论但没推导"的公式
@@ -771,7 +793,11 @@ courses/
    - 代码块原样保留
    - **不加 📝 Notes 块**
 
-3. **输出**: `courses/[course]/labs/Lab_X.md`（原地格式化）
+3. **检查分析代码段**:
+   - 扫描实验代码（`code/lab[N]/` 下的 `.py` 或 `.ipynb`），识别含 "Analysis"/"Discussion"/"Evaluation"/"Comparison" 的步骤
+   - 若存在 → **继续执行 Phase LG**，生成独立的 `courses/[course]/notes/lab[N]_output_guide.md`
+
+4. **输出**: `courses/[course]/labs/Lab_X.md`（原地格式化）
 
 ### 命令
 
@@ -799,6 +825,52 @@ courses/
 
 ---
 
+## Phase LG: 实验代码输出解读 📊 (Lab Output Guide)
+
+将实验代码中所有分析/讨论类步骤的输出，整理为独立的"先读后跑"参考文档。学生读完即可理解运行代码后打印的每一行含义，不需要边运行边查文档。
+
+### 触发条件
+
+Phase L 格式化完成后，若实验代码包含：
+- 含 "Analysis"、"Discussion"、"Evaluation"、"Comparison" 字样的步骤
+- 输出包含：Pearson/Spearman 相关系数、Gap/Diff 差值、模型 A vs 模型 B 对比数值
+
+### 输入
+
+- 实验代码（`code/lab[N]/` 下的 `.py` 或 `.ipynb`）
+- 实际运行输出（运行代码获取，或用户直接提供终端输出）
+
+### 步骤
+
+1. **收集实际输出**: 运行实验代码，或由用户提供（如粘贴终端输出）
+2. **识别所有分析性 `print()`**: 按步骤分组，记录每行打印的字段和格式
+3. **逐项解读**（每个分析步骤单独一节）:
+   - 实际输出文本（代码块）
+   - **读法**：值域范围 + 如何判断好/坏
+   - **这里的数据说明什么**：结合真实数字具体解读
+   - **为什么会这样**：反直觉情况必须解释原因
+4. **在 Tutorial 末尾添加引用一行**: `> 📋 输出解读 → [lab[N]_output_guide.md](./lab[N]_output_guide.md)`
+5. **输出文件**: `courses/[course]/notes/lab[N]_output_guide.md`
+
+### 输出文件结构
+
+- `# Lab N 实验代码输出解读` — 文件标题（含"先读后跑"说明）
+- `## §1 读懂 [Part/Step X] 输出` — 按实验 Part 或 Step 分节
+  - `### 1.1 [指标名]（Step X.Y）` — 每类输出一节，含代码块 + 读法 + 解读
+- 末尾引用关联教程
+
+### 命令
+
+```
+/generate-study-material [course] lab[N] --phase=LG
+```
+
+### 实例参考
+
+`courses/nlp/notes/lab3_output_guide.md` — Lab 3 Part 1 (Pearson/Gap/Avg/Diff) + Part 2 (类比/偏见/拼写容错)
+
+---
+
 ## 💡 快捷子命令
 
 | 命令                                              | 说明                | 从哪个 Phase 开始 |
@@ -816,6 +888,7 @@ courses/
 | `/generate-study-material ml svm --phase=4`       | 只运行审查          | Phase 4           |
 | `/generate-study-material ml svm --phase=5`       | 只生成测验题        | Phase 5           |
 | `/generate-study-material nlp lab3`               | Lab 格式化+翻译     | Phase L           |
+| `/generate-study-material nlp lab3 --phase=LG`    | Lab 代码输出解读    | Phase LG          |
 
 ---
 
