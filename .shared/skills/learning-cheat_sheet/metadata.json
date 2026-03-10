@@ -1,6 +1,6 @@
 {
   "name": "learning-cheat_sheet",
-  "description": "Generate exam cheat sheets from slides, quizzes, and labs. Pipeline: .md → .json → .html with precise print layout.",
+  "description": "Generate exam cheat sheets from slides, quizzes, and labs. Use for printable compressed review sheets.",
   "keywords": [
     "cheat sheet",
     "cheatsheet",

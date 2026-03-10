@@ -1,13 +1,13 @@
----
+﻿---
 name: learning-lecture_storyline
-description: Reorganize lecture slides into a coherent storyline narrative for deeper understanding. Use when (1) user asks to create a "故事线" or "storyline" from slides, (2) user wants to understand the logical progression of a lecture, (3) user mentions reorganizing or restructuring lecture content for better comprehension.
+description: Reorganize lecture slides into a coherent storyline narrative for deeper understanding. Use when (1) user asks to create a "鏁呬簨绾? or "storyline" from slides, (2) user wants to understand the logical progression of a lecture, (3) user mentions reorganizing or restructuring lecture content for better comprehension.
 ---
 
 # Learning Lecture Storyline
 
 ## Objectives
 
-Transform fragmented lecture slides into a **coherent narrative story** that reveals the logical progression of ideas, making technical concepts easier to understand by showing _why_ each new concept was needed (problem → motivation → solution → new problem → ...).
+Transform fragmented lecture slides into a **coherent narrative story** that reveals the logical progression of ideas, making technical concepts easier to understand by showing _why_ each new concept was needed (problem 鈫?motivation 鈫?solution 鈫?new problem 鈫?...).
 
 ## Core Philosophy
 
@@ -15,21 +15,21 @@ Transform fragmented lecture slides into a **coherent narrative story** that rev
 
 Traditional slides present topics in blocks (A, B, C, D). A storyline connects them causally:
 
-- A has a problem → which motivates B
-- B improves on A but still has a flaw → which motivates C
-- C solves B's flaw but introduces a new challenge → which motivates D
+- A has a problem 鈫?which motivates B
+- B improves on A but still has a flaw 鈫?which motivates C
+- C solves B's flaw but introduces a new challenge 鈫?which motivates D
 
-This "打怪升级" (boss-fight progression) structure maps naturally to how technology evolves.
+This "鎵撴€崌绾? (boss-fight progression) structure maps naturally to how technology evolves.
 
-> ⚠️ **Cross-cutting Rule:** Follow the **Source Citation & Proof Rule** (`learning-source_citation` SKILL.md). Key technical claims must cite textbook sources; formulas embedded in the storyline must reference their derivation (e.g., "详见 tutorial §N").
-> ⚠️ **通用规则：** 遵守**来源引证与证明规则**（`learning-source_citation` SKILL.md）。关键技术论述须注明教科书来源，嵌入的公式须指向推导出处（如"详见 tutorial §N"）。
+> 鈿狅笍 **Cross-cutting Rule:** Follow the **Source Citation & Proof Rule** (`learning-source_citation` SKILL.md). Key technical claims must cite textbook sources; formulas embedded in the storyline must reference their derivation (e.g., "璇﹁ tutorial 搂N").
+> 鈿狅笍 **閫氱敤瑙勫垯锛?* 閬靛畧**鏉ユ簮寮曡瘉涓庤瘉鏄庤鍒?*锛坄learning-source_citation` SKILL.md锛夈€傚叧閿妧鏈杩伴』娉ㄦ槑鏁欑涔︽潵婧愶紝宓屽叆鐨勫叕寮忛』鎸囧悜鎺ㄥ鍑哄锛堝"璇﹁ tutorial 搂N"锛夈€?
 
 ## Instructions
 
 ### Phase 1: Extract & Analyze Source Material
 
 1. **Read the PDF/slides** using `dev-pdf_processing` or PyMuPDF (`fitz`).
-2. **Check for existing notes**: Look for `*_slides.md` or `*_notes.md` in the same `notes/` directory — these contain valuable Chinese annotations.
+2. **Check for existing notes**: Look for `*_slides.md` or `*_notes.md` in the same `notes/` directory 鈥?these contain valuable Chinese annotations.
 3. **Identify the overarching question**: What central problem is the entire lecture trying to solve? (e.g., "How to predict the next word?")
 4. **Map the technology evolution chain**: List each approach in order and identify:
    - What problem it solves
@@ -41,178 +41,179 @@ This "打怪升级" (boss-fight progression) structure maps naturally to how tec
 Use this **standard narrative template**:
 
 ```markdown
-# Lecture N 故事线：[一句话主题]
+# Lecture N 鏁呬簨绾匡細[涓€鍙ヨ瘽涓婚]
 
 > **Source:** `[filename].pdf`
-> **核心主题：** [用一句通俗的话概括整讲在解决什么问题]
-> **故事线：** [用一个比喻概括进化过程]
+> **鏍稿績涓婚锛?* [鐢ㄤ竴鍙ラ€氫織鐨勮瘽姒傛嫭鏁磋鍦ㄨВ鍐充粈涔堥棶棰榏
+> **鏁呬簨绾匡細** [鐢ㄤ竴涓瘮鍠绘鎷繘鍖栬繃绋媇
 
 ---
 
-## 🎬 序幕：我们要解决什么问题？
+## 馃幀 搴忓箷锛氭垜浠瑙ｅ喅浠€涔堥棶棰橈紵
 
-[定义核心问题，给出直观例子，说明为什么重要]
+[瀹氫箟鏍稿績闂锛岀粰鍑虹洿瑙備緥瀛愶紝璇存槑涓轰粈涔堥噸瑕乚
 
-## 📚 第一章：[数学/理论基础]
+## 馃摎 绗竴绔狅細[鏁板/鐞嗚鍩虹]
 
-[为后续方案铺垫必要的知识]
+[涓哄悗缁柟妗堥摵鍨繀瑕佺殑鐭ヨ瘑]
 
-## 🧮 第二章：方案一——[名称]（❌ 失败/部分成功）
+## 馃М 绗簩绔狅細鏂规涓€鈥斺€擺鍚嶇О]锛堚潓 澶辫触/閮ㄥ垎鎴愬姛锛?
 
-[介绍方案 → 展示效果 → 暴露致命问题 → 🔑 故事转折点]
+[浠嬬粛鏂规 鈫?灞曠ず鏁堟灉 鈫?鏆撮湶鑷村懡闂 鈫?馃攽 鏁呬簨杞姌鐐筣
 
-## 🧠 第三章：方案二——[名称]（⚠️ 有缺陷）
+## 馃 绗笁绔狅細鏂规浜屸€斺€擺鍚嶇О]锛堚殸锔?鏈夌己闄凤級
 
-[由上一章的问题引出 → 介绍方案 → 暴露新问题 → 🔑 故事转折点]
+[鐢变笂涓€绔犵殑闂寮曞嚭 鈫?浠嬬粛鏂规 鈫?鏆撮湶鏂伴棶棰?鈫?馃攽 鏁呬簨杞姌鐐筣
 
-## 🏰 第四章：方案三——[名称]（✅ 解决！）
+## 馃彴 绗洓绔狅細鏂规涓夆€斺€擺鍚嶇О]锛堚渽 瑙ｅ喅锛侊級
 
-[由上一章的问题引出 → 介绍方案 → 解释为什么能解决前面的问题]
+[鐢变笂涓€绔犵殑闂寮曞嚭 鈫?浠嬬粛鏂规 鈫?瑙ｉ噴涓轰粈涔堣兘瑙ｅ喅鍓嶉潰鐨勯棶棰榏
 
-## 📏 [评估/应用章节]（如适用）
+## 馃搹 [璇勪及/搴旂敤绔犺妭]锛堝閫傜敤锛?
 
-## 🗺️ 全局回顾：技术演进路线图
+## 馃椇锔?鍏ㄥ眬鍥為【锛氭妧鏈紨杩涜矾绾垮浘
 
-[ASCII 路线图 + 对比表格]
+[ASCII 璺嚎鍥?+ 瀵规瘮琛ㄦ牸]
 
-## 🎓 考试/复习重点检查清单
+## 馃帗 鑰冭瘯/澶嶄範閲嶇偣妫€鏌ユ竻鍗?
 
-[Checklist 形式]
+[Checklist 褰㈠紡]
 ```
 
 ### Phase 3: Write Each Chapter
 
 For each chapter, follow these writing guidelines:
 
-#### 3.1 Chapter Opening — Motivation First
+#### 3.1 Chapter Opening 鈥?Motivation First
 
-每章开头**必须**回答："为什么我们需要这个？" 从上一章的❌问题自然引出。
+姣忕珷寮€澶?*蹇呴』**鍥炵瓟锛?涓轰粈涔堟垜浠渶瑕佽繖涓紵" 浠庝笂涓€绔犵殑鉂岄棶棰樿嚜鐒跺紩鍑恒€?
 
 ```markdown
-> 🔑 **故事转折点：** [上一个方案]的[具体问题]使得我们不得不寻找新方法 → [新方案]登场！
+> 馃攽 **鏁呬簨杞姌鐐癸細** [涓婁竴涓柟妗圿鐨刐鍏蜂綋闂]浣垮緱鎴戜滑涓嶅緱涓嶅鎵炬柊鏂规硶 鈫?[鏂版柟妗圿鐧诲満锛?
 ```
 
-#### 3.2 Concept Explanation — 四层递进法
+#### 3.2 Concept Explanation 鈥?鍥涘眰閫掕繘娉?
 
-对每个核心概念，按以下四层递进解释：
+瀵规瘡涓牳蹇冩蹇碉紝鎸変互涓嬪洓灞傞€掕繘瑙ｉ噴锛?
 
-| 层次                | 内容                 | 示例                            |
+| 灞傛                | 鍐呭                 | 绀轰緥                            |
 | ------------------- | -------------------- | ------------------------------- |
-| **① 一句话定义**    | 用最通俗的语言       | "RNN = 一个神经元 + 一根回忆线" |
-| **② 公式/原理**     | 精确的数学描述       | `hₜ = Wₓ·xₜ + Wₕ·hₜ₋₁ + b`      |
-| **③ 具体例子**      | 用课程中的例子走一遍 | "the students opened their..."  |
-| **④ 类比/记忆技巧** | 生活化比喻           | "hₜ 就像不断更新的笔记"         |
+| **鈶?涓€鍙ヨ瘽瀹氫箟**    | 鐢ㄦ渶閫氫織鐨勮瑷€       | "RNN = 涓€涓缁忓厓 + 涓€鏍瑰洖蹇嗙嚎" |
+| **鈶?鍏紡/鍘熺悊**     | 绮剧‘鐨勬暟瀛︽弿杩?      | `h鈧?= W鈧撀穢鈧?+ W鈧暵穐鈧溾倠鈧?+ b`      |
+| **鈶?鍏蜂綋渚嬪瓙**      | 鐢ㄨ绋嬩腑鐨勪緥瀛愯蛋涓€閬?| "the students opened their..."  |
+| **鈶?绫绘瘮/璁板繂鎶€宸?* | 鐢熸椿鍖栨瘮鍠?          | "h鈧?灏卞儚涓嶆柇鏇存柊鐨勭瑪璁?         |
 
-#### 3.3 Transitions — Problem → Solution Arc
+#### 3.3 Transitions 鈥?Problem 鈫?Solution Arc
 
-每章结尾**必须**包含一个失败/问题展示，用来无缝过渡到下一章：
+姣忕珷缁撳熬**蹇呴』**鍖呭惈涓€涓け璐?闂灞曠ず锛岀敤鏉ユ棤缂濊繃娓″埌涓嬩竴绔狅細
 
 ```markdown
-### X.N ❌ [方案名]的致命问题——[问题名]
+### X.N 鉂?[鏂规鍚峕鐨勮嚧鍛介棶棰樷€斺€擺闂鍚峕
 
-[用具体例子展示失败场景]
+[鐢ㄥ叿浣撲緥瀛愬睍绀哄け璐ュ満鏅痌
 
-> 🔑 **故事转折点：** [问题总结] → 我们需要 [下一个方案的核心能力]！
+> 馃攽 **鏁呬簨杞姌鐐癸細** [闂鎬荤粨] 鈫?鎴戜滑闇€瑕?[涓嬩竴涓柟妗堢殑鏍稿績鑳藉姏]锛?
 ```
 
-#### 3.4 Comparisons — Use Tables
+#### 3.4 Comparisons 鈥?Use Tables
 
-在新方案引入后，用对比表格清晰展示进步：
+鍦ㄦ柊鏂规寮曞叆鍚庯紝鐢ㄥ姣旇〃鏍兼竻鏅板睍绀鸿繘姝ワ細
 
 ```markdown
-| 维度   | 旧方案 | 新方案  |
+| 缁村害   | 鏃ф柟妗?| 鏂版柟妗? |
 | ------ | :----: | :-----: |
-| 能力1  |   ❌   |   ✅    |
-| 能力2  |   ❌   |   ✅    |
-| 新问题 |  N/A   | ⚠️ 描述 |
+| 鑳藉姏1  |   鉂?  |   鉁?   |
+| 鑳藉姏2  |   鉂?  |   鉁?   |
+| 鏂伴棶棰?|  N/A   | 鈿狅笍 鎻忚堪 |
 ```
 
 ### Phase 4: Write the Global Review
 
 #### 4.1 ASCII Evolution Roadmap
 
-必须包含一个 ASCII 艺术路线图，展示完整技术演进链：
+蹇呴』鍖呭惈涓€涓?ASCII 鑹烘湳璺嚎鍥撅紝灞曠ず瀹屾暣鎶€鏈紨杩涢摼锛?
 
 ```markdown
-┌─────────────────────────────────────────┐
-│ 技术演进路线图 │
-│ │
-│ 方案1 │
-│ ✅ 优点 │
-│ ❌ 致命问题 │
-│ │ │
-│ ▼ │
-│ 方案2 │
-│ ✅ 解决了方案1的问题 │
-│ ❌ 新的致命问题 │
-│ │ │
-│ ▼ │
-│ 方案3 │
-│ ✅ 解决了方案2的问题 │
-│ │ │
-│ ▼ │
-│ 下一站：... │
-└─────────────────────────────────────────┘
+鈹屸攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?鎶€鏈紨杩涜矾绾垮浘 鈹?
+鈹?鈹?
+鈹?鏂规1 鈹?
+鈹?鉁?浼樼偣 鈹?
+鈹?鉂?鑷村懡闂 鈹?
+鈹?鈹?鈹?
+鈹?鈻?鈹?
+鈹?鏂规2 鈹?
+鈹?鉁?瑙ｅ喅浜嗘柟妗?鐨勯棶棰?鈹?
+鈹?鉂?鏂扮殑鑷村懡闂 鈹?
+鈹?鈹?鈹?
+鈹?鈻?鈹?
+鈹?鏂规3 鈹?
+鈹?鉁?瑙ｅ喅浜嗘柟妗?鐨勯棶棰?鈹?
+鈹?鈹?鈹?
+鈹?鈻?鈹?
+鈹?涓嬩竴绔欙細... 鈹?
+鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
 ```
 
 #### 4.2 Transition Summary Table
 
 ```markdown
-| 从 → 到 | 解决了什么核心问题？ |
+| 浠?鈫?鍒?| 瑙ｅ喅浜嗕粈涔堟牳蹇冮棶棰橈紵 |
 | ------- | -------------------- |
-| A → B   | [一句话]             |
-| B → C   | [一句话]             |
+| A 鈫?B   | [涓€鍙ヨ瘽]             |
+| B 鈫?C   | [涓€鍙ヨ瘽]             |
 ```
 
 #### 4.3 Review Checklist
 
-用 `- [ ]` 格式列出所有需要掌握的考点，对应各章核心内容。
+鐢?`- [ ]` 鏍煎紡鍒楀嚭鎵€鏈夐渶瑕佹帉鎻＄殑鑰冪偣锛屽搴斿悇绔犳牳蹇冨唴瀹广€?
 
 ### Phase 5: Quality Checks
 
-在完成故事线后，执行以下检查：
+鍦ㄥ畬鎴愭晠浜嬬嚎鍚庯紝鎵ц浠ヤ笅妫€鏌ワ細
 
-- [ ] **因果完整性**: 每个新方案的引入都有明确的"因为前面的方案有X问题"的动机
-- [ ] **零跳跃原则**: 没有突然冒出来的概念——每个术语在使用前都已解释
-- [ ] **例子一致性**: 尽量全篇使用同一个贯穿例子（如 "the students opened their..."）
-- [ ] **公式覆盖**: 所有关键公式都有"一句话直觉 + 数学表达 + 例子"三层解释
-- [ ] **转折标记**: 每个章节过渡处都有 `🔑 故事转折点` 标记
-- [ ] **路线图**: 文末包含完整的 ASCII 技术演进路线图
-- [ ] **复习清单**: 文末包含 checklist 格式的考试要点
+- [ ] **鍥犳灉瀹屾暣鎬?*: 姣忎釜鏂版柟妗堢殑寮曞叆閮芥湁鏄庣‘鐨?鍥犱负鍓嶉潰鐨勬柟妗堟湁X闂"鐨勫姩鏈?
+- [ ] **闆惰烦璺冨師鍒?*: 娌℃湁绐佺劧鍐掑嚭鏉ョ殑姒傚康鈥斺€旀瘡涓湳璇湪浣跨敤鍓嶉兘宸茶В閲?
+- [ ] **渚嬪瓙涓€鑷存€?*: 灏介噺鍏ㄧ瘒浣跨敤鍚屼竴涓疮绌夸緥瀛愶紙濡?"the students opened their..."锛?
+- [ ] **鍏紡瑕嗙洊**: 鎵€鏈夊叧閿叕寮忛兘鏈?涓€鍙ヨ瘽鐩磋 + 鏁板琛ㄨ揪 + 渚嬪瓙"涓夊眰瑙ｉ噴
+- [ ] **杞姌鏍囪**: 姣忎釜绔犺妭杩囨浮澶勯兘鏈?`馃攽 鏁呬簨杞姌鐐筦 鏍囪
+- [ ] **璺嚎鍥?*: 鏂囨湯鍖呭惈瀹屾暣鐨?ASCII 鎶€鏈紨杩涜矾绾垮浘
+- [ ] **澶嶄範娓呭崟**: 鏂囨湯鍖呭惈 checklist 鏍煎紡鐨勮€冭瘯瑕佺偣
 
 ## Formatting Rules
 
 ### Language
 
-- **主体语言**: 中文
-- **术语处理**: 首次出现时用 "中文 (English)" 格式，之后可只用中英文任一
-- **公式**: 用 code block 或 inline code 展示，确保可读性
-- **Emoji**: 章节标题使用 emoji 增加视觉区分（🎬📚🧮🧠🏰📏🗺️🎓）
+- **涓讳綋璇█**: 涓枃
+- **鏈澶勭悊**: 棣栨鍑虹幇鏃剁敤 "涓枃 (English)" 鏍煎紡锛屼箣鍚庡彲鍙敤涓嫳鏂囦换涓€
+- **鍏紡**: 鐢?code block 鎴?inline code 灞曠ず锛岀‘淇濆彲璇绘€?
+- **Emoji**: 绔犺妭鏍囬浣跨敤 emoji 澧炲姞瑙嗚鍖哄垎锛堭煄煋氿煣煣狆煆梆煋忦煑猴笍馃帗锛?
 
 ### Structure
 
-- 用 `---` 分隔符隔开主要章节
-- 每章内用 `###` 级别标题划分小节
-- 对比用表格，流程用代码块缩进，重点用加粗
-- 类比和记忆技巧用 `> 💡` blockquote 高亮
+- 鐢?`---` 鍒嗛殧绗﹂殧寮€涓昏绔犺妭
+- 姣忕珷鍐呯敤 `###` 绾у埆鏍囬鍒掑垎灏忚妭
+- 瀵规瘮鐢ㄨ〃鏍硷紝娴佺▼鐢ㄤ唬鐮佸潡缂╄繘锛岄噸鐐圭敤鍔犵矖
+- 绫绘瘮鍜岃蹇嗘妧宸х敤 `> 馃挕` blockquote 楂樹寒
 
 ### Naming Convention
 
-- 输出文件名: `[topic]_storyline.md`
-- 存放位置: `courses/[course]/notes/`
+- 杈撳嚭鏂囦欢鍚? `[topic_key]_storyline.md`
+- 瀛樻斁浣嶇疆: `courses/[course]/notes/`
 
 ## Output File Structure
 
 ```text
 courses/[course]/
-├── slides/
-│   └── [topic].pdf                      # Source slides
-└── notes/
-    ├── [topic]_slides.md                # Raw extraction (if exists)
-    ├── [topic]_notes.md                 # Detailed notes (if exists)
-    └── [topic]_storyline.md             # ⭐ This skill's output
+鈹溾攢鈹€ slides/
+鈹?  鈹斺攢鈹€ [topic].pdf                      # Source slides
+鈹斺攢鈹€ notes/
+    鈹溾攢鈹€ [topic_key]_slides.md                # Raw extraction (if exists)
+    鈹溾攢鈹€ [topic_key]_notes.md                 # Detailed notes (if exists)
+    鈹斺攢鈹€ [topic_key]_storyline.md             # 猸?This skill's output
 ```
 
 ## Example Reference
 
-See `courses/nlp/notes/lecture5_storyline.md` for a complete example that transforms a 63-page NLP lecture (covering N-gram → FFNN → RNN → LSTM) into a coherent storyline narrative.
+See `courses/nlp/notes/lecture5_storyline.md` for a complete example that transforms a 63-page NLP lecture (covering N-gram 鈫?FFNN 鈫?RNN 鈫?LSTM) into a coherent storyline narrative.
+

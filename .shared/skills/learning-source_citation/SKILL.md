@@ -151,6 +151,7 @@ Every formula's **first appearance** must have a symbol legend table:
 | `*_math.md` (foundation)   | ✅ Every formula    | ✅ Every theorem            | ✅          |
 | `*_math.md` (cheat sheet)  | ✅ Section-level    | ⚠️ Reference only           | ✅          |
 | `*_storyline.md`           | ✅ Key claims       | ⚠️ Reference to tutorial    | ✅ (主中文) |
+| `*_concepts.md`            | ✅ Section-level    | ❌ Definitions only         | ✅          |
 | `*_cheatsheet.md`          | ✅ Section-level    | ❌ Definitions only         | ✅          |
 | `*_code.md`                | ⚠️ Algorithm source | ❌ Not applicable           | ✅          |
 | `*_slides.md`              | ❌ Teacher's slides | ❌ Teacher's content        | ✅          |

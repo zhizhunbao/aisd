@@ -42,6 +42,14 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │   ↓ learning-lecture_history skill                          │
 │   ↓ 将技术概念按历史脉络排列，理解演进因果                 │
 ├─────────────────────────────────────────────────────────────┤
+│ Phase 1.52: 学习地图 (Learning Map)               ← NEW      │
+│   ↓ learning-map skill                                      │
+│   ↓ 生成导航地图、文件地图、学习路线                       │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 1.53: 前置知识 (Prerequisite)              ← NEW      │
+│   ↓ learning-prerequisite skill                             │
+│   ↓ 列出学习本主题前必须掌握的背景知识                     │
+├─────────────────────────────────────────────────────────────┤
 │ Phase 1.6: 数学基础 (Math Foundations)             ← NEW      │
 │   ↓ learning-math_foundations skill                         │
 │   ↓ 从教科书提取本主题需要的数学前置知识                   │
@@ -51,9 +59,21 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │   ↓ + learning-note_taking skill                            │
 │   ↓ 基于自己的教科书，合成为独立教程文件                   │
 ├─────────────────────────────────────────────────────────────┤
-│ Phase 1.9: 速查三件套 (Cheat Sheet Split)          ← NEW      │
-│   ↓ learning-cheat_sheet skill                              │
-│   ↓ 拆分为 3 个文件：概念速查 + 数学公式 + 代码参考       │
+│ Phase 1.9: 概念三件套 (Concept Coverage Split)     ← NEW      │
+│   ↓ learning-concept_coverage skill                         │
+│   ↓ 生成 3 个文件：完整概念 + 数学公式 + 代码参考         │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 1.91: 术语表 (Glossary)                    ← NEW      │
+│   ↓ learning-glossary skill                                 │
+│   ↓ 统一本主题术语定义和文件引用                           │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 1.92: 常见问题 (FAQ)                       ← NEW      │
+│   ↓ learning-faq skill                                      │
+│   ↓ 提炼高频误解、易混点和短问短答                         │
+├─────────────────────────────────────────────────────────────┤
+│ Phase 1.95: 衔接桥 (Bridge)                      ← NEW      │
+│   ↓ learning-bridge skill                                   │
+│   ↓ 说明本主题承接什么、通向什么                           │
 ├─────────────────────────────────────────────────────────────┤
 │ Phase 2: 演示 (Demo)                                         │
 │   ↓ learning-code_generation + dev-code_comment skills      │
@@ -72,6 +92,10 @@ description: Transform raw course materials (PPT/PDF) into an interactive Jupyte
 │ Phase 5: 测验 (Quiz)                                         │
 │   ↓ learning-quiz_generation skill                          │
 ├─────────────────────────────────────────────────────────────┤
+│ Phase 5.5: 练习 (Exercise)                        ← NEW      │
+│   ↓ learning-exercise skill                                 │
+│   ↓ 生成理解型练习，而非只测记忆                           │
+├─────────────────────────────────────────────────────────────┤
 │ Phase L: 实验格式化 (Lab Formatting) ← 独立流程             │
 │   ↓ Lab PDF → 格式化 + 中文翻译（不加 Notes）              │
 │   ↓ dev-pdf_processing + learning-note_taking §10           │
@@ -87,11 +111,21 @@ Phase 1.5 故事线    → 把碎片化 slides 重组为因果叙事（宏观）
     ↓
 Phase 1.55 历史线   → 将技术概念按年代排列，理解演进因果（纵深）
     ↓
+Phase 1.52 学习地图 → 先建立导航入口，明确整套材料怎么走
+    ↓
+Phase 1.53 前置知识 → 补齐进入本主题前必须掌握的背景
+    ↓
 Phase 1.6 数学基础  → 从教科书提取本主题的数学前置知识（补基础）
     ↓
 Phase 1.7 教程      → 用自己教科书合成独立教程（加深）
     ↓
-Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参考（压缩）
+Phase 1.9 概念三件套 → 生成完整概念 + 数学公式 + 代码参考（覆盖）
+    ↓
+Phase 1.91/1.92     → 统一术语 + 提炼 FAQ（防止混淆）
+    ↓
+Phase 1.95 衔接桥   → 说明本讲如何接前后主题（避免断层）
+    ↓
+Phase 5.5 练习      → 用理解型练习验证是否真的学会
 ```
 
 | 阶段                 | 输入来源             | 输出目的     | 类比                  |
@@ -99,9 +133,15 @@ Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参�
 | **Translation**      | 老师 slides          | 读懂内容     | 双语课堂笔记          |
 | **Storyline**        | 老师 slides + Notes  | 整体理解     | 故事书                |
 | **History Timeline** | slides + 文献        | 技术演进脉络 | 年代大事记            |
+| **Learning Map**     | storyline + artifacts| 不迷路       | 导航地图              |
+| **Prerequisite**     | slides + storyline   | 补前置       | 先修清单              |
 | **Math Foundations** | 教科书（数学部分）   | 补数学前置   | 数学预习手册          |
 | **Tutorial**         | 自己的教科书         | 深度理解     | 参考书 → 独立教程文件 |
-| **Cheat Sheet**      | 老师 slides+quiz+lab | 考试速查     | 小抄（3件套）         |
+| **Concept Coverage** | 老师 slides+quiz+lab | 完整概念覆盖 | 概念总表（3件套）     |
+| **Glossary**         | concepts + slides    | 统一术语     | 术语字典              |
+| **FAQ**              | concepts + quiz      | 澄清误解     | 问答页                |
+| **Bridge**           | 前后主题材料         | 防止断层     | 过渡桥                |
+| **Exercise**         | concepts+math+code   | 巩固理解     | 练习册                |
 
 ---
 
@@ -297,6 +337,44 @@ Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参�
 ### 输出
 
 - `courses/[course]/notes/[topic]_history.md`
+
+---
+
+## Phase 1.52: 学习地图 🗺️
+
+**Skill**: `learning-map`
+
+为本主题生成一个中文导航文件，明确“这讲在整门课里的位置、现有文件分别负责什么、应该按什么顺序学”。
+
+### 步骤
+
+1. 读取当前主题已生成的 `slides/storyline/concepts/math/code/tutorial` 等文件
+2. 识别本主题的核心问题、上下游关系、材料缺口
+3. 生成学习路线：第一次学 / 复习 / 做作业
+4. 明确每个文件的作用和建议阅读顺序
+
+### 输出
+
+- `courses/[course]/notes/[topic]_map.md`
+
+---
+
+## Phase 1.53: 前置知识 📚
+
+**Skill**: `learning-prerequisite`
+
+在深入学习本主题前，先列出必须掌握的背景知识和最容易卡住的前置缺口。
+
+### 步骤
+
+1. 读取 `slides`、`storyline` 和已有 `concepts`
+2. 提取本主题默认已知的概念、方法、数学基础
+3. 区分“必须会”和“最好会”
+4. 给出补课顺序
+
+### 输出
+
+- `courses/[course]/notes/[topic]_prerequisite.md`
 
 ---
 
@@ -501,7 +579,7 @@ $$...LaTeX 公式...$$     ← 带教科书方程编号 (Book Eq. X.Y)
 ### 选择资料的原则（三层止挖）
 
 ```
-第0层：会用公式     ← 必须（考试最低要求，Slides + Cheatsheet 覆盖）
+第0层：会用公式     ← 必须（考试最低要求，Slides + Concepts/Math 覆盖）
 第1层：知道为什么    ← 必须（Storyline 已覆盖）
 第2层：看过推导      ← 推荐（Tutorial 覆盖 — 到此为止！）
 第3层：理解公理基础  ← 可选（ref 文件自行阅读）
@@ -515,23 +593,23 @@ $$...LaTeX 公式...$$     ← 带教科书方程编号 (Book Eq. X.Y)
 
 ---
 
-## Phase 1.9: 速查三件套 📋
+## Phase 1.9: 概念三件套 📋
 
-**Skill**: `learning-cheat_sheet`
+**Skill**: `learning-concept_coverage`
 
-基于**老师的资料**（slides + quiz + lab），将所有考试要点拆分为 **3 个聚焦文件**。
+基于**老师的资料**（slides + quiz + lab），生成 **3 个聚焦文件**，其中概念文件不再压缩为 cheat sheet，而是覆盖所有相关概念。
 
 ### 3-文件拆分架构
 
 | 文件         | 后缀             | 包含                                 | 不包含                    |
 | ------------ | ---------------- | ------------------------------------ | ------------------------- |
-| **概念速查** | `_cheatsheet.md` | 📖 定义、💡 要点、⚠️ 陷阱、📊 对比表 | ❌ 无公式、无手算、无代码 |
+| **概念全集** | `_concepts.md`   | 📖 定义、动机、关联、⚠️ 陷阱、📊 对比表 | ❌ 不以压缩速查为目标     |
 | **数学公式** | `_math.md`       | 📐 公式（带参数解释）、📝 手算题目   | ❌ 无定义、无代码         |
 | **代码参考** | `_code.md`       | 🔧 代码模式、imports、API 用法       | ❌ 无定义、无公式         |
 
 ### 为什么拆分？
 
-- **概念速查** = 快速查概念 → "什么是X？注意什么？"
+- **概念全集** = 完整整理概念 → "什么是X？为什么要它？和谁相关？"
 - **数学公式** = 公式参考 + 考试手算练习 → "X怎么算？一步步来"
 - **代码参考** = lab/作业参考 → "X在Python里怎么实现？"
 - 每个文件保持聚焦和小巧 → AI 一次处理一个文件不会溢出
@@ -539,19 +617,19 @@ $$...LaTeX 公式...$$     ← 带教科书方程编号 (Book Eq. X.Y)
 
 ### 与前面阶段的区别
 
-|              | Storyline  | Tutorial | Cheat Sheet (3件套)       |
+|              | Storyline  | Tutorial | Concept Coverage (3件套) |
 | ------------ | ---------- | -------- | ------------------------- |
-| **目的**     | 理解       | 深入     | **速查**                  |
-| **详细度**   | 叙事展开   | 推导展开 | 极致压缩                  |
-| **使用场景** | 课后复习   | 深挖概念 | **考前速查**              |
-| **每个概念** | 一段话解释 | 完整推导 | 定义+公式+代码 各一个文件 |
+| **目的**     | 理解       | 深入     | **完整覆盖**              |
+| **详细度**   | 叙事展开   | 推导展开 | 结构化完整整理            |
+| **使用场景** | 课后复习   | 深挖概念 | **系统整理概念**          |
+| **每个概念** | 一段话解释 | 完整推导 | 完整概念项 + 公式/代码链接 |
 
 ### 步骤
 
 1. 读取 Phase 1 笔记和 Phase 1.5 故事线
 2. 交叉检查所有老师资料（slides + quiz + lab）确保覆盖
 3. 生成 3 个文件：
-   - `[topic]_cheatsheet.md` — 📖 Definition → 💡 Key Points → ⚠️ Traps → 📊 Compare
+   - `[topic]_concepts.md` — 📖 Definition → Why → Connections → ⚠️ Traps → 📊 Compare
    - `[topic]_math.md` — 📐 Formula → 📝 Hand Calc → Quick Reference Table
    - `[topic]_code.md` — 🔧 Code patterns
 4. 每个文件头部互相链接（See also）
@@ -560,16 +638,71 @@ $$...LaTeX 公式...$$     ← 带教科书方程编号 (Book Eq. X.Y)
 ### 命令
 
 ```
-读取 skill: .shared/skills/learning-cheat_sheet/SKILL.md
+读取 skill: .shared/skills/learning-concept_coverage/SKILL.md
 交叉检查: slides + quiz + lab
-生成 3 个速查文件
+生成 concepts + math + code 3 个文件
 ```
 
 ### 输出
 
-- `courses/[course]/notes/[topic]_cheatsheet.md` (概念速查)
+- `courses/[course]/notes/[topic]_concepts.md` (完整概念覆盖)
 - `courses/[course]/notes/[topic]_math.md` (数学公式+手算)
 - `courses/[course]/notes/[topic]_code.md` (代码参考)
+
+---
+
+## Phase 1.91: 术语表 📚
+
+**Skill**: `learning-glossary`
+
+为本主题生成一份中文主导的术语表，统一不同文件中的术语定义和译法。
+
+### 步骤
+
+1. 读取 `slides/storyline/concepts`
+2. 抽取所有关键术语
+3. 统一中文译法和英文原名
+4. 标出常见混淆项和出现文件
+
+### 输出
+
+- `courses/[course]/notes/[topic]_glossary.md`
+
+---
+
+## Phase 1.92: 常见问题 ❓
+
+**Skill**: `learning-faq`
+
+将本主题中最常见的误解、易混点和高频提问整理成短问短答文档。
+
+### 步骤
+
+1. 读取 `storyline/concepts`
+2. 交叉检查 quiz 和 lab 中暴露出的混淆点
+3. 用 “Q / A” 形式写出 FAQ
+
+### 输出
+
+- `courses/[course]/notes/[topic]_faq.md`
+
+---
+
+## Phase 1.95: 衔接桥 🌉
+
+**Skill**: `learning-bridge`
+
+说明本主题承接哪些旧概念、又会通向哪些后续主题，减少“上一讲会了，这一讲突然断掉”的感觉。
+
+### 步骤
+
+1. 读取当前主题和相邻主题的材料
+2. 总结“它承接了什么 / 新增了什么 / 会通向什么”
+3. 标出最容易断层的地方和过渡建议
+
+### 输出
+
+- `courses/[course]/notes/[topic]_bridge.md`
 
 ---
 
@@ -759,6 +892,24 @@ jupyter nbconvert --to notebook --execute [topic]_complete_demo.ipynb --output [
 
 ---
 
+## Phase 5.5: 理解型练习 📝
+
+**Skill**: `learning-exercise`
+
+生成面向理解与应用的练习文件，不只考记忆，还考概念区分、推理、公式理解和代码理解。
+
+### 步骤
+
+1. 读取 `concepts/math/code`
+2. 生成概念题、对比题、推理题、公式题、代码理解题
+3. 需要时附上答案要点或思路提示
+
+### 输出
+
+- `courses/[course]/notes/[topic]_exercise.md`
+
+---
+
 ## 🗂️ 目录结构示例
 
 ```
@@ -775,13 +926,19 @@ courses/
 │       ├── week2_svm_slides.md              # Phase 0 + 0.5: 格式化的幻灯片
 │       ├── week2_svm_slides_pages/          # Phase 0: 提取的图片
 │       ├── week2_svm_storyline.md           # Phase 1.5: 故事线叙事
+│       ├── week2_svm_map.md                 # Phase 1.52: 学习地图
+│       ├── week2_svm_prerequisite.md        # Phase 1.53: 前置知识
 │       ├── week2_svm_tutorial.md            # Phase 1.7: 教科书教程（独立文件）
-│       ├── week2_svm_cheatsheet.md          # Phase 1.9: 概念速查（定义+要点+陷阱+表）
+│       ├── week2_svm_concepts.md            # Phase 1.9: 完整概念覆盖（定义+动机+关联+陷阱+表）
+│       ├── week2_svm_glossary.md            # Phase 1.91: 术语表
+│       ├── week2_svm_faq.md                 # Phase 1.92: 常见问题
+│       ├── week2_svm_bridge.md              # Phase 1.95: 衔接桥
 │       ├── week2_svm_math.md               # Phase 1.9: 数学公式+手算
 │       ├── week2_svm_code.md               # Phase 1.9: 代码参考
 │       ├── week2_svm_complete_demo.py       # Phase 2: 演示脚本
 │       ├── week2_svm_complete_demo.ipynb    # Phase 2.5: 演示 Notebook
 │       ├── week2_svm_interactive_tutorial.ipynb  # Phase 3: 最终成品
+│       ├── week2_svm_exercise.md            # Phase 5.5: 理解型练习
 │       └── ../quizzes/
 │           └── week2_svm_quiz.md            # Phase 5: 测验题
 │
@@ -860,14 +1017,20 @@ courses/
 | `/generate-study-material ml svm --from=phase1`    | 从笔记提取开始      | Phase 1           |
 | `/generate-study-material ml svm --from=phase1.5`  | 从故事线开始        | Phase 1.5         |
 | `/generate-study-material ml svm --from=phase1.55` | 从历史线开始        | Phase 1.55        |
+| `/generate-study-material ml svm --from=phase1.52` | 从学习地图开始      | Phase 1.52        |
+| `/generate-study-material ml svm --from=phase1.53` | 从前置知识开始      | Phase 1.53        |
 | `/generate-study-material ml svm --from=phase1.6`  | 从数学基础开始      | Phase 1.6         |
 | `/generate-study-material ml svm --from=phase1.7`  | 从教科书教程开始    | Phase 1.7         |
-| `/generate-study-material ml svm --from=phase1.9`  | 从速查表开始        | Phase 1.9         |
+| `/generate-study-material ml svm --from=phase1.9`  | 从概念整理开始      | Phase 1.9         |
+| `/generate-study-material ml svm --from=phase1.91` | 从术语表开始        | Phase 1.91        |
+| `/generate-study-material ml svm --from=phase1.92` | 从 FAQ 开始         | Phase 1.92        |
+| `/generate-study-material ml svm --from=phase1.95` | 从衔接桥开始        | Phase 1.95        |
 | `/generate-study-material ml svm --from=phase2`    | 从 Demo 开始        | Phase 2           |
 | `/generate-study-material ml svm --from=phase2.5`  | 从 .py→.ipynb 开始  | Phase 2.5         |
 | `/generate-study-material ml svm --from=phase3`    | 从 NB 合成开始      | Phase 3           |
 | `/generate-study-material ml svm --phase=4`        | 只运行审查          | Phase 4           |
 | `/generate-study-material ml svm --phase=5`        | 只生成测验题        | Phase 5           |
+| `/generate-study-material ml svm --phase=5.5`      | 只生成理解型练习    | Phase 5.5         |
 | `/generate-study-material nlp lab3`                | Lab 格式化+翻译     | Phase L           |
 
 ---
@@ -886,8 +1049,15 @@ courses/
 ## 📎 关联 Skill 文档
 
 - 整体规范: `.shared/skills/learning-automated_study_material/SKILL.md`
+- 🗺️ 学习地图: `.shared/skills/learning-map/SKILL.md` — 为一个主题建立导航入口和学习路线
+- 📚 前置知识: `.shared/skills/learning-prerequisite/SKILL.md` — 列出学习本主题前必须掌握的背景
 - 🕰️ 历史线: `.agent/skills/learning-lecture_history/SKILL.md` — 将技术概念按年代排列，理解演进因果
 - 📐 数学基础: `.agent/skills/learning-math_foundations/SKILL.md` — 从教科书提取数学前置知识，每个公式有出处
+- 📖 概念覆盖: `.shared/skills/learning-concept_coverage/SKILL.md` — 生成完整概念文件，而非压缩小抄
+- 📘 主题术语表: `.shared/skills/learning-glossary/SKILL.md` — 统一本主题中英文术语定义
+- ❓ 常见问题: `.shared/skills/learning-faq/SKILL.md` — 提炼高频误解与短问短答
+- 🌉 衔接桥: `.shared/skills/learning-bridge/SKILL.md` — 说明主题如何承上启下
+- 📝 理解型练习: `.shared/skills/learning-exercise/SKILL.md` — 生成概念/推理/公式/代码练习
 - 📱 数学公式库: `.shared/skills/math-concept-library/SKILL.md` — 公式的标准解读、直觉类比、分步解读复用库
 - 📖 概念术语库: `.shared/skills/concept-glossary/SKILL.md` — 术语定义、历史背景、类比、交叉引用复用库
 - 💬 代码注释: `.shared/skills/dev-code_comment/SKILL.md` — 双语代码注释规范，算法/概念注释模板
