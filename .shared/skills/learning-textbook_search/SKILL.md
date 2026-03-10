@@ -16,11 +16,11 @@
 ## 架构
 
 ```
-courses/self-study/
+textbooks/
 ├── {subject}/
-│   ├── toc.json                    # 目录结构
+│   ├── toc.json                    # 目录结构（若有）
 │   └── sections/
-│       ├── ch01_intro.pdf          # 拆分的章节 PDF
+│       ├── ch01_intro.pdf          # 拆分的章节 PDF（可选）
 │       └── ...
 ├── _search_data/                   # 所有索引数据
 │   ├── vectors/

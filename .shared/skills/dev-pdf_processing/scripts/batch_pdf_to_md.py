@@ -4,26 +4,26 @@ Batch convert PDF sections to Markdown.
 
 Usage / 用法:
   # 预览：看有多少 PDF 要转（不实际转换）
-  python batch_pdf_to_md.py --root courses/self-study --stats
+    python batch_pdf_to_md.py --root textbooks --stats
 
   # 转换所有
-  python batch_pdf_to_md.py --root courses/self-study --all
+    python batch_pdf_to_md.py --root textbooks --all
 
   # 只转某本书
-  python batch_pdf_to_md.py --root courses/self-study --book mml_sections
-  python batch_pdf_to_md.py --root courses/self-study --book grinstead_sections
+    python batch_pdf_to_md.py --root textbooks --book mml_sections
+    python batch_pdf_to_md.py --root textbooks --book grinstead_sections
 
   # 只转某本书的某章
-  python batch_pdf_to_md.py --root courses/self-study --book mml_sections --chapter ch06
+    python batch_pdf_to_md.py --root textbooks --book mml_sections --chapter ch06
 
   # 只转单个文件
   python batch_pdf_to_md.py --file "path/to/sec_6.3_xxx.pdf"
 
   # 跳过已有 .md 的（默认行为，加 --force 覆盖）
-  python batch_pdf_to_md.py --root courses/self-study --book mml_sections --force
+    python batch_pdf_to_md.py --root textbooks --book mml_sections --force
 
   # 限制数量（测试用）
-  python batch_pdf_to_md.py --root courses/self-study --all --limit 5
+    python batch_pdf_to_md.py --root textbooks --all --limit 5
 """
 import argparse
 import sys
@@ -185,7 +185,7 @@ def main():
     # 验证：至少指定一个操作
     if not any([args.stats, args.all, args.book, args.file]):
         parser.print_help()
-        print("\n💡 Try: python batch_pdf_to_md.py --root courses/self-study --stats")
+        print("\n💡 Try: python batch_pdf_to_md.py --root textbooks --stats")
         return
 
     # Find PDFs

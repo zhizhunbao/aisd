@@ -234,8 +234,8 @@ batch_size = 16  # or even 8
 ## Reference Scripts
 
 **通用脚本（推荐）:**
-- `courses/self-study/vectorize_all.py` - 批量向量化所有 17 本教材（Ollama nomic-embed-text）
-- `courses/self-study/query_books.py` - 跨教材语义搜索（CLI + 交互模式）
+- `textbooks/vectorize_all.py` - 批量向量化所有 17 本教材（Ollama nomic-embed-text）
+- `textbooks/query_books.py` - 跨教材语义搜索（CLI + 交互模式）
 
 **旧版单本脚本:**
 - `.shared/skills/learning-textbook_vectorization/scripts/vectorize_textbook.py`
@@ -251,7 +251,7 @@ batch_size = 16  # or even 8
 
 ```bash
 # 搜索多本教材对同一概念的解释
-uv run python courses/self-study/query_books.py "concept name" --top-k 5
+uv run python textbooks/query_books.py "concept name" --top-k 5
 ```
 
 用搜索结果中的多本书解释来丰富笔记内容，提供多角度理解。
@@ -261,7 +261,7 @@ uv run python courses/self-study/query_books.py "concept name" --top-k 5
 遇到算法实现细节不确定时，搜教材找伪代码或推导：
 
 ```bash
-uv run python courses/self-study/query_books.py "algorithm pseudocode" --top-k 3
+uv run python textbooks/query_books.py "algorithm pseudocode" --top-k 3
 ```
 
 ### Python 代码中调用
@@ -269,7 +269,7 @@ uv run python courses/self-study/query_books.py "algorithm pseudocode" --top-k 3
 ```python
 # 在笔记生成脚本中直接导入
 import sys
-sys.path.insert(0, "courses/self-study")
+sys.path.insert(0, "textbooks")
 from query_books import load_vectors, search, get_query_embedding
 
 chunks = load_vectors()  # 加载所有教材
@@ -282,7 +282,7 @@ for chunk, score in results:
 ### 向量文件位置
 
 ```
-courses/self-study/
+textbooks/
 ├── ml/      → barber, bishop, esl, goodfellow, kelleher, murphy_pml1, murphy_pml2, shalev
 ├── math/    → mml, boyd, mackay, grinstead, downey
 ├── nlp/     → jurafsky

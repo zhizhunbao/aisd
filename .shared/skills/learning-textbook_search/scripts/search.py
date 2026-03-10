@@ -36,13 +36,15 @@ TOC_INDEX_PATH = DATA_DIR / "toc_index.json"
 # Vector Search
 # ══════════════════════════════════════════════════════
 
-def load_vectors(book_filter: str | None = None) -> tuple[list[dict], np.ndarray]:
+def load_vectors(book_filter: str | None = None, subject_filter: str | None = None) -> tuple[list[dict], np.ndarray]:
     """加载所有（或指定）向量"""
     all_chunks = []
     all_vecs = []
 
-    for bk in BOOKS:
+    for bk, (subj, *_) in BOOKS.items():
         if book_filter and bk != book_filter:
+            continue
+        if subject_filter and subj != subject_filter:
             continue
         vpath = VECTORS_DIR / f"{bk}_vectors.json"
         if not vpath.exists():
@@ -100,12 +102,14 @@ def search_vector(query: str, chunks: list, vecs: np.ndarray, top_k: int = 10) -
 # BM25 Search
 # ══════════════════════════════════════════════════════
 
-def load_bm25(book_filter: str | None = None):
+def load_bm25(book_filter: str | None = None, subject_filter: str | None = None):
     """加载所有 BM25 索引"""
     import re
     all_bm25 = []
-    for bk in BOOKS:
+    for bk, (subj, *_) in BOOKS.items():
         if book_filter and bk != book_filter:
+            continue
+        if subject_filter and subj != subject_filter:
             continue
         bpath = BM25_DIR / f"{bk}_bm25.pkl"
         if not bpath.exists():
@@ -143,12 +147,15 @@ def search_bm25(query: str, bm25_data: list, top_k: int = 10) -> list[dict]:
 # TOC Search
 # ══════════════════════════════════════════════════════
 
-def load_toc() -> dict:
-    """加载 TOC 索引"""
+def load_toc(subject_filter: str | None = None) -> dict:
+    """加载 TOC 索引，可按学科过滤"""
     if not TOC_INDEX_PATH.exists():
         return {}
     with open(TOC_INDEX_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+    if subject_filter:
+        data = {k: v for k, v in data.items() if v.get("subject") == subject_filter}
+    return data
 
 
 def search_toc(query: str, toc: dict, top_k: int = 10) -> list[dict]:
@@ -324,6 +331,7 @@ def interactive_mode():
 
     mode = "hybrid"
     book_filter = None
+    subject_filter = None
 
     while True:
         try:
@@ -341,12 +349,20 @@ def interactive_mode():
             print(f"  Mode: {mode}")
             continue
 
+        if query.startswith("/subject "):
+            subject_filter = query.split()[1] if len(query.split()) > 1 else None
+            print(f"  Subject filter: {subject_filter}")
+            chunks, vecs = load_vectors(book_filter, subject_filter)
+            bm25_data = load_bm25(book_filter, subject_filter)
+            toc = load_toc(subject_filter)
+            continue
+
         if query.startswith("/book "):
-            book_filter = query.split()[1] if query.split()[1] != "all" else None
+            parts = query.split()
+            book_filter = parts[1] if len(parts) > 1 and parts[1] != "all" else None
             print(f"  Book filter: {book_filter or 'all'}")
-            # 重新加载对应数据
-            chunks, vecs = load_vectors(book_filter)
-            bm25_data = load_bm25(book_filter)
+            chunks, vecs = load_vectors(book_filter, subject_filter)
+            bm25_data = load_bm25(book_filter, subject_filter)
             continue
 
         t0 = time.time()
@@ -375,6 +391,7 @@ def main():
     parser.add_argument("--mode", choices=["vector", "bm25", "toc", "hybrid"],
                         default="hybrid", help="搜索模式")
     parser.add_argument("--book", type=str, help="限定书籍")
+    parser.add_argument("--subject", type=str, help="限定学科 (ml/rl/nlp/cv/math/...)")
     parser.add_argument("--top", type=int, default=10, help="返回结果数")
     parser.add_argument("--interactive", "-i", action="store_true", help="交互模式")
     args = parser.parse_args()
@@ -391,17 +408,17 @@ def main():
     t0 = time.time()
 
     if args.mode in ("vector", "hybrid"):
-        chunks, vecs = load_vectors(args.book)
+        chunks, vecs = load_vectors(args.book, args.subject)
     else:
         chunks, vecs = [], np.array([])
 
     if args.mode in ("bm25", "hybrid"):
-        bm25_data = load_bm25(args.book)
+        bm25_data = load_bm25(args.book, args.subject)
     else:
         bm25_data = []
 
     if args.mode in ("toc", "hybrid"):
-        toc = load_toc()
+        toc = load_toc(args.subject)
     else:
         toc = {}
 

@@ -7,7 +7,7 @@ description: Generate math foundation documents from textbooks. Use when (1) use
 
 ## Objectives
 
-Generate **math foundation documents** from textbooks in `courses/self-study/`. These are standalone reference files covering the mathematical prerequisites that ML/DL/NLP/RL courses assume you already know.
+Generate **math foundation documents** from textbooks in `textbooks/`. These are standalone reference files covering the mathematical prerequisites that ML/DL/NLP/RL courses assume you already know.
 
 **Core Principle: Every claim has a source.**
 
@@ -104,7 +104,7 @@ Each file: **80–200 lines**. Short enough to read in one sitting, focused on o
 
 ## Available Textbook Sources
 
-### Priority 1: Dedicated Math Books (`courses/self-study/math/`)
+### Priority 1: Dedicated Math Books (`textbooks/math/`)
 
 | Key           | Book                                          | Best For                              | Sections Dir                        |
 | ------------- | --------------------------------------------- | ------------------------------------- | ----------------------------------- |
@@ -114,7 +114,7 @@ Each file: **80–200 lines**. Short enough to read in one sitting, focused on o
 | **Downey**    | Think Stats 2e                                | Statistics with Python                | `math/_sources/downey_sections/`    |
 | **MacKay**    | Information Theory, Inference, and Learning   | Entropy, KL divergence                | `math/_sources/mackay_sections/`    |
 
-### Priority 2: ML Books with Math Chapters (`courses/self-study/ml/`)
+### Priority 2: ML Books with Math Chapters (`textbooks/ml/`)
 
 | Key            | Book                       | Math Chapters                                                                            |
 | -------------- | -------------------------- | ---------------------------------------------------------------------------------------- |
@@ -128,7 +128,7 @@ Each file: **80–200 lines**. Short enough to read in one sitting, focused on o
 
 ```python
 import json
-with open('courses/self-study/topic_index.json') as f:
+with open('textbooks/topic_index.json') as f:
     idx = json.load(f)
 refs = idx['topics']['probability']['references']
 for r in refs:
@@ -139,14 +139,14 @@ for r in refs:
 
 ```bash
 # Find Bayes theorem in MML
-cat courses/self-study/math/_sources/mml_sections/toc.json | grep -i "bayes"
+cat textbooks/math/_sources/mml_sections/toc.json | grep -i "bayes"
 ```
 
 3. **Use `batch_pdf_to_md.py`** to convert relevant sections to markdown:
 
 ```bash
 python .agent/skills/dev-pdf_processing/scripts/batch_pdf_to_md.py \
-  --root courses/self-study --book mml_sections --chapter ch06
+  --root textbooks --book mml_sections --chapter ch06
 ```
 
 ---
@@ -462,12 +462,12 @@ $$\text{final answer}$$
 1. **Check the Exercises section** at the end of each textbook chapter
 2. Use `toc.json` to locate exercise pages:
    ```bash
-   cat courses/self-study/math/_sources/mml_sections/toc.json | grep -i "exercise"
+  cat textbooks/math/_sources/mml_sections/toc.json | grep -i "exercise"
    ```
 3. Convert exercise pages to markdown:
    ```bash
    python .agent/skills/dev-pdf_processing/scripts/batch_pdf_to_md.py \
-     --root courses/self-study --book mml_sections --chapter ch06 --pages 195-200
+    --root textbooks --book mml_sections --chapter ch06 --pages 195-200
    ```
 4. Select problems that match the topic and cover different difficulty levels
 
@@ -496,7 +496,7 @@ For each required topic:
 ```bash
 # Convert relevant textbook sections to markdown
 python .agent/skills/dev-pdf_processing/scripts/batch_pdf_to_md.py \
-  --root courses/self-study --book mml_sections --chapter ch06
+  --root textbooks --book mml_sections --chapter ch06
 ```
 
 ### Step 4: Write the Foundation Document

@@ -20,10 +20,11 @@ if sys.platform == "win32":
 
 # ── 路径 ──────────────────────────────────────────────
 # 脚本在 .shared/skills/learning-textbook_search/scripts/
-# 数据在 courses/self-study/
 WORKSPACE_ROOT = Path(__file__).resolve().parents[4]  # aisd/
-SELF_STUDY_ROOT = WORKSPACE_ROOT / "courses" / "self-study"
-DATA_DIR = SELF_STUDY_ROOT / "_search_data"  # 统一存储搜索索引
+SELF_STUDY_ROOT = WORKSPACE_ROOT / "textbooks"
+DATA_DIR = WORKSPACE_ROOT / "retrieval_lab" / "data" / "search_data"  # 搜索索引输出
+# MinerU 转换输出目录（每本书已提取文本 + 图片 + 结构索引）
+MINERU_ROOT = WORKSPACE_ROOT / "data" / "mineru_output"
 
 # ── Ollama 配置 ───────────────────────────────────────
 OLLAMA_URL = "http://localhost:11434"
@@ -53,47 +54,108 @@ NOISE_RE = re.compile(
 SENTENCE_RE = re.compile(r"(?<=[.!?。！？\n])\s+")
 
 # ── 教材注册表 ────────────────────────────────────────
-# book_key -> (subject, pdf_name, sections_dir)
+# book_key -> (subject, mineru_dir_name)
+# mineru_dir_name 对应 data/mineru_output/{mineru_dir}/{mineru_dir}/auto/ 中的内容
 BOOKS = {
-    # ML (8 books)
-    "barber":      ("ml", "barber_brml.pdf",              "barber_sections"),
-    "bishop":      ("ml", "bishop_prml.pdf",              "bishop_sections"),
-    "esl":         ("ml", "hastie_esl.pdf",               "esl_sections"),
-    "goodfellow":  ("ml", "goodfellow_deep_learning.pdf", "goodfellow_sections"),
-    "kelleher":    ("ml", "kelleher_ml_fundamentals.pdf", "kelleher_sections"),
-    "murphy_pml1": ("ml", "murphy_pml1.pdf",              "murphy_pml1_sections"),
-    "murphy_pml2": ("ml", "murphy_pml2.pdf",              "murphy_pml2_sections"),
-    "shalev":      ("ml", "shalev-shwartz_uml.pdf",       "shalev_sections"),
-    # Math (5 books)
-    "mml":         ("math", "deisenroth_mml.pdf",               "mml_sections"),
-    "boyd":        ("math", "boyd_convex_optimization.pdf",     "boyd_sections"),
-    "mackay":      ("math", "mackay_information_theory.pdf",    "mackay_sections"),
-    "grinstead":   ("math", "grinstead_snell_probability.pdf",  "grinstead_sections"),
-    "downey":      ("math", "downey_think_stats_2e.pdf",        "downey_sections"),
-    # NLP (1 book)
-    "jurafsky":    ("nlp", "jurafsky_slp3.pdf",           "jurafsky_sections"),
-    # CV (1 book)
-    "szeliski":    ("cv",  "szeliski_cv.pdf",             "szeliski_sections"),
-    # RL (1 book)
-    "sutton":      ("rl",  "sutton_barto_rl_intro.pdf",   "sutton_sections"),
-    # Graphs (1 book)
-    "hamilton":    ("graphs", "hamilton_grl.pdf",          "hamilton_sections"),
+    # ── ML (9 books) ──────────────────────────────────
+    "barber":      ("ml",     "barber_brml"),
+    "bishop":      ("ml",     "bishop_prml"),
+    "esl":         ("ml",     "hastie_esl"),
+    "goodfellow":  ("ml",     "goodfellow_deep_learning"),
+    "isl":         ("ml",     "james_ISLR"),
+    "kelleher":    ("ml",     "kelleher_ml_fundamentals"),
+    "murphy_pml1": ("ml",     "murphy_pml1"),
+    "murphy_pml2": ("ml",     "murphy_pml2"),
+    "shalev":      ("ml",     "shalev-shwartz_uml"),
+    # ── Math (6 books) ────────────────────────────────
+    "mml":         ("math",   "deisenroth_mml"),
+    "boyd":        ("math",   "boyd_convex_optimization"),
+    "mackay":      ("math",   "mackay_information_theory"),
+    "grinstead":   ("math",   "grinstead_snell_probability"),
+    "downey_stats":("math",   "downey_think_stats_2e"),
+    "downey_cs":   ("math",   "downey_how_to_think_like_cs"),
+    # ── NLP (3 books) ─────────────────────────────────
+    "jurafsky":    ("nlp",    "jurafsky_slp3"),
+    "eisenstein":  ("nlp",    "eisenstein_nlp"),
+    "manning_ir":  ("nlp",    "manning_intro_to_ir"),
+    # ── CV (1 book) ───────────────────────────────────
+    "szeliski":    ("cv",     "szeliski_cv"),
+    # ── RL (1 book) ───────────────────────────────────
+    "sutton":      ("rl",     "sutton_barto_rl_intro"),
+    # ── Graphs (1 book) ───────────────────────────────
+    "hamilton":    ("graphs", "hamilton_grl"),
+    # ── Python (7 books) ──────────────────────────────
+    "beazley":     ("python", "beazley_python_cookbook"),
+    "downey_py":   ("python", "downey_think_python_2e"),
+    "fluent_py":   ("python", "ramalho_fluent_python"),
+    "okken":       ("python", "okken_python_testing_pytest"),
+    "percival":    ("python", "percival_cosmic_python"),
+    "fastapi":     ("python", "lubanovic_fastapi_modern_web"),
+    "black_hat":   ("python", "seitz_black_hat_python"),
+    # ── JavaScript (8 books) ──────────────────────────
+    "flanagan_js": ("js",     "flanagan_js_definitive_guide"),
+    "haverbeke":   ("js",     "haverbeke_eloquent_javascript"),
+    "ydkjs_up":    ("js",     "simpson_ydkjs_up_going"),
+    "ydkjs_scope": ("js",     "simpson_ydkjs_scope_closures"),
+    "ydkjs_this":  ("js",     "simpson_ydkjs_this_object_prototypes"),
+    "ydkjs_types": ("js",     "simpson_ydkjs_types_grammar"),
+    "ydkjs_async": ("js",     "simpson_ydkjs_async_performance"),
+    "ydkjs_es6":   ("js",     "simpson_ydkjs_es6_beyond"),
+    # ── TypeScript (1 book) ───────────────────────────
+    "basarat_ts":  ("ts",     "basarat_typescript_deep_dive"),
+    # ── Algorithms (1 book) ───────────────────────────
+    "clrs":        ("algo",   "cormen_CLRS"),
+    # ── Software Engineering (9 books) ────────────────
+    "clean_code":  ("se",     "martin_clean_code"),
+    "clean_arch":  ("se",     "martin_clean_architecture"),
+    "ddia":        ("se",     "kleppmann_ddia"),
+    "gof":         ("se",     "gof_design_patterns"),
+    "refactoring": ("se",     "fowler_refactoring"),
+    "pragmatic":   ("se",     "hunt_pragmatic_programmer"),
+    "web_scale":   ("se",     "ejsmont_web_scalability"),
+    "release_it":  ("se",     "nygard_release_it"),
+    # ── DevOps (3 books) ──────────────────────────────
+    "pro_git":     ("devops", "chacon_pro_git"),
+    "sre":         ("devops", "google_sre"),
+    "swe":         ("devops", "google_swe"),
+    # ── Security (4 books) ────────────────────────────
+    "binary":      ("sec",    "andriesse_practical_binary_analysis"),
+    "cryptography":("sec",    "aumasson_serious_cryptography"),
+    "tangled_web": ("sec",    "zalewski_tangled_web"),
+    # ── Networking (2 books) ──────────────────────────
+    "http":        ("net",    "gourley_http_definitive_guide"),
+    "ssh":         ("net",    "barrett_ssh_definitive_guide"),
+    # ── Database / Frameworks (2 books) ───────────────
+    "sqlite":      ("db",     "kreibich_using_sqlite"),
+    "postgresql":  ("db",     "fontaine_art_of_postgresql"),
+    # ── UX / Design (2 books) ─────────────────────────
+    "dont_think":  ("ux",     "krug_dont_make_me_think"),
+    "design_things":("ux",    "norman_design_everyday_things"),
 }
 
 
-def get_sources_dir(book_key: str) -> Path:
-    """获取书籍的 _sources 目录"""
-    subject = BOOKS[book_key][0]
-    return SELF_STUDY_ROOT / subject / "_sources"
+def get_mineru_auto_dir(book_key: str) -> Path:
+    """获取 mineru auto 输出目录：data/mineru_output/{dir}/{dir}/auto/"""
+    d = BOOKS[book_key][1]
+    return MINERU_ROOT / d / d / "auto"
 
 
-def get_sections_dir(book_key: str) -> Path:
-    """获取书籍的 sections 目录"""
-    subject, _, sections_dir_name = BOOKS[book_key]
-    return SELF_STUDY_ROOT / subject / "_sources" / sections_dir_name
+def get_mineru_content_list(book_key: str) -> Path:
+    """获取 mineru 结构化索引 JSON（含 text/image/equation/table 条目 + 页码）"""
+    d = BOOKS[book_key][1]
+    return get_mineru_auto_dir(book_key) / f"{d}_content_list.json"
 
 
-def get_pdf_path(book_key: str) -> Path:
-    """获取书籍的 PDF 路径"""
-    subject, pdf_name, _ = BOOKS[book_key]
-    return SELF_STUDY_ROOT / subject / "_sources" / pdf_name
+def get_mineru_md(book_key: str) -> Path:
+    """获取 mineru 转换的完整 Markdown 文件"""
+    d = BOOKS[book_key][1]
+    return get_mineru_auto_dir(book_key) / f"{d}.md"
+
+
+def get_mineru_images_dir(book_key: str) -> Path:
+    """获取 mineru 提取的图片目录（图片名为内容 hash）"""
+    return get_mineru_auto_dir(book_key) / "images"
+
+
+# search.py 兼容别名
+OLLAMA_BASE = OLLAMA_URL

@@ -3,32 +3,25 @@
 使用 Ollama nomic-embed-text 本地模型
 
 改进点（v2）:
-- 智能分块：段落 → 句子 → 硬切 三级递归分割
-- 大块：1500 字符 + 200 overlap，充分利用模型上下文窗口
-- 语义前缀：[Book > Chapter > Section] 标注提升检索精度
-- 噪声清洗：去除页眉页脚等噪声
-- 数据存储在 courses/self-study/_search_data/vectors/
-
 用法:
     uv run python .shared/skills/learning-textbook_search/scripts/vectorize.py
     uv run python .shared/skills/learning-textbook_search/scripts/vectorize.py --book barber
     uv run python .shared/skills/learning-textbook_search/scripts/vectorize.py --force
     uv run python .shared/skills/learning-textbook_search/scripts/vectorize.py --list
 """
-
+# 数据存储在 textbooks/_search_data/vectors/
 import json
 import re
 import time
 import argparse
 import httpx
-import fitz  # pymupdf
 from pathlib import Path
 from typing import Optional
 
 from config import (
-    SELF_STUDY_ROOT, DATA_DIR, OLLAMA_URL, EMBED_MODEL, EMBED_DIM,
+    DATA_DIR, OLLAMA_URL, EMBED_MODEL, EMBED_DIM,
     CHUNK_SIZE, CHUNK_OVERLAP, MIN_CHUNK_SIZE, BATCH_SIZE,
-    NOISE_RE, SENTENCE_RE, BOOKS, get_sections_dir, get_pdf_path,
+    SENTENCE_RE, BOOKS, get_mineru_content_list,
 )
 
 VECTORS_DIR = DATA_DIR / "vectors"
@@ -52,32 +45,67 @@ def check_ollama() -> bool:
         return False
 
 
-def clean_text(text: str) -> str:
-    """清洗 PDF 提取的原始文本"""
-    text = NOISE_RE.sub("", text)
-    text = re.sub(r"-\n(\S)", r"\1", text)        # 连字符换行
-    text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)   # 单换行合并（保留双换行=段落）
-    text = re.sub(r" {2,}", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    return text.strip()
+def read_from_mineru(book_key: str) -> list[dict]:
+    """
+    从 mineru content_list.json 读取书籍内容，按 heading 分组为自然章节块。
+    - text_level 字段标志新章节标题，触发 flush
+    - image caption / equation / table 文本并入当前块
+    - 比 PDF 重新提取快得多，且保留章节结构信息
+    """
+    cl_path = get_mineru_content_list(book_key)
+    if not cl_path.exists():
+        print(f"  !! 找不到 content_list: {cl_path}")
+        return []
 
+    with open(cl_path, "r", encoding="utf-8") as f:
+        items = json.load(f)
 
-def extract_text_from_pdf(pdf_path: Path) -> list[dict]:
-    """从 PDF 提取文本，按页分组"""
-    pages = []
-    try:
-        doc = fitz.open(str(pdf_path))
-        for page_num, page in enumerate(doc, 1):
-            try:
-                text = page.get_text()
-                if text and text.strip():
-                    pages.append({"page": page_num, "text": clean_text(text)})
-            except Exception:
-                pass
-        doc.close()
-    except Exception as e:
-        print(f"    !! PDF 读取失败: {pdf_path.name}: {e}")
-    return pages
+    chunks: list[dict] = []
+    current_heading = ""
+    heading_page = 1
+    buffer: list[str] = []
+
+    def flush(heading: str, page: int) -> None:
+        text = "\n\n".join(buffer).strip()
+        if len(text) < MIN_CHUNK_SIZE:
+            return
+        prefix = make_prefix(book_key, heading, heading, "")
+        for sub in smart_chunk(text):
+            chunks.append({
+                "book": book_key, "chapter": heading,
+                "chapter_title": heading, "section": "",
+                "page": page, "text": sub,
+                "text_for_embed": prefix + sub,
+            })
+
+    for item in items:
+        t = item.get("type", "")
+        page = item.get("page_idx", 0) + 1
+        if t == "text" and "text_level" in item:
+            flush(current_heading, heading_page)
+            buffer.clear()
+            current_heading = item["text"].strip()
+            heading_page = page
+        elif t == "text":
+            txt = item.get("text", "").strip()
+            if txt:
+                buffer.append(txt)
+        elif t == "image":
+            caps = item.get("image_caption", []) + item.get("image_footnote", [])
+            cap = " ".join(str(c) for c in caps).strip()
+            if cap:
+                buffer.append(f"[Figure] {cap}")
+        elif t == "equation":
+            eq = item.get("text", "").strip()
+            if eq:
+                buffer.append(f"[Equation] {eq}")
+        elif t == "table":
+            tbl = item.get("text", "").strip()
+            if tbl:
+                buffer.append(f"[Table] {tbl}")
+
+    flush(current_heading, heading_page)
+    return chunks
 
 
 # ══════════════════════════════════════════════════════
@@ -225,80 +253,9 @@ def get_embeddings(texts: list[str]) -> list[list[float]]:
 # 处理流程
 # ══════════════════════════════════════════════════════
 
-def process_section_pdf(sec_pdf: Path, book_key: str,
-                        ch_key: str, ch_title: str) -> list[dict]:
-    """处理单个 section PDF → chunk 列表"""
-    sec_name = sec_pdf.stem
-    pages = extract_text_from_pdf(sec_pdf)
-    if not pages:
-        return []
-
-    full_text = "\n\n".join(p["text"] for p in pages)
-    page_start, page_end = pages[0]["page"], pages[-1]["page"]
-    prefix = make_prefix(book_key, ch_key, ch_title, sec_name)
-    text_chunks = smart_chunk(full_text)
-
-    chunks = []
-    for idx, text in enumerate(text_chunks):
-        if len(pages) <= 1:
-            page = page_start
-        else:
-            ratio = idx / max(len(text_chunks) - 1, 1)
-            page = page_start + round(ratio * (page_end - page_start))
-
-        chunks.append({
-            "book": book_key, "chapter": ch_key,
-            "chapter_title": ch_title, "section": sec_name,
-            "page": page, "text": text,
-            "text_for_embed": prefix + text,
-        })
-    return chunks
-
-
 def process_book(book_key: str) -> list[dict]:
-    """处理一本书 → 所有 chunks"""
-    sections_dir = get_sections_dir(book_key)
-    pdf_path = get_pdf_path(book_key)
-    all_chunks = []
-
-    if sections_dir.exists() and any(sections_dir.iterdir()):
-        print(f"  [sections] {sections_dir.name}/")
-        toc = {}
-        toc_path = sections_dir / "toc.json"
-        if toc_path.exists():
-            with open(toc_path, "r", encoding="utf-8") as f:
-                toc = json.load(f)
-
-        chapter_dirs = sorted(
-            [d for d in sections_dir.iterdir()
-             if d.is_dir() and (d.name.startswith("ch") or d.name.startswith("app"))],
-            key=lambda d: d.name,
-        )
-        for ch_dir in chapter_dirs:
-            ch_key = ch_dir.name
-            ch_title = toc.get(ch_key, {}).get("title", ch_key)
-            for sec_pdf in sorted(ch_dir.glob("*.pdf")):
-                all_chunks.extend(
-                    process_section_pdf(sec_pdf, book_key, ch_key, ch_title)
-                )
-    elif pdf_path.exists():
-        print(f"  [whole pdf] {pdf_path.name}")
-        pages = extract_text_from_pdf(pdf_path)
-        full_text = "\n\n".join(p["text"] for p in pages)
-        prefix = make_prefix(book_key, "", "", "")
-        text_chunks = smart_chunk(full_text)
-        for idx, text in enumerate(text_chunks):
-            ratio = idx / max(len(text_chunks) - 1, 1)
-            page = 1 + round(ratio * (len(pages) - 1)) if pages else 1
-            all_chunks.append({
-                "book": book_key, "chapter": "", "chapter_title": "",
-                "section": "", "page": page, "text": text,
-                "text_for_embed": prefix + text,
-            })
-    else:
-        print(f"  !! 找不到: {pdf_path}")
-
-    return all_chunks
+    """处理一本书 → 所有 chunks（从 mineru content_list.json 读取）"""
+    return read_from_mineru(book_key)
 
 
 def vectorize_book(book_key: str, force: bool = False) -> Optional[Path]:
@@ -372,17 +329,19 @@ def main():
 
     if args.list:
         print("\n  书籍列表:")
-        for key, (subj, pdf, _) in sorted(BOOKS.items()):
+        for key, (subj, mdir) in sorted(BOOKS.items()):
             vec_path = VECTORS_DIR / f"{key}_vectors.json"
-            status = "done" if vec_path.exists() else "    "
-            print(f"  [{status}] {key:15s}  {subj:6s}  {pdf}")
+            cl_path = get_mineru_content_list(key)
+            vec_status = "vec" if vec_path.exists() else "   "
+            src_status = "src" if cl_path.exists() else "   "
+            print(f"  [{vec_status}|{src_status}] {key:15s}  {subj:6s}  {mdir}")
         return
 
     if not check_ollama():
         import sys; sys.exit(1)
 
     books = [args.book] if args.book else \
-            [k for k, (s, _, _) in BOOKS.items() if s == args.subject] if args.subject else \
+            [k for k, (s, _) in BOOKS.items() if s == args.subject] if args.subject else \
             list(BOOKS.keys())
 
     print(f"\n  plan: {len(books)} books, model={EMBED_MODEL}")

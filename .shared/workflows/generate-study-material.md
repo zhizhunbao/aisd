@@ -305,7 +305,7 @@ Phase 1.9 速查三件套 → 拆分为概念速查 + 数学公式 + 代码参�
 
 **Skills**: `dev-pdf_processing` (`batch_pdf_to_md.py`), `learning-note_taking`
 
-基于**教科书**（`courses/self-study/`），提供 Slides **未覆盖的数学推导和定理证明**。
+基于**教科书**（`textbooks/`），提供 Slides **未覆盖的数学推导和定理证明**。
 
 ### ⚠️ 核心原则：与 Storyline 不重复
 
@@ -453,12 +453,12 @@ Tutorial 末尾只需添加一行引用链接，不在 Tutorial 内部展开解�
 ### 步骤
 
 1. **找出 Slides 的推导缺口**: 对比 Storyline 和 Slides，找出"给了结论但没推导"的公式
-2. **识别教科书中的对应推导**: 在 `courses/self-study/` 中找到对应 PDF sections
-   - **RL 课程额外资源**: `courses/self-study/rl/david_silver_lectures/` 包含 David Silver 的 10 讲 UCL RL 课程 PDF（L1-L10），可作为 Sutton & Barto 教科书的补充参考
+2. **识别教科书中的对应推导**: 在 `textbooks/` 中找到对应 PDF sections
+   - **RL 课程额外资源**: `textbooks/rl/david_silver_lectures/` 包含 David Silver 的 10 讲 UCL RL 课程 PDF（L1-L10），可作为 Sutton & Barto 教科书的补充参考
 3. **批量转换**: 用 `batch_pdf_to_md.py` 将相关 PDF 转为 .md
    ```bash
    python .agent/skills/dev-pdf_processing/scripts/batch_pdf_to_md.py \
-     --root courses/self-study --book murphy_pml1_sections --chapter ch09
+      --root textbooks --book mml_sections --chapter ch06
    ```
 4. **合成教程**: 从 ref 文件提取推导，合成为独立教程文件
    - 按知识依赖排序（基础 → 进阶）
@@ -480,7 +480,7 @@ Tutorial 末尾只需添加一行引用链接，不在 Tutorial 内部展开解�
 ### 输出
 
 - **主产出**: `courses/[course]/notes/[topic]_tutorial.md` — 数学推导教程
-- **中间产物**: `courses/self-study/.../_sources/[book]_sections/[ch]/[section].md` — ref 文件
+- **中间产物**: `textbooks/.../_sources/[book]_sections/[ch]/[section].md` — ref 文件
 - **链接更新**: Storyline 末尾的 📚 参考资料链接表
 
 ---
@@ -564,7 +564,7 @@ Tutorial 末尾只需添加一行引用链接，不在 Tutorial 内部展开解�
 读取 skill: .shared/skills/learning-code_generation/SKILL.md
 读取 skill: .shared/skills/dev-code_comment/SKILL.md
 查阅 math-concept-library + concept-glossary 复用注释素材
-搜索教材: uv run python courses/self-study/query_books.py "算法名 pseudocode" --top-k 3
+搜索教材: uv run python textbooks/query_books.py "算法名 pseudocode" --top-k 3
 生成演示脚本
 运行验证
 ```
@@ -911,8 +911,8 @@ Phase L 格式化完成后，若实验代码包含：
 - 📖 概念术语库: `.shared/skills/concept-glossary/SKILL.md` — 术语定义、历史背景、类比、交叉引用复用库
 - 💬 代码注释: `.shared/skills/dev-code_comment/SKILL.md` — 双语代码注释规范，算法/概念注释模板
 - 📚 教材搜索: `.shared/skills/learning-textbook_vectorization/SKILL.md` — 17 本教材向量化语义搜索
-  - 向量化: `uv run python courses/self-study/vectorize_all.py`
-  - 搜索: `uv run python courses/self-study/query_books.py "查询内容"`
+   - 向量化: `uv run python textbooks/vectorize_all.py`
+   - 搜索: `uv run python textbooks/query_books.py "查询内容"`
 
 > 💡 两个知识库都是**滚雪球式积累**：每次写笔记时查库复用 → 写完后新条目入库 → 下次写笔记时可复用的素材更多
 > 💡 `dev-code_comment` 的算法注释模板（术语解释 + 定义/公式/举例/优点）与知识库条目格式互通，确保笔记和代码中的解释一致

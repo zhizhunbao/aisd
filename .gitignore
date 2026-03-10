@@ -39,6 +39,14 @@ data/
 *.csv
 *.zip
 !courses/ml/code/lab1/diabetes.csv
+courses/mv/code/lab5/PetImages/
+
+# Local textbook PDFs (kept locally, not committed)
+textbooks/**/*.pdf
+textbooks/*.pdf
+
+# Oversized local reference files (kept locally, not committed)
+courses/rl/resources/SuttonReinforcementLearning.pdf
 
 # Textbook PDF sections (generated from originals, too large for git)
 courses/self-study/*/_sources/
@@ -47,3 +55,30 @@ courses/self-study/_search_data/
 # FastText pretrained models (large binary files)
 *.bin
 *.bin.gz
+
+# Local reference repositories under .github/ (keep locally, do not commit)
+.github/BMAD-METHOD/
+.github/PageIndex/
+.github/anthropic-cookbook/
+.github/awesome-claude-prompts/
+.github/claude-code-action/
+.github/claude-code-spec-workflow/
+.github/claude-flow/
+.github/claude-skills/
+.github/copenhagen-nlp/
+.github/courses/
+.github/handson-ml3/
+.github/imperial-mml-book/
+.github/imperial-mml-notes/
+.github/keras/
+.github/keras-io/
+.github/numpy/
+.github/prompt-eng-interactive-tutorial/
+.github/pytorch/
+.github/scikit-learn/
+.github/sirchmunk/
+.github/skills/
+.github/spec-kit/
+.github/stanford-cs229/
+.github/tensorflow/
+.github/zotero/

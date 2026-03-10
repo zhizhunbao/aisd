@@ -181,22 +181,62 @@ Key references:
 
 | Key            | Book                             | Path                                                   |
 | -------------- | -------------------------------- | ------------------------------------------------------ |
-| **MML**        | Mathematics for Machine Learning | `courses/self-study/math/_sources/mml_sections/`       |
-| **Murphy**     | Probabilistic ML (PML1)          | `courses/self-study/ml/_sources/murphy_pml1_sections/` |
-| **Goodfellow** | Deep Learning                    | `courses/self-study/ml/_sources/goodfellow_sections/`  |
-| **Bishop**     | Pattern Recognition and ML       | `courses/self-study/ml/_sources/bishop_sections/`      |
+| **MML**        | Mathematics for Machine Learning | `textbooks/math/_sources/mml_sections/`       |
+| **Murphy**     | Probabilistic ML (PML1)          | `textbooks/ml/_sources/murphy_pml1_sections/` |
+| **Goodfellow** | Deep Learning                    | `textbooks/ml/_sources/goodfellow_sections/`  |
+| **Bishop**     | Pattern Recognition and ML       | `textbooks/ml/_sources/bishop_sections/`      |
 
 ---
 
 ## How to Search for Sources (如何查找来源)
 
+### Step 1 — BM25 优先（必须先做）
+
+**Always use BM25 retrieval first** before grep or manual lookup.
+BM25 定位到章节，再用 grep 验证内容。
+
 ```bash
-# Semantic search across all textbooks — 语义搜索所有教材
-uv run python courses/self-study/query_books.py "Bayes theorem derivation" --top-k 5
+# BM25 keyword search — 关键词检索定位章节
+uv run python retrieval_lab/scripts/run_query.py --book goodfellow --method bm25 "pooling translation invariance" --top-k 5
+uv run python retrieval_lab/scripts/run_query.py --book murphy_pml1 --method bm25 "multiclass logistic regression maximum likelihood" --top-k 5
+uv run python retrieval_lab/scripts/run_query.py --book manning_ir --method bm25 "precision recall F1" --top-k 5
+```
 
-# Search topic index — 搜索主题索引
-cat courses/self-study/topic_index.json | python -m json.tool | grep -i "bayes"
+**Available book keys (available BM25 indexes):**
 
-# Search specific book TOC — 搜索特定教材目录
-cat courses/self-study/math/_sources/mml_sections/toc.json | grep -i "probability"
+| Key | Book |
+|-----|------|
+| `goodfellow` | Goodfellow *Deep Learning* |
+| `murphy_pml1` | Murphy *PML1* |
+| `murphy_pml2` | Murphy *PML2* |
+| `mml` | Deisenroth *MML* |
+| `bishop` | Bishop *PRML* |
+| `esl` | Hastie *ESL* |
+| `isl` | James *ISLR* |
+| `eisenstein` | Eisenstein *NLP* |
+| `jurafsky` | Jurafsky *SLP3* |
+| `hamilton` | Hamilton *GRL* |
+| `sutton` | Sutton *RL* |
+| `grinstead` | Grinstead *Probability* |
+| `mackay` | MacKay *Information Theory* |
+
+### Step 2 — grep 验证（BM25 定位后）
+
+After BM25 returns candidate section numbers, use grep to confirm the exact heading and content:
+
+BM25 返回候选章节号后，用 grep 确认标题和内容：
+
+```bash
+# Verify section heading — 验证章节标题（在 data/mineru_output/ 下）
+# Example: confirm §9.3 is "Pooling" in Goodfellow
+grep_search pattern="^# 9\.3" in goodfellow_deep_learning .md
+```
+
+### Step 3 — Fallback（BM25 无结果时）
+
+Only if BM25 returns nothing relevant:
+
+```bash
+# Topic index fallback — 主题索引备选
+cat textbooks/topic_index.json | python -m json.tool | Select-String "bayes"
 ```
