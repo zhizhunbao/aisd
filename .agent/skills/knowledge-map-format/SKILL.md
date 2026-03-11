@@ -21,9 +21,12 @@ dimension: {dimension}  # map | concepts | math | tutorial | usage | code | pitf
 created: {YYYY-MM-DD}
 last_verified: {YYYY-MM-DD}
 source_versions:
-  - "📖 Docs: [名称](URL) — 章节"      # 官方文档优先
-  - "📚 Book: 作者, 《书名》, Ch.X"      # 教科书/论文
-  - "💻 Source: 说明"                     # 代码/工作区
+  - "📚 Book: [文件名.pdf](../../textbooks/文件名.pdf) — Ch.X"          # 教科书（必须链接到实际文件）
+  - "📚 MinerU: [文件名.md](../../data/mineru_output/.../文件名.md)"     # MinerU 解析输出
+  - "📖 Docs: [名称](../../.documents/分类/文件) — 章节"                 # 官方文档（优先下载到 .documents/）
+  - "📖 Paper: [简称](URL)"                                              # 公开论文直接 URL（见 .documents/分类/papers.md）
+  - "💻 Source: [仓库名](../../.github/仓库名/) — 文件:行号"             # 开源项目参考代码
+  - "🧪 经验: 简短说明"                                                  # 实践经验（仅用于 Pitfalls）
 expiry: 3m   # 3m | 6m | 12m | never
 status: current  # current | needs_review | outdated
 ---
@@ -34,9 +37,10 @@ status: current  # current | needs_review | outdated
 每个 `##` 章节结尾必须有 `>` 引用块。格式严格为：
 
 ```
-> 📖 Docs: [名称](URL) — 章节
-> 📚 Book: 作者, 《书名》, Ch.X
-> 💻 Source: 仓库 `文件:行号`
+> 📚 Book: 作者, [《书名》](../../textbooks/文件名.pdf), Ch.X
+> 📖 Docs: [名称](../../.documents/分类/文件) — 章节
+> 📖 Paper: [简称](URL)
+> 💻 Source: [仓库名](../../.github/仓库名/) `文件:行号`
 > 🧪 经验: 简短说明
 ```
 
@@ -77,8 +81,28 @@ status: current  # current | needs_review | outdated
 ```
 # {Topic} {维度名}
 
-> 📖 Docs: [主要来源](URL) — 章节
+> 📚 Book: 作者, [《书名》](../../textbooks/文件.pdf), Ch.X
 ```
+
+### R7. 素材目录规范
+
+**工作区素材结构（固定）：**
+
+| 来源类型 | 目录 | 说明 |
+|---------|------|------|
+| 📚 教科书 PDF | `textbooks/` | 原始 PDF，引用时必须链接到此目录 |
+| 📚 MinerU 解析 | `data/mineru_output/{book}/` | 教科书的 MinerU 输出（.md + .json） |
+| 💻 开源项目 | `.github/` | 参考代码仓库 |
+| 📖 官方文档 | `.documents/` | 下载到本地的官方文档 |
+
+**禁止事项：**
+
+- ❌ 绝不引用自己生成的代码作为权威来源（知识地图记录的是主题知识，不是代码实现）
+- ❌ 绝不用“工作区源码”作为理论概念的引证来源
+- ✅ 教科书引用必须链接到 `textbooks/` 下的实际 PDF 文件
+- ✅ 开源项目引用必须链接到 `.github/` 下的实际仓库
+- ✅ 官方文档优先下载到 `.documents/` 再引用
+- ✅ `🧪 经验` 仅用于 Pitfalls 维度中的实践经验
 
 ---
 

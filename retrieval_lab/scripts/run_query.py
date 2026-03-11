@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument(
         "--method",
         default="ensemble",
-        choices=["bm25", "toc", "ensemble"],
+        choices=["bm25", "toc", "ensemble", "pageindex", "vector", "sirchmunk"],
         help="Retrieval method",
     )
     parser.add_argument("--top-k", type=int, default=5)

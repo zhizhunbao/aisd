@@ -41,13 +41,24 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Benchmark textbook retrieval methods.")
     parser.add_argument("--book", default="barber")
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--include-vector", action="store_true", help="Include vector (RAG) method (requires Ollama)")
+    parser.add_argument("--include-sirchmunk", action="store_true", help="Include sirchmunk method (requires rga)")
     args = parser.parse_args()
 
     queries = load_queries(args.book)
-    methods = ["bm25", "toc", "ensemble"]
+    methods = ["bm25", "toc", "pageindex", "ensemble"]
+    if args.include_vector:
+        methods.append("vector")
+    if args.include_sirchmunk:
+        methods.append("sirchmunk")
 
     for method in methods:
-        retriever = build_retriever(args.book, method)
+        try:
+            retriever = build_retriever(args.book, method)
+        except (FileNotFoundError, RuntimeError) as exc:
+            print(json.dumps({"book": args.book, "method": method, "skipped": str(exc)}))
+            continue
+
         recalls = []
         latencies = []
         for item in queries:

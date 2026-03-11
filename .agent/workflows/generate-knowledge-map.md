@@ -54,9 +54,11 @@ Phase 5   收尾: 回填 Map + 缺口检查 + 新鲜度
 ## Phase 0: 输入探测 🔍
 
 1. **扫描可用素材**:
-   - `textbooks/` 教科书、`.github/` 参考代码
-   - 工作区已有代码、`knowledge-map/` 相关主题
-   - `search_web` 搜索官方文档
+   - `textbooks/` 教科书 PDF + `data/mineru_output/` MinerU 解析
+   - `.github/` 开源项目参考代码
+   - `.documents/` 本地官方文档
+   - `knowledge-map/` 已有相关主题
+   - `search_web` 搜索在线文档（优先下载到 `.documents/`）
 
 2. **主题粒度判断** — 满足任一则拆分:
    - 核心概念 > 15 个
