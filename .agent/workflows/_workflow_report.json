@@ -1,0 +1,140 @@
+{
+  "total": 9,
+  "pass": 2,
+  "warn": 7,
+  "fail": 0,
+  "results": [
+    {
+      "file": "complete-assignment-rl.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "Large: 334 lines (ideal: <200)"
+      ],
+      "info": {
+        "lines": 334,
+        "description": "Complete RL assignment - specialized workflow for Reinforcement Learning assignments with Gymnasium environments",
+        "numbered_steps": 3,
+        "turbo_steps": 0,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "complete-assignment.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "Description too long (152 chars, max 120)"
+      ],
+      "info": {
+        "lines": 190,
+        "description": "Complete course assignment from start to submission - handles complex multi-step assignments with environment setup, training, evaluation, and reporting",
+        "numbered_steps": 36,
+        "turbo_steps": 1,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "complete-lab-rl.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "L41: '// turbo' before potentially dangerous step containing 'install'"
+      ],
+      "info": {
+        "lines": 132,
+        "description": "Complete RL course lab - follow teacher's coding style strictly",
+        "numbered_steps": 23,
+        "turbo_steps": 3,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "complete-lab.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "Large: 419 lines (ideal: <200)"
+      ],
+      "info": {
+        "lines": 419,
+        "description": "Complete course lab/assignment from start to submission - universal workflow for all courses",
+        "numbered_steps": 30,
+        "turbo_steps": 4,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "explore-repo.md",
+      "status": "PASS",
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "lines": 56,
+        "description": "Explore reference GitHub repositories in .github/ directory",
+        "numbered_steps": 4,
+        "turbo_steps": 0,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "generate-knowledge-map.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "Large: 247 lines (ideal: <200)"
+      ],
+      "info": {
+        "lines": 247,
+        "description": "为任意主题生成 8 维知识库文档（Map / Concepts / Math / Tutorial / Code / Pitfalls / History / Bridge）",
+        "numbered_steps": 39,
+        "turbo_steps": 0,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "generate-study-material.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "Large: 322 lines (ideal: <200)"
+      ],
+      "info": {
+        "lines": 322,
+        "description": "Transform raw course materials (PPT/PDF) into an interactive Jupyter Notebook learning package",
+        "numbered_steps": 60,
+        "turbo_steps": 0,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "midterm-review.md",
+      "status": "WARN",
+      "errors": [],
+      "warnings": [
+        "Large: 431 lines (ideal: <200)"
+      ],
+      "info": {
+        "lines": 431,
+        "description": "Prepare comprehensive midterm review materials from course slides, notes, labs, and quizzes",
+        "numbered_steps": 27,
+        "turbo_steps": 1,
+        "turbo_all": false
+      }
+    },
+    {
+      "file": "scrape-content.md",
+      "status": "PASS",
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "lines": 29,
+        "description": "Download course materials from Brightspace LMS",
+        "numbered_steps": 3,
+        "turbo_steps": 0,
+        "turbo_all": false
+      }
+    }
+  ],
+  "duplicates": []
+}
