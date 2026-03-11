@@ -1,247 +1,155 @@
-# Week 2: MDP — 测验题笔记
+# Reinforcement Learning Quiz 1
+> Source: `quizes/quize1.md` | Week 2 — MDP
 
-> **Source:** Quiz 2 (15 questions)
-> **See also:** [\_cheatsheet.md](week2_mdp_cheatsheet.md) | [\_math.md](week2_mdp_math.md) | [\_code.md](week2_mdp_code.md)
+Question 1 (1 point)
+What is a Markov chain?
 
----
+Question 1 options:
+A) A chain with a rubber coating
+B) A sequence of nodes in a graph with cycles
+C) A sequence of nodes in a graph without cycles
+D) A mathematical model that experiences transition of states with probabilistic rules
+E) None of these answers
 
-## 选择题 (Multiple Choice)
+> **Answer**: D
+> **Explanation**:
+> 马尔可夫链是"状态按概率规则转移"的数学模型；**为什么是 D**：只有 D 描述了概率性状态转移。A/B/C 分别是物理描述和图结构描述，与概率转移无关；E 不成立。
+> **Key**: Markov chain — a probabilistic state-transition model.
 
-**Q1.** What is Reinforcement Learning (RL)?
+Question 2 (1 point)
+What is a Markov Decision Process?
 
-A) All of these answers.
-B) RL is a third type of machine learning, along with supervised learning and unsupervised learning.
-C) RL is a form of supervised machine learning used for learning to play games.
-D) RL is a form of unsupervised machine learning used in control applications.
-E) None of these answers.
+Question 2 options:
+A) A process for making a decision between two options
+B) The underlying logic of a Turing Machine
+C) A process for making a decision between more than two options
+D) An extension of the Markov chain with actions and rewards
+E) None of these answers
 
-> **Answer:** B
-> **Explanation (Why):**
-> RL 是一种**独立**的机器学习范式，通过智能体与环境的"试错"（trial-and-error）交互来学习最优策略，它的目标是最大化累积奖励。它区别于监督学习（没有标记数据）和无监督学习（不仅仅是寻找隐藏结构）。因此，B 是准确的。C（监督学习的子类）和 D（无监督学习的子类）都是概念性错误。
+> **Answer**: D
+> **Explanation**:
+> MDP 是"马尔可夫链 + 动作 + 奖励"的序贯决策模型；**为什么是 D**：只有 D 明确指出在马尔可夫链基础上加入动作与奖励。A/C 只是泛化的决策描述，缺少状态转移与奖励；B 与 MDP 无关；E 不成立。
+> **Key**: MDP = Markov chain + actions + rewards.
 
----
+Question 3 (1 point)
+In a Markov Decision Process, taking an action in a state always leads to the same result state.
 
-**Q2.** Which of the following can be considered primary aspects of a Reinforcement Learning problem setup?
+Question 3 options:
+A) True
+B) False
 
-A) Values, Step function, and Actions.
-B) Agent, Environment, and Reward.
-C) Reward, Environment, and States.
-D) Agent, Values, and Step function.
-E) None of these answers.
+> **Answer**: B
+> **Explanation**:
+> MDP 的转移由概率分布 $P(s'|s,a)$ 定义；**为什么是 B (False)**：同一状态-动作对可到达多个后继状态，非确定性。A (True) 要求每次都到同一状态，与随机转移矛盾。
+>   - **$P(s'|s,a)$**: 状态转移概率 (Transition probability)
+> **Key**: MDP transitions are stochastic via $P(s'|s,a)$, not deterministic.
 
-> **Answer:** B
-> **Explanation (Why):**
-> 任何强化学习问题最底层的核心设定三要素是：**智能体 (Agent)**、**环境 (Environment)** 和 **奖励 (Reward)** 信号。
-> ⚠️ **陷阱 (Trap):** C 选项看起来很有迷惑性，因为它提到了 State，但它缺少了最核心的 Agent。在 RL 框架中，State 是 Environment 提供给 Agent 的属性，而 Agent、Environment、Reward 才是定义框架的三个绝对核心组件。Values 是衍生出来的估计量，不是 setup 的一级要素。
+Question 4 (1 point)
+What is a problem with defining total reward from a starting point to be the sum of all subsequent rewards?
 
----
+Question 4 options:
+A) The sum of all subsequent rewards might be negative
+B) The sum of all subsequent rewards might be zero
+C) The sum of all subsequent rewards might be positive
+D) None of these answers
+E) The sum of all subsequent rewards might be infinite
 
-**Q3.** What is a Markov state?
+> **Answer**: E
+> **Explanation**:
+> 在无限步任务中直接求和可能发散到 $\infty$，无法比较策略；**为什么是 E**：E 指出了真正的问题——总和可能无穷大，这正是引入折扣因子 $\gamma$ 的原因。
+>   - **A/B/C 错**：负数、零、正数都不是"定义失效"的原因，问题核心在于发散。
+>   - D 不成立（存在明确问题）。
+>   - **$\gamma$**: 折扣因子 (Discount factor)，$0 \le \gamma < 1$
+>   - **$G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$**: 折扣回报，$\gamma^k$ 确保几何级数收敛
+> **Key**: Infinite-horizon sum may diverge; discount factor $\gamma$ ensures convergence.
 
-A) None of these answers.
-B) All of these answers.
-C) Markov states are states that form a single deterministic chain.
-D) Intuitively, a Markov state has the property that all its previous states completely determine its future states.
-E) Intuitively, a Markov state has the property that its subsequent states do not depend on its previous states.
+Question 5 (1 point)
+What is a policy in Reinforcement Learning?
 
-> **Answer:** E
-> **Explanation (Why):**
-> 马尔可夫性质（Markov Property）的定义是："未来只取决于现在，而与过去无关"。即当前状态包含了预测未来所需要的所有历史信息。
-> ⚠️ **陷阱 (Trap):** D 选项说"所有先前状态完全决定未来"，恰恰说反了！马尔可夫性的核心就是**不需要**历史（所有先前状态），只需要当前状态。C 选项错在 "deterministic chain"，马尔可夫链通常是随机的（stochastic）转移，不需要是确定性的。
+Question 5 options:
+A) A function that specifies what action to take in a certain state
+B) A function that specifies the next state to visit
+C) A function that gives the list all the possible actions in a state
+D) None of these answers
+E) A function that gives the list of all impossible actions in a state
 
----
+> **Answer**: A
+> **Explanation**:
+> 策略 $\pi(a|s)$ 是"给定状态，告诉你选什么动作"的映射；**为什么是 A**：A 正是策略的定义。B 描述的是状态转移预测；C/E 描述的是动作列表，不是选择规则；D 不成立。
+> **Key**: Policy $\pi(a|s)$ — maps states to actions.
 
-**Q4.** What is the relationship between Reinforcement Learning (RL) and Markov Decision Processes (MDPs)?
+Question 6 (1 point)
+What is given by the state value function?
 
-A) MDPs are a mathematical model of the sequential decision making processes addressed by RL.
-B) None of these answers.
-C) MDPs are a component of the software used to implement video games.
-D) MDPs are known specific strategies developed for playing games like chess, go, and video games played by RL systems.
-E) All of these answers.
+Question 6 options:
+A) It takes a state and gives the expected total reward we can get starting from that state
+B) It takes a state and gives an action that results in the highest reward
+C) None of these answers
+D) It takes an action and a state and gives the expected total reward we can get from taking that action
+E) It takes an action and gives the state that results from taking that action
 
-> **Answer:** A
-> **Explanation (Why):**
-> MDP 提供了强化学习中**序列决策问题（sequential decision making）**的标准数学形式化框架。RL 算法（如 Q-Learning、SARSA 等）都是在这个数学模型上去求解最优策略的。
-> MDP 是模型，不是软件组件（C 错），也不是具体策略（D 错）。
+> **Answer**: A
+> **Explanation**:
+> 状态价值函数 $V(s)$ 输出从该状态出发的期望累计回报；**为什么是 A**：A 准确描述了 $V(s)$ 的定义。
+>   - **B 错**：选动作是策略 $\pi$ 的职责，不是 $V(s)$。
+>   - **D 错**：接受状态-动作对并输出期望回报的是动作价值函数 $Q(s,a)$，不是 $V(s)$。
+>   - C/E 分别不成立和描述状态转移。
+>   - **$V(s)$**: 状态 → 期望回报 | **$Q(s,a)$**: 状态-动作对 → 期望回报
+> **Key**: $V(s)$ = expected return from state $s$. Distinct from $Q(s,a)$.
 
----
+Question 7 (1 point)
+What is the action value function?
 
-**Q5.** What is the Reward Hypothesis of Reinforcement Learning?
+Question 7 options:
+A) It takes a state and gives expected total reward we can get starting from that state
+B) It takes a state and an action and gives the state resulting from taking the action
+C) It takes a state and an action and gives the immediate reward resulting from taking that action
+D) It takes a state and an action and gives the expected total reward we can get starting from that state and taking that action
+E) None of these answers
 
-A) The Reward Hypothesis basically states that some goals cannot be thought of as maximizing the expected cumulative value of a scalar reward function.
-B) The Reward Hypothesis basically states that all goals can be thought of as minimizing the the number of steps to maximize a scalar reward function.
-C) The Reward Hypothesis basically states that some goals cannot be thought of as minimizing the the number of steps to maximize a scalar reward function.
-D) None of these answers.
-E) The Reward Hypothesis basically states that all goals can be thought of as maximizing the expected cumulative value of a scalar reward function.
+> **Answer**: D
+> **Explanation**:
+> 动作价值函数 $Q(s,a)$ 输出在状态 $s$ 采取动作 $a$ 后的期望累计回报；**为什么是 D**：只有 D 同时包含状态、动作与期望总回报。
+>   - **A 错**：这是状态价值函数 $V(s)$——只接受状态，不接受动作。
+>   - **C 错**：只描述即时奖励 $R$，不是累计期望回报。
+>   - B 描述状态转移结果；E 不成立。
+>   - **$Q(s,a)$**: 动作价值函数 (Action-value function)
+> **Key**: $Q(s,a)$ = expected return from state $s$ taking action $a$. Differs from $V(s)$ by including action.
 
-> **Answer:** E
-> **Explanation (Why):**
-> 奖励假设（Reward Hypothesis）指出："我们意图实现的**所有目标（all goals）**，都可以形式化为**最大化（maximizing）**一个标量奖励信号的**预期累积值（expected cumulative value）**"。
-> ⚠️ **陷阱 (Trap):**
->
-> - A 错在说 "some goals cannot"，与基本前提冲突。
-> - B 错在说 "minimizing the number of steps"，奖励假设是关于最大化回报，并不要求一定是最小化步数（除非每步给负奖励）。
+Question 8 (1 point)
+What is a greedy policy?
 
----
+Question 8 options:
+A) A policy that rotates through all actions
+B) A policy that dictates always taking rather than giving
+C) None of these answers
+D) A policy that dictates always taking the action that results in the highest immediate reward
+E) A policy that always specifies the same action
 
-**Q6.** What is meant by "episode" in Reinforcement Learning?
+> **Answer**: D
+> **Explanation**:
+> 贪婪策略是"每次都选当前估计价值最高的动作"；**为什么是 D**：D 明确说"总是选最高即时回报的动作"，符合 $a = \arg\max_{a'} Q(s, a')$。A/B/E 分别是轮换、无关描述和固定动作，都不是贪婪；C 不成立。
+>   - **$\arg\max_{a'} Q(s, a')$**: 选使 $Q$ 值最大的动作
+> **Key**: Greedy policy — always pick $\arg\max Q$, prioritizing immediate reward.
 
-A) An episode is a single cycle of performing an action, receiving a reward, and observing the resulting state.
-B) An episode is a single run from the starting state to a terminal (or truncated) state.
-C) An episode is a single run that does not reach the terminal state.
-D) An episode is the number of steps actually taken to reach the terminal state.
-E) None of these answers.
+Question 9 (1 point)
+What does the Bellman Equation say in the context of Q-Learning?
 
-> **Answer:** B
-> **Explanation (Why):**
-> 回合（Episode）是指智能体与环境交互的**一次完整运行序列**，从起始状态开始，直到到达某个终止状态（终端或截断）为止（例如：一局棋的开始到结束，一次迷宫寻宝的开始到找到宝藏/踩到陷阱）。
-> ⚠️ **陷阱 (Trap):** A 描述的是一个**时间步 (time step)** 的循环，不是整个回合。D 描述的是该序列的**长度 (步数)**，而不是序列本身。
+Question 9 options:
+A) It says that the value of an action a in some state s is the immediate reward you get for taking that action, plus the total past rewards from the previous next state.
+B) It says that the value of taking an action a in some state s is the immediate reward you get for taking that action, minus the maximum expected future rewards you can get in the next state.
+C) It says that the value of taking an action a in some state s is the immediate reward you get for taking that action, plus the minimum expected future rewards you can get in the next state.
+D) None of these answers
+E) It says that the value of taking an action a in some state s is the immediate reward you get for taking that action, plus the maximum expected future rewards you can get in the next state.
 
----
-
-**Q7.** What role does the discount factor $\gamma$ play in Reinforcement Learning?
-
-A) $\gamma$ addresses the problem of infinite cumulative rewards in non-terminating processes.
-B) $\gamma$ determines how many times an action is chosen randomly during training.
-C) $\gamma$ represents the total discount which is subtracted from the reward function cumulative total.
-D) None of these answers.
-E) $\gamma$ represents the weighting of the current goal of a Reinforcement Learning problem.
-
-> **Answer:** A
-> **Explanation (Why):**
-> 折扣因子 $\gamma \in [0, 1)$ 的主要数学作用是防止持续任务（非终止任务）中的累积回报（return）发散到无穷大。通过几何级数衰减 $\gamma^k R_{t+k+1}$，使得未来奖励总和收敛到一个有限值。
-> ⚠️ **陷阱 (Trap):**
->
-> - B 描述的是探索率 $\epsilon$。
-> - C 错在说 "subtracted (减法)"，$\gamma$ 是用于**乘法**权重衰减的，而不是减法。
-> - E 是对目标的误解。
-
----
-
-**Q8.** What is a Policy in Reinforcement Learning?
-
-A) None of these answers.
-B) The Policy is a table that assigns a value to each action.
-C) The Policy is a function that assigns a value to each action-state pair.
-D) The Policy is a function that determines the probability of an agent taking an action.
-E) All of these answers.
-
-> **Answer:** D
-> **Explanation (Why):**
-> 策略（Policy）$\pi(a|s)$ 定义了智能体在特定状态下的行为方式，它是给定状态下各个动作被采取的**概率分布**。
-> ⚠️ **陷阱 (Trap):** B 和 C 描述的都是**价值函数 (Value Function)**（分别为状态-动作的 Q 值等），而不是策略。Policy 输出的是动作的概率，Value Function 输出的是预期的累积总回报数字。
-
----
-
-**Q9.** What is a Value Function in Reinforcement Learning?
-
-A) A Value Function gives a measure of the expected total reward of an episode.
-B) A Value Function gives a measure of the expected total reward given a state or state-action pair.
-C) None of these answers.
-D) A Value Function gives a measure of the expected total number of steps to maximize reward.
-E) All of these answers.
-
-> **Answer:** B
-> **Explanation (Why):**
-> 价值函数（Value Function）衡量的是在一个**特定的状态** $s$ 之下，或者在**特定的状态-动作对** $(s,a)$ 之下，未来能够预期获得的**总回报（ expected total reward / cumulative return）**。它评估"在这个状态有多好"或"做出这个动作有多好"。
-> ⚠️ **陷阱 (Trap):** A 的描述过于泛化，没有说明这是针对某个确切的状态点；D 错在评估的是"步数 (number of steps)" 而是"奖励 (reward)"。
-
----
-
-**Q10.** What is the difference between an action value function and a state value function?
-
-A) None of these answers.
-B) State value functions return total reward to termination, and action-value functions return immediate reward of taking the action.
-C) State value functions take a state, and action value functions take just actions.
-D) Action value functions return the average reward for taking an action, and State value functions return a state's average total future reward.
-E) Action value functions take state-action pairs, whereas state value functions take just states.
-
-> **Answer:** E
-> **Explanation (Why):**
-> 最根本的区别在于它们的输入。状态价值函数 $V(s)$ 只接收**状态**作为参数；而动作价值函数 $Q(s, a)$ 接收**状态-动作对**作为参数。
-> ⚠️ **陷阱 (Trap):** B 错在说 Q 函数只返回"即时奖励 (immediate reward)"，其实 Q 函数返回的也是长期的预期总回报。C 错在说 action value 函数"只接受动作"，其实它是接收 (state, action) 两者。
-
----
-
-**Q11.** Which of the following statements is true about the Bellman equation in Reinforcement Learning?
-
-A) None of these answers.
-B) It expresses the relationship between the value of a state or a state-action pair, and the value of the successor states.
-C) All of these answers.
-D) It breaks the problem of determining the value of a state into smaller problems recursively.
-E) It forms the mathematical basis for the Q-Learning algorithm in Reinforcement Learning.
-
-> **Answer:** C
-> **Explanation (Why):**
-> B、D、E 选项都是完全正确的。
->
-> - B 正确：贝尔曼方程本质就是定义了当前状态价值与后续状态价值的关系。
-> - D 正确：它通过动态规划思想，将未来的无穷级数截断为即时奖励和下一步的价值（递归拆解 $V(s) = R + \gamma V(s')$）。
-> - E 正确：由于它定义了最优性的条件（Bellman Optimality Equation），这构成了 Q-Learning 更新的核心规则的数学基石。
-
----
-
-**Q12.** What does "greedy" mean in the context of Reinforcement Learning?
-
-A) None of these answers.
-B) It implies a policy that tries to maximize total reward.
-C) It implies a policy where future reward is considered over immediate reward.
-D) It implies a policy where immediate reward is considered over future reward.
-E) It implies a policy that tries to maximize future reward.
-
-> **Answer:** D
-> **Explanation (Why):**
-> "贪婪" (Greedy) 选择意味着智能体基于**当前的估计**（通常利用即时最优的信息）来选择它认为最好的动作 ($a = \arg\max Q(s,a)$)，而忽略了为了长远的更好收益而去探索风险较高或当前看起来不那么具有吸引力的选项。换句话说，贪心选择更看重当前的已知利益（immediate reward over future unverified potential）。
-> ⚠️ **陷阱 (Trap):** B 描述的是最优策略（Optimal Policy）的终极目标。最优策略往往不总是能用单纯的 greedy 去发现，因为它可能需要长期规划。
-
----
-
-**Q13.** What is a condition for applying Q-learning to a Reinforcement Learning problem?
-
-A) None of these answers.
-B) The complete set of possible states must be known.
-C) The complete set of actions must be known.
-D) The complete set of actions and the complete set of possible states must be known.
-E) The optimal value function must be known.
-
-> **Answer:** D
-> **Explanation (Why):**
-> 标准的表格法（Tabular）Q-Learning 需要构建一个二维表——**Q-table**。这个表的行是所有可能的状态，列是所有可能的动作。因此，必须已知**完整的状态集 (S) 和完整的动作集 (A)**，且这两者都是离散和有限的，才能构建 Q-table。
-> ⚠️ **陷阱 (Trap):** E 选项是错的，因为如果已经知道了"最优价值函数"，RL 的目标就已经达成了，就不需要去学习 (Q-learning) 它了。
-
----
-
-**Q14.** Which of the following statements is true in the context of Reinforcement Learning?
-
-A) All of these answers.
-B) Q-learning is a form of Temporal Distance (TD) learning.
-C) Temporal Distance (TD) learning involves learning from differences in time steps as opposed to complete episodes.
-D) Temporal Distance (TD) learning does not require that the agent have a model of the environment.
-E) None of these answers.
-
-> **Answer:** E
-> **Explanation (Why):**
-> ⚠️ **极具迷惑性的术语陷阱题！**
-> 所有的选项 (B, C, D) 都在描述一个正确的概念，但它们故意使用了一个**根本不存在的术语**："Temporal **Distance**"。
-> 强化学习中的 TD 学习英文缩写展开是 **Temporal Difference (时序差分)**，而不是 Temporal Distance。因为术语完全错误，所以包含这个术语的选项全都不能选。正确答案只能是 E (None)。
-> （TD 确实能够从时间步差中学习，而且不需要环境模型，Q-Learning 确实是 TD 的一种形式——如果把 Distance 替换成 Difference，选 All）。
-
----
-
-**Q15.** Which of the following statements is true in the context of Reinforcement Learning?
-
-A) The value function and policy function are implemented in the agent rather than the environment.
-B) The results of an action are determined by the agent rather than the environment.
-C) The value function is implemented in the environment rather than the agent.
-D) The policy function is implemented in the environment rather than the agent.
-E) None of these answers.
-
-> **Answer:** A
-> **Explanation (Why):**
-> 在强化学习模型中（Sutton 教材明确规定了边界）：
->
-> - **Agent (智能体)**的内部掌管着："怎么做决策"（策略 Policy）以及 "对状态好坏的评估"（价值函数 Value）。
-> - **Environment (环境)**的内部掌管着：接收动作并输出"动作的结果"，即状态流转的概率（Transition dynamics）和发放的奖励（Reward）。
->   ⚠️ **陷阱 (Trap):** B 错在动作的结果肯定是外部环境反馈决定的，不是智能体单方面决定的。C 和 D 错在把评估与决策功能塞给了环境。
-
----
+> **Answer**: E
+> **Explanation**:
+> 贝尔曼方程：$Q(s, a) = R + \gamma \max_{a'} Q(s', a')$，即 Q 值 = 即时奖励 + 折扣后的下一状态最大 Q 值；**为什么是 E**：只有 E 说"即时奖励 **+** **最大**未来回报"，与公式一致。
+>   - **A 错**：说"过去回报 (past rewards)"，贝尔曼方程面向未来，不回溯。
+>   - **B 错**：用减号 (minus)，公式是加号。
+>   - **C 错**：取最小 (minimum)，公式是取最大 $\max$。
+>   - D 不成立。
+>   - **$R$**: 即时奖励 (Immediate reward)
+>   - **$\gamma$**: 折扣因子 (Discount factor)
+>   - **$\max_{a'} Q(s', a')$**: 下一状态的最大预期收益
+> **Key**: Bellman: $Q(s,a) = R + \gamma \max_{a'} Q(s',a')$ — immediate reward + discounted max future value.
