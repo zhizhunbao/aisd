@@ -35,7 +35,23 @@ When generating study materials, use resources as the data source, not labs.
 
 ### Understanding Concepts
 
-Ask for explanations at your level (beginner/intermediate/advanced). Request analogies for intuition, then mathematical formulations when ready.
+Ask for explanations at your level (beginner/intermediate/advanced). 
+
+**叙事引导原则（Storyline Principle）**：解释 RL 概念时，先问三个问题：
+
+1. **之前用什么？** — 在这个方法出现之前，大家怎么解决这个问题？有什么局限？
+2. **它怎么解决的？** — 核心创新/思路是什么？
+3. **它留下了什么？** — 自身的局限，引出了什么后续算法？
+
+然后用**四层递进**解释：`① 一句话 → ② 公式/Bellman方程 → ③ GridWorld/具体例子 → ④ 比喻记忆`
+
+概念解释后附**自测 Checklist**：
+```
+- [ ] 能不看资料，解释[概念]是什么？
+- [ ] 知道为什么需要它（之前的方法有什么不足）？
+- [ ] 能写出核心更新公式？
+- [ ] 知道它的局限和适用场景？
+```
 
 **Request 5W1H Analysis Table** for any core concept to get structured understanding:
 
@@ -49,6 +65,7 @@ Ask for explanations at your level (beginner/intermediate/advanced). Request ana
 Example request: "Create a 5W1H table for Q-Learning" or "Explain the core concepts of Lab 1 in a 5W1H table"
 
 **For detailed concept explanations:** See `references/concepts.md`
+
 
 ### Analyzing Code
 

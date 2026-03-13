@@ -170,6 +170,57 @@ When generating tutorial `.py` content:
 5. **Bilingual**: Support Chinese + English headers when appropriate
 6. **Quotes in markdown**: Use `「」` for Chinese quotes, avoid bare `"` inside `"""`
 
+### 叙事结构要求（Narrative Structure）
+
+Tutorial 不是代码 demo 的堆砌，而是一个**问题解决故事**。每个 section 必须回答"为什么需要这个"。
+
+**规则 1：Why-First 开场**
+
+第一个 markdown cell 必须包含：
+- 学完这个 tutorial 能解决什么问题？
+- 之前（没有这个方法时）是怎么做的，有什么不足？
+
+**规则 2：Problem → Solution 过渡**
+
+每引入一个新概念/方法前，先说清楚旧方法的局限：
+
+```python
+# %% [markdown]
+"""
+## 2. 更好的方法：[新方法名]
+
+> 🔑 **为什么需要这个？** 上一步的方法[具体局限] → 我们需要[新方法的核心能力]
+"""
+```
+
+**规则 3：四层概念解释**
+
+对每个核心概念，用四层递进解释：
+
+```
+① 一句话定义 → ② 公式/原理 → ③ 代码例子 → ④ 类比/记忆技巧
+```
+
+> 💡 详细格式参考 `learning-lecture-storyline` skill §3.2 四层递进法
+
+**规则 4：复习 Checklist 结尾 Cell（必须）**
+
+最后一个 markdown cell 必须是复习清单：
+
+```python
+# %% [markdown]
+"""
+---
+
+## 你学到了什么？
+
+- [ ] 能解释[概念A]是什么，为什么需要它？
+- [ ] 能写出[核心公式/代码片段]？
+- [ ] 知道[方法X]和[方法Y]的关键区别？
+- [ ] 能在什么场景下应用这个方法？
+"""
+```
+
 ## Validation
 
 After conversion, verify:

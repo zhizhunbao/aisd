@@ -22,7 +22,7 @@ init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet18')
 **MobileNet V2:**
 ```python
 init_cfg=dict(type='Pretrained',
-    checkpoint='https://download.openmmlab.com/mmclassification/v0/mobilenet_v2/...')
+    checkpoint='https://download.openmmlab.com/mmclassification/v0/mobilenet_v2/mobilenet_v2_batch256_imagenet_20200708-3b2dc3af.pth')
 ```
 
 This means the backbone weights are initialized from ImageNet pretrained models, and then **fine-tuned** on the Oxford Flowers 17 dataset.
@@ -31,13 +31,13 @@ This means the backbone weights are initialized from ImageNet pretrained models,
 
 1. **Download pretrained weights** — ResNet-18 (~44MB) from PyTorch; MobileNet V2 (~14MB) from OpenMMLab
 2. **Initialize the backbone** — Load these weights as the model's starting point (instead of random initialization)
-3. **Fine-tune on Flowers 17** — Train on our target dataset; all layers are updated with a smaller learning rate
+3. **Fine-tune on Flowers 17** — Train on our target dataset; both backbone and head are updated using the same learning rate (`lr=0.01` for ResNet-18, `lr=0.001` for MobileNet V2) — lower than standard ImageNet training to preserve pretrained features
 
 ### What Transfers vs. What is New
 
 - **Transferred:** The backbone weights — encoding general visual features from 1.2M ImageNet images
 - **New:** The classification head (`LinearClsHead`) — mapping features to 17 flower classes (randomly initialized since ImageNet has 1,000 classes)
-- **Fine-tuned:** Both backbone and head are updated during training; backbone is slightly adjusted for flower-specific features
+- **Fine-tuned:** Both backbone and head are updated during training using the same optimizer learning rate — no separate lr multiplier is applied to the backbone
 
 ### Why Transfer Learning Matters Here
 

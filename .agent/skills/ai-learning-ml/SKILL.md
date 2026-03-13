@@ -39,6 +39,24 @@ Provide guidance on project selection, design, implementation, and optimization.
 
 Help understand research papers by extracting key insights and explaining complex formulations.
 
+## Concept Explanation Narrative Principle（叙事引导原则）
+
+当解释任何 ML 概念时，**先问三个问题**，再给出定义：
+
+1. **之前用什么？** — 在这个方法出现之前，大家用什么？有什么具体问题？
+2. **它怎么解决的？** — 这个方法的核心创新是什么，怎么解决了前面的问题？
+3. **它留下了什么？** — 这个方法自身的局限是什么，引出了哪些后续工作？
+
+对每个核心概念用**四层递进**解释：`① 一句话定义 → ② 公式/原理 → ③ 具体例子 → ④ 类比记忆`
+
+概念解释结束后，可附上**自测 Checklist**：
+```
+- [ ] 能不看资料，用一句话解释[概念]是什么？
+- [ ] 知道为什么需要[概念]（之前的方法有什么不足）？
+- [ ] 能写出核心公式？
+- [ ] 知道[概念]在什么场景下用，在什么场景下不适用？
+```
+
 ## Annotation Standards (注释撰写准则)
 
 When writing code comments, follow the **"Home-style/Intuitive" (家常话/直觉化)** principle:

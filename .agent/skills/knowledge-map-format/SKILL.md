@@ -1,34 +1,67 @@
 ---
 name: knowledge-map-format
-description: 知识地图文件格式模板。Use when (1) generating knowledge map files via /generate-knowledge-map, (2) reviewing knowledge map formatting, (3) user says "格式不对" or "format template" for knowledge map files. Enforces consistent structure across all 8 dimensions.
+description: "知识地图文件格式模板与质量规范。Make sure to use this skill whenever generating knowledge map files via /generate-knowledge-map, reviewing or fixing knowledge map formatting issues, the user says \"格式不对\" or \"format template\" for knowledge map files, creating any of the 8 dimensions (Map/Concepts/Math/Tutorial/Code/Pitfalls/History/Bridge), or checking knowledge map quality. Also use when the user mentions \"知识地图\", \"知识库格式\", \"维度模板\", or asks about how to structure a knowledge map topic. Enforces consistent structure, mandatory source citations, and fixed chapter counts across all 8 dimensions."
 ---
 
 # Knowledge Map Format Templates
 
 > 本 Skill 定义 `/generate-knowledge-map` 生成的**每个维度文件的固定结构**。
-> 模板从已验证的 `claude_code_skill` 系列文件提取，每个章节编号固定。
+> 模板从已验证的 `knowledge-map/deep-learning/cnn/` 系列文件提取，每个章节编号固定。
 
 ---
 
-## 通用规则（所有维度必须遵守）
+## 来源限制
+
+知识地图的所有内容必须来自可信赖、可验证的来源。这确保知识库的长期可靠性。
+
+### 允许的来源（白名单）
+
+| 来源类型           | 具体来源                                  |
+| ------------------ | ----------------------------------------- |
+| 📚 教科书          | 出版教材 PDF（引用具体章节）              |
+| 📖 学术论文        | arXiv, ACM, IEEE, NeurIPS, ICML 等        |
+| 📖 官方文档        | scikit-learn docs, PyTorch docs, RFC…     |
+| 💻 开源代码仓库    | GitHub: sklearn, numpy…                  |
+
+### 严禁的来源（黑名单）
+
+| 严禁                       | 原因                                 |
+| -------------------------- | ------------------------------------ |
+| 教师 PPT / 课件 / 讲义     | 非权威，有简化或错误，无法被他人验证 |
+| 课程作业题 / 考试题        | 同上                                 |
+| 百度百科 / CSDN / 知乎博客 | 非同行评审，质量无保障               |
+| 自己写的生成内容           | 循环引证，无意义                     |
+
+---
+
+## 通用格式规则
+
+以下规则适用于所有维度文件，确保知识库在格式上保持一致。
 
 ### R1. Frontmatter 格式
 
+> ⚠️ **YAML 不渲染 Markdown 链接**：`[text](url)` 在 YAML 中只是纯字符串，无法点击。
+> `source_versions` 必须使用**裸 URL**，VS Code 会自动高亮并允许 Ctrl+Click 跳转。
+
 ```yaml
 ---
-topic: {topic_name}
-dimension: {dimension}  # map | concepts | math | tutorial | usage | code | pitfalls | history | bridge
-created: {YYYY-MM-DD}
-last_verified: {YYYY-MM-DD}
+topic: { topic_name }
+dimension: { dimension } # map | concepts | math | tutorial | code | pitfalls | history | bridge
+created: { YYYY-MM-DD }
+last_verified: { YYYY-MM-DD }
 source_versions:
-  - "📚 Book: [文件名.pdf](../../textbooks/文件名.pdf) — Ch.X"          # 教科书（必须链接到实际文件）
-  - "📚 MinerU: [文件名.md](../../data/mineru_output/.../文件名.md)"     # MinerU 解析输出
-  - "📖 Docs: [名称](../../.documents/分类/文件) — 章节"                 # 官方文档（优先下载到 .documents/）
-  - "📖 Paper: [简称](URL)"                                              # 公开论文直接 URL（见 .documents/分类/papers.md）
-  - "💻 Source: [仓库名](../../.github/仓库名/) — 文件:行号"             # 开源项目参考代码
-  - "🧪 经验: 简短说明"                                                  # 实践经验（仅用于 Pitfalls）
-expiry: 3m   # 3m | 6m | 12m | never
-status: current  # current | needs_review | outdated
+  # 教科书：用 file:/// 绝对路径（VS Code 可 Ctrl+Click 直接打开 PDF）
+  - "📚 Book: 作者, 《书名》 Ch.X — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/文件名.pdf"
+  # 公开论文：用完整 https:// URL（VS Code 自动识别超链接）
+  - "📖 Paper: 作者 会议/期刊 年份 — https://链接"
+  # 官方文档：在线文档用完整 URL；已下载到本地用 file:/// 路径
+  - "📖 Docs: 名称 章节 — https://链接"
+  # 开源仓库：GitHub 链接
+  - "💻 Source: 仓库名 文件:行号 — https://github.com/org/repo/blob/main/path/to/file.py"
+  # 实践经验（仅 Pitfalls 维度）
+  - "🧪 经验: 简短说明"
+expiry: 3m # 3m | 6m | 12m | never
+status: current # current | needs_review | outdated
 ---
 ```
 
@@ -39,7 +72,7 @@ status: current  # current | needs_review | outdated
 ```
 > 📚 Book: 作者, [《书名》](../../textbooks/文件名.pdf), Ch.X
 > 📖 Docs: [名称](../../.documents/分类/文件) — 章节
-> 📖 Paper: [简称](URL)
+> 📖 Paper: [简称](URL)；已下载到本地用 file:///
 > 💻 Source: [仓库名](../../.github/仓库名/) `文件:行号`
 > 🧪 经验: 简短说明
 ```
@@ -50,31 +83,47 @@ status: current  # current | needs_review | outdated
 
 替代方案：用 **4 空格缩进** 表示内层代码：
 
-    // turbo
     ```bash
     npm run build
     ```
 
-### R4. ❌/✅ 对比格式
+### R4. ❌/✅ 对比格式（含代码块）
 
-不用代码块包裹，直接用 ❌/✅ + 4 空格缩进：
+❌/✅ 标记后接**语言标注的代码块**（给语法高亮）：
+
+````
+❌ 错误做法 — 原因说明
+
+    ```python
+    错误的代码
+    ```
+
+✅ 正确做法 — 原因说明
+
+    ```python
+    正确的代码
+    ```
+````
+
+> ⚠️ 注意代码块嵌套规则（R3）：上面示例里的内层 ` ```python ` 用 4 空格缩进仅在**文档本身内嵌于另一个代码块时**才需要。在普通 .md 文件正文中，直接写 ` ```python ` 即可，无需缩进。
+
+### R5. 易混淆标注（Concepts 维度专用）
+
+每个 `###` 术语条目，若存在**常见混淆点**，在定义段落后直接加：
 
 ```
-❌ 错误写法 — 原因说明
-
-    错误的代码或配置
-
-✅ 正确写法 — 原因说明
-
-    正确的代码或配置
+> 易混淆：**概念A vs 概念B** — 一句话说清楚区别；再补一句为什么容易混
 ```
 
-### R5. 分隔线
+- 仅在真正存在混淆风险时写，不强制每个术语都有
+- 语言：中文优先，技术术语保留英文
+
+### R6. 分隔线
 
 - `##` 章节之间用 `---` 分隔
 - `###` 小节之间**不用** `---`
 
-### R6. 标题后引证
+### R7. 标题后引证
 
 每个文件 `# 标题` 下紧跟一行全局引证：
 
@@ -84,102 +133,86 @@ status: current  # current | needs_review | outdated
 > 📚 Book: 作者, [《书名》](../../textbooks/文件.pdf), Ch.X
 ```
 
-### R7. 素材目录规范
+### R8. 素材目录规范
 
 **工作区素材结构（固定）：**
 
-| 来源类型 | 目录 | 说明 |
-|---------|------|------|
-| 📚 教科书 PDF | `textbooks/` | 原始 PDF，引用时必须链接到此目录 |
+| 来源类型       | 目录                         | 说明                                |
+| -------------- | ---------------------------- | ----------------------------------- |
+| 📚 教科书 PDF  | `textbooks/`                 | 原始 PDF，引用时必须链接到此目录    |
 | 📚 MinerU 解析 | `data/mineru_output/{book}/` | 教科书的 MinerU 输出（.md + .json） |
-| 💻 开源项目 | `.github/` | 参考代码仓库 |
-| 📖 官方文档 | `.documents/` | 下载到本地的官方文档 |
-
-**禁止事项：**
-
-- ❌ 绝不引用自己生成的代码作为权威来源（知识地图记录的是主题知识，不是代码实现）
-- ❌ 绝不用“工作区源码”作为理论概念的引证来源
-- ✅ 教科书引用必须链接到 `textbooks/` 下的实际 PDF 文件
-- ✅ 开源项目引用必须链接到 `.github/` 下的实际仓库
-- ✅ 官方文档优先下载到 `.documents/` 再引用
-- ✅ `🧪 经验` 仅用于 Pitfalls 维度中的实践经验
+| 💻 开源项目    | `.github/`                   | 参考代码仓库                        |
+| 📖 官方文档    | `.documents/`                | 下载到本地的官方文档                |
+| 📖 论文 PDF    | `.documents/papers/{topic}/` | 用 `download_papers.py` 下载到本地  |
 
 ---
 
-## 维度模板
+## 维度模板（强制引用）
 
-### DIM-1: Map（导航地图）
+> 🚨 **所有维度的固定章节结构、frontmatter 示例、格式规则均在下方文件中定义。**
+> **生成任何维度文件前，必须先读取此文件，严格按其中的模板执行。**
 
-固定章节编号：
+📖 **唯一格式来源：** [references/dimension_templates.md](references/dimension_templates.md)
 
+该文件包含 **DIM-1 (Map) 到 DIM-8 (Bridge)** 的完整固定模板，基于 `knowledge-map/deep-learning/cnn/` 的实际格式写死。每个维度模板包括：
+
+- 完整 frontmatter 示例
+- 固定章节结构（章节名、顺序、数量不可改）
+- 格式规则清单（✅ 必须 / ❌ 禁止）
+- 质量检查清单
+
+| DIM | 名称     | 章节数                        |
+| --- | -------- | ----------------------------- |
+| 1   | Map      | 8 章                          |
+| 2   | Concepts | 4 章                          |
+| 3   | Math     | 5 章                          |
+| 4   | Tutorial | 6 Section + 参考来源表        |
+| 5   | Code     | 4 章                          |
+| 6   | Pitfalls | 坑 + 调试清单                 |
+| 7   | History  | 序幕 + N章 + 全局回顾         |
+| 8   | Bridge   | 6 章                          |
+
+### 各维度固定章节概览
+
+| DIM | 名称     | 固定章节                                                                 |
+| --- | -------- | ------------------------------------------------------------------------ |
+| 1   | Map      | 核心问题 → 全景位置 → 依赖地图 → 文件地图 → 学习路线 → 缺口检查 → 新鲜度 → 参考来源表 |
+| 2   | Concepts | 术语定义（### 标题 + 段落 + `> 易混淆:`）→ 概念辨析表 → 核心属性(架构+适用/不适用) → 速查表 |
+| 3   | **Math** | **符号对照表 → 核心公式(直觉+推导) → 公式关系图 → 手算练习 → 公式速查表** |
+| 4   | Tutorial | Section 0(前置) → 1(Why) → 2(How) → 3(局限) → 4(对比) + 参考来源表      |
+| 5   | Code     | 快速开始 → 完整实现示例 → API 速查 → 目录结构模板                        |
+| 6   | Pitfalls | 坑(场景/症状/根因/解法/教训) + 调试清单                                  |
+| 7   | History  | 🎬序幕 → 📚第N章(发生了什么/为什么重要/但还有问题+🔑转折) → 🗺️全局回顾  |
+| 8   | Bridge   | ←/→导航表 → 上游依赖 → 下游影响 → 概念演变 → 📚扩展阅读 → 知识库关联   |
+
+> 📖 See [references/dimension_templates.md](references/dimension_templates.md) for complete templates of all dimensions (based on CNN actual format).
+
+---
+
+## 论文下载工具
+
+> 有 Paper 来源时，**必须先下载到本地** `.documents/papers/{topic}/`，再用 `file:///` 路径引用。
+
+**推荐平台（均免费）：**
+
+| 平台                 | 特点                                | 适合场景                  |
+| -------------------- | ----------------------------------- | ------------------------- |
+| **Semantic Scholar** | 学术论文搜索 + open access PDF 直链 | 按标题/关键词找论文并下载 |
+| **Papers With Code** | 论文 + 对应 GitHub 代码仓库         | 需要同时找论文和实现代码  |
+| **arXiv**            | 预印本直接 PDF                      | 已知 arXiv ID 时最快      |
+
+**使用方式（三选一）：**
+
+```bash
+# 1. 按关键词搜索并下载（Semantic Scholar）
+python .agent/skills/knowledge-map-format/scripts/download_papers.py \
+    --search "DBSCAN density based clustering" --topic dbscan
+
+# 2. 搜索 + 显示 Papers With Code 结果
+python .agent/skills/knowledge-map-format/scripts/download_papers.py \
+    --search "DBSCAN" --topic dbscan --pwc
+
+# 3. 从已有知识地图批量下载
+python .agent/skills/knowledge-map-format/scripts/download_papers.py \
+    --from-km knowledge-map/ml/dbscan/dbscan_map.md
 ```
-# {Topic} 知识地图
-
-> 📖 Docs: [来源](URL)
-
-## 1. 核心问题
-（3-5 个问题，用 - **问题？** → 一句话回答 格式）
-
----
-
-## 2. 全景位置
-（ASCII 树状图，标注【你在这里】）
-
----
-
-## 3. 依赖地图
-（ASCII 图：前置知识 → 本主题 → 后续方向）
-
----
-
-## 4. 文件地图
-| 文件 | 定位 | 何时用 |
-|------|------|--------|
-（列出所有维度文件，不存在的用 ~~删除线~~ 标注）
-
----
-
-## 5. 学习/使用路线
-
-### 第一次学习 🎒
-（编号步骤，每步链接一个文件）
-
-### 日常参考 🔧
-（编号步骤）
-
-### 深度研究 🔬
-（编号步骤）
-
----
-
-## 6. 缺口检查
-| 维度 | 状态 |
-|------|------|
-
----
-
-## 7. 新鲜度状态
-| 维度 | 上次验证 | 过期时间 | 状态 |
-|------|---------|---------|------|
-```
-
-> 📖 参考: `claude_code_skill_map.md` — 7 个固定章节
-
----
-
-### DIM-2 through DIM-9
-
-All remaining dimensions have **complete fixed templates** with mandatory chapter structures:
-
-| DIM | 名称 | 固定章节 |
-|-----|------|---------|
-| 2 | Concepts | 术语表 → 辨析 → 属性 → 速查 |
-| 3 | **Math** | **符号表 → 公式(直觉+推导) → 关系图 → 手算练习 → 速查** |
-| 4 | Tutorial | Section 0-4 + 参考来源表 |
-| 5 | Usage | 场景 N + 速查表 |
-| 6 | Code | 快速开始 → 完整实现 → API 速查 → 目录模板 |
-| 7 | Pitfalls | 坑(场景/症状/根因/解法/教训) + 调试清单 |
-| 8 | History | 时间轴 + Station(问题/创新/局限) |
-| 9 | Bridge | 前后导航 → 上下游 → 概念演变 → 扩展阅读 |
-
-> 📖 See [references/dimension_templates.md](references/dimension_templates.md) for complete templates of all dimensions.

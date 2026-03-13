@@ -17,14 +17,30 @@ When user mentions lab/实验:
 
 ## Concept Explanation
 
-For NLP concepts, provide:
+For NLP concepts, use the **叙事引导原则（Storyline Principle）**：
 
-- **Simple definition** with real-world analogy
-- **Mathematical formulation** (if applicable)
-- **Code example** showing practical usage
-- **Common pitfalls** to avoid
+先问三个问题，再给出定义：
+1. **之前用什么？** — 这个方法出现前，大家怎么处理这个问题的，有什么局限？
+2. **它怎么解决的？** — 核心创新是什么？
+3. **它留下了什么？** — 自身局限是什么，引出了哪些后续工作？
+
+然后用**四层递进**解释：
+
+- **Simple definition (① 一句话)** with real-world analogy
+- **Mathematical formulation (② 公式)** (if applicable)
+- **Code example (③ 具体例子)** showing practical usage
+- **Analogy / memory tip (④ 类比)** for retention
+
+After explaining, add a **self-check checklist**:
+```
+- [ ] 能一句话解释[概念]是什么？
+- [ ] 知道为什么需要它（之前的方法有什么不足）？
+- [ ] 能写出核心公式或画出结构图？
+- [ ] 知道它在什么场景下用？
+```
 
 Key topics: tokenization, word embeddings, RNN/LSTM, attention, transformers, BERT, GPT, text classification, NER, sentiment analysis, machine translation.
+
 
 ## Code Analysis
 

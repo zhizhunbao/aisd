@@ -36,7 +36,7 @@ resources/
 
 ## Concept Entry Format
 
-Every concept entry follows this fixed structure:
+Every concept entry follows this fixed structure (四层递进 + 因果起源):
 
 ```markdown
 ---
@@ -45,18 +45,27 @@ Every concept entry follows this fixed structure:
 
 **Tags:** `#domain` `#subdomain` `#course-week`
 
-**📌 Definition (定义):**
+**📌 Definition (定义) — ① 一句话:**
 > One-line English definition — precise and self-contained.
 >> 中文一句话定义 — 精确且自包含。
 
-**📜 History (历史背景):**
-> Who introduced it, when, and why it mattered.
-> Key paper or milestone (if applicable).
->> 谁提出的，什么时候，为什么重要。
+**⚙️ Principle (原理) — ② 公式/机制:**
+> The core formula or mechanism (if applicable).
+>> 核心公式或机制（如有）。
 
-**💡 Analogy (类比):**
+**🔢 Example (例子) — ③ 具体案例:**
+> A concrete example from course materials or real-world use.
+>> 来自课程或现实的具体例子。
+
+**💡 Analogy (类比) — ④ 记忆技巧:**
 > Real-world analogy — make it concrete and memorable.
 >> 现实世界类比 — 具体且易记。
+
+**📜 Causal Origin (为什么出现):**
+> What problem existed BEFORE this concept? What limitation triggered its invention?
+> Who introduced it, when, and why it mattered. Key paper or milestone (if applicable).
+>> 在这个概念出现之前，大家遇到了什么问题？是什么局限促使了它的发明？
+>> 谁提出的，什么时候，为什么重要。
 
 **🔗 Related Concepts (关联概念):**
 > → see: [Related Concept 1] — how they relate
@@ -73,6 +82,7 @@ Every concept entry follows this fixed structure:
 > - [Course] Week N: context of use
 > - [Course] Week M: another context
 ```
+
 
 ## Rules
 
