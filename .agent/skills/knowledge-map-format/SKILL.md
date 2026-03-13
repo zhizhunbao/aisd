@@ -14,14 +14,18 @@ description: "知识地图文件格式模板与质量规范。Make sure to use t
 
 知识地图的所有内容必须来自可信赖、可验证的来源。这确保知识库的长期可靠性。
 
-### 允许的来源（白名单）
+### 允许的来源（白名单）及**引用优先级**
 
-| 来源类型           | 具体来源                                  |
-| ------------------ | ----------------------------------------- |
-| 📚 教科书          | 出版教材 PDF（引用具体章节）              |
-| 📖 学术论文        | arXiv, ACM, IEEE, NeurIPS, ICML 等        |
-| 📖 官方文档        | scikit-learn docs, PyTorch docs, RFC…     |
-| 💻 开源代码仓库    | GitHub: sklearn, numpy…                  |
+> ⚠️ **引用必须按优先级从高到低选择最权威的来源。低优先级来源只在更高级来源不可用时使用。**
+
+| 优先级 | 来源类型 | 具体来源 | 说明 |
+|-------|---------|---------|------|
+| 🥇 **P1 最高** | 📖 学术原始论文 | arXiv, ACM, IEEE, NeurIPS, ICML, JMLR 等 | 第一手知识来源，最权威 |
+| 🥈 **P2** | 📚 出版教科书 | 教材 PDF（引用具体章节+方程编号）| 系统整理，有同行评审 |
+| 🥉 **P3** | 📖 官方文档 | scikit-learn docs, PyTorch docs, RFC, W3C… | 实现权威，但非算法权威 |
+| 🔵 **P4 最低** | 💻 开源代码仓库 | GitHub: sklearn, numpy, huggingface… | 验证实现细节，补充文档 |
+
+**规则**：每个知识声明优先引用 P1 论文；论文未涵盖时引用 P2 教科书；P1+P2 均无时才用 P3/P4。`source_versions` frontmatter 中，论文应**排在教科书之前**。
 
 ### 严禁的来源（黑名单）
 
@@ -31,6 +35,23 @@ description: "知识地图文件格式模板与质量规范。Make sure to use t
 | 课程作业题 / 考试题        | 同上                                 |
 | 百度百科 / CSDN / 知乎博客 | 非同行评审，质量无保障               |
 | 自己写的生成内容           | 循环引证，无意义                     |
+
+---
+
+## ⛔ 重入检查点（会话截断/Checkpoint 重启时强制执行）
+
+> **这是防止格式错误的关键规则。上下文摘要信息不可信任，必须重新读取原始模板。**
+
+每次使用本 Skill **之前**，无论是新会话还是断点恢复，**必须**先调用：
+
+```
+view_file(.agent/skills/knowledge-map-format/references/dimension_templates.md)
+```
+
+**禁止**依赖记忆或摘要中对模板结构的描述，因为：
+- 章节计数（Map=8章、Concepts=4章、Math=5章 等）很容易在压缩摘要中丢失
+- 核心属性、故事线格式、Frontmatter 裸 URL 等细节极易被遗漏
+- 跳过此步骤是导致格式不合规的**唯一根本原因**
 
 ---
 
@@ -87,25 +108,62 @@ status: current # current | needs_review | outdated
     npm run build
     ```
 
-### R4. ❌/✅ 对比格式（含代码块）
+### R4. ❌/✅ 对比格式（Pitfalls 维度专用）
 
-❌/✅ 标记后接**语言标注的代码块**（给语法高亮）：
+**在实际生成的 `.md` 文件中，❌/✅ 后面必须用语言标注的代码块（有语法高亮）：**
 
+````markdown
+❌ 错误写法 — 原因说明（一句话）
+
+```python
+# 错误的代码
+bad_code()
+```
+
+✅ 正确写法 — 原因说明（一句话）
+
+```python
+# 正确的代码
+good_code()
+```
 ````
-❌ 错误做法 — 原因说明
 
-    ```python
-    错误的代码
-    ```
+> ⚠️ **注意区分**：
+> - 在**生成的 `.md` 文件正文**中：直接写 ` ```python ` 代码块，不需要缩进
+> - 在**本 skill 文档内部嵌套展示**时（如上方示例）：才需要 4 空格缩进来避免渲染崩坏（R3）
+> - ❌ **禁止**在实际 pitfalls 文件里用 4 空格缩进代替代码块——缺少语法高亮，体验差
 
-✅ 正确做法 — 原因说明
+### R4b. Pitfalls 维度结构规范
 
-    ```python
-    正确的代码
-    ```
+每个"坑"的结构严格固定（**加粗关键字 + 同行内容**，不用三级标题）：
+
+````markdown
+## 坑 N: {标题}
+
+**场景：** 描述
+
+**症状：** 用户看到的现象（如 `错误信息`）
+
+**根因：** 为什么
+
+**解法：**
+
+❌ 错误写法 — 原因
+
+```python
+# 错误代码
+```
+
+✅ 正确写法 — 原因
+
+```python
+# 正确代码
+```
+
+**教训：** 一句话总结
+
+> 📖 来源引证
 ````
-
-> ⚠️ 注意代码块嵌套规则（R3）：上面示例里的内层 ` ```python ` 用 4 空格缩进仅在**文档本身内嵌于另一个代码块时**才需要。在普通 .md 文件正文中，直接写 ` ```python ` 即可，无需缩进。
 
 ### R5. 易混淆标注（Concepts 维度专用）
 
@@ -154,7 +212,7 @@ status: current # current | needs_review | outdated
 
 📖 **唯一格式来源：** [references/dimension_templates.md](references/dimension_templates.md)
 
-该文件包含 **DIM-1 (Map) 到 DIM-8 (Bridge)** 的完整固定模板，基于 `knowledge-map/deep-learning/cnn/` 的实际格式写死。每个维度模板包括：
+该文件包含 **DIM-1 (Map) 到 DIM-9 (First Principles)** 的完整固定模板，基于 `knowledge-map/deep-learning/cnn/` 的实际格式写死。每个维度模板包括：
 
 - 完整 frontmatter 示例
 - 固定章节结构（章节名、顺序、数量不可改）
@@ -171,6 +229,7 @@ status: current # current | needs_review | outdated
 | 6   | Pitfalls | 坑 + 调试清单                 |
 | 7   | History  | 序幕 + N章 + 全局回顾         |
 | 8   | Bridge   | 6 章                          |
+| 9   | First Principles | 5 章                  |
 
 ### 各维度固定章节概览
 
@@ -184,6 +243,7 @@ status: current # current | needs_review | outdated
 | 6   | Pitfalls | 坑(场景/症状/根因/解法/教训) + 调试清单                                  |
 | 7   | History  | 🎬序幕 → 📚第N章(发生了什么/为什么重要/但还有问题+🔑转折) → 🗺️全局回顾  |
 | 8   | Bridge   | ←/→导航表 → 上游依赖 → 下游影响 → 概念演变 → 📚扩展阅读 → 知识库关联   |
+| 9   | First Principles | 核心问题链(5Why) → 公理与假设(陈述/白话/来源/可验证性) → 推导链(公理→技术) → 如果公理不成立 → 速查表 |
 
 > 📖 See [references/dimension_templates.md](references/dimension_templates.md) for complete templates of all dimensions (based on CNN actual format).
 

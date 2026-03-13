@@ -51,6 +51,40 @@ Phase 5   收尾: 回填 Map + 缺口检查 + 新鲜度
 
 ---
 
+## 🚦 Pre-Flight 检查（每次启动工作流的第一步，不可跳过）
+
+> ⛔ **无论是新会话还是中断恢复，都必须先执行以下步骤，否则不允许写任何文件。**
+
+### 必须执行的 view_file 调用
+
+```
+// 步骤 A：读取完整维度模板（不可省略）
+view_file(.agent/skills/knowledge-map-format/references/dimension_templates.md)
+
+// 步骤 B：读取 SKILL.md 来源规则
+view_file(.agent/skills/knowledge-map-format/SKILL.md)
+```
+
+### Pre-Flight 通过条件（必须在开始写文件之前确认）
+
+- [ ] 已 `view_file` 读取 `dimension_templates.md` 全文
+- [ ] 已确认 DIM-1 Map: 固定 **8 章**，章节编号格式 `## 1. 核心问题`
+- [ ] 已确认 DIM-2 Concepts: 固定 **4 章**（含 **核心属性** = 信息架构 + 适用/不适用场景）
+- [ ] 已确认 DIM-3 Math: 固定 **5 章**（含符号对照表 + 手算练习）
+- [ ] 已确认 DIM-4 Tutorial: 固定 **6 Section + 参考来源表**
+- [ ] 已确认 DIM-5 Code: 固定 **4 章**（含中英双语注释 + `# ====` 分隔符）
+- [ ] 已确认 DIM-6 Pitfalls: **加粗关键词** + ❌/✅ 缩进代码 + 调试清单
+- [ ] 已确认 DIM-7 History: **故事线叙事**（🎬序幕 + 📚第N章 + 🔑转折 + 🗺️全局回顾）
+- [ ] 已确认 DIM-8 Bridge: 固定 **6 章**（含 ← 前置/→ 后续 + 概念演变追踪）
+- [ ] 已确认 `source_versions` Frontmatter 用**裸 URL**（不是 Markdown 链接）
+
+### 中断恢复专项规则
+
+> 若会话被截断（Checkpoint 重启），摘要信息**不可信任**，必须重新读取模板。
+> 直接跳过 Pre-Flight 是上一次出错的根本原因。
+
+---
+
 ## 🚨 来源白名单（最高优先级规则）
 
 > **所有生成内容的来源严格限定为以下四类**，缺少时标注 `⚠️ 来源不足` 并等待用户选择，**绝不**用老师课件代替。
@@ -108,9 +142,18 @@ Phase 5   收尾: 回填 Map + 缺口检查 + 新鲜度
 
 **Skill**: `knowledge-map-format` (DIM-1)
 
-1. Follow `knowledge-map-format` skill 的 Map 模板
-2. 写: 核心问题 + 全景位置 + 依赖地图
-3. 文件地图和缺口检查留到 Phase 5 回填
+> ✅ 前提：Pre-Flight 已通过，dimension_templates.md 已读取
+
+1. 对照 DIM-1 模板（**固定 8 章**）逐章生成：
+   - `## 1. 核心问题`（3-5 个问题，每行末尾 → 答案）
+   - `## 2. 全景位置`（ASCII 树，标注 `【你在这里】`）
+   - `## 3. 依赖地图`（ASCII box-drawing 三栏图）
+   - `## 4. 文件地图`（表格，文件名用 Markdown 链接）
+   - `## 5. 学习/使用路线`（三小节：初学/日常/深度）
+   - `## 6. 缺口检查`（✅/⬜/~~删除线~~）
+   - `## 7. 新鲜度状态`（含 expiry + status）
+   - `## 8. 参考来源表`（汇总所有 8 维度引用）
+2. 每章结尾有 `> 📖/📚` 引证块
 
 **输出**: `{output_dir}/{topic}/{topic}_map.md`
 
