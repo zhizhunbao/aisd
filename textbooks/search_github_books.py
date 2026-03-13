@@ -93,6 +93,14 @@ WANTED_BOOKS = [
         "official_url": "https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf",
         "existing_files": ["shalev-shwartz_uml.pdf"],
     },
+    {
+        "keywords": ["deep learning with pytorch", "eli stevens"],
+        "filename": "stevens_deep_learning_with_pytorch.pdf",
+        "category": "ml",
+        "desc": "Deep Learning with PyTorch — PyTorch 实战圣经 (Stevens, Antiga, Viehmann)",
+        "official_url": "https://isip.piconepress.com/courses/temple/ece_4822/resources/books/Deep-Learning-with-PyTorch.pdf",
+        "existing_files": ["stevens_deep_learning_with_pytorch.pdf"],
+    },
     # ==================== Math ====================
     {
         "keywords": ["mathematics machine learning"],

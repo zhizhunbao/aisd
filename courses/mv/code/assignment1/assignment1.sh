@@ -14,7 +14,7 @@
 set -e
 
 WORK_DIR="$HOME/mv_assignment1"
-WIN_PROJECT="/mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/mv/code/assignment1"
+WIN_PROJECT="/mnt/c/Users/40270/Desktop/workspace/aisd/courses/mv/code/assignment1"
 CONDA_ENV="openmmlab"
 
 show_usage() {
