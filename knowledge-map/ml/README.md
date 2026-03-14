@@ -11,6 +11,8 @@
 | [KNN](knn/) | ✅ 9/9 维度完整 | 2026-03-13 | K 近邻，非参数化分类/回归 |
 | [ISF](isf/) | ✅ 9/9 维度完整 | 2026-03-13 | Isolation Forest，基于随机分割的异常检测 |
 | [Naive Bayes](naive_bayes/) | ✅ 9/9 维度完整 | 2026-03-13 | 朴素贝叶斯，生成式概率分类器 |
+| [Logistic Regression](logistic_regression/) | ✅ 9/9 维度完整 | 2026-03-14 | 逻辑回归，判别式线性分类器，GLM 成员 |
+| [Decision Tree](decision_tree/) | ✅ 9/9 维度完整 | 2026-03-14 | 决策树 (CART)，非参数可解释模型，集成方法基石 |
 
 ## 添加新主题
 
