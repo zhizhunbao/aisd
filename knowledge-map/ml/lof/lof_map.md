@@ -82,6 +82,7 @@ status: current
 | [lof_pitfalls.md](lof_pitfalls.md) | ⑥ 踩坑 | 调试 LOF 异常结果 |
 | [lof_history.md](lof_history.md) | ⑦ 历史 | 了解密度异常检测演进 |
 | [lof_bridge.md](lof_bridge.md) | ⑧ 衔接 | 找相关主题、扩展阅读 |
+| [lof_first_principles.md](lof_first_principles.md) | ⑨ 第一性原理 | 理解 LOF 为什么必须是这样？割裂公理搜索边界 |
 
 > 📖 Paper: Breunig et al., [LOF](../../../.documents/papers/lof/breunig_2000_lof.pdf)
 
@@ -119,11 +120,12 @@ status: current
 | Map | ✅ 已完成 |
 | Concepts | ✅ 已完成 |
 | Math | ✅ 已完成 |
-| Tutorial | ✅ 已完成 |
-| Code | ✅ 已完成 |
-| Pitfalls | ✅ 已完成 |
-| History | ✅ 已完成 |
-| Bridge | ✅ 已完成 |
+| Tutorial | ✅ 已完成 2026-03-13 |
+| Code | ✅ 已完成 2026-03-13 |
+| Pitfalls | ✅ 已完成 2026-03-13 |
+| History | ✅ 已完成 2026-03-13 |
+| Bridge | ✅ 已完成 2026-03-13 |
+| First Principles | ✅ 已完成 2026-03-13 |
 
 ---
 
@@ -145,8 +147,10 @@ status: current
 ## 8. 参考来源表
 
 | 来源 | 类型 | 使用位置 |
-|------|------|---------| 
-| [Breunig et al. SIGMOD 2000](../../../.documents/papers/lof/breunig_2000_lof.pdf) | 📖 论文 | 全文核心算法定义 |
-| [Ortner et al. 2017 局部投影](../../../.documents/papers/lof/ortner_2017_local_projections.pdf) | 📖 论文 | Bridge — 高维扩展 |
-| [scikit-learn LocalOutlierFactor Docs](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html) | 📖 文档 | Code / Pitfalls API 参考 |
-| [sklearn/_lof.py](../../../.github/scikit-learn/sklearn/neighbors/_lof.py) | 💻 源码 | Code 实现细节 |
+|------|------|---------|
+| [Breunig et al. SIGMOD 2000](../../../.documents/papers/lof/breunig_2000_lof.pdf) | 📖 论文 | 全文核心：Map/Concepts/Math/Tutorial/History |
+| [scikit-learn LocalOutlierFactor Docs](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html) | 📖 文档 | Code API 速查、Pitfalls 参数说明、Bridge 扩展阅读 |
+| [sklearn/_lof.py](../../../.github/scikit-learn/sklearn/neighbors/_lof.py) | 💻 源码 | Code 示例、Pitfalls 根因分析（lines 232/312/521） |
+| [plot_lof_outlier_detection.py](../../../.github/scikit-learn/examples/neighbors/plot_lof_outlier_detection.py) | 💻 源码 | Code 示例 1（多密度簇可视化） |
+| [plot_lof_novelty_detection.py](../../../.github/scikit-learn/examples/neighbors/plot_lof_novelty_detection.py) | 💻 源码 | Code 示例 2（Novelty Detection） |
+| [scikit-learn Outlier Detection Overview](https://scikit-learn.org/stable/modules/outlier_detection.html) | 📖 文档 | Tutorial Section 4（方案对比）、Bridge 横向对比 |

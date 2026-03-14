@@ -251,7 +251,34 @@ good_code()
 
 ## 论文下载工具
 
-> 有 Paper 来源时，**必须先下载到本地** `.documents/papers/{topic}/`，再用 `file:///` 路径引用。
+> 有 Paper 来源时，**优先下载到本地** `.documents/papers/{topic}/`，再用 `file:///` 路径引用。
+> ⚠️ **下载失败时不阻塞生成流程**——见下方「下载失败处理规则」。
+
+### 🥇 首选：arXiv 直接下载（无需 API Key，无限速）
+
+```bash
+# 知道 arXiv ID 时，直接用 --url 模式，完全免费，不经过 Semantic Scholar
+python .agent/skills/knowledge-map-format/scripts/download_papers.py \
+    --url "https://arxiv.org/abs/1410.5329" --topic naive_bayes \
+    --filename raschka_2014_naive_bayes.pdf
+```
+
+### 🥈 次选：Semantic Scholar 关键词搜索（仅在不知道 arXiv ID 时使用）
+
+> ⚠️ **--search 模式会调用 Semantic Scholar API，匿名状态下容易触发 429 限速。**
+> 优先用 arXiv 搜索（arxiv.org）找到 ID 后，再用 --url 直接下载。
+
+```bash
+# 带 API Key 时（推荐先申请：https://www.semanticscholar.org/product/api#api-key）
+python .agent/skills/knowledge-map-format/scripts/download_papers.py \
+    --search "DBSCAN density based clustering" --topic dbscan \
+    --api-key YOUR_KEY
+
+# 或设置环境变量后省略 --api-key 参数
+set S2_API_KEY=YOUR_KEY
+python .agent/skills/knowledge-map-format/scripts/download_papers.py \
+    --search "DBSCAN" --topic dbscan
+```
 
 **推荐平台（均免费）：**
 
@@ -275,4 +302,53 @@ python .agent/skills/knowledge-map-format/scripts/download_papers.py \
 # 3. 从已有知识地图批量下载
 python .agent/skills/knowledge-map-format/scripts/download_papers.py \
     --from-km knowledge-map/ml/dbscan/dbscan_map.md
+```
+
+---
+
+## 📋 下载失败处理规则（必须遵守）
+
+> **论文无法自动下载（无 open access、网络错误、脚本交互卡住等）时，不允许阻塞知识地图生成。**
+
+### 处理步骤
+
+1. **继续生成**：不等待、不暂停，立即继续当前维度文件的生成
+2. **标注占位符**：在 `source_versions` frontmatter 和正文引证中，将该论文标注为：
+
+   ```yaml
+   - "📖 Paper: 作者, '论文标题', 刊物 年份 — ⚠️ 待下载 见 papers_index.md"
+   ```
+
+3. **写入 papers_index.md**：在知识地图目录下创建/追加 `papers_index.md`，记录该论文的完整信息：
+
+   | 字段 | 内容 |
+   |------|------|
+   | 标题 | 完整论文标题 |
+   | 作者 | 第一作者 et al. |
+   | 年份 | 发表年份 |
+   | 刊物 | 期刊/会议全名 + 卷期页 |
+   | 重要性 | ⭐ 数量（1-5）+ 说明 |
+   | 状态 | ⚠️ 待下载 |
+   | 手动搜索链接 | IEEE Xplore / ACM DL / arXiv / Semantic Scholar 链接 |
+
+4. **下载后更新**：用户手动下载后，将 `papers_index.md` 中的状态改为 `✅ 已下载`，并将各维度文件中的占位符替换为 `file:///` 绝对路径
+
+### papers_index.md 格式模板
+
+```markdown
+# {Topic} 论文索引 / Papers Index
+
+> ⚠️ 无法自动下载的重要论文。手动下载后放入 `.documents/papers/{topic}/`，并更新此文件的状态。
+
+## 待下载论文
+
+| # | 论文 | 作者 | 年份 | 刊物 | 重要性 | 状态 | 手动搜索链接 |
+|---|------|------|------|------|--------|------|------------|
+| 1 | 论文标题 | 作者 | 年份 | 刊物 卷(期):页 | ⭐⭐⭐⭐⭐ 说明 | ⚠️ 待下载 | [平台名](URL) |
+
+## 手动下载说明
+
+下载后放入：.documents/papers/{topic}/
+命名格式：第一作者_年份_关键词.pdf
+下载后更新状态为 ✅ 已下载，并替换各维度文件中的占位符
 ```

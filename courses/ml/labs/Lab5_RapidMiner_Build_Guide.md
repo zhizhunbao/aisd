@@ -22,16 +22,23 @@
 
 ## Task 1: Clustering & Outlier Detection
 
-### Final Process Flow
+### Final Process Flow (Subprocess Architecture)
 
-```
-Read CSV ──► Generate ID ──► Multiply ──────────────────────────────────────────► Join ──► Select Attributes ──► DBSCAN ──► Join ──► Select Attributes
-                                │                                                    ▲                                       ▲
-                                └──► Select Attributes ──► Normalize ──► Nominal to Numerical ──► Detect Outlier (SVM) ──┘
-                                                                                                                   [outlier score/flag]
+The process uses **subprocess operators** to organize the pipeline into logical blocks:
+
+```mermaid
+flowchart LR
+    A["Retrieve EmployeesS..."] -- "out" --> B["DataPrep"]
+    B -- "out" --> C["PreparedData"]
+    C -- "out 1" --> D["1-ClassSVM"]
+    C -- "out 2" --> D
+    C -- "out 3" --> E["DBSCAN"]
+    C -- "out 4" --> E
+    D -- "out" --> R1["res"]
+    E -- "out" --> R2["res"]
 ```
 
-> **Simplified version**: You can also run outlier detection first, then DBSCAN as two sequential steps on the same preprocessed data, joined back to original each time.
+> The process is built as **one RMP file**. All steps are done in RapidMiner using subprocess operators.
 
 ---
 
@@ -47,253 +54,257 @@ Read CSV ──► Generate ID ──► Multiply ──────────
 
 ---
 
-#### STEP 1 — Read CSV (Load EmployeesSalary)
+#### STEP 1 — Retrieve EmployeesSalary
 
-| Field | Value |
-|-------|-------|
-| Operator | **Read CSV** |
-| Location | `Import > Read CSV` (or search "Read CSV" in operator panel) |
+拖拽 **Retrieve**（`Repository > Retrieve`）到画布，`repository entry` 选择 `/data/EmployeesSalary`。
 
-**How to configure:**
-1. Drag **Read CSV** onto the canvas
-2. In the Parameters panel → click **Import Configuration Wizard**
-3. Navigate to and select `EmployeesSalary.csv`
-4. Set: Separator = `,`, First Row = Column Names = ✓
-5. Click **Next** through all steps → **Finish**
-6. Verify 9 columns detected: Id, first_name, last_name, email, Address, Country, Branch, Currency, Salary
+**操作步骤：**
 
-**Screenshot to take:** Parameters panel showing file path + the result tab showing 155 rows.
+1. 先用 Import Data 向导将 `EmployeesSalary.csv` 导入 Local Repository
+2. 拖拽 **Retrieve** 到画布，Parameters → 选择已存储的 EmployeesSalary 数据集
+3. 验证 9 列：Id, first_name, last_name, email, Address, Country, Branch, Currency, Salary
 
 ---
 
-#### STEP 2 — Generate ID (Add Row Number for Join)
+#### STEP 2 — DataPrep (Subprocess)
 
-| Field | Value |
-|-------|-------|
-| Operator | **Generate ID** |
-| Location | `Data Transformation > Generation > Generate ID` |
+拖拽 **Subprocess**（`Utility > Subprocess`）到画布，重命名为 `DataPrep`。
 
-**How to configure:**
-1. Drag **Generate ID** after Read CSV
-2. Connect: Read CSV `exa out` → Generate ID `exa in`
-3. Parameters: `id attribute name = row_id`, `create nominal id = false` (leave default)
+```mermaid
+flowchart LR
+    inp["inp"] --> GID["Generate ID"]
+    GID --> MUL["Multiply"]
+    MUL -- "out 1" --> SA["Select Attributes"]
+    SA --> NORM["Normalize"]
+    NORM --> N2N["Nominal to Numerical"]
+    N2N --> JOIN["Join<br>on row_id"]
+    MUL -- "out 2" --> REN["Rename<br>Salary→OrigSalary"]
+    REN --> JOIN
+    JOIN --> out["out<br>(合并大表)"]
+```
 
-> This adds a numeric `row_id` column so we can join the outlier results back to the original data later.
+**各算子参数详情：**
 
----
+**① Generate ID**
 
-#### STEP 3 — Multiply (Split into Two Branches)
+| 参数 Parameter       | 值 Value | 含义 Meaning                              |
+| -------------------- | -------- | ----------------------------------------- |
+| `create nominal ids` | false    | 生成数值类型的 `row_id` 列，用于后续 Join |
 
-| Field | Value |
-|-------|-------|
-| Operator | **Multiply** |
-| Location | `Utility > Multiply` |
+**② Multiply** — 输出 2 路：一路做预处理，一路保留原始数据
 
-**How to configure:**
-1. Drag **Multiply** after Generate ID
-2. Connect: Generate ID `exa out` → Multiply `exa in`
-3. Multiply has two output ports: `out1` and `out2`
-   - `out1` → goes to preprocessing pipeline (→ Step 4)
-   - `out2` → kept as original data (→ Step 8, the first Join)
+**③ Select Attributes**
 
----
+| 参数 Parameter          | 值 Value                                  | 含义 Meaning                                                     |
+| ----------------------- | ----------------------------------------- | ---------------------------------------------------------------- |
+| `attribute filter type` | subset                                    | 手动选择要保留的列                                               |
+| `attributes`            | `Country`, `Currency`, `Salary`, `row_id` | 保留特征列和 ID 列。去掉 Branch（与 Country 冗余）和其他非特征列 |
 
-#### STEP 4 — Select Attributes (Remove Non-Feature Columns)
+**④ Normalize**
 
-| Field | Value |
-|-------|-------|
-| Operator | **Select Attributes** |
-| Location | `Data Transformation > Attribute Set Reduction > Select Attributes` |
+| 参数 Parameter          | 值 Value         | 含义 Meaning                               |
+| ----------------------- | ---------------- | ------------------------------------------ |
+| `method`                | Z-transformation | 标准化：(x - μ) / σ                        |
+| `attribute filter type` | subset           | 仅对 `Salary` 做标准化（唯一的连续数值列） |
 
-**How to configure:**
-1. Drag **Select Attributes** after Multiply `out1`
-2. Connect: Multiply `out1` → Select Attributes `exa in`
-3. Parameters:
-   - `attribute filter type` = **Subset**
-   - Click **Select Attributes...** button
-   - **Keep** (select these): `Country`, `Branch`, `Currency`, `Salary`, `row_id`
-   - **Remove** (deselect): `Id`, `first_name`, `last_name`, `email`, `Address`
-4. Click OK
+**⑤ Nominal to Numerical**
 
-> Keep `row_id` so we can join later. Keep `Salary` as the numerical feature (will be scaled).
+| 参数 Parameter          | 值 Value     | 含义 Meaning                      |
+| ----------------------- | ------------ | --------------------------------- |
+| `coding type`           | dummy coding | One-Hot 编码                      |
+| `attribute filter type` | subset       | 对 `Country` 和 `Currency` 做编码 |
 
----
+**⑥ Rename**（放在原始数据路径上，Multiply out 2 → Rename → Join right）
 
-#### STEP 5 — Normalize (Z-Score Scaling for Numerical Columns)
+| 参数 Parameter | 值 Value     | 含义 Meaning                                      |
+| -------------- | ------------ | ------------------------------------------------- |
+| `old name`     | `Salary`     | 原始 Salary 列                                    |
+| `new name`     | `OrigSalary` | 重命名为 OrigSalary，避免与标准化后的 Salary 冲突 |
 
-| Field | Value |
-|-------|-------|
-| Operator | **Normalize** |
-| Location | `Data Transformation > Normalization > Normalize` |
+**⑦ Join**
 
-**How to configure:**
-1. Drag **Normalize** after Select Attributes
-2. Connect: Select Attributes `exa out` → Normalize `exa in`
-3. Parameters:
-   - `method` = **Z-transformation**
-   - `attribute filter type` = **Subset** → select `Branch` and `Salary` only
-   - Do NOT normalize `Country`, `Currency`, or `row_id`
+| 参数 Parameter   | 值 Value       | 含义 Meaning               |
+| ---------------- | -------------- | -------------------------- |
+| `join type`      | **Inner Join** | 将预处理结果与原始数据合并 |
+| `key attributes` | `row_id`       | 用 row_id 作为连接键       |
 
-> Normalization applies to continuous numerical features only. Categorical columns will be handled in the next step.
+> 输出一张大表：原始列（id, first_name, last_name, email, Address, Country, Branch, Currency, **OrigSalary**）+ 预处理列（标准化 Salary、编码后的特征）
 
 ---
 
-#### STEP 6 — Nominal to Numerical (One-Hot Encode Categorical Columns)
+#### STEP 3 — PreparedData (Multiply)
 
-| Field | Value |
-|-------|-------|
-| Operator | **Nominal to Numerical** |
-| Location | `Data Transformation > Type Conversion > Nominal to Numerical` |
+拖拽 **Multiply**（`Utility > Multiply`）到画布，重命名为 `PreparedData`。
 
-**How to configure:**
-1. Drag **Nominal to Numerical** after Normalize
-2. Connect: Normalize `exa out` → Nominal to Numerical `exa in`
-3. Parameters:
-   - `attribute filter type` = **Subset** → select `Country` and `Currency` only
-   - `coding type` = **Dummy Coding** (= one-hot encoding, N-1 binary columns per nominal attribute)
-
-> After this step, Country and Currency become binary indicator columns (e.g., Country_Canada, Country_Germany, etc.)
+- 接收 DataPrep 输出的合并大表
+- 右键算子 → 添加 output 端口至 **5 个**，分别连接到 1-ClassSVM（2 个）和 DBSCAN（2 个）的输入端口
 
 ---
 
-#### STEP 7 — Detect Outlier (Support Vectors) — One-Class SVM
+#### STEP 4 — 1-ClassSVM (Subprocess)
 
-| Field | Value |
-|-------|-------|
-| Operator | **Detect Outlier (Support Vectors)** |
-| Location | `Anomaly Detection > Detect Outlier (Support Vectors)` (requires extension) |
+拖拽 **Subprocess**（`Utility > Subprocess`）到画布，重命名为 `1-ClassSVM`。
 
-**How to configure:**
-1. Drag **Detect Outlier (Support Vectors)** after Nominal to Numerical
-2. Connect: Nominal to Numerical `exa out` → Detect Outlier `exa in`
-3. Parameters:
+```mermaid
+flowchart LR
+    inp1["inp 1"] --> OC["One-Class LIBSVM<br>Anomaly Score"]
+    OC -- "exa" --> GA["Generate Attributes<br>outlier_flag"]
+    GA --> JOIN["Join<br>on row_id"]
+    inp2["inp 2"] --> JOIN
+    JOIN --> SEL["Select Attributes"]
+    SEL --> out["out"]
+```
 
-| Parameter | Value | Notes |
-|-----------|-------|-------|
-| kernel | **Radial** (= RBF) | Captures non-linear structure |
-| outlier fraction | **0.05** | Expect ~5% of data to be outliers |
-| output label | true | Adds `outlier` boolean attribute |
+**各算子参数详情：**
 
-4. Connect: Detect Outlier `exa out` → Join (Step 8, left port)
+**① One-Class LIBSVM Anomaly Score**
 
-> The operator adds an `outlier` attribute (true/false) and `anomaly_score` to each instance.
+| 参数 Parameter           | 值 Value      | 含义 Meaning           |
+| ------------------------ | ------------- | ---------------------- |
+| `svm type`               | **one-class** | 单类 SVM 模式（默认）  |
+| `svm kernel type`        | **rbf**       | 径向基核函数           |
+| `automatic gamma tuning` | ✅ checked    | 自动调整 gamma 参数    |
+| `nu`                     | **0.5**       | 异常值比例上限（默认） |
+| `epsilon`                | 0.001         | 收敛精度（默认）       |
+| `shrinking`              | ✅ checked    | 启用收缩加速（默认）   |
 
-**Screenshot to take:** Operator parameters panel. Show kernel = Radial, outlier fraction = 0.05.
+> 位置：`Extensions > AnomalyDetection`。无需 label。
 
----
+**② Generate Attributes**
 
-#### STEP 8 — Join (Outlier Results + Original Data)
+| 参数 Parameter         | 值 Value                             | 含义 Meaning                                 |
+| ---------------------- | ------------------------------------ | -------------------------------------------- |
+| `attribute name`       | **outlier_flag**                     | 新建一个布尔标志列                           |
+| `function expressions` | `if(outlier > 1.5, "true", "false")` | 分数越高越异常，正常值 ~1.0，>1.5 标记为异常 |
 
-| Field | Value |
-|-------|-------|
-| Operator | **Join** |
-| Location | `Data Transformation > Join > Join` |
+**③ Join**
 
-**How to configure:**
-1. Drag **Join** onto canvas
-2. Connect:
-   - Detect Outlier `exa out` → Join `left` port
-   - Multiply `out2` (original data) → Join `right` port
-3. Parameters:
-   - `join type` = **Inner Join**
-   - `key attributes` = `row_id` (select same attribute from both sides)
-   - Check: remove key attributes from result = no (keep row_id)
+| 参数 Parameter   | 值 Value       | 含义 Meaning                     |
+| ---------------- | -------------- | -------------------------------- |
+| `join type`      | **Inner Join** | 将检测结果与大表合并，恢复原始列 |
+| `key attributes` | `row_id`       | 用 row_id 作为连接键             |
 
----
+**④ Select Attributes**
 
-#### STEP 9 — Select Attributes (Keep Original Columns + Outlier Info)
+| 参数 Parameter          | 值 Value                                                                                                                      | 含义 Meaning      |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `attribute filter type` | subset                                                                                                                        | 保留最终展示列    |
+| `attributes`            | `id`, `outlier`, `outlier_flag`, `first_name`, `last_name`, `email`, `Address`, `Country`, `Branch`, `Currency`, `OrigSalary` | 原始列 + 异常值列 |
 
-| Field | Value |
-|-------|-------|
-| Operator | **Select Attributes** |
-| Location | Same as Step 4 |
+**输出结果表格式：**
 
-**How to configure:**
-1. Drag **Select Attributes** after Step 8 Join
-2. Connect: Join `joi out` → Select Attributes `exa in`
-3. Parameters: Keep only:
-   - `Id` (original employee columns)
-   - `first_name`, `last_name`
-   - `Country`, `Branch`, `Currency`, `Salary` (original, unscaled)
-   - `anomaly_score` (outlier score)
-   - `outlier` (boolean flag)
-   - Remove duplicate columns from the join (e.g., `_right` suffixed columns if any)
+| Row No. | id  | outlier | outlier_flag ↓ | first_name | last_name | email | Address | Country | Branch | Currency | OrigSalary |
+| ------- | --- | ------- | -------------- | ---------- | --------- | ----- | ------- | ------- | ------ | -------- | ---------- |
 
-**Screenshot to take:** The result table filtered to show only outlier = true rows. Use **Filter** in the results view: click the filter icon, set `outlier = true`.
+> 截图时过滤只显示 `outlier_flag = true` 的行。
 
-This is the **Step 3 screenshot** required by the lab (outlier instances with all employee info + score + flag).
+![1773454924068](image/Lab5_RapidMiner_Build_Guide/1773454924068.png)
 
 ---
 
-#### STEP 10 — DBSCAN Clustering
+#### STEP 5 — DBSCAN (Subprocess)
 
-| Field | Value |
-|-------|-------|
-| Operator | **DBSCAN** |
-| Location | `Modeling > Segmentation > DBSCAN` |
+拖拽 **Subprocess**（`Utility > Subprocess`）到画布，重命名为 `DBSCAN`。
 
-**How to configure:**
-1. Drag **DBSCAN** onto canvas
-2. Connect: Nominal to Numerical `exa out` (same preprocessed data) → DBSCAN `exa in`
-   - OR: Add another **Multiply** at the preprocessing output to reuse it
-3. Parameters:
+```mermaid
+flowchart LR
+    inp1["inp 1"] --> SA1["Select Attributes<br>(仅数值列)"]
+    SA1 --> DBS["DBSCAN<br>eps=1.0, min=10"]
+    DBS --> JOIN["Join<br>on row_id"]
+    inp2["inp 2"] --> JOIN
+    JOIN --> SA2["Select Attributes<br>(输出列)"]
+    SA2 --> out["out"]
+```
 
-| Parameter | Value | Notes |
-|-----------|-------|-------|
-| epsilon | **1.5** | Neighborhood radius |
-| min_points | **5** | Minimum neighbors for core point |
-| measure_types | **Mixed Measures** or **Numerical Measures** | Select appropriate |
-| numerical_measure | **Euclidean Distance** | Standard distance |
+**各算子参数详情：**
 
-4. DBSCAN has two output ports:
-   - `clu out` (cluster model) → connect to Result port for **cluster model visualization screenshot**
-   - `exa out` (data with cluster label) → connect to Join (Step 11)
+**① Select Attributes**（过滤出数值列，DBSCAN 不接受名义型）
 
-**Screenshot to take:** The cluster model output — this is the **Step 4 screenshot** (DBSCAN model visualization).
+| 参数 Parameter          | 值 Value                                                                                                                                                                                                        | 含义 Meaning                              |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `attribute filter type` | subset                                                                                                                                                                                                          | 只保留预处理后的数值列                    |
+| `attributes`            | `Salary`, `Country = China`, `Country = Germany`, `Country = Japan`, `Country = Mexico`, `Country = U.S.A.`, `Currency = CHY`, `Currency = EUR`, `Currency = INR`, `Currency = MXD`, `Currency = USD`, `row_id` | 标准化的 Salary + one-hot 编码列 + row_id |
 
----
+> 注：one-hot 列名格式为 `列名 = 值`，具体列名以实际输出为准。
 
-#### STEP 11 — Join (Cluster Results + Original Data)
+**② DBSCAN**
 
-Same as Step 8. Join the DBSCAN output (with cluster label) back to original data on `row_id`.
+| 参数 Parameter      | 值 Value               | 含义 Meaning                   |
+| ------------------- | ---------------------- | ------------------------------ |
+| `epsilon`           | **1.0**                | 邻域半径 ε（默认）             |
+| `minimal points`    | **10**                 | 核心点所需的最少邻居数（默认） |
+| `measure_types`     | Numerical Measures     | 距离度量类型                   |
+| `numerical_measure` | **Euclidean Distance** | 欧氏距离                       |
 
-**How to configure:** Same as Step 8 — join DBSCAN `exa out` with original data on `row_id`.
+**③ Join**
 
----
+| 参数 Parameter   | 值 Value       | 含义 Meaning                     |
+| ---------------- | -------------- | -------------------------------- |
+| `join type`      | **Inner Join** | 将聚类结果与大表合并，恢复原始列 |
+| `key attributes` | `row_id`       | 用 row_id 作为连接键             |
 
-#### STEP 12 — Select Attributes + Filter Noise
+**④ Select Attributes**（输出列）
 
-1. **Select Attributes**: Keep original employee columns + `cluster` attribute
-2. Connect result to output
+| 参数 Parameter          | 值 Value                                                                                                                          | 含义 Meaning                                            |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `attribute filter type` | subset                                                                                                                            | 保留最终展示列                                          |
+| `attributes`            | `id`, `score(cluster_0)`, `cluster`, `first_name`, `last_name`, `email`, `Address`, `Country`, `Branch`, `Currency`, `OrigSalary` | 聚类得分、聚类标签 + 原始列（score 列数取决于聚类结果） |
 
-**Screenshot to take:** Filter the result to show only `cluster = -1` (noise instances). Use the filter icon in results view. This is the **Step 5 screenshot** (noise instances).
+**输出结果表格式：**
 
----
+| Row No. | id  | score(cluster_0) | cluster ↑ | first_name | last_name | email | Address | Country | Branch | Currency | OrigSalary |
+| ------- | --- | ---------------- | --------- | ---------- | --------- | ----- | ------- | ------- | ------ | -------- | ---------- |
+
+> 注：score 列数量取决于 DBSCAN 找到的聚类数。默认参数下可能只有 1 个聚类（cluster_0）+ noise。
+
+> 截图时：① 截一张 DBSCAN 模型可视化；② 过滤 `cluster = noise` 显示噪声实例。
+
+![1773455774552](image/Lab5_RapidMiner_Build_Guide/1773455774552.png)
+
+![1773455664830](image/Lab5_RapidMiner_Build_Guide/1773455664830.png)
 
 ### Task 1 — Screenshots Checklist
 
-| # | Screenshot | What to Capture |
-|---|-----------|-----------------|
-| ✅ | `task1_00_process_overview.png` | Full canvas/process view |
-| ✅ | `task1_01_data_prep.png` | Preprocessing operators and settings |
-| ✅ | `task1_02_ocsvm_settings.png` | Detect Outlier parameters (kernel=Radial, nu=0.05) |
-| ✅ | `task1_02_ocsvm_scores.png` | Result view showing outlier score + flag columns |
-| ✅ | `task1_03_outlier_instances.png` | Result filtered to outlier=true, showing original columns + score + flag |
-| ✅ | `task1_04_dbscan_model.png` | DBSCAN cluster visualization model output |
-| ✅ | `task1_05_noise_instances.png` | Result filtered to cluster=-1 |
+| #   | Screenshot                       | What to Capture                                                                                                 |
+| --- | -------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| ✅  | `task1_00_process_overview.png`  | Full canvas showing all 5 subprocess operators                                                                  |
+| ✅  | `task1_01_data_prep.png`         | Inside DataPrep subprocess (preprocessing operators)                                                            |
+| ✅  | `task1_02_ocsvm_settings.png`    | Inside 1-ClassSVM subprocess, Detect Outlier parameters (kernel=Radial, nu=0.05)                                |
+| ✅  | `task1_03_outlier_instances.png` | Result: id, outlier, outlier_flag, first_name, last_name, email, Address, Country, Branch, Currency, OrigSalary |
+| ✅  | `task1_04_dbscan_model.png`      | DBSCAN cluster model visualization                                                                              |
+| ✅  | `task1_05_noise_instances.png`   | Result with score(cluster_0..3), cluster, plus original columns; filtered to noise                              |
 
 ---
 
 ## Task 2: Sampling and Stacking
 
-### Final Process Flow
+### Final Process Flow (Subprocess Architecture)
 
+Task 2 也使用 **subprocess operators** 组织流程：
+
+**Top-level（数据加载，单独运行一次）：**
+
+```mermaid
+flowchart LR
+    A["Read ARFF"] -- "out" --> B["Store"]
 ```
-Read ARFF ──► Store
-                └──► [new process] ──► Retrieve ──► Set Role ──► Normalize ──► Resample ──► Multiply ──► Split Data
-                                                                                                                ├── train ──► Multiply ──► [kNN, NB, SVM, LR] ──► Apply Model ──► Performance ──► Compare
-                                                                                                                │                └──► Stacking ──► Apply Model ──► Performance ──────────────────────────────┤
-                                                                                                                └── test ──► Multiply ──► [feed to all Apply Models above]
+
+**Main process（主流程）：**
+
+```mermaid
+flowchart LR
+    A["Retrieve Diabetes"] -- "out" --> B["DataPrep_Diabetes"]
+    B -- "out" --> C["Sample"]
+    C -- "exa" --> D["PreparedSample"]
+    D -- "out 1" --> E["Classifications"]
+    D -- "out 2" --> E
+    E -- "out 1" --> R1["res"]
+    E -- "out 2" --> R2["res"]
+    E -- "out 3" --> R3["res"]
+    E -- "out 4" --> R4["res"]
+    E -- "out 5" --> R5["res"]
+    E -- "out 6" --> R6["res"]
+    E -- "out 7" --> R7["res"]
 ```
 
 ---
@@ -309,297 +320,254 @@ Read ARFF ──► Store
 
 ---
 
-#### STEP 1 — Read ARFF
+#### STEP 1 — Read ARFF + Store
 
-| Field | Value |
-|-------|-------|
-| Operator | **Read ARFF** |
-| Location | `Import > Read ARFF` |
+1. 拖拽 **Read ARFF**（`Import > Read ARFF`）到画布，`data file` 选择 `C:\Program Files\Weka-3-8\data\diabetes.arff`
+2. 拖拽 **Store**（`Repository > Store`）到画布，`repository entry` 设为 `/data/diabetes`
+3. 连接：Read ARFF `out` → Store `inp`
+4. 运行 (Ctrl+R) 将数据存储到 Local Repository
 
-**How to configure:**
-1. Drag **Read ARFF** onto canvas
-2. Parameters → click folder icon next to `filename`
-3. Navigate to `diabetes.arff`
-   - Default Weka location: `C:\Program Files\Weka-3-8\data\diabetes.arff`
-   - Or wherever you saved it
-4. Run to preview: verify 768 rows, 9 columns, `class` column present
+> 运行后，diabetes 数据存储在 Local Repository，共 768 行 9 列。
 
 ---
 
-#### STEP 2 — Store to Local Repository
+#### STEP 2 — Retrieve Diabetes
 
-| Field | Value |
-|-------|-------|
-| Operator | **Store** |
-| Location | `Repository > Store` |
-
-**How to configure:**
-1. Drag **Store** after Read ARFF
-2. Connect: Read ARFF `out` → Store `exa in`
-3. Parameters → click folder icon → save to: `/data/diabetes` (in Local Repository)
-4. Run the process (Ctrl+R) to save the data
-
-> After running, the diabetes data is stored in your Local Repository.
+拖拽 **Retrieve**（`Repository > Retrieve`）到画布，`repository entry` 选择 `/data/diabetes`，连接 `out` → DataPrep_Diabetes `inp`。
 
 ---
 
-#### STEP 3 — Retrieve
+#### STEP 3 — DataPrep_Diabetes (Subprocess)
 
-| Field | Value |
-|-------|-------|
-| Operator | **Retrieve** |
-| Location | `Repository > Retrieve` |
+拖拽 **Subprocess**（`Utility > Subprocess`）到画布，重命名为 `DataPrep_Diabetes`。
 
-**How to configure:**
-1. Drag **Retrieve** onto canvas (can be in same or new process)
-2. Parameters → click folder icon → navigate to `/data/diabetes`
-3. Connect to Set Role (Step 4)
+```mermaid
+flowchart LR
+    inp["inp"] --> SR["Set Role<br>class → label"]
+    SR --> NORM["Normalize<br>Z-transformation"]
+    NORM --> out["out"]
+```
 
----
+**各算子参数详情：**
 
-#### STEP 4 — Set Role (Define Label Column)
+**① Set Role**
 
-| Field | Value |
-|-------|-------|
-| Operator | **Set Role** |
-| Location | `Data Transformation > Attribute > Set Role` |
+| 参数 Parameter   | 值 Value  | 含义 Meaning                                                      |
+| ---------------- | --------- | ----------------------------------------------------------------- |
+| `attribute name` | `class`   | 选择 `class` 列                                                   |
+| `target role`    | **label** | 将 `class` 列设为目标变量（标签），告诉 RapidMiner 这是要预测的列 |
 
-**How to configure:**
-1. Drag **Set Role** after Retrieve
-2. Connect: Retrieve `out` → Set Role `exa in`
-3. Parameters:
-   - `attribute name` = **class**
-   - `target role` = **label**
+**② Normalize**
 
----
-
-#### STEP 5 — Normalize
-
-| Field | Value |
-|-------|-------|
-| Operator | **Normalize** |
-| Location | `Data Transformation > Normalization > Normalize` |
-
-**How to configure:**
-1. Drag **Normalize** after Set Role
-2. Connect: Set Role `exa out` → Normalize `exa in`
-3. Parameters:
-   - `method` = **Z-transformation**
-   - `attribute filter type` = **All** (applies to all numerical, skips label automatically)
+| 参数 Parameter          | 值 Value         | 含义 Meaning                                                                                                                      |
+| ----------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `method`                | Z-transformation | 标准化：(x - μ) / σ                                                                                                               |
+| `attribute filter type` | all（默认）      | 对所有 8 个数值特征做标准化。kNN 和 SVM 是基于距离的算法，必须标准化防止大尺度特征（如 insu 0–846）支配小尺度特征（如 preg 0–17） |
 
 ---
 
-#### STEP 6 — Resample (Oversample Minority Class)
+#### STEP 4 — Sample (Bootstrapping)
 
-| Field | Value |
-|-------|-------|
-| Operator | **Sample (Bootstrapping)** or **Resample** |
-| Location | `Data Transformation > Sampling > Sample (Bootstrapping)` |
+```mermaid
+flowchart LR
+    inp["DataPrep out"] --> SAM["Sample<br>(Bootstrapping)<br>relative, balance"]
+    SAM -- "exa" --> PS["PreparedSample inp"]
+    SAM -- "ori<br>(不用)" --> X["×"]
+```
 
-**How to configure option A (Bootstrapping/Resample):**
-1. Drag **Sample (Bootstrapping)** after Normalize
-2. Connect: Normalize `exa out` → Resample `exa in`
-3. Parameters:
-   - `sample size` = **1000**
-   - `balance classes` = **true** (enables equal sampling per class)
-   - `local random seed` = **730**
+| 字段 Field              | 值 Value                                                  |
+| ----------------------- | --------------------------------------------------------- |
+| **算子 Operator**       | Sample (Bootstrapping)                                    |
+| **显示名 Display Name** | `Sample`                                                  |
+| **位置 Location**       | `Data Transformation > Sampling > Sample (Bootstrapping)` |
 
-**Alternative approach if balance option not available:**
-Use **Filter Examples** to separate the two classes, then use **Sample** individually on the minority class, then **Append** to combine.
+| 参数 Parameter             | 值 Value      | 含义 Meaning                                               |
+| -------------------------- | ------------- | ---------------------------------------------------------- |
+| `sample`                   | **relative**  | 用比例指定采样量                                           |
+| `balance data`             | ✅ **勾选**  | 平衡类别：通过有放回采样使两类数量相等，解决类别不平衡问题 |
+| `sample ratio per class`   | 见下表        | 点 Edit List，为每类指定比例                               |
+| `use local random seed`    | ✅ **勾选**  | 启用随机种子                                               |
+| `local random seed`        | **730**       | 随机种子（学号后三位），确保结果可复现                     |
 
-> Target result: 1000 total instances, 500 tested_negative + 500 tested_positive.
+**sample ratio per class 设置：**
 
-**Screenshot to take:** Result view showing class distribution → 500/500.
+| class           | ratio   |
+| --------------- | ------- |
+| tested_negative | **1.0** |
+| tested_positive | **1.0** |
 
----
-
-#### STEP 7 — Multiply
-
-| Field | Value |
-|-------|-------|
-| Operator | **Multiply** |
-| Location | `Utility > Multiply` |
-
-**How to configure:**
-1. Drag **Multiply** after Resample
-2. You may need multiple output ports — right-click Multiply → "Add output port" to get enough ports (need at least 2)
-3. Connect to Split Data (Step 8)
+> 目标结果：两类各 500，共 1000 个实例（少数类通过有放回采样补齐到多数类数量）。
 
 ---
 
-#### STEP 8 — Split Data (70/30)
+#### STEP 5 — PreparedSample (Subprocess)
 
-| Field | Value |
-|-------|-------|
-| Operator | **Split Data** |
-| Location | `Data Transformation > Sampling > Split Data` |
+拖拽 **Subprocess**（`Utility > Subprocess`）到画布，重命名为 `PreparedSample`。
 
-**How to configure:**
-1. Drag **Split Data** after Multiply
-2. Connect: Multiply `out1` → Split Data `exa in`
-3. Parameters:
-   - Click **Add Partition** button → set splits: `0.7` and `0.3`
-   - `sampling type` = **stratified sampling** (maintains class ratio in both splits)
-   - `local random seed` = **730**
-4. Split Data output ports: `par1` (70% train) and `par2` (30% test)
+```mermaid
+flowchart LR
+    inp["inp"] --> SD["Split Data<br>0.7 / 0.3"]
+    SD -- "70% Train" --> out1["out 1"]
+    SD -- "30% Test" --> out2["out 2"]
+```
 
----
+**各算子参数详情：**
 
-#### STEP 9 — Multiply Train and Test Sets
+**① Split Data**
 
-1. Add **Multiply** after Split Data `par1` (train) — call it `Multiply_Train`
-2. Add **Multiply** after Split Data `par2` (test) — call it `Multiply_Test`
-3. Each needs enough output ports for 5 models (4 individual + 1 stacking)
-   - Right-click each Multiply → Add output port until you have 5 outputs
+| 参数 Parameter      | 值 Value                | 含义 Meaning                               |
+| ------------------- | ----------------------- | ------------------------------------------ |
+| `partitions`        | **0.7 / 0.3**           | 70% 训练集、30% 测试集                     |
+| `sampling type`     | **stratified sampling** | 分层采样：保证训练集和测试集的类别比例一致 |
+| `use local random seed` | ✅ **勾选**         | 启用随机种子                               |
+| `local random seed` | **730**                 | 随机种子，确保可复现                       |
 
----
-
-#### STEP 10 — Individual Models
-
-For each model, you need:
-1. A model operator → **Apply Model** → **Performance (Classification)**
-
-Repeat for each model below:
+> 注意：需要给 PreparedSample 添加第二个 out 端口（右键子流程 > Add Port）。
 
 ---
 
-##### Model 1: kNN
+#### STEP 6 — Classifications (Subprocess)
 
-| Field | Value |
-|-------|-------|
-| Operator | **K-Nearest Neighbors** or **k-NN** |
-| Location | `Modeling > Predictive > Lazy > k-NN` |
+拖拽 **Subprocess**（`Utility > Subprocess`）到画布，重命名为 `Classifications`。
+需要 2 个 inp（train/test）和 7 个 out。
 
-**Parameters:**
-- `k` = **5**
-- `weighted vote` = false
-- `measure_types` = Mixed Measures → Euclidean Distance
+**内部结构：**
 
-**Connect:**
-- Multiply_Train `out1` → k-NN `tra in`
-- k-NN `mod out` → Apply Model `mod in`
-- Multiply_Test `out1` → Apply Model `unl in`
-- Apply Model `lab out` → Performance `tst in`
+```mermaid
+flowchart LR
+    inp1["inp 1<br>(train)"] --> MT["Multiply<br>(Train×5)"]
+    inp2["inp 2<br>(test)"] --> ME["Multiply<br>(Test×5)"]
 
----
+    MT --> KNN["k-NN"]
+    MT --> NB["Naive Bayes"]
+    MT --> SVM["SVM"]
+    MT --> LR["Logistic Reg"]
+    MT --> STK["Stacking"]
 
-##### Model 2: Naïve Bayes
+    KNN --> AP1["Apply Model"]
+    NB --> AP2["Apply Model"]
+    SVM --> AP3["Apply Model"]
+    LR --> AP4["Apply Model"]
+    STK --> AP5["Apply Model"]
 
-| Field | Value |
-|-------|-------|
-| Operator | **Naive Bayes** |
-| Location | `Modeling > Predictive > Bayesian > Naive Bayes` |
+    ME --> AP1
+    ME --> AP2
+    ME --> AP3
+    ME --> AP4
+    ME --> AP5
 
-**Parameters:** Default (no changes needed)
+    AP1 --> P1["Performance"] --> R1["out 1"]
+    AP2 --> P2["Performance"] --> R2["out 2"]
+    AP3 --> P3["Performance"] --> R3["out 3"]
+    AP4 --> P4["Performance"] --> R4["out 4"]
+    AP5 --> P5["Performance"] --> R5["out 5"]
+```
 
-**Connect:** Same pattern as kNN, using `out2` of Multiply_Train and Multiply_Test.
+> 每个模型的模式：train → 模型训练 → Apply Model ← test → Performance → out
+>
+> Multiply (Train) 输出 5 路，Multiply (Test) 输出 5 路，保证所有模型用相同数据。
 
----
+**各模型参数详情：**
 
-##### Model 3: SVM
+**① kNN**
 
-| Field | Value |
-|-------|-------|
-| Operator | **Support Vector Machine (Libsvm)** or **SVM** |
-| Location | `Modeling > Predictive > Support Vector Machine > Support Vector Machine (libsvm)` |
+| 参数 Parameter      | 值 Value               | 含义 Meaning                        |
+| ------------------- | ---------------------- | ----------------------------------- |
+| `k`                 | **5**                  | 取最近 5 个邻居的多数类进行投票预测 |
+| `weighted vote`     | **false**              | 不加权：所有邻居的投票权重相同      |
+| `numerical measure` | **Euclidean Distance** | 欧氏距离度量                        |
 
-**Parameters:**
-- `kernel_type` = **Radial** (RBF)
-- `C` = 1.0 (default)
-- `gamma` = 0.0 (= scale, RapidMiner auto-computes)
+**② Naïve Bayes**
 
-**Connect:** Same pattern, using `out3` of Multiply_Train and Multiply_Test.
+| 参数 Parameter | 值 Value | 含义 Meaning                                             |
+| -------------- | -------- | -------------------------------------------------------- |
+| （全部默认）   | —        | 使用默认配置：假设特征条件独立，用贝叶斯定理计算后验概率 |
 
----
+**③ SVM**
 
-##### Model 4: Logistic Regression
+| 参数 Parameter | 值 Value          | 含义 Meaning                             |
+| -------------- | ----------------- | ---------------------------------------- |
+| `svm_type`     | **C-SVC**（默认） | 标准二分类 SVM                           |
+| `kernel_type`  | **Radial** (RBF)  | 径向基核函数：捕捉非线性决策边界         |
+| `C`            | **1.0**           | 正则化参数：平衡分类间隔宽度与误分类惩罚 |
 
-| Field | Value |
-|-------|-------|
-| Operator | **Logistic Regression** |
-| Location | `Modeling > Predictive > Logistic Regression` |
+**④ Logistic Regression**
 
-**Parameters:** Default (max iterations = 100 or increase to 1000 if convergence issues)
+| 参数 Parameter | 值 Value | 含义 Meaning                               |
+| -------------- | -------- | ------------------------------------------ |
+| （全部默认）   | —        | 使用默认配置：对归一化数据拟合线性决策边界 |
 
-**Connect:** Same pattern, using `out4` of Multiply_Train and Multiply_Test.
+**⑤ Stacking**
 
----
+| 参数 Parameter              | 值 Value                           | 含义 Meaning                                      |
+| --------------------------- | ---------------------------------- | ------------------------------------------------- |
+| Base learners（内部子流程） | **k-NN**, **Naive Bayes**, **SVM** | 3 个基础学习器分别对训练数据做预测                |
+| Meta-learner                | **Logistic Regression**            | 元学习器：学习如何最优地组合 3 个基础学习器的预测 |
 
-#### STEP 11 — Stacking Classifier
+> 双击 Stacking 算子进入子流程，内部分两个面板：
 
-| Field | Value |
-|-------|-------|
-| Operator | **Stacking** |
-| Location | `Modeling > Ensembles > Stacking` |
+**左侧 Base Learner：**
 
-**How to configure:**
-1. Drag **Stacking** onto canvas
-2. Connect:
-   - Multiply_Train `out5` → Stacking `tra in`
-   - Multiply_Test `out5` → Apply Model `unl in`
-3. Double-click **Stacking** to open the subprocess
-4. Inside the subprocess, you will see sub-processes for base learners:
-   - Add **k-NN** (k=5) as base learner 1
-   - Add **Naive Bayes** as base learner 2
-   - Add **Support Vector Machine (Libsvm)** (RBF) as base learner 3
-5. Back in the main Stacking parameters:
-   - `stack_type` = **Classifier Stacking**
-   - `meta_learner` = **Logistic Regression**
-   - `number of folds` = **5**
+```mermaid
+flowchart LR
+    tra["tra"] --> MUL["Multiply<br>(×3)"]
+    MUL --> KNN["k-NN<br>(参数同①)"]
+    MUL --> NB["Naive Bayes<br>(参数同②)"]
+    MUL --> SVM["SVM<br>(参数同③)"]
+    KNN --> bas["bas"]
+    NB --> bas
+    SVM --> bas
+```
 
-**Connect stacking result to Performance:**
-- Stacking `mod out` → Apply Model `mod in`
-- Multiply_Test `out5` → Apply Model `unl in`
-- Apply Model `lab out` → Performance `tst in`
+> `tra` → Multiply(3路) → 3个模型的 `tra` 输入，模型输出不用手动连。
 
-**Screenshot to take:** Stacking operator configuration showing the 3 base learners and meta-learner Logistic Regression.
+**右侧 Stacking Model Learner：**
 
----
+```mermaid
+flowchart LR
+    sta["sta"] --> LR["Logistic Regression"]
+    LR --> staOut["sta"]
+```
 
-#### STEP 12 — Performance (Classification) for Each Model
+> 拖一个 Logistic Regression，连 `sta → LR tra`，`LR mod → sta` 输出。
 
-| Field | Value |
-|-------|-------|
-| Operator | **Performance (Classification)** |
-| Location | `Evaluation > Performance > Performance (Classification)` |
+**辅助算子（每个模型都需要）：**
 
-**How to configure (applies to all 5 Performance operators):**
-1. Connect `Apply Model lab out` → `Performance tst in`
-2. Parameters: Check all boxes:
-   - ✅ `accuracy`
-   - ✅ `precision` (class: tested_positive)
-   - ✅ `recall` (class: tested_positive)
-   - ✅ `f_measure` (class: tested_positive)
-   - ✅ `confusion matrix`
-3. Connect Performance `per out` → Result port (or a **Compare ROCs** / **Log** operator)
+| 算子 Operator                | 位置 Location                                             | 含义 Meaning                               |
+| ---------------------------- | --------------------------------------------------------- | ------------------------------------------ |
+| Apply Model                  | `Scoring > Apply Model`                                   | 将训练好的模型应用到测试集上，得到预测结果 |
+| Performance (Classification) | `Evaluation > Performance > Performance (Classification)` | 计算分类性能指标                           |
 
----
+**Performance 参数：**
 
-#### STEP 13 — Screenshot Results
+| 参数 Parameter     | 值 Value | 含义 Meaning |
+| ------------------ | -------- | ------------ |
+| `accuracy`         | ✅ 勾选  | 准确率       |
+| `precision`        | ✅ 勾选  | 精确率       |
+| `recall`           | ✅ 勾选  | 召回率       |
+| `f_measure`        | ✅ 勾选  | F1 分数      |
+| `confusion matrix` | ✅ 勾选  | 混淆矩阵     |
 
-For each of the 5 models, after running the process:
-1. Click the Performance result in the Results panel
-2. Screenshot the accuracy, precision, recall, f-measure values
-3. Note them down in the Results Table (Step 7 of Answer Template)
+> 每个 Performance 的 `per` 输出端口连接到 Classifications 子流程的对应 `out` 端口。
 
 ---
 
 ### Task 2 — Screenshots Checklist
 
-| # | Screenshot | What to Capture |
-|---|-----------|-----------------|
-| ✅ | `task2_00_process_overview.png` | Full process canvas |
-| ✅ | `task2_01_dataset_loaded.png` | Diabetes data table (768 rows, class distribution) |
-| ✅ | `task2_02_data_prep.png` | Set Role + Normalize operators with settings |
-| ✅ | `task2_03_before.png` | Class distribution before resampling (500/268) |
-| ✅ | `task2_03_after.png` | Class distribution after resampling (500/500) |
-| ✅ | `task2_04_split.png` | Split Data parameters (0.7/0.3, seed=730) |
-| ✅ | `task2_05_knn.png` | kNN Performance results |
-| ✅ | `task2_05_nb.png` | Naive Bayes Performance results |
-| ✅ | `task2_05_svm.png` | SVM Performance results |
-| ✅ | `task2_05_lr.png` | Logistic Regression Performance results |
-| ✅ | `task2_06_stacking_setup.png` | Stacking operator showing 3 base learners + LR meta |
-| ✅ | `task2_06_stacking_result.png` | Stacking Performance results |
+| #   | Screenshot                      | What to Capture                                                                                         |
+| --- | ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| ✅  | `task2_00_process_overview.png` | Full canvas showing Read ARFF → Store + Retrieve → DataPrep → Sample → PreparedSample → Classifications |
+| ✅  | `task2_01_dataset_loaded.png`   | Diabetes data table (768 rows, class distribution)                                                      |
+| ✅  | `task2_02_data_prep.png`        | Inside DataPrep_Diabetes subprocess (Set Role + Normalize)                                              |
+| ✅  | `task2_03_before.png`           | Class distribution before resampling (500/268)                                                          |
+| ✅  | `task2_03_after.png`            | Class distribution after resampling (500/500)                                                           |
+| ✅  | `task2_04_split.png`            | Inside PreparedSample: Split Data parameters (0.7/0.3, seed=730)                                        |
+| ✅  | `task2_05_knn.png`              | kNN Performance results                                                                                 |
+| ✅  | `task2_05_nb.png`               | Naive Bayes Performance results                                                                         |
+| ✅  | `task2_05_svm.png`              | SVM Performance results                                                                                 |
+| ✅  | `task2_05_lr.png`               | Logistic Regression Performance results                                                                 |
+| ✅  | `task2_06_stacking_setup.png`   | Inside Classifications: Stacking operator with 3 base learners + LR meta                                |
+| ✅  | `task2_06_stacking_result.png`  | Stacking Performance results                                                                            |
 
 ---
 
@@ -609,45 +577,55 @@ Use these as reference when filling out the Answer Template. Actual RapidMiner r
 
 ### Task 1
 
-| Metric | Result |
-|--------|--------|
-| Total instances | 155 |
+| Metric                 | Result         |
+| ---------------------- | -------------- |
+| Total instances        | 155            |
 | Outliers (1-Class SVM) | **42** (27.1%) |
-| DBSCAN clusters | **4** |
-| DBSCAN noise points | **4** |
+| DBSCAN clusters        | **4**          |
+| DBSCAN noise points    | **4**          |
 
 **4 noise instances (investigation priority):**
 
-| Id | Country | Branch | Currency | Salary | Issue |
-|----|---------|--------|----------|--------|-------|
-| 40010160 | Germany | 1 | EUR | **60,500,999** | Salary data entry error (×1000 off) |
-| 41010220 | USA | **6** | USD | ~81,000 | Invalid branch number |
-| 41110300 | USA | 2 | USD | **32,000,999** | Salary data entry error (×1000 off) |
-| 41110350 | Mexico | 2 | **MXD** | ~71,000 | Invalid currency code (should be MXN) |
+| Id       | Country | Branch | Currency | Salary         | Issue                                 |
+| -------- | ------- | ------ | -------- | -------------- | ------------------------------------- |
+| 40010160 | Germany | 1      | EUR      | **60,500,999** | Salary data entry error (×1000 off)   |
+| 41010220 | USA     | **6**  | USD      | ~81,000        | Invalid branch number                 |
+| 41110300 | USA     | 2      | USD      | **32,000,999** | Salary data entry error (×1000 off)   |
+| 41110350 | Mexico  | 2      | **MXD**  | ~71,000        | Invalid currency code (should be MXN) |
 
-### Task 2
+### Task 2 (RapidMiner 实际结果)
 
-| Model | Accuracy |
-|-------|----------|
-| kNN (k=5) | ~68.67% |
-| Naïve Bayes | ~68.67% |
-| SVM (RBF) | ~73.33% |
-| Logistic Regression | ~73.00% |
-| **Stacking (kNN+NB+SVM → LR)** | **~73.67%** |
+| Model                          | Accuracy     | Positive Recall | Negative Recall |
+| ------------------------------ | ------------ | --------------- | --------------- |
+| kNN (k=5)                      | 73.48%       | 47.50%          | 87.33%          |
+| **Naïve Bayes**                | **77.83%** 🥇| 55.00%          | 90.00%          |
+| SVM (RBF)                      | 77.39%       | 50.00%          | 92.00%          |
+| Logistic Regression            | 73.48%       | 37.50%          | 92.67%          |
+| Stacking (kNN+NB+SVM → LR)    | 74.78%       | 51.26%          | 87.33%          |
+
+**混淆矩阵：**
+
+| 模型 | TP | FP | FN | TN |
+|------|----|----|----|----|
+| kNN | 38 | 19 | 42 | 131 |
+| NB | 44 | 15 | 36 | 135 |
+| SVM | 40 | 12 | 40 | 138 |
+| LR | 30 | 11 | 50 | 139 |
+| Stacking | 41 | 19 | 39 | 131 |
 
 ---
 
 ## Common Issues & Fixes
 
-| Issue | Fix |
-|-------|-----|
-| "Detect Outlier (Support Vectors)" not found | Install Anomaly Detection extension via `Help > Marketplace` |
-| DBSCAN gives only 1 cluster | Decrease epsilon (try 1.0 or 0.8) or decrease min_points (try 3) |
-| Join produces extra `_right` columns | Add another Select Attributes after Join to remove duplicates |
-| Stacking base learners not configurable | Double-click the Stacking operator to enter the subprocess |
-| Performance shows NaN for precision/recall | Set `positive class` parameter in Performance to `tested_positive` |
-| Resample doesn't balance classes | Try `Sample (Bootstrapping)` with balance=true, or manually oversample the minority class |
-| SVM very slow | Reduce `C` parameter or use linear kernel first to test pipeline |
+| Issue                                        | Fix                                                                                       |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| "Detect Outlier (Support Vectors)" not found | Install Anomaly Detection extension via `Help > Marketplace`                              |
+| DBSCAN gives only 1 cluster                  | Decrease epsilon (try 1.0 or 0.8) or decrease min_points (try 3)                          |
+| Join produces extra `_right` columns         | Add another Select Attributes after Join to remove duplicates                             |
+| Stacking base learners not configurable      | Double-click the Stacking operator to enter the subprocess                                |
+| Performance shows NaN for precision/recall   | Set `positive class` parameter in Performance to `tested_positive`                        |
+| Resample doesn't balance classes             | Try `Sample (Bootstrapping)` with balance=true, or manually oversample the minority class |
+| SVM very slow                                | Reduce `C` parameter or use linear kernel first to test pipeline                          |
 
 ---
 

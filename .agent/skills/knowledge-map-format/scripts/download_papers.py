@@ -50,6 +50,11 @@ import urllib.error
 from pathlib import Path
 from datetime import datetime
 
+# Semantic Scholar API Key (optional, but strongly recommended to avoid 429 rate limits)
+# Set via environment variable:  set S2_API_KEY=your_key_here
+# Or pass via CLI:                --api-key your_key_here
+S2_API_KEY: str | None = os.environ.get("S2_API_KEY")
+
 # ── Configuration ──────────────────────────────────────────────────────────────
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -62,6 +67,15 @@ HEADERS = {
         "contact: knowledge-map-bot)"
     )
 }
+
+
+def build_headers(extra_api_key: str | None = None) -> dict:
+    """Build request headers, injecting x-api-key if available."""
+    h = dict(HEADERS)
+    key = extra_api_key or S2_API_KEY
+    if key:
+        h["x-api-key"] = key
+    return h
 
 # Semantic Scholar Graph API
 S2_SEARCH_URL = "https://api.semanticscholar.org/graph/v1/paper/search"
@@ -76,19 +90,23 @@ ARXIV_API_URL  = "https://export.arxiv.org/api/query"
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-def api_get(url: str, params: dict = None) -> dict | None:
+def api_get(url: str, params: dict = None, _retry: bool = True) -> dict | None:
     """HTTP GET with JSON response, basic rate-limit handling."""
     if params:
         url = url + "?" + urllib.parse.urlencode(params)
     try:
-        req = urllib.request.Request(url, headers=HEADERS)
+        req = urllib.request.Request(url, headers=build_headers())
         with urllib.request.urlopen(req, timeout=15) as resp:
             return json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         if e.code == 429:
-            print(f"  ⚠️  Rate limited (429). Waiting 10s...")
-            time.sleep(10)
-            return api_get(url)  # one retry
+            wait = 10 if S2_API_KEY else 30  # with key: shorter wait
+            key_hint = "(加 API Key 后限速更宽松)" if not S2_API_KEY else ""
+            print(f"  ⚠️  Rate limited (429). Waiting {wait}s... {key_hint}")
+            time.sleep(wait)
+            if _retry:
+                return api_get(url, _retry=False)  # one retry
+            return None
         print(f"  ❌ HTTP {e.code}: {e.reason} — {url}")
     except Exception as e:
         print(f"  ❌ Request error: {e}")
@@ -343,8 +361,20 @@ def main():
     parser.add_argument("--filename", help="Custom output filename (--url mode only)")
     parser.add_argument("--dry-run",  action="store_true", help="Preview without downloading")
     parser.add_argument("--delay",    type=float, default=1.5, help="Delay between downloads (sec)")
+    parser.add_argument("--api-key",  help="Semantic Scholar API Key (overrides S2_API_KEY env var)")
 
     args = parser.parse_args()
+
+    # Inject API key from CLI arg (overrides env var)
+    global S2_API_KEY
+    if args.api_key:
+        S2_API_KEY = args.api_key
+        print(f"   🔑 Using API Key: {S2_API_KEY[:8]}...")
+    elif S2_API_KEY:
+        print(f"   🔑 Using API Key from env: {S2_API_KEY[:8]}...")
+    else:
+        print("   ⚠️  No API Key — using anonymous access (rate limit: 100 req/5min shared)")
+        print("      Tip: Get a free key at https://www.semanticscholar.org/product/api#api-key")
 
     print(f"\n📚 Knowledge Map Paper Downloader v2")
     print(f"   Topic: {args.topic} | Output: {PAPERS_ROOT / args.topic}\n")

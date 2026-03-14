@@ -20,14 +20,14 @@ description: 为任意主题生成 8 维知识库文档（Map / Concepts / Math 
 /generate-knowledge-map retrieval bm25 --from=phase3
 ```
 
-## 📋 8 维结构与生成顺序
+## 📋 9 维结构与生成顺序
 
 ```
 Phase 0   输入探测 + 主题拆分
 Phase 1   Map 骨架（核心问题 + 依赖关系）
 Phase 2   理解层: ② Concepts → ③ Math → ④ Tutorial
 Phase 3   实战层: ⑤ Code → ⑥ Pitfalls
-Phase 4   脉络层: ⑦ History → ⑧ Bridge
+Phase 4   脉络层: ⑦ History → ⑧ Bridge → ⑨ First Principles
 Phase 5   收尾: 回填 Map + 缺口检查 + 新鲜度
 ```
 
@@ -76,6 +76,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 - [ ] 已确认 DIM-6 Pitfalls: **加粗关键词** + ❌/✅ 缩进代码 + 调试清单
 - [ ] 已确认 DIM-7 History: **故事线叙事**（🎬序幕 + 📚第N章 + 🔑转折 + 🗺️全局回顾）
 - [ ] 已确认 DIM-8 Bridge: 固定 **6 章**（含 ← 前置/→ 后续 + 概念演变追踪）
+- [ ] 已确认 DIM-9 First Principles: 固定 **5 章**（核心问题链 + 公理 + 推导链 + 如果公理不成立 + 速查表）
 - [ ] 已确认 `source_versions` Frontmatter 用**裸 URL**（不是 Markdown 链接）
 
 ### 中断恢复专项规则
@@ -129,12 +130,27 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
    | Code | 1 个参考实现 |
    | Pitfalls | 1 个来源 (Issues/SO/经验) |
 
-   来源不足时暂停，给出下载建议，等用户选择:
-   - [A] 去下载后继续
-   - [B] 先生成，缺口标 `⚠️ 来源不足`
-   - [C] 用 `search_web` 在线补齐
+   来源不足时**优先用以下顺序补齐，不暂停等待**:
+   - [首选] 尝试 `download_papers.py` 自动下载论文
+   - [次选] 用 `search_web` 查找官方文档/arXiv 链接补齐
+   - [兜底] 有教科书时直接用教科书章节作为来源
 
-4. **向用户确认**: 展示素材报告和生成计划
+4. **论文下载失败处理（不阻塞流程）**:
+
+   > ⚠️ **下载脚本无 open access 结果、网络超时、脚本卡在交互模式时，立即按以下步骤处理：**
+
+   1. **终止脚本**，立即继续生成维度文件
+   2. **在 source_versions 中标注占位符**：
+      ```
+      "📖 Paper: 作者, '标题', 刊物 年份 — ⚠️ 待下载 见 papers_index.md"
+      ```
+   3. **创建/追加 `papers_index.md`**（在知识地图目录下），记录：
+      - 完整论文信息（标题/作者/年份/刊物）
+      - 重要性评级（⭐1-5）
+      - 手动搜索链接（IEEE Xplore / ACM DL / arXiv）
+   4. 生成完成后提示用户手动下载，**不等待**
+
+5. **向用户确认**: 展示素材报告和生成计划
 
 ---
 
@@ -242,6 +258,19 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 
 **输出**: `{topic}_bridge.md`
 
+### 4.3 First Principles
+
+**Skill**: `knowledge-map-format` (DIM-9)
+
+1. Follow skill 的 First Principles 模板（固定 5 章）
+2. 核心问题链: 5 个为什么式递归追问，从表层功能到不可再分公理
+3. 每个公理必须有: **陈述 + 白话 + 来源 + 可验证性**（四要素缺一不可）
+4. 推导链每步标注"用了哪个公理"，末尾附全景图（ASCII box-drawing）
+5. "如果公理不成立"用表格逐一分析边界和替代方案
+6. 跳过条件: 主题是纯工程工具（如 Git、Docker），无数学/理论公理
+
+**输出**: `{topic}_first_principles.md`
+
 ---
 
 ## Phase 5: 收尾 ✅
@@ -292,6 +321,7 @@ status: current
 | Math | 无数学内容 | ⬜ 不适用 |
 | History | 太新/无脉络 | ⬜ 不适用 |
 | Bridge | 完全孤立 | ⬜ 简化 |
+| First Principles | 纯工程工具（无数学/理论公理） | ⬜ 不适用 |
 
 **永远不能跳过**: Map, Concepts, Tutorial, Code, Pitfalls
 
@@ -301,12 +331,13 @@ status: current
 
 ```
 {output_dir}/{topic}/
-├── {topic}_map.md          ← ① 导航
-├── {topic}_concepts.md     ← ② 概念
-├── {topic}_math.md         ← ③ 公式
-├── {topic}_tutorial.md     ← ④ 教程
-├── {topic}_code.md         ← ⑤ 代码
-├── {topic}_pitfalls.md     ← ⑥ 踩坑
-├── {topic}_history.md      ← ⑦ 历史
-└── {topic}_bridge.md       ← ⑧ 衔接
+├── {topic}_map.md               ← ① 导航
+├── {topic}_concepts.md          ← ② 概念
+├── {topic}_math.md              ← ③ 公式
+├── {topic}_tutorial.md          ← ④ 教程
+├── {topic}_code.md              ← ⑤ 代码
+├── {topic}_pitfalls.md          ← ⑥ 踩坑
+├── {topic}_history.md           ← ⑦ 历史
+├── {topic}_bridge.md            ← ⑧ 衔接
+└── {topic}_first_principles.md  ← ⑨ 第一性原理
 ```
