@@ -8,17 +8,83 @@ description: 为任意主题生成 8 维知识库文档（Map / Concepts / Math 
 
 > ⚠️ **格式强制规则**: 每个维度文件必须 follow `knowledge-map-format` skill 的模板。
 
+## 📁 目录结构
+
+```
+knowledge-map/
+├── README.md                    ← 一人公司全角色技能树总览
+├── courses/                     ← 按课程组织的知识地图
+│   ├── deep-learning/           ← 研究生级 DL 课程
+│   │   ├── README.md            ← 课程主题列表 + 进度
+│   │   ├── _course.md           ← 课程名词总表
+│   │   ├── conv_layer/          ← 主题文件夹
+│   │   │   ├── conv_layer_map.md
+│   │   │   ├── conv_layer_concepts.md
+│   │   │   ├── conv_layer_math.md
+│   │   │   ├── conv_layer_tutorial.md
+│   │   │   ├── conv_layer_code.md
+│   │   │   ├── conv_layer_pitfalls.md
+│   │   │   ├── conv_layer_history.md
+│   │   │   ├── conv_layer_bridge.md
+│   │   │   └── conv_layer_first_principles.md
+│   │   ├── dense_layer/
+│   │   ├── transformer/
+│   │   └── ...
+│   ├── advanced-deep-learning/  ← 博士 PhD 级
+│   ├── computer-vision/         ← 研究生级 CV 课程
+│   ├── nlp/                     ← 研究生级 NLP 课程
+│   ├── reinforcement-learning/  ← 研究生级 RL 课程
+│   ├── machine-learning/
+│   ├── machine-vision/          ← 本科/工业级
+│   ├── linear-algebra/
+│   ├── calculus/
+│   ├── probability/
+│   ├── statistics/
+│   └── optimization/
+├── tools/                       ← 工具知识地图
+│   └── ai-tools/
+│       ├── hugging_face/
+│       ├── claude_code_skill/
+│       └── antigravity_workflow/
+├── projects/                    ← 项目知识地图
+│   └── retrieval-lab/
+├── roles/                       ← 21 个角色技能树
+│   ├── ml-engineer/
+│   ├── data-scientist/
+│   └── ...
+└── registry/
+    └── progress.md
+```
+
 ## 🎯 使用方式
 
 ```
-/generate-knowledge-map <领域> <主题>
+/generate-knowledge-map <课程> <主题>
 
 示例：
-/generate-knowledge-map retrieval bm25
-/generate-knowledge-map nlp tokenization
-/generate-knowledge-map retrieval bm25 --only=map,pitfalls
-/generate-knowledge-map retrieval bm25 --from=phase3
+/generate-knowledge-map deep-learning conv_layer
+/generate-knowledge-map nlp word_vectors
+/generate-knowledge-map computer-vision epipolar_geometry
+/generate-knowledge-map advanced-deep-learning energy_based_models
+
+# 工具类（无课程归属）：
+/generate-knowledge-map tools/ai-tools hugging_face
+
+# 选择性生成 / 中断恢复：
+/generate-knowledge-map deep-learning transformer --only=map,pitfalls
+/generate-knowledge-map nlp llm --from=phase3
 ```
+
+### 路径解析规则
+
+| 输入 | 输出目录 |
+|------|---------|
+| `deep-learning conv_layer` | `knowledge-map/courses/deep-learning/conv_layer/` |
+| `nlp word_vectors` | `knowledge-map/courses/nlp/word_vectors/` |
+| `tools/ai-tools hugging_face` | `knowledge-map/tools/ai-tools/hugging_face/` |
+| `projects/retrieval-lab bm25` | `knowledge-map/projects/retrieval-lab/bm25/` |
+
+**默认路径**: 如果只提供 `<课程> <主题>`，自动映射到 `knowledge-map/courses/<课程>/<主题>/`
 
 ## 📋 9 维结构与生成顺序
 
@@ -28,7 +94,7 @@ Phase 1   Map 骨架（核心问题 + 依赖关系）
 Phase 2   理解层: ② Concepts → ③ Math → ④ Tutorial
 Phase 3   实战层: ⑤ Code → ⑥ Pitfalls
 Phase 4   脉络层: ⑦ History → ⑧ Bridge → ⑨ First Principles
-Phase 5   收尾: 回填 Map + 缺口检查 + 新鲜度
+Phase 5   收尾: 回填 Map + 更新课程 README + 缺口检查 + 新鲜度
 ```
 
 ### 与 generate-study-material 的区别
@@ -37,7 +103,7 @@ Phase 5   收尾: 回填 Map + 缺口检查 + 新鲜度
 |---|---|---|
 | 目的 | 学课程、备考 | 建个人知识库、指导开发 |
 | 输入 | 必须有老师 Slides | 任意: 主题名、文档、代码 |
-| 输出 | 15+ 文件 | 8 个文件 |
+| 输出 | 15+ 文件 | 9 个文件 |
 | 维护 | 学期结束归档 | 长期维护 |
 
 ---
@@ -63,11 +129,16 @@ view_file(.agent/skills/knowledge-map-format/references/dimension_templates.md)
 
 // 步骤 B：读取 SKILL.md 来源规则
 view_file(.agent/skills/knowledge-map-format/SKILL.md)
+
+// 步骤 C：确认目标课程存在（不可省略）
+list_dir(knowledge-map/courses/<课程>/)
+// 或 list_dir(knowledge-map/tools/<领域>/) 或 list_dir(knowledge-map/projects/<项目>/)
 ```
 
 ### Pre-Flight 通过条件（必须在开始写文件之前确认）
 
 - [ ] 已 `view_file` 读取 `dimension_templates.md` 全文
+- [ ] 已确认目标课程/工具目录存在，且有 `_course.md` 和 `README.md`
 - [ ] 已确认 DIM-1 Map: 固定 **8 章**，章节编号格式 `## 1. 核心问题`
 - [ ] 已确认 DIM-2 Concepts: 固定 **4 章**（含 **核心属性** = 信息架构 + 适用/不适用场景）
 - [ ] 已确认 DIM-3 Math: 固定 **5 章**（含符号对照表 + 手算练习）
@@ -108,19 +179,26 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 
 ## Phase 0: 输入探测 🔍
 
-1. **扫描可用素材**:
+1. **验证目标路径**:
+   - 课程类: `knowledge-map/courses/<课程>/` 必须存在 `_course.md` + `README.md`
+   - 工具类: `knowledge-map/tools/<领域>/` 必须存在
+   - 项目类: `knowledge-map/projects/<项目>/` 必须存在
+   - 主题文件夹如不存在则自动创建
+
+2. **扫描可用素材**:
    - `textbooks/` 教科书 PDF + `data/mineru_output/` MinerU 解析
    - `.github/` 开源项目参考代码
    - `.documents/` 本地官方文档
-   - `knowledge-map/` 已有相关主题
+   - `knowledge-map/courses/<课程>/` 同课程已有主题（用于 Bridge）
+   - `knowledge-map/courses/<课程>/_course.md` 课程名词总表（术语参照）
    - `search_web` 搜索在线文档（优先下载到 `.documents/`）
 
-2. **主题粒度判断** — 满足任一则拆分:
+3. **主题粒度判断** — 满足任一则拆分:
    - 核心概念 > 15 个
    - 跨越多层次（理论+工具+实践）
    - Tutorial 预估 > 3000 字
 
-3. **来源充分性检查**:
+4. **来源充分性检查**:
 
    | 维度 | 最低来源要求 |
    |------|-------------|
@@ -135,7 +213,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
    - [次选] 用 `search_web` 查找官方文档/arXiv 链接补齐
    - [兜底] 有教科书时直接用教科书章节作为来源
 
-4. **论文下载失败处理（不阻塞流程）**:
+5. **论文下载失败处理（不阻塞流程）**:
 
    > ⚠️ **下载脚本无 open access 结果、网络超时、脚本卡在交互模式时，立即按以下步骤处理：**
 
@@ -144,13 +222,13 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
       ```
       "📖 Paper: 作者, '标题', 刊物 年份 — ⚠️ 待下载 见 papers_index.md"
       ```
-   3. **创建/追加 `papers_index.md`**（在知识地图目录下），记录：
+   3. **创建/追加 `papers_index.md`**（在主题文件夹下），记录：
       - 完整论文信息（标题/作者/年份/刊物）
       - 重要性评级（⭐1-5）
       - 手动搜索链接（IEEE Xplore / ACM DL / arXiv）
    4. 生成完成后提示用户手动下载，**不等待**
 
-5. **向用户确认**: 展示素材报告和生成计划
+6. **向用户确认**: 展示素材报告和生成计划
 
 ---
 
@@ -162,16 +240,16 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 
 1. 对照 DIM-1 模板（**固定 8 章**）逐章生成：
    - `## 1. 核心问题`（3-5 个问题，每行末尾 → 答案）
-   - `## 2. 全景位置`（ASCII 树，标注 `【你在这里】`）
+   - `## 2. 全景位置`（ASCII 树，标注 `【你在这里】`，根节点为课程名）
    - `## 3. 依赖地图`（ASCII box-drawing 三栏图）
-   - `## 4. 文件地图`（表格，文件名用 Markdown 链接）
+   - `## 4. 文件地图`（表格，文件名用 Markdown 相对链接）
    - `## 5. 学习/使用路线`（三小节：初学/日常/深度）
    - `## 6. 缺口检查`（✅/⬜/~~删除线~~）
    - `## 7. 新鲜度状态`（含 expiry + status）
-   - `## 8. 参考来源表`（汇总所有 8 维度引用）
+   - `## 8. 参考来源表`（汇总所有 9 维度引用）
 2. 每章结尾有 `> 📖/📚` 引证块
 
-**输出**: `{output_dir}/{topic}/{topic}_map.md`
+**输出**: `knowledge-map/courses/<课程>/<主题>/<主题>_map.md`
 
 ---
 
@@ -184,8 +262,9 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 1. Follow skill 的 Concepts 模板
 2. 每个术语: 一句话白话定义 + 英文标注
 3. 至少一组辨析对比表
+4. **参照** `_course.md` 名词总表确保术语一致
 
-**输出**: `{topic}_concepts.md`
+**输出**: `<主题>_concepts.md`
 
 ### 2.2 Math
 
@@ -195,7 +274,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 2. 每个公式: 符号表 → 公式 → 直觉解释 → 推导
 3. 跳过条件: 主题无数学内容
 
-**输出**: `{topic}_math.md`
+**输出**: `<主题>_math.md`
 
 ### 2.3 Tutorial
 
@@ -206,7 +285,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 3. 衔接性规则: follow `learning-source-citation` skill
 4. 三层止挖: 会用 → 知道为什么 → 看过底层原理（到此为止）
 
-**输出**: `{topic}_tutorial.md`
+**输出**: `<主题>_tutorial.md`
 
 ---
 
@@ -220,7 +299,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 2. 快速开始 → 完整实现 → API 速查
 3. 代码必须可直接运行，双语注释
 
-**输出**: `{topic}_code.md`
+**输出**: `<主题>_code.md`
 
 ### 3.2 Pitfalls ⚠️
 
@@ -231,7 +310,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 3. 末尾加调试清单
 4. **活文档**: 每次踩坑后追加
 
-**输出**: `{topic}_pitfalls.md`
+**输出**: `<主题>_pitfalls.md`
 
 ---
 
@@ -245,7 +324,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 2. Station 叙事: 前身 → 创新 → 局限 → 引出下一站
 3. 跳过条件: 主题太新/无历史脉络
 
-**输出**: `{topic}_history.md`
+**输出**: `<主题>_history.md`
 
 ### 4.2 Bridge
 
@@ -253,10 +332,14 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 
 1. Follow skill 的 Bridge 模板
 2. 前后导航 + 上下游依赖 + 概念演变追踪
-3. 扩展阅读分三层: 纵深 → 同层 → 全景
-4. 双向更新: 如相关主题已存在，更新其 Bridge
+3. **同课程内链接**: 用相对路径链接同课程下已有主题
+   - 示例: `[conv_layer](../conv_layer/conv_layer_map.md)`
+4. **跨课程链接**: 用相对路径链接相关课程主题
+   - 示例: `[CNN](../../deep-learning/cnn/cnn_map.md)`
+5. 扩展阅读分三层: 纵深 → 同层 → 全景
+6. 双向更新: 如相关主题已存在，更新其 Bridge
 
-**输出**: `{topic}_bridge.md`
+**输出**: `<主题>_bridge.md`
 
 ### 4.3 First Principles
 
@@ -269,7 +352,7 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 5. "如果公理不成立"用表格逐一分析边界和替代方案
 6. 跳过条件: 主题是纯工程工具（如 Git、Docker），无数学/理论公理
 
-**输出**: `{topic}_first_principles.md`
+**输出**: `<主题>_first_principles.md`
 
 ---
 
@@ -277,13 +360,15 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 
 1. **回填 Map**: 文件地图 + 缺口检查 + 新鲜度状态
 2. **更新 Bridge**: 双向更新相关主题
-3. **更新 README**: `knowledge-map/{领域}/README.md`
+3. **更新课程 README**: `knowledge-map/courses/<课程>/README.md`
+   - 在主题列表中更新该主题的状态从 `🔲 planned` 到 `✅ current`
+   - 更新文件数和描述
 4. **质量检查**:
    - [ ] 每个声明有来源？
    - [ ] Tutorial Why-First？
    - [ ] Code 30 秒可跑？
    - [ ] Pitfalls 有 ❌/✅ 对比？
-   - [ ] 交叉引用链接有效？
+   - [ ] 交叉引用链接有效？（同课程用 `../`，跨课程用 `../../`）
 
 ---
 
@@ -293,7 +378,8 @@ view_file(.agent/skills/knowledge-map-format/SKILL.md)
 
 ```yaml
 ---
-topic: bm25
+topic: conv_layer
+course: deep-learning
 dimension: tutorial
 created: 2026-03-11
 last_verified: 2026-03-11
@@ -317,7 +403,7 @@ status: current
 ## 跳过规则
 
 | 维度 | 跳过条件 | Map 标注 |
-|------|---------|---------|
+|------|---------|---------| 
 | Math | 无数学内容 | ⬜ 不适用 |
 | History | 太新/无脉络 | ⬜ 不适用 |
 | Bridge | 完全孤立 | ⬜ 简化 |
@@ -330,14 +416,40 @@ status: current
 ## 输出结构
 
 ```
-{output_dir}/{topic}/
-├── {topic}_map.md               ← ① 导航
-├── {topic}_concepts.md          ← ② 概念
-├── {topic}_math.md              ← ③ 公式
-├── {topic}_tutorial.md          ← ④ 教程
-├── {topic}_code.md              ← ⑤ 代码
-├── {topic}_pitfalls.md          ← ⑥ 踩坑
-├── {topic}_history.md           ← ⑦ 历史
-├── {topic}_bridge.md            ← ⑧ 衔接
-└── {topic}_first_principles.md  ← ⑨ 第一性原理
+knowledge-map/courses/<课程>/<主题>/
+├── <主题>_map.md               ← ① 导航
+├── <主题>_concepts.md          ← ② 概念
+├── <主题>_math.md              ← ③ 公式
+├── <主题>_tutorial.md          ← ④ 教程
+├── <主题>_code.md              ← ⑤ 代码
+├── <主题>_pitfalls.md          ← ⑥ 踩坑
+├── <主题>_history.md           ← ⑦ 历史
+├── <主题>_bridge.md            ← ⑧ 衔接
+└── <主题>_first_principles.md  ← ⑨ 第一性原理
 ```
+
+### 实际示例
+
+```
+knowledge-map/courses/deep-learning/conv_layer/
+├── conv_layer_map.md
+├── conv_layer_concepts.md
+├── conv_layer_math.md
+├── conv_layer_tutorial.md
+├── conv_layer_code.md
+├── conv_layer_pitfalls.md
+├── conv_layer_history.md
+├── conv_layer_bridge.md
+└── conv_layer_first_principles.md
+```
+
+---
+
+## 课程级文件说明
+
+每个课程目录下有两个课程级文件（不属于任何主题）：
+
+| 文件 | 作用 | 何时更新 |
+|------|------|---------|
+| `_course.md` | 课程名词总表（分类 + 中英对照） | 课程创建时 |
+| `README.md` | 主题列表 + 进度追踪 + 课程定位 | 每次主题完成时 (Phase 5) |
