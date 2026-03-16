@@ -230,6 +230,84 @@ WANTED_BOOKS = [
         "desc": "CLRS — 算法导论 (Cormen, Leiserson, Rivest, Stein)",
         "commercial": True,
     },
+    # ==================== 视频编导 / Storytelling ====================
+    {
+        "keywords": ["poetics", "aristotle"],
+        "filename": "aristotle_poetics.pdf",
+        "category": "storytelling",
+        "desc": "Poetics — 戏剧理论起点 (Aristotle, ~335 BC)",
+        "official_url": "https://seas3.elte.hu/coursematerial/RuttkayVeroworksnika/aristotle_poetics.pdf",
+    },
+    {
+        "keywords": ["story", "robert mckee", "screenwriting"],
+        "filename": "mckee_story.pdf",
+        "category": "storytelling",
+        "desc": "Story — 编剧圣经 (Robert McKee)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["screenplay", "syd field", "foundations"],
+        "filename": "field_screenplay.pdf",
+        "category": "storytelling",
+        "desc": "Screenplay — 三幕结构发明者 (Syd Field)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["save the cat", "blake snyder"],
+        "filename": "snyder_save_the_cat.pdf",
+        "category": "storytelling",
+        "desc": "Save the Cat! — Beat Sheet 节拍表 (Blake Snyder)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["hero thousand faces", "joseph campbell"],
+        "filename": "campbell_hero_thousand_faces.pdf",
+        "category": "storytelling",
+        "desc": "The Hero with a Thousand Faces — 英雄之旅原型 (Joseph Campbell)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["made to stick", "chip heath", "dan heath"],
+        "filename": "heath_made_to_stick.pdf",
+        "category": "storytelling",
+        "desc": "Made to Stick — 让创意更有黏性 (Chip & Dan Heath)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["in the blink of an eye", "walter murch", "editing"],
+        "filename": "murch_blink_of_eye.pdf",
+        "category": "storytelling",
+        "desc": "In the Blink of an Eye — 剪辑理论 (Walter Murch)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["documentary storytelling", "sheila curran bernard"],
+        "filename": "bernard_documentary_storytelling.pdf",
+        "category": "storytelling",
+        "desc": "Documentary Storytelling — 纪录片叙事 (Sheila Curran Bernard)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["visual story", "bruce block", "film"],
+        "filename": "block_visual_story.pdf",
+        "category": "storytelling",
+        "desc": "The Visual Story — 视觉叙事结构 (Bruce Block)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["understanding media", "marshall mcluhan"],
+        "filename": "mcluhan_understanding_media.pdf",
+        "category": "storytelling",
+        "desc": "Understanding Media — 媒介即信息 (Marshall McLuhan)",
+        "commercial": True,
+    },
+    {
+        "keywords": ["amusing ourselves to death", "neil postman"],
+        "filename": "postman_amusing_ourselves_to_death.pdf",
+        "category": "storytelling",
+        "desc": "Amusing Ourselves to Death — 娱乐至死 (Neil Postman)",
+        "commercial": True,
+    },
 ]
 
 # 知名的免费编程书籍 GitHub 仓库
@@ -247,6 +325,7 @@ CATEGORY_DIRS = {
     "cv": BASE_DIR / "cv" / "_sources",
     "webdev": BASE_DIR / "webdev" / "_sources",
     "uiux": BASE_DIR / "uiux" / "_sources",
+    "storytelling": BASE_DIR / "storytelling" / "_sources",
 }
 
 

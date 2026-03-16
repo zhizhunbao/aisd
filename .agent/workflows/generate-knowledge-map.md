@@ -1,5 +1,5 @@
 ---
-description: 为任意主题生成 8 维知识库文档（Map / Concepts / Math / Tutorial / Code / Pitfalls / History / Bridge）
+description: generate 9-dim knowledge map + optional video content (Map / Concepts / Math / Tutorial / Code / Pitfalls / History / Bridge / First Principles + Video)
 ---
 
 # 🧠 知识地图生成工作流 (Generate Knowledge Map)
@@ -95,6 +95,7 @@ Phase 2   理解层: ② Concepts → ③ Math → ④ Tutorial
 Phase 3   实战层: ⑤ Code → ⑥ Pitfalls
 Phase 4   脉络层: ⑦ History → ⑧ Bridge → ⑨ First Principles
 Phase 5   收尾: 回填 Map + 更新课程 README + 缺口检查 + 新鲜度
+Phase 6   视频创作（可选 --video）: History → 家长版脚本 → Veo 视频 → 发布
 ```
 
 ### 与 generate-study-material 的区别
@@ -188,7 +189,7 @@ list_dir(knowledge-map/courses/<课程>/)
 2. **扫描可用素材**:
    - `textbooks/` 教科书 PDF + `data/mineru_output/` MinerU 解析
    - `.github/` 开源项目参考代码
-   - `.documents/` 本地官方文档
+   - `official-docs/` 工具链官方文档
    - `knowledge-map/courses/<课程>/` 同课程已有主题（用于 Bridge）
    - `knowledge-map/courses/<课程>/_course.md` 课程名词总表（术语参照）
    - `search_web` 搜索在线文档（优先下载到 `.documents/`）
@@ -372,6 +373,106 @@ list_dir(knowledge-map/courses/<课程>/)
 
 ---
 
+## Phase 6: 视频创作 🎬（可选）
+
+**Skill**: `ai-video-director`
+
+> **触发条件**: 用户传入 `--video` 参数，或主题的 History 文件具有强故事性。
+> **前置要求**: Phase 4 的 History 文件已生成 + 已 `view_file` 读取 `ai-video-director/SKILL.md`。
+> **角色**: AI 视频编导（README.md 第 22 号角色）
+> **参考**: README.md 第三层 3.6 视频创作流
+
+### 6.1 脚本生成
+
+1. **读取 History 文件**: `<主题>_history.md`
+2. **用 Gemini 生成家长版脚本**:
+   - 输入: History 文件内容
+   - Prompt 模板:
+     ```
+     你是一个科技史纪录片编剧，目标受众是中文家长。
+
+     输入：以下是 [主题] 的历史演化文件。
+
+     任务：
+     1. 写一个 3 分钟的视频旁白稿（中文）
+     2. 要求：
+        - 开头 3 秒必须有"反直觉钩子"
+        - 三幕结构：起源 → 困境/突破 → 对孩子教育的启示
+        - 每 30 秒一个小高潮
+        - 用生活化类比解释专业概念
+        - 结尾连接到"这对你孩子意味着什么"
+     3. 同时为每段旁白写对应的 Veo 3.1 视频提示词（英文）
+     4. 每个 Veo 片段 = 8 秒，标注时间轴
+
+     [粘贴 History 文件内容]
+     ```
+3. **人工审核**: 用户审核钩子、节奏、Veo prompt 质量
+4. **输出**: `<主题>_video_script.md`（含旁白稿 + Veo prompt 序列 + 时间轴）
+
+### 6.2 视频生成
+
+> 工具链：Google Ultra (Veo 3.1 + Imagen + Flow) + 剪映
+
+1. **Veo 3.1 生成片段**: 按脚本逐段生成 8 秒视频
+   - 首段定风格，后续用 image reference 保持一致
+   - 统一风格后缀: `documentary style, warm color grading, cinematic lighting`
+   - 每个视频估计 20-25 个片段
+2. **Imagen 生成封面**: 16:9（B 站/公众号）+ 9:16（视频号/抖音）两版
+3. **Flow 拼接**: 按时间轴拼接所有片段
+4. **剪映后期**:
+   - 添加中文 TTS 旁白（或录制真人旁白）
+   - 自动字幕 + 手动校对
+   - 添加 BGM（Veo 原生 or 剪映素材库）
+   - 导出 16:9 横屏版 + 9:16 竖屏版
+
+### 6.3 家长版文章
+
+1. **基于脚本扩写公众号文章**:
+   - 标题: 家长视角，反直觉钩子（如"死记硬背为什么考不了高分？AI 告诉你答案"）
+   - 正文: 故事 + 生活类比 + "对你孩子意味着什么"
+   - 结尾: 亲子实验建议（和孩子一起做的小活动）
+2. **输出**: `<主题>_video_article.md`
+
+### 6.4 发布清单
+
+| 平台 | 格式 | 时长 | 文件 |
+|------|------|------|------|
+| 微信公众号 | 长文 + 嵌入视频 | — | `_video_article.md` + 视频 |
+| 微信视频号 | 竖屏 9:16 | 1-3 min | 竖屏剪辑版 |
+| B 站 | 横屏 16:9 | 3-5 min | 完整版 |
+| 抖音 | 竖屏 9:16 | <1 min | 精华剪辑版 |
+| YouTube | 横屏 16:9 | 3-5 min | 英文字幕版（可选） |
+
+### 6.5 反馈回填
+
+1. 在 `_map.md` 的文件地图中标注 `🎬 已生成视频`
+2. 在课程 `README.md` 中标注主题已有视频内容
+3. 发布后跟踪数据，反馈到选题优化
+
+### 6.6 跳过条件
+
+| 条件 | 说明 |
+|------|------|
+| 无 `--video` 参数 | 默认不生成 |
+| History 无故事性 | 纯数学概念、纯工程配置 |
+| 主题太窄 | 无法撑起 3 分钟视频 |
+
+### 6.7 单视频生产时间预估
+
+| 环节 | 耗时 |
+|------|------|
+| 选主题 + 读 History | 5 min |
+| Gemini 生成脚本 | 10 min |
+| 审核 + 修改钩子/节奏 | 20 min |
+| Veo 生成视频片段 | 30 min（含等待） |
+| Imagen 生成封面 | 5 min |
+| Flow/剪映 组装 | 15 min |
+| 字幕校对 + 导出 | 10 min |
+| 发布 | 5 min |
+| **合计** | **约 1.5-2 小时/个** |
+
+---
+
 ## 元数据标准
 
 每个文件顶部必须有:
@@ -425,7 +526,9 @@ knowledge-map/courses/<课程>/<主题>/
 ├── <主题>_pitfalls.md          ← ⑥ 踩坑
 ├── <主题>_history.md           ← ⑦ 历史
 ├── <主题>_bridge.md            ← ⑧ 衔接
-└── <主题>_first_principles.md  ← ⑨ 第一性原理
+├── <主题>_first_principles.md  ← ⑨ 第一性原理
+├── <主题>_video_script.md      ← ⑩ 视频脚本（Phase 6·可选）
+└── <主题>_video_article.md     ← ⑪ 家长版文章（Phase 6·可选）
 ```
 
 ### 实际示例
