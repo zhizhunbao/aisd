@@ -1,10 +1,10 @@
----
+﻿---
 topic: knn
 dimension: concepts
 created: 2026-03-13
 last_verified: 2026-03-13
 source_versions:
-  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 1967 — ⚠️ 待下载 见 papers_index.md"
+  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 1967 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf"
   - "📚 Book: Hastie, Tibshirani, Friedman, 《ESL》 Ch.2 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/hastie_esl.pdf"
   - "📚 Book: Murphy, 《PML1》 Ch.16 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/murphy_pml1.pdf"
   - "📖 Docs: scikit-learn Neighbors — https://scikit-learn.org/stable/modules/neighbors.html"
@@ -15,7 +15,7 @@ status: current
 # KNN 核心概念
 
 > 📚 Book: Hastie et al., [《The Elements of Statistical Learning》](../../../textbooks/hastie_esl.pdf), Ch.2 §2.3
-> 📖 Paper: Cover & Hart (1967) ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf)
 
 ---
 

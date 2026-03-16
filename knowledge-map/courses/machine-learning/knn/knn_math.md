@@ -4,7 +4,7 @@ dimension: math
 created: 2026-03-13
 last_verified: 2026-03-13
 source_versions:
-  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 1967 — ⚠️ 待下载 见 papers_index.md"
+  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 1967 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf"
   - "📚 Book: Hastie, Tibshirani, Friedman, 《ESL》 Ch.2 §2.3, Ch.13 §13.3 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/hastie_esl.pdf"
   - "📚 Book: Murphy, 《PML1》 Ch.16 §16.1 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/murphy_pml1.pdf"
 expiry: 12m
@@ -14,7 +14,7 @@ status: current
 # KNN 数学基础
 
 > 📚 Book: Hastie et al., [《The Elements of Statistical Learning》](../../../textbooks/hastie_esl.pdf), Ch.2 §2.3, Ch.13 §13.3
-> 📖 Paper: Cover & Hart (1967) — Nearest Neighbor Pattern Classification ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf)
 
 ---
 
@@ -84,7 +84,7 @@ $$
 \hat{y} = \arg\max_{c \in \{1,\ldots,C\}} \sum_{i \in \mathcal{N}_k(\mathbf{x})} \mathbf{1}[y_i = c]
 $$
 
-> 📖 Paper: Cover & Hart (1967) — 原始定义 ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) — 原始定义
 
 **参数解释：**
 
@@ -170,7 +170,7 @@ $$
 
 其中 $P^*$ 是贝叶斯错误率（理论最低误差）。
 
-> 📖 Paper: Cover & Hart (1967) — Theorem 1 ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) — Theorem 1
 
 **直觉解释：**
 - $P^* = 0$（完全可分）→ 1-NN 也可以完美分类

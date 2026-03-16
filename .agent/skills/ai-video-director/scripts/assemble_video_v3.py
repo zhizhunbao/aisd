@@ -181,10 +181,19 @@ def build_visual_track(visuals_dir: Path, total_duration: float, tmp_dir: Path) 
                 ], f"video {i}")
 
         elif f.suffix in ('.png', '.jpg', '.jpeg', '.webp'):
-            # 图片：Ken Burns 推拉效果
+            # 图片：Ken Burns 推拉效果（平滑版）
+            # 先用 lanczos 高质量缩放 + pad 到 2160x1216（保持比例），
+            # 再用温和 zoompan（1% 缩放）避免小图抖动
+            total_frames = int(seg_dur * 30)
             ffmpeg([
                 "-loop", "1", "-i", str(f),
-                "-vf", f"scale=2100:1200,zoompan=z='1.04+0.02*on/({seg_dur}*30)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={int(seg_dur*30)}:s=1920x1080:fps=30",
+                "-vf", (
+                    f"scale=2160:1216:force_original_aspect_ratio=decrease:flags=lanczos,"
+                    f"pad=2160:1216:-1:-1:color=black,"
+                    f"zoompan=z='1.02+0.01*on/{total_frames}'"
+                    f":x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
+                    f":d={total_frames}:s=1920x1080:fps=30"
+                ),
                 "-t", str(seg_dur),
                 "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p",
                 str(out)

@@ -82,8 +82,8 @@ status: current
 
 | 资源 | 类型 | 为什么值得读 | 难度 |
 |------|------|------------|------|
-| Cover & Hart (1967) ⚠️ 待下载 | 📖 论文 | KNN 理论基石，误差界定理原文 | ⭐⭐⭐ |
-| Bentley (1975) ⚠️ 待下载 | 📖 论文 | KD-Tree 原论文，空间划分思想 | ⭐⭐⭐ |
+| Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) | 📖 论文 | KNN 理论基石，误差界定理原文 | ⭐⭐⭐ |
+| Bentley (1975), [KD-Tree 原论文](../../../../.documents/papers/knn/bentley_1975_kd_tree.pdf) | 📖 论文 | KD-Tree 原论文，空间划分思想 | ⭐⭐⭐ |
 | [《ESL》Ch.13](../../../textbooks/hastie_esl.pdf) | 📚 教科书 | 原型方法、KNN 的理论位置 | ⭐⭐⭐ |
 
 ### 横向对比

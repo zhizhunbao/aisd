@@ -4,9 +4,9 @@ dimension: history
 created: 2026-03-13
 last_verified: 2026-03-13
 source_versions:
-  - "📖 Paper: Fix & Hodges, 'Discriminatory Analysis, Nonparametric Discrimination', 1951 — ⚠️ 待下载 见 papers_index.md"
-  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 13(1), 1967 — ⚠️ 待下载"
-  - "📖 Paper: Bentley, 'Multidimensional Binary Search Trees', CACM 1975 — ⚠️ 待下载"
+  - "📖 Paper: Fix & Hodges, 'Discriminatory Analysis, Nonparametric Discrimination', 1951 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/fix_hodges_1951_discriminatory_analysis.pdf"
+  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 13(1), 1967 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf"
+  - "📖 Paper: Bentley, 'Multidimensional Binary Search Trees', CACM 1975 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/bentley_1975_kd_tree.pdf"
   - "📚 Book: Hastie, Tibshirani, Friedman, 《ESL》 Ch.13 §13.3 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/hastie_esl.pdf"
 expiry: never
 status: current
@@ -36,7 +36,7 @@ status: current
 ## 📚 第一章：诞生——一份未发表的报告（1951）
 
 > **关键人物：** Evelyn Fix 和 Joseph Hodges
-> **关键论文：** Fix & Hodges, "Discriminatory Analysis, Nonparametric Discrimination: Consistency Properties", USAF School of Aviation Medicine (1951) ⚠️ 待下载
+> **关键论文：** Fix & Hodges, ["Discriminatory Analysis, Nonparametric Discrimination: Consistency Properties"](../../../../.documents/papers/knn/fix_hodges_1951_discriminatory_analysis.pdf), USAF School of Aviation Medicine (1951)
 
 ### 发生了什么？
 
@@ -61,7 +61,7 @@ Fix 和 Hodges 在一份**从未正式发表**的空军报告中提出了最近�
 ## 📚 第二章：奠基——Cover-Hart 定理（1967）
 
 > **关键人物：** Thomas Cover 和 Peter Hart
-> **关键论文：** Cover & Hart, "Nearest Neighbor Pattern Classification", IEEE Transactions on Information Theory 13(1), 1967 ⚠️ 待下载
+> **关键论文：** Cover & Hart, ["Nearest Neighbor Pattern Classification"](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf), IEEE Transactions on Information Theory 13(1), 1967
 
 ### 发生了什么？
 
@@ -89,7 +89,7 @@ $$P^* \leq P_{1\text{-NN}} \leq P^*(2 - \frac{C}{C-1} P^*) \leq 2P^*$$
 ## 📚 第三章：加速——KD-Tree 的诞生（1975）
 
 > **关键人物：** Jon Bentley
-> **关键论文：** Bentley, "Multidimensional Binary Search Trees Used for Associative Searching", CACM 18(9), 1975 ⚠️ 待下载
+> **关键论文：** Bentley, ["Multidimensional Binary Search Trees Used for Associative Searching"](../../../../.documents/papers/knn/bentley_1975_kd_tree.pdf), CACM 18(9), 1975
 
 ### 发生了什么？
 

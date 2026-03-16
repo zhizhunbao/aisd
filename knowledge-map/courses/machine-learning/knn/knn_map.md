@@ -1,10 +1,10 @@
----
+﻿---
 topic: knn
 dimension: map
 created: 2026-03-13
 last_verified: 2026-03-13
 source_versions:
-  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 1967 — ⚠️ 待下载 见 papers_index.md"
+  - "📖 Paper: Cover & Hart, 'Nearest Neighbor Pattern Classification', IEEE Trans. Inform. Theory 1967 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf"
   - "📚 Book: Hastie, Tibshirani, Friedman, 《The Elements of Statistical Learning》 Ch.2 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/hastie_esl.pdf"
   - "📚 Book: James et al., 《ISLR》 Ch.2,3 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/james_ISLR.pdf"
   - "📚 Book: Murphy, 《Probabilistic Machine Learning: An Introduction》 Ch.16 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/murphy_pml1.pdf"
@@ -17,7 +17,7 @@ status: current
 # KNN 知识地图
 
 > 📚 Book: Hastie et al., [《The Elements of Statistical Learning》](../../../textbooks/hastie_esl.pdf), Ch.2 §2.3
-> 📖 Paper: Cover & Hart (1967), Nearest Neighbor Pattern Classification ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf)
 
 ## 1. 核心问题
 
@@ -154,6 +154,6 @@ status: current
 | [《The Elements of Statistical Learning》Ch.2](../../../textbooks/hastie_esl.pdf) | 📚 教科书 | 全文核心参考，维度灾难 |
 | [《ISLR》Ch.2,3](../../../textbooks/james_ISLR.pdf) | 📚 教科书 | KNN 回归、分类示例 |
 | [《Probabilistic Machine Learning》Ch.16](../../../textbooks/murphy_pml1.pdf) | 📚 教科书 | 非参数方法理论 |
-| Cover & Hart (1967) ⚠️ 待下载 | 📖 论文 | 原始论文，误差界定理 |
+| Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) | 📖 论文 | 原始论文，误差界定理 |
 | [scikit-learn Neighbors Docs](https://scikit-learn.org/stable/modules/neighbors.html) | 📖 文档 | 算法选择、API 参考 |
 | [sklearn/neighbors/_classification.py](https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/neighbors/_classification.py) | 💻 源码 | 分类实现 |

@@ -1,10 +1,10 @@
----
+﻿---
 topic: knn
 dimension: first_principles
 created: 2026-03-13
 last_verified: 2026-03-13
 source_versions:
-  - "📖 Paper: Cover & Hart, IEEE Trans. Inform. Theory 1967 — ⚠️ 待下载 见 papers_index.md"
+  - "📖 Paper: Cover & Hart, IEEE Trans. Inform. Theory 1967 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf"
   - "📚 Book: Hastie, Tibshirani, Friedman, 《ESL》 Ch.2 §2.3, §2.5 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/hastie_esl.pdf"
   - "📚 Book: Murphy, 《PML1》 Ch.16 §16.1 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/murphy_pml1.pdf"
 expiry: 12m
@@ -13,7 +13,7 @@ status: current
 
 # KNN 第一性原理
 
-> 📖 Paper: Cover & Hart (1967) ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf)
 > 📚 Book: Hastie et al., [《The Elements of Statistical Learning》](../../../textbooks/hastie_esl.pdf), Ch.2 §2.3
 
 ---
@@ -60,7 +60,7 @@ status: current
 
 **可验证性：** 成立——特征经过归一化且具有实际语义的情况（例：医疗体检指标，数值差 = 生理差异）；不成立——原始高维特征（距离失效于维度灾难）、混合类型特征（数值+类别直接混用欧氏距离无意义）
 
-> 📖 Paper: Cover & Hart (1967) ⚠️ 待下载 — 欧氏距离在其定理中作为基础工具
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) — 欧氏距离在其定理中作为基础工具
 
 ### 公理 3: 大数定律（Law of Large Numbers）
 
@@ -95,7 +95,7 @@ status: current
 
 **结果：** "找 k 个最近邻"成为具体可计算的操作 $\mathcal{N}_k(\mathbf{x}) = \{\text{k closest points by } D\}$
 
-> 📖 Paper: Cover & Hart (1967) ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf)
 
 ### Step 3: {结合 Step 2 + 公理 3} → 邻居标签的统计量是真实条件分布的估计
 
@@ -103,7 +103,7 @@ status: current
 
 **结果：** KNN 预测 $\hat{y} = \text{mode}(\{y_i : i \in \mathcal{N}_k\})$ 是贝叶斯最优决策的一致估计
 
-> 📖 Paper: Cover & Hart (1967) — Theorem 1（一致性证明）⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) — Theorem 1（一致性证明）
 
 ### Step N: → 完整的 KNN 技术
 

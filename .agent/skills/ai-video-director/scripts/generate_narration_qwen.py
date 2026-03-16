@@ -9,14 +9,16 @@ Qwen3-TTS 通用旁白生成器（本地 GPU）
   纯文本文件，每行一个段落。空行忽略。
 
 输出：
-  narration/full_narration_qwen.mp3  (预设声音)
+  narration/full_narration_qwen.mp3   (预设声音)
   narration/full_narration_myvoice.mp3 (克隆声音)
+  narration/timestamps.json           (每段精确起止时间)
 
 硬件要求：
   RTX 4060 (8GB VRAM) 或更高
   模型大小：~1.8GB，首次下载后自动缓存到 ~/.cache/huggingface/
 """
 import argparse
+import json
 import numpy as np
 import soundfile as sf
 import subprocess
@@ -44,14 +46,33 @@ def synthesize_segments(model, segments: list[str], gen_func, gen_kwargs: dict) 
     return all_wavs, sample_rate
 
 
-def concat_and_save(all_wavs: list, sample_rate: int, output_path: Path, gap_sec: float = 0.3):
-    """拼接音频段落，段间插入静默，保存为 mp3"""
-    silence = np.zeros(int(sample_rate * gap_sec), dtype=np.float32)
+def concat_and_save(all_wavs: list, segments_text: list[str], sample_rate: int,
+                    output_path: Path, gap_sec: float = 0.3):
+    """拼接音频段落，段间插入静默，保存为 mp3 + timestamps.json"""
+    silence_samples = int(sample_rate * gap_sec)
+    silence = np.zeros(silence_samples, dtype=np.float32)
+
     combined = []
+    timestamps = []  # 记录每段精确起止时间
+    cursor = 0  # 当前采样点位置
+
     for i, wav in enumerate(all_wavs):
+        start_sec = cursor / sample_rate
+        cursor += len(wav)
+        end_sec = cursor / sample_rate
+
+        timestamps.append({
+            "index": i + 1,
+            "start": round(start_sec, 3),
+            "end": round(end_sec, 3),
+            "text": segments_text[i],
+            "scene": f"scene_{i+1:02d}.mp4",
+        })
+
         combined.append(wav)
         if i < len(all_wavs) - 1:
             combined.append(silence)
+            cursor += silence_samples
 
     full_audio = np.concatenate(combined)
 
@@ -65,9 +86,15 @@ def concat_and_save(all_wavs: list, sample_rate: int, output_path: Path, gap_sec
     ], capture_output=True)
     wav_temp.unlink(missing_ok=True)
 
+    # 导出时间戳
+    ts_path = output_path.parent / "timestamps.json"
+    with open(ts_path, "w", encoding="utf-8") as f:
+        json.dump(timestamps, f, ensure_ascii=False, indent=2)
+
     dur = len(full_audio) / sample_rate
     print(f"\n✅ 完成: {output_path}")
     print(f"   时长: {dur:.1f}s | 采样率: {sample_rate}Hz")
+    print(f"   时间戳: {ts_path} ({len(timestamps)} 段)")
     return output_path
 
 
@@ -87,7 +114,7 @@ def generate_preset(segments: list[str], output_dir: Path, speaker: str = "uncle
         gen_func=model.generate_custom_voice,
         gen_kwargs={"speaker": speaker, "language": "Chinese"}
     )
-    return concat_and_save(all_wavs, sr, output_dir / "full_narration_qwen.mp3")
+    return concat_and_save(all_wavs, segments, sr, output_dir / "full_narration_qwen.mp3")
 
 
 def generate_clone(segments: list[str], output_dir: Path, voice_sample: Path):
@@ -116,7 +143,7 @@ def generate_clone(segments: list[str], output_dir: Path, voice_sample: Path):
         gen_func=model.generate_voice_clone,
         gen_kwargs={"language": "Chinese", "voice_clone_prompt": voice_prompt}
     )
-    return concat_and_save(all_wavs, sr, output_dir / "full_narration_myvoice.mp3")
+    return concat_and_save(all_wavs, segments, sr, output_dir / "full_narration_myvoice.mp3")
 
 
 def main():

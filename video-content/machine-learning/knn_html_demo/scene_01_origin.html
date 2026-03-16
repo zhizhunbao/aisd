@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>KNN Scene 01 - 诞生</title>
+<style>
+  /* ===== 全局：暗色板书风格 ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #0f0f23;
+    font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+    color: #e0e0e0;
+  }
+
+  /* ===== 板书区域：三列布局 ===== */
+  .blackboard {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 40px;
+    padding: 60px 80px 180px 80px; /* 底部留字幕区 */
+    height: 100%;
+  }
+
+  /* ===== 标题横跨三列 ===== */
+  .title-bar {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+  }
+
+  .title-bar .chapter {
+    font-size: 18px;
+    color: #888;
+    letter-spacing: 2px;
+  }
+
+  .title-bar h1 {
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f8d56b, #f0a030);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .title-bar .year {
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(248, 213, 107, 0.15);
+    margin-left: auto;
+    font-family: 'Georgia', serif;
+  }
+
+  /* ===== 左列：人物卡片 ===== */
+  .col-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .person-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 28px;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .person-card.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .person-card .emoji {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .person-card .name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #7ecbf5;
+    margin-bottom: 8px;
+  }
+
+  .person-card .role {
+    font-size: 16px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  .paper-card {
+    background: rgba(248, 213, 107, 0.08);
+    border: 1px solid rgba(248, 213, 107, 0.2);
+    border-radius: 16px;
+    padding: 28px;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .paper-card.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .paper-card .emoji {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .paper-card .label {
+    font-size: 14px;
+    color: #f8d56b;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .paper-card .paper-title {
+    font-size: 18px;
+    font-style: italic;
+    color: #ccc;
+    line-height: 1.5;
+  }
+
+  .paper-card .paper-note {
+    font-size: 15px;
+    color: #e87070;
+    margin-top: 12px;
+    font-weight: 600;
+  }
+
+  /* ===== 中列：核心内容（从上到下逐行显示）===== */
+  .col-center {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .content-line {
+    font-size: 26px;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .content-line.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .content-line .highlight {
+    background: linear-gradient(135deg, rgba(126, 203, 245, 0.2), rgba(126, 203, 245, 0.05));
+    border-left: 3px solid #7ecbf5;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 24px;
+  }
+
+  .content-line .key-insight {
+    background: linear-gradient(135deg, rgba(248, 213, 107, 0.15), rgba(248, 213, 107, 0.05));
+    border-left: 3px solid #f8d56b;
+    padding: 16px;
+    border-radius: 0 12px 12px 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #f8d56b;
+  }
+
+  .content-line .analogy {
+    font-size: 28px;
+    color: #7ecbf5;
+    font-weight: 600;
+  }
+
+  /* ===== 右列：关键词 / 时间线 ===== */
+  .col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .keyword-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 20px;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .keyword-tag.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .keyword-tag .emoji {
+    font-size: 28px;
+  }
+
+  .keyword-tag .tag-label {
+    color: #888;
+    font-size: 14px;
+  }
+
+  .keyword-tag .tag-value {
+    color: #e0e0e0;
+    font-weight: 600;
+  }
+
+  .turning-point {
+    background: rgba(232, 112, 112, 0.1);
+    border: 1px solid rgba(232, 112, 112, 0.3);
+    border-radius: 16px;
+    padding: 24px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-top: auto;
+  }
+
+  .turning-point.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .turning-point .tp-label {
+    font-size: 14px;
+    color: #e87070;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .turning-point .tp-text {
+    font-size: 20px;
+    color: #f0c0c0;
+    line-height: 1.6;
+  }
+
+  /* ===== 底部字幕安全区 ===== */
+  .subtitle-zone {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .subtitle-zone .subtitle-text {
+    font-size: 32px;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .subtitle-zone .subtitle-text.show {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="blackboard">
+  <!-- 标题栏 -->
+  <div class="title-bar">
+    <span class="chapter">📚 第一章</span>
+    <h1>诞生——一份没人看到的报告</h1>
+    <span class="year">1951</span>
+  </div>
+
+  <!-- 左列：人物 + 论文 -->
+  <div class="col-left">
+    <div class="person-card" data-step="1">
+      <div class="emoji">👨‍🔬</div>
+      <div class="name">Evelyn Fix</div>
+      <div class="role">统计学家<br>加州大学伯克利分校</div>
+    </div>
+    <div class="person-card" data-step="1">
+      <div class="emoji">👨‍🔬</div>
+      <div class="name">Joseph Hodges</div>
+      <div class="role">统计学家<br>加州大学伯克利分校</div>
+    </div>
+    <div class="paper-card" data-step="2">
+      <div class="emoji">📄</div>
+      <div class="label">USAF 内部报告</div>
+      <div class="paper-title">"Discriminatory Analysis, Nonparametric Discrimination"</div>
+      <div class="paper-note">⚠️ 从未正式发表</div>
+    </div>
+  </div>
+
+  <!-- 中列：核心叙事（从上到下逐行板书）-->
+  <div class="col-center">
+    <div class="content-line" data-step="3">
+      <div class="analogy">💡 核心想法很简单——</div>
+    </div>
+    <div class="content-line" data-step="4">
+      <div class="highlight">
+        找到跟你最像的邻居，抄他的答案
+      </div>
+    </div>
+    <div class="content-line" data-step="5">
+      考试不会做？看看学霸同桌写了什么。<br>
+      KNN 的本质就是这个。
+    </div>
+    <div class="content-line" data-step="6">
+      <div class="key-insight">
+        🎯 不需要任何假设，数据本身就是模型
+      </div>
+    </div>
+    <div class="content-line" data-step="7">
+      他们还证明了：当数据足够多的时候，<br>
+      这个方法的准确率会无限接近最好的方法。
+    </div>
+  </div>
+
+  <!-- 右列：关键词标签 -->
+  <div class="col-right">
+    <div class="keyword-tag" data-step="3">
+      <span class="emoji">🏷️</span>
+      <div>
+        <div class="tag-label">方法</div>
+        <div class="tag-value">非参数分类</div>
+      </div>
+    </div>
+    <div class="keyword-tag" data-step="4">
+      <span class="emoji">📐</span>
+      <div>
+        <div class="tag-label">距离度量</div>
+        <div class="tag-value">欧几里得距离</div>
+      </div>
+    </div>
+    <div class="keyword-tag" data-step="5">
+      <span class="emoji">🎓</span>
+      <div>
+        <div class="tag-label">核心假设</div>
+        <div class="tag-value">相似的东西在一起</div>
+      </div>
+    </div>
+    <div class="keyword-tag" data-step="6">
+      <span class="emoji">📊</span>
+      <div>
+        <div class="tag-label">理论保证</div>
+        <div class="tag-value">一致性收敛</div>
+      </div>
+    </div>
+
+    <div class="turning-point" data-step="8">
+      <div class="tp-label">🔑 故事转折点</div>
+      <div class="tp-text">
+        报告写完了，但没有人看到……<br>
+        需要等 16 年，才有人给出更强的证明
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 字幕区 -->
+<div class="subtitle-zone">
+  <div class="subtitle-text" id="subtitle"></div>
+</div>
+
+<script>
+  // ===== 板书式逐步展示：按旁白节拍触发 =====
+  const timeline = [
+    { step: 1, delay: 0,    subtitle: '1951年 两个统计学家写了一份报告' },
+    { step: 2, delay: 2000, subtitle: '这份报告从未正式发表' },
+    { step: 3, delay: 4000, subtitle: '但他们的想法很简单' },
+    { step: 4, delay: 5500, subtitle: '找到跟你最像的邻居 抄他的答案' },
+    { step: 5, delay: 7500, subtitle: '就像考试不会做 看看学霸同桌写了什么' },
+    { step: 6, delay: 10000, subtitle: '不需要假设 数据本身就是模型' },
+    { step: 7, delay: 12500, subtitle: '数据越多 答案越准' },
+    { step: 8, delay: 15000, subtitle: '但这份报告 16年后才被人注意到' },
+  ];
+
+  const subtitleEl = document.getElementById('subtitle');
+
+  timeline.forEach(({ step, delay, subtitle }) => {
+    setTimeout(() => {
+      // 显示对应 step 的所有元素
+      document.querySelectorAll(`[data-step="${step}"]`).forEach(el => {
+        el.classList.add('show');
+      });
+      // 更新字幕
+      subtitleEl.textContent = subtitle;
+      subtitleEl.classList.add('show');
+    }, delay);
+  });
+</script>
+
+</body>
+</html>

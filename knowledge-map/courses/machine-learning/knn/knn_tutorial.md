@@ -1,10 +1,10 @@
----
+﻿---
 topic: knn
 dimension: tutorial
 created: 2026-03-13
 last_verified: 2026-03-13
 source_versions:
-  - "📖 Paper: Cover & Hart, IEEE Trans. Inform. Theory 1967 — ⚠️ 待下载 见 papers_index.md"
+  - "📖 Paper: Cover & Hart, IEEE Trans. Inform. Theory 1967 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf"
   - "📚 Book: Hastie, Tibshirani, Friedman, 《ESL》 Ch.2 §2.3 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/hastie_esl.pdf"
   - "📚 Book: James et al., 《ISLR》 Ch.2 §2.2.3 — file:///C:/Users/40270/OneDrive/Desktop/workspace/aisd/textbooks/james_ISLR.pdf"
   - "📖 Docs: scikit-learn Neighbors User Guide — https://scikit-learn.org/stable/modules/neighbors.html"
@@ -46,7 +46,7 @@ status: current
 3. **Cover-Hart 理论保证**：渐近误差率不超过贝叶斯最优错误率的 2 倍——这是严格的数学保证
 4. **多任务**：同一框架支持分类、回归、异常检测
 
-> 📖 Paper: Cover & Hart (1967) ⚠️ 待下载
+> 📖 Paper: Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf)
 > 📚 Book: Hastie et al., [《ESL》](../../../textbooks/hastie_esl.pdf), Ch.2 §2.3
 
 ---
@@ -173,6 +173,6 @@ KD-Tree 二维示意：
 | [《ESL》Ch.2 §2.3](../../../textbooks/hastie_esl.pdf) | 📚 教科书 | Section 1 核心价值、Section 2.2 原理 |
 | [《ESL》Ch.2 §2.5](../../../textbooks/hastie_esl.pdf) | 📚 教科书 | Section 3 维度灾难 |
 | [《ISLR》Ch.2 §2.2.3](../../../textbooks/james_ISLR.pdf) | 📚 教科书 | Section 2.4 k 选择、Section 4 对比 |
-| Cover & Hart (1967) ⚠️ 待下载 | 📖 论文 | Section 1 理论保证 |
+| Cover & Hart (1967), [Nearest Neighbor Pattern Classification](../../../../.documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf) | 📖 论文 | Section 1 理论保证 |
 | [scikit-learn Neighbors](https://scikit-learn.org/stable/modules/neighbors.html) | 📖 文档 | Section 2.3 算法选择 |
 | [sklearn/neighbors/_classification.py](https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/neighbors/_classification.py) | 💻 源码 | Section 2.1 流程图 |

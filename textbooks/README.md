@@ -1,6 +1,6 @@
 # Textbook Knowledge Base
 
-58 本教科书的 MinerU 转换输出，覆盖 AI/ML、数学、NLP/IR、CV、RL、Python、JavaScript/TypeScript、软件工程、DevOps、安全、网络协议、数据库与框架、UX 设计。
+63 本教科书的 MinerU 转换输出，覆盖 AI/ML、数学、NLP/IR、CV、RL、Python、JavaScript/TypeScript、软件工程、DevOps、安全、网络协议、数据库与框架、UX 设计、视频制作与教育设计。
 
 ## 概览
 
@@ -22,7 +22,8 @@
 | Networking             | 2      | HTTP Definitive Guide, SSH Definitive Guide    |
 | Database / Frameworks  | 2      | Using SQLite, FastAPI Modern Web               |
 | UX/Design              | 2      | Don't Make Me Think, Design of Everyday Things |
-| **总计**               | **58** |                                                |
+| Video / Edu Design     | 5      | Multimedia Learning, Storytelling with Data    |
+| **总计**               | **63** |                                                |
 
 ## 目录结构
 
@@ -219,12 +220,22 @@ for ref in idx['topics']['neural_networks']['references']:
 | `krug_dont_make_me_think`       | Don't Make Me Think           | Steve Krug |
 | `norman_design_everyday_things` | The Design of Everyday Things | Don Norman |
 
+### Video Production / Educational Design
+
+| Key                                  | 书名                                      | 作者                      |
+| ------------------------------------ | ----------------------------------------- | ------------------------- |
+| `mayer_multimedia_learning`          | Multimedia Learning (2nd ed)              | Richard Mayer             |
+| `clark_mayer_elearning`              | e-Learning and the Science of Instruction | Ruth Clark & Richard Mayer|
+| `williams_non_designers_design_book` | The Non-Designer's Design Book (4th ed)   | Robin Williams            |
+| `knaflic_storytelling_with_data`     | Storytelling with Data                    | Cole Nussbaumer Knaflic   |
+| `williams_animators_survival_kit`    | The Animator's Survival Kit               | Richard Williams          |
+
 ## Topic Index 统计
 
 | 指标     | 值  |
 | -------- | --- |
 | 主题数   | 64  |
 | 引用数   | 327 |
-| 覆盖书籍 | 58  |
+| 覆盖书籍 | 63  |
 
 重建索引：`uv run python scripts/rebuild_topic_index.py`
