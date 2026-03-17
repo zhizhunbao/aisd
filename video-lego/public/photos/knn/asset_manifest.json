@@ -1,0 +1,319 @@
+{
+  "topic": "knn",
+  "collected_at": "2026-03-17",
+  "classification_source": "Clark & Mayer, e-Learning and the Science of Instruction (4th ed), Ch.4",
+  "script_source": "script_tts.txt (20 scenes)",
+
+  "assets": [
+    {
+      "id": "repr_person_fix",
+      "category": "representational",
+      "type": "portrait",
+      "description": "Evelyn Fix — KNN 共同发明者 (1951)",
+      "file": "repr_person_fix.jpg",
+      "source": "UC Berkeley Statistics Dept - In Memoriam",
+      "url": "https://statistics.berkeley.edu/sites/default/files/2020-11/evelyn_fix.jpg",
+      "license": "University archive (fair use for educational)",
+      "status": "downloaded",
+      "search_notes": "Portrait available on UC Berkeley Statistics 'In Memoriam' page. Not on Wikimedia Commons.",
+      "used_in_scenes": ["Scene01", "Scene05"]
+    },
+    {
+      "id": "repr_person_hodges",
+      "category": "representational",
+      "type": "portrait",
+      "description": "Joseph Hodges — KNN 共同发明者 (1951)",
+      "file": null,
+      "source": null,
+      "url": null,
+      "license": null,
+      "status": "missing",
+      "fallback": "Text-only PersonCard (organizational)",
+      "search_notes": "Has Wikipedia page but no portrait photo found on Wikimedia Commons. UC Berkeley archives may have one.",
+      "used_in_scenes": ["Scene01", "Scene05"]
+    },
+    {
+      "id": "repr_person_cover",
+      "category": "representational",
+      "type": "portrait",
+      "description": "Thomas Cover — Cover-Hart 定理作者 (1967)",
+      "file": "repr_person_cover.jpg",
+      "source": "Wikipedia (Non-free / Fair Use)",
+      "url": "https://upload.wikimedia.org/wikipedia/en/8/87/ThomasMCover.jpg",
+      "license": "Non-free / Fair Use (visual identification)",
+      "status": "downloaded",
+      "search_notes": "Portrait on Wikipedia page. Stanford obituary (2012) has photo by L.A. Cicero.",
+      "used_in_scenes": ["Scene05"]
+    },
+    {
+      "id": "repr_person_hart",
+      "category": "representational",
+      "type": "portrait",
+      "description": "Peter Hart — Cover-Hart 定理作者 (1967)",
+      "file": "repr_person_hart.jpg",
+      "source": "Wikimedia Commons",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Peter_E._Hart_at_CHM_Mar-2005.jpg",
+      "license": "CC BY 3.0 / GFDL",
+      "status": "downloaded",
+      "search_notes": "Portrait (2005) available on Wikimedia Commons via Wikipedia page. Also known for A* algorithm & Shakey the Robot.",
+      "used_in_scenes": ["Scene05"]
+    },
+    {
+      "id": "repr_person_bentley",
+      "category": "representational",
+      "type": "portrait",
+      "description": "Jon Bentley — KD-Tree 发明者 (1975)",
+      "file": "repr_person_bentley.jpg",
+      "source": "Wikimedia Commons",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Jon_Bentley_informaticien.jpg",
+      "license": "CC BY-SA 4.0",
+      "status": "downloaded",
+      "search_notes": "Portrait 'Jon_Bentley_informaticien.jpg' available on Wikimedia Commons.",
+      "used_in_scenes": ["Scene17"]
+    },
+    {
+      "id": "repr_paper_fix_hodges_1951",
+      "category": "representational",
+      "type": "paper_cover",
+      "description": "Fix & Hodges (1951) USAF School of Aviation Medicine 技术报告封面",
+      "file": "repr_paper_fix_hodges_1951.png",
+      "source": "PDF first page screenshot",
+      "url": ".documents/papers/knn/fix_hodges_1951_discriminatory_analysis.pdf",
+      "license": "Public Domain (US Government)",
+      "status": "downloaded",
+      "search_notes": "Extracted from local PDF. Original: USAF Project 21-49-004, Report Number 4.",
+      "used_in_scenes": ["Scene01", "Scene04"]
+    },
+    {
+      "id": "repr_paper_cover_hart_1967",
+      "category": "representational",
+      "type": "paper_cover",
+      "description": "Cover & Hart (1967) 'Nearest Neighbor Pattern Classification' IEEE Trans. IT 论文首页",
+      "file": "repr_paper_cover_hart_1967.png",
+      "source": "PDF first page screenshot",
+      "url": ".documents/papers/knn/cover_hart_1967_nearest_neighbor.pdf",
+      "license": "Academic citation (IEEE)",
+      "status": "downloaded",
+      "search_notes": "Extracted from local PDF. IEEE Transactions on Information Theory, Vol.13, No.1, Jan 1967.",
+      "used_in_scenes": ["Scene05"]
+    },
+    {
+      "id": "repr_paper_bentley_1975",
+      "category": "representational",
+      "type": "paper_cover",
+      "description": "Bentley (1975) 'Multidimensional Binary Search Trees' KD-Tree 论文首页",
+      "file": "repr_paper_bentley_1975.png",
+      "source": "PDF first page screenshot",
+      "url": ".documents/papers/knn/bentley_1975_kd_tree.pdf",
+      "license": "Academic citation (ACM)",
+      "status": "downloaded",
+      "search_notes": "Extracted from local PDF. Communications of the ACM, 1975.",
+      "used_in_scenes": ["Scene17"]
+    }
+  ],
+
+  "remotion_only": [
+    {
+      "id": "trans_scatter_classification",
+      "category": "transformational",
+      "description": "2D 散点分类动画 — 两类数据点逐个出现 + 查询点脉冲",
+      "component": "Scene01_YearFlash (custom SVG)",
+      "status": "implemented",
+      "used_in_scenes": ["Scene01"]
+    },
+    {
+      "id": "trans_nearest_search",
+      "category": "transformational",
+      "description": "查询点 → 最近邻箭头 → 标签复制动画",
+      "component": "Placeholder (TODO)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene02"]
+    },
+    {
+      "id": "interp_euclidean_distance",
+      "category": "interpretive",
+      "description": "勾股定理 → 欧氏距离公式渐进展开",
+      "component": "Placeholder (TODO: FormulaExpand + react-katex)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene03"]
+    },
+    {
+      "id": "org_timeline_1951_1967",
+      "category": "organizational",
+      "description": "1951→1967 时间线进度条 + Cover-Hart 公式 + 引用数计数器",
+      "component": "Scene05_CoverHart",
+      "status": "implemented",
+      "used_in_scenes": ["Scene05"]
+    },
+    {
+      "id": "trans_classroom_vote",
+      "category": "transformational",
+      "description": "教室投票动画 — K个邻居投票决定分类",
+      "component": "Placeholder (TODO)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene06"]
+    },
+    {
+      "id": "org_k1_vs_k100",
+      "category": "organizational",
+      "description": "K=1 vs K=100 对比分屏",
+      "component": "ComparisonSplit",
+      "status": "implemented",
+      "used_in_scenes": ["Scene07"]
+    },
+    {
+      "id": "interp_bias_variance",
+      "category": "interpretive",
+      "description": "偏差-方差 U 形曲线 + 最优K标注",
+      "component": "Placeholder (TODO: DiagramBuilder)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene08"]
+    },
+    {
+      "id": "org_lazy_learning",
+      "category": "organizational",
+      "description": "训练 0.1s vs 预测 600s 对比",
+      "component": "Placeholder (TODO: StepByStep)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene09"]
+    },
+    {
+      "id": "trans_locality",
+      "category": "transformational",
+      "description": "同类聚集 + 邻域搜索 — 公理1可视化",
+      "component": "Placeholder (TODO)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene10"]
+    },
+    {
+      "id": "org_ruler_comparison",
+      "category": "organizational",
+      "description": "歪尺 vs 准尺 — 距离度量重要性对比",
+      "component": "ComparisonSplit",
+      "status": "implemented",
+      "used_in_scenes": ["Scene11"]
+    },
+    {
+      "id": "trans_data_density",
+      "category": "transformational",
+      "description": "5点→50点→500点 — 数据密度对分类效果的影响",
+      "component": "Placeholder (TODO: StepByStep)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene12"]
+    },
+    {
+      "id": "org_three_axioms",
+      "category": "organizational",
+      "description": "三公理汇聚 — 局部连续+距离管用+数据够多",
+      "component": "Scene13_ThreeAxioms",
+      "status": "implemented",
+      "used_in_scenes": ["Scene13"]
+    },
+    {
+      "id": "org_normalization",
+      "category": "organizational",
+      "description": "归一化前后对比 — 收入主导 vs 平衡特征",
+      "component": "Scene14_Normalization",
+      "status": "implemented",
+      "used_in_scenes": ["Scene14"]
+    },
+    {
+      "id": "interp_curse_of_dimensionality",
+      "category": "interpretive",
+      "description": "2D→10D→100D 高维空间距离趋同可视化",
+      "component": "Placeholder (TODO)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene15"]
+    },
+    {
+      "id": "interp_pca_cosine",
+      "category": "interpretive",
+      "description": "PCA降维 + 余弦距离 — 维度灾难解法",
+      "component": "Placeholder (TODO)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene16"]
+    },
+    {
+      "id": "org_kdtree_timeline",
+      "category": "organizational",
+      "description": "1975 KD-Tree — Bentley 二分查找加速",
+      "component": "TimelineFly",
+      "status": "implemented",
+      "used_in_scenes": ["Scene17"]
+    },
+    {
+      "id": "org_ann_evolution",
+      "category": "organizational",
+      "description": "LSH(1999) → FAISS(2017) 近似最近邻演进时间线",
+      "component": "TimelineFly",
+      "status": "implemented",
+      "used_in_scenes": ["Scene18"]
+    },
+    {
+      "id": "org_rag_architecture",
+      "category": "organizational",
+      "description": "RAG 架构图 — ChatGPT = embedding KNN搜索",
+      "component": "Placeholder (TODO: DiagramBuilder)",
+      "status": "placeholder",
+      "used_in_scenes": ["Scene19"]
+    },
+    {
+      "id": "org_next_episode",
+      "category": "organizational",
+      "description": "下期预告: LOF 异常检测",
+      "component": "TextReveal",
+      "status": "implemented",
+      "used_in_scenes": ["Scene20"]
+    }
+  ],
+
+  "lottie_assets": [
+    {
+      "id": "lottie_book",
+      "file": "static/lottie/book.json",
+      "description": "书本翻页动画",
+      "status": "downloaded",
+      "used_in_scenes": []
+    },
+    {
+      "id": "lottie_coding",
+      "file": "static/lottie/coding.json",
+      "description": "代码编写动画",
+      "status": "downloaded",
+      "used_in_scenes": []
+    },
+    {
+      "id": "lottie_search",
+      "file": "static/lottie/search.json",
+      "description": "搜索放大镜动画",
+      "status": "downloaded",
+      "used_in_scenes": []
+    },
+    {
+      "id": "lottie_success",
+      "file": "static/lottie/success.json",
+      "description": "成功打勾动画",
+      "status": "downloaded",
+      "used_in_scenes": []
+    },
+    {
+      "id": "lottie_warning",
+      "file": "static/lottie/warning.json",
+      "description": "警告三角动画",
+      "status": "downloaded",
+      "used_in_scenes": []
+    }
+  ],
+
+  "summary": {
+    "total_scenes": 20,
+    "representational_needed": 9,
+    "representational_found": 8,
+    "representational_missing": 1,
+    "remotion_components": 19,
+    "remotion_implemented": 9,
+    "remotion_placeholder": 10,
+    "lottie_downloaded": 5,
+    "lottie_in_use": 0
+  }
+}

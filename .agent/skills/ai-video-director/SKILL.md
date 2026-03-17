@@ -9,11 +9,13 @@ description: AI Video Director skill for creating educational videos from knowle
 
 ## 定位
 
-**一句话**：把知识地图里的 History 文件变成 3-5 分钟教育视频。
+**一句话**：把知识地图的 9 维文件变成 3-5 分钟「痛点共鸣 + 人话翻译 + 避坑指南」教育视频。
 
-**核心原则**：**History 文件 = 视频的 Single Source of Truth**，不重写内容，只做风格适配。
+**核心原则**：**知识地图 9 维文件 = 视频的多源素材库**，从 Concepts/Tutorial/Pitfalls/History/Bridge 中提取，重组为五幕结构。
 
-**工具链**：Claude 风格化润色 → Qwen3-TTS 配音 → Remotion 动画 → FFmpeg 组装
+**工具链**：Claude 五幕重组 → Qwen3-TTS 配音 → Remotion 动画 → FFmpeg 组装
+
+**内容理念**：不搞玄学，不装逼，只讲人话、讲逻辑、讲避坑。
 
 ## 四种叙事风格
 
@@ -53,17 +55,20 @@ description: AI Video Director skill for creating educational videos from knowle
 
 ## 视觉素材规则
 
-### ✅ 允许使用
-1. **Remotion 组件动画**（首选）— 概念、算法、流程、时间线、对比
-2. **Wikipedia 真实照片** — 人物肖像（如科学家、发明者）
-3. **论文封面/首页截图** — 增加专业感，可做缓慢滑动动画
-4. **历史老照片** — 增加故事感（公有领域）
+> 📚 详细分类见 Step 3（Clark & Mayer 四类体系）
+
+### ✅ 允许使用（按优先级）
+1. **Remotion 组件动画**（首选）— Organizational / Transformational / Interpretive 三类
+2. **Wikimedia Commons 真实照片** — Representational 类（人物肖像、历史事件）
+3. **论文封面/首页截图** — Representational 类（arXiv / 出版商）
+4. **大学官网/档案馆照片** — Representational 类（机构、实验室）
 
 ### ❌ 禁止使用
-1. ~~AI 生成图片~~（generate_image）— 质量不可控
-2. ~~Pexels/Pixabay 库存图片~~ — 与内容不匹配
-3. ~~Emoji 图标~~ — AI 感太重，用设计手段替代
+1. ~~AI 生成图片~~（generate_image）— 违反 Mayer Coherence 原则
+2. ~~Pexels/Pixabay 库存图片~~ — 与内容不匹配（Decorative）
+3. ~~Emoji 图标~~ — Decorative，用设计手段替代
 4. ~~Ken Burns / zoompan 效果~~ — 导致画面抖动
+5. ~~无版权标注的图片~~ — 法律风险
 
 ## 板书式动画设计规范
 
@@ -110,7 +115,7 @@ description: AI Video Director skill for creating educational videos from knowle
 但问题是，一个一个比过去，数据多了就太慢了。 | [暴力搜索：逐个比较 → 进度条越来越慢]
 ```
 
-## 完整工作流（5步出视频）
+## 完整工作流（7步出视频）
 
 ### Step 1: 创建项目
 ```bash
@@ -118,17 +123,136 @@ python generate_video_script.py <course> <topic> --style yuan
 ```
 → 创建 `video-content/<course>/<topic>/` 目录结构
 
-### Step 2: 风格化润色旁白稿
+### Step 2: 多维度提取 + 五幕重组旁白稿
 
-> **不允许重写内容**。History 文件的故事线、人物、年份、转折点全部保留。
+> **内容忠于知识地图**，不捏造。从多个维度提取后，重组为五幕结构。
 
 告诉 Claude：
-> "用袁腾飞风格，根据 xxx_history.md，风格化润色为旁白稿。
+> "用袁腾飞风格，根据 xxx 的 concepts/tutorial/pitfalls/history/bridge 文件，
+> 按五幕结构（痛点共鸣 → 人话翻译 → 核心逻辑 → 避坑指南 → 来龙去脉）重组为旁白稿。
+> 开场从通用痛点库选最匹配的痛点引发共鸣。
 > 要求：口语化 + 降门槛 + 加风格 + 调节奏。每行一句话，每行附 [视觉提示]。"
 
 Claude 直接输出 → 存为 `narration/script.txt`
 
-### Step 3: 生成音频
+### Step 3: 素材收集与整理（按需搜索）
+
+> **原则：不囤素材，按旁白稿需求精准搜索。**
+> 旁白稿确定后，从 `[视觉提示]` 中提取素材需求，一个个去找。
+
+#### 3.1 素材分类（基于教科书理论）
+
+> 📚 来源: Clark & Mayer《e-Learning and the Science of Instruction》(4th ed), Ch.4 "Applying the Multimedia Principle"
+> 图形分六类，教育视频只用其中四类，**禁止 Decorative（装饰）**。
+
+| 类别 | 教学功能 | 素材举例 | 文件前缀 | Remotion 实现 |
+|------|---------|---------|---------|-------------|
+| **Representational（再现）** | 展示真实外观 | 科学家肖像、论文封面、实验室照片 | `repr_` | `<Img>` / `<PersonCard photo={...}>` |
+| **Organizational（组织）** | 展示关系和结构 | 时间线、技术演进路线图、对比表 | `org_` | `<TimelineFly>` / `<ComparisonSplit>` |
+| **Transformational（变化）** | 展示过程和变化 | 算法步骤动画、数据流动、训练过程 | `trans_` | Remotion 动画组件（首选！） |
+| **Interpretive（阐释）** | 让抽象可见 | 高维空间降维、决策边界可视化 | `interp_` | Remotion 动画 + react-katex 公式 |
+
+> **关键决策规则：**
+> - 🔍 **Representational** → 需要**搜索下载**（照片、论文截图）
+> - 🎨 **Organizational / Transformational / Interpretive** → 用 **Remotion 组件制作**（不需要外部素材）
+> - ❌ **Decorative**（纯装饰） → **禁止**（Mayer Coherence 原则）
+
+#### 3.2 提取素材清单
+
+从 `narration/script.txt` 的 `[视觉提示]` 中，按上述四类分类每个素材需求：
+
+```
+需要搜索下载的（Representational）：
+- 👤 person: 人物肖像（科学家、发明者）
+- 📄 paper: 论文封面/首页截图
+- 📸 event: 历史事件照片
+- 🏛️ place: 机构/实验室照片
+
+用 Remotion 制作的（不需要搜索）：
+- 📊 org: 时间线、路线图、对比表 → TimelineFly / ComparisonSplit
+- 🔄 trans: 算法演示、步骤动画 → 自定义动画组件
+- 💡 interp: 概念可视化、公式推导 → 动画 + react-katex
+```
+
+#### 3.3 搜索素材（仅 Representational 类）
+
+| 优先级 | 来源 | 适合 | 搜索方式 |
+|-------|------|------|---------|
+| 1️⃣ | **知识地图 History 文件** | 已有 `🎥 视觉素材` 表 | 直接读取 `{topic}_history.md` 中的链接 |
+| 2️⃣ | **Wikimedia Commons** | 科学家肖像、历史照片 | `commons.wikimedia.org/w/index.php?search=XXX` |
+| 3️⃣ | **大学官网/档案馆** | 本校教授照片 | Google: `"XXX" site:stanford.edu` |
+| 4️⃣ | **arXiv / Google Scholar** | 论文首页截图 | 下载 PDF 第一页截图 |
+| 5️⃣ | **Smithsonian Open Access** | 博物馆藏品 | `si.edu/openaccess` |
+| 6️⃣ | **Library of Congress** | 美国历史照片 | `loc.gov/free-to-use` |
+
+#### 3.4 下载并整理
+
+下载到 `visuals/photos/` 目录，命名规则 `{类别前缀}_{名称}.{ext}`：
+
+```
+visuals/photos/
+├── repr_person_fix_hodges.jpg     # Representational: 人物肖像
+├── repr_person_cover_hart.jpg
+├── repr_paper_fix_hodges_1951.png # Representational: 论文封面
+├── repr_event_rand_corp.jpg       # Representational: 事件照片
+└── asset_manifest.json            # 素材清单（含分类信息）
+```
+
+#### 3.5 生成素材清单
+
+创建 `visuals/photos/asset_manifest.json`：
+
+```json
+{
+  "topic": "knn",
+  "collected_at": "2026-03-17",
+  "classification_source": "Clark & Mayer, e-Learning, Ch.4",
+  "assets": [
+    {
+      "id": "repr_person_fix_hodges",
+      "category": "representational",
+      "type": "portrait",
+      "file": "repr_person_fix_hodges.jpg",
+      "source": "Wikimedia Commons",
+      "url": "https://commons.wikimedia.org/wiki/File:XXX.jpg",
+      "license": "Public Domain",
+      "used_in_scenes": ["Scene01"]
+    }
+  ],
+  "remotion_only": [
+    {
+      "id": "org_knn_timeline",
+      "category": "organizational",
+      "description": "KNN 技术演进时间线 1951-2020",
+      "component": "TimelineFly",
+      "used_in_scenes": ["Scene02"]
+    },
+    {
+      "id": "trans_brute_force_search",
+      "category": "transformational",
+      "description": "暴力搜索逐个比较动画",
+      "component": "Custom animation",
+      "used_in_scenes": ["Scene03"]
+    }
+  ],
+  "missing": [
+    {
+      "id": "repr_person_cover",
+      "category": "representational",
+      "type": "portrait",
+      "reason": "No public domain portrait found",
+      "fallback": "Use text-only PersonCard component (organizational)"
+    }
+  ]
+}
+```
+
+> ⚠️ **找不到素材时的降级策略：**
+> - Representational 人物无肖像 → 降级为 Organizational（用 `PersonCard` 文字卡片）
+> - Representational 论文无 PDF → 降级为 Organizational（用引用块展示标题和出处）
+> - ❌ 绝不用 AI 生成替代（违反 Mayer Coherence 原则）
+
+### Step 4: 生成音频
 ```bash
 # 用自己的声音
 python generate_narration_qwen.py --script narration/script.txt --clone voice.mp3 --output-dir narration
@@ -137,16 +261,21 @@ python generate_narration_qwen.py --script narration/script.txt --clone voice.mp
 python generate_narration_qwen.py --script narration/script.txt --speaker uncle_fu --output-dir narration
 ```
 
-### Step 4: 制作 Remotion 动画
+### Step 5: 制作 Remotion 动画
 
-Remotion 项目中，为每段旁白创建一个 React 组件：
+Remotion 项目中，为每段旁白创建一个 React 组件。
+**使用 Step 3 收集的素材**：通过 `asset_manifest.json` 查找可用素材。
 
 ```tsx
-// 板书式三列布局
+// 板书式三列布局，引用收集的素材
 <Series>
   <Series.Sequence durationInFrames={90}>
     <BlackboardScene layout="three-column">
-      <PersonCard name="Fix & Hodges" year={1951} />
+      <PersonCard
+        name="Fix & Hodges"
+        year={1951}
+        photo={staticFile("photos/person_fix_hodges.jpg")}  // Step 3 收集的肖像
+      />
       <CoreInsight text="找到最像的邻居，抄答案" />
       <KeywordTag label="方法" value="非参数分类" />
     </BlackboardScene>
@@ -159,7 +288,7 @@ Remotion 项目中，为每段旁白创建一个 React 组件：
 npx remotion render src/index.ts MainVideo --output visuals/scene_01.mp4
 ```
 
-### Step 5: 组装视频
+### Step 6: 组装视频
 ```bash
 python assemble_video_v6.py <project_dir>
 ```
@@ -178,33 +307,55 @@ python assemble_video_v6.py <project_dir>
 
 ## 叙事规则
 
-### 三幕结构（每个视频必须遵守）
+### 五幕结构（每个视频必须遵守）
+
+> ⚠️ **先判断受众，再定开场模式**。
+
+| 模式 | 适用场景 | 第一幕 |
+|------|---------|-------|
+| **模式 A: 痛点 Hook** | 受众已知主题（课程学生） | "学 [主题]，最让人崩溃的是……" |
+| **模式 B: 故事 Hook** | 受众不知主题（科普、入门） | 历史故事切入 → 一句话定义 |
+
+**判断标准**：观众还不知道主题名字 → 模式 B；观众正在学且被困住 → 模式 A。
 
 ```
-第一幕：钩子（0-15秒）
-└── 反直觉事实、惊人数字、或悬念
+第一幕：开场（0:00 - 1:00）
+├── 模式 A：痛点共鸣 Hook
+│   └── 从通用痛点库选最匹配的 + 用 Pitfalls 中真实错误举例
+│       "学 [主题]，最让人崩溃的是……"
+└── 模式 B：故事 Hook
+    └── 从 History 提取起源故事 + Concepts 一句话定义
+        "[年份]，[人物] 发明了一个蠢到不可思议的方法……"
 
-第二幕：故事（15秒-4分钟）
-├── 起源：谁，在什么困境下，想到了这个方法？
-├── 困境：第一次尝试失败了，为什么？
-├── 突破：关键的那一步是什么？
-└── 留尾：解决了问题，但制造了新问题
+第二幕：人话翻译（1:00 - 2:00）
+└── 从 Concepts 提取核心术语 → 换成生活类比
+    "说人话，[术语] 就是 [类比]"
 
-第三幕：收尾（最后30秒）
-├── 一句话总结
-├── 今天的回响
-└── 预告 + 关注引导
+第三幕：核心逻辑（2:00 - 3:15）
+└── 从 Tutorial + Math + First Principles 提取
+    用 First Principles 的"5个为什么"追问链讲清底层逻辑
+    "这东西的公理是什么？→ 从公理怎么推出来的？→ 为什么必须这样？"
+
+第四幕：避坑指南（3:15 - 4:15）
+└── 从 Pitfalls + First Principles（公理失效）提取
+    "这里 90% 的人会踩坑：……"
+    "如果 [公理] 不成立，整个方法就废了：……"
+
+第五幕：收尾（4:15 - 5:00）
+├── 模式 A：从 History 提取关键故事线 + Bridge 关联
+└── 模式 B：从 History 提取技术演进线 + Bridge 关联
+    "下期讲 [Bridge 后续主题]，关注不迷路"
 ```
 
-### 叙事节拍（替代雅思写作结构）
+### 叙事节拍（每幕内部遵循）
 
 每段旁白遵循叙事节拍（Not 论证结构）：
 
 ```
-Setup    → "1951年，两个统计学家……"
-Tension  → "但这份报告从来没有正式发表"
-Turn     → "直到16年后，另一个人证明了……"
-Payoff   → "原来最笨的方法，也有数学保证"
+Setup    → "学卷积层，最让人崩溃的是……"
+Tension  → "你看教科书上三页公式，完全不知道在干嘛"
+Turn     → "但说人话，卷积就是一个小窗口在图片上滑动"
+Payoff   → "就这么简单。三页公式，一句话讲完"
 ```
 
 ### SUCCESs 自检（Made to Stick 框架）
@@ -221,25 +372,28 @@ Payoff   → "原来最笨的方法，也有数学保证"
 ### Skill 脚本
 ```
 scripts/
-├── generate_video_script.py     # 项目脚手架
-├── generate_narration_qwen.py   # Qwen3-TTS 旁白（导出 timestamps.json）
-├── assemble_video_v6.py         # 视频组装 v6（精确对齐+无标点字幕）
-└── download_visuals.py          # 已弃用（不再使用库存图片）
+├── generate_video_script.py     # Step 1: 项目脚手架
+├── generate_narration_qwen.py   # Step 4: Qwen3-TTS 旁白（导出 timestamps.json）
+└── assemble_video_v6.py         # Step 6: 视频组装 v6（精确对齐+无标点字幕）
 ```
 
 ### 项目输出
 ```
 video-content/<course>/<topic>/
 ├── narration/
-│   ├── script.txt                # 旁白稿（每行一句 + [视觉提示]）
+│   ├── script.txt                # Step 2: 旁白稿（每行一句 + [视觉提示]）
 │   ├── full_narration_myvoice.mp3
-│   └── timestamps.json           # TTS 精确时间戳
+│   └── timestamps.json           # Step 4: TTS 精确时间戳
 ├── visuals/
-│   ├── src/                      # Remotion React 源码
-│   ├── photos/                   # Wikipedia 肖像 + 论文封面
-│   └── scene_XX.mp4              # Remotion 渲染输出
+│   ├── photos/                   # Step 3: 按需搜索的素材
+│   │   ├── person_*.jpg           #   人物肖像（Wikimedia Commons）
+│   │   ├── paper_*.png            #   论文封面（arXiv）
+│   │   ├── event_*.jpg            #   事件照片（公有领域）
+│   │   └── asset_manifest.json    #   素材清单（来源+版权+降级策略）
+│   ├── src/                      # Step 5: Remotion React 源码
+│   └── scene_XX.mp4              # Step 5: Remotion 渲染输出
 ├── output/
-│   ├── final_v6.mp4              # 最终成品
+│   ├── final_v6.mp4              # Step 6: 最终成品
 │   ├── subtitles.srt             # 无标点短视频字幕
 │   └── segments.json             # 分段信息（调试用）
 └── EDITING_GUIDE.md              # 剪辑指南

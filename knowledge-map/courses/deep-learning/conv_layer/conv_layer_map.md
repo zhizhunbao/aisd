@@ -87,8 +87,9 @@ status: current
 | [conv_layer_history.md](conv_layer_history.md) | ⑦ 历史 | 了解从 Hubel-Wiesel 到现代卷积的演进 |
 | [conv_layer_bridge.md](conv_layer_bridge.md) | ⑧ 衔接 | 找相关主题、扩展阅读 |
 | [conv_layer_first_principles.md](conv_layer_first_principles.md) | ⑨ 第一性原理 | 从公理理解卷积层为什么必须这样设计 |
+| 🎬 [视频旁白稿](../../../../video-content/deep-learning/conv_layer/narration/script.txt) | ⑩ 视频 | 五幕结构视频脚本（痛点+人话+逻辑+避坑+历史） |
 
-> 📖 本文件地图覆盖全部 9 个维度
+> 📖 本文件地图覆盖全部 9 个维度 + 视频
 
 ---
 

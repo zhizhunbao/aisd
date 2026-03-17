@@ -1,0 +1,143 @@
+# Video Production Workflow State
+# 此文件由 /video-prod 命令自动管理
+
+topic: ""
+course: ""
+started_at: ""
+current_phase: 0
+total_phases: 9
+knowledge_map_path: ""
+
+config:
+  # 目标视频时长（分钟）
+  target_duration_minutes: 5
+
+  # TTS 方案: qwen3 | edge | kokoro | manual
+  tts_backend: qwen3
+
+  # 声音克隆样本路径
+  voice_clone_sample: ""
+
+  # 渲染方案: remotion | ffmpeg
+  render_backend: remotion
+
+  # 是否允许 Phase4/Phase5 并行
+  parallel_assets_voice: true
+
+  # 产出物目录（相对于 video-content/{course}/{topic}/）
+  narration_dir: narration
+  assets_dir: assets
+
+phases:
+  init:
+    order: 0
+    name: "初始化"
+    status: pending  # pending | in_progress | completed | skipped
+    started_at: ""
+    completed_at: ""
+    output: ".video-state.yaml"
+    checks:
+      - file_exists: ".video-state.yaml"
+
+  content:
+    order: 1
+    name: "内容提取"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "content_brief.md"
+    role: "Content Researcher"
+    depends_on: ["init"]
+    checks:
+      - file_exists: "content_brief.md"
+      - file_not_empty: "content_brief.md"
+
+  script:
+    order: 2
+    name: "脚本写作"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "script.md"
+    role: "Script Writer"
+    depends_on: ["content"]
+    checks:
+      - file_exists: "script.md"
+      - file_exists: "script_tts.txt"
+      - file_not_empty: "script.md"
+
+  storyboard:
+    order: 3
+    name: "分镜设计"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "storyboard.md"
+    role: "Visual Designer"
+    depends_on: ["script"]
+    checks:
+      - file_exists: "storyboard.md"
+      - file_not_empty: "storyboard.md"
+
+  assets:
+    order: 4
+    name: "素材制作"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "assets/"
+    role: "Animator"
+    depends_on: ["storyboard"]
+    can_parallel_with: ["voice"]
+    checks:
+      - dir_exists: "assets/"
+
+  voice:
+    order: 5
+    name: "语音合成"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "narration/"
+    role: "Voice Engineer"
+    depends_on: ["script"]
+    can_parallel_with: ["storyboard", "assets"]
+    checks:
+      - dir_exists: "narration/"
+      - file_exists: "narration/timestamps.json"
+
+  captions:
+    order: 6
+    name: "字幕生成"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "captions.json"
+    role: "(auto)"
+    depends_on: ["voice"]
+    checks:
+      - file_exists: "captions.json"
+
+  render:
+    order: 7
+    name: "组装渲染"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "final.mp4"
+    role: "Editor"
+    depends_on: ["assets", "captions"]
+    checks:
+      - file_exists: "final.mp4"
+
+  review:
+    order: 8
+    name: "质量审查"
+    status: pending
+    started_at: ""
+    completed_at: ""
+    output: "review_report.md"
+    role: "QA Reviewer"
+    depends_on: ["render"]
+    checks:
+      - file_exists: "review_report.md"

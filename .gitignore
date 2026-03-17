@@ -16,6 +16,13 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
+# Node.js
+node_modules/
+dist/
+build/
+package-lock.json
+*.mp4
+
 # IDE
 .vscode/
 .idea/
