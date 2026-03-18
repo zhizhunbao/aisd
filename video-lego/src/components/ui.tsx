@@ -24,13 +24,15 @@ export const Card: FC<{
       style={{
         background: hovered ? MGMT.bgCardHover : MGMT.bgCard,
         borderRadius: MGMT.radius.lg,
-        border: `1px solid ${hovered ? MGMT.borderHover : MGMT.border}`,
+        borderRight: `1px solid ${hovered ? MGMT.borderHover : MGMT.border}`,
+        borderBottom: `1px solid ${hovered ? MGMT.borderHover : MGMT.border}`,
+        borderLeft: `1px solid ${hovered ? MGMT.borderHover : MGMT.border}`,
+        borderTop: accentColor ? `3px solid ${accentColor}` : `1px solid ${hovered ? MGMT.borderHover : MGMT.border}`,
         overflow: 'hidden',
         cursor: onClick ? 'pointer' : 'default',
         transition: 'all 0.2s',
         transform: hovered && onClick ? 'translateY(-2px)' : 'none',
         boxShadow: hovered && onClick ? '0 8px 24px rgba(0,0,0,0.2)' : 'none',
-        ...(accentColor ? { borderTop: `3px solid ${accentColor}` } : {}),
         ...style,
       }}
     >

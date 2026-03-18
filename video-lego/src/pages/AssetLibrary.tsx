@@ -1,8 +1,11 @@
 // ═══════════════════════════════════════════════════════════
 // 素材库页面 — 分类侧栏 + 子分类 + 来源展示
 // AssetLibrary — Category sidebar + sub-categories + sources
+//
+// 所有图标均使用 SVG (lucide-react)，不使用 emoji
 // ═══════════════════════════════════════════════════════════
 
+import React from 'react'
 import { useState } from 'react'
 import { MGMT } from '@/theme'
 import { Card, SearchBar, FilterPills } from '@/components/ui'
@@ -10,13 +13,8 @@ import { useNav } from '@/App'
 import { ASSET_CATEGORIES, type AssetCategory, getCategoryMeta, getSubCategoryName } from '@/lib/asset-types'
 import { DEMO_ASSETS } from '@/data/demo-assets'
 import { AssetPreview } from '@/components/AssetPreview'
-
-// ─────────── 来源类型图标 ───────────
-
-const SOURCE_ICONS: Record<string, string> = {
-  textbook: '📕', paper: '📄', wikipedia: '🌐',
-  documentation: '📋', course: '🎓', original: '✍️',
-}
+import { AssetCatIcon, AssetSubIcon, SourceIcon } from '@/components/AssetIcons'
+import { IconSearch, IconPackage, IconBlocks } from '@/components/Icons'
 
 export function AssetLibrary() {
   const { navigate } = useNav()
@@ -49,19 +47,25 @@ export function AssetLibrary() {
           素材分类
         </div>
 
-        <CatNavItem icon="📦" name="全部" count={DEMO_ASSETS.length}
+        <CatNavItem
+          icon={<IconPackage size={18} />}
+          name="全部" count={DEMO_ASSETS.length}
           color={MGMT.gold} isActive={activeCat === 'all'}
-          onClick={() => { setActiveCat('all'); setActiveSubCat(null) }} />
+          onClick={() => { setActiveCat('all'); setActiveSubCat(null) }}
+        />
 
         {ASSET_CATEGORIES.map(cat => {
           const count = DEMO_ASSETS.filter(a => a.category === cat.id).length
           const isOpen = activeCat === cat.id
           return (
             <div key={cat.id}>
-              <CatNavItem icon={cat.icon} name={cat.name}
+              <CatNavItem
+                icon={<AssetCatIcon catId={cat.id} size={18} />}
+                name={cat.name}
                 count={count} color={cat.color}
                 isActive={isOpen}
-                onClick={() => { setActiveCat(cat.id); setActiveSubCat(null) }} />
+                onClick={() => { setActiveCat(cat.id); setActiveSubCat(null) }}
+              />
               {/* 子分类展开 */}
               {isOpen && cat.subCategories.length > 0 && (
                 <div style={{ paddingLeft: 18, marginBottom: 4 }}>
@@ -78,7 +82,9 @@ export function AssetLibrary() {
                           background: activeSubCat === sub.id ? `${cat.color}0A` : 'transparent',
                           fontWeight: activeSubCat === sub.id ? 600 : 400,
                           transition: 'all 0.15s',
+                          display: 'flex', alignItems: 'center', gap: 6,
                         }}>
+                        <AssetSubIcon subId={sub.id} size={12} />
                         {sub.name} <span style={{ color: MGMT.grayLight, marginLeft: 4 }}>{subCount}</span>
                       </div>
                     )
@@ -94,8 +100,11 @@ export function AssetLibrary() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         {/* 工具栏 */}
         <div style={{ padding: `${MGMT.sp.md}px ${MGMT.sp.lg}px`, borderBottom: `1px solid ${MGMT.border}`, display: 'flex', alignItems: 'center', gap: MGMT.sp.md }}>
-          <h2 style={{ fontSize: MGMT.fontSize.h2, fontWeight: 700, flex: 1 }}>
-            {activeCat === 'all' ? '📦 素材库' : `${activeCatMeta?.icon} ${activeCatMeta?.name}素材`}
+          <h2 style={{ fontSize: MGMT.fontSize.h2, fontWeight: 700, flex: 1, display: 'flex', alignItems: 'center', gap: 8 }}>
+            {activeCat === 'all'
+              ? <><IconPackage size={20} /> 素材库</>
+              : <><AssetCatIcon catId={activeCat} size={20} style={{ color: activeCatMeta?.color }} /> {activeCatMeta?.name}素材</>
+            }
             {activeSubCat && activeCatMeta && (
               <span style={{ fontSize: MGMT.fontSize.small, color: activeCatMeta.color, fontWeight: 500, marginLeft: 8 }}>
                 · {getSubCategoryName(activeCat, activeSubCat)}
@@ -105,7 +114,7 @@ export function AssetLibrary() {
               {filtered.length} 项
             </span>
           </h2>
-          <SearchBar value={search} onChange={setSearch} placeholder="🔍 搜索素材 / 来源..." />
+          <SearchBar value={search} onChange={setSearch} placeholder="搜索素材 / 来源..." />
           <FilterPills
             options={[{ key: 'all', label: '全部' }, ...allCourses.map(c => ({ key: c, label: c }))]}
             active={courseFilter}
@@ -117,7 +126,9 @@ export function AssetLibrary() {
         <div style={{ flex: 1, overflowY: 'auto', padding: MGMT.sp.lg }}>
           {filtered.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 80, color: MGMT.grayLight }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+                <IconSearch size={48} style={{ opacity: 0.3 }} />
+              </div>
               <div style={{ fontSize: MGMT.fontSize.body }}>没有匹配的素材</div>
             </div>
           ) : (
@@ -142,15 +153,19 @@ export function AssetLibrary() {
                           <span style={{
                             fontSize: 10, padding: '2px 6px', borderRadius: 3,
                             background: `${catMeta.color}10`, color: catMeta.color, fontWeight: 500,
+                            display: 'flex', alignItems: 'center', gap: 3,
                           }}>
+                            <AssetSubIcon subId={asset.subCategory} size={10} />
                             {getSubCategoryName(asset.category, asset.subCategory)}
                           </span>
                         )}
                         <span style={{
                           fontSize: MGMT.fontSize.tiny, padding: '2px 8px', borderRadius: 4, fontWeight: 600,
                           background: `${catMeta?.color || MGMT.gray}15`, color: catMeta?.color || MGMT.gray,
+                          display: 'flex', alignItems: 'center', gap: 3,
                         }}>
-                          {catMeta?.icon} {catMeta?.name}
+                          <AssetCatIcon catId={asset.category} size={12} />
+                          {catMeta?.name}
                         </span>
                       </div>
                     </div>
@@ -172,15 +187,15 @@ export function AssetLibrary() {
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: MGMT.fontSize.tiny, color: MGMT.gray }}>
                         <span style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }}>
                           {asset.sources.slice(0, 2).map((s, i) => (
-                            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                              {SOURCE_ICONS[s.type] || '📎'} {s.cite}
+                            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                              <SourceIcon type={s.type} size={10} /> {s.cite}
                             </span>
                           ))}
                           {asset.sources.length > 2 && <span>+{asset.sources.length - 2}</span>}
                         </span>
                         {asset.compatibleBlocks && (
-                          <span style={{ color: MGMT.dimWhite, whiteSpace: 'nowrap' }}>
-                            🧱 {asset.compatibleBlocks.length}
+                          <span style={{ color: MGMT.dimWhite, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 3 }}>
+                            <IconBlocks size={10} /> {asset.compatibleBlocks.length}
                           </span>
                         )}
                       </div>
@@ -199,7 +214,7 @@ export function AssetLibrary() {
 // ─────────── 分类导航项 ───────────
 
 function CatNavItem({ icon, name, count, color, isActive, onClick }: {
-  icon: string; name: string; count: number; color: string; isActive: boolean; onClick: () => void
+  icon: React.ReactNode; name: string; count: number; color: string; isActive: boolean; onClick: () => void
 }) {
   return (
     <div onClick={onClick} style={{
@@ -209,7 +224,7 @@ function CatNavItem({ icon, name, count, color, isActive, onClick }: {
       border: `1px solid ${isActive ? `${color}22` : 'transparent'}`,
       transition: 'all 0.15s',
     }}>
-      <span style={{ fontSize: 18 }}>{icon}</span>
+      <span style={{ color: isActive ? color : MGMT.grayLight, display: 'flex', alignItems: 'center' }}>{icon}</span>
       <span style={{ fontSize: MGMT.fontSize.small, fontWeight: isActive ? 600 : 400, color: isActive ? color : MGMT.white, flex: 1 }}>{name}</span>
       <span style={{ fontSize: MGMT.fontSize.tiny, color: MGMT.grayLight, background: `${MGMT.white}08`, padding: '1px 6px', borderRadius: 8 }}>{count}</span>
     </div>

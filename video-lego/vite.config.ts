@@ -11,6 +11,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    // 禁用浏览器缓存 — 避免改代码后看到旧内容
+    headers: {
+      'Cache-Control': 'no-store',
+    },
   },
   resolve: {
     alias: {
@@ -21,5 +25,9 @@ export default defineConfig({
       // 积木共享库（类型 + 视频主题）
       '@lego': path.resolve(__dirname, 'src/lib'),
     },
+  },
+  // Vite 8 (rolldown) 对 CJS require 更严格，需显式预构建
+  optimizeDeps: {
+    include: ['react-katex', 'prop-types', 'react-is'],
   },
 })
