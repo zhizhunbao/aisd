@@ -15,6 +15,7 @@ Config.overrideWebpackConfig((currentConfig) => {
         ...(currentConfig.resolve?.alias ?? {}),
         '@blocks': path.resolve(process.cwd(), '../video-lego/src/blocks'),
         '@lego': path.resolve(process.cwd(), '../video-lego/src/lib'),
+        '@data': path.resolve(process.cwd(), '../video-lego/src/data'),
       },
     },
   };

@@ -6,12 +6,54 @@
 import React from 'react';
 import { BLOCK_REGISTRY } from '@blocks/index';
 import { SplitLayout } from '../layouts/SplitLayout';
+import { BlackboardLayout } from '@lego/layouts/BlackboardLayout';
 import type { SceneData } from '@lego/types';
 
+/** 渲染积木列表（共享逻辑） */
+const renderVisuals = (visuals: SceneData['visuals']) =>
+  visuals.map((v, i) => {
+    const BlockComponent = BLOCK_REGISTRY[v.block];
+
+    if (!BlockComponent) {
+      return (
+        <div
+          key={i}
+          style={{
+            color: '#e74c3c',
+            fontSize: 20,
+            fontFamily: 'monospace',
+            padding: 20,
+            border: '1px dashed #e74c3c',
+            borderRadius: 8,
+          }}
+        >
+          ⚠️ Block &quot;{v.block}&quot; not found in registry
+        </div>
+      );
+    }
+
+    return <BlockComponent key={i} {...v.data} />;
+  });
+
 export const SceneRenderer: React.FC<{ scene: SceneData }> = ({ scene }) => {
-  // 根据 layout 选布局（目前只有 split，后续扩展）
   switch (scene.layout) {
-    case 'split':
+    // ══════ 黑板快闪布局 ══════
+    case 'blackboard':
+      return (
+        <BlackboardLayout
+          act={scene.act}
+          title={scene.title}
+          titleColor={scene.titleColor}
+          progress={scene.progress}
+          pinnedItems={scene.pinnedItems}
+        >
+          {renderVisuals(scene.visuals)}
+        </BlackboardLayout>
+      );
+
+    // ══════ 默认：左右分栏布局 ══════
+    case 'landscape':
+    case 'portrait':
     default:
       return (
         <SplitLayout
@@ -21,37 +63,8 @@ export const SceneRenderer: React.FC<{ scene: SceneData }> = ({ scene }) => {
           points={scene.points}
           conclusion={scene.conclusion}
         >
-          {scene.visuals.map((v, i) => {
-            const BlockComponent = BLOCK_REGISTRY[v.block];
-
-            if (!BlockComponent) {
-              // 找不到积木 → 显示占位提示
-              return (
-                <div
-                  key={i}
-                  style={{
-                    color: '#e74c3c',
-                    fontSize: 20,
-                    fontFamily: 'monospace',
-                    padding: 20,
-                    border: '1px dashed #e74c3c',
-                    borderRadius: 8,
-                  }}
-                >
-                  ⚠️ Block "{v.block}" not found in registry
-                </div>
-              );
-            }
-
-            return <BlockComponent key={i} {...v.data} />;
-          })}
+          {renderVisuals(scene.visuals)}
         </SplitLayout>
       );
-
-    // TODO: 后续扩展
-    // case 'fullscreen':
-    //   return <FullScreenLayout ...>;
-    // case 'three-column':
-    //   return <ThreeColumnLayout ...>;
   }
 };

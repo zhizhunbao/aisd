@@ -18,6 +18,7 @@ import { ProgressBars } from './data/ProgressBars';
 import { StatCards } from './data/StatCards';
 import { CodeBlock } from './data/CodeBlock';
 import { ImageDisplay } from './data/ImageDisplay';
+import { KnowledgeUnit } from './knowledge/KnowledgeUnit';
 
 // ──── View 版本（纯视觉，零 Remotion 依赖）────
 import { FormulaBlockView } from './formula/FormulaBlock';
@@ -29,6 +30,7 @@ import { ProgressBarsView } from './data/ProgressBars';
 import { StatCardsView } from './data/StatCards';
 import { CodeBlockView } from './data/CodeBlock';
 import { ImageDisplayView } from './data/ImageDisplay';
+import { KnowledgeUnitView } from './knowledge/KnowledgeUnit';
 
 // ══════ Motion 注册表（Remotion 用）══════
 
@@ -43,6 +45,7 @@ export const BLOCK_REGISTRY: Record<string, React.ComponentType<any>> = {
   StatCards,
   CodeBlock,
   ImageDisplay,
+  KnowledgeUnit,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,6 +70,7 @@ export {
   StatCards,
   CodeBlock,
   ImageDisplay,
+  KnowledgeUnit,
 };
 
 // View（纯视觉，管理 UI 用）
@@ -80,4 +84,5 @@ export {
   StatCardsView,
   CodeBlockView,
   ImageDisplayView,
+  KnowledgeUnitView,
 };

@@ -219,6 +219,26 @@ export interface ConclusionBannerData {
   icon?: string;
 }
 
+/** 知识单元数据 — 一屏黑板上的完整内容 */
+export interface KnowledgeUnitData {
+  /** 中文核心术语 */
+  zhName: string;
+  /** 英文对照 */
+  enName: string;
+  /** 同义词/别名列表 */
+  aliases?: string[];
+  /** LaTeX 核心公式 */
+  formula?: string;
+  /** 公式标注文字 */
+  formulaLabel?: string;
+  /** 2D 图解组件名（在 DIAGRAM_REGISTRY 中查找） */
+  diagram?: string;
+  /** 一句话白话释义 */
+  explanation: string;
+  /** 中文名强调色（默认 white） */
+  color?: string;
+}
+
 // ══════ 积木注册表类型 Block Registry Types ══════
 
 /** 所有积木类型映射 */
@@ -245,6 +265,7 @@ export interface BlockDataMap {
   DataTransform: DataTransformData;
   KeyPoints: KeyPointsData;
   ConclusionBanner: ConclusionBannerData;
+  KnowledgeUnit: KnowledgeUnitData;
 }
 
 /** 积木名称 */
@@ -271,7 +292,7 @@ export interface KeyPoint {
 }
 
 /** 场景布局类型 */
-export type LayoutType = 'landscape' | 'portrait';
+export type LayoutType = 'landscape' | 'portrait' | 'blackboard';
 
 /** 一个场景的完整数据 */
 export interface SceneData {
@@ -291,6 +312,10 @@ export interface SceneData {
   points: KeyPoint[];
   /** 底部结论横幅 */
   conclusion?: { text: string; icon?: string };
+  /** 黑板布局专用：进度信息 */
+  progress?: { current: number; total: number };
+  /** 黑板布局专用：钉在左上角的已闪过的知识点 */
+  pinnedItems?: Array<{ zhName: string; enName: string; color?: string }>;
 }
 
 // ══════ 视频级数据 Video-Level Data ══════

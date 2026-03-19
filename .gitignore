@@ -41,6 +41,7 @@ Thumbs.db
 
 # Scraped course data
 data/
+!video-lego/src/data/
 
 # Large datasets (download separately)
 *.csv
