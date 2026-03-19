@@ -19,7 +19,7 @@ RL 是研究生级别独立课程，关注序贯决策与最优控制：
 
 | 主题 | 文件数 | 状态 | 描述 |
 |------|--------|------|------|
-| foundations | 0 | 🔲 planned | RL 基础：Agent/环境/奖励/策略/探索vs利用/多臂赌博机 |
+| foundations | 9 | ✅ current | RL 基础：Agent/环境/奖励/策略/探索vs利用/多臂赌博机 |
 | mdp | 0 | 🔲 planned | MDP：状态转移/贝尔曼方程/最优策略/POMDP |
 | dynamic_programming | 0 | 🔲 planned | 动态规划：策略评估/策略迭代/值迭代 |
 | monte_carlo | 0 | 🔲 planned | 蒙特卡洛方法：首次访问/每次访问/重要性采样/离线策略 |

@@ -1,0 +1,18 @@
+current_phase: completed
+topic: gazebo
+course: reinforcement-learning
+phases:
+  phase0_preflight: completed
+  phase1_probe: completed
+  phase2_map: completed
+  phase3_concepts: completed
+  phase4_math: completed
+  phase5_tutorial: completed
+  phase6_code: completed
+  phase7_pitfalls: completed
+  phase8_history: completed
+  phase9_bridge: completed
+  phase10_first_principles: completed
+  phase11_finalize: completed
+created: 2026-03-19
+completed: 2026-03-19
