@@ -14,6 +14,7 @@
 | [Logistic Regression](logistic_regression/) | ✅ 9/9 维度完整 | 2026-03-14 | 逻辑回归，判别式线性分类器，GLM 成员 |
 | [Decision Tree](decision_tree/) | ✅ 9/9 维度完整 | 2026-03-14 | 决策树 (CART)，非参数可解释模型，集成方法基石 |
 | [Scikit-Learn](scikit_learn/) | ✅ 9/9 维度完整 | 2026-03-14 | Python ML 标准库，统一 Estimator API，Pipeline/CV/GridSearch |
+| [Sampling](sampling/) | ✅ 9/9 维度完整 | 2026-03-18 | 采样与重抽样，CV/Bootstrap/SMOTE，模型评估与不平衡处理 |
 
 ## 添加新主题
 

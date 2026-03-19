@@ -1,0 +1,94 @@
+# Knowledge Map Generation Workflow State
+# 此文件由 /generate-knowledge-map 命令自动管理
+
+topic: "model_evaluation_metrics"
+course: "machine-learning"
+started_at: "2026-03-18"
+current_phase: 2
+total_phases: 13
+
+config:
+  generate_video: false
+  video_style: ""
+
+phases:
+  preflight:
+    order: 0
+    name: "Pre-Flight 检查"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+
+  probe:
+    order: 1
+    name: "输入探测"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "sources: ESL Ch.7, ISLR Ch.5, PML1 Ch.5, scikit-learn metrics docs"
+
+  map:
+    order: 2
+    name: "Map 骨架"
+    status: in_progress
+    started_at: "2026-03-18"
+    completed_at: ""
+    output: "model_evaluation_metrics_map.md"
+
+  concepts:
+    order: 3
+    name: "概念定义"
+    status: pending
+    output: "model_evaluation_metrics_concepts.md"
+
+  math:
+    order: 4
+    name: "数学基础"
+    status: pending
+    output: "model_evaluation_metrics_math.md"
+
+  tutorial:
+    order: 5
+    name: "教程"
+    status: pending
+    output: "model_evaluation_metrics_tutorial.md"
+
+  code:
+    order: 6
+    name: "代码参考"
+    status: pending
+    output: "model_evaluation_metrics_code.md"
+
+  pitfalls:
+    order: 7
+    name: "踩坑记录"
+    status: pending
+    output: "model_evaluation_metrics_pitfalls.md"
+
+  history:
+    order: 8
+    name: "历史演进"
+    status: pending
+    output: "model_evaluation_metrics_history.md"
+
+  bridge:
+    order: 9
+    name: "跨主题衔接"
+    status: pending
+    output: "model_evaluation_metrics_bridge.md"
+
+  first_principles:
+    order: 10
+    name: "第一性原理"
+    status: pending
+    output: "model_evaluation_metrics_first_principles.md"
+
+  finalize:
+    order: 11
+    name: "收尾"
+    status: pending
+
+  video:
+    order: 12
+    name: "视频创作"
+    status: skipped

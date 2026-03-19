@@ -16,10 +16,7 @@ import { FormulaDerivationView } from '@blocks/formula/FormulaDerivation'
 import { UCurveView } from '@blocks/chart/UCurve'
 import { ComparisonSplitView } from '@blocks/structure/ComparisonSplit'
 import { TimelineView } from '@blocks/structure/Timeline'
-import { ProgressBarsView } from '@blocks/data/ProgressBars'
-import { StatCardsView } from '@blocks/data/StatCards'
-import { CodeBlockView } from '@blocks/data/CodeBlock'
-import { ImageDisplayView } from '@blocks/data/ImageDisplay'
+
 
 // ─────────── CSS Keyframes 注入 ───────────
 
@@ -158,87 +155,19 @@ function TimelinePreview() {
   )
 }
 
-function ProgressBarsPreview() {
-  const key = useLoopTrigger(4500)
-  const [progress, setProgress] = useState([0, 0, 0])
-  useEffect(() => {
-    const t1 = setTimeout(() => setProgress([95, 0, 0]), 400)
-    const t2 = setTimeout(() => setProgress([95, 78, 0]), 800)
-    const t3 = setTimeout(() => setProgress([95, 78, 35]), 1200)
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
-  }, [key])
-
+function DataBlockPlaceholder({ icon, label }: { icon: string; label: string }) {
   return (
-    <div key={key} style={{ transform: 'scale(0.48)', transformOrigin: 'center' }}>
-      <ProgressBarsView
-        bars={[
-          { label: '准确率', value: 95, color: '#2ecc71', displayValue: '95.2%' },
-          { label: '召回率', value: 78, color: '#4ea8de', displayValue: '78.6%' },
-          { label: '训练耗时', value: 35, color: '#e67e22', displayValue: '0.35s' },
-        ]}
-        getBarProgress={(i) => progress[i]}
-        containerStyle={{ animation: 'lego-fade-in 0.4s ease-out both' }}
-      />
-    </div>
-  )
-}
-
-function StatCardsPreview() {
-  const key = useLoopTrigger(4000)
-  return (
-    <div key={key} style={{ transform: 'scale(0.42)', transformOrigin: 'center' }}>
-      <StatCardsView
-        cards={[
-          { icon: '🎯', value: 'K=3', label: '最优K值', color: '#ffd700' },
-          { icon: '📊', value: '95.2%', label: '准确率', color: '#2ecc71' },
-          { icon: '⏱', value: '0.3ms', label: '查询耗时', color: '#4ea8de' },
-          { icon: '📐', value: '128D', label: '特征维度', color: '#e67e22' },
-        ]}
-        getItemStyle={(ci) => ({
-          animation: `lego-fade-in 0.4s ease-out ${0.1 + ci * 0.2}s both`,
-        })}
-      />
-    </div>
-  )
-}
-
-function CodeBlockPreview() {
-  const key = useLoopTrigger(3500)
-  return (
-    <div key={key} style={{ transform: 'scale(0.48)', transformOrigin: 'center' }}>
-      <CodeBlockView
-        code={`from sklearn.neighbors import KNeighborsClassifier\n\nknn = KNeighborsClassifier(n_neighbors=3)\nknn.fit(X_train, y_train)\ny_pred = knn.predict(X_test)`}
-        label="Python · KNN 示例"
-        color="#4ea8de"
-        containerStyle={{ animation: 'lego-fade-in 0.5s ease-out 0.2s both' }}
-      />
-    </div>
-  )
-}
-
-function ImageDisplayPreview() {
-  const key = useLoopTrigger(3500)
-  return (
-    <div key={key} style={{
-      animation: 'lego-fade-in 0.5s ease-out 0.2s both',
+    <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      width: '100%', height: '100%',
+      width: '100%', height: '100%', gap: 6,
     }}>
-      <div style={{
-        width: 180, height: 110, borderRadius: 12,
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-        border: `1px solid ${MGMT.gray}30`, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexDirection: 'column', gap: 6,
-      }}>
-        <div style={{ fontSize: 36, opacity: 0.5 }}>📸</div>
-        <div style={{ color: MGMT.dimWhite, fontSize: 11, fontFamily: MGMT.fontFamily }}>教科书图解</div>
-      </div>
-      <div style={{ color: MGMT.dimWhite, fontSize: 12, marginTop: 8, fontFamily: MGMT.fontFamily }}>
-        Fig.2.1 — KNN 决策边界
-      </div>
+      <div style={{ fontSize: 36, opacity: 0.5 }}>{icon}</div>
+      <div style={{ color: MGMT.dimWhite, fontSize: 11, fontFamily: MGMT.fontFamily }}>{label}</div>
     </div>
   )
 }
+
+
 
 // ─────────── 预览注册表 Preview Registry ───────────
 
@@ -248,10 +177,10 @@ const PREVIEW_REGISTRY: Record<string, React.FC> = {
   UCurve: UCurvePreview,
   ComparisonSplit: ComparisonSplitPreview,
   Timeline: TimelinePreview,
-  ProgressBars: ProgressBarsPreview,
-  StatCards: StatCardsPreview,
-  CodeBlock: CodeBlockPreview,
-  ImageDisplay: ImageDisplayPreview,
+  ProgressBars: () => <DataBlockPlaceholder icon="📊" label="进度条对比" />,
+  StatCards: () => <DataBlockPlaceholder icon="🎯" label="统计卡片" />,
+  CodeBlock: () => <DataBlockPlaceholder icon="💻" label="代码块" />,
+  ImageDisplay: () => <DataBlockPlaceholder icon="📸" label="图片展示" />,
 }
 
 // ─────────── 主预览组件 Main Preview ───────────

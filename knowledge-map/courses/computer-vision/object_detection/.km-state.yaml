@@ -1,0 +1,112 @@
+# Knowledge Map Generation Workflow State
+# 此文件由 /generate-knowledge-map 命令自动管理
+
+topic: "object_detection"
+course: "computer-vision"
+started_at: "2026-03-18"
+current_phase: 11
+total_phases: 13
+
+config:
+  generate_video: false
+  video_style: ""
+
+phases:
+  preflight:
+    order: 0
+    name: "Pre-Flight 检查"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+
+  probe:
+    order: 1
+    name: "输入探测"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "sources: Szeliski CV Ch.6, Goodfellow DL Ch.9, R-CNN, Fast R-CNN, Faster R-CNN, YOLO, SSD, FPN, DETR, torchvision docs"
+
+  map:
+    order: 2
+    name: "Map 骨架"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_map.md"
+
+  concepts:
+    order: 3
+    name: "概念定义"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_concepts.md"
+
+  math:
+    order: 4
+    name: "数学基础"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_math.md"
+
+  tutorial:
+    order: 5
+    name: "教程"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_tutorial.md"
+
+  code:
+    order: 6
+    name: "代码参考"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_code.md"
+
+  pitfalls:
+    order: 7
+    name: "踩坑记录"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_pitfalls.md"
+
+  history:
+    order: 8
+    name: "历史演进"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_history.md"
+
+  bridge:
+    order: 9
+    name: "跨主题衔接"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_bridge.md"
+
+  first_principles:
+    order: 10
+    name: "第一性原理"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+    output: "object_detection_first_principles.md"
+
+  finalize:
+    order: 11
+    name: "收尾"
+    status: completed
+    started_at: "2026-03-18"
+    completed_at: "2026-03-18"
+
+  video:
+    order: 12
+    name: "视频创作"
+    status: skipped

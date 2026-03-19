@@ -164,6 +164,10 @@
 
 | 名词 | 英文 |
 |------|------|
+| 骨干网络 | Backbone |
+| 颈部网络 | Neck |
+| 检测头 | Head (Detection Head) |
+| 模型检查点 | Checkpoint |
 | 锚框 | Anchor Box |
 | IoU | Intersection over Union |
 | 非极大值抑制 | NMS (Non-Maximum Suppression) |

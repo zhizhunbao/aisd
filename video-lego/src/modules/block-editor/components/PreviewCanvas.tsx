@@ -19,10 +19,7 @@ import { FormulaDerivationView } from '@blocks/formula/FormulaDerivation'
 import { UCurveView } from '@blocks/chart/UCurve'
 import { ComparisonSplitView } from '@blocks/structure/ComparisonSplit'
 import { TimelineView } from '@blocks/structure/Timeline'
-import { ProgressBarsView } from '@blocks/data/ProgressBars'
-import { StatCardsView } from '@blocks/data/StatCards'
-import { CodeBlockView } from '@blocks/data/CodeBlock'
-import { ImageDisplayView } from '@blocks/data/ImageDisplay'
+
 
 interface PreviewCanvasProps {
   blockName: BlockName | null
@@ -127,27 +124,7 @@ function BlockRenderer({ blockName, data }: { blockName: string; data: any }) {
         return <TimelineView
           events={data.events || []}
         />
-      case 'ProgressBars':
-        return <ProgressBarsView
-          bars={data.bars || []}
-        />
-      case 'StatCards':
-        return <StatCardsView
-          cards={data.cards || []}
-        />
-      case 'CodeBlock':
-        return <CodeBlockView
-          code={data.code || ''}
-          language={data.language}
-          label={data.label}
-          color={data.color}
-        />
-      case 'ImageDisplay':
-        return <ImageDisplayView
-          src={data.src || ''}
-          caption={data.caption}
-          maxHeight={data.maxHeight}
-        />
+
       case 'UCurve':
         return <UCurveView
           points={data.points || []}

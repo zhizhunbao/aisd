@@ -12,10 +12,6 @@ import { FormulaBlockView } from '@blocks/formula/FormulaBlock.view'
 import { FormulaDerivationView } from '@blocks/formula/FormulaDerivation.view'
 import { ComparisonSplitView } from '@blocks/structure/ComparisonSplit.view'
 import { TimelineView } from '@blocks/structure/Timeline.view'
-import { StatCardsView } from '@blocks/data/StatCards.view'
-import { ProgressBarsView } from '@blocks/data/ProgressBars.view'
-import { CodeBlockView } from '@blocks/data/CodeBlock.view'
-import { ImageDisplayView } from '@blocks/data/ImageDisplay.view'
 import { UCurveView } from '@blocks/chart/UCurve.view'
 import { KeyPointsView } from '@blocks/text/KeyPoints.view'
 import { ConclusionBannerView } from '@blocks/text/ConclusionBanner.view'
@@ -26,10 +22,6 @@ const BLOCK_RENDERERS: Record<string, React.FC<any>> = {
   FormulaDerivation: FormulaDerivationView,
   ComparisonSplit: ComparisonSplitView,
   Timeline: TimelineView,
-  StatCards: StatCardsView,
-  ProgressBars: ProgressBarsView,
-  CodeBlock: CodeBlockView,
-  ImageDisplay: ImageDisplayView,
   UCurve: UCurveView,
   KeyPoints: KeyPointsView,
   ConclusionBanner: ConclusionBannerView,
