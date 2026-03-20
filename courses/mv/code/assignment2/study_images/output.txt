@@ -1,0 +1,91 @@
+﻿============================================================
+Step 1: Download Oxford-IIIT Pet Dataset
+============================================================
+  Already exists: images.tar.gz
+  Already exists: annotations.tar.gz
+
+============================================================
+Step 2: Extract dataset
+============================================================
+  Already extracted: images
+  Already extracted: annotations
+  Images: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\datasets\oxford_pet\raw\images
+  XMLs: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\datasets\oxford_pet\raw\annotations\xmls
+
+============================================================
+Step 3: Parse class mapping
+============================================================
+  Total breeds (classes): 37
+  Total images: 7349
+  First 5: ['Abyssinian', 'Bengal', 'Birman', 'Bombay', 'British_Shorthair']
+
+============================================================
+Step 4: Convert XML to YOLO format
+============================================================
+  Found 3686 XML files
+  Converted: 3686, Skipped: 0
+
+============================================================
+Step 5: Split train/val and create YOLO dataset
+============================================================
+  train: 2948 samples
+  val: 738 samples
+
+============================================================
+Step 6: Generate pet.yaml
+============================================================
+  Config: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\pet.yaml
+  Classes: 37
+
+============================================================
+Step 7: Fine-tune yolo26n (Transfer Learning)
+============================================================
+  SKIP: yolo26n already trained -> C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\work_dirs\yolo26n\weights\best.pt
+
+============================================================
+Step 7: Fine-tune yolo26s (Transfer Learning)
+============================================================
+  SKIP: yolo26s already trained -> C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\work_dirs\yolo26s\weights\best.pt
+
+============================================================
+Step 8: Evaluate models -- ROC curve & AUC
+============================================================
+
+  Evaluating: yolo26n (C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\work_dirs\yolo26n\weights\best.pt)
+    Detections: 76278, TP: 729, FP: 75549, GT: 738
+
+  Evaluating: yolo26s (C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\work_dirs\yolo26s\weights\best.pt)
+    Detections: 17753, TP: 734, FP: 17019, GT: 738
+
+============================================================
+Step 9: Compute ROC curves and AUC
+============================================================
+  yolo26n: AUC = 0.9133
+  yolo26s: AUC = 0.9600
+
+============================================================
+Step 10: Plot ROC curves
+============================================================
+  Saved: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\assignment2_images\roc_curve.png
+
+============================================================
+Step 11: Plot model comparison
+============================================================
+  Saved: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\assignment2_images\model_comparison.png
+
+============================================================
+Step 12: Evaluation summary
+============================================================
+
+  Model        AUC        TP       FP       GT      
+  ------------ ---------- -------- -------- --------
+  yolo26n      0.9133     729      75549    738     
+  yolo26s      0.9600     734      17019    738     
+
+  Best model: yolo26s (AUC = 0.9600)
+
+============================================================
+Assignment 2 Complete!
+============================================================
+  Checkpoints: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\work_dirs
+  Plots: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\assignment2_images

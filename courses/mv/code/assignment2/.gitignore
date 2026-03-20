@@ -1,0 +1,11 @@
+# 数据集（太大不提交）/ Dataset (too large to commit)
+datasets/
+
+# 训练产物 / Training artifacts
+work_dirs/
+
+# 预训练权重 / Pretrained weights
+*.pt
+
+# Python 缓存 / Python cache
+__pycache__/

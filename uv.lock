@@ -230,6 +230,7 @@ dependencies = [
     { name = "tensorflow" },
     { name = "torch" },
     { name = "torchvision" },
+    { name = "transformers" },
 ]
 
 [package.dev-dependencies]
@@ -283,6 +284,7 @@ requires-dist = [
     { name = "tensorflow", specifier = ">=2.20.0" },
     { name = "torch", specifier = ">=2.5.0", index = "https://download.pytorch.org/whl/cu124" },
     { name = "torchvision", specifier = ">=0.20.0", index = "https://download.pytorch.org/whl/cu124" },
+    { name = "transformers", specifier = ">=4.57.6" },
 ]
 
 [package.metadata.requires-dev]
