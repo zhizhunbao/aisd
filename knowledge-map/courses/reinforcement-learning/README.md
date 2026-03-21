@@ -32,3 +32,9 @@ RL 是研究生级别独立课程，关注序贯决策与最优控制：
 | multi_agent | 0 | 🔲 planned | 多智能体RL：纳什均衡/CTDE/自我博弈/合作vs竞争 |
 | rlhf_alignment | 0 | 🔲 planned | RLHF与对齐：奖励模型/偏好学习/DPO/安全RL |
 | rl_tools | 0 | 🔲 planned | RL工具：Gymnasium/MuJoCo/Stable Baselines3/CleanRL/TRL |
+| **ros2** | **8** | **✅ current** | **ROS 2 通信中间件：Node/Topic/Service/Action/DDS/QoS** |
+| gazebo | 9 | ✅ current | Gazebo 3D 仿真器：SDF/URDF/物理引擎/ROS 2 集成 |
+| irobot-create3 | 8 | ✅ current | iRobot Create 3 教育机器人：传感器/ROS 2 控制/Sim-to-Real |
+| aws-small-house | 8 | ✅ current | AWS RoboMaker Small House Gazebo 仿真世界：室内导航/RL 训练环境/Create 3 集成 |
+| rviz | 0 | 🔲 planned | Rviz 可视化工具：3D 渲染/传感器数据/导航路径 |
+

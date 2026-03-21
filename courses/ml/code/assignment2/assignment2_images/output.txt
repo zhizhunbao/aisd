@@ -1,0 +1,537 @@
+============================================================
+CST8506 Assignment 2: CIFAR-10 Classification
+Author: Peng Wang | Student Number: 041107730
+============================================================
+
+============================================================
+Step 1: Data Understanding - Load CIFAR-10 Dataset
+============================================================
+Dataset: CIFAR-10 (Keras built-in)
+Training set shape: (50000, 32, 32, 3)
+Test set shape:     (10000, 32, 32, 3)
+Image size:         32x32x3
+Number of classes:  10
+Class names:        ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+Pixel value range:  [0, 255]
+
+Class distribution (training set):
+  0. airplane    : 5000 images (10.0%)
+  1. automobile  : 5000 images (10.0%)
+  2. bird        : 5000 images (10.0%)
+  3. cat         : 5000 images (10.0%)
+  4. deer        : 5000 images (10.0%)
+  5. dog         : 5000 images (10.0%)
+  6. frog        : 5000 images (10.0%)
+  7. horse       : 5000 images (10.0%)
+  8. ship        : 5000 images (10.0%)
+  9. truck       : 5000 images (10.0%)
+
+============================================================
+Step 2: Data Understanding - Visualize Sample Images
+============================================================
+Sample images saved as 'assignment2_images/sample_images.png'
+
+============================================================
+Step 3: Data Preparation - Normalize and Encode Labels
+============================================================
+Normalized pixel range: [0.0, 1.0]
+X_train shape: (50000, 32, 32, 3)
+X_test shape:  (10000, 32, 32, 3)
+y_train_flat shape:   (50000,)
+y_train_onehot shape: (50000, 10)
+Flattened X_train shape: (50000, 3072)  (32*32*3 = 3072)
+
+============================================================
+Step 4: MLP Classification (scikit-learn MLPClassifier)
+============================================================
+[CACHE] Loading MLP model from cache...
+MLP Test Accuracy: 0.5153
+
+Classification Report (MLP):
+              precision    recall  f1-score   support
+
+    airplane       0.64      0.50      0.56      1000
+  automobile       0.62      0.62      0.62      1000
+        bird       0.47      0.31      0.37      1000
+         cat       0.37      0.35      0.36      1000
+        deer       0.47      0.47      0.47      1000
+         dog       0.46      0.38      0.41      1000
+        frog       0.56      0.56      0.56      1000
+       horse       0.47      0.66      0.55      1000
+        ship       0.56      0.73      0.64      1000
+       truck       0.53      0.58      0.55      1000
+
+    accuracy                           0.52     10000
+   macro avg       0.52      0.52      0.51     10000
+weighted avg       0.52      0.52      0.51     10000
+
+
+============================================================
+Step 5: NN with Dense Layers Only (Keras)
+============================================================
+[CACHE] Loading NN model from cache...
+
+NN Test Accuracy: 0.4103
+NN Test Loss:     1.6732
+
+============================================================
+Parameter Table: NN Model (Dense-only)
+============================================================
++--------------+----------------+---------------------+-----------+--------------------------+
+| Layer Name   | Output Shape   | Shape Calculation   | Params    | Param Calculation        |
++==============+================+=====================+===========+==========================+
+| flatten      | (None, 3072)   | 32x32x3 = 3,072     | 0         | reshape only             |
++--------------+----------------+---------------------+-----------+--------------------------+
+| dense        | (None, 512)    | units=512           | 1,573,376 | (3072+1)x512 = 1,573,376 |
++--------------+----------------+---------------------+-----------+--------------------------+
+| dropout      | (None, 512)    | same as input       | 0         | no learnable params      |
++--------------+----------------+---------------------+-----------+--------------------------+
+| dense_1      | (None, 256)    | units=256           | 131,328   | (512+1)x256 = 131,328    |
++--------------+----------------+---------------------+-----------+--------------------------+
+| dropout_1    | (None, 256)    | same as input       | 0         | no learnable params      |
++--------------+----------------+---------------------+-----------+--------------------------+
+| dense_2      | (None, 10)     | units=10            | 2,570     | (256+1)x10 = 2,570       |
++--------------+----------------+---------------------+-----------+--------------------------+
+Total parameters: 1,707,274
+
+
+============================================================
+Step 6: CNN Model 1 - Conv + Dense (No Pooling)
+============================================================
+[CACHE] Loading CNN Model 1 from cache...
+
+CNN Model 1 Test Accuracy: 0.6235
+
+============================================================
+Parameter Table: CNN Model 1 (Conv + Dense)
+============================================================
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+| Layer Name   | Output Shape       | Shape Calculation                     | Params    | Param Calculation         |
++==============+====================+=======================================+===========+===========================+
+| conv2d       | (None, 32, 32, 32) | same padding: 32x32 stays, filters=32 | 896       | (3x3x3+1)x32 = 896        |
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+| conv2d_1     | (None, 32, 32, 64) | same padding: 32x32 stays, filters=64 | 18,496    | (3x3x32+1)x64 = 18,496    |
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+| flatten_1    | (None, 65536)      | 32x32x64 = 65,536                     | 0         | reshape only              |
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+| dense_3      | (None, 128)        | units=128                             | 8,388,736 | (65536+1)x128 = 8,388,736 |
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+| dropout_2    | (None, 128)        | same as input                         | 0         | no learnable params       |
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+| dense_4      | (None, 10)         | units=10                              | 1,290     | (128+1)x10 = 1,290        |
++--------------+--------------------+---------------------------------------+-----------+---------------------------+
+Total parameters: 8,409,418
+
+
+============================================================
+Step 7: CNN Model 2 - Conv + MaxPool + Dense
+============================================================
+[CACHE] Loading CNN Model 2 from cache...
+
+CNN Model 2 Test Accuracy: 0.7212
+
+============================================================
+Parameter Table: CNN Model 2 (Conv + MaxPool + Dense)
+============================================================
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| Layer Name      | Output Shape       | Shape Calculation                     | Params    | Param Calculation        |
++=================+====================+=======================================+===========+==========================+
+| conv2d_2        | (None, 32, 32, 32) | same padding: 32x32 stays, filters=32 | 896       | (3x3x3+1)x32 = 896       |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| max_pooling2d   | (None, 16, 16, 32) | MaxPool: 32/2=16, 32/2=16             | 0         | no learnable params      |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| conv2d_3        | (None, 16, 16, 64) | same padding: 16x16 stays, filters=64 | 18,496    | (3x3x32+1)x64 = 18,496   |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| max_pooling2d_1 | (None, 8, 8, 64)   | MaxPool: 16/2=8, 16/2=8               | 0         | no learnable params      |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| conv2d_4        | (None, 8, 8, 128)  | same padding: 8x8 stays, filters=128  | 73,856    | (3x3x64+1)x128 = 73,856  |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| flatten_2       | (None, 8192)       | 8x8x128 = 8,192                       | 0         | reshape only             |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| dense_5         | (None, 128)        | units=128                             | 1,048,704 | (8192+1)x128 = 1,048,704 |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| dropout_3       | (None, 128)        | same as input                         | 0         | no learnable params      |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+| dense_6         | (None, 10)         | units=10                              | 1,290     | (128+1)x10 = 1,290       |
++-----------------+--------------------+---------------------------------------+-----------+--------------------------+
+Total parameters: 1,143,242
+
+
+============================================================
+Step 8: CNN Model 3 - Conv + AvgPool + Dense
+============================================================
+[CACHE] Loading CNN Model 3 from cache...
+
+CNN Model 3 Test Accuracy: 0.7024
+
+============================================================
+Parameter Table: CNN Model 3 (Conv + AvgPool + Dense)
+============================================================
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| Layer Name          | Output Shape       | Shape Calculation                     | Params    | Param Calculation        |
++=====================+====================+=======================================+===========+==========================+
+| conv2d_5            | (None, 32, 32, 32) | same padding: 32x32 stays, filters=32 | 896       | (3x3x3+1)x32 = 896       |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| average_pooling2d   | (None, 16, 16, 32) | AvgPool: 32/2=16, 32/2=16             | 0         | no learnable params      |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| conv2d_6            | (None, 16, 16, 64) | same padding: 16x16 stays, filters=64 | 18,496    | (3x3x32+1)x64 = 18,496   |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| average_pooling2d_1 | (None, 8, 8, 64)   | AvgPool: 16/2=8, 16/2=8               | 0         | no learnable params      |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| conv2d_7            | (None, 8, 8, 128)  | same padding: 8x8 stays, filters=128  | 73,856    | (3x3x64+1)x128 = 73,856  |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| flatten_3           | (None, 8192)       | 8x8x128 = 8,192                       | 0         | reshape only             |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| dense_7             | (None, 128)        | units=128                             | 1,048,704 | (8192+1)x128 = 1,048,704 |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| dropout_4           | (None, 128)        | same as input                         | 0         | no learnable params      |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+| dense_8             | (None, 10)         | units=10                              | 1,290     | (128+1)x10 = 1,290       |
++---------------------+--------------------+---------------------------------------+-----------+--------------------------+
+Total parameters: 1,143,242
+
+
+============================================================
+Step 9: CNN Model 4 - Conv + MaxPool + AvgPool + Dense
+============================================================
+[CACHE] Loading CNN Model 4 from cache...
+
+CNN Model 4 Test Accuracy: 0.7413
+
+============================================================
+Parameter Table: CNN Model 4 (Conv + MaxPool + AvgPool + Dense)
+============================================================
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| Layer Name          | Output Shape       | Shape Calculation                     | Params   | Param Calculation       |
++=====================+====================+=======================================+==========+=========================+
+| conv2d_8            | (None, 32, 32, 32) | same padding: 32x32 stays, filters=32 | 896      | (3x3x3+1)x32 = 896      |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| max_pooling2d_2     | (None, 16, 16, 32) | MaxPool: 32/2=16, 32/2=16             | 0        | no learnable params     |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| conv2d_9            | (None, 16, 16, 64) | same padding: 16x16 stays, filters=64 | 18,496   | (3x3x32+1)x64 = 18,496  |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| average_pooling2d_2 | (None, 8, 8, 64)   | AvgPool: 16/2=8, 16/2=8               | 0        | no learnable params     |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| conv2d_10           | (None, 8, 8, 128)  | same padding: 8x8 stays, filters=128  | 73,856   | (3x3x64+1)x128 = 73,856 |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| max_pooling2d_3     | (None, 4, 4, 128)  | MaxPool: 8/2=4, 8/2=4                 | 0        | no learnable params     |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| flatten_4           | (None, 2048)       | 4x4x128 = 2,048                       | 0        | reshape only            |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| dense_9             | (None, 128)        | units=128                             | 262,272  | (2048+1)x128 = 262,272  |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| dropout_5           | (None, 128)        | same as input                         | 0        | no learnable params     |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+| dense_10            | (None, 10)         | units=10                              | 1,290    | (128+1)x10 = 1,290      |
++---------------------+--------------------+---------------------------------------+----------+-------------------------+
+Total parameters: 356,810
+
+
+============================================================
+Step 11: CNN Architecture Diagrams
+============================================================
+  CNN Model 1: Conv + Dense saved as 'assignment2_images/cnn1_architecture.png'
+  CNN Model 2: Conv + MaxPool + Dense saved as 'assignment2_images/cnn2_architecture.png'
+  CNN Model 3: Conv + AvgPool + Dense saved as 'assignment2_images/cnn3_architecture.png'
+  CNN Model 4: Conv + MaxPool + AvgPool + Dense saved as 'assignment2_images/cnn4_architecture.png'
+
+============================================================
+Step 12: Results Summary - All Models Comparison
+============================================================
++-----------------+-----------------+--------------+------------------------------+
+| Model           |   Test Accuracy |   Train Size | Configuration                |
++=================+=================+==============+==============================+
+| MLP (sklearn)   |          0.5153 |        50000 | hidden=(256,128), relu, adam |
++-----------------+-----------------+--------------+------------------------------+
+| NN (Dense only) |          0.4103 |        50000 | Dense(512,256), relu, adam   |
++-----------------+-----------------+--------------+------------------------------+
+| CNN Model 1     |          0.6235 |        50000 | Conv+Dense (no pooling)      |
++-----------------+-----------------+--------------+------------------------------+
+| CNN Model 2     |          0.7212 |        50000 | Conv+MaxPool+Dense           |
++-----------------+-----------------+--------------+------------------------------+
+| CNN Model 3     |          0.7024 |        50000 | Conv+AvgPool+Dense           |
++-----------------+-----------------+--------------+------------------------------+
+| CNN Model 4     |          0.7413 |        50000 | Conv+MaxPool+AvgPool+Dense   |
++-----------------+-----------------+--------------+------------------------------+
+
+============================================================
+Step 13: Training History Visualization
+============================================================
+Training history saved as 'assignment2_images/training_history.png'
+
+============================================================
+Step 14: Prepare Subset Data for Parameter Study
+============================================================
+Subset: 5000 train, 1000 test (from 50000/10000)
+
+============================================================
+Step 15: MLP Parameter Study (6 parameters)
+============================================================
+Baseline: {'hidden_layer_sizes': (256, 128), 'activation': 'relu', 'solver': 'adam', 'batch_size': 256, 'learning_rate_init': 0.001, 'max_iter': 30}
+
+--- Activation Function Calculations ---
+Each activation function transforms inputs differently:
+
+1. ReLU (Rectified Linear Unit):
+   f(x) = max(0, x)
+   Example: f(3.5) = 3.5, f(-2.0) = 0
+   Advantage: Fast, avoids vanishing gradient for positive values
+
+2. Tanh (Hyperbolic Tangent):
+   f(x) = (e^x - e^{-x}) / (e^x + e^{-x})
+   Output range: [-1, 1], zero-centered
+   Example: f(0) = 0, f(1) = 0.76, f(-1) = -0.76
+
+3. Sigmoid / Logistic:
+   f(x) = 1 / (1 + e^{-x})
+   Output range: [0, 1], used for probabilities
+   Example: f(0) = 0.5, f(2) = 0.88, f(-2) = 0.12
+
+4. Softmax (multi-class output layer):
+   f(x_i) = e^{x_i} / sum(e^{x_j}) for all j
+   Outputs sum to 1.0, interpreted as class probabilities
+   Example: softmax([2,1,0]) = [0.67, 0.24, 0.09]
+
+--- 15.1 hidden_layer_sizes ---
+  Training: hidden_layer_sizes=(128,) ... Accuracy = 0.3700
+  Training: hidden_layer_sizes=(256, 128) ... Accuracy = 0.3780
+  Training: hidden_layer_sizes=(512, 256, 128) ... Accuracy = 0.3990
+  Chart saved: assignment2_images/mlp_hidden_layer_sizes.png
+--- 15.2 activation ---
+  Training: activation=relu ... Accuracy = 0.3780
+  Training: activation=tanh ... Accuracy = 0.3730
+  Training: activation=logistic ... Accuracy = 0.3810
+  Chart saved: assignment2_images/mlp_activation.png
+--- 15.3 solver ---
+  Training: solver=adam ... Accuracy = 0.3780
+  Training: solver=sgd ... Accuracy = 0.3600
+  Training: solver=lbfgs ... Accuracy = 0.3530
+  Chart saved: assignment2_images/mlp_solver.png
+--- 15.4 batch_size ---
+  Training: batch_size=32 ... Accuracy = 0.4050
+  Training: batch_size=64 ... Accuracy = 0.3850
+  Training: batch_size=128 ... Accuracy = 0.3660
+  Training: batch_size=256 ... Accuracy = 0.3780
+  Chart saved: assignment2_images/mlp_batch_size.png
+--- 15.5 learning_rate_init ---
+  Training: learning_rate_init=0.0001 ... Accuracy = 0.3910
+  Training: learning_rate_init=0.001 ... Accuracy = 0.3780
+  Training: learning_rate_init=0.01 ... Accuracy = 0.3430
+  Chart saved: assignment2_images/mlp_learning_rate.png
+--- 15.6 max_iter ---
+  Training: max_iter=10 ... Accuracy = 0.3580
+  Training: max_iter=30 ... Accuracy = 0.3780
+  Training: max_iter=50 ... Accuracy = 0.4080
+  Training: max_iter=100 ... Accuracy = 0.4040
+  Chart saved: assignment2_images/mlp_max_iter.png
+
+============================================================
+Step 16: Dense NN Parameter Study (2 parameters)
+============================================================
+Baseline: Dense(512,relu) -> Dense(256,relu) -> Dense(10,softmax)
+
+--- 16.1 units (hidden layer structure) ---
+  Training: units=(256,) ... Accuracy = 0.3290
+  Training: units=(512,256) ... Accuracy = 0.3040
+  Training: units=(512,256,128) ... Accuracy = 0.3140
+  Chart saved: assignment2_images/dense_units.png
+--- 16.2 activation ---
+  Training: activation=relu ... Accuracy = 0.3300
+  Training: activation=tanh ... Accuracy = 0.2750
+  Training: activation=sigmoid ... Accuracy = 0.3170
+  Chart saved: assignment2_images/dense_activation.png
+
+============================================================
+Step 17: CNN Parameter Study — Conv2D (6 parameters)
+============================================================
+Baseline: Conv2D(32,3x3,same,relu) -> MaxPool -> Conv2D(64) -> MaxPool
+
+--- 17.1 filters ---
+  Training: filters=16->32 ... Accuracy = 0.4840
+  Training: filters=32->64 ... Accuracy = 0.4780
+  Training: filters=64->128 ... Accuracy = 0.4910
+  Chart saved: assignment2_images/cnn_filters.png
+--- 17.2 kernel_size ---
+  Training: kernel_size=3x3 ... Accuracy = 0.4840
+  Training: kernel_size=5x5 ... Accuracy = 0.4700
+  Training: kernel_size=7x7 ... Accuracy = 0.4310
+  Chart saved: assignment2_images/cnn_kernel_size.png
+--- 17.3 strides ---
+  Training: strides=(1,1) ... Accuracy = 0.4960
+  Training: strides=(2,2) ... Accuracy = 0.4300
+  Chart saved: assignment2_images/cnn_strides.png
+--- 17.4 padding ---
+  Training: padding=same ... Accuracy = 0.4950
+  Training: padding=valid ... Accuracy = 0.4600
+  Chart saved: assignment2_images/cnn_padding.png
+--- 17.5 activation (conv layers) ---
+  Training: activation=relu ... Accuracy = 0.4990
+  Training: activation=tanh ... Accuracy = 0.4690
+  Training: activation=sigmoid ... Accuracy = 0.0900
+  Chart saved: assignment2_images/cnn_activation.png
+--- 17.6 input_shape ---
+  Training: input_shape=16x16x3 ... Accuracy = 0.4360
+  Training: input_shape=32x32x3 ... Accuracy = 0.4950
+  Training: input_shape=48x48x3 ... Accuracy = 0.4560
+  Chart saved: assignment2_images/cnn_input_shape.png
+
+============================================================
+Step 18: CNN Parameter Study — Compile (3 parameters)
+============================================================
+--- Role of Compile and Fit Methods ---
+model.compile() — Configure training process (does NOT train):
+  - optimizer: Weight update algorithm (adam, sgd, rmsprop)
+  - loss: Error measurement function (crossentropy, mse)
+  - metrics: What to monitor during training (accuracy, precision, AUC)
+  compile() prepares the model by linking optimizer, loss, and metrics.
+
+model.fit() — Execute the actual training:
+  - X, y: Training data and labels
+  - epochs: Number of full passes through the training data
+  - batch_size: Samples per gradient update
+  - validation_split: Auto-split fraction for validation
+  - validation_data: Explicit (X_val, y_val) for validation
+  fit() performs forward pass, loss calculation, backpropagation, and weight update.
+
+--- 18.1 optimizer ---
+  Training: optimizer=adam ... Accuracy = 0.4700
+  Training: optimizer=sgd ... Accuracy = 0.2400
+  Training: optimizer=rmsprop ... Accuracy = 0.4690
+  Chart saved: assignment2_images/cnn_optimizer.png
+--- 18.2 loss function ---
+  Training: loss=categorical_CE ... Accuracy = 0.5220
+  Training: loss=sparse_cat_CE ... Accuracy = 0.4800
+  Training: loss=mse ... Accuracy = 0.4660
+  Chart saved: assignment2_images/cnn_loss.png
+--- 18.3 metrics ---
+  Note: metrics does not affect training, only what is monitored.
+  Compile with metrics=['accuracy'] ... Accuracy = 0.4680
+  Compile with metrics=['precision'] ... Accuracy = 0.4860
+  Compile with metrics=['recall'] ... Accuracy = 0.4990
+  Compile with metrics=['AUC'] ... Accuracy = 0.4890
+  Chart saved: assignment2_images/cnn_metrics.png
+
+============================================================
+Step 19: CNN Parameter Study — Fit (5 parameters)
+============================================================
+--- 19.1 epochs ---
+  Training: epochs=3 ... Accuracy = 0.4360
+  Training: epochs=5 ... Accuracy = 0.4860
+  Training: epochs=10 ... Accuracy = 0.5490
+  Training: epochs=15 ... Accuracy = 0.5510
+  Chart saved: assignment2_images/cnn_epochs.png
+--- 19.2 batch_size ---
+  Training: batch_size=32 ... Accuracy = 0.5220
+  Training: batch_size=64 ... Accuracy = 0.4620
+  Training: batch_size=128 ... Accuracy = 0.4380
+  Training: batch_size=256 ... Accuracy = 0.4200
+  Chart saved: assignment2_images/cnn_batch_size.png
+--- 19.3 learning_rate ---
+  Training: lr=0.0001 ... Accuracy = 0.3820
+  Training: lr=0.001 ... Accuracy = 0.4540
+  Training: lr=0.01 ... Accuracy = 0.3870
+  Chart saved: assignment2_images/cnn_learning_rate.png
+--- 19.4 validation_split ---
+  Training: val_split=0.1 ... Accuracy = 0.4700
+  Training: val_split=0.2 ... Accuracy = 0.4710
+  Training: val_split=0.3 ... Accuracy = 0.5040
+  Chart saved: assignment2_images/cnn_validation_split.png
+--- 19.5 validation_data vs validation_split ---
+  Training: validation_split=0.1 ... Accuracy = 0.5040
+  Training: validation_data=(X,y) ... Accuracy = 0.4970
+  Chart saved: assignment2_images/cnn_validation_method.png
+
+============================================================
+Step 20: Parameter Study Summary
+============================================================
+
+=== Main Model Comparison ===
+
++-----------------+------------+--------------+------------------------------+
+| Model           |   Accuracy |   Train Size | Architecture                 |
++=================+============+==============+==============================+
+| MLP (sklearn)   |     0.5153 |        50000 | hidden=(256,128), relu, adam |
++-----------------+------------+--------------+------------------------------+
+| NN (Dense only) |     0.4103 |        50000 | Dense(512,256), relu, adam   |
++-----------------+------------+--------------+------------------------------+
+| CNN Model 1     |     0.6235 |        50000 | Conv+Dense (no pooling)      |
++-----------------+------------+--------------+------------------------------+
+| CNN Model 2     |     0.7212 |        50000 | Conv+MaxPool+Dense           |
++-----------------+------------+--------------+------------------------------+
+| CNN Model 3     |     0.7024 |        50000 | Conv+AvgPool+Dense           |
++-----------------+------------+--------------+------------------------------+
+| CNN Model 4     |     0.7413 |        50000 | Conv+MaxPool+AvgPool+Dense   |
++-----------------+------------+--------------+------------------------------+
+
+=== MLP Parameters (sklearn) ===
+
++--------------------+--------------------------+--------------------+
+| Parameter          | Best (Accuracy)          | Worst (Accuracy)   |
++====================+==========================+====================+
+| hidden_layer_sizes | (512, 256, 128) (0.3990) | (128,) (0.3700)    |
++--------------------+--------------------------+--------------------+
+| activation         | logistic (0.3810)        | tanh (0.3730)      |
++--------------------+--------------------------+--------------------+
+| solver             | adam (0.3780)            | lbfgs (0.3530)     |
++--------------------+--------------------------+--------------------+
+| batch_size         | 32 (0.4050)              | 128 (0.3660)       |
++--------------------+--------------------------+--------------------+
+| learning_rate_init | 0.0001 (0.3910)          | 0.01 (0.3430)      |
++--------------------+--------------------------+--------------------+
+| max_iter           | 50 (0.4080)              | 10 (0.3580)        |
++--------------------+--------------------------+--------------------+
+
+=== Dense NN Parameters (Keras) ===
+
++-------------+-------------------+--------------------+
+| Parameter   | Best (Accuracy)   | Worst (Accuracy)   |
++=============+===================+====================+
+| units       | (256,) (0.3290)   | (512,256) (0.3040) |
++-------------+-------------------+--------------------+
+| activation  | relu (0.3300)     | tanh (0.2750)      |
++-------------+-------------------+--------------------+
+
+=== CNN Parameters (Keras) ===
+
++-----------------------+-------------------------+-------------------------+
+| Parameter             | Best (Accuracy)         | Worst (Accuracy)        |
++=======================+=========================+=========================+
+| Conv2D: filters       | 64->128 (0.4910)        | 32->64 (0.4780)         |
++-----------------------+-------------------------+-------------------------+
+| Conv2D: kernel_size   | 3x3 (0.4840)            | 7x7 (0.4310)            |
++-----------------------+-------------------------+-------------------------+
+| Conv2D: strides       | (1,1) (0.4960)          | (2,2) (0.4300)          |
++-----------------------+-------------------------+-------------------------+
+| Conv2D: padding       | same (0.4950)           | valid (0.4600)          |
++-----------------------+-------------------------+-------------------------+
+| Conv2D: activation    | relu (0.4990)           | sigmoid (0.0900)        |
++-----------------------+-------------------------+-------------------------+
+| Conv2D: input_shape   | 32x32x3 (0.4950)        | 16x16x3 (0.4360)        |
++-----------------------+-------------------------+-------------------------+
+| Compile: optimizer    | adam (0.4700)           | sgd (0.2400)            |
++-----------------------+-------------------------+-------------------------+
+| Compile: loss         | categorical_CE (0.5220) | mse (0.4660)            |
++-----------------------+-------------------------+-------------------------+
+| Compile: metrics      | recall (0.4990)         | accuracy (0.4680)       |
++-----------------------+-------------------------+-------------------------+
+| Fit: epochs           | 15 (0.5510)             | 3 (0.4360)              |
++-----------------------+-------------------------+-------------------------+
+| Fit: batch_size       | 32 (0.5220)             | 256 (0.4200)            |
++-----------------------+-------------------------+-------------------------+
+| Fit: learning_rate    | 0.001 (0.4540)          | 0.0001 (0.3820)         |
++-----------------------+-------------------------+-------------------------+
+| Fit: validation_split | 0.3 (0.5040)            | 0.1 (0.4700)            |
++-----------------------+-------------------------+-------------------------+
+| Fit: validation_data  | val_split=0.1 (0.5040)  | val_data=(X,y) (0.4970) |
++-----------------------+-------------------------+-------------------------+
+
+============================================================
+Assignment 2 Complete!
+============================================================
+
+Main models trained: 6 (MLP, NN, CNN1-4) on full 50000 samples
+Parameter study models: 68 on 5000 sample subset
+Total models: 74
+Total parameters studied: 22
+============================================================
+
