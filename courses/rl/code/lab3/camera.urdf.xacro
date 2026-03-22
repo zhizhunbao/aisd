@@ -1,124 +1,54 @@
 <?xml version="1.0"?>
-<!--
-  camera.urdf.xacro
-  CST8509 Lab 3: Gazebo Simulation
-  Author: Peng Wang
-  Student Number: 041107730
-
-  Description:
-    This file defines a virtual camera attached to the iRobot Create 3 robot
-    in Gazebo 11 simulation. The camera publishes images to a ROS 2 topic
-    for use in reinforcement learning training.
-
-  Usage:
-    Include this file from create3.urdf.xacro:
-      <xacro:include filename="$(find irobot_create_description)/urdf/camera.urdf.xacro" />
--->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-    <!-- ============================================================ -->
-    <!-- Part 1: Camera Joint and Link                                -->
-    <!-- 第一部分：摄像头关节和链接                                       -->
-    <!-- ============================================================ -->
-
-    <!-- Fixed joint attaching camera to Create 3 base_link -->
-    <!-- 将摄像头固定连接到 Create 3 的 base_link -->
     <joint name="camera_joint" type="fixed">
         <parent link="base_link"/>
         <child link="camera_link"/>
-        <!-- Camera sits 0.2 m above the Create 3 base_link -->
-        <!-- 摄像头位于 Create 3 base_link 上方 0.2 m 处 -->
+        <!-- the camera will sit 0.2 m above the create3 base_link -->
         <origin xyz="0 0 0.2" rpy="0 0 0"/>
     </joint>
 
-    <!-- Camera link: a small red box representing the camera -->
-    <!-- 摄像头链接：用一个红色小方块表示摄像头 -->
     <link name="camera_link">
         <visual>
             <geometry>
-                <!-- Dimensions of the camera box (10mm x 30mm x 30mm) -->
-                <!-- 摄像头盒子尺寸（10mm x 30mm x 30mm） -->
+                <!-- the dimensions of the camera box -->
                 <box size="0.010 0.03 0.03"/>
             </geometry>
             <material name="red"/>
         </visual>
     </link>
 
-    <!-- Define red material for the camera -->
-    <!-- 定义摄像头的红色材质 -->
     <material name="red">
         <color rgba="1 0 0 1"/>
     </material>
 
-    <!-- ============================================================ -->
-    <!-- Part 2: Optical Link (Coordinate Frame Conversion)           -->
-    <!-- 第二部分：光学链接（坐标系转换）                                 -->
-    <!-- ============================================================ -->
-
-    <!--
-      ROS standard robot orientation: x-forward, y-left, z-up
-      Standard optical orientation:   x-right,   y-down,  z-forward
-      This additional link converts between the two coordinate frames.
-      
-      ROS 标准机器人方向：x 前, y 左, z 上
-      标准光学方向：      x 右, y 下, z 前
-      此链接用于在两个坐标系之间转换。
-    -->
     <joint name="camera_optical_joint" type="fixed">
         <parent link="camera_link"/>
         <child link="camera_link_optical"/>
-        <!-- Rotate -90° around x-axis and -90° around z-axis -->
-        <!-- 绕 x 轴旋转 -90°，绕 z 轴旋转 -90° -->
         <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
     </joint>
 
     <link name="camera_link_optical"></link>
 
-    <!-- ============================================================ -->
-    <!-- Part 3: Gazebo Camera Plugin (Sensor Configuration)          -->
-    <!-- 第三部分：Gazebo 摄像头插件（传感器配置）                        -->
-    <!-- ============================================================ -->
-
-    <!--
-      Configure the camera sensor in Gazebo simulation.
-      The libgazebo_ros_camera plugin publishes images to ROS 2 topics.
-
-      在 Gazebo 仿真中配置摄像头传感器。
-      libgazebo_ros_camera 插件将图像发布到 ROS 2 topics。
-
-      Published topics:
-        /custom_ns/camera1/custom_img  - Raw camera image
-        /custom_ns/camera1/custom_info - Camera calibration info
-    -->
     <gazebo reference="camera_link">
         <material name="red"/>
         <sensor name="camera" type="camera">
             <pose> 0 0 0 0 0 0 </pose>
             <visualize>true</visualize>
-            <!-- Update rate: 10 Hz (10 frames per second) -->
-            <!-- 更新频率：10 Hz（每秒 10 帧） -->
             <update_rate>10</update_rate>
             <camera name="head">
-                <!-- Horizontal field of view: ~62.4° (1.089 radians) -->
-                <!-- 水平视场角：约 62.4°（1.089 弧度） -->
                 <horizontal_fov>1.089</horizontal_fov>
                 <image>
-                    <!-- RGB8 format, 640x480 resolution -->
-                    <!-- RGB8 格式，640x480 分辨率 -->
                     <format>R8G8B8</format>
                     <width>640</width>
                     <height>480</height>
                 </image>
                 <clip>
-                    <!-- Near clip: 0.05m, Far clip: 8.0m -->
-                    <!-- 近裁剪面：0.05m，远裁剪面：8.0m -->
                     <near>0.05</near>
                     <far>8.0</far>
                 </clip>
             </camera>
 
-            <!-- Gazebo ROS camera plugin for publishing images to ROS 2 -->
-            <!-- Gazebo ROS 摄像头插件，用于将图像发布到 ROS 2 -->
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <ros>
                     <namespace>custom_ns</namespace>
