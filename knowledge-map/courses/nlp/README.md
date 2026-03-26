@@ -21,11 +21,12 @@ NLP 是研究生级别独立课程，覆盖从经典语言学到大语言模型�
 |------|--------|------|------|
 | linguistic_foundations | 0 | 🔲 planned | 语言学基础：音素/词素/句法/语义/依存分析 |
 | text_preprocessing | 0 | 🔲 planned | 文本预处理：BPE/WordPiece/SentencePiece 分词 |
-| word_vectors | 0 | 🔲 planned | 词向量：Word2Vec/GloVe/FastText/ELMo |
+| word_vectors | 9 | ✅ current | 词向量：完整 9 维知识地图 (Word2Vec CBOW/Skip-gram/负采样/GloVe/FastText/ELMo/余弦相似度/词类比) |
 | language_models | 0 | 🔲 planned | 语言模型：N-gram/神经LM/自回归/掩码LM |
 | rnn_seq_models | 0 | 🔲 planned | 序列模型：RNN/LSTM/GRU/Seq2Seq/Teacher Forcing |
-| attention_transformer | 0 | 🔲 planned | 注意力与Transformer：Bahdanau/Luong/Multi-Head/位置编码 |
-| pretrained_lm | 0 | 🔲 planned | 预训练模型：BERT/GPT/T5/RoBERTa/ELECTRA |
+| attention_transformer | 9 | ✅ current | 注意力与Transformer：完整 9 维知识地图 (Self-Attention/MHA/位置编码/Encoder-Decoder) |
+| pretrained_lm (bert) | 9 | ✅ current | 预训练模型：BERT 完整 9 维知识地图 (Map/Concepts/Math/Tutorial/Code/Pitfalls/History/Bridge/First Principles) |
+| pretrained_lm (gpt) | 9 | ✅ current | 预训练模型：GPT 完整 9 维知识地图 (Map/Concepts/Math/Tutorial/Code/Pitfalls/History/Bridge/First Principles) |
 | llm | 0 | 🔲 planned | 大语言模型：GPT-4/LLaMA/缩放定律/涌现/ICL/CoT |
 | peft | 0 | 🔲 planned | 参数高效微调：LoRA/QLoRA/Adapter/Prefix Tuning |
 | nlp_tasks | 0 | 🔲 planned | 核心任务：分类/NER/翻译/摘要/QA/对话 |

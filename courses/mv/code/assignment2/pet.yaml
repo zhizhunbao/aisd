@@ -1,5 +1,5 @@
 # Oxford-IIIT Pet Dataset - YOLO Format
-path: C:\Users\40270\OneDrive\Desktop\workspace\aisd\courses\mv\code\assignment2\datasets\oxford_pet\yolo
+path: C:\Users\40270\Desktop\workspace\aisd\courses\mv\code\assignment2\datasets\oxford_pet\yolo
 train: train/images
 val: val/images
 nc: 37

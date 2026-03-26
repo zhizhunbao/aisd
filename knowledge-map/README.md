@@ -1,6 +1,6 @@
 # Knowledge Map — 一人公司全角色执行蓝图
 
-> 一人公司，22 个节点，每角色一棵树。
+> 一人公司，29 个节点，每角色一棵树。
 > 五层结构：**角色树**（我是谁）→ **任务树**（我干什么）→ **执行流**（什么顺序）→ **学术树**（我学什么）→ **文件树**（知识放哪）
 > 每棵学术树按深度分六层：本科 → 研究生 → 博士 → 教授 → 院士 → 开山祖师。
 > 课程名来源见文末"来源校准"一节。
@@ -66,26 +66,34 @@
     - 后端工程师 Backend Engineer
     - 数据库管理员 DBA
     - 运维工程师 DevOps Engineer
+  - **金融侧**（4 角色）
+    - 量化分析师 Quant Analyst
+    - 交易员 Trader
+    - 风控分析师 Risk Analyst
+    - 投资分析师 Investment Analyst
   - **研究侧**（5 角色）
     - 情报分析师 Intelligence Analyst
     - 知识工程师 Knowledge Engineer
     - 行为心理学家 Behavioral Psychologist
     - 跨国法律研究员 Cross-border Legal Researcher
     - 博弈分析师 Game Theorist
-  - **商业侧**（6 角色）
+  - **商业侧**（8 角色）
     - 产品经理 Product Manager
     - 设计师 UI/UX Designer
     - 内容策略师 Content Strategist
     - 市场运营 Marketing
     - 财务 Finance
     - 法务 Legal
+    - 合规专员 Compliance Officer
+    - 企业运营经理 Operations Manager
   - **创作侧**（1 角色）
     - AI 视频编导 AI Video Director
-  - **智囊团**（4 顾问）
+  - **智囊团**（5 顾问）
     - 技术顾问 Technical Advisor
     - 商业顾问 Business Advisor
     - 行业顾问 Industry Advisor
     - 人脉顾问 Network Advisor
+    - 管理咨询师 Management Consultant
 
 ---
 
@@ -101,6 +109,7 @@ graph TD
         BA["商业顾问"]
         IA["行业顾问"]
         NA["人脉顾问"]
+        MC["管理咨询师"]
     end
 
     subgraph TECH["⚙️ 技术侧"]
@@ -110,6 +119,13 @@ graph TD
         DO["运维工程师"]
         BE["后端工程师"]
         FE["前端工程师"]
+    end
+
+    subgraph FIN["💰 金融侧"]
+        QA["量化分析师"]
+        TR["交易员"]
+        RA["风控分析师"]
+        INA["投资分析师"]
     end
 
     subgraph RES["🔬 研究侧"]
@@ -127,6 +143,8 @@ graph TD
         MK["市场运营"]
         FN["财务"]
         LG["法务"]
+        CO["合规专员"]
+        OM["企业运营经理"]
     end
 
     subgraph CRE["🎬 创作侧"]
@@ -139,6 +157,16 @@ graph TD
     DO -->|基础设施| BE
     BE -->|API 服务| FE
 
+    %% ── 技术侧 → 金融侧 ──
+    DS -->|统计建模| QA
+    MLE -->|模型部署| QA
+    DS -->|数据分析| INA
+
+    %% ── 金融侧内部 ──
+    QA -->|策略信号| TR
+    QA -->|模型风险| RA
+    INA -->|估值报告| QA
+
     %% ── 技术侧 → 研究侧 ──
     DS -->|分析方法| INT
     MLE -->|"NLP / 图学习"| KE
@@ -146,6 +174,11 @@ graph TD
 
     %% ── 研究侧内部 ──
     BP -->|决策心理| GT
+
+    %% ── 金融侧 → 商业侧 ──
+    RA -->|风险评估| FN
+    TR -->|交易损益| FN
+    INA -->|投资建议| PM
 
     %% ── 技术 & 研究 → 商业侧 ──
     DS -->|数据驱动| PM
@@ -161,6 +194,14 @@ graph TD
     GT -->|定价博弈| FN
     LG -->|合规审查| FN
 
+    %% ── 商业侧内部（新角色） ──
+    CLR -->|监管研究| CO
+    CO -->|合规要求| LG
+    CO -->|合规报告| FN
+    OM -->|运营数据| PM
+    OM -->|流程优化| DS
+    FN -->|预算约束| OM
+
     %% ── 创作侧 ──
     KE -->|知识地图| VD
     CS -->|叙事框架| VD
@@ -172,6 +213,8 @@ graph TD
     BA -.->|商业决策| PM
     IA -.->|行业洞察| INT
     NA -.->|人脉资源| BP
+    MC -.->|组织优化| OM
+    MC -.->|流程再造| PM
 ```
 
 **关键依赖链路：**
@@ -183,8 +226,12 @@ graph TD
 | 情报链     | 数据科学家 → 情报分析师 → 产品经理                | 从数据分析到竞争情报到产品决策 |
 | 影响力链   | 行为心理学家 → 博弈分析师 → 财务                  | 从决策心理到博弈定价到财务执行 |
 | 内容链     | 知识工程师 → 内容策略师 → 市场运营                | 从知识组织到内容生产到市场分发 |
-| 合规链     | 跨国法律研究员 → 法务 → 财务                      | 从法律研究到合规审查到财务执行 |
+| 合规链     | 跨国法律研究员 → 合规专员 → 法务 → 财务           | 从法律研究到合规监控到审查到执行 |
 | 创作链     | 知识工程师 → AI 视频编导 → 市场运营               | 从知识地图到视频生产到社媒分发 |
+| 量化链     | 数据科学家 → 量化分析师 → 交易员                  | 从统计建模到策略开发到交易执行 |
+| 风控链     | 量化分析师 → 风控分析师 → 财务                    | 从模型风险到风险评估到财务执行 |
+| 投研链     | 情报分析师 → 投资分析师 → 量化分析师              | 从竞争情报到估值分析到量化验证 |
+| 运营链     | 企业运营经理 → 产品经理 → 数据科学家              | 从运营反馈到需求优化到数据驱动 |
 
 ---
 
@@ -376,6 +423,26 @@ graph TD
 | **核心方法** | 合同起草/审核、合规检查、争议解决、知识产权管理 |
 | **交付下游** | → 财务（合规审查）→ 产品经理（法律约束）→ 全公司（法律保护） |
 
+#### 18. 合规专员 Compliance Officer
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 业务流程是否符合监管要求？内部控制是否有效？ |
+| **典型输入** | 法律研究成果、监管政策更新、业务流程文档、审计报告 |
+| **典型输出** | 合规清单、内部审计报告、监管申报文件、合规培训方案、违规预警 |
+| **核心方法** | 合规框架设计、内部审计、监管政策追踪、风险矩阵、COSO 框架 |
+| **交付下游** | → 法务（合规要求）→ 财务（合规报告）→ 全公司（合规培训） |
+
+#### 19. 企业运营经理 Operations Manager
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 如何让日常运营高效运转？流程瓶颈在哪？资源怎么分配最优？ |
+| **典型输入** | 运营数据、KPI 报表、预算约束、客户反馈、供应链信息 |
+| **典型输出** | 运营仪表盘、流程优化方案、资源分配计划、SOP 文档、运营报告 |
+| **核心方法** | 精益管理、六西格玛、流程再造（BPR）、OKR/KPI 体系、供应链优化 |
+| **交付下游** | → 产品经理（运营数据）→ 数据科学家（流程数据）→ 财务（运营成本） |
+
 ---
 
 ## 2.4 🧠 智囊团
@@ -420,6 +487,16 @@ graph TD
 | **核心方法** | 社会网络分析、弱关系理论、结构洞策略、精英网络映射 |
 | **交付下游** | ⟿ 行为心理学家（社会心理）⟿ 商业顾问（关键关系）⟿ 全公司（人脉资源） |
 
+#### 22. 管理咨询师 Management Consultant
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 组织效率瓶颈在哪？流程怎么再造？变革怎么落地？ |
+| **典型输入** | 组织架构、业务流程、绩效数据、行业对标、员工访谈 |
+| **典型输出** | 组织诊断报告、变革方案、流程再造蓝图、KPI 体系、落地路线图 |
+| **核心方法** | 麦肯锡 7S、波士顿矩阵、价值链分析、变革管理（Kotter 8 步）、精益六西格玛 |
+| **交付下游** | ⟿ 企业运营经理（组织优化）⟿ 产品经理（流程再造）⟿ 全公司（变革推动） |
+
 ---
 
 ## 2.5 🎬 创作侧
@@ -442,7 +519,51 @@ graph TD
 
 ---
 
-## 2.6 任务流全景图
+## 2.6 💰 金融侧
+
+#### 24. 量化分析师 Quant Analyst
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 如何用数学模型从市场数据中提取可交易的信号？ |
+| **典型输入** | 市场行情数据、因子数据库、数据科学家的统计模型、ML 模型 |
+| **典型输出** | 量化策略、因子模型、定价模型、回测报告、Alpha 信号 |
+| **核心方法** | 随机过程、衍生品定价、因子分析、时间序列建模、蒙特卡洛模拟 |
+| **交付下游** | → 交易员（策略信号）→ 风控分析师（模型风险）→ 财务（投资损益） |
+
+#### 25. 交易员 Trader
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 什么时候进、什么时候出、仓位多大、风险怎么控？ |
+| **典型输入** | 量化策略信号、实时行情、订单簿、风控限额、宏观事件 |
+| **典型输出** | 交易执行记录、损益报告、滑点分析、执行质量报告 |
+| **核心方法** | 算法交易、执行优化（TWAP/VWAP）、仓位管理、止损策略、市场微观结构 |
+| **交付下游** | → 财务（交易损益）→ 风控分析师（持仓风险）→ 量化分析师（执行反馈） |
+
+#### 26. 风控分析师 Risk Analyst
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 最坏情况会亏多少？系统性风险在哪？怎么对冲？ |
+| **典型输入** | 持仓数据、市场波动率、压力测试情景、监管要求、历史损失 |
+| **典型输出** | VaR/CVaR 报告、压力测试结果、风险限额建议、对冲方案、风险预警 |
+| **核心方法** | VaR 模型、压力测试、情景分析、信用评分、操作风险评估 |
+| **交付下游** | → 财务（风险评估）→ 合规专员（监管报告）→ 量化分析师（风险约束） |
+
+#### 27. 投资分析师 Investment Analyst
+
+| 维度 | 内容 |
+|------|------|
+| **核心问题** | 这家公司/这个资产值多少钱？值不值得投？ |
+| **典型输入** | 财报数据、行业报告、竞争情报、宏观经济数据、管理层访谈 |
+| **典型输出** | 估值报告、行业分析、投资建议书、尽职调查报告、投资备忘录 |
+| **核心方法** | DCF 估值、可比公司分析、行业研究、财务建模、基本面分析 |
+| **交付下游** | → 量化分析师（估值因子）→ 产品经理（投资建议）→ 财务（资产配置） |
+
+---
+
+## 2.7 任务流全景图
 
 > 📌 此图为执行流的简化预览，完整的执行流程详见 [第三层：执行流](#第三层执行流--什么顺序)。
 
@@ -1468,6 +1589,82 @@ graph TD
 
 ---
 
+### 18. 合规专员 Compliance Officer
+
+> 来源：IIA (Institute of Internal Auditors), ACFE, NYU Law Compliance
+
+- **本科 Undergraduate**
+  - 法理学 Jurisprudence
+  - 商法 Commercial Law
+  - 会计学原理 Principles of Accounting
+  - 统计学 Statistics
+  - 信息安全 Information Security
+  - 商业伦理 Business Ethics
+- **研究生 Master**
+  - 企业合规管理 Corporate Compliance Management — _NYU Law_
+  - 内部审计 Internal Auditing — _IIA Standards_
+  - 反洗钱与金融犯罪 Anti-Money Laundering & Financial Crime — _ACFE_
+  - 数据隐私法 Data Privacy Law (GDPR/CCPA)
+  - 风险管理框架 Risk Management Frameworks (COSO/ISO 31000)
+  - 监管科技 Regulatory Technology (RegTech)
+- **博士 PhD**
+  - 规制理论 Regulatory Theory
+  - 公司治理理论 Corporate Governance Theory
+  - 制度经济学 Institutional Economics
+  - 合规行为学 Behavioral Compliance
+- **教授 Professor**
+  - 监管经济学 Economics of Regulation
+  - 组织问责理论 Organizational Accountability Theory
+  - 法律与合规交叉研究 Law & Compliance Interdisciplinary Research
+- **院士 Fellow / Academician**
+  - 全球监管治理理论 Global Regulatory Governance Theory
+  - 合规科学统一框架 Unified Compliance Science Framework
+- **开山祖师 Field Pioneer**
+  - Sarbanes & Oxley — 萨班斯法案 Sarbanes-Oxley Act
+  - COSO Committee — 内部控制框架 Internal Control Framework
+  - Basel Committee — 巴塞尔协议 Basel Accords
+
+---
+
+### 19. 企业运营经理 Operations Manager
+
+> 来源：MIT Sloan Operations Management, Wharton MBA Operations, Toyota Production System
+
+- **本科 Undergraduate**
+  - 管理学原理 Principles of Management
+  - 运营管理 Operations Management
+  - 统计学 Statistics
+  - 经济学原理 Principles of Economics
+  - 项目管理 Project Management
+  - 组织行为学 Organizational Behavior
+- **研究生 Master**
+  - 运营管理 Operations Management — _MIT Sloan 15.761_
+  - 供应链管理 Supply Chain Management — _MIT Sloan 15.762_
+  - 精益六西格玛 Lean Six Sigma — _MIT Professional Education_
+  - 数据驱动决策 Data-Driven Decision Making — _Wharton MBA_
+  - 流程分析与改进 Process Analysis & Improvement
+  - 质量管理 Quality Management
+- **博士 PhD**
+  - 运营研究 Operations Research
+  - 排队论 Queueing Theory
+  - 库存理论 Inventory Theory
+  - 调度理论 Scheduling Theory
+  - 运营战略 Operations Strategy
+- **教授 Professor**
+  - 运营管理理论 Operations Management Theory
+  - 服务科学 Service Science
+  - 复杂系统运营 Complex Systems Operations
+- **院士 Fellow / Academician**
+  - 运营科学统一理论 Unified Operations Science
+  - 组织效率理论 Organizational Efficiency Theory
+- **开山祖师 Field Pioneer**
+  - Taylor — 科学管理 Scientific Management
+  - Ohno — 丰田生产方式 Toyota Production System
+  - Deming — 全面质量管理 Total Quality Management
+  - Goldratt — 约束理论 Theory of Constraints
+
+---
+
 ## 4.5 🧠 智囊团 — 统治阶层的学科就是智囊团的装备
 
 > 智囊团是一人公司的"规则穿透层"。
@@ -1622,7 +1819,203 @@ graph TD
 
 ---
 
-## 4.6 🎬 创作侧
+### 22. 管理咨询师 Management Consultant
+
+> 来源：McKinsey Academy, Harvard Business School, INSEAD MBA
+
+- **本科 Undergraduate**
+  - 管理学原理 Principles of Management
+  - 经济学原理 Principles of Economics
+  - 统计学 Statistics
+  - 组织行为学 Organizational Behavior
+  - 逻辑学 Logic
+  - 会计学原理 Principles of Accounting
+- **研究生 Master**
+  - 战略管理 Strategic Management — _Harvard Business School_
+  - 组织设计 Organization Design — _INSEAD MBA_
+  - 变革管理 Change Management — _McKinsey Academy_
+  - 运营战略 Operations Strategy
+  - 领导力与组织行为 Leadership & Organizational Behavior
+  - 管理咨询方法论 Management Consulting Methodology
+- **博士 PhD**
+  - 组织理论 Organizational Theory
+  - 战略管理理论 Strategic Management Theory
+  - 制度理论 Institutional Theory
+  - 动态能力理论 Dynamic Capabilities Theory
+  - 知识管理理论 Knowledge Management Theory
+- **教授 Professor**
+  - 管理学理论 Management Theory
+  - 组织变革理论 Organizational Change Theory
+  - 竞争优势理论 Competitive Advantage Theory
+- **院士 Fellow / Academician**
+  - 管理科学统一理论 Unified Management Science
+  - 组织进化理论 Organizational Evolution Theory
+- **开山祖师 Field Pioneer**
+  - McKinsey — 管理咨询行业创始 Founding of Management Consulting
+  - Drucker — 现代管理学 Modern Management
+  - Porter — 竞争战略 Competitive Strategy
+  - Kotter — 变革管理八步 8-Step Change Model
+  - Hammer — 流程再造 Business Process Reengineering
+
+---
+
+## 4.6 💰 金融侧
+
+### 24. 量化分析师 Quant Analyst
+
+> 来源：Princeton ORF, MIT Sloan MFin, CMU MSCF
+
+- **本科 Undergraduate**
+  - 微积分 Calculus
+  - 线性代数 Linear Algebra
+  - 概率论 Probability Theory
+  - 数理统计 Mathematical Statistics
+  - 实分析 Real Analysis
+  - Python 程序设计 Python Programming
+  - 金融学导论 Introduction to Finance
+- **研究生 Master**
+  - 金融工程 Financial Engineering — _Princeton ORF 515_
+  - 随机微积分 Stochastic Calculus — _Princeton ORF 527_
+  - 资产定价 Asset Pricing — _MIT Sloan 15.450_
+  - 统计套利 Statistical Arbitrage — _Princeton ORF 535_
+  - 衍生品定价 Derivative Pricing — _CMU MSCF 46944_
+  - 时间序列分析 Time Series Analysis
+  - 数值方法 Numerical Methods for Finance
+- **博士 PhD**
+  - 连续时间金融 Continuous-Time Finance
+  - 高级随机过程 Advanced Stochastic Processes
+  - 高频金融 High-Frequency Finance
+  - 信用风险建模 Credit Risk Modeling
+  - 机器学习在金融中的应用 ML in Finance
+- **教授 Professor**
+  - 数理金融理论 Mathematical Finance Theory
+  - 随机控制理论 Stochastic Control Theory
+  - 金融经济学理论 Financial Economics Theory
+- **院士 Fellow / Academician**
+  - 金融数学统一理论 Unified Financial Mathematics
+  - 风险理论基础 Foundations of Risk Theory
+- **开山祖师 Field Pioneer**
+  - Black & Scholes & Merton — 期权定价 Option Pricing Model
+  - Markowitz — 投资组合理论 Modern Portfolio Theory
+  - Bachelier — 金融数学先驱 Pioneer of Financial Mathematics
+  - Ito — 随机微积分 Stochastic Calculus
+
+---
+
+### 25. 交易员 Trader
+
+> 来源：NYU Stern, Chicago Booth, London School of Economics
+
+- **本科 Undergraduate**
+  - 金融学导论 Introduction to Finance
+  - 经济学原理 Principles of Economics
+  - 概率与统计 Probability & Statistics
+  - 金融市场 Financial Markets
+  - 会计学原理 Principles of Accounting
+  - 行为金融学 Behavioral Finance
+- **研究生 Master**
+  - 市场微观结构 Market Microstructure — _NYU Stern_
+  - 算法交易 Algorithmic Trading — _Chicago Booth_
+  - 期权与衍生品 Options & Derivatives — _NYU Stern_
+  - 固定收益 Fixed Income Securities
+  - 交易系统设计 Trading System Design
+  - 风险管理 Risk Management
+- **博士 PhD**
+  - 高级市场微观结构 Advanced Market Microstructure
+  - 最优执行理论 Optimal Execution Theory
+  - 做市理论 Market Making Theory
+  - 价格发现理论 Price Discovery Theory
+- **教授 Professor**
+  - 金融市场理论 Financial Market Theory
+  - 信息不对称理论 Information Asymmetry Theory
+  - 流动性理论 Liquidity Theory
+- **院士 Fellow / Academician**
+  - 金融市场统一理论 Unified Financial Market Theory
+- **开山祖师 Field Pioneer**
+  - Kyle — 知情交易模型 Informed Trading Model
+  - Glosten & Milgrom — 做市商理论 Market Maker Theory
+  - Hasbrouck — 市场微观结构实证 Empirical Market Microstructure
+  - Livermore — 投机之王 King of Speculation
+
+---
+
+### 26. 风控分析师 Risk Analyst
+
+> 来源：NYU Stern Risk Management, Columbia MFE, Basel Committee
+
+- **本科 Undergraduate**
+  - 概率论 Probability Theory
+  - 数理统计 Mathematical Statistics
+  - 金融学导论 Introduction to Finance
+  - 保险学 Insurance
+  - 经济学原理 Principles of Economics
+  - 线性代数 Linear Algebra
+- **研究生 Master**
+  - 风险管理与金融工程 Risk Management & Financial Engineering — _Columbia MFE_
+  - 信用风险 Credit Risk — _NYU Stern_
+  - 市场风险 Market Risk Measurement & Management
+  - 操作风险 Operational Risk Management
+  - 极值理论 Extreme Value Theory
+  - 金融监管 Financial Regulation (Basel III/IV)
+- **博士 PhD**
+  - 系统性风险理论 Systemic Risk Theory
+  - 风险度量理论 Risk Measure Theory (Coherent Risk Measures)
+  - 压力测试方法论 Stress Testing Methodology
+  - 传染风险模型 Contagion Risk Models
+- **教授 Professor**
+  - 风险理论 Risk Theory
+  - 金融稳定性理论 Financial Stability Theory
+  - 保险精算理论 Actuarial Science Theory
+- **院士 Fellow / Academician**
+  - 风险科学统一理论 Unified Risk Science
+  - 金融危机理论 Financial Crisis Theory
+- **开山祖师 Field Pioneer**
+  - JP Morgan — RiskMetrics VaR 方法 VaR Methodology
+  - Artzner — 一致性风险度量 Coherent Risk Measures
+  - Mandelbrot — 分形市场假说 Fractal Market Hypothesis
+  - Taleb — 黑天鹅理论 Black Swan Theory
+
+---
+
+### 27. 投资分析师 Investment Analyst
+
+> 来源：CFA Institute, Columbia Business School, Wharton MBA
+
+- **本科 Undergraduate**
+  - 会计学原理 Principles of Accounting
+  - 财务管理 Financial Management
+  - 经济学原理 Principles of Economics
+  - 统计学 Statistics
+  - 金融市场 Financial Markets
+  - 行业分析 Industry Analysis
+- **研究生 Master**
+  - 证券分析 Security Analysis — _Columbia Business School_
+  - 公司估值 Corporate Valuation — _Wharton MBA_
+  - 财务报表分析 Financial Statement Analysis — _CFA Level II_
+  - 另类投资 Alternative Investments
+  - 固定收益分析 Fixed Income Analysis
+  - 投资组合管理 Portfolio Management
+- **博士 PhD**
+  - 资产定价理论 Asset Pricing Theory
+  - 行为金融学 Behavioral Finance
+  - 公司金融理论 Corporate Finance Theory
+  - 实证金融 Empirical Finance
+- **教授 Professor**
+  - 投资理论 Investment Theory
+  - 资本市场效率理论 Capital Market Efficiency Theory
+  - 价值投资理论 Value Investing Theory
+- **院士 Fellow / Academician**
+  - 金融学统一理论 Unified Finance Theory
+  - 市场效率与异象 Market Efficiency & Anomalies
+- **开山祖师 Field Pioneer**
+  - Graham — 证券分析与价值投资 Security Analysis & Value Investing
+  - Buffett — 价值投资实践 Value Investing Practice
+  - Fama — 有效市场假说 Efficient Market Hypothesis
+  - Shiller — 行为金融学 Behavioral Finance
+
+---
+
+## 4.7 🎬 创作侧
 
 ### 22. AI 视频编导 AI Video Director
 
@@ -1709,7 +2102,7 @@ knowledge-map/
 │   └── ai-tools/
 ├── projects/                          ← 项目知识地图（已创建 · retrieval-lab/）
 │   └── retrieval-lab/
-├── roles/                             ← 21 个角色技能树（已创建 · 全部 21 个角色目录）
+├── roles/                             ← 29 个角色技能树
 └── registry/
     └── progress.md                    ← 建设进度追踪（与附录 A.2 同源）
 ```
@@ -1757,6 +2150,10 @@ knowledge-map/
 | 后端工程师     | MIT EECS, Purdue CS                                                  |
 | DBA            | UMGC MS IT Database Concentration                                    |
 | DevOps         | MIT Professional Education, Google SRE                               |
+| 量化分析师     | Princeton ORF, MIT Sloan MFin, CMU MSCF                             |
+| 交易员         | NYU Stern, Chicago Booth, London School of Economics                 |
+| 风控分析师     | NYU Stern Risk Management, Columbia MFE, Basel Committee             |
+| 投资分析师     | CFA Institute, Columbia Business School, Wharton MBA                 |
 | 情报分析师     | Georgetown MPS Applied Intelligence, Georgetown SFS Security Studies |
 | 知识工程师     | Stanford CS 520 Knowledge Graphs, Stanford Protege                   |
 | 行为心理学家   | APA 认证 PhD 课程标准, Harvard, UMass Boston                         |
@@ -1768,10 +2165,13 @@ knowledge-map/
 | 市场运营       | Northwestern Kellogg Marketing PhD                                   |
 | 财务           | Wharton Finance PhD, Wharton Accounting PhD                          |
 | 法务           | Harvard Law School, Yale Law                                         |
+| 合规专员       | IIA (Institute of Internal Auditors), ACFE, NYU Law Compliance       |
+| 企业运营经理   | MIT Sloan Operations Management, Wharton MBA Operations              |
 | 商业顾问       | Stanford MBA Core Curriculum                                         |
 | 技术顾问       | CMU Software Engineering Institute MSE, MIT EECS                     |
 | 行业顾问       | MIT Sloan, MIT Economics                                             |
 | 人脉顾问       | Stanford Sociology, Harvard Kennedy School, Stanford MS&E            |
+| 管理咨询师     | McKinsey Academy, Harvard Business School, INSEAD MBA                |
 | AI 视频编导    | USC School of Cinematic Arts, NYU Tisch, MIT Media Lab, Stanford HAI |
 
 > 教授/院士/开山祖师层级为学术研究方向与历史人物，非课程名。
@@ -1781,7 +2181,7 @@ knowledge-map/
 ## A.2 建设进度
 
 > 统计口径：每个"主题"指一个含 `_map.md` 的文件夹。
-> 最近核实：2026-03-15，通过文件系统扫描。
+> 最近核实：2026-03-23，通过文件系统扫描。
 
 | 课程目录 | 关联角色 | 已建主题 | 目录已创建 |
 | -------- | -------- | -------- | ---------- |
@@ -1805,5 +2205,6 @@ knowledge-map/
 
 ---
 
-_Knowledge Map v1.1 · 一人公司 · 22 角色 · 五层结构 · Last updated: 2026-03-15_
+_Knowledge Map v1.2 · 一人公司 · 29 角色 · 五层结构 · Last updated: 2026-03-23_
+
 

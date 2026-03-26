@@ -770,8 +770,106 @@ print(f"\nCNN Model 4 Test Accuracy: {cnn4_acc:.4f}")
 print_param_table(cnn4, "CNN Model 4 (Conv + MaxPool + AvgPool + Dense)")
 print()
 
-# Step 10 已移除（参数表已经在 Steps 5-9 中各自输出）
-# Step 10 removed (parameter tables now printed in Steps 5-9)
+# ============================================================
+# Step 10: Consolidated Parameter Summary for All Models
+# ============================================================
+print("=" * LINE_WIDTH)
+
+print("Step 10: Consolidated Parameter Summary")
+print("=" * LINE_WIDTH)
+
+
+def get_model_layer_rows(model, model_name):
+    """Build rows for consolidated table matching print_param_table format + Model column.
+    Returns list of [Model, Layer Name, Output Shape, Shape Calc, Params, Param Calc]"""
+    rows = []
+    for i, layer in enumerate(model.layers):
+        config = layer.get_config()
+        name = layer.name
+        output_shape = tuple(layer.output.shape)
+        input_shape = tuple(layer.input.shape)
+        params = layer.count_params()
+
+        # Shape calculation (same logic as print_param_table)
+        if 'conv2d' in name:
+            h, w = input_shape[1], input_shape[2]
+            filters = config['filters']
+            padding = config['padding']
+            if padding == 'same':
+                shape_calc = f"same padding: {h}x{w} stays, filters={filters}"
+            else:
+                ks = config['kernel_size']
+                new_h = h - ks[0] + 1
+                new_w = w - ks[1] + 1
+                shape_calc = f"({h}-{ks[0]}+1)x({w}-{ks[1]}+1)={new_h}x{new_w}, filters={filters}"
+        elif 'max_pooling' in name or 'average_pooling' in name:
+            h_in, w_in = input_shape[1], input_shape[2]
+            pool = config['pool_size']
+            h_out, w_out = h_in // pool[0], w_in // pool[1]
+            pool_type = "MaxPool" if 'max' in name else "AvgPool"
+            shape_calc = f"{pool_type}: {h_in}/{pool[0]}={h_out}, {w_in}/{pool[1]}={w_out}"
+        elif 'flatten' in name:
+            dims = input_shape[1:]
+            product = 1
+            for d in dims:
+                product *= d
+            shape_calc = f"{'x'.join(str(d) for d in dims)} = {product:,}"
+        elif 'dense' in name:
+            units = config['units']
+            shape_calc = f"units={units}"
+        elif 'dropout' in name:
+            shape_calc = "same as input"
+        else:
+            shape_calc = str(output_shape)
+
+        # Param calculation (same logic as print_param_table)
+        if 'conv2d' in name:
+            ks = config['kernel_size']
+            filters = config['filters']
+            in_ch = input_shape[-1]
+            param_calc = f"({ks[0]}x{ks[1]}x{in_ch}+1)x{filters} = {params:,}"
+        elif 'dense' in name:
+            in_units = input_shape[-1]
+            units = config['units']
+            param_calc = f"({in_units}+1)x{units} = {params:,}"
+        elif 'max_pooling' in name or 'average_pooling' in name:
+            param_calc = "no learnable params"
+        elif 'flatten' in name:
+            param_calc = "reshape only"
+        elif 'dropout' in name:
+            param_calc = "no learnable params"
+        else:
+            param_calc = str(params)
+
+        # Only show model name on the first row of each model
+        model_col = model_name if i == 0 else ""
+        rows.append([model_col, name, str(output_shape), shape_calc, f"{params:,}", param_calc])
+
+    # Add a total row for this model
+    rows.append(["", "TOTAL", "", "", f"{model.count_params():,}", ""])
+    return rows
+
+
+# Build consolidated table for all models
+all_rows = []
+models_info = [
+    (nn_model, "NN (Dense-only)"),
+    (cnn1,     "CNN 1 (Conv+Dense)"),
+    (cnn2,     "CNN 2 (Conv+MaxPool+Dense)"),
+    (cnn3,     "CNN 3 (Conv+AvgPool+Dense)"),
+    (cnn4,     "CNN 4 (Conv+MaxPool+AvgPool+Dense)"),
+]
+for model, mname in models_info:
+    all_rows.extend(get_model_layer_rows(model, mname))
+    all_rows.append(["———", "———", "———", "———", "———", "———"])  # separator
+
+# Remove last separator
+all_rows.pop()
+
+headers = ['Model', 'Layer Name', 'Output Shape', 'Shape Calculation', 'Params', 'Param Calculation']
+print(tabulate(all_rows, headers=headers, tablefmt='grid'))
+print()
+
 
 # ============================================================
 # 步骤 11：CNN 架构图

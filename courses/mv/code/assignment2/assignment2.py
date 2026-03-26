@@ -429,10 +429,148 @@ if __name__ == "__main__":
 
         print(f"  Done: {model_name} → {WORK_DIR / model_name}")
 
+    from PIL import Image
+
+    def show_side_by_side(filenames, title, fig_h=8):
+        """两个模型的同类图表左右对比显示
+        Display same chart type for both models side by side"""
+        model_names = list(MODELS.keys())
+        if isinstance(filenames, str):
+            filenames = [filenames]
+
+        for filename in filenames:
+            paths = [(n, WORK_DIR / n / filename) for n in model_names]
+            valid = [(n, p) for n, p in paths if p.exists()]
+            if not valid:
+                continue
+
+            fig, axes = plt.subplots(1, len(valid), figsize=(14, fig_h))
+            if len(valid) == 1:
+                axes = [axes]
+
+            for ax, (name, path) in zip(axes, valid):
+                img = Image.open(path)
+                ax.imshow(img)
+                ax.set_title(f"{name}", fontsize=14, fontweight="bold")
+                ax.axis("off")
+
+            fig.suptitle(title, fontsize=16, fontweight="bold", y=1.02)
+            plt.tight_layout()
+            plt.show()
+
+    # ============================================================
+    # 步骤 7b：训练曲线（loss / mAP 随 epoch 变化）
+    # Step 7b: Training curves (loss / mAP vs epoch)
+    # ============================================================
+
+    print()
+    print("=" * 60)
+    print("Step 7b: Training curves")
+    print("=" * 60)
+    print("  Shows how loss and mAP change over training epochs")
+    print("  loss should decrease, mAP should increase")
+
+    show_side_by_side("results.png",
+        "Training Curves Comparison", fig_h=8)
+
+    # ============================================================
+    # 步骤 7c：混淆矩阵（37 品种分类对错统计）
+    # Step 7c: Confusion matrix (37 breed classification accuracy)
+    # ============================================================
+
+    print()
+    print("=" * 60)
+    print("Step 7c: Confusion matrix")
+    print("=" * 60)
+    print("  Brighter diagonal = more accurate classification")
+    print("  Off-diagonal bright spots = easily confused breed pairs")
+
+    show_side_by_side("confusion_matrix.png",
+        "Confusion Matrix Comparison", fig_h=10)
+
+    # ============================================================
+    # 步骤 7d：Precision-Recall 和 F1 曲线
+    # Step 7d: Precision-Recall and F1 curves
+    # ============================================================
+
+    print()
+    print("=" * 60)
+    print("Step 7d: PR & F1 curves")
+    print("=" * 60)
+    print("  PR curve: larger area under curve = better (top-right = perfect)")
+    print("  F1 curve: harmonic mean of Precision and Recall, higher peak = better")
+
+    show_side_by_side("BoxPR_curve.png",
+        "Precision-Recall Curve Comparison")
+    show_side_by_side("BoxF1_curve.png",
+        "F1 Curve Comparison")
+
+    # ============================================================
+    # 步骤 7e：验证集检测可视化（预测 vs 真实标注）
+    # Step 7e: Validation detection visualization (predictions vs ground truth)
+    # ============================================================
+
+    print()
+    print("=" * 60)
+    print("Step 7e: Validation predictions vs ground truth")
+    print("=" * 60)
+    print("  Left = model predictions, Right = ground truth labels")
+    print("  Compare to see how well the model detects objects")
+
+    for model_name in MODELS:
+        model_dir = WORK_DIR / model_name
+        pred_path = model_dir / "val_batch0_pred.jpg"
+        label_path = model_dir / "val_batch0_labels.jpg"
+
+        if pred_path.exists() and label_path.exists():
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
+            ax1.imshow(Image.open(pred_path))
+            ax1.set_title(f"{model_name}: Predictions", fontsize=14, fontweight="bold")
+            ax1.axis("off")
+            ax2.imshow(Image.open(label_path))
+            ax2.set_title(f"{model_name}: Ground Truth", fontsize=14, fontweight="bold")
+            ax2.axis("off")
+            fig.suptitle(f"{model_name} -- Validation Detection Comparison",
+                         fontsize=16, fontweight="bold", y=1.02)
+            plt.tight_layout()
+            plt.show()
+
     # ################################################################
     #
     #  PHASE 5: 评估分析 (30%)
     #  PHASE 5: Evaluation & Analysis (30%)
+    #
+    #  核心指标解释 / Key Metrics Explained:
+    #  ─────────────────────────────────────
+    #  IoU (Intersection over Union):
+    #    预测框与真实框的重叠比例。IoU ≥ 0.5 视为正确检测。
+    #    Overlap ratio between predicted and ground truth boxes.
+    #    IoU ≥ 0.5 is considered a correct detection.
+    #
+    #  TP (True Positive): 正确检测 — 预测框与真实框 IoU ≥ 0.5 且类别匹配
+    #    Correct detection — predicted box overlaps GT with IoU ≥ 0.5 and class matches
+    #  FP (False Positive): 误报 — 预测框找不到匹配的真实框
+    #    False alarm — predicted box has no matching GT box
+    #  GT (Ground Truth): 真实目标总数 — 验证集中标注的所有目标
+    #    Total annotated objects in the validation set
+    #
+    #  Precision = TP / (TP + FP): 预测的检测中有多少是正确的
+    #    Of all detections made, how many are correct?
+    #  Recall = TP / (TP + FN): 真实目标中有多少被检测到
+    #    Of all real objects, how many were detected?
+    #
+    #  ROC 曲线 (Receiver Operating Characteristic):
+    #    在所有可能的置信度阈值下，绘制 TPR vs FPR
+    #    Plot TPR vs FPR across all possible confidence thresholds
+    #    - TPR (True Positive Rate) = Recall = TP / 总真实目标
+    #    - FPR (False Positive Rate) = FP / 总误报（归一化）
+    #    阈值高 → 少检测，低误报，低召回
+    #    阈值低 → 多检测，高误报，高召回
+    #
+    #  AUC (Area Under ROC Curve):
+    #    ROC 曲线下面积，不受阈值选择影响的综合性能指标
+    #    Area under the ROC curve — threshold-independent overall metric
+    #    AUC = 1.0 → 完美 / AUC = 0.5 → 随机猜测 / AUC > 0.8 → 不错
     #
     # ################################################################
 
@@ -464,19 +602,21 @@ if __name__ == "__main__":
         print(f"\n  Evaluating: {model_name} ({best_path})")
         model = YOLO(str(best_path))
 
-        all_confidences = []
-        all_matches = []
-        total_gt = 0
+        # 收集每个预测的置信度和是否匹配（用于后续绘制 ROC 曲线）
+        # Collect confidence and match status for each prediction (for ROC curve)
+        all_confidences = []  # 每个预测框的置信度 / confidence of each prediction
+        all_matches = []      # 1=TP(正确检测), 0=FP(误报) / 1=TP, 0=FP
+        total_gt = 0          # 真实目标总数 / total ground truth objects
 
-        # 批量推理
-        # Batch inference
+        # 批量推理（conf=0.001 极低阈值，保留几乎所有检测，以便绘制完整 ROC 曲线）
+        # Batch inference (conf=0.001 very low threshold to keep nearly all detections for full ROC)
         results = model.predict(
             source=str(val_images_dir),
-            conf=0.001,
+            conf=0.001,   # 极低阈值确保收集所有检测 / very low to capture all detections
             iou=IOU_THRESHOLD,
             save=False,
             verbose=False,
-            stream=True,
+            stream=True,  # 逐图返回结果，节省内存 / yield results one by one to save memory
         )
 
         for result in results:
@@ -492,7 +632,9 @@ if __name__ == "__main__":
                 pred_confs = result.boxes.conf.cpu().numpy()
                 pred_classes = result.boxes.cls.cpu().numpy().astype(int)
 
-                matched_gt = set()
+                matched_gt = set()  # 已匹配的 GT 索引（防止一个 GT 被重复匹配）
+                # 按置信度从高到低排序（高置信度优先匹配）
+                # Sort by confidence descending (high confidence gets priority)
                 sorted_indices = np.argsort(-pred_confs)
 
                 for idx in sorted_indices:
@@ -512,10 +654,10 @@ if __name__ == "__main__":
 
                     all_confidences.append(conf)
                     if best_iou >= IOU_THRESHOLD and best_gt_idx >= 0:
-                        all_matches.append(1)
-                        matched_gt.add(best_gt_idx)
+                        all_matches.append(1)  # TP: IoU ≥ 0.5 且类别匹配 → 正确检测
+                        matched_gt.add(best_gt_idx)  # 标记该 GT 已被匹配，不再重复
                     else:
-                        all_matches.append(0)
+                        all_matches.append(0)  # FP: 没有匹配的 GT → 误报
 
         model_results[model_name] = {
             "confidences": np.array(all_confidences),
@@ -526,6 +668,20 @@ if __name__ == "__main__":
         tp = sum(all_matches)
         fp = len(all_matches) - tp
         print(f"    Detections: {len(all_confidences)}, TP: {tp}, FP: {fp}, GT: {total_gt}")
+
+    # 汇总表格：Step 8 检测结果
+    # Summary table: Step 8 detection results
+    print()
+    print(f"  {'Model':<12} {'Detections':<12} {'TP':<8} {'FP':<8} {'GT':<8} {'Recall':<10}")
+    print(f"  {'-'*12} {'-'*12} {'-'*8} {'-'*8} {'-'*8} {'-'*10}")
+    for name in MODELS:
+        if name in model_results:
+            tp = int(model_results[name]["matches"].sum())
+            fp = int(len(model_results[name]["matches"]) - tp)
+            gt = model_results[name]["total_gt"]
+            det = len(model_results[name]["confidences"])
+            recall = tp / gt if gt > 0 else 0
+            print(f"  {name:<12} {det:<12} {tp:<8} {fp:<8} {gt:<8} {recall:<10.4f}")
 
     # ============================================================
     # 步骤 9：计算 ROC 曲线和 AUC
@@ -548,27 +704,60 @@ if __name__ == "__main__":
             roc_data[model_name] = {"fpr": np.array([0, 1]), "tpr": np.array([0, 1]), "auc": 0.5}
             continue
 
+        # 按置信度从高到低排序（模拟逐步降低阈值的过程）
+        # Sort by confidence descending (simulates lowering threshold step by step)
         sorted_idx = np.argsort(-confs)
         sorted_matches = matches[sorted_idx]
 
+        # 累积计算 TP 和 FP
+        # Cumulatively compute TP and FP
+        # 例如: matches = [1,1,0,1,0] → tp_cum = [1,2,2,3,3], fp_cum = [0,0,1,1,2]
         tp_cum = np.cumsum(sorted_matches)
         fp_cum = np.cumsum(1 - sorted_matches)
 
-        # TPR = 累积 TP / 真实目标总数 (召回率)
-        # TPR = cumulative TP / total ground truth (recall)
+        # TPR (True Positive Rate) = 累积 TP / 真实目标总数
+        # 含义：到当前阈值为止，找到了多少比例的真实目标（即 Recall）
+        # TPR = cumulative TP / total ground truth (i.e., Recall)
         tpr = tp_cum / total_gt if total_gt > 0 else tp_cum
 
-        # FPR = 累积 FP / 最大 FP (归一化到 0-1)
-        # FPR = cumulative FP / max FP (normalized to 0-1)
+        # FPR (False Positive Rate) = 累积 FP / 最大 FP 数（归一化到 0-1）
+        # 含义：到当前阈值为止，产生了多少比例的误报
+        # FPR = cumulative FP / max FP count (normalized to 0-1)
         max_fp = fp_cum[-1] if fp_cum[-1] > 0 else 1
         fpr = fp_cum / max_fp
 
+        # 添加起点 (0,0) 和终点 (1,1) 使 ROC 曲线完整
+        # Add origin (0,0) and endpoint (1,1) for a complete ROC curve
         fpr = np.concatenate([[0], fpr, [1]])
         tpr = np.concatenate([[0], tpr, [1]])
 
+        # AUC = ROC 曲线下面积（越大越好，1.0=完美，0.5=随机）
+        # AUC = Area Under ROC Curve (higher is better, 1.0=perfect, 0.5=random)
         roc_auc = auc(fpr, tpr)
         roc_data[model_name] = {"fpr": fpr, "tpr": tpr, "auc": roc_auc}
         print(f"  {model_name}: AUC = {roc_auc:.4f}")
+
+    # 汇总表格：Step 9 ROC AUC 对比
+    # Summary table: Step 9 ROC AUC comparison
+    print()
+    print(f"  {'Model':<12} {'AUC':<10} {'Interpretation':<20}")
+    print(f"  {'-'*12} {'-'*10} {'-'*20}")
+    for name in MODELS:
+        if name in roc_data:
+            a = roc_data[name]["auc"]
+            if a >= 0.9:
+                interp = "Excellent"
+            elif a >= 0.8:
+                interp = "Good"
+            elif a >= 0.7:
+                interp = "Fair"
+            elif a >= 0.5:
+                interp = "Poor"
+            else:
+                interp = "Worse than random"
+            print(f"  {name:<12} {a:<10.4f} {interp:<20}")
+    best_model = max(roc_data.keys(), key=lambda m: roc_data[m]["auc"])
+    print(f"\n  Winner: {best_model} (AUC = {roc_data[best_model]['auc']:.4f})")
 
     # ============================================================
     # 步骤 10：绘制 ROC 曲线

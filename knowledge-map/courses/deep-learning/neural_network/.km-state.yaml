@@ -1,0 +1,131 @@
+# Knowledge Map Generation Workflow State
+# 此文件由 /generate-knowledge-map 命令自动管理
+
+topic: "neural_network"
+course: "courses/deep-learning"
+started_at: "2026-03-23"
+current_phase: 11
+total_phases: 13
+
+config:
+  generate_video: false
+  video_style: ""
+
+phases:
+  preflight:
+    order: 0
+    name: "Pre-Flight 检查"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: ""
+    step: "steps/step-00-preflight.md"
+
+  probe:
+    order: 1
+    name: "输入探测"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: ""
+    step: "steps/step-01-probe.md"
+
+  map:
+    order: 2
+    name: "Map 骨架"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_map.md"
+    step: "steps/step-02-map.md"
+
+  concepts:
+    order: 3
+    name: "概念定义"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_concepts.md"
+    step: "steps/step-03-concepts.md"
+
+  math:
+    order: 4
+    name: "数学基础"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_math.md"
+    step: "steps/step-04-math.md"
+
+  tutorial:
+    order: 5
+    name: "教程"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_tutorial.md"
+    step: "steps/step-05-tutorial.md"
+
+  code:
+    order: 6
+    name: "代码参考"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_code.md"
+    step: "steps/step-06-code.md"
+
+  pitfalls:
+    order: 7
+    name: "踩坑记录"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_pitfalls.md"
+    step: "steps/step-07-pitfalls.md"
+
+  history:
+    order: 8
+    name: "历史演进"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_history.md"
+    step: "steps/step-08-history.md"
+
+  bridge:
+    order: 9
+    name: "跨主题衔接"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_bridge.md"
+    step: "steps/step-09-bridge.md"
+
+  first_principles:
+    order: 10
+    name: "第一性原理"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_first_principles.md"
+    step: "steps/step-10-first-principles.md"
+
+  finalize:
+    order: 11
+    name: "收尾"
+    status: done
+    started_at: "2026-03-23"
+    completed_at: "2026-03-23"
+    output: "neural_network_map.md (updated)"
+    step: "steps/step-11-finalize.md"
+
+  video:
+    order: 12
+    name: "视频创作"
+    status: skipped
+    started_at: ""
+    completed_at: ""
+    output: ""
+    step: "steps/step-12-video.md"
+    skip_reason: "config.generate_video == false"

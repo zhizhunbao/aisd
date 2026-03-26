@@ -19,3 +19,5 @@
 | [activation_functions](activation_functions/) | 9 | ✅ current | Activation Functions (激活函数)：Sigmoid/Tanh/ReLU/Softmax/GELU 完整公式推导+梯度计算、scikit-learn MLPClassifier + Keras Dense 双平台对比、从阶跃函数到GELU的80年演进、非线性必要性的第一性原理(UAT) |
 | [optimizers](optimizers/) | 9 | ✅ current | Optimizers (优化器)：SGD/Momentum/AdaGrad/RMSprop/Adam/L-BFGS 完整更新公式推导+Adam偏差修正、sklearn solver + Keras optimizer 双平台对比、从1847年梯度下降到2019年AdamW的演进、可微性+最快下降+无偏估计第一性原理 |
 | [loss_functions](loss_functions/) | 9 | ✅ current | Loss Functions (损失函数)：MSE/MAE/BCE/CCE/Huber 完整公式推导+BCE消除Sigmoid饱和证明、MLE→交叉熵推导、任务-激活-损失配对表、从1809年最小二乘到2017年Focal Loss的演进、MLE+联合设计第一性原理 |
+| [neural_network](neural_network/) | 9 | ✅ current | Neural Network (神经网络)：前向传播/反向传播完整推导、单层UAT→深层指数效率、NumPy从零/PyTorch/Keras三平台实现、从McCulloch-Pitts(1943)到AlexNet(2012)的80年演进、可微可组合性+流形假设+ERM第一性原理 |
+| [forward_propagation](forward_propagation/) | 9 | ✅ current | Forward Propagation (前向传播)：逐层仿射+激活的数学推导、手算练习、PyTorch nn.Module/Sequential 实现、Shape Mismatch/eval模式等5大踩坑、McCulloch-Pitts→ResNet历史演进、线性叠加+非线性+UAT第一性原理 |
