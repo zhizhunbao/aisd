@@ -8,7 +8,7 @@
 
 ```bash
 # 在 WSL 终端中执行
-bash ~/start_gazebo.sh
+bash /home/peng/start_gazebo.sh
 ```
 
 等待 Gazebo 和 RViz 窗口出现（首次约 1-3 分钟）。
@@ -32,7 +32,7 @@ bash ~/start_gazebo.sh
 
 ```bash
 # 先加载环境（每个新终端都要执行一次）
-source ~/.bashrc
+source /home/peng/.bashrc
 ```
 
 ### 停靠 / 解除停靠
@@ -142,7 +142,7 @@ pkill -f rviz
 
 | 功能 | 命令 |
 |------|------|
-| 启动仿真 | `bash ~/start_gazebo.sh` |
+| 启动仿真 | `bash /home/peng/start_gazebo.sh` |
 | 解除停靠 | `ros2 action send_goal /undock irobot_create_msgs/action/Undock {}` |
 | 停靠 | `ros2 action send_goal /dock irobot_create_msgs/action/DockServo {}` |
 | 前进 | `ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}, angular: {z: 0.0}}'` |
@@ -157,7 +157,7 @@ pkill -f rviz
 
 | 问题 | 解决 |
 |------|------|
-| `bash: ros2: command not found` | 执行 `source ~/.bashrc` |
+| `bash: ros2: command not found` | 执行 `source /home/peng/.bashrc` |
 | 摄像头 topic 不存在 | 确认 `source /usr/share/gazebo-11/setup.sh` 已执行 |
 | Gazebo 黑屏 | `export LIBGL_ALWAYS_SOFTWARE=1` 后重启 |
 | undock 无响应 | 等 30 秒让控制器完全加载后再试 |

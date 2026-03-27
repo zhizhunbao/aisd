@@ -6,7 +6,7 @@
 
 # ---------- 环境变量 ----------
 source /opt/ros/humble/setup.bash
-source ~/create3_ws/install/setup.bash
+source /home/peng/create3_ws/install/setup.bash
 source /usr/share/gazebo-11/setup.sh
 
 export IGNITION_VERSION=fortress

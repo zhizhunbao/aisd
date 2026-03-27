@@ -1,0 +1,129 @@
+<!-- ============================================================ -->
+<!-- Lab 4: Actor XML Snippets for small_house.world              -->
+<!-- Add these BEFORE </world> tag, NOT inside another element    -->
+<!-- ============================================================ -->
+
+<!-- ============================================================ -->
+<!-- Step 2: Human actor (verify, then comment out)               -->
+<!-- Source: Gazebo actor tutorial - cafe.world example            -->
+<!-- ============================================================ -->
+<actor name="human_actor">
+  <skin>
+    <filename>walk.dae</filename>
+  </skin>
+  <animation name="walking">
+    <filename>walk.dae</filename>
+    <interpolate_x>true</interpolate_x>
+  </animation>
+  <script>
+    <loop>true</loop>
+    <delay_start>0.000000</delay_start>
+    <auto_start>true</auto_start>
+    <trajectory id="0" type="walking">
+      <waypoint>
+        <time>0</time>
+        <pose>0 2 0 0 0 -1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>2</time>
+        <pose>0 -2 0 0 0 -1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>2.5</time>
+        <pose>0 -2 0 0 0 1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>7</time>
+        <pose>0 2 0 0 0 1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>7.5</time>
+        <pose>0 2 0 0 0 -1.57</pose>
+      </waypoint>
+    </trajectory>
+  </script>
+</actor>
+
+<!-- ============================================================ -->
+<!-- Step 3: Animated box actor (verify white cube first)         -->
+<!-- Source: Gazebo tutorial - animated_box.world                  -->
+<!-- ============================================================ -->
+<actor name="animated_box">
+  <link name="link">
+    <visual name="visual">
+      <geometry>
+        <box>
+          <size>.2 .2 .2</size>
+        </box>
+      </geometry>
+    </visual>
+  </link>
+  <script>
+    <loop>true</loop>
+    <delay_start>0.000000</delay_start>
+    <auto_start>true</auto_start>
+    <trajectory id="0" type="square">
+      <waypoint>
+        <time>0.0</time>
+        <pose>-1 -1 1 0 0 0</pose>
+      </waypoint>
+      <waypoint>
+        <time>1.0</time>
+        <pose>-1 1 1 0 0 0</pose>
+      </waypoint>
+      <waypoint>
+        <time>2.0</time>
+        <pose>1 1 1 0 0 0</pose>
+      </waypoint>
+      <waypoint>
+        <time>3.0</time>
+        <pose>1 -1 1 0 0 0</pose>
+      </waypoint>
+      <waypoint>
+        <time>4.0</time>
+        <pose>-1 -1 1 0 0 0</pose>
+      </waypoint>
+    </trajectory>
+  </script>
+</actor>
+
+<!-- ============================================================ -->
+<!-- Step 4: Red ball actor (FINAL - replace animated_box above)  -->
+<!-- Changes: box→sphere, white→red, square→straight line         -->
+<!-- ============================================================ -->
+<actor name="red_ball_actor">
+  <link name="link">
+    <visual name="visual">
+      <geometry>
+        <sphere>
+          <radius>.2</radius>
+        </sphere>
+      </geometry>
+      <material name="red">
+        <ambient>1 0 0 1</ambient>
+        <diffuse>1 0 0 1</diffuse>
+        <specular>0 0 0 0</specular>
+        <emissive>0 0 0 1</emissive>
+      </material>
+    </visual>
+  </link>
+  <script>
+    <loop>true</loop>
+    <delay_start>0.000000</delay_start>
+    <auto_start>true</auto_start>
+    <trajectory id="0" type="line">
+      <waypoint>
+        <time>0.0</time>
+        <pose>-1 0 1 0 0 0</pose>
+      </waypoint>
+      <waypoint>
+        <time>2.0</time>
+        <pose>1 0 1 0 0 0</pose>
+      </waypoint>
+      <waypoint>
+        <time>4.0</time>
+        <pose>-1 0 1 0 0 0</pose>
+      </waypoint>
+    </trajectory>
+  </script>
+</actor>

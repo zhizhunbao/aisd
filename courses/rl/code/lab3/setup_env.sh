@@ -5,6 +5,11 @@
 # ============================================================
 set -e
 
+# ---------- 用户配置 ----------
+# 安装目标用户（避免以 root 身份运行时安装到 /root）
+USER_HOME="/home/peng"
+USER_BASHRC="$USER_HOME/.bashrc"
+
 echo "=========================================="
 echo "Step 1: 基础系统更新"
 echo "=========================================="
@@ -50,13 +55,13 @@ echo "=========================================="
 echo "Step 6: 配置 .bashrc"
 echo "=========================================="
 # 添加 ROS 2 环境
-if ! grep -q "source /opt/ros/humble/setup.bash" ~/.bashrc; then
-    echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+if ! grep -q "source /opt/ros/humble/setup.bash" "$USER_BASHRC"; then
+    echo "source /opt/ros/humble/setup.bash" >> "$USER_BASHRC"
 fi
 
 # 添加 Gazebo 环境
-if ! grep -q "source /usr/share/gazebo-11/setup.sh" ~/.bashrc; then
-    echo "source /usr/share/gazebo-11/setup.sh" >> ~/.bashrc
+if ! grep -q "source /usr/share/gazebo-11/setup.sh" "$USER_BASHRC"; then
+    echo "source /usr/share/gazebo-11/setup.sh" >> "$USER_BASHRC"
 fi
 
 # 立即加载
@@ -65,8 +70,8 @@ source /opt/ros/humble/setup.bash
 echo "=========================================="
 echo "Step 7: 创建工作空间并克隆 create3_sim"
 echo "=========================================="
-mkdir -p ~/create3_ws/src
-cd ~/create3_ws/src
+mkdir -p $USER_HOME/create3_ws/src
+cd $USER_HOME/create3_ws/src
 
 if [ ! -d "create3_sim" ]; then
     git clone https://github.com/iRobotEducation/create3_sim.git
@@ -78,33 +83,33 @@ git checkout humble
 echo "=========================================="
 echo "Step 8: 安装 create3_sim 依赖"
 echo "=========================================="
-cd ~/create3_ws
+cd $USER_HOME/create3_ws
 export IGNITION_VERSION=fortress
 rosdep install --from-paths src -yi
 
 echo "=========================================="
 echo "Step 9: 构建 create3_ws"
 echo "=========================================="
-cd ~/create3_ws
+cd $USER_HOME/create3_ws
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
 
 echo "=========================================="
 echo "Step 10: 下载 AWS Small House World"
 echo "=========================================="
-cd ~/create3_ws/src
+cd $USER_HOME/create3_ws/src
 if [ ! -d "aws-robomaker-small-house-world" ]; then
     git clone https://github.com/aws-robotics/aws-robomaker-small-house-world.git -b ros2
 fi
 
-cd ~/create3_ws
+cd $USER_HOME/create3_ws
 colcon build --symlink-install --packages-select aws_robomaker_small_house_world
 
 echo "=========================================="
 echo "Step 11: 添加工作空间到 .bashrc"
 echo "=========================================="
-if ! grep -q "source ~/create3_ws/install/setup.bash" ~/.bashrc; then
-    echo "source ~/create3_ws/install/setup.bash" >> ~/.bashrc
+if ! grep -q "source $USER_HOME/create3_ws/install/setup.bash" "$USER_BASHRC"; then
+    echo "source $USER_HOME/create3_ws/install/setup.bash" >> "$USER_BASHRC"
 fi
 
 echo "=========================================="
@@ -112,7 +117,7 @@ echo "✅ 全部安装完成！"
 echo "=========================================="
 echo ""
 echo "请执行以下命令加载环境："
-echo "  source ~/.bashrc"
+echo "  source $USER_BASHRC"
 echo ""
 echo "启动模拟器命令："
 echo "  ros2 launch irobot_create_gazebo_bringup create3_gazebo_aws_small.launch.py"

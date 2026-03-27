@@ -76,8 +76,8 @@ rosdep update
 ## 6. 创建工作空间 & 克隆 Create3 Sim
 
 ```bash
-mkdir -p ~/create3_ws/src
-cd ~/create3_ws/src
+mkdir -p /home/peng/create3_ws/src
+cd /home/peng/create3_ws/src
 
 # 克隆 create3_sim 仓库
 git clone https://github.com/iRobotEducation/create3_sim.git
@@ -90,7 +90,7 @@ git checkout humble
 ## 7. 安装依赖 & 构建
 
 ```bash
-cd ~/create3_ws
+cd /home/peng/create3_ws
 source /opt/ros/humble/setup.bash
 export IGNITION_VERSION=fortress
 
@@ -106,10 +106,10 @@ colcon build --symlink-install
 ## 8. 下载 AWS Small House World
 
 ```bash
-cd ~/create3_ws/src
+cd /home/peng/create3_ws/src
 git clone https://github.com/aws-robotics/aws-robomaker-small-house-world.git -b ros2
 
-cd ~/create3_ws
+cd /home/peng/create3_ws
 colcon build --symlink-install --packages-select aws_robomaker_small_house_world
 ```
 
@@ -117,13 +117,13 @@ colcon build --symlink-install --packages-select aws_robomaker_small_house_world
 
 ## 9. 配置环境变量
 
-将以下内容添加到 `~/.bashrc` 末尾：
+将以下内容添加到 `/home/peng/.bashrc` 末尾：
 
 ```bash
-echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc
-echo 'source /usr/share/gazebo-11/setup.sh' >> ~/.bashrc
-echo 'source ~/create3_ws/install/setup.bash' >> ~/.bashrc
-source ~/.bashrc
+echo 'source /opt/ros/humble/setup.bash' >> /home/peng/.bashrc
+echo 'source /usr/share/gazebo-11/setup.sh' >> /home/peng/.bashrc
+echo 'source /home/peng/create3_ws/install/setup.bash' >> /home/peng/.bashrc
+source /home/peng/.bashrc
 ```
 
 ---
@@ -132,7 +132,7 @@ source ~/.bashrc
 
 ### 10.1 创建 `camera.urdf.xacro`
 
-在 `~/create3_ws/src/create3_sim/irobot_create_common/irobot_create_description/urdf/` 目录下创建 `camera.urdf.xacro`：
+在 `/home/peng/create3_ws/src/create3_sim/irobot_create_common/irobot_create_description/urdf/` 目录下创建 `camera.urdf.xacro`：
 
 ```xml
 <?xml version="1.0"?>
@@ -214,7 +214,7 @@ source ~/.bashrc
 ### 10.3 重新构建
 
 ```bash
-cd ~/create3_ws
+cd /home/peng/create3_ws
 colcon build --symlink-install --packages-select irobot_create_description
 ```
 
@@ -223,7 +223,7 @@ colcon build --symlink-install --packages-select irobot_create_description
 ## 11. 启动仿真
 
 ```bash
-source ~/.bashrc
+source /home/peng/.bashrc
 ros2 launch irobot_create_gazebo_bringup create3_gazebo_aws_small.launch.py
 ```
 
@@ -237,7 +237,7 @@ ros2 launch irobot_create_gazebo_bringup create3_gazebo_aws_small.launch.py
 另开一个终端：
 
 ```bash
-source ~/.bashrc
+source /home/peng/.bashrc
 
 # 确认摄像头 topic
 ros2 topic list | grep custom
@@ -279,7 +279,7 @@ ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist \
 ## 目录结构
 
 ```
-~/create3_ws/
+/home/peng/create3_ws/
 ├── src/
 │   ├── create3_sim/                          # humble 分支
 │   │   └── irobot_create_common/
