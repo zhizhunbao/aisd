@@ -60,31 +60,80 @@ code/lab4/
 
 ## 快速使用
 
-### 1️⃣ 安装（一次性）
+### Windows PowerShell 端
+
+#### 1️⃣ 安装（一次性）
 
 ```powershell
-wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab4/setup_lab4.sh
+wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4/setup_lab4.sh
 ```
 
-### 2️⃣ 启动仿真（终端 1）
+#### 2️⃣ 启动仿真（终端 1）
 
 ```powershell
-wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab4/step6_start_gazebo.sh
+wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4/step6_start_gazebo.sh
 ```
 
-### 3️⃣ 启动红球检测（终端 2）
+#### 3️⃣ 启动红球检测（终端 2）
 
 ```powershell
-wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab4/step7_run_redball.sh
+wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4/step7_run_redball.sh
 ```
 
-### 4️⃣ 解除停靠 + 移动（终端 3）
+#### 4️⃣ 解除停靠 + 移动（终端 3）
 
 ```powershell
-wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab4/step8_undock.sh
+wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4/step8_undock.sh
 ```
 
-### 5️⃣ RViz 中查看检测结果
+---
+
+### Linux 端直接执行（在 WSL Ubuntu 终端中）
+
+> ⚠️ **必须先设置** `export DISPLAY=:0`，否则 Gazebo/RViz 窗口无法显示
+
+#### 1️⃣ 安装（一次性）
+
+```bash
+bash /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4/setup_lab4.sh
+```
+
+#### 2️⃣ 启动仿真（终端 1）
+
+```bash
+export DISPLAY=:0
+source /opt/ros/humble/setup.bash
+source /home/peng/create3_ws/install/setup.bash
+source /usr/share/gazebo-11/setup.sh
+export IGNITION_VERSION=fortress
+ros2 launch irobot_create_gazebo_bringup create3_gazebo_aws_small.launch.py
+```
+
+#### 3️⃣ 启动红球检测（终端 2）
+
+```bash
+export DISPLAY=:0
+source /opt/ros/humble/setup.bash
+source /home/peng/create3_ws/install/setup.bash
+ros2 run aisd_vision redball
+```
+
+#### 4️⃣ 解除停靠 + 移动（终端 3）
+
+```bash
+source /opt/ros/humble/setup.bash
+source /home/peng/create3_ws/install/setup.bash
+
+# 脱离充电座
+ros2 action send_goal /undock irobot_create_msgs/action/Undock '{}'
+
+# 移动命令
+ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}, angular: {z: 0.0}}'   # 前进
+ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.0}, angular: {z: 0.5}}'   # 左转
+ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.0}, angular: {z: 0.0}}'   # 停止
+```
+
+#### 5️⃣ RViz 中查看检测结果
 
 Add → By topic → `target_redball` → Image
 

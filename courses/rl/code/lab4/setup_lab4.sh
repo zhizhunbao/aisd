@@ -6,7 +6,7 @@
 # ============================================================
 set -e
 
-SCRIPT_DIR="/mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab4"
+SCRIPT_DIR="/mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4"
 WS="/home/peng/create3_ws"
 
 echo "=========================================="

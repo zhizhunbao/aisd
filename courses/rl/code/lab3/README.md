@@ -85,17 +85,17 @@ ROS 2 节点，随机发布 `cmd_vel` 控制机器人自动探索环境。
 ### 1️⃣ 首次安装（一次性）
 
 ```powershell
-wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab3/setup_env.sh
+wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab3/setup_env.sh
 ```
 
 安装完成后，手动操作（参考 `lab3_installation_guide.md` Step 10）：
 ```bash
 # 复制 camera.urdf.xacro
-cp /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab3/camera.urdf.xacro \
+cp /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab3/camera.urdf.xacro \
    /home/peng/create3_ws/src/create3_sim/irobot_create_common/irobot_create_description/urdf/
 
 # 修复 create3.urdf.xacro
-python3 /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab3/fix_xacro.py
+python3 /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab3/fix_xacro.py
 
 # 重新构建
 cd /home/peng/create3_ws && colcon build --symlink-install --packages-select irobot_create_description
@@ -104,17 +104,20 @@ cd /home/peng/create3_ws && colcon build --symlink-install --packages-select iro
 ### 2️⃣ 启动仿真
 
 ```powershell
-wsl -d Ubuntu-22.04 -u peng -- bash /mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab3/start_gazebo.sh
+wsl -d Ubuntu-22.04 -u peng -- bash -ic "source /opt/ros/humble/setup.bash && source /home/peng/create3_ws/install/setup.bash && source /usr/share/gazebo-11/setup.sh && export IGNITION_VERSION=fortress && ros2 launch irobot_create_gazebo_bringup create3_gazebo_aws_small.launch.py"
 ```
 
 ### 3️⃣ 操控机器人（另开终端）
 
 ```powershell
 # 解除停靠
-wsl -d Ubuntu-22.04 -u peng -- bash -c "source /home/peng/.bashrc && ros2 action send_goal /undock irobot_create_msgs/action/Undock {}"
+wsl -d Ubuntu-22.04 -u peng -- bash -ic "source /opt/ros/humble/setup.bash && source /home/peng/create3_ws/install/setup.bash && ros2 action send_goal /undock irobot_create_msgs/action/Undock '{}'"
 
 # 前进
-wsl -d Ubuntu-22.04 -u peng -- bash -c "source /home/peng/.bashrc && ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}, angular: {z: 0.0}}'"
+wsl -d Ubuntu-22.04 -u peng -- bash -ic "source /opt/ros/humble/setup.bash && source /home/peng/create3_ws/install/setup.bash && ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}, angular: {z: 0.0}}'"
+
+# 自动探索
+wsl -d Ubuntu-22.04 -u peng -- bash -ic "source /opt/ros/humble/setup.bash && source /home/peng/create3_ws/install/setup.bash && python3 /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab3/auto_explore.py"
 ```
 
 更多命令见 `lab3_operation_guide.md`。

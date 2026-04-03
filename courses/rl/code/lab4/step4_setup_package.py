@@ -22,7 +22,7 @@ with open(os.path.join(PKG_INNER, "__init__.py"), "w") as f:
     f.write("")
 
 # Copy redball.py
-src = "/mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/lab4/redball.py"
+src = "/mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab4/redball.py"
 shutil.copy2(src, os.path.join(PKG_INNER, "redball.py"))
 
 # setup.py
