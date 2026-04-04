@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aisd_examples"
+version = "0.0.1"
+description = "AISD Examples Gymnasium Environments (Create3 RedBall)"
+authors = [
+    {name = "Peng Wang", email = "wang1329@algonquinlive.com"}
+]
+requires-python = ">=3.8"
+dependencies = [
+    "gymnasium>=0.29.0",
+    "numpy>=1.21.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
