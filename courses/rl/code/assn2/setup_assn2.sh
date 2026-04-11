@@ -6,7 +6,7 @@
 # ============================================================
 set -e
 
-SCRIPT_DIR="/mnt/c/Users/40270/OneDrive/Desktop/workspace/aisd/courses/rl/code/assn2"
+SCRIPT_DIR="/mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/assn2"
 ASSN_DIR="$HOME/Assn2"
 
 echo "=========================================="
@@ -20,6 +20,10 @@ mkdir -p "$ASSN_DIR/screenshots"
 cp "$SCRIPT_DIR"/*.py "$ASSN_DIR/"
 cp "$SCRIPT_DIR"/.gitignore "$ASSN_DIR/"
 cp "$SCRIPT_DIR"/README.md "$ASSN_DIR/"
+cp "$SCRIPT_DIR"/start_gazebo.sh "$SCRIPT_DIR"/run_agent.sh "$SCRIPT_DIR"/undock.sh "$ASSN_DIR/" 2>/dev/null || true
+# 修复 Windows 换行符并添加执行权限
+sed -i 's/\r$//' "$ASSN_DIR"/*.sh "$ASSN_DIR"/*.py 2>/dev/null || true
+chmod +x "$ASSN_DIR"/*.sh 2>/dev/null || true
 # 用 rsync 避免重复运行时目录嵌套（cp -r 会嵌套已存在的目录）
 rsync -a --delete "$SCRIPT_DIR/041107730_aisd_examples/" "$ASSN_DIR/041107730_aisd_examples/"
 echo "  ✅ Files copied"

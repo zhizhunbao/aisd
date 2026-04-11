@@ -1,0 +1,62 @@
+# ============================================================
+# docker-compose.yml — CST8509 Lab 5: Docker Containerization
+# Author: Peng Wang (041107730)
+#
+# Builds and runs the ROS 2 Humble container with:
+#   - Host networking (required for ROS 2 DDS discovery)
+#   - X11 forwarding for GUI apps (Gazebo, RViz2)
+#   - Optional NVIDIA GPU passthrough
+#   - Privileged mode for device access
+# ============================================================
+
+services:
+  ros2-create3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: humble
+
+    # --------------------------------------------------------
+    # Host networking: required for ROS 2 DDS discovery
+    # so that topics are visible across host and container
+    # --------------------------------------------------------
+    network_mode: host
+
+    # --------------------------------------------------------
+    # Privileged mode: allows access to USB devices, GPIO, etc.
+    # needed for real hardware deployment
+    # --------------------------------------------------------
+    privileged: true
+
+    # --------------------------------------------------------
+    # Environment variables
+    # --------------------------------------------------------
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - IGNITION_VERSION=fortress
+      # NVIDIA GPU acceleration (optional, ignored if no GPU)
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+
+    # --------------------------------------------------------
+    # Volumes: X11 socket for GUI + optional workspace mount
+    # --------------------------------------------------------
+    volumes:
+      # X11 display forwarding (Gazebo, RViz2 windows)
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      # Mount host's Xauthority for authentication
+      - ${HOME}/.Xauthority:/root/.Xauthority:ro
+      # Optional: mount host workspace for live editing
+      # Uncomment the line below to bind-mount your local code
+      # - ./assn2:/ros2_ws/assn2
+
+    # --------------------------------------------------------
+    # Override command: drop into bash shell
+    # --------------------------------------------------------
+    command: bash
+
+    # Interactive TTY for shell access
+    stdin_open: true
+    tty: true
