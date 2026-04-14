@@ -1,0 +1,6341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLP Final Cheat Sheet</title>
+<style>
+
+@page {
+  size: 8.5in 11in;
+  margin: 0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Microsoft YaHei', 'Segoe UI', 'Noto Sans SC', Arial, sans-serif;
+  font-size: 4.2pt;
+  line-height: 1.15;
+  color: #000;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  column-count: 4;
+  column-gap: 3px;
+  column-rule: 0.3px solid #ccc;
+  column-fill: balance;
+  padding: 3mm; /* Add padding to compensate for 0 margin */
+}
+
+/* Signature box - 5cm x 5cm top-left of each page (exam requirement) */
+.sig {
+  width: 5cm;
+  height: 5cm;
+  border: 0.5px dashed #999;
+  margin-bottom: 1px;
+  break-inside: avoid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 4pt;
+}
+
+/* Week block */
+.week-block {
+  border: 0.3px solid #ddd;
+  padding: 1px 2px;
+  margin-bottom: 2px;
+}
+
+/* H1 = Week title */
+h1 {
+  font-size: 5pt;
+  font-weight: bold;
+  background: #1a1a2e;
+  color: #fff;
+  padding: 0.5px 3px;
+  margin: -1px -2px 1px -2px;
+  break-after: avoid;
+  letter-spacing: -0.2px;
+}
+
+/* H2 = Section */
+h2 {
+  font-size: 4.5pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  border-bottom: 0.5px solid #1a1a2e;
+  margin: 1px 0 0.5px 0;
+  break-after: avoid;
+}
+
+/* H3 = Sub-topic */
+h3 {
+  font-size: 4.2pt;
+  font-weight: bold;
+  color: #333;
+  margin: 1px 0 0.3px 0;
+  border-bottom: 0.2px solid #aaa;
+  break-after: avoid;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5px 0 1px 0;
+  font-size: 3.8pt;
+}
+th, td {
+  border: 0.2px solid #bbb;
+  padding: 0.2px 1.5px;
+  text-align: left;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+th {
+  background: #e8e8f0;
+  font-weight: bold;
+  font-size: 3.8pt;
+}
+td { font-size: 3.4pt; }
+
+/* Code */
+code {
+  background: #f0f0f0;
+  padding: 0 1px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 3.4pt;
+  border-radius: 1px;
+}
+
+/* Italic */
+em { font-style: italic; color: #666; }
+
+/* Paragraphs */
+p { margin: 0.3px 0; font-size: 3.8pt; }
+
+/* Lists */
+ul, ol { padding-left: 6px; margin: 0.3px 0; }
+li { font-size: 3.6pt; margin: 0; }
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  border-top: 0.3px solid #999;
+  margin: 1px 0;
+}
+
+/* Print */
+@media print {
+  body { margin: 0; }
+  .no-print { display: none; }
+  .page { overflow: hidden; }
+}
+
+/* Screen preview */
+@media screen {
+  body {
+    background: #555;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  .page {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+}
+
+</style>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$']],
+    displayMath: [['$$', '$$']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 0.7
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+<div class="no-print" style="text-align:center; padding:10px; font-family:sans-serif; font-size:14px; color:#fff;">
+  NLP Final Cheat Sheet | 10 weeks | Ctrl+P to print
+</div>
+<div class="page">
+<div class="week-block"><h1>W1: NLP Overview (NLP 概述)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Core Terms (核心术语)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLP (自然语言处理)</td>
+<td>用计算机处理人类语言的技术领域 (Linguistics×CS×AI)，核心能力：处理、理解、生成</td>
+<td>Siri 语音助手、Google 翻译、ChatGPT</td>
+</tr>
+<tr>
+<td>NLU (自然语言理解)</td>
+<td>NLP 的"读"的部分：让机器读懂文本含义 (Classification, NER, Sentiment)</td>
+<td>输入 "I love this!" → 机器判断为"正面情感"</td>
+</tr>
+<tr>
+<td>NLG (自然语言生成)</td>
+<td>NLP 的"写"的部分：让机器生成人类可读的文本 (Translation, Summarization)</td>
+<td>输入法语 → 输出英语翻译；输入长文 → 输出摘要</td>
+</tr>
+<tr>
+<td>NLP = NLU + NLG</td>
+<td>NLP 由理解 (Understanding) + 生成 (Generation) 两大能力组成</td>
+<td>聊天机器人：先理解问题 (NLU)，再生成回答 (NLG)</td>
+</tr>
+<tr>
+<td>Turing Test (图灵测试, 1950)</td>
+<td>人类评估者分不清对面是人还是机器 → 说明机器通过了测试</td>
+<td>评估者问问题，50% 时间判断错 → 机器通过</td>
+</tr>
+<tr>
+<td>NER (命名实体识别)</td>
+<td>从文本中识别出人名、地名、组织名等专有名词并分类</td>
+<td>"Apple was founded by Steve Jobs in California" → Apple=ORG, Steve Jobs=PERSON</td>
+</tr>
+<tr>
+<td>Supervised Learning (监督学习)</td>
+<td>用带标签的数据训练模型 — 告诉模型“正确答案是什么”</td>
+<td>给 1000 条邮件打标 spam/not spam → 训练分类器</td>
+</tr>
+<tr>
+<td>Unsupervised Learning (无监督学习)</td>
+<td>用无标签的数据发现隐藏模式 — 模型自己找结构</td>
+<td>把 1000 篇新闻自动聚成 5 个 topic (聚类)</td>
+</tr>
+</tbody>
+</table>
+<h3>Knowledge Representation (知识表示)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document (文档)</td>
+<td>原始或半结构化的文本数据，是 NLP 的输入原料</td>
+<td>新闻文章、PDF 报告、网页正文</td>
+</tr>
+<tr>
+<td>Knowledge (知识)</td>
+<td>从文档中提取的结构化信息 (实体、关系、事实)，机器可直接使用</td>
+<td>"Ottawa is the capital of Canada" → (Ottawa, capital-of, Canada)</td>
+</tr>
+<tr>
+<td>Corpus (语料库)</td>
+<td>用于 NLP 训练/分析的大规模文本集合</td>
+<td>Wikipedia 全文、IMDb 影评数据集、新闻语料</td>
+</tr>
+</tbody>
+</table>
+<h3>Zipf's Law &amp; Sparsity (齐普夫定律与稀疏性)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zipf's Law (齐普夫定律)</td>
+<td>自然语言中词频与排名成反比：freq ∝ 1/rank，少数词极高频，大多数词极低频</td>
+<td>Rank 1: "the" (7%); Rank 2: "of" (3.5%); Rank 10: ~0.7%</td>
+</tr>
+<tr>
+<td>Log-log Plot (对数-对数图)</td>
+<td>横轴和纵轴都取对数的图，用于验证幂律 (Power Law)：如果数据呈直线则符合</td>
+<td>横轴=log(rank), 纵轴=log(freq) → 直线 = 符合 Zipf</td>
+</tr>
+<tr>
+<td>Frequency Distribution (频率分布)</td>
+<td>统计每个词出现的次数并排序，是文本分析的基础操作</td>
+<td>"the":5000次, "cat":12次, "serendipity":1次</td>
+</tr>
+<tr>
+<td>Long Tail (长尾)</td>
+<td>齐普夫分布的右侧尾部：大量词只出现极少次数，但占据词表的绝大部分</td>
+<td>高频词 ("the","is") 占大部分出现次数，稀有词占大部分词表</td>
+</tr>
+<tr>
+<td>Hapax Legomena (单次词)</td>
+<td>在语料中只出现一次的词，通常超过总词表的 1/3</td>
+<td>"serendipity" 在一个 7000 词的语料中只出现 1 次</td>
+</tr>
+<tr>
+<td>Linear Regression (线性回归)</td>
+<td>用一条直线去拟合数据点，计算斜率和拟合度 (R²)</td>
+<td>对 log(rank) vs log(freq) 做回归 → 得到 α 和 R²</td>
+</tr>
+<tr>
+<td>Alpha (α, 齐普夫指数)</td>
+<td>log-log 线性回归的斜率绝对值，理想值 ≈ 1.0，衡量词频下降速度</td>
+<td>文学文本 α≈1.4 (词汇集中); 宗教文本 α≈1.6 (词汇分散)</td>
+</tr>
+<tr>
+<td>R² (决定系数)</td>
+<td>线性回归拟合度，范围 [0,1]，越接近 1 说明齐普夫定律拟合越好</td>
+<td>R²=0.95+ → 数据非常符合齐普夫定律</td>
+</tr>
+</tbody>
+</table>
+<h3>4 NLP Challenges (4大挑战)</h3>
+<table>
+<thead>
+<tr>
+<th>Challenge (挑战)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ambiguity (歧义性)</td>
+<td>同一句话有多种理解方式：词汇歧义 / 句法歧义 / 指代歧义</td>
+<td>"bank" = 银行 or 河岸？"I saw her with a telescope" = 谁拿望远镜？</td>
+</tr>
+<tr>
+<td>Sparsity (稀疏性)</td>
+<td>齐普夫定律 (Zipf's Law)：词频 ∝ 1/排名，超过 1/3 的词只出现一次</td>
+<td>语料中 "the" 占 7%，但 "serendipity" 可能只出现 1 次</td>
+</tr>
+<tr>
+<td>Variation (变异性)</td>
+<td>同一个意思可以用完全不同的词/句式表达 (词汇/地域/社会/风格/代际差异)</td>
+<td>"awesome" vs "splendid" vs "fire" 都表示"很好"</td>
+</tr>
+<tr>
+<td>Common Knowledge (常识知识)</td>
+<td>机器缺乏人类的世界常识，无法判断合理性</td>
+<td>"man bites dog" = 新闻 (反常)；"dog bites man" = 不是新闻 (正常)</td>
+</tr>
+</tbody>
+</table>
+<h3>NLP Preprocessing Preview (NLP预处理术语预览 — W2详解)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokenization (分词)</td>
+<td>把文本切分成最小有意义的单元 (token)</td>
+<td>"I love NLP" → ["I", "love", "NLP"]</td>
+</tr>
+<tr>
+<td>Stopwords (停用词)</td>
+<td>高频但无实际意义的词，通常在分析前移除</td>
+<td>"the", "is", "at", "a" → 移除后保留实义词</td>
+</tr>
+<tr>
+<td>Stemming (词干提取)</td>
+<td>粗暴地砍掉词尾，得到词根 (可能不是真词)</td>
+<td>"studies" → "studi" (Porter); "running" → "run"</td>
+</tr>
+<tr>
+<td>Lemmatization (词元化)</td>
+<td>用词典还原到标准词形 (一定是真词)</td>
+<td>"studies" → "study"; "better" → "good"</td>
+</tr>
+<tr>
+<td>POS Tagging (词性标注)</td>
+<td>给每个词标上语法类别 (名词/动词/形容词等)</td>
+<td>"The(DT) quick(JJ) fox(NN) runs(VBZ)"</td>
+</tr>
+<tr>
+<td>TF-IDF (词频-逆文档频率)</td>
+<td>衡量一个词对文档的重要性：在本文档高频 + 在其他文档低频 = 重要</td>
+<td>"NLP" 在本文出现 10 次但整体语料只出 5 篇 → TF-IDF 高</td>
+</tr>
+<tr>
+<td>Data Leakage (数据泄漏)</td>
+<td>训练时不小心用了测试集的信息，导致模型性能虚高，实际部署表现差</td>
+<td>✖ 先 TF-IDF fit 全部数据再拆分 → 测试集信息泄漏到训练</td>
+</tr>
+<tr>
+<td>Train/Test Split (训练/测试拆分)</td>
+<td>把数据分成训练集和测试集，模型只在训练集上学，测试集用来评估</td>
+<td>80% 训练 / 20% 测试；必须在预处理之前拆分</td>
+</tr>
+</tbody>
+</table>
+<h3>NLP Python Libraries (Python NLP 工具库)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLTK</td>
+<td>最经典的 NLP 教学工具库，功能全但慢，适合学习和原型验证</td>
+<td><code>nltk.word_tokenize("I love NLP")</code> → ['I','love','NLP']</td>
+</tr>
+<tr>
+<td>SpaCy</td>
+<td>工业级 NLP 库，速度快、管道化设计，适合生产部署</td>
+<td><code>nlp("I love NLP")</code> → 一次调用完成分词+词性+NER</td>
+</tr>
+<tr>
+<td>HuggingFace Transformers</td>
+<td>预训练模型 (BERT/GPT) 的开源平台，一行代码调用最先进模型</td>
+<td><code>pipeline("sentiment-analysis")("I love NLP")</code> → Positive</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Structured vs Unstructured Knowledge (结构化 vs 非结构化知识)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Structured (结构化)</th>
+<th>Unstructured (非结构化)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nature (本质)</td>
+<td>精确、可直接操作 (Precise, Actionable)</td>
+<td>模糊、需要解析 (Ambiguous)</td>
+<td>数据库表格 vs 一封邮件正文</td>
+</tr>
+<tr>
+<td>Scope (规模)</td>
+<td>针对特定任务的少量数据</td>
+<td>企业数据中 &gt;80% 是非结构化的</td>
+<td>CRM 数据库 vs 客户邮件+聊天记录</td>
+</tr>
+<tr>
+<td>Humans (人类)</td>
+<td>能读但很慢 (Can read, but slowly)</td>
+<td>量太大记不住 (Can't remember all)</td>
+<td>读 1 万行表格 vs 读 1 万封邮件</td>
+</tr>
+<tr>
+<td>Computers (计算机)</td>
+<td>可直接查询使用 (Use quickly)</td>
+<td>需要 NLP 技术才能处理</td>
+<td>SQL 查询 vs NLP 文本分析</td>
+</tr>
+</tbody>
+</table>
+<h3>7 NLP Applications (7大应用分类)</h3>
+<table>
+<thead>
+<tr>
+<th>Application (应用)</th>
+<th>Type (类型)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speech Recognition (语音识别)</td>
+<td>NLU</td>
+<td>Siri 把语音转成文字</td>
+</tr>
+<tr>
+<td>Dialogue/Chatbot (对话机器人)</td>
+<td>NLU+NLG</td>
+<td>ChatGPT 理解问题 + 生成回答</td>
+</tr>
+<tr>
+<td>Text Classification (文本分类)</td>
+<td>NLU</td>
+<td>邮件分类：垃圾邮件 vs 正常邮件</td>
+</tr>
+<tr>
+<td>Sentiment Analysis (情感分析)</td>
+<td>NLU</td>
+<td>"This movie is great!" → Positive</td>
+</tr>
+<tr>
+<td>Summarization (文本摘要)</td>
+<td>NLG</td>
+<td>10 页论文 → 3 句话摘要</td>
+</tr>
+<tr>
+<td>QA (问答系统)</td>
+<td>NLU+NLG</td>
+<td>"What is NLP?" → 生成答案</td>
+</tr>
+<tr>
+<td>Generative AI (生成式AI)</td>
+<td>NLG</td>
+<td>GPT-4 生成文章/代码/诗歌</td>
+</tr>
+</tbody>
+</table>
+<h3>3 NLP Approaches (3种方法)</h3>
+<table>
+<thead>
+<tr>
+<th>Approach (方法)</th>
+<th>Method (具体手段)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Heuristics (启发式/规则法)</td>
+<td>人工写规则和正则表达式 (Rules / Regex)</td>
+<td><code>if "not" in text: sentiment = negative</code></td>
+</tr>
+<tr>
+<td>ML (机器学习)</td>
+<td>用标注数据训练模型 (Supervised / Unsupervised)</td>
+<td>TF-IDF + Logistic Regression 分类垃圾邮件</td>
+</tr>
+<tr>
+<td>DL (深度学习)</td>
+<td>用神经网络自动学习特征 (RNN, LSTM, Transformer)</td>
+<td>BERT 做情感分析，GPT 做文本生成</td>
+</tr>
+</tbody>
+</table>
+<h3>AI Hierarchy (AI层级关系)</h3>
+<table>
+<thead>
+<tr>
+<th>Level (层级)</th>
+<th>Relationship (关系)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI ⊃ ML ⊃ DL</td>
+<td>嵌套包含关系：AI 最大，ML 是 AI 的子集，DL 是 ML 的子集</td>
+<td>AI: 专家系统; ML: SVM; DL: Transformer</td>
+</tr>
+<tr>
+<td>NLP (自然语言处理)</td>
+<td>NLP 是 AI 的应用领域，横跨所有层级 (规则→ML→DL 都能做 NLP)</td>
+<td>规则 NLP: 正则; ML NLP: TF-IDF; DL NLP: BERT</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<p><em>No formulas this week.</em></p>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 NLP 能做什么 vs 不能做什么 (Key Capabilities)</h3>
+<table>
+<thead>
+<tr>
+<th>能力 (Capability)</th>
+<th>能做 ✅</th>
+<th>不能做 ❌</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文本分类 (Classification)</td>
+<td>把文本分到预定义类别</td>
+<td>理解文本的"真正含义"</td>
+<td>垃圾邮件过滤：spam / not spam</td>
+</tr>
+<tr>
+<td>情感分析 (Sentiment)</td>
+<td>判断正面/负面情绪</td>
+<td>理解讽刺和反语</td>
+<td>"Great, another Monday" → 机器判 Positive (实际是讽刺)</td>
+</tr>
+<tr>
+<td>翻译 (Translation)</td>
+<td>语言间转换</td>
+<td>完美处理文化隐喻</td>
+<td>"It's raining cats and dogs" → 机器可能直译</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 NLP 开发 8 步周期 (Dev Life Cycle) — 考试要记顺序！</h3>
+<table>
+<thead>
+<tr>
+<th>Step (步骤)</th>
+<th>做什么 (What)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① Requirement (需求)</td>
+<td>明确要解决什么问题</td>
+<td>"我要做一个情感分析系统"</td>
+</tr>
+<tr>
+<td>② Data Collection (数据收集)</td>
+<td>获取训练数据</td>
+<td>下载 IMDb 影评数据集</td>
+</tr>
+<tr>
+<td>③ Preprocessing (预处理)</td>
+<td>清洗和规范化文本</td>
+<td>去掉 HTML 标签、转小写、分词</td>
+</tr>
+<tr>
+<td>④ Feature Extraction (特征提取)</td>
+<td>把文本变成数字向量</td>
+<td>TF-IDF、Word2Vec</td>
+</tr>
+<tr>
+<td>⑤ Model Building (建模)</td>
+<td>选择和训练模型</td>
+<td>LogReg、LSTM、BERT</td>
+</tr>
+<tr>
+<td>⑥ Evaluation (评估)</td>
+<td>测试模型效果</td>
+<td>Accuracy=91%, F1=0.89</td>
+</tr>
+<tr>
+<td>⑦ Deployment (部署)</td>
+<td>上线到生产环境</td>
+<td>Flask API / Docker 容器</td>
+</tr>
+<tr>
+<td>⑧ Iteration (迭代)</td>
+<td>根据反馈改进重来</td>
+<td>发现新类型垃圾邮件 → 加数据重训</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 1 结论: Zipf's Law 验证实验</h3>
+<table>
+<thead>
+<tr>
+<th>Finding (发现)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>齐普夫定律 (Zipf's Law) 在真实文本中成立</td>
+<td>Log-log 图 (对数图) 呈直线，R²&gt;0.95 说明拟合极好</td>
+<td>文学文本 R²=0.95+; 宗教文本 R²=0.95+</td>
+</tr>
+<tr>
+<td>文学文本 vs 信息文本的 alpha 不同</td>
+<td>文学文本 alpha 较低 (~1.4) = 词汇更集中；信息文本 alpha 较高 (~1.6) = 词汇更分散</td>
+<td>Emma(小说): α≈1.39; Bible(宗教): α≈1.63</td>
+</tr>
+<tr>
+<td>去停用词 (Remove Stopwords) 后齐普夫定律仍成立</td>
+<td>alpha 值变化但直线形态保持 → 定律对预处理鲁棒</td>
+<td>去停用词后: α 变化 ≈ +0.1, R² 仍 &gt;0.93</td>
+</tr>
+<tr>
+<td>只保留名词 (Nouns Only) 后仍然成立</td>
+<td>POS 过滤 (词性筛选) 后分布still follows Zipf → 定律跨词性稳定</td>
+<td>名词: α≈1.2, R²&gt;0.90</td>
+</tr>
+<tr>
+<td>超过 1/3 的词只出现一次 (Hapax Legomena)</td>
+<td>稀疏性是 NLP 的核心挑战，大量词没有足够统计数据</td>
+<td>词表 7000 词中 ~2500 词仅出现 1 次</td>
+</tr>
+<tr>
+<td><code>nltk.FreqDist()</code> 统计词频</td>
+<td>NLTK 原生频率分布工具，直接输入 token 列表</td>
+<td><code>fdist = FreqDist(tokens)</code> → <code>fdist.most_common(20)</code></td>
+</tr>
+<tr>
+<td><code>scipy.stats.linregress()</code> 验证齐普夫</td>
+<td>对 log(rank) vs log(freq) 做线性回归，得 alpha 和 R²</td>
+<td>slope=-1.4, R²=0.95 → 验证 freq ∝ 1/rank^α</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W1 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLP = NLU?</td>
+<td>❌ NLP = NLU (理解) + NLG (生成)，两部分缺一不可</td>
+<td>聊天机器人需要 NLU 理解问题 + NLG 生成回答</td>
+</tr>
+<tr>
+<td>AI, ML, DL 是并列关系?</td>
+<td>❌ 嵌套包含：AI ⊃ ML ⊃ DL (大圈套小圈)</td>
+<td>DL 是 ML 的子集，ML 是 AI 的子集</td>
+</tr>
+<tr>
+<td>数据先预处理再拆分?</td>
+<td>❌ 必须先拆分 (Split) 再预处理，否则数据泄漏 (Data Leakage)</td>
+<td>✅ split → fit TF-IDF on train only; ❌ fit on all → split</td>
+</tr>
+<tr>
+<td>NLP 三种方法哪个最好?</td>
+<td>没有绝对最好，取决于任务和数据量</td>
+<td>少数据 → 规则法; 中数据 → ML; 大数据 → DL</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W2: Text Preprocessing (文本预处理)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Core Preprocessing Terms (核心预处理术语)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokenization (分词)</td>
+<td>NLP 流水线的第一步：把文本切成离散的 token (词/符号)</td>
+<td>"I love NLP!" → ["I", "love", "NLP", "!"]</td>
+</tr>
+<tr>
+<td>Stop Words (停用词)</td>
+<td>高频但语义贡献低的词，通常在分析前移除以减少噪声</td>
+<td>"the", "is", "at", "a" → 移除后只留实义词</td>
+</tr>
+<tr>
+<td>Stemming (词干提取)</td>
+<td>用规则暴力砍词尾得到词根，速度快但可能产生非真词</td>
+<td>"studies" → "studi"; "running" → "run"</td>
+</tr>
+<tr>
+<td>Lemmatization (词元化)</td>
+<td>用词典 + 词性信息还原到标准词形，输出一定是真实的词</td>
+<td>"studies" → "study"; "was/am/is" → "be"; "better" → "good"</td>
+</tr>
+<tr>
+<td>Lemma (词元)</td>
+<td>词元化的输出结果，是一个词的标准/词典形式</td>
+<td>"running" 的 lemma 是 "run"</td>
+</tr>
+<tr>
+<td>POS Tagging (词性标注)</td>
+<td>给每个 token 标上语法类别标签 (名词/动词/形容词等)</td>
+<td>"The(DT) quick(JJ) fox(NN) runs(VBZ)"</td>
+</tr>
+<tr>
+<td>NER (命名实体识别)</td>
+<td>从文本中找出并分类专有名词 (人名/地名/组织/日期/货币)</td>
+<td>"James lives in Ottawa" → James=PERSON, Ottawa=GPE</td>
+</tr>
+<tr>
+<td>Normalization (规范化)</td>
+<td>把 token 转换成统一的基本形式，消除屈折变化 (包括 Stemming 和 Lemmatization)</td>
+<td>"Running", "ran", "runs" → 统一成 "run"</td>
+</tr>
+<tr>
+<td>Noise Removal (噪声移除)</td>
+<td>删除对分析无用的元素：数字、标点、停用词、HTML标签、URL</td>
+<td><code>&lt;br&gt;Visit http://...</code> → 移除后只留正文文字</td>
+</tr>
+<tr>
+<td>Corpus (语料库)</td>
+<td>用于 NLP 训练/分析的大规模文本集合</td>
+<td>IMDb影评数据集、Twitter推文数据、新闻语料</td>
+</tr>
+</tbody>
+</table>
+<h3>Regular Expression (正则表达式)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regex / RegExp (正则表达式)</td>
+<td>用特殊语法描述文本模式的工具，可做匹配、搜索、替换</td>
+<td><code>r'\d+'</code> 匹配一个或多个数字</td>
+</tr>
+<tr>
+<td>Metacharacter (元字符)</td>
+<td>正则中有特殊含义的字符 (<code>.</code> <code>*</code> <code>+</code> <code>?</code> <code>^</code> <code>$</code> <code>[]</code> <code>()</code>)</td>
+<td><code>.</code> = 任意字符; <code>*</code> = 0次或多次; <code>+</code> = 1次或多次</td>
+</tr>
+<tr>
+<td>Character Class (字符类)</td>
+<td>预定义的字符集快捷写法：<code>\d</code>=数字, <code>\w</code>=字母, <code>\s</code>=空白</td>
+<td><code>\d</code> matches '5'; <code>\D</code> (大写取反) matches 'a'</td>
+</tr>
+<tr>
+<td>Capture Group (捕获组)</td>
+<td>用圆括号 <code>()</code> 标记正则中想提取的部分</td>
+<td><code>r'I feel (.*)'</code> 匹配 "I feel sad" → 捕获 "sad"</td>
+</tr>
+<tr>
+<td>Anchor (锚定)</td>
+<td><code>^</code> = 字符串开头, <code>$` = 字符串结尾 (限定匹配位置) | `^Hello` 只匹配开头的 "Hello"; `end$</code> 只匹配结尾</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>Python Regex Functions (Python 正则函数)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>re.match()</code> (开头匹配)</td>
+<td>只在字符串<strong>开头</strong>查找匹配，不匹配返回 None</td>
+<td><code>re.match(r'\d+', 'abc123')</code> → None (开头不是数字)</td>
+</tr>
+<tr>
+<td><code>re.search()</code> (任意位置搜索)</td>
+<td>在字符串<strong>任意位置</strong>查找第一个匹配</td>
+<td><code>re.search(r'\d+', 'abc123')</code> → Match '123'</td>
+</tr>
+<tr>
+<td><code>re.findall()</code> (查找全部)</td>
+<td>返回字符串中<strong>所有</strong>不重叠匹配的列表</td>
+<td><code>re.findall(r'\d+', 'a1b2c3')</code> → ['1','2','3']</td>
+</tr>
+<tr>
+<td><code>re.sub()</code> (替换)</td>
+<td>用替换文本替换所有匹配的部分</td>
+<td><code>re.sub(r'\d+', '#', 'a1b2')</code> → 'a#b#'</td>
+</tr>
+<tr>
+<td><code>re.split()</code> (分割)</td>
+<td>按正则模式切分字符串</td>
+<td><code>re.split(r'\d', 'ab1bc4cd')</code> → ['ab','bc','cd']</td>
+</tr>
+</tbody>
+</table>
+<h3>Preprocessing Pipeline (预处理流水线顺序)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step ① Tokenization (分词)</td>
+<td>第一步：把原始文本切分成 token 列表</td>
+<td>"He's running!" → ["He","'s","running","!"]</td>
+</tr>
+<tr>
+<td>Step ② Noise Removal (去噪)</td>
+<td>第二步：移除标点/数字/停用词/HTML/URL 等噪声</td>
+<td>["He","'s","running","!"] → ["running"]</td>
+</tr>
+<tr>
+<td>Step ③ Normalization (规范化)</td>
+<td>第三步：Stemming 或 Lemmatization 还原词形</td>
+<td>["running"] → ["run"]</td>
+</tr>
+</tbody>
+</table>
+<h3>Sentiment Lexicon (情感词典)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sentiment Lexicon (情感词典)</td>
+<td>预先定义的正面/负面情感词列表，用于规则情感分析</td>
+<td>正面: good, great, amazing; 负面: bad, terrible, boring</td>
+</tr>
+<tr>
+<td>Rule-based Sentiment (规则情感分析)</td>
+<td>统计文本中正/负情感词的数量来判断情感极性，简单但不理解上下文</td>
+<td>pos_count=5, neg_count=2 → 判断为 Positive</td>
+</tr>
+<tr>
+<td>ELIZA (聊天机器人)</td>
+<td>1966年的经典规则聊天机器人，用正则匹配 + 代词替换模拟心理医生</td>
+<td>输入 "I feel sad" → 回复 "Why do you feel sad?"</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Stemming vs Lemmatization (词干提取 vs 词元化)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Stemming (词干提取)</th>
+<th>Lemmatization (词元化)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method (方法)</td>
+<td>规则砍词尾 (Rule-based suffix stripping)</td>
+<td>词典查找 + 词性分析 (Dictionary lookup + POS)</td>
+<td>Porter 用规则; WordNet 用词典</td>
+</tr>
+<tr>
+<td>Speed (速度)</td>
+<td>⚡ 更快 (无需查词典)</td>
+<td>🐢 更慢 (需要加载词典和做POS)</td>
+<td>大数据集优先用 Stemming</td>
+</tr>
+<tr>
+<td>Accuracy (精度)</td>
+<td>❌ 低 — 可能产生非真词</td>
+<td>✅ 高 — 始终输出真实的词</td>
+<td>helped→"help"✅; studies→"studi"❌</td>
+</tr>
+<tr>
+<td>Trade-off (权衡)</td>
+<td>速度优先场景 (Speed priority)</td>
+<td>精度优先场景 (Accuracy priority)</td>
+<td>搜索引擎→Stem; 问答系统→Lem</td>
+</tr>
+<tr>
+<td>Output (输出)</td>
+<td>词干 (stem)，可能不是真词</td>
+<td>词元 (lemma)，一定是真词</td>
+<td>"better" → Stem:"better"; Lem:"good"</td>
+</tr>
+</tbody>
+</table>
+<h3>SpaCy vs NLTK (工具库对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Feature (功能)</th>
+<th>SpaCy</th>
+<th>NLTK</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stemming (词干提取)</td>
+<td>❌ 不支持</td>
+<td>✅ Porter/Snowball/Lancaster 三种</td>
+<td>NLTK: <code>PorterStemmer().stem("studies")</code> → "studi"</td>
+</tr>
+<tr>
+<td>Lemmatization (词元化)</td>
+<td>✅ 内置 (<code>token.lemma_</code>)</td>
+<td>✅ WordNetLemmatizer</td>
+<td>SpaCy: 一行搞定; NLTK: 需手动指定词性</td>
+</tr>
+<tr>
+<td>设计理念</td>
+<td>工业级管道 (Pipeline)</td>
+<td>教学研究工具箱 (Toolkit)</td>
+<td>SpaCy 一次调用做完所有; NLTK 每步手动调</td>
+</tr>
+</tbody>
+</table>
+<h3>NLTK 3 Stemmers (三种词干提取器对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Stemmer (提取器)</th>
+<th>Aggressiveness (激进程度)</th>
+<th>Use Case (使用场景)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Porter Stemmer</td>
+<td>最温和 (Least aggressive)</td>
+<td>最常用，通用场景</td>
+<td>"generously" → "generous"</td>
+</tr>
+<tr>
+<td>Snowball Stemmer</td>
+<td>中等 (Improved Porter)</td>
+<td>需要多语言支持时</td>
+<td>支持英/法/德/西等</td>
+</tr>
+<tr>
+<td>Lancaster Stemmer</td>
+<td>最激进 (Most aggressive)</td>
+<td>需要最大化归并时 (可能过度切割)</td>
+<td>"generously" → "gener"</td>
+</tr>
+</tbody>
+</table>
+<h3>POS Tags &amp; NER Entities (词性标签与命名实体)</h3>
+<table>
+<thead>
+<tr>
+<th>POS Tag (词性标签)</th>
+<th>Meaning (含义)</th>
+<th>NER Entity (实体类型)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NN</td>
+<td>Noun 名词</td>
+<td>PERSON (人名)</td>
+<td>"James" = PERSON</td>
+</tr>
+<tr>
+<td>VB</td>
+<td>Verb 动词</td>
+<td>LOCATION/GPE (地点)</td>
+<td>"Ottawa" = GPE</td>
+</tr>
+<tr>
+<td>JJ</td>
+<td>Adjective 形容词</td>
+<td>ORGANIZATION (组织)</td>
+<td>"Google" = ORG</td>
+</tr>
+<tr>
+<td>RB</td>
+<td>Adverb 副词</td>
+<td>DATE (日期)</td>
+<td>"January 2026" = DATE</td>
+</tr>
+<tr>
+<td>DT</td>
+<td>Determiner 限定词</td>
+<td>MONEY (货币)</td>
+<td>"$100" = MONEY</td>
+</tr>
+<tr>
+<td>PRP</td>
+<td>Pronoun 代词</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>When NOT to Stem/Lemmatize (何时不用规范化)</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario (场景)</th>
+<th>Reason (原因)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Poetry Analysis (诗歌分析)</td>
+<td>韵律和节奏是分析核心，不能改词形</td>
+<td>"running" 的韵脚在分析中很重要</td>
+</tr>
+<tr>
+<td>Social Media (社交媒体)</td>
+<td>充满俚语、缩写、故意拼写错误，规范化会丢信息</td>
+<td>"luv", "gr8", "thx" → stemmer 无法处理</td>
+</tr>
+<tr>
+<td>Speed-critical (极限速度场景)</td>
+<td>规范化增加计算开销，某些实时场景可跳过</td>
+<td>实时搜索建议可跳过 Lemmatization</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<p><em>No formulas this week.</em></p>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Regex Key Distinctions (正则关键区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>re.match</code> vs <code>re.search</code></td>
+<td>match = 仅匹配字符串开头; search = 匹配任意位置 (<strong>考试常考!</strong>)</td>
+<td><code>re.match(r'\d+', 'abc123')</code> → None; <code>re.search</code> → '123'</td>
+</tr>
+<tr>
+<td><code>re.findall</code> vs <code>re.search</code></td>
+<td>findall = 返回所有匹配的列表; search = 仅第一个 Match 对象</td>
+<td><code>re.findall(r'\d+', 'a1b2')</code> → ['1','2']</td>
+</tr>
+<tr>
+<td><code>\d</code> vs <code>\w</code> vs <code>\s</code></td>
+<td>数字 / 字母数字 / 空白; 大写取反 <code>\D \W \S</code></td>
+<td><code>\d</code>='5'; <code>\w</code>='a'; <code>\s</code>=' '; <code>\D</code>='a'</td>
+</tr>
+<tr>
+<td><code>*</code> vs <code>+</code> vs <code>?</code></td>
+<td>0次以上 / 1次以上 / 0或1次 (量词区别)</td>
+<td><code>a*</code> matches ''; <code>a+</code> 需要至少一个 'a'; <code>colou?r</code> = color/colour</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 2 Part 1 结论: ELIZA Chatbot (ELIZA 聊天机器人)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding (发现)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ELIZA 用正则捕获组 (Capture Group) 提取用户关键词</td>
+<td>模式 <code>r'i feel (.*)'</code> 捕获情感描述 → 反射回复</td>
+<td>输入 "I feel sad" → 捕获 "sad" → "Why do you feel sad?"</td>
+</tr>
+<tr>
+<td>代词替换 (Pronoun Swap) 是 ELIZA 的核心技巧</td>
+<td>把 "I/my/me" 换成 "you/your/you" 产生自然回复</td>
+<td>"I feel my life is..." → "Why do you feel your life is..."</td>
+</tr>
+<tr>
+<td>用占位符 (Placeholder) 避免替换冲突</td>
+<td>直接替换 I→you→I 会死循环；先换占位符再统一替换</td>
+<td>I→__YOU__, you→__I__ → 最后统一替换为真实代词</td>
+</tr>
+<tr>
+<td>无匹配时用默认回复 (Default Response)</td>
+<td>兜底策略：无规则命中时随机选一条通用回复</td>
+<td>"Please go on." / "Tell me more." / "Can you elaborate?"</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 2 Part 2 结论: Rule-based Sentiment (规则情感分析)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding (发现)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>规则法准确率有限 (~60-65%)</td>
+<td>只数正/负面词的数量，不理解语境和否定</td>
+<td>"not bad" → neg=1, pos=0 → 判断错误 (实际是正面)</td>
+</tr>
+<tr>
+<td>预处理步骤：小写→去HTML→去URL→去标点→去多余空格</td>
+<td>用正则链式清洗：<code>re.sub(r'&lt;[^&gt;]+&gt;', ' ', text)</code> 等</td>
+<td><code>&lt;br&gt;Great movie!</code> → <code>great movie</code></td>
+</tr>
+<tr>
+<td>neutral 判断 = 系统局限</td>
+<td>pos_count == neg_count 时输出 neutral，但数据集没有 neutral 标签 → 算错误</td>
+<td>pos=3, neg=3 → "neutral" → 实际是 pos → 错误</td>
+</tr>
+<tr>
+<td>情感词典 (Lexicon) 越大越好但仍有限</td>
+<td>正面50词+负面50词 → 覆盖率不足，很多情感表达无法捕获</td>
+<td>"masterpiece" 在词典里 → 捕获; "a must-see" → 遗漏</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W2 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>re.match 能匹配任意位置?</td>
+<td>❌ match 只匹配开头! search 才是任意位置</td>
+<td><code>re.match(r'\d+', 'abc123')</code> → None，不是 '123'</td>
+</tr>
+<tr>
+<td>SpaCy 可以做 Stemming?</td>
+<td>❌ SpaCy 只有 Lemmatization，没有 Stemming; NLTK 才两个都有</td>
+<td>SpaCy: <code>token.lemma_</code>; 无 <code>stem()</code> 方法</td>
+</tr>
+<tr>
+<td>预处理顺序随便排?</td>
+<td>❌ 必须 Tokenize → Noise Removal → Normalize，顺序错会影响结果</td>
+<td>先 Stem 再 Tokenize = 无法正确切分</td>
+</tr>
+<tr>
+<td>诗歌分析应该做 Lemmatization?</td>
+<td>❌ 诗歌分析不应做 Stemming/Lemmatization，因为韵律和词形是分析重点</td>
+<td>"running" 的韵脚信息会被 Lemmatization 丢掉</td>
+</tr>
+<tr>
+<td>规则情感分析能处理否定?</td>
+<td>❌ "not bad" 会被误判为负面，规则法不理解否定词的语义翻转</td>
+<td>"not bad" → neg=1 → Negative (实际是正面评价)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W3: Text Vectorization &amp; Similarity (文本向量化与相似度)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Text Representation Methods (文本表示方法)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OHE (One-Hot Encoding, 独热编码)</td>
+<td>用二进制向量表示词：词所在位置为1，其余全0；不含任何语义信息</td>
+<td>词表 [cat,dog,fish] → cat=[1,0,0], dog=[0,1,0]</td>
+</tr>
+<tr>
+<td>BOW (Bag-of-Words, 词袋模型)</td>
+<td>统计每个词在文档中出现的次数，忽略词序</td>
+<td>"the cat sat on the mat" → {the:2, cat:1, sat:1, on:1, mat:1}</td>
+</tr>
+<tr>
+<td>N-gram (N元组)</td>
+<td>连续N个词组成的词组，部分保留词序信息</td>
+<td>Bigram(2-gram): "I love NLP" → ["I love", "love NLP"]</td>
+</tr>
+<tr>
+<td>TF-IDF (词频-逆文档频率)</td>
+<td>衡量词对文档的重要性：本文档高频 + 其他文档低频 = 重要</td>
+<td>"NLP" 在本文出现10次但只在5篇中出现 → TF-IDF高</td>
+</tr>
+<tr>
+<td>Cosine Similarity (余弦相似度)</td>
+<td>测量两个向量<strong>方向</strong>的相似度，不受向量长度影响，范围 [-1, 1]</td>
+<td>cos=1.0 表示方向完全相同; cos=0 表示正交无关</td>
+</tr>
+<tr>
+<td>Euclidean Distance (欧氏距离)</td>
+<td>两个向量之间的直线距离，受向量长度影响</td>
+<td>d([1,0], [0,1]) = √2 ≈ 1.41</td>
+</tr>
+<tr>
+<td>Edit Distance (编辑距离, Levenshtein)</td>
+<td>把一个字符串变成另一个所需的最少操作次数 (插入/删除/替换)</td>
+<td>"kitten"→"sitting" = 3次操作</td>
+</tr>
+<tr>
+<td>Feature Explosion (特征爆炸)</td>
+<td>N-gram 中 N 增大时，词表大小呈指数增长 (V^N)，导致维度灾难</td>
+<td>Unigram 词表1万 → Bigram 可达1亿</td>
+</tr>
+<tr>
+<td>Sparsity (稀疏性)</td>
+<td>向量中大部分元素为0，传统表示法 (OHE/BOW/TF-IDF) 的共同问题</td>
+<td>词表10000维，一篇文档可能只用到50个词 → 99.5%是0</td>
+</tr>
+<tr>
+<td>OOV (Out-of-Vocabulary, 词表外词)</td>
+<td>不在训练词汇表中的词，传统方法无法处理</td>
+<td>"ChatGPT" 在2010年训练的模型里不存在 → OOV</td>
+</tr>
+</tbody>
+</table>
+<h3>Word Embeddings (词嵌入)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word Embedding (词嵌入)</td>
+<td>把词映射到低维稠密向量空间，语义相似的词在空间中距离更近</td>
+<td>"king" → [0.2, -0.5, 0.8, ...] (300维稠密向量)</td>
+</tr>
+<tr>
+<td>Word2Vec (词向量)</td>
+<td>Google 提出的词嵌入模型，在 Google News (~100B词) 上训练</td>
+<td>3M词，300维；捕捉语义类比关系</td>
+</tr>
+<tr>
+<td>GloVe (全局向量)</td>
+<td>Stanford 提出，基于全局词共现矩阵训练的词嵌入</td>
+<td>在 Wikipedia + Gigaword 上训练，400K词，300维</td>
+</tr>
+<tr>
+<td>FastText (快速文本)</td>
+<td>Facebook 提出，把词拆成字符 n-gram 之和，能处理 OOV 和拼写错误</td>
+<td>"apple" = vec("<ap") + vec("app") + vec("ple") + vec("le>")</td>
+</tr>
+<tr>
+<td>Sub-word (子词)</td>
+<td>FastText 用的字符级片段，让模型能处理未见过的词</td>
+<td>"apple" → ["<ap","app","ppl","ple","le>"]</td>
+</tr>
+<tr>
+<td>SimLex-999 (人类语义相似度基准)</td>
+<td>999个词对的人类标注相似度分数数据集，用于评估词嵌入质量</td>
+<td>(happy, cheerful) = 9.55/10; (car, tree) = 0.50/10</td>
+</tr>
+<tr>
+<td>Pearson Correlation (皮尔逊相关系数)</td>
+<td>衡量两组分数线性相关性的指标，范围 [-1,1]，越高说明嵌入越接近人类判断</td>
+<td>W2V vs SimLex r=0.45 → 中等相关</td>
+</tr>
+<tr>
+<td>Word Analogy (词类比)</td>
+<td>验证嵌入是否捕捉语义关系：A-B+C=?</td>
+<td>king-man+woman ≈ queen</td>
+</tr>
+</tbody>
+</table>
+<h3>Sklearn Vectorization API</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CountVectorizer</code> (计数向量器)</td>
+<td>把文本转成词频矩阵（原始计数），所有词权重相等</td>
+<td>"the cat" → [1, 1]</td>
+</tr>
+<tr>
+<td><code>TfidfVectorizer</code> (TF-IDF向量器)</td>
+<td>把文本转成 TF-IDF 加权矩阵，稀有词权重更高</td>
+<td>"the cat" → [0.0, 0.7] ("the"权重低)</td>
+</tr>
+<tr>
+<td><code>ngram_range=(1,2)</code></td>
+<td>同时生成 unigram + bigram 特征</td>
+<td>"I love NLP" → ["I","love","NLP","I love","love NLP"]</td>
+</tr>
+<tr>
+<td><code>max_features</code> (最大特征数)</td>
+<td>限制词表大小，避免维度灾难</td>
+<td>10万唯一词 → 只保留频率最高的1万词</td>
+</tr>
+<tr>
+<td><code>stratify=y</code></td>
+<td><code>train_test_split</code> 中保持类别分布一致</td>
+<td>70%正/30%负 → 训练集和测试集保持相同比例</td>
+</tr>
+</tbody>
+</table>
+<h3>Evaluation Metrics (评估指标)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confusion Matrix (混淆矩阵)</td>
+<td>分类结果的2×2表格：TP/FP/FN/TN，揭示每个类别的表现</td>
+<td>TP=80, FP=5, FN=10, TN=105</td>
+</tr>
+<tr>
+<td>Weighted F1 (加权F1)</td>
+<td>按各类别样本量加权的 F1 分数，适用于不平衡数据集</td>
+<td>90%A类+10%B类 → weighted F1 考虑不平衡</td>
+</tr>
+<tr>
+<td>Accuracy (准确率)</td>
+<td>预测正确的比例，但在不平衡数据集上可能有误导性</td>
+<td>95% accuracy 但少数类 recall=0% → 实际很差</td>
+</tr>
+</tbody>
+</table>
+<h3>Evolution of Representations (表示方法演进)</h3>
+<table>
+<thead>
+<tr>
+<th>Stage (阶段)</th>
+<th>Methods (方法)</th>
+<th>Semantic? (语义?)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Traditional (传统方法)</td>
+<td>OHE → BOW → N-gram → TF-IDF</td>
+<td>❌ 不含语义</td>
+<td>无法知道 "king" 和 "queen" 有关系</td>
+</tr>
+<tr>
+<td>Deep (深度方法)</td>
+<td>Word2Vec → GloVe → FastText → Contextual</td>
+<td>✅ 含语义</td>
+<td>king-man+woman ≈ queen</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>BOW vs N-gram vs TF-IDF</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>BOW (词袋)</th>
+<th>N-gram (N元组)</th>
+<th>TF-IDF (词频-逆文档频率)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word order (词序)</td>
+<td>❌ 完全忽略</td>
+<td>⚠️ 局部保留 (N个词内)</td>
+<td>❌ 完全忽略</td>
+<td>"dog bites man" = "man bites dog" (BOW)</td>
+</tr>
+<tr>
+<td>Vocab size (词表大小)</td>
+<td>V</td>
+<td>V^N (指数爆炸)</td>
+<td>V</td>
+<td>V=10K → bigram 可达 100M</td>
+</tr>
+<tr>
+<td>Weighting (权重)</td>
+<td>原始计数</td>
+<td>原始计数</td>
+<td>加权 (稀有词↑ 常见词↓)</td>
+<td>"the"=0 权重 vs "serendipity"=高权重</td>
+</tr>
+<tr>
+<td>Semantic (语义)</td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+<td>都不知道 "happy" ≈ "joyful"</td>
+</tr>
+<tr>
+<td>OOV (词表外)</td>
+<td>❌ 无法处理</td>
+<td>❌ 无法处理</td>
+<td>❌ 无法处理</td>
+<td>新词 "ChatGPT" 在旧模型中不存在</td>
+</tr>
+</tbody>
+</table>
+<h3>Word2Vec vs GloVe vs FastText (三大词嵌入对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Word2Vec</th>
+<th>GloVe</th>
+<th>FastText</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider (来源)</td>
+<td>Google</td>
+<td>Stanford</td>
+<td>Facebook</td>
+<td>三家科技巨头/名校</td>
+</tr>
+<tr>
+<td>Training (训练数据)</td>
+<td>Google News (100B词)</td>
+<td>Wikipedia+Gigaword</td>
+<td>Common Crawl</td>
+<td>不同语料 → 不同偏见</td>
+</tr>
+<tr>
+<td>OOV Handling (处理新词)</td>
+<td>❌ 无法处理</td>
+<td>❌ 无法处理</td>
+<td>✅ 子词组合</td>
+<td>"appple"(错拼): W2V=N/A; FT≈0.95</td>
+</tr>
+<tr>
+<td>Method (方法)</td>
+<td>预测上下文 (CBOW/Skip-gram)</td>
+<td>全局共现矩阵</td>
+<td>字符n-gram之和</td>
+<td>FastText拆词为子片段</td>
+</tr>
+<tr>
+<td>Analogy (类比能力)</td>
+<td>✅ 好</td>
+<td>✅ 好</td>
+<td>✅ 好</td>
+<td>king-man+woman≈queen</td>
+</tr>
+</tbody>
+</table>
+<h3>Cosine Similarity vs Euclidean Distance (相似度 vs 距离)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Cosine Similarity (余弦相似度)</th>
+<th>Euclidean Distance (欧氏距离)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Measures (测量的是)</td>
+<td>向量<strong>方向</strong>的相似度 (角度)</td>
+<td>向量<strong>位置</strong>的距离 (直线)</td>
+<td>方向相同但长度不同: cos=1, 但 d≠0</td>
+</tr>
+<tr>
+<td>Range (范围)</td>
+<td>[-1, 1]</td>
+<td>[0, ∞)</td>
+<td>cos=0.84 → 非常相似; d=0.5 → 较近</td>
+</tr>
+<tr>
+<td>Vector length (向量长度)</td>
+<td>❌ 不受影响 (归一化)</td>
+<td>✅ 受影响</td>
+<td>文档长短不影响 cos, 但影响 d</td>
+</tr>
+<tr>
+<td>Best for (适用场景)</td>
+<td>文本相似度 (NLP首选)</td>
+<td>空间距离 (物理位置)</td>
+<td>NLP 用 cos; KNN 用 Euclidean</td>
+</tr>
+</tbody>
+</table>
+<h3>CountVectorizer vs TfidfVectorizer</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>CountVectorizer (计数)</th>
+<th>TfidfVectorizer (TF-IDF)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Output (输出)</td>
+<td>原始词频计数</td>
+<td>TF-IDF 加权值</td>
+<td>"the":Count=5; TF-IDF≈0.0</td>
+</tr>
+<tr>
+<td>Effect (效果)</td>
+<td>所有词权重相同</td>
+<td>稀有词权重高，常见词权重低</td>
+<td>"NLP" 被加权; "the" 被压低</td>
+</tr>
+<tr>
+<td><code>ngram_range</code></td>
+<td>生成 uni/bi/tri-gram</td>
+<td>同上 + TF-IDF 加权</td>
+<td>(1,2) = unigram + bigram</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>TF-IDF Calculation (TF-IDF 计算)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{TF}(t,d) = \frac{\text{count}(t \in d)}{\text{total words in } d}$</td>
+<td>词在文档中的出现比例</td>
+<td>"cat" 出现3次, 文档100词 → TF=0.03</td>
+</tr>
+<tr>
+<td>$\text{IDF}(t) = \log\frac{N}{df(t)}$</td>
+<td>逆文档频率：出现在越少文档中的词越重要</td>
+<td>N=1000篇, "cat"出现在10篇 → IDF=log(100)=2</td>
+</tr>
+<tr>
+<td>$\text{TF-IDF} = \text{TF} \times \text{IDF}$</td>
+<td>两项相乘得到最终权重</td>
+<td>0.03 × 2 = 0.06</td>
+</tr>
+<tr>
+<td>$df = N \Rightarrow \text{IDF} = 0$</td>
+<td>出现在所有文档中的词 → 权重为0 (如 "the")</td>
+<td>log(1000/1000)=log(1)=0</td>
+</tr>
+<tr>
+<td>$df = 1 \Rightarrow \text{IDF} = \log N$</td>
+<td>仅出现在1篇中 → 最高权重</td>
+<td>log(1000/1)=log(1000)≈3</td>
+</tr>
+</tbody>
+</table>
+<h3>Similarity Measures (相似度公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\cos(\mathbf{A}, \mathbf{B}) = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\| \times \|\mathbf{B}\|}$</td>
+<td>余弦相似度：点积 / 两个模的乘积</td>
+<td>A·B=0.73, ‖A‖=0.81, ‖B‖=1.07 → cos=0.84</td>
+</tr>
+<tr>
+<td>$d(\mathbf{A}, \mathbf{B}) = \sqrt{\sum_{i}(a_i - b_i)^2}$</td>
+<td>欧氏距离：各维差值平方和的平方根</td>
+<td>d([1,0],[0,1]) = √(1+1) = √2</td>
+</tr>
+<tr>
+<td>$\text{Lev}(a,b) = \min(\text{insert, delete, substitute})$</td>
+<td>编辑距离：最少操作次数</td>
+<td>"kitten"→"sitting" = 3次</td>
+</tr>
+</tbody>
+</table>
+<h3>Cosine Similarity Worked Example (计算演练)</h3>
+<table>
+<thead>
+<tr>
+<th>Step (步骤)</th>
+<th>Value (值)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathbf{w_1} = (0.2, 0.2, 0.3, 0.7)$</td>
+<td>第一个向量</td>
+<td>4维TF-IDF向量</td>
+</tr>
+<tr>
+<td>$\mathbf{w_2} = (0.3, 0.4, 0.8, 0.5)$</td>
+<td>第二个向量</td>
+<td>同维度对比向量</td>
+</tr>
+<tr>
+<td>$\mathbf{A} \cdot \mathbf{B} = 0.06+0.08+0.24+0.35 = 0.73$</td>
+<td>点积</td>
+<td>对应元素相乘再求和</td>
+</tr>
+<tr>
+<td>$\|\mathbf{A}\| = \sqrt{0.04+0.04+0.09+0.49} \approx 0.81$</td>
+<td>向量A的模</td>
+<td>各元素平方和开根号</td>
+</tr>
+<tr>
+<td>$\|\mathbf{B}\| = \sqrt{0.09+0.16+0.64+0.25} \approx 1.07$</td>
+<td>向量B的模</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>$\cos = \frac{0.73}{0.81 \times 1.07} \approx 0.84$</td>
+<td>最终结果</td>
+<td>0.84 → 两个文档非常相似</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key API Distinctions (关键API区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CountVectorizer</code> = 原始计数</td>
+<td><code>TfidfVectorizer</code> = 加权 (稀有词↑)</td>
+<td>"the cat" → Count:[1,1]; TF-IDF:[0.0, 0.7]</td>
+</tr>
+<tr>
+<td><code>ngram_range=(1,2)</code></td>
+<td>同时生成 unigram + bigram 特征</td>
+<td>"I love NLP" → 5个特征 (3个uni+2个bi)</td>
+</tr>
+<tr>
+<td><code>max_features=10000</code></td>
+<td>限制词表大小避免维度灾难</td>
+<td>100K词 → 保留top 10K</td>
+</tr>
+<tr>
+<td><code>stratify=y</code> in <code>train_test_split</code></td>
+<td>保持类别分布一致</td>
+<td>70%pos/30%neg → 两个集合比例相同</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 3 Part 1 结论: Word2Vec vs GloVe (SimLex-999 评估)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding (发现)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>两个模型与人类判断的相关性都是中等水平</td>
+<td>Pearson 相关系数 ≈ 0.4-0.5，说明嵌入捕捉了部分但非全部语义</td>
+<td>W2V: r≈0.45; GloVe: r≈0.42</td>
+</tr>
+<tr>
+<td>嵌入会低估某些高相似度词对</td>
+<td>人类认为很相似但嵌入 cosine 值低 → 嵌入缺乏某些常识</td>
+<td>(smart, clever): SimLex=9.0 但 W2V≈0.5</td>
+</tr>
+<tr>
+<td>Word2Vec 和 GloVe 对同一词对可能差异大</td>
+<td>训练数据不同导致不同语义偏向</td>
+<td>某些词 W2V 和 GloVe 差 &gt;0.3</td>
+</tr>
+<tr>
+<td><code>model.similarity(w1, w2)</code> 计算余弦相似度</td>
+<td>gensim API，直接返回两个词的 cosine 值</td>
+<td><code>w2v_model.similarity("king","queen")</code> → ~0.65</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 3 Part 2 结论: FastText 子词与拼写错误</h3>
+<table>
+<thead>
+<tr>
+<th>Finding (发现)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FastText 能处理拼写错误，Word2Vec 不能</td>
+<td>FastText 用子词 (sub-word) 组合向量 → OOV词也有向量; W2V 返回 N/A</td>
+<td>"appple"(拼错): FT≈0.95; W2V=N/A</td>
+</tr>
+<tr>
+<td>king-man+woman ≈ queen 类比成功</td>
+<td>验证词嵌入确实捕捉了性别等语义关系</td>
+<td>similarity ≈ 0.65</td>
+</tr>
+<tr>
+<td>词嵌入存在性别偏见 (Gender Bias)</td>
+<td>"programmer-man+woman" → nursing/caregiving 而非 programmer</td>
+<td>反映训练数据中的社会偏见</td>
+</tr>
+<tr>
+<td>抽象类比会产生语义漂移 (Semantic Drift)</td>
+<td>"intelligent-scientist+woman" → 只剩 "person" 成分，丢失智力含义</td>
+<td>减去太多语义 → 结果无意义</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Assignment 1 结论</h3>
+<table>
+<thead>
+<tr>
+<th>Conclusion (结论)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TF-IDF + LogReg 经常能媲美词嵌入方法</td>
+<td>简单基线出人意料地强，不一定需要复杂模型</td>
+<td>TF-IDF+LogReg: 85% vs W2V+LogReg: 84%</td>
+</tr>
+<tr>
+<td>必须先拆分数据再做预处理</td>
+<td>⚠️ 避免数据泄漏 (Data Leakage)！考试重点！</td>
+<td>❌ fit TF-IDF on ALL → split; ✅ split → fit on train only</td>
+</tr>
+<tr>
+<td>不平衡分类用 <code>average='weighted'</code> F1</td>
+<td>普通 F1 不考虑类别样本量差异</td>
+<td>90%A+10%B → weighted F1 更公平</td>
+</tr>
+<tr>
+<td>混淆矩阵比准确率更有用</td>
+<td>准确率可能有误导性，混淆矩阵揭示每个类别的问题</td>
+<td>95% acc 但少数类 recall=0%</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W3 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BOW 保留词序?</td>
+<td>❌ BOW 完全忽略词序！只数词频</td>
+<td>"dog bites man" = "man bites dog" (BOW 中相同)</td>
+</tr>
+<tr>
+<td>TF-IDF 包含语义信息?</td>
+<td>❌ TF-IDF 只是统计权重，不理解语义</td>
+<td>不知道 "happy" ≈ "joyful"</td>
+</tr>
+<tr>
+<td>余弦相似度受向量长度影响?</td>
+<td>❌ 不受长度影响！只看方向 (角度)；欧氏距离才受长度影响</td>
+<td>长文档vs短文档: cos不变, 但 Euclidean变大</td>
+</tr>
+<tr>
+<td>Word2Vec 能处理拼写错误?</td>
+<td>❌ Word2Vec 无法处理 OOV 词！FastText 才可以 (子词机制)</td>
+<td>"appple": W2V=N/A; FastText≈0.95</td>
+</tr>
+<tr>
+<td>N-gram 的 N 越大越好?</td>
+<td>❌ N 越大词表指数爆炸 (V^N)，特征太稀疏反而效果差</td>
+<td>Unigram:10K → Bigram:100M → Trigram:1T</td>
+</tr>
+<tr>
+<td>IDF=0 是什么意思?</td>
+<td>该词出现在所有文档中 (df=N) → 完全没有区分度 → 权重为0</td>
+<td>"the" 在每篇文档都有 → IDF=log(N/N)=0</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W4: Word Embeddings (词嵌入)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Core Embedding Concepts (词嵌入核心概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word Embedding (词嵌入)</td>
+<td>把词映射到低维稠密向量空间 (50-300维)，语义相似的词距离更近</td>
+<td>"king"→[0.2,-0.5,0.8,...] (300维实数向量)</td>
+</tr>
+<tr>
+<td>Dense Vector (稠密向量)</td>
+<td>每个维度都有非零实数值的向量，与 OHE 的稀疏向量相反</td>
+<td>[0.2, -0.5, 0.8] (3维稠密) vs [0,0,1,0,0] (5维稀疏)</td>
+</tr>
+<tr>
+<td>Distributional Hypothesis (分布假说)</td>
+<td>出现在相似上下文中的词具有相似含义 — 词嵌入的理论基础</td>
+<td>"cat" 和 "dog" 经常出现在 "pet", "food" 旁边 → 语义相似</td>
+</tr>
+<tr>
+<td>Context Window (上下文窗口)</td>
+<td>模型训练时考虑的目标词左右各多少个词</td>
+<td>window=2: "I [love NLP] very" → "NLP"的上下文是 love, very</td>
+</tr>
+<tr>
+<td>Self-supervision (自监督)</td>
+<td>不需要人工标注，从文本本身构造训练信号 (预测上下文/中心词)</td>
+<td>用 "the cat sat on mat" 自动构造训练样本</td>
+</tr>
+</tbody>
+</table>
+<h3>Word2Vec (Google, 2013)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word2Vec</td>
+<td>Google 提出的两种神经网络架构 (CBOW/Skip-gram) 学习词嵌入</td>
+<td>在 Google News (~100B词) 上训练，3M词，300维</td>
+</tr>
+<tr>
+<td>CBOW (Continuous Bag-of-Words, 连续词袋)</td>
+<td>用周围上下文词<strong>预测</strong>中心词；训练更快，适合高频词</td>
+<td>输入 [the, cat, on, the] → 预测 "sat"</td>
+</tr>
+<tr>
+<td>Skip-gram (跳字模型)</td>
+<td>用中心词<strong>预测</strong>周围上下文词；训练更慢，但对稀有词效果更好</td>
+<td>输入 "sat" → 预测 [the, cat, on, the]</td>
+</tr>
+<tr>
+<td>SGNS (Skip-gram Negative Sampling)</td>
+<td>Skip-gram的优化训练方法：随机采几个"假"上下文词作为负样本训练分类器</td>
+<td>正样本:(apricot, jam); 负样本:(apricot, elephant)</td>
+</tr>
+<tr>
+<td>Negative Sampling (负采样)</td>
+<td>从词表中随机抽取非上下文词作为负例，大幅加速训练</td>
+<td><code>negative=5</code> → 每个正样本配5个随机负样本</td>
+</tr>
+</tbody>
+</table>
+<h3>GloVe (Stanford, 2014)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GloVe (Global Vectors, 全局向量)</td>
+<td>Stanford 提出，先构建全局词共现矩阵，再分解学习向量</td>
+<td>Wikipedia+Gigaword 训练，400K词，300维</td>
+</tr>
+<tr>
+<td>Co-occurrence Matrix (共现矩阵)</td>
+<td>统计语料中每对词在窗口内一起出现的次数</td>
+<td>"I love Math" + "I love Programming" → (I,love)=2, (love,Math)=1</td>
+</tr>
+</tbody>
+</table>
+<h3>FastText (Facebook, 2016)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FastText (快速文本)</td>
+<td>Facebook 提出，把词拆成字符 n-gram (3-6字符) 之和，能处理 OOV</td>
+<td>"apple" = vec("<ap")+vec("app")+vec("ppl")+vec("ple")+vec("le>")</td>
+</tr>
+<tr>
+<td>Character N-gram (字符n元组)</td>
+<td>FastText 的核心：把词拆成 3-6 个字符的片段</td>
+<td>"where" → ["<wh","whe","her","ere","re>","&lt;whe","wher",...]</td>
+</tr>
+<tr>
+<td>OOV (Out-of-Vocabulary, 词表外词)</td>
+<td>不在训练词汇表中的词，Word2Vec/GloVe 无法处理，FastText 可以</td>
+<td>"ChatGPT" 或拼错的 "appple"</td>
+</tr>
+</tbody>
+</table>
+<h3>WordNet (词典知识库)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WordNet (词汇关系数据库)</td>
+<td>Princeton 的大型英语词汇数据库，用语义关系连接同义词集</td>
+<td>可查询任何英语词的同义/反义/上下位关系</td>
+</tr>
+<tr>
+<td>Synset (同义词集)</td>
+<td>共享同一含义的一组同义词</td>
+<td>{happy, glad, cheerful} 构成一个 synset</td>
+</tr>
+<tr>
+<td>Synonym (同义词)</td>
+<td>含义相同的词</td>
+<td>happy ↔ glad</td>
+</tr>
+<tr>
+<td>Antonym (反义词)</td>
+<td>含义相反的词</td>
+<td>hot ↔ cold</td>
+</tr>
+<tr>
+<td>Hypernym (上位词)</td>
+<td>IS-A 关系中的父类 (更抽象)</td>
+<td>"animal" 是 "dog" 的上位词</td>
+</tr>
+<tr>
+<td>Hyponym (下位词)</td>
+<td>IS-A 关系中的子类 (更具体)</td>
+<td>"dog" 是 "animal" 的下位词</td>
+</tr>
+<tr>
+<td>Meronym (部分词)</td>
+<td>PART-OF 关系</td>
+<td>"wheel" 是 "car" 的部分</td>
+</tr>
+<tr>
+<td>Holonym (整体词)</td>
+<td>HAS-PART 关系</td>
+<td>"car" 是 "wheel" 的整体</td>
+</tr>
+<tr>
+<td>Troponym (方式动词)</td>
+<td>表示某种行为的具体方式</td>
+<td>"run" 是 "move" 的方式动词</td>
+</tr>
+<tr>
+<td>Entailment (蕴含)</td>
+<td>一个动词隐含另一个</td>
+<td>"snore" 蕴含 "sleep" (打鼾必然在睡觉)</td>
+</tr>
+</tbody>
+</table>
+<h3>Embedding Evaluation (嵌入评估)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intrinsic Evaluation (内在评估)</td>
+<td>直接评估嵌入质量：词相似度、词类比任务</td>
+<td>SimLex-999 相关度、king-man+woman=queen 准确率</td>
+</tr>
+<tr>
+<td>Extrinsic Evaluation (外在评估)</td>
+<td>用下游任务间接评估：情感分析、文本分类、NER 的准确率</td>
+<td>用 W2V 做情感分析 acc=85% vs GloVe acc=83%</td>
+</tr>
+<tr>
+<td>Static Embedding (静态嵌入)</td>
+<td>每个词只有一个固定向量，不随上下文变化</td>
+<td>"bank" 不管是"银行"还是"河岸"都是同一个向量</td>
+</tr>
+<tr>
+<td>Contextual Embedding (上下文嵌入)</td>
+<td>同一个词在不同上下文中有不同向量 (BERT/GPT等)</td>
+<td>"bank"在"river bank"和"bank account"中向量不同</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>CBOW vs Skip-gram (两种 Word2Vec 架构)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>CBOW (连续词袋)</th>
+<th>Skip-gram (跳字模型)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input→Output</td>
+<td>上下文词 → 预测中心词</td>
+<td>中心词 → 预测上下文词</td>
+<td>CBOW: [the,cat,on,the]→sat; Skip: sat→[the,cat,on,the]</td>
+</tr>
+<tr>
+<td>Speed (速度)</td>
+<td>⚡ 更快 (一次预测一个词)</td>
+<td>🐢 更慢 (一次预测多个词)</td>
+<td>大语料优先 CBOW</td>
+</tr>
+<tr>
+<td>Best for (适合)</td>
+<td>高频词 (频繁出现的词)</td>
+<td>低频/稀有词</td>
+<td>常见词用 CBOW; 专业术语用 Skip-gram</td>
+</tr>
+<tr>
+<td><code>sg</code> parameter (参数)</td>
+<td><code>sg=0</code> (默认!)</td>
+<td><code>sg=1</code></td>
+<td><strong>考试常考</strong>: 默认是 CBOW 不是 Skip-gram</td>
+</tr>
+<tr>
+<td>难度</td>
+<td>更简单的分类问题</td>
+<td>更难的分类问题</td>
+<td>CBOW 有多个输入做平均</td>
+</tr>
+</tbody>
+</table>
+<h3>Word2Vec vs GloVe vs FastText (三大嵌入模型)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Word2Vec</th>
+<th>GloVe</th>
+<th>FastText</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year/Origin (年份/来源)</td>
+<td>2013 Google</td>
+<td>2014 Stanford</td>
+<td>2016 Facebook</td>
+<td>三大科技巨头/名校</td>
+</tr>
+<tr>
+<td>Approach (方法)</td>
+<td>局部上下文预测</td>
+<td>全局共现矩阵 + 分解</td>
+<td>字符 n-gram 之和</td>
+<td>预测 vs 计数 vs 子词</td>
+</tr>
+<tr>
+<td>OOV Handling (新词处理)</td>
+<td>❌ KeyError</td>
+<td>❌ KeyError</td>
+<td>✅ 子词组合仍有向量</td>
+<td>"appple": W2V=崩, FT≈0.95</td>
+</tr>
+<tr>
+<td>Misspelling (拼写错误)</td>
+<td>❌ 无法处理</td>
+<td>❌ 无法处理</td>
+<td>✅ 共享字符n-gram</td>
+<td>"computar" vs "computer"</td>
+</tr>
+<tr>
+<td>Training Data (训练数据)</td>
+<td>Google News 100B词</td>
+<td>Wikipedia+Gigaword 6B</td>
+<td>Common Crawl</td>
+<td>数据量越大效果越好</td>
+</tr>
+</tbody>
+</table>
+<h3>Static vs Contextual Embeddings (静态 vs 上下文嵌入)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Static (W2V/GloVe/FastText)</th>
+<th>Contextual (BERT/GPT)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一词一向量?</td>
+<td>✅ 一个词 = 一个固定向量</td>
+<td>❌ 同词不同上下文 = 不同向量</td>
+<td>"bank" 在任何语境向量相同(Static)</td>
+</tr>
+<tr>
+<td>多义词</td>
+<td>❌ 无法区分不同意思</td>
+<td>✅ 根据上下文生成不同嵌入</td>
+<td>"bank"=银行 vs 河岸 → Static 混淆</td>
+</tr>
+<tr>
+<td>OOV</td>
+<td>取决于方法 (FastText可以)</td>
+<td>WordPiece 子词分词处理</td>
+<td>BERT: "unhappiness"→["un","##happiness"]</td>
+</tr>
+</tbody>
+</table>
+<h3>WordNet Limitations (WordNet 局限性)</h3>
+<table>
+<thead>
+<tr>
+<th>Limitation (局限)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Limited Coverage (覆盖有限)</td>
+<td>静态词库，不含新词和网络用语</td>
+<td>"selfie", "bitcoin" 可能不在 WordNet 中</td>
+</tr>
+<tr>
+<td>Not Computational (不可计算)</td>
+<td>不能直接用向量计算相似度</td>
+<td>无法做 king-man+woman=queen</td>
+</tr>
+<tr>
+<td>Manual Curation (人工维护)</td>
+<td>需要语言学家手动更新，成本高</td>
+<td>新词每年产生数千个</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Word Analogy (词类比公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\vec{A} - \vec{B} + \vec{C} \approx \vec{D}$</td>
+<td>A之于B等于C之于D (语义关系类比)</td>
+<td>king-man+woman ≈ queen</td>
+</tr>
+<tr>
+<td>$\vec{king} - \vec{man} + \vec{woman} \approx \vec{queen}$</td>
+<td>性别类比</td>
+<td>验证嵌入捕捉了性别关系</td>
+</tr>
+<tr>
+<td>$\vec{Paris} - \vec{France} + \vec{Italy} \approx \vec{Rome}$</td>
+<td>首都-国家类比</td>
+<td>验证嵌入捕捉了地理关系</td>
+</tr>
+</tbody>
+</table>
+<h3>Embedding Dimensions (嵌入维度)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter (参数)</th>
+<th>Value (值)</th>
+<th>Note (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Embedding dim (嵌入维度)</td>
+<td>50–300</td>
+<td>≠ 词表大小！考试常考</td>
+<td><code>vector_size=100</code> → 每词100维向量</td>
+</tr>
+<tr>
+<td>Default Word2Vec</td>
+<td>100</td>
+<td>Gensim 默认维度</td>
+<td>可改为 300 以提升效果</td>
+</tr>
+<tr>
+<td>Pre-trained GloVe/FastText</td>
+<td>300</td>
+<td>预训练通常用 300 维</td>
+<td>300d 是性能和效率的平衡点</td>
+</tr>
+<tr>
+<td>Vocabulary size</td>
+<td>数十万到数百万</td>
+<td>远大于嵌入维度</td>
+<td>W2V:3M词; GloVe:400K词</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key API Distinctions (关键API区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sg=0</code>=CBOW; <code>sg=1</code>=Skip-gram</td>
+<td>考试常考！默认是 CBOW (sg=0)</td>
+<td><code>Word2Vec(sents, sg=0)</code> → CBOW</td>
+</tr>
+<tr>
+<td><code>vector_size</code> ≠ vocabulary size</td>
+<td>嵌入维度 (50-300) vs 词表大小 (百万级) — 两个完全不同的概念</td>
+<td><code>vector_size=100</code> → 100维; vocab可能3M词</td>
+</tr>
+<tr>
+<td><code>window=5</code></td>
+<td>上下文窗口大小：窗口越大捕捉越全局的关系</td>
+<td>window=2→局部语法; window=10→全局话题</td>
+</tr>
+<tr>
+<td><code>min_count=2</code></td>
+<td>出现次数少于此值的词被忽略，减少噪声</td>
+<td>"serendipity"出现1次 → 被排除</td>
+</tr>
+<tr>
+<td><code>negative=5</code></td>
+<td>SGNS 中每个正样本配的负样本数量</td>
+<td>正:(apricot,jam) + 5个随机负样本</td>
+</tr>
+<tr>
+<td><code>most_similar(positive, negative)</code></td>
+<td>Word2Vec 类比 API</td>
+<td><code>most_similar(positive=['king','woman'], negative=['man'])</code> → queen</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 3 结论 (已在W3详述，此处补充W4新增知识点)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding (发现)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>预训练 300d &gt;&gt; 自训练小语料</td>
+<td>数据量比架构更重要，Google News 100B词远超你的10K语料</td>
+<td>预训练:高质量; 自训练10K:效果差</td>
+</tr>
+<tr>
+<td>词嵌入存在偏见 (Bias)</td>
+<td>训练数据的社会偏见会被嵌入学到</td>
+<td>"programmer-man+woman" → nursing (性别刻板印象)</td>
+</tr>
+<tr>
+<td>静态嵌入不区分多义词</td>
+<td>"bank" 的银行和河岸义共享同一向量，这是根本局限</td>
+<td>bank(银行)和bank(河岸) → 向量完全一样</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W4 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word2Vec 默认是 Skip-gram?</td>
+<td>❌ 默认是 CBOW (<code>sg=0</code>)！Skip-gram 需要手动设 <code>sg=1</code></td>
+<td><code>Word2Vec(data)</code> → 用的是 CBOW</td>
+</tr>
+<tr>
+<td>embedding_dim = vocabulary_size?</td>
+<td>❌ 完全不同！embedding_dim=50-300，vocab 可以是百万级</td>
+<td>100维嵌入 + 3M词表 → 两个独立概念</td>
+</tr>
+<tr>
+<td>Word2Vec/GloVe 能处理 OOV?</td>
+<td>❌ 只有 FastText 能处理！W2V/GloVe 遇到新词直接报 KeyError</td>
+<td><code>w2v_model['xyz123']</code> → KeyError</td>
+</tr>
+<tr>
+<td>词嵌入能区分多义词?</td>
+<td>❌ 静态嵌入 (W2V/GloVe/FT) 一词一向量，不区分！需要 BERT 等上下文嵌入</td>
+<td>"bank" 只有一个向量</td>
+</tr>
+<tr>
+<td>GloVe 是预测方法?</td>
+<td>❌ GloVe 是基于计数的 (共现矩阵分解)! W2V 才是预测方法</td>
+<td>GloVe=计数+分解; W2V=神经网络预测</td>
+</tr>
+<tr>
+<td>WordNet 可以做向量计算?</td>
+<td>❌ WordNet 是词典数据库，不能做向量算术</td>
+<td>无法计算 king-man+woman=queen</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W5: Language Models &amp; RNN/LSTM (语言模型 &amp; 循环神经网络)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Text Collection (文本收集)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLP Development Life Cycle (NLP开发生命周期)</td>
+<td>NLP项目的迭代循环流程：需求→数据收集→预处理→特征提取→建模→评估→部署→改进</td>
+<td>每个阶段可以回到前面的阶段迭代改进</td>
+</tr>
+<tr>
+<td>Web Scraping (网页抓取)</td>
+<td>从网站自动提取数据的技术，常用库包括 Beautiful Soup(HTML解析)、lxml(高速解析)、html5lib(纯Python)</td>
+<td>用 Beautiful Soup 抓取新闻文本做情感分析</td>
+</tr>
+<tr>
+<td>X API (Twitter API)</td>
+<td>通过 X 开发者账户访问推文数据的接口，用于收集社交媒体文本</td>
+<td>抓取推文用于舆情分析</td>
+</tr>
+</tbody>
+</table>
+<h3>Probability Theory Recap (概率论回顾)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sampling with Replacement (有放回抽样)</td>
+<td>每次抽取后放回，各次抽取独立；序列概率 = 各个概率的乘积</td>
+<td>抽到红、蓝、红: P = P(红)×P(蓝)×P(红)</td>
+</tr>
+<tr>
+<td>Conditional Probability (条件概率)</td>
+<td>在已知某事件发生的前提下另一事件的概率 P(X|Y) = P(X,Y)/P(Y)</td>
+<td>P(rain|cloudy) = P(rain,cloudy)/P(cloudy)</td>
+</tr>
+<tr>
+<td>Chain Rule (链式法则)</td>
+<td>联合概率可以分解为条件概率的连乘：P(w1..wn) = P(w1)·P(w2|w1)·P(w3|w1,w2)...</td>
+<td>所有语言模型的数学基础</td>
+</tr>
+</tbody>
+</table>
+<h3>Language Model Concepts (语言模型概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language Model (语言模型, LM)</td>
+<td>给词序列分配概率的模型，核心任务：预测下一个词 P(wt|context)，学习文本中的语言模式</td>
+<td>"the students opened their ___" → books (40%), exams (10%), minds (5%)</td>
+</tr>
+<tr>
+<td>LM Popular Usages (LM应用)</td>
+<td>语言模型广泛应用于自动补全、拼写纠错、机器翻译、语音识别、文本生成等任务</td>
+<td>手机输入法的下一个词建议</td>
+</tr>
+<tr>
+<td>Markov Assumption (马尔可夫假设)</td>
+<td>简化假设：下一个词只依赖前 n-1 个词，而不是全部历史，使计算可行</td>
+<td>Bigram: P(wt|w1...wt-1) ≈ P(wt|wt-1)</td>
+</tr>
+<tr>
+<td>Perplexity (困惑度, PP)</td>
+<td>语言模型的标准评估指标，越低越好；衡量模型预测下一个词时有多"困惑"，按词数归一化</td>
+<td>PP=1 完美预测; PP=V 等于随机猜; PP=50 很好</td>
+</tr>
+</tbody>
+</table>
+<h3>N-gram Language Model (N-gram 语言模型)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-gram LM (N元语法模型)</td>
+<td>基于前 n-1 个词的计数频率统计来预测下一个词的语言模型</td>
+<td>4-gram: P(books|students opened their) = 400/1000 = 0.4</td>
+</tr>
+<tr>
+<td>Unigram (一元)</td>
+<td>N=1，只看单个词的频率，完全不考虑任何上下文</td>
+<td>P("the") = 0.07 (最高频词)</td>
+</tr>
+<tr>
+<td>Bigram (二元)</td>
+<td>N=2，只看前1个词来预测当前词</td>
+<td>P(sat|cat) = C("cat sat")/C("cat")</td>
+</tr>
+<tr>
+<td>Data Sparsity (数据稀疏)</td>
+<td>N-gram 的核心问题：很多 N-gram 组合在语料中从未出现过，导致概率为0</td>
+<td>"students opened their quantum" → C=0 → P=0</td>
+</tr>
+<tr>
+<td>Context Limitations (上下文限制)</td>
+<td>N-gram 只能看固定窗口的前 n-1 个词，无法利用更远的上下文信息</td>
+<td>4-gram 只看3个前词，更远的信息全部丢失</td>
+</tr>
+</tbody>
+</table>
+<h3>Neural Network Concepts (神经网络概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perceptron / Neuron (感知器/神经元)</td>
+<td>NN 的基本计算单元：输入×权重求和 v=Σ(wj·xj)+b，经激活函数输出</td>
+<td>多个输入加权求和→激活→输出</td>
+</tr>
+<tr>
+<td>FFNN (前馈神经网络)</td>
+<td>信号只向前流动 (输入→隐藏→输出)，固定输入大小，无记忆能力</td>
+<td>不能处理变长序列</td>
+</tr>
+<tr>
+<td>Fixed-window NN LM (固定窗口神经LM)</td>
+<td>用前n-1个词的词嵌入拼接为固定输入，经隐藏层+softmax预测下一个词</td>
+<td>输入[e1;e2;e3;e4] → h = f(We+b1) → ŷ = softmax(Uh+b2)</td>
+</tr>
+<tr>
+<td>UAT (通用逼近定理, 1989)</td>
+<td>Cybenko 1989年证明：一个足够宽的单隐藏层神经网络可以逼近任何连续函数</td>
+<td>理论保证NN的表达能力</td>
+</tr>
+<tr>
+<td>Sequence Modeling Motivations (序列建模动机)</td>
+<td>处理变长序列、追踪长期依赖、维护顺序信息、在序列中共享信息——4大核心动机</td>
+<td>评论3词或300词都需要处理</td>
+</tr>
+<tr>
+<td>RNN (循环神经网络)</td>
+<td>有自循环连接的网络，能逐步处理变长序列数据，参数在所有时间步共享</td>
+<td>h_t = f(W_h·h_{t-1} + W_e·e_t + b)</td>
+</tr>
+<tr>
+<td>Hidden State (隐藏状态, h_t)</td>
+<td>RNN 在每个时间步的内部记忆，携带前面所有输入的累积信息</td>
+<td>h_3 包含了 w1, w2, w3 的信息</td>
+</tr>
+<tr>
+<td>Parameter Sharing (参数共享)</td>
+<td>RNN 在每个时间步使用相同的权重矩阵 W_h，参数不随序列长度增加——RNN的关键特性</td>
+<td>不管句子多长，同一套 W_h 处理每一步</td>
+</tr>
+<tr>
+<td>Embedding Layer (嵌入层)</td>
+<td>将词 ID 映射为稠密向量的查找表 e(t)=E·x(t)，在训练中学习</td>
+<td><code>Embedding(10000, 100)</code> → 10K词×100维矩阵</td>
+</tr>
+</tbody>
+</table>
+<h3>Training Concepts (训练概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backpropagation (反向传播)</td>
+<td>计算损失对权重的梯度，用于更新参数的核心训练算法</td>
+<td>每轮训练都用BP调整权重</td>
+</tr>
+<tr>
+<td>BPTT (时序反向传播)</td>
+<td>RNN 的训练方法：将 RNN 按时间展开后做反向传播，梯度从 t=T 流回 t=1</td>
+<td>梯度从最后一步沿时间轴反向传播</td>
+</tr>
+<tr>
+<td>Learning Rate (学习率)</td>
+<td>控制每次参数更新的步长：太小→收敛慢; 太大→震荡/发散</td>
+<td>lr=0.001 是常见默认值</td>
+</tr>
+<tr>
+<td>Softmax (归一化指数)</td>
+<td>把实数向量转成概率分布 (所有值 &gt;0 且总和=1)</td>
+<td>[2.0, 1.0, 0.1] → [0.7, 0.2, 0.1]</td>
+</tr>
+<tr>
+<td>Cross-Entropy Loss (交叉熵损失)</td>
+<td>分类任务的标准损失函数，衡量预测概率分布与真实分布的差异</td>
+<td>categorical→多分类; binary→二分类</td>
+</tr>
+<tr>
+<td>Vanishing Gradient (梯度消失)</td>
+<td>梯度在 BPTT 中经过多步乘以 W_h 后指数缩小，导致无法学习长距离依赖</td>
+<td>|W_h| &lt; 1 → 梯度 → 0, 无法连接远处的 "tickets" 到预测</td>
+</tr>
+<tr>
+<td>Exploding Gradient (梯度爆炸)</td>
+<td>梯度在反向传播中指数增大导致训练不稳定，可用梯度裁剪 (gradient clipping) 解决</td>
+<td>|W_h| &gt; 1 → 梯度 → ∞</td>
+</tr>
+</tbody>
+</table>
+<h3>LSTM (长短期记忆网络, 1997)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSTM (长短期记忆)</td>
+<td>Hochreiter &amp; Schmidhuber (1997) 提出的门控 RNN 变体，用加法更新的细胞状态解决梯度消失问题</td>
+<td>通过细胞状态 + 3个门控制信息流</td>
+</tr>
+<tr>
+<td>Cell State (细胞状态, c_t)</td>
+<td>LSTM 的长期记忆传送带，用<strong>加法</strong> (非乘法) 更新 → 梯度得以保留而不缩小</td>
+<td>c_t = f_t⊙c_{t-1} <strong>+</strong> i_t⊙c̃_t</td>
+</tr>
+<tr>
+<td>Hidden State (隐藏状态, h_t)</td>
+<td>LSTM 的短期工作记忆，是细胞状态经输出门过滤后的版本</td>
+<td>h_t = o_t ⊙ tanh(c_t)</td>
+</tr>
+<tr>
+<td>Forget Gate (遗忘门, f_t)</td>
+<td>决定从旧细胞状态中<strong>丢弃</strong>多少信息 (σ: 0=全部遗忘, 1=全部保留)</td>
+<td>读到新话题 → f≈0 → 清除旧记忆</td>
+</tr>
+<tr>
+<td>Input Gate (输入门, i_t)</td>
+<td>决定<strong>存储</strong>多少新信息到细胞状态 (σ: 0=忽略, 1=全部写入)</td>
+<td>重要新信息 → i≈1 → 写入细胞</td>
+</tr>
+<tr>
+<td>Output Gate (输出门, o_t)</td>
+<td>决定从细胞状态中<strong>输出</strong>多少信息到隐藏状态</td>
+<td>控制当前时间步暴露多少细胞信息</td>
+</tr>
+<tr>
+<td>Candidate (候选值, c̃_t)</td>
+<td>用 tanh 生成的新候选信息 (范围[-1,1])，准备被输入门筛选后写入细胞</td>
+<td>c̃<em>t = tanh(W_c·[h</em>{t-1}, x_t] + b_c)</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>FFNN vs Fixed-window NN vs RNN (三种LM架构对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>FFNN / Fixed-window NN</th>
+<th>RNN (循环网络)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input size (输入)</td>
+<td>❌ 固定长度窗口</td>
+<td>✅ 可变长序列</td>
+<td>FFNN 只能看固定n-1个词</td>
+</tr>
+<tr>
+<td>Memory (记忆)</td>
+<td>❌ 无记忆</td>
+<td>✅ 隐藏状态携带历史信息</td>
+<td>RNN 能记住前面所有词</td>
+</tr>
+<tr>
+<td>Parameter sharing (参数共享)</td>
+<td>❌ 每层独立参数</td>
+<td>✅ 所有时间步共享同一套参数</td>
+<td>RNN 参数不随序列长度增加</td>
+</tr>
+<tr>
+<td>Context (上下文)</td>
+<td>❌ 只看窗口内，丢弃更远上下文</td>
+<td>✅ 理论上看到全部历史</td>
+<td>"not bad" vs "not good" 固定窗口可能混淆</td>
+</tr>
+</tbody>
+</table>
+<h3>RNN vs LSTM</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>RNN (循环网络)</th>
+<th>LSTM (长短期记忆)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long-range deps (长距离依赖)</td>
+<td>❌ 梯度消失 → 无法学习</td>
+<td>✅ 细胞状态保留信息</td>
+<td>10步以前的信息: RNN 丢失, LSTM 保留</td>
+</tr>
+<tr>
+<td>Gates (门)</td>
+<td>无门控</td>
+<td>3个门: Forget/Input/Output</td>
+<td>门值 0-1 动态控制信息流</td>
+</tr>
+<tr>
+<td>Memory (记忆)</td>
+<td>只有 hidden state (乘法更新)</td>
+<td>Cell state (<strong>加法更新</strong>) + hidden state</td>
+<td>加法 = 梯度保留的关键</td>
+</tr>
+<tr>
+<td>Training (训练)</td>
+<td>BPTT (梯度容易消失)</td>
+<td>BPTT (仍用反向传播，但梯度不消失)</td>
+<td>LSTM 没有新的训练方法，只是架构不同</td>
+</tr>
+<tr>
+<td>Key innovation (关键创新)</td>
+<td>—</td>
+<td>细胞状态用<strong>加法</strong>而非乘法 → 梯度可穿越长距离</td>
+<td>c_t = f⊙c + i⊙c̃ (+ 保持梯度流动)</td>
+</tr>
+</tbody>
+</table>
+<h3>N-gram vs Fixed-window NN vs RNN LM (三代语言模型)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>N-gram</th>
+<th>Fixed-window NN</th>
+<th>RNN LM</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Context (上下文)</td>
+<td>前 n-1 个词 (计数)</td>
+<td>前 n-1 个词 (嵌入)</td>
+<td>理论上全部历史</td>
+<td>N-gram=3词; RNN=全部</td>
+</tr>
+<tr>
+<td>Data Sparsity (稀疏)</td>
+<td>❌ 严重 (C=0→P=0)</td>
+<td>✅ 嵌入泛化</td>
+<td>✅ 嵌入泛化</td>
+<td>未见过的组合: N-gram=0, NN&gt;0</td>
+</tr>
+<tr>
+<td>Variable length (变长)</td>
+<td>❌ 固定窗口</td>
+<td>❌ 固定窗口</td>
+<td>✅ 任意长度</td>
+<td>3词或300词评论</td>
+</tr>
+<tr>
+<td>Parameters (参数)</td>
+<td>O(V^n)</td>
+<td>与窗口大小相关</td>
+<td>与窗口无关 (共享)</td>
+<td>RNN参数不随长度增加</td>
+</tr>
+</tbody>
+</table>
+<h3>LM Evolution (语言模型演进)</h3>
+<table>
+<thead>
+<tr>
+<th>Generation (代际)</th>
+<th>Method (方法)</th>
+<th>Limitation (局限)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Statistical (统计)</td>
+<td>N-gram + 马尔可夫</td>
+<td>数据稀疏，固定上下文长度</td>
+<td>4-gram 只看3个前词</td>
+</tr>
+<tr>
+<td>Fixed-window (固定窗口)</td>
+<td>FFNN LM</td>
+<td>仍是固定窗口，丢弃远处上下文</td>
+<td>"not bad" vs "not good" 容易混淆</td>
+</tr>
+<tr>
+<td>Neural (神经)</td>
+<td>RNN</td>
+<td>梯度消失 → 不能学长距离</td>
+<td>10步以前的信息丢失</td>
+</tr>
+<tr>
+<td>Gated (门控)</td>
+<td>LSTM / GRU</td>
+<td>❌ 顺序处理无法并行</td>
+<td>长序列训练慢</td>
+</tr>
+<tr>
+<td>Attention (注意力)</td>
+<td>Transformer</td>
+<td>O(n²) 内存开销</td>
+<td>GPT, BERT</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Probability &amp; Language Model (概率与语言模型公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P(X \mid Y) = \frac{P(X, Y)}{P(Y)}$</td>
+<td>条件概率的定义</td>
+<td>P(rain|cloudy) = P(rain∧cloudy)/P(cloudy)</td>
+</tr>
+<tr>
+<td>$P(w_1, \dots, w_n) = \prod_{t=1}^{n} P(w_t \mid w_1, \dots, w_{t-1})$</td>
+<td>链式法则：联合概率 = 条件概率连乘</td>
+<td>所有语言模型的数学基础</td>
+</tr>
+<tr>
+<td>$P(w_t \mid w_1 \dots w_{t-1}) \approx P(w_t \mid w_{t-n+1} \dots w_{t-1})$</td>
+<td>马尔可夫假设：只看前 n-1 个词近似</td>
+<td>Bigram: P(wt|全部历史) ≈ P(wt|wt-1)</td>
+</tr>
+<tr>
+<td>$P(w_t \mid \text{context}) = \frac{C(\text{context}, w_t)}{C(\text{context})}$</td>
+<td>N-gram 条件概率：计数比</td>
+<td>C("students opened their books")=400, C("students opened their")=1000 → P=0.4</td>
+</tr>
+<tr>
+<td>$PP = \left(\prod_{i=1}^{T} \frac{1}{P(w_i)}\right)^{1/T}$</td>
+<td>困惑度(Perplexity)：越低模型越好，按词数归一化</td>
+<td>PP=1→完美; PP=V→随机; PP=50→很好</td>
+</tr>
+</tbody>
+</table>
+<h3>Neural LM (神经语言模型公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$e(t) = E \cdot x(t)$</td>
+<td>嵌入层：one-hot 向量通过嵌入矩阵 E 转为稠密向量</td>
+<td>x(t)=one-hot, E=嵌入矩阵</td>
+</tr>
+<tr>
+<td>$h = f(W_e \cdot [e_1;e_2;...;e_n] + b_1)$</td>
+<td>Fixed-window NN：拼接嵌入 → 隐藏层</td>
+<td>4个词嵌入拼接→隐藏层</td>
+</tr>
+<tr>
+<td>$\hat{y} = \text{softmax}(U \cdot h + b_2)$</td>
+<td>输出层：隐状态映射为词汇表上的概率分布</td>
+<td>softmax 保证概率和为1</td>
+</tr>
+</tbody>
+</table>
+<h3>RNN Formula (RNN 公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h_t = \sigma(W_h \cdot h_{t-1} + W_e \cdot e_t + b)$</td>
+<td>RNN 隐藏状态更新：上一步隐状态 + 当前输入，W_h 每步共享</td>
+<td>W_h 在每个时间步相同 (参数共享)</td>
+</tr>
+<tr>
+<td>$\hat{y}_t = \text{softmax}(U \cdot h_t + b_2)$</td>
+<td>RNN 输出层：将隐状态映射为词汇表上的概率分布</td>
+<td>softmax 保证所有词概率和=1</td>
+</tr>
+<tr>
+<td>$J = \frac{1}{T} \sum_{t} J_t$</td>
+<td>总损失 = 各时间步交叉熵损失的平均</td>
+<td>每步 Jₜ = -log P(正确词)</td>
+</tr>
+</tbody>
+</table>
+<h3>LSTM Gate Formulas (LSTM 门控公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Gate (门)</th>
+<th>Formula (公式)</th>
+<th>Purpose (作用)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forget (遗忘门)</td>
+<td>$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$</td>
+<td>决定丢弃旧信息的比例</td>
+<td>f=0→全忘; f=1→全记</td>
+</tr>
+<tr>
+<td>Input (输入门)</td>
+<td>$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$</td>
+<td>决定写入新信息的比例</td>
+<td>i=1→全部写入; i=0→忽略</td>
+</tr>
+<tr>
+<td>Candidate (候选)</td>
+<td>$\tilde{c}_t = \tanh(W_c \cdot [h_{t-1}, x_t] + b_c)$</td>
+<td>生成新候选信息</td>
+<td>tanh 输出范围 [-1,1]</td>
+</tr>
+<tr>
+<td>Cell update (细胞更新)</td>
+<td>$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$</td>
+<td><strong>加法更新</strong> → 梯度保留</td>
+<td>这是 LSTM 解决梯度消失的核心</td>
+</tr>
+<tr>
+<td>Output (输出门)</td>
+<td>$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$</td>
+<td>控制输出多少细胞信息</td>
+<td>o=1→全输出; o=0→屏蔽</td>
+</tr>
+<tr>
+<td>Hidden state</td>
+<td>$h_t = o_t \odot \tanh(c_t)$</td>
+<td>过滤后的细胞状态 = 当前时间步最终输出</td>
+<td>经输出门过滤的细胞信息</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key Distinctions (关键区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSTM <code>units=128</code> = hidden state size</td>
+<td>≠ embedding size! 是隐藏状态维度，越大容量越大但越慢</td>
+<td><code>LSTM(units=64)</code> → h_t ∈ ℝ^64</td>
+</tr>
+<tr>
+<td><code>categorical_crossentropy</code> vs <code>binary</code></td>
+<td>categorical = 多分类; binary = 二分类; 选错损失函数 → 结果错</td>
+<td>5个类 → categorical; 正/负 → binary</td>
+</tr>
+<tr>
+<td><code>Embedding(10000, 100)</code> = 查找表</td>
+<td>vocab_size × embed_dim 的矩阵，训练中学习，不是固定的</td>
+<td>10K词 × 100维 = 100万可训练参数</td>
+</tr>
+<tr>
+<td>Perplexity: 越低越好</td>
+<td>PP=1 完美; PP=V 随机猜; 实际好的LM通常 PP&lt;100</td>
+<td>PP=50 on V=10K → 远优于随机</td>
+</tr>
+<tr>
+<td>Fixed-window NN 的情感分析陷阱</td>
+<td>"The food was good, not bad" vs "The food was bad, not good"——固定窗口可能只看到最后几词导致混淆</td>
+<td>窗口=4 → "not bad at all" ≈ "not good at all"</td>
+</tr>
+<tr>
+<td>Keras LSTM 三层结构</td>
+<td><code>LSTM(10, input_shape=(TIMESTEPS, FEATURE_LENGTH))</code> → <code>Dense(N)</code> → <code>Activation('softmax')</code></td>
+<td>TIMESTEPS=序列长度, FEATURE_LENGTH=每步特征维度</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab/Assignment Conclusions (实验结论)</h3>
+<table>
+<thead>
+<tr>
+<th>Conclusion (结论)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TF-IDF + LogReg 经常媲美 LSTM</td>
+<td>简单基线永远先试！复杂模型只在长文本/大数据才有明显优势</td>
+<td>TF-IDF:85% vs LSTM:86% → 改善微小但复杂度大增</td>
+</tr>
+<tr>
+<td>Word embedding 需要取平均/池化</td>
+<td>单词向量 ≠ 文档向量，必须用 mean/max 聚合才能用于分类</td>
+<td>doc_vec = mean([vec("I"), vec("love"), vec("NLP")])</td>
+</tr>
+<tr>
+<td>LSTM 通过<strong>加法</strong>解决梯度消失</td>
+<td>细胞状态用 + 不用 ×，梯度可以穿越很长距离不会缩小</td>
+<td>c_t = f⊙c_{t-1} <strong>+</strong> i⊙c̃ → 梯度不缩小</td>
+</tr>
+<tr>
+<td>Vanishing Gradient 实际例子</td>
+<td>"...print her tickets...installed toner...printed her ___"——RNN无法连接远处"tickets"到预测</td>
+<td>信号需穿越多步 → 梯度消失 → RNN预测失败</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W5 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perplexity 越高越好?</td>
+<td>❌ Perplexity 越<strong>低</strong>越好！PP=1是完美，PP=V是随机猜</td>
+<td>PP=50 &gt;&gt; PP=500</td>
+</tr>
+<tr>
+<td>RNN 能学习长距离依赖?</td>
+<td>❌ RNN 有梯度消失问题，长距离信息会丢失！LSTM 才能</td>
+<td>10步以前的信息 RNN 学不到</td>
+</tr>
+<tr>
+<td>LSTM 用新的训练算法?</td>
+<td>❌ LSTM 仍然用 BPTT (反向传播)！只是架构不同，不是训练方法不同</td>
+<td>训练方法相同，区别在门控结构</td>
+</tr>
+<tr>
+<td>LSTM 细胞状态用乘法更新?</td>
+<td>❌ 用<strong>加法</strong>: c_t = f⊙c + i⊙c̃。加法是保持梯度的关键！</td>
+<td>乘法→梯度消失; 加法→梯度保留</td>
+</tr>
+<tr>
+<td>LSTM units = embedding dim?</td>
+<td>❌ units = hidden state 维度, 和 embedding 维度是两个独立参数</td>
+<td>units=128, embedding_dim=100 → 不同</td>
+</tr>
+<tr>
+<td>FFNN 能处理变长序列?</td>
+<td>❌ FFNN 是固定输入大小！RNN 才能处理变长序列</td>
+<td>评论有3词或300词 → FFNN 无法统一处理</td>
+</tr>
+<tr>
+<td>N-gram 可以处理未见过的词组?</td>
+<td>❌ N-gram 依赖计数，未见过的组合 C=0 → P=0 (数据稀疏问题)</td>
+<td>"opened their quantum" 从未出现 → 概率=0</td>
+</tr>
+<tr>
+<td>Fixed-window NN 解决了上下文限制?</td>
+<td>❌ 仍然是固定窗口！只是用嵌入代替了计数，窗口大小限制依然存在</td>
+<td>"not bad" vs "not good" 仍可能混淆</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W6: Seq2Seq &amp; Attention (序列到序列 &amp; 注意力机制)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Recap: N-gram / RNN / LSTM (回顾)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-gram LM (N元语法模型)</td>
+<td>基于前 N-1 个词的计数频率来预测下一个词的统计语言模型 (Statistical LM)</td>
+<td>Bigram: P("dog"|"the") = C("the dog")/C("the")</td>
+</tr>
+<tr>
+<td>RNN (循环神经网络)</td>
+<td>通过隐藏状态 hₜ = f(hₜ₋₁, xₜ) 处理序列数据，每步保留历史信息但有梯度消失问题</td>
+<td>顺序读取句子，h 从左到右传递前面的信息</td>
+</tr>
+<tr>
+<td>LSTM (长短期记忆)</td>
+<td>用门控(遗忘门/输入门/输出门)和<strong>加法</strong>更新的细胞状态解决 RNN 梯度消失问题 (Hochreiter &amp; Schmidhuber, 1997)</td>
+<td>遗忘门决定丢弃多少旧信息；输入门决定写入多少新信息；细胞状态用加法保持梯度</td>
+</tr>
+<tr>
+<td>RNN vs LSTM Cell (内部结构)</td>
+<td>RNN 只有一个简单 tanh 激活；LSTM 含 forget/input/output gate + cell state 四个交互组件</td>
+<td>RNN=1个tanh层; LSTM=4个交互的门和状态</td>
+</tr>
+</tbody>
+</table>
+<h3>Bidirectional LSTM (双向 LSTM)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bi-LSTM (双向LSTM)</td>
+<td>用两个独立的 LSTM 同时从左到右和从右到左读取序列，拼接两个方向的隐藏状态以获得完整上下文</td>
+<td>"terribly exciting" → 需要看到右侧 "exciting" 才知道 "terribly"=非常(正面)</td>
+</tr>
+<tr>
+<td>Forward LSTM (正向LSTM)</td>
+<td>从左到右处理序列，只携带过去的上下文信息</td>
+<td>"the cat sat" → h₃ 只知道 the, cat, sat</td>
+</tr>
+<tr>
+<td>Backward LSTM (反向LSTM)</td>
+<td>从右到左处理序列，只携带未来的上下文信息</td>
+<td>"the cat sat" → h₁ 从反向看到了 cat, sat</td>
+</tr>
+<tr>
+<td>Concatenation (拼接)</td>
+<td>Bi-LSTM 的输出是正向和反向隐藏状态的拼接 [h→; h←]，维度翻倍</td>
+<td>LSTM(128) → Bi-LSTM 输出 256 维</td>
+</tr>
+<tr>
+<td>Separate Weights (独立权重)</td>
+<td>正向和反向 LSTM 有各自独立的权重矩阵，不共享参数，各自独立训练</td>
+<td>W_forward ≠ W_backward</td>
+</tr>
+<tr>
+<td>Multi-layer RNN (多层RNN)</td>
+<td>将多层 RNN/LSTM 叠加，第 i 层的输出作为第 i+1 层的输入，更深层学习更抽象的特征</td>
+<td>3层 LSTM 堆叠 → 高层表示更抽象</td>
+</tr>
+<tr>
+<td><code>return_sequences</code> (Keras参数)</td>
+<td>True=返回所有时间步输出(Attention需要)；False(默认)=只返回最后一步(分类用)</td>
+<td>True: shape(10,256); False: shape(256,)</td>
+</tr>
+</tbody>
+</table>
+<h3>Sequence Problem Types (序列问题类型)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One-to-One (一对一)</td>
+<td>单输入单输出，不涉及序列处理</td>
+<td>图像分类：图片 → "cat"</td>
+</tr>
+<tr>
+<td>One-to-Many (一对多)</td>
+<td>单个输入生成一个序列输出</td>
+<td>图像描述：图片 → "a cat sitting on mat"</td>
+</tr>
+<tr>
+<td>Many-to-One (多对一)</td>
+<td>序列输入产生单个输出 (W6 slides 红框高亮此类型)</td>
+<td>情感分析："I love this movie" → Positive</td>
+</tr>
+<tr>
+<td>Many-to-Many Synced (多对多同步)</td>
+<td>序列输入产生同长度的序列输出</td>
+<td>词性标注："The cat sat" → "DT NN VBD"；股票预测</td>
+</tr>
+<tr>
+<td>Many-to-Many Unsynced (多对多异步)</td>
+<td>序列输入产生不同长度的序列输出，<strong>Seq2Seq 的核心场景</strong></td>
+<td>机器翻译："je suis" (2词) → "I am" (2词，但可以不同长度)</td>
+</tr>
+</tbody>
+</table>
+<h3>Seq2Seq Architecture (序列到序列架构)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seq2Seq (序列到序列)</td>
+<td>用编码器读完输入序列压缩为固定向量，再用解码器从该向量逐步生成输出序列的架构</td>
+<td>"il a m'entarté" → 编码向量 → "he hit me with a pie"</td>
+</tr>
+<tr>
+<td>Encoder (编码器)</td>
+<td>用 RNN/LSTM 读取整个输入序列，将全部信息压缩为一个固定长度的隐藏状态向量 (Encoder Vector)</td>
+<td>读完 "il a m'entarté" → 产生一个 256 维向量</td>
+</tr>
+<tr>
+<td>Decoder (解码器)</td>
+<td>用编码器向量初始化 RNN/LSTM，自回归地逐步生成输出序列，每步输出作为下一步输入</td>
+<td>向量 → "he" → "hit" → "me" → ... → \&lt;END&gt;</td>
+</tr>
+<tr>
+<td>Encoder Vector (编码向量)</td>
+<td>编码器 LSTM 最后一步的隐藏状态，是编码器和解码器之间的<strong>唯一桥梁</strong></td>
+<td>编码器最终 h → 解码器初始 h</td>
+</tr>
+<tr>
+<td>Bottleneck (信息瓶颈)</td>
+<td>Seq2Seq 的核心缺陷：整个输入序列被压缩到一个固定大小的向量中，长序列必然丢失信息</td>
+<td>100词句子压成 256维向量 → 细节必然丢失</td>
+</tr>
+<tr>
+<td>Conditional LM (条件语言模型)</td>
+<td>Seq2Seq 的数学本质——一个以源句子 x 为条件的语言模型，P(yₜ|y₁...yₜ₋₁, x)</td>
+<td>普通LM: P(y); 条件LM: P(y|x)——额外依赖源句</td>
+</tr>
+</tbody>
+</table>
+<h3>Training &amp; Inference (训练与推理)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Teacher Forcing (教师强制)</td>
+<td>训练时给解码器输入<strong>真实的</strong>前一个词(而非模型预测)，让训练快速稳定收敛</td>
+<td>预测第3个词时，输入真实的第2个词(不管模型猜对没)</td>
+</tr>
+<tr>
+<td>Auto-regressive (自回归)</td>
+<td>推理时解码器只能用自己之前的<strong>预测</strong>作为输入，因为没有真实目标</td>
+<td>"he"→"like"(错)→"cats" → 错误向后累积</td>
+</tr>
+<tr>
+<td>Exposure Bias (暴露偏差)</td>
+<td>训练用真实输入 vs 推理用自身预测的不一致，导致推理时错误像滚雪球一样累积</td>
+<td>训练时从没见过自己的错误 → 推理时一错到底</td>
+</tr>
+<tr>
+<td>End-to-End Training (端到端)</td>
+<td>整个 Encoder+Decoder 作为一个统一系统联合优化，反向传播从解码器穿过编码器</td>
+<td>J = (1/T) Σ Jₜ，一个损失函数优化整个系统</td>
+</tr>
+<tr>
+<td>NMT Training Loss (训练损失)</td>
+<td>每个目标词负对数概率 Jₜ = -log P(yₜ|...) 的平均值 J = (1/T) Σ Jₜ，整体端到端反向传播</td>
+<td>所有步的交叉熵求均值 → 反向传播</td>
+</tr>
+</tbody>
+</table>
+<h3>Attention Mechanism (注意力机制)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Attention (注意力)</td>
+<td>解码器在生成每个词时<strong>动态选择性关注</strong>编码器的不同位置，解决信息瓶颈问题的核心技术</td>
+<td>翻译 "he" 时重点看 "il"; 翻译 "pie" 时重点看 "entarté"</td>
+</tr>
+<tr>
+<td>Attention = Weighted Average (加权平均)</td>
+<td>注意力的数学本质是对编码器隐藏状态集合的加权平均，权重由解码器-编码器相似度决定</td>
+<td>权重高=当前最相关位置; 权重低=不太相关位置</td>
+</tr>
+<tr>
+<td>Attention Score (注意力分数)</td>
+<td>解码器隐藏状态与每个编码器隐藏状态之间的相似度值，通常用点积 (dot product) 计算</td>
+<td>eᵢ = dec_state^T · enc_stateᵢ → 4个编码器状态产生4个分数</td>
+</tr>
+<tr>
+<td>Attention Weight (注意力权重)</td>
+<td>对原始分数做 softmax 得到的概率分布 (和=1)，表示每个编码器位置的重要程度</td>
+<td>α = [0.7, 0.1, 0.1, 0.1] → 主要关注位置1</td>
+</tr>
+<tr>
+<td>Context Vector (上下文向量)</td>
+<td>用注意力权重对编码器隐藏状态做加权求和得到的向量，浓缩了"当前步最相关的源句信息"</td>
+<td>c = 0.7·h₁ + 0.1·h₂ + 0.1·h₃ + 0.1·h₄</td>
+</tr>
+<tr>
+<td>Dot Product Attention (点积注意力)</td>
+<td>用向量点积 (内积) 计算注意力分数的方法，最简单直觉的相似度度量</td>
+<td>score = query^T · key</td>
+</tr>
+<tr>
+<td>Attention Output (注意力输出)</td>
+<td>将解码器状态和上下文向量拼接后经过全连接层，再通过 softmax 预测输出词</td>
+<td>output = f([dec_state; context]) → softmax → word</td>
+</tr>
+</tbody>
+</table>
+<h3>Transformer Preview (Transformer 预告)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer (变换器, 2017)</td>
+<td>完全依赖自注意力的架构，彻底不需要 RNN，可以全部并行处理序列 ("Attention Is All You Need")</td>
+<td>2017年论文提出 → 催生 GPT, BERT 等所有现代LLM</td>
+</tr>
+<tr>
+<td>Self-Attention (自注意力)</td>
+<td>序列中每个词<strong>同时关注</strong>序列中所有其他词(包括自己)，而非仅限于 Encoder→Decoder</td>
+<td>"it" 直接关注前面的 "cat" 来理解指代，无论距离多远</td>
+</tr>
+<tr>
+<td>Positional Encoding (位置编码)</td>
+<td>因为 Transformer 没有循环结构，需要显式加入位置编码向量来告诉模型词的顺序信息</td>
+<td>给每个位置加一个固定向量，否则模型不知道词序</td>
+</tr>
+<tr>
+<td>Transformer Architecture (架构)</td>
+<td>编码器堆栈(Self-Attn + FFN) + 解码器堆栈(Self-Attn + Cross-Attn + FFN)，含多头注意力</td>
+<td>编码器: Self-Attn→FFN; 解码器: Self-Attn→Cross-Attn→FFN</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Uni-LSTM vs Bi-LSTM (单向 vs 双向)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Uni-LSTM (单向)</th>
+<th>Bi-LSTM (双向)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction (方向)</td>
+<td>只看过去 (→)</td>
+<td>过去 + 未来 (→ + ←)</td>
+<td>"terribly" 需要看右侧才能判断正面含义</td>
+</tr>
+<tr>
+<td>Output dim (输出维度)</td>
+<td>hidden_size</td>
+<td><strong>2</strong> × hidden_size</td>
+<td>LSTM(128)=128d; Bi-LSTM(128)=256d</td>
+</tr>
+<tr>
+<td>Context (上下文)</td>
+<td>只有左侧上下文</td>
+<td>左右两侧完整上下文</td>
+<td>Bi-LSTM 理解更全面</td>
+</tr>
+<tr>
+<td>Generation (生成)</td>
+<td>✅ 可以生成文本</td>
+<td>❌ 不能生成 (需要未来信息才能运行)</td>
+<td>自回归生成需要从左到右，反向LSTM需要整个序列已存在</td>
+</tr>
+<tr>
+<td>Use case (场景)</td>
+<td>文本生成, 语言模型</td>
+<td>分类, NER, 问答</td>
+<td>分类用 Bi-LSTM; 生成用 Uni</td>
+</tr>
+<tr>
+<td>Weights (权重)</td>
+<td>一组权重</td>
+<td>两组独立权重 (不共享)</td>
+<td>W_forward ≠ W_backward</td>
+</tr>
+</tbody>
+</table>
+<h3>Seq2Seq vs Seq2Seq + Attention (有无注意力)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Seq2Seq (原始)</th>
+<th>Seq2Seq + Attention</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Info path (信息路径)</td>
+<td>仅通过单一固定编码向量 (瓶颈)</td>
+<td>直接访问所有编码器隐藏状态</td>
+<td>瓶颈 vs 直通道</td>
+</tr>
+<tr>
+<td>Long sequences (长序列)</td>
+<td>❌ 信息丢失严重 (&gt;20词急剧退化)</td>
+<td>✅ 无瓶颈，长句也能良好处理</td>
+<td>100词句子: 原始严重丢信息</td>
+</tr>
+<tr>
+<td>Interpretability (可解释性)</td>
+<td>❌ 黑盒，无法知道模型在看什么</td>
+<td>✅ 注意力权重可视化 = 对齐图</td>
+<td>能看到翻译每个词时关注了源句哪里</td>
+</tr>
+<tr>
+<td>Gradient (梯度)</td>
+<td>只通过 RNN 传播 (长距离梯度弱)</td>
+<td>注意力提供快捷路径 (缓解梯度消失)</td>
+<td>编码器→解码器有直接连接通道</td>
+</tr>
+<tr>
+<td>Processing (处理方式)</td>
+<td>RNN 顺序处理</td>
+<td>仍然是 RNN 顺序处理 (不能并行！)</td>
+<td>两者都是 RNN 基础，都不能并行</td>
+</tr>
+<tr>
+<td>Cost per step (每步开销)</td>
+<td>O(1) — 只用编码向量</td>
+<td>O(n) — 每步看所有编码器状态</td>
+<td>Attention 计算量更大但效果更好</td>
+</tr>
+</tbody>
+</table>
+<h3>Training vs Inference (训练 vs 推理)</h3>
+<table>
+<thead>
+<tr>
+<th>Phase (阶段)</th>
+<th>Input to decoder (解码器输入)</th>
+<th>Issue (问题)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Training (Teacher Forcing)</td>
+<td>真实的前一个目标词</td>
+<td>快速稳定收敛</td>
+<td>真实 "I" → 预测 "love"</td>
+</tr>
+<tr>
+<td>Inference (Auto-regressive)</td>
+<td>模型自己上一步的预测</td>
+<td>错误会向后累积</td>
+<td>预测 "like"(错) → 后续全偏</td>
+</tr>
+<tr>
+<td>Gap = Exposure Bias</td>
+<td>训练/推理输入不一致</td>
+<td>误差像滚雪球越滚越大</td>
+<td>训练从没见过自己的错误 → 推理时脆弱</td>
+</tr>
+</tbody>
+</table>
+<h3>RNN Attention vs Self-Attention (编解码注意力 vs 自注意力)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>RNN Attention (本讲重点)</th>
+<th>Self-Attention (Transformer)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who attends (谁关注谁)</td>
+<td>Decoder → Encoder (解码器看编码器)</td>
+<td>每个词 → 所有词 (包括自己)</td>
+<td>翻译对齐 vs 自身序列内部理解</td>
+</tr>
+<tr>
+<td>Depends on RNN</td>
+<td>✅ 需要 RNN 作为骨架</td>
+<td>❌ 完全不需要 RNN</td>
+<td>Transformer 完全去掉 RNN</td>
+</tr>
+<tr>
+<td>Parallel (并行)</td>
+<td>❌ RNN 必须顺序处理</td>
+<td>✅ 完全并行</td>
+<td>Transformer 训练快得多</td>
+</tr>
+<tr>
+<td>Long-range path (长距离)</td>
+<td>需要多步 RNN 传播</td>
+<td>O(1) 路径长度，任意两位置直接连接</td>
+<td>远处的词也能直接关注</td>
+</tr>
+<tr>
+<td>Position info (位置)</td>
+<td>隐式 (RNN 处理顺序自带位置)</td>
+<td>显式 (必须加 Positional Encoding)</td>
+<td>没有循环→必须额外编码位置</td>
+</tr>
+</tbody>
+</table>
+<h3>技术演进路线 (Evolution Path)</h3>
+<table>
+<thead>
+<tr>
+<th>From → To</th>
+<th>Problem Solved (解决了什么)</th>
+<th>Cost (代价)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单向LSTM → Bi-LSTM</td>
+<td>方向盲区：只看左边 → 看两边完整上下文</td>
+<td>不能生成文本；参数翻倍(2n)</td>
+</tr>
+<tr>
+<td>Bi-LSTM → Seq2Seq</td>
+<td>长度不同：无法处理输入输出不等长 → 编码器+解码器两阶段</td>
+<td>信息瓶颈(整个句子→一个向量)</td>
+</tr>
+<tr>
+<td>Seq2Seq → +Attention</td>
+<td>信息瓶颈：一个向量装不下 → 每步动态加权看所有位置</td>
+<td>仍需 RNN 顺序处理；每步开销 O(n)</td>
+</tr>
+<tr>
+<td>RNN+Attention → Transformer</td>
+<td>顺序处理：RNN 不能并行 → 自注意力完全并行</td>
+<td>O(n²)内存开销；需要位置编码</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Attention Mechanism 4 Steps (注意力机制4步)</h3>
+<table>
+<thead>
+<tr>
+<th>Step (步骤)</th>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Score (打分)</td>
+<td>$e_i = \text{dec\_state}^T \cdot \text{enc\_state}_i$</td>
+<td>解码器状态与每个编码器状态的点积相似度</td>
+<td>4个编码器状态 → 4个分数</td>
+</tr>
+<tr>
+<td>2. Normalize (归一化)</td>
+<td>$\alpha_i = \text{softmax}(e_i) = \frac{\exp(e_i)}{\sum_j \exp(e_j)}$</td>
+<td>用 softmax 转为概率分布 (和=1)</td>
+<td>[3,1,1,1] → [0.7,0.1,0.1,0.1]</td>
+</tr>
+<tr>
+<td>3. Context (上下文)</td>
+<td>$\mathbf{c} = \sum_i \alpha_i \cdot \text{enc\_state}_i$</td>
+<td>用权重对编码器状态做加权求和</td>
+<td>主要包含高权重位置的信息</td>
+</tr>
+<tr>
+<td>4. Output (输出)</td>
+<td>$\text{output} = f([\text{dec\_state}; \mathbf{c}])$</td>
+<td>拼接解码器状态和上下文向量 → 全连接 → softmax</td>
+<td>拼接后经过全连接层预测目标词</td>
+</tr>
+</tbody>
+</table>
+<h3>Bi-LSTM Output (Bi-LSTM 输出)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathbf{h}_{bi} = [\overrightarrow{h}; \overleftarrow{h}]$</td>
+<td>正向和反向隐状态拼接成完整表示</td>
+<td>每个位置都有左右两侧上下文</td>
+</tr>
+<tr>
+<td>$\dim(\mathbf{h}_{bi}) = 2 \times \text{hidden\_size}$</td>
+<td>输出维度是单向的两倍</td>
+<td>Bi-LSTM(128) 输出 256 维</td>
+</tr>
+</tbody>
+</table>
+<h3>Conditional LM (条件语言模型公式)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P(y_1, \dots, y_T) = \prod_{t=1}^{T} P(y_t \mid y_1, \dots, y_{t-1})$</td>
+<td>普通语言模型：只依赖已生成的上文</td>
+<td>无条件自由生成文本</td>
+</tr>
+<tr>
+<td>$P(y_1, \dots, y_T \mid x) = \prod_{t=1}^{T} P(y_t \mid y_1, \dots, y_{t-1}, x)$</td>
+<td>条件语言模型 (Seq2Seq)：额外以源句子 x 为条件</td>
+<td>翻译时每个词同时依赖已翻译的词和源句</td>
+</tr>
+</tbody>
+</table>
+<h3>NMT Training Loss (NMT 训练损失)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$J_t = -\log P(y_t \mid y_1, \dots, y_{t-1}, x)$</td>
+<td>第 t 步的交叉熵损失 (单个目标词的负对数概率)</td>
+<td>目标词 "hit" 的预测概率越高 → Jₜ 越小</td>
+</tr>
+<tr>
+<td>$J = \frac{1}{T} \sum_{t=1}^{T} J_t$</td>
+<td>整个序列的平均损失，端到端反向传播优化此目标</td>
+<td>所有时间步损失的均值 → 一个标量 → 梯度反传</td>
+</tr>
+</tbody>
+</table>
+<h3>Attention Step-by-Step Example (注意力分步数值示例)</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Translating "pie" from "il a m' entarté"</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Score</td>
+<td>e = [0.1, 0.05, 0.02, 0.83]</td>
+<td>dot(dec_h, enc_hᵢ)，"entarté" 最相似</td>
+</tr>
+<tr>
+<td>Softmax</td>
+<td>α ≈ [0.10, 0.09, 0.09, 0.72]</td>
+<td>"entarté" 获得最高注意力权重 0.72</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>c = 0.10·h₁ + 0.09·h₂ + 0.09·h₃ + 0.72·h₄</td>
+<td>上下文向量主要包含 "entarté" 信息</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>[dec_h; c] → FC → softmax → "pie"</td>
+<td>拼接后预测出正确的目标词</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key Distinctions (关键区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bi-LSTM 输出维度 = 2 × hidden_size</td>
+<td><code>Bidirectional(LSTM(128))</code> → 输出 256 维，因为正向128+反向128拼接</td>
+<td>hidden=128 → 正向128+反向128=256</td>
+</tr>
+<tr>
+<td><code>return_sequences=True</code> vs <code>False</code></td>
+<td>True=返回<strong>所有</strong>时间步输出(Attention/Seq2Seq 需要)；False(默认)=只返最后一步(分类用)</td>
+<td>True: shape(10,256); False: shape(256,)</td>
+</tr>
+<tr>
+<td>正反向 LSTM 有独立权重</td>
+<td>两个方向不共享参数，各自独立训练不同的权重矩阵</td>
+<td>W_forward ≠ W_backward</td>
+</tr>
+<tr>
+<td>Attention 权重是动态计算的</td>
+<td>不是训练学来的固定参数；每个新输入/时间步都通过点积+softmax 重新计算</td>
+<td>换一个源句子 → 注意力权重完全不同</td>
+</tr>
+<tr>
+<td>Seq2Seq 短句好 长句差</td>
+<td>编码向量容量固定 → 句子越长丢失信息越多(&lt;20词还行; &gt;20词急剧退化)</td>
+<td>加 Attention 后长句也能处理</td>
+</tr>
+<tr>
+<td>Bi-LSTM 分类模型三层结构</td>
+<td>Embedding → Bidirectional(LSTM) → Dense(sigmoid)，这是用于分类的标准三层</td>
+<td><code>Sequential([Embedding, Bidirectional(LSTM), Dense(1)])</code></td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W6 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bi-LSTM 可以做文本生成?</td>
+<td>❌ 不能！反向LSTM需要未来上下文(整个序列预先存在) → 无法自回归生成；只能做分类/NER/QA</td>
+<td>生成必须用单向 LSTM</td>
+</tr>
+<tr>
+<td>Teacher Forcing 在推理时也用?</td>
+<td>❌ 推理时用自回归(模型自己的预测)！Teacher Forcing <strong>只在训练时</strong>用(输入真实的前一个词)</td>
+<td>训练=真实输入; 推理=自身预测</td>
+</tr>
+<tr>
+<td>Seq2Seq 没有信息丢失?</td>
+<td>❌ 有！固定长度向量瓶颈 → 长序列严重丢失信息。Attention 才解决这个问题</td>
+<td>100词→256d向量→信息被压缩丢失</td>
+</tr>
+<tr>
+<td>Attention 让 Seq2Seq 可以并行?</td>
+<td>❌ RNN+Attention 仍然是顺序处理！<strong>Transformer</strong> 才能并行</td>
+<td>RNN 必须逐步处理，Attention 没有改变这点</td>
+</tr>
+<tr>
+<td>注意力权重是训练学来的固定参数?</td>
+<td>❌ 注意力权重是动态计算的(点积+softmax)，每个输入/时间步都重新计算，不是固定的网络参数</td>
+<td>不同输入产生不同的注意力分布</td>
+</tr>
+<tr>
+<td>Exposure Bias 是什么?</td>
+<td>训练时总用真实输入 vs 推理时必须用自身预测 → 这个不一致导致推理时错误滚雪球</td>
+<td>训练从没见过自己的错误 → 推理脆弱</td>
+</tr>
+<tr>
+<td>Transformer 仍然需要 RNN?</td>
+<td>❌ Transformer 完全抛弃 RNN，用自注意力+位置编码替代循环结构</td>
+<td>"Attention Is All You Need" = 只需注意力</td>
+</tr>
+<tr>
+<td>RNN Attention 和 Self-Attention 一样?</td>
+<td>❌ RNN Attention 是 Decoder→Encoder(跨序列)；Self-Attention 是每个词→每个词(序列内部)</td>
+<td>前者用于翻译对齐；后者用于序列内部理解</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W9: Transformer Architecture (Transformer 架构)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Static Embedding Problem (静态嵌入问题)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Static Embedding Problem (静态嵌入问题)</td>
+<td>Word2Vec/GloVe 一词一向量，不随上下文变化，无法区分多义词，且有 OOV 和词形盲区</td>
+<td>"bank" 在"river bank"和"bank account"中向量完全相同</td>
+</tr>
+<tr>
+<td>Contextual Embedding (上下文嵌入)</td>
+<td>同一个词在不同上下文中生成不同的向量表示，词义由周围词共同决定</td>
+<td>"bank" 在金融语境和河流语境中产生不同向量</td>
+</tr>
+<tr>
+<td>Morphological Blindness (词形盲区)</td>
+<td>静态嵌入对词形变化不敏感，run/running/runner 被当做不同词</td>
+<td>"run" vs "running" → Word2Vec 无法关联</td>
+</tr>
+</tbody>
+</table>
+<h3>Core Transformer Concepts (核心 Transformer 概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer (2017)</td>
+<td>Vaswani 等人提出的 "Attention Is All You Need" 架构，完全基于 Self-Attention，不使用 RNN</td>
+<td>论文: arxiv.org/abs/1706.03762</td>
+</tr>
+<tr>
+<td>Self-Attention (自注意力)</td>
+<td>每个词向整句所有其他词提问 "谁最能帮助理解我？"，然后按相关性加权聚合信息</td>
+<td>"The cat sat on the mat" → "cat" 关注 "sat" 和 "mat"</td>
+</tr>
+<tr>
+<td>Query (Q, 查询)</td>
+<td>当前词在问的问题——"我在找什么样的信息？"</td>
+<td>Q = x · W_Q; 代表当前词的搜索需求</td>
+</tr>
+<tr>
+<td>Key (K, 键)</td>
+<td>每个词提供的标签——"我能提供什么信息？"；与 Q 点乘得到相关性分数</td>
+<td>K = x · W_K; Q·K^T = 相关性分数</td>
+</tr>
+<tr>
+<td>Value (V, 值)</td>
+<td>每个词的实际内容——"我的信息是什么？"；按注意力权重加权求和</td>
+<td>V = x · W_V; 高分的 V 贡献更多</td>
+</tr>
+<tr>
+<td>Multi-Head Attention (多头注意力)</td>
+<td>多个注意力头并行运行，每个头关注不同类型的关系 (语法/语义/指代)，拼接后投影</td>
+<td>Head1:语法关系; Head2:指代关系; Head3:语义关系</td>
+</tr>
+<tr>
+<td>Positional Encoding (位置编码)</td>
+<td>用 sin/cos 函数生成位置向量并加到词嵌入上，因为 Transformer 没有固有的序列顺序</td>
+<td>PE(pos,2i)=sin(pos/10000^(2i/d)); PE(pos,2i+1)=cos(...)</td>
+</tr>
+<tr>
+<td>Residual Connection (残差连接)</td>
+<td>跳跃连接让每层学习"对输入的增量修正"而非"完全重写"，缓解深层网络退化</td>
+<td>output = x + Sublayer(x)</td>
+</tr>
+<tr>
+<td>Layer Normalization (层归一化)</td>
+<td>在残差相加后做归一化，稳定训练过程中的数值尺度</td>
+<td>LayerNorm(x + Sublayer(x))</td>
+</tr>
+<tr>
+<td>FFN (前馈网络)</td>
+<td>逐位置的两层全连接网络，用 ReLU 激活，增加模型的非线性表达能力</td>
+<td>FFN(Z) = ReLU(ZW₁+b₁)W₂+b₂</td>
+</tr>
+<tr>
+<td>Scaled Dot-Product (缩放点积)</td>
+<td>点积分数除以 √d_k 防止高维度下 softmax 饱和导致梯度消失</td>
+<td>d_k=64 → 分数/8; 不缩放 → softmax→[0,0,1,0]</td>
+</tr>
+</tbody>
+</table>
+<h3>Encoder vs Decoder (编码器 vs 解码器)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encoder (编码器)</td>
+<td>并行处理整个输入序列，双向自注意力，可同时看到所有位置的词</td>
+<td>输入 "I love NLP" → 三个词同时互相注意</td>
+</tr>
+<tr>
+<td>Decoder (解码器)</td>
+<td>自回归地逐词生成输出，使用掩码自注意力，只能看到已生成的词</td>
+<td>生成 "Je" → "Je aime" → "Je aime NLP"</td>
+</tr>
+<tr>
+<td>Masked Self-Attention (掩码自注意力)</td>
+<td>解码器中用掩码屏蔽未来位置的词，确保不会偷看还没生成的答案</td>
+<td>生成第3个词时只能看到位置1和2</td>
+</tr>
+<tr>
+<td>Cross-Attention (交叉注意力)</td>
+<td>解码器读取编码器的输出：Q来自解码器，K/V来自编码器，是编解码器之间的桥梁</td>
+<td>翻译时解码器回看源语言的编码</td>
+</tr>
+<tr>
+<td>Final Softmax Layer (最终Softmax层)</td>
+<td>解码器最后一层，在整个词表上输出下一个词的概率分布</td>
+<td>softmax → P("aime")=0.75, P("love")=0.1, ...</td>
+</tr>
+</tbody>
+</table>
+<h3>HuggingFace Ecosystem (HuggingFace 生态)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HuggingFace Hub (模型仓库)</td>
+<td>共享预训练模型、数据集和演示代码的开源平台</td>
+<td>hub.huggingface.co 上有数万个预训练模型</td>
+</tr>
+<tr>
+<td><code>pipeline()</code> (管道API)</td>
+<td>一行代码完成分词+模型推理+解码的快捷接口，支持多种NLP任务</td>
+<td><code>pipeline("sentiment-analysis")("I love NLP")</code> → POSITIVE</td>
+</tr>
+<tr>
+<td>Transformer Tree of Life (家族树)</td>
+<td>Transformer 系列模型的分支和演化：Encoder-only (BERT)、Decoder-only (GPT)、Enc-Dec (T5)</td>
+<td>BERT→RoBERTa→ALBERT; GPT→GPT-2→GPT-4</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>RNN vs Transformer</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>RNN/LSTM</th>
+<th>Transformer</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Processing (处理方式)</td>
+<td>顺序逐步处理 (sequential)</td>
+<td>✅ 完全并行 (fully parallel)</td>
+<td>RNN: h₁→h₂→h₃; Transformer: 同时计算</td>
+</tr>
+<tr>
+<td>Long-range deps (长距离依赖)</td>
+<td>❌ 梯度消失</td>
+<td>✅ O(1) 路径长度，任意两词直接连接</td>
+<td>10步前的信息: RNN丢失, Transformer直接访问</td>
+</tr>
+<tr>
+<td>Position info (位置信息)</td>
+<td>隐式 (处理顺序即位置)</td>
+<td>显式 (位置编码 sin/cos)</td>
+<td>RNN 不需要额外编码; Transformer 必须加 PE</td>
+</tr>
+<tr>
+<td>Memory (内存)</td>
+<td>O(n)</td>
+<td>O(n²) (注意力矩阵)</td>
+<td>长序列Transformer内存开销大</td>
+</tr>
+<tr>
+<td>Training speed (训练速度)</td>
+<td>🐢 慢 (无法并行)</td>
+<td>⚡ 快 (GPU并行加速)</td>
+<td>Transformer 训练时间可缩短10倍</td>
+</tr>
+</tbody>
+</table>
+<h3>Encoder Self-Attention vs Decoder Masked Self-Attention</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Encoder (编码器)</th>
+<th>Decoder (解码器)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visibility (可见范围)</td>
+<td>所有位置 (双向)</td>
+<td>仅过去位置 (单向)</td>
+<td>Encoder 看整句; Decoder 只看已生成的词</td>
+</tr>
+<tr>
+<td>Masking (掩码)</td>
+<td>无掩码</td>
+<td>未来token被掩码</td>
+<td>Decoder 位置3看不到位置4,5</td>
+</tr>
+<tr>
+<td>Purpose (目的)</td>
+<td>全句上下文理解</td>
+<td>自回归生成</td>
+<td>BERT=Encoder; GPT=Decoder</td>
+</tr>
+</tbody>
+</table>
+<h3>Transformer Encoder vs Decoder Applications (应用场景)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Encoder-only</th>
+<th>Decoder-only</th>
+<th>Encoder-Decoder</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代表模型</td>
+<td>BERT</td>
+<td>GPT</td>
+<td>T5, BART</td>
+<td>每类架构专长不同</td>
+</tr>
+<tr>
+<td>适合任务</td>
+<td>分类、NER、QA (理解)</td>
+<td>文本生成 (生成)</td>
+<td>翻译、摘要 (理解+生成)</td>
+<td>BERT做分类; GPT做写作</td>
+</tr>
+<tr>
+<td>方向性</td>
+<td>双向 (bidirectional)</td>
+<td>单向 (left→right)</td>
+<td>双向编码+单向解码</td>
+<td>BERT看全句; GPT只看左边</td>
+</tr>
+</tbody>
+</table>
+<h3>Transformer Challenges (挑战)</h3>
+<table>
+<thead>
+<tr>
+<th>Challenge (挑战)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language coverage (语言覆盖)</td>
+<td>低资源语言训练数据不足，模型表现差</td>
+<td>英语模型质量远高于冰岛语</td>
+</tr>
+<tr>
+<td>Data availability (数据依赖)</td>
+<td>需要海量训练数据才能充分发挥能力</td>
+<td>GPT-3 用了 300B+ tokens 训练</td>
+</tr>
+<tr>
+<td>Long documents (长文档)</td>
+<td>O(n²) 注意力矩阵内存限制了输入长度</td>
+<td>512 tokens 是 BERT 的硬限制</td>
+</tr>
+<tr>
+<td>Transparency (可解释性)</td>
+<td>注意力头的决策过程难以解释</td>
+<td>无法清晰解释为何输出某个词</td>
+</tr>
+<tr>
+<td>Bias (偏见)</td>
+<td>继承训练数据中的社会偏见和刻板印象</td>
+<td>性别、种族相关的偏见输出</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Scaled Dot-Product Attention (缩放点积注意力)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{Attention}(Q,K,V) = \text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right) V$</td>
+<td>核心注意力公式：查询与键的点积→缩放→softmax→加权值</td>
+<td>d_k=64, 缩放因子=8</td>
+</tr>
+<tr>
+<td>$\sqrt{d_k}$ 缩放</td>
+<td>防止高维度下点积值过大导致 softmax 饱和/梯度消失</td>
+<td>不缩放 → scores=1000 → softmax→[0,0,1,0]</td>
+</tr>
+</tbody>
+</table>
+<h3>Attention Computation Steps (注意力计算步骤)</h3>
+<table>
+<thead>
+<tr>
+<th>Step (步骤)</th>
+<th>Operation (操作)</th>
+<th>Purpose (目的)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$Q \cdot K^T$</td>
+<td>点积计算原始相关性分数</td>
+<td>"cat" Q · "sat" K = 高分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$\div \sqrt{d_k}$</td>
+<td>缩放保证数值稳定性</td>
+<td>512/8 = 64 (合理范围)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$\text{softmax}(\cdot)$</td>
+<td>转换为概率权重 (总和=1)</td>
+<td>[64, 32, 8] → [0.7, 0.2, 0.1]</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$\times V$</td>
+<td>按权重加权求和各位置的值</td>
+<td>0.7×V_sat + 0.2×V_on + 0.1×V_mat</td>
+</tr>
+</tbody>
+</table>
+<h3>Multi-Head Attention (多头注意力)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)$</td>
+<td>每个头用不同投影矩阵映射到子空间</td>
+<td>8个头, d_model=512 → 每头 d_k=64</td>
+</tr>
+<tr>
+<td>$\text{MultiHead} = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \cdot W^O$</td>
+<td>拼接所有头的输出，再做线性投影</td>
+<td>8×64=512 → W^O投影回512维</td>
+</tr>
+</tbody>
+</table>
+<h3>FFN &amp; Add&amp;Norm (前馈网络与残差归一化)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{FFN}(Z) = \text{ReLU}(ZW_1 + b_1)W_2 + b_2$</td>
+<td>逐位置的两层前馈网络，提供非线性变换</td>
+<td>512→2048(ReLU)→512</td>
+</tr>
+<tr>
+<td>$\text{Add\&Norm}: \text{LayerNorm}(x + \text{Sublayer}(x))$</td>
+<td>残差连接 + 层归一化，稳定深层训练</td>
+<td>每个子层后都做 Add&amp;Norm</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key Distinctions (关键区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encoder (编码器) = 双向并行</td>
+<td>Decoder (解码器) = 掩码自回归</td>
+<td>Encoder 一次看全句; Decoder 逐词生成</td>
+</tr>
+<tr>
+<td>√d_k 缩放是<strong>必须的</strong></td>
+<td>不缩放 → softmax 饱和 → 梯度消失 → 训练失败</td>
+<td>d_k=64 → 分数/8; 不做→scores=1000→softmax单点</td>
+</tr>
+<tr>
+<td>Multi-Head = 捕捉<strong>不同类型</strong>的关系</td>
+<td>每个头关注不同模式 (语法/指代/语义)</td>
+<td>Head1: 主谓关系; Head2: 代词-名词指代</td>
+</tr>
+<tr>
+<td>Positional Encoding 用 sin/cos</td>
+<td>因为 Transformer <strong>没有固有序列顺序</strong> (不像RNN)</td>
+<td>PE(0)≠PE(1)≠PE(2) → 注入位置信息</td>
+</tr>
+<tr>
+<td><code>pipeline("task")</code> = HuggingFace 快捷API</td>
+<td>一次调用完成分词+模型推理+解码</td>
+<td><code>pipeline("ner")("Steve lives in Ottawa")</code> → PERSON, GPE</td>
+</tr>
+<tr>
+<td>Cross-Attention 是编解码器的桥梁</td>
+<td>Q=Decoder, K/V=Encoder; 没有它解码器无法读源序列</td>
+<td>翻译时: Q="Je", K/V=Encoder("I love NLP")的输出</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 4 Conclusions (实验4结论): DistilBERT Fine-tuning (微调)</h3>
+<table>
+<thead>
+<tr>
+<th>Conclusion (结论)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DistilBERT = 97% BERT, 40% 更小, 60% 更快</td>
+<td>部署的最佳实用权衡 (知识蒸馏产物)</td>
+<td>BERT: 110M params vs DistilBERT: 66M params</td>
+</tr>
+<tr>
+<td>微调 DistilBERT &gt; TF-IDF + LogReg</td>
+<td>证明上下文嵌入优于词袋模型</td>
+<td>DistilBERT: 91% F1 vs TF-IDF+LogReg: 85% F1</td>
+</tr>
+<tr>
+<td>基线对比是<strong>必须的</strong></td>
+<td>没有基线对比则无法声称改进</td>
+<td>表格必须同时展示 baseline 和新模型</td>
+</tr>
+<tr>
+<td>词表裁剪: 44,276 → 25,767 词</td>
+<td>移除出现≤2次的词提高效率</td>
+<td>"xylophone" 出现1次 → 移除</td>
+</tr>
+<tr>
+<td>必须报告完整评估指标</td>
+<td>Accuracy + Precision + Recall + F1 + Confusion Matrix</td>
+<td>仅报告 Accuracy 会隐藏类别不平衡问题</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W9 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer 有循环结构?</td>
+<td>❌ 完全没有RNN！全部靠 Self-Attention + FFN</td>
+<td>Transformer ≠ RNN; 靠注意力并行处理</td>
+</tr>
+<tr>
+<td>Decoder 可以看到未来词?</td>
+<td>❌ Masked Self-Attention 屏蔽未来位置; 只能看已生成的词</td>
+<td>位置3只能看1,2; 不能看4,5</td>
+</tr>
+<tr>
+<td>√d_k 缩放可以省略?</td>
+<td>❌ 必须缩放！不缩放 → softmax饱和 → 梯度消失 → 训练崩溃</td>
+<td>d_k=64 → 必须除以8</td>
+</tr>
+<tr>
+<td>Transformer 有固有的序列顺序?</td>
+<td>❌ 没有！必须加 Positional Encoding (sin/cos) 注入位置信息</td>
+<td>不加PE → "I love NLP" = "NLP love I"</td>
+</tr>
+<tr>
+<td>Multi-Head 的多个头做同样的事?</td>
+<td>❌ 每个头关注不同类型的关系 (语法/语义/指代)</td>
+<td>Head1看语法; Head2看语义; Head3看指代</td>
+</tr>
+<tr>
+<td>Encoder 和 Decoder 的注意力相同?</td>
+<td>❌ Encoder=双向; Decoder=掩码单向; 还有 Cross-Attention 连接两者</td>
+<td>三种不同的注意力机制</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W10: BERT &amp; Question Answering (BERT &amp; 问答系统)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>BERT Architecture (BERT 架构)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT (2018 Google)</td>
+<td>Bidirectional Encoder Representations from Transformers，用双向 Transformer Encoder 做语言理解</td>
+<td>演化路径: RNN→LSTM→Bi-LSTM→Attention→Transformer→<strong>BERT</strong></td>
+</tr>
+<tr>
+<td>BERT-base</td>
+<td>12层 Encoder, 768隐藏维度, 12注意力头, 110M参数</td>
+<td>通用NLP任务的标准选择</td>
+</tr>
+<tr>
+<td>BERT-large</td>
+<td>24层 Encoder, 1024隐藏维度, 16注意力头, 340M参数</td>
+<td>更高精度但需要更多计算资源</td>
+</tr>
+<tr>
+<td>Pre-training (预训练)</td>
+<td>在大规模无标注语料 (Wikipedia 2.5B词 + BookCorpus 800M词) 上无监督学习通用语言知识</td>
+<td>只做一次，非常昂贵 (TPU级算力)</td>
+</tr>
+<tr>
+<td>Fine-tuning (微调)</td>
+<td>在预训练模型上加一个小分类层，用少量标注数据针对特定任务调整全部权重</td>
+<td>每个任务做一次，相对便宜</td>
+</tr>
+<tr>
+<td>MLM (Masked Language Model, 掩码语言模型)</td>
+<td>随机掩码 15% 的 token (80%→[MASK], 10%→随机词, 10%→保持不变) → 预测被掩码词</td>
+<td>"went to the [MASK]" → 预测 "store"</td>
+</tr>
+<tr>
+<td>NSP (Next Sentence Prediction, 下一句预测)</td>
+<td>输入 [CLS] sent_A [SEP] sent_B，判断 sent_B 是否是 sent_A 的下一句</td>
+<td>Total Loss = MLM Loss + NSP Loss</td>
+</tr>
+<tr>
+<td>[CLS] token</td>
+<td>输入序列的第一个特殊 token，经过处理后作为整个序列的聚合表示，用于分类任务</td>
+<td>[CLS] 的输出向量 → 接分类层 → 情感标签</td>
+</tr>
+<tr>
+<td>[SEP] token</td>
+<td>分隔两个句子段的特殊 token，在末尾也加一个</td>
+<td>[CLS] sent_A [SEP] sent_B [SEP]</td>
+</tr>
+<tr>
+<td>[MASK] token</td>
+<td>掩码语言模型中用来替换被遮蔽词的特殊 token</td>
+<td>"the cat [MASK] on the mat" → "sat"</td>
+</tr>
+<tr>
+<td>WordPiece (子词分词)</td>
+<td>BERT 的分词算法，将 OOV 词拆成已知子词片段，词汇表约 30,500</td>
+<td>"playing" → "play" + "##ing"; "unhappiness" → "un" + "##hap" + "##pi" + "##ness"</td>
+</tr>
+<tr>
+<td>BERT Input Embedding (输入嵌入)</td>
+<td>Token Embedding + Segment Embedding + Position Embedding 三种嵌入相加</td>
+<td>Segment A=0, Segment B=1 区分两句</td>
+</tr>
+<tr>
+<td>Transfer Learning (迁移学习)</td>
+<td>用预训练模型的知识迁移到新任务：预训练→理解语言→微调→解决具体任务</td>
+<td>预训练: 无语言知识 → 训练: 理解语言 → 微调: 做情感分析</td>
+</tr>
+<tr>
+<td>DistilBERT (蒸馏BERT)</td>
+<td>知识蒸馏产物：保留 BERT 97% 的性能，减少 40% 内存，速度快 60%</td>
+<td>BERT:110M params → DistilBERT:66M params</td>
+</tr>
+</tbody>
+</table>
+<h3>Question Answering (问答系统)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QA System (问答系统)</td>
+<td>给定问题自动返回答案的系统，分类维度：信息源、问题类型、答案类型</td>
+<td>Q: "When was BERT released?" → A: "2018"</td>
+</tr>
+<tr>
+<td>Extractive QA (抽取式QA)</td>
+<td>答案是给定段落中的一个连续文本片段 (span)，BERT 预测起止位置</td>
+<td>(P, Q) → A; 答案一定在段落中</td>
+</tr>
+<tr>
+<td>Abstractive QA (生成式QA)</td>
+<td>答案由模型生成，可能不逐字出现在原文中</td>
+<td>需要 Encoder-Decoder 架构 (非 BERT alone)</td>
+</tr>
+<tr>
+<td>SQuAD (Stanford QA Dataset)</td>
+<td>斯坦福问答数据集：10万个 (段落, 问题, 答案) 三元组，段落来自 Wikipedia</td>
+<td>最流行的阅读理解数据集</td>
+</tr>
+<tr>
+<td>Answer Span (答案跨度)</td>
+<td>答案在段落中的起始(start)和结束(end) token 位置</td>
+<td>start=5, end=7 → 段落中第5到第7个token</td>
+</tr>
+<tr>
+<td>Reading Comprehension (阅读理解)</td>
+<td>理解一段文本并回答关于其内容的问题 (P, Q) → A</td>
+<td>P=Tesla早年经历, Q="What language?", A="German"</td>
+</tr>
+<tr>
+<td>Factoid QA (事实型问答)</td>
+<td>答案是简短的事实：人名、日期、数字、地点</td>
+<td>Q: "Capital of Canada?" → A: "Ottawa"</td>
+</tr>
+<tr>
+<td>Open Domain QA (开放域问答)</td>
+<td>从大规模文档集合中检索+阅读来回答任意领域问题</td>
+<td>Wikipedia 全文搜索 + BERT 阅读</td>
+</tr>
+<tr>
+<td>Closed Domain QA (封闭域问答)</td>
+<td>在特定领域 (如医疗/法律) 的有限知识库中回答问题</td>
+<td>医学问答系统只处理PubMed文献</td>
+</tr>
+</tbody>
+</table>
+<h3>QA Architecture (问答架构)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retriever-Reader Architecture (检索-阅读架构)</td>
+<td>两阶段：1)检索器从文档库找相关段落 2)阅读器从段落中提取答案</td>
+<td>Haystack 框架基于此架构</td>
+</tr>
+<tr>
+<td>DPR (Dense Passage Retrieval, 密集段落检索)</td>
+<td>双编码器架构：分别训练查询编码器和段落编码器，用嵌入相似度检索</td>
+<td>Q 编码器 + P 编码器 → 余弦相似度 → top-k</td>
+</tr>
+<tr>
+<td>Haystack (问答框架)</td>
+<td>deepset 开发的开源 QA 框架，抽象检索-阅读复杂性，与 Transformers 集成</td>
+<td>核心组件: Document store + Pipeline</td>
+</tr>
+<tr>
+<td>RAG (检索增强生成)</td>
+<td>超越抽取式 QA 的下一步：检索相关文档 + LLM 生成答案</td>
+<td>RAG = Retriever + Generator (W12详解)</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>BERT-base vs BERT-large</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>BERT-base</th>
+<th>BERT-large</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layers (层数)</td>
+<td>12</td>
+<td>24</td>
+<td>层数翻倍</td>
+</tr>
+<tr>
+<td>Hidden size (隐藏维度)</td>
+<td>768</td>
+<td>1024</td>
+<td>更宽的表示</td>
+</tr>
+<tr>
+<td>Attention heads (注意力头)</td>
+<td>12</td>
+<td>16</td>
+<td>更多关系模式</td>
+</tr>
+<tr>
+<td>Parameters (参数)</td>
+<td>110M</td>
+<td>340M</td>
+<td>3倍参数差</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>平衡性能和效率</td>
+<td>追求最高精度</td>
+<td>base已足够大部分任务</td>
+</tr>
+</tbody>
+</table>
+<h3>BERT vs GPT</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>BERT</th>
+<th>GPT</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction (方向)</td>
+<td>✅ 双向 (bidirectional)</td>
+<td>单向 (left→right)</td>
+<td>BERT 同时看前后上下文</td>
+</tr>
+<tr>
+<td>Architecture (架构)</td>
+<td>Encoder-only</td>
+<td>Decoder-only</td>
+<td>BERT 用 Encoder; GPT 用 Decoder</td>
+</tr>
+<tr>
+<td>Pre-training (预训练)</td>
+<td>MLM + NSP</td>
+<td>Next Token Prediction</td>
+<td>BERT 挖空填词; GPT 预测下一个</td>
+</tr>
+<tr>
+<td>Best for (适合)</td>
+<td>分类、NER、QA (理解任务)</td>
+<td>文本生成 (生成任务)</td>
+<td>理解用 BERT; 生成用 GPT</td>
+</tr>
+<tr>
+<td>Input (输入)</td>
+<td>[CLS] + text + [SEP]</td>
+<td>顺序 prompt</td>
+<td>BERT 需要特殊 token</td>
+</tr>
+</tbody>
+</table>
+<h3>Pre-training vs Fine-tuning (预训练 vs 微调)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Pre-training (预训练)</th>
+<th>Fine-tuning (微调)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data (数据)</td>
+<td>海量无标注文本</td>
+<td>少量任务特定标注数据</td>
+<td>Wikipedia 25亿词 vs 1000条标注情感</td>
+</tr>
+<tr>
+<td>Objective (目标)</td>
+<td>MLM + NSP (通用语言理解)</td>
+<td>任务特定损失函数</td>
+<td>掩码预测 vs 情感分类交叉熵</td>
+</tr>
+<tr>
+<td>Runs (执行次数)</td>
+<td>一次 (非常昂贵)</td>
+<td>每个任务一次 (便宜)</td>
+<td>预训练需TPU; 微调用单GPU</td>
+</tr>
+<tr>
+<td>Weights (权重)</td>
+<td>从零开始学习</td>
+<td>用预训练权重初始化</td>
+<td>站在巨人(预训练)肩膀上</td>
+</tr>
+</tbody>
+</table>
+<h3>Extractive vs Abstractive QA (抽取式 vs 生成式问答)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Extractive (抽取式)</th>
+<th>Abstractive (生成式)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Answer source (答案来源)</td>
+<td>段落中的精确片段</td>
+<td>生成新文本</td>
+<td>抽取: 直接摘出; 生成: 重新组织</td>
+</tr>
+<tr>
+<td>Model (模型)</td>
+<td>BERT / Encoder-only</td>
+<td>GPT / Encoder-Decoder</td>
+<td>BERT做抽取; T5做生成</td>
+</tr>
+<tr>
+<td>Evaluation (评估指标)</td>
+<td>EM + F1 (token级别)</td>
+<td>ROUGE / BLEU</td>
+<td>EM=精确匹配; ROUGE=摘要</td>
+</tr>
+<tr>
+<td>Example (例子)</td>
+<td>SQuAD 数据集</td>
+<td>摘要式QA</td>
+<td>Q→段落中提取 vs Q→生成新答案</td>
+</tr>
+</tbody>
+</table>
+<h3>SQuAD Model Benchmarks (SQuAD 模型基准)</h3>
+<table>
+<thead>
+<tr>
+<th>Model (模型)</th>
+<th>EM</th>
+<th>F1</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BiDAF</td>
+<td>67.7</td>
+<td>77.3</td>
+<td>LSTM+注意力时代 (2016-2018)</td>
+</tr>
+<tr>
+<td>BERT-base</td>
+<td>80.8</td>
+<td>88.5</td>
+<td>Transformer 时代开始</td>
+</tr>
+<tr>
+<td>BERT-large</td>
+<td>84.1</td>
+<td>90.9</td>
+<td>⚠️ BERT在EM上超越人类!</td>
+</tr>
+<tr>
+<td>Human (人类)</td>
+<td>82.3</td>
+<td>91.2</td>
+<td>但人类推理能力仍更强</td>
+</tr>
+<tr>
+<td>RoBERTa</td>
+<td>88.9</td>
+<td>94.6</td>
+<td>BERT的优化版</td>
+</tr>
+<tr>
+<td>ALBERT</td>
+<td>89.3</td>
+<td>94.8</td>
+<td>参数共享的轻量BERT</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>QA Evaluation Metrics (QA 评估指标)</h3>
+<table>
+<thead>
+<tr>
+<th>Metric (指标)</th>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EM (Exact Match, 精确匹配)</td>
+<td>$\text{EM} = \mathbb{1}[\text{pred} = \text{truth}]$</td>
+<td>严格二值：完全匹配=1，否则=0</td>
+<td>pred="2018", truth="2018" → EM=1</td>
+</tr>
+<tr>
+<td>F1 (Token-level)</td>
+<td>$F_1 = \frac{2 \times P \times R}{P + R}$</td>
+<td>精确率和召回率的调和平均 (部分得分)</td>
+<td>pred和truth有5个重叠token → F1&gt;0</td>
+</tr>
+<tr>
+<td>Precision (精确率)</td>
+<td>$P = \frac{|\text{pred} \cap \text{truth}|}{|\text{pred}|}$</td>
+<td>预测的 token 中有多少是正确的</td>
+<td>pred 4个词, 3个正确 → P=0.75</td>
+</tr>
+<tr>
+<td>Recall (召回率)</td>
+<td>$R = \frac{|\text{pred} \cap \text{truth}|}{|\text{truth}|}$</td>
+<td>正确答案的 token 中找到了多少</td>
+<td>truth 5个词, 找到3个 → R=0.6</td>
+</tr>
+</tbody>
+</table>
+<h3>BERT Input Format (BERT 输入格式)</h3>
+<table>
+<thead>
+<tr>
+<th>Component (组件)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[CLS] sent_A [SEP] sent_B [SEP]</td>
+<td>BERT 标准输入格式</td>
+<td>[CLS] How old are you [SEP] I am 20 [SEP]</td>
+</tr>
+<tr>
+<td>Token + Segment + Position Embedding</td>
+<td>三种嵌入相加得到最终输入表示</td>
+<td>每个 token 同时有词义+句段+位置信息</td>
+</tr>
+<tr>
+<td>Segment A = 0, Segment B = 1</td>
+<td>区分两个句子段</td>
+<td>问题=Segment 0; 上下文=Segment 1</td>
+</tr>
+</tbody>
+</table>
+<h3>BERT Pre-training Loss (预训练损失)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{MLM}} + \mathcal{L}_{\text{NSP}}$</td>
+<td>总损失 = 掩码语言模型损失 + 下一句预测损失</td>
+<td>两个任务联合训练</td>
+</tr>
+</tbody>
+</table>
+<h3>Long Passage Handling (长文本处理)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter (参数)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_length=512</code></td>
+<td>BERT 最大输入长度限制</td>
+<td>超过512 token 必须截断或分段</td>
+</tr>
+<tr>
+<td><code>truncation="only_second"</code></td>
+<td>只截断上下文(第二个输入)，保留完整问题</td>
+<td>问题短不截; 段落长截断</td>
+</tr>
+<tr>
+<td><code>stride=25</code></td>
+<td>滑动窗口步长，让长段落分块时有重叠</td>
+<td>避免答案恰好在分割边界丢失</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key BERT Distinctions (关键BERT区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT 输入 = [CLS] + text_A + [SEP] + text_B + [SEP]</td>
+<td>固定格式；[CLS] 用于分类聚合</td>
+<td><code>[CLS] How old are you [SEP] I am 20 [SEP]</code></td>
+</tr>
+<tr>
+<td>WordPiece 处理 OOV</td>
+<td>"playing" → "play" + "##ing" (子词分词)</td>
+<td>"unhappiness" → "un" + "##hap" + "##pi" + "##ness"</td>
+</tr>
+<tr>
+<td><code>padding=True, truncation=True</code></td>
+<td>批处理时必须同时设置两者</td>
+<td>长度5,8,12的句子 → 全部padding到12</td>
+</tr>
+<tr>
+<td><code>num_labels=2</code> 在分类头</td>
+<td>必须匹配任务的类别数</td>
+<td>二分类情感→2; 5星评分→5</td>
+</tr>
+<tr>
+<td><code>max_length=512</code> 是BERT硬限制</td>
+<td>超过512 token 必须截断; 用 stride 处理长文本</td>
+<td>1000词文档 → 只用前512 tokens</td>
+</tr>
+<tr>
+<td>MLM 15% masking 的三种策略</td>
+<td>80% [MASK] + 10% 随机词 + 10% 保持不变 → 防止模型只依赖 [MASK]</td>
+<td>"store" → 80%→[MASK]; 10%→"running"; 10%→"store"</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Lab 4 Conclusions (实验4结论)</h3>
+<table>
+<thead>
+<tr>
+<th>Conclusion (结论)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>微调 DistilBERT &gt; TF-IDF + LogReg</td>
+<td>上下文嵌入优于词袋模型，特别是处理否定等语义</td>
+<td>"not bad" → DistilBERT正确; TF-IDF误判</td>
+</tr>
+<tr>
+<td>DistilBERT = 97% BERT, 40% 更小</td>
+<td>部署首选，实用权衡最佳</td>
+<td>66M vs 110M params; 推理快2倍</td>
+</tr>
+<tr>
+<td>基线对比是<strong>必须的</strong></td>
+<td>没有基线 → 无法声称改进</td>
+<td>表格: TF-IDF 85% → DistilBERT 91% = +6%</td>
+</tr>
+<tr>
+<td>混淆矩阵揭示逐类弱点</td>
+<td>不平衡类别 → 检查每类指标</td>
+<td>总体 90% 但 neutral recall=20%</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W10 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extractive QA 的答案可以不在段落中?</td>
+<td>❌ 答案<strong>必须</strong>在段落中! Abstractive QA 才是生成新文本</td>
+<td>BERT 提取 start/end 位置 → 段落子串</td>
+</tr>
+<tr>
+<td>BERT 可以做文本生成?</td>
+<td>❌ BERT 是 Encoder-only → 只做理解任务! 生成用 GPT (Decoder)</td>
+<td>BERT→分类/NER/QA; GPT→文本生成</td>
+</tr>
+<tr>
+<td>EM=精确匹配 和 F1 含义一样?</td>
+<td>❌ EM=严格(0或1); F1=部分得分(token重叠)</td>
+<td>pred:"November 2018"; truth:"2018" → EM=0, F1=0.5</td>
+</tr>
+<tr>
+<td>BERT 超越人类说明 AI 更聪明?</td>
+<td>❌ BERT 在 SQuAD EM超越人类，但人类推理能力仍更强</td>
+<td>BERT EM=84.1 vs Human EM=82.3 但trick questions仍失败</td>
+</tr>
+<tr>
+<td>BERT 可以处理任意长度文本?</td>
+<td>❌ 最大512 tokens! 长文本需要截断或滑动窗口(stride)</td>
+<td><code>max_length=512, stride=25</code></td>
+</tr>
+<tr>
+<td>MLM 只用 [MASK] 替换?</td>
+<td>❌ 80% [MASK] + 10% 随机词 + 10% 保持不变; 避免预训练-微调不匹配</td>
+<td>微调时没有 [MASK] → 需要模型也能处理正常词</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W12: LLM &amp; RAG (大语言模型 &amp; 检索增强生成)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>LLM Core Concepts (LLM 核心概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM (大语言模型)</td>
+<td>参数量 &gt;1B 的大规模语言模型，基于 Transformer 架构，在海量文本上训练，能理解并生成类人文本</td>
+<td>GPT-4, LLaMA-70B, Qwen2.5</td>
+</tr>
+<tr>
+<td>Foundation Model (基础模型)</td>
+<td>在广泛数据上预训练的通用模型，可适配多种下游任务</td>
+<td>GPT-4 可做翻译/摘要/代码/问答</td>
+</tr>
+<tr>
+<td>Token (词元)</td>
+<td>LLM 处理文本的基本单位，由分词器 (tokenizer) 切分，非严格等于"词"</td>
+<td>"unhappiness" 可能被切成 3-4 个 token</td>
+</tr>
+<tr>
+<td>Context Window (上下文窗口)</td>
+<td>LLM 一次能处理的最大 token 数，包括 prompt + 对话历史 + 生成响应</td>
+<td>GPT-4: 128K tokens; BERT: 512 tokens</td>
+</tr>
+<tr>
+<td>Parameters (参数)</td>
+<td>模型中可学习的权重数量，决定模型容量和内存需求</td>
+<td>BERT:340M; LLaMA-70B:70B; GPT-4:~200B</td>
+</tr>
+<tr>
+<td>Hallucination (幻觉)</td>
+<td>模型自信地生成看似合理但事实上不正确的信息——LLM 的核心风险</td>
+<td>"BERT was released in 2020" (实际是2018)</td>
+</tr>
+<tr>
+<td>Temperature (温度)</td>
+<td>控制生成随机性：0→确定性(始终选最高概率); 1→创造性(更多样化)</td>
+<td>T=0: 总是"Paris"; T=1: 可能说"Lyon"</td>
+</tr>
+<tr>
+<td>Top-k / Top-p</td>
+<td>采样策略：Top-k 限制候选为 k 个最高概率 token; Top-p 限制累积概率达到 p</td>
+<td>Top-k=50: 从50个最可能中选; Top-p=0.9: 保留90%概率质量</td>
+</tr>
+</tbody>
+</table>
+<h3>LLM Types (LLM 类型)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General-purpose LLM (通用LLM)</td>
+<td>在广泛数据上训练的通用任务模型</td>
+<td>GPT 系列</td>
+</tr>
+<tr>
+<td>Instruction-tuned LLM (指令微调LLM)</td>
+<td>在指令-响应对上微调，更好地遵循人类指令</td>
+<td>AllenNLP's 指令微调模型</td>
+</tr>
+<tr>
+<td>Dialogue-tuned LLM (对话微调LLM)</td>
+<td>专门为多轮对话场景优化</td>
+<td>Microsoft DialoGPT</td>
+</tr>
+<tr>
+<td>Domain-specific LLM (领域特定LLM)</td>
+<td>在特定领域 (医学/法律/金融) 数据上训练或微调</td>
+<td>BioBERT (生物医学)</td>
+</tr>
+</tbody>
+</table>
+<h3>LLM Training (LLM 训练)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ChatGPT Training (ChatGPT训练)</td>
+<td>预训练 → RLHF (人类反馈强化学习) → 部署；通过人类评评价对齐行为</td>
+<td>预训练→SFT→Reward Model→PPO</td>
+</tr>
+<tr>
+<td>Constitutional AI (宪法AI, CAI)</td>
+<td>Anthropic 提出的现代对齐方法 (Claude, GPT-4o)，用原则而非人类反馈来约束模型</td>
+<td>模型自我审查是否违反预设"宪法"原则</td>
+</tr>
+</tbody>
+</table>
+<h3>LLM Limitations (LLM 局限)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge Cutoff (知识截止)</td>
+<td>LLM 知识受限于预训练数据的截止日期，无法获取最新信息</td>
+<td>"Who is the current PM?" → 可能给出过时答案</td>
+</tr>
+<tr>
+<td>Limited Context Size (有限上下文)</td>
+<td>超过上下文窗口的内容会被截断或丢失</td>
+<td>处理100页PDF → 只能看前几页</td>
+</tr>
+<tr>
+<td>Pricing Per Token (按Token定价)</td>
+<td>商用 API 按输入/输出 token 数量收费</td>
+<td>1M tokens 输入 ≈ $2.50 (GPT-4o)</td>
+</tr>
+<tr>
+<td>Energy Consumption (能源消耗)</td>
+<td>训练和推理 LLM 消耗大量计算资源和电力</td>
+<td>训练 GPT-3 ≈ 1,287 MWh</td>
+</tr>
+<tr>
+<td>No Real Understanding (无真正理解)</td>
+<td>LLM 做模式匹配而非推理，不理解因果关系</td>
+<td>9.11 &gt; 9.9? LLM可能回答Yes (字符串比较)</td>
+</tr>
+<tr>
+<td>Privacy Risks (隐私风险)</td>
+<td>可能记忆并泄漏训练数据中的敏感信息</td>
+<td>训练数据含邮箱/电话 → 可能被提取</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG Architecture (RAG 架构)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG (检索增强生成)</td>
+<td>检索相关文档 → 增强提示 → 生成基于文档的答案；解决LLM知识过时和幻觉问题</td>
+<td>动机: 领域精确/数据更新/可追溯/成本可控/隐私保护</td>
+</tr>
+<tr>
+<td>Knowledge Base (知识库)</td>
+<td>RAG 的前提条件：收集文档 → 分块 → 嵌入 → 存入向量数据库</td>
+<td>Collect → Divide → Embed → Store</td>
+</tr>
+<tr>
+<td>Chunking (分块)</td>
+<td>把长文档切成小段用于嵌入，方法: 固定大小 / 按自然边界 (段落/句子)</td>
+<td>固定512 tokens vs 按段落分割</td>
+</tr>
+<tr>
+<td>Embedding Model (嵌入模型)</td>
+<td>把文本块转换为稠密向量用于语义搜索</td>
+<td>[0.48, 0.33, ..., -0.51]</td>
+</tr>
+<tr>
+<td>Vector Store (向量数据库)</td>
+<td>存储文档嵌入的专用数据库，支持高效相似度搜索</td>
+<td>Chroma, Weaviate, Milvus, Qdrant, Faiss</td>
+</tr>
+<tr>
+<td>Retriever (检索器)</td>
+<td>用查询嵌入在向量数据库中搜索最相关的文档块</td>
+<td>query embedding → cosine similarity → top-k chunks</td>
+</tr>
+<tr>
+<td>Generator (生成器)</td>
+<td>LLM 根据检索到的上下文生成基于文档的答案</td>
+<td>prompt = context + question → LLM → answer</td>
+</tr>
+<tr>
+<td>Prompt Template (提示模板)</td>
+<td>RAG 中组合上下文和问题的固定模板</td>
+<td>"Answer based on context: {context}\nQuestion: {question}"</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG Frameworks (RAG 框架)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain (链式框架)</td>
+<td>模块化 LLM 集成框架：链接多个服务、目标驱动代理、记忆持久化、开源</td>
+<td>链接: 检索→嵌入→LLM→后处理</td>
+</tr>
+<tr>
+<td>HELM (全面评估)</td>
+<td>斯坦福的 LLM 全面评估框架，从6个维度评估: 准确/校准/鲁棒/公平/偏见/效率</td>
+<td>Holistic Evaluation of Language Models</td>
+</tr>
+</tbody>
+</table>
+<h3>LLM Deployment (LLM 部署)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ollama (本地部署工具)</td>
+<td>最简单的本地 LLM 运行工具，一条命令部署</td>
+<td><code>ollama pull llama3.3:8b</code></td>
+</tr>
+<tr>
+<td>vLLM (高效推理引擎)</td>
+<td>使用 PagedAttention 优化 GPU 内存的生产级推理引擎，支持多GPU</td>
+<td>生产部署首选</td>
+</tr>
+<tr>
+<td>HuggingFace (模型平台)</td>
+<td>模型/数据集/实验的一站式平台，支持 Accelerate 多GPU</td>
+<td>研究和微调首选</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>LLM Model Comparison (LLM 模型对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Model (模型)</th>
+<th>Parameters (参数)</th>
+<th>Size FP32</th>
+<th>Memory FP16</th>
+<th>Training Data</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT-large</td>
+<td>340M</td>
+<td>~1.3 GB</td>
+<td>~1.5-2 GB</td>
+<td>3.3B words</td>
+<td>理解任务基线</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>~200B</td>
+<td>~350 GB</td>
+<td>~400 GB</td>
+<td>~300B tokens</td>
+<td>最强商用模型</td>
+</tr>
+<tr>
+<td>LLaMA-13B</td>
+<td>13B</td>
+<td>~26 GB</td>
+<td>~26 GB</td>
+<td>~1T tokens</td>
+<td>中等开源模型</td>
+</tr>
+<tr>
+<td>LLaMA-70B</td>
+<td>70B</td>
+<td>~140 GB</td>
+<td>~140 GB</td>
+<td>~1T tokens</td>
+<td>大型开源模型</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td>7B</td>
+<td>~14 GB</td>
+<td>~14 GB</td>
+<td>~1T tokens</td>
+<td>高效小模型</td>
+</tr>
+</tbody>
+</table>
+<h3>LLM Deployment Tools (部署工具对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Ollama</th>
+<th>vLLM</th>
+<th>HuggingFace</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ease of use (易用性)</td>
+<td>✅ 最简单</td>
+<td>中等</td>
+<td>复杂</td>
+<td>Ollama: 一条命令; HF: 需要代码</td>
+</tr>
+<tr>
+<td>GPU optimization (GPU优化)</td>
+<td>基本</td>
+<td>✅ PagedAttention</td>
+<td>✅ Accelerate</td>
+<td>vLLM 内存效率最高</td>
+</tr>
+<tr>
+<td>Multi-GPU (多GPU)</td>
+<td>❌ 不支持</td>
+<td>✅ 支持</td>
+<td>✅ 支持</td>
+<td>70B模型需要多GPU</td>
+</tr>
+<tr>
+<td>Best for (适合)</td>
+<td>本地开发/测试</td>
+<td>生产部署</td>
+<td>研究/微调</td>
+<td>根据场景选择</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG vs Pure LLM (RAG vs 纯LLM)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Pure LLM (纯LLM)</th>
+<th>RAG (检索增强)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge (知识)</td>
+<td>仅训练数据 (静态)</td>
+<td>动态 (检索最新文档)</td>
+<td>RAG 可以访问最新信息</td>
+</tr>
+<tr>
+<td>Hallucination (幻觉)</td>
+<td>⚠️ 风险高</td>
+<td>✅ 基于文档回答 (减少)</td>
+<td>无RAG: "2020" (错); 有RAG: "2018" (对)</td>
+</tr>
+<tr>
+<td>Domain knowledge (领域知识)</td>
+<td>❌ 有限</td>
+<td>✅ 自定义知识库</td>
+<td>公司内部文档 → RAG 可用</td>
+</tr>
+<tr>
+<td>Transparency (透明度)</td>
+<td>❌ 黑箱</td>
+<td>✅ 可展示源文档</td>
+<td>"According to Chapter 3, page 45..."</td>
+</tr>
+<tr>
+<td>Cost (成本)</td>
+<td>高 (需更大模型)</td>
+<td>低 (小模型+检索)</td>
+<td>Qwen 0.5B + RAG ≈ GPT-4 on domain QA</td>
+</tr>
+</tbody>
+</table>
+<h3>8GB vs 16GB RAM 可运行的开源模型</h3>
+<table>
+<thead>
+<tr>
+<th>RAM</th>
+<th>Model (模型)</th>
+<th>Size (大小)</th>
+<th>Ollama Command</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8GB</td>
+<td>Llama 3.3 8B</td>
+<td>4.9 GB</td>
+<td><code>ollama pull llama3.3:8b</code></td>
+<td>笔记本/低端PC</td>
+</tr>
+<tr>
+<td>8GB</td>
+<td>Mistral 7B</td>
+<td>4.1 GB</td>
+<td><code>ollama pull mistral:7b</code></td>
+<td>高效通用</td>
+</tr>
+<tr>
+<td>16GB</td>
+<td>DeepSeek R1 14B</td>
+<td>~9 GB</td>
+<td><code>ollama pull deepseek-r1:14b</code></td>
+<td>思维链QA</td>
+</tr>
+<tr>
+<td>16GB</td>
+<td>Qwen 2.5 14B</td>
+<td>~9 GB</td>
+<td><code>ollama pull qwen2.5:14b</code></td>
+<td>多语言QA</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Retrieval Evaluation Metrics (检索评估指标)</h3>
+<table>
+<thead>
+<tr>
+<th>Metric (指标)</th>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Precision@k</td>
+<td>$P@k = \frac{\text{relevant in top-}k}{k}$</td>
+<td>top-k 中相关文档的比例</td>
+<td>top-5 中 3 个相关 → P@5=0.6</td>
+</tr>
+<tr>
+<td>Recall@k</td>
+<td>$R@k = \frac{\text{relevant in top-}k}{\text{total relevant}}$</td>
+<td>所有相关文档中被检索到的比例</td>
+<td>10个相关文档中找到3个 → R@5=0.3</td>
+</tr>
+<tr>
+<td>MRR (Mean Reciprocal Rank)</td>
+<td>$\text{MRR} = \frac{1}{\text{rank of first relevant}}$</td>
+<td>第一个相关结果的排名倒数</td>
+<td>第一个相关在第2位 → MRR=0.5</td>
+</tr>
+<tr>
+<td>NDCG@k</td>
+<td>$\text{NDCG}@k = \frac{\text{DCG}@k}{\text{IDCG}@k}$</td>
+<td>归一化折损累积增益，考虑排序质量</td>
+<td>DCG=4.28, IDCG=5.19 → NDCG≈0.82</td>
+</tr>
+<tr>
+<td>DCG@k</td>
+<td>$\text{DCG}@k = \sum_{i=1}^{k} \frac{rel_i}{\log_2(i+1)}$</td>
+<td>折损累积增益：排名越靠后惩罚越大</td>
+<td>rel=[1,3,2,0,1] → 1+1.89+1+0+0.39=4.28</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG Pipeline Steps (RAG 流水线步骤)</h3>
+<table>
+<thead>
+<tr>
+<th>Step (步骤)</th>
+<th>Operation (操作)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Parsing (解析)</td>
+<td>文档解析为文本</td>
+<td>PDF/HTML/DOCX → 纯文本</td>
+<td>PyMuPDF 提取 PDF 文本</td>
+</tr>
+<tr>
+<td>2. Chunking (分块)</td>
+<td>文本切分为块</td>
+<td>固定大小 or 自然边界</td>
+<td>256-512 tokens + 50 overlap</td>
+</tr>
+<tr>
+<td>3. Embedding (嵌入)</td>
+<td>块 → 向量 → 存入向量DB</td>
+<td>文本 → [0.48, 0.33, ...]</td>
+<td>Sentence-BERT 编码</td>
+</tr>
+<tr>
+<td>4. Retrieval (检索)</td>
+<td>查询嵌入 → 相似搜索 → top-k</td>
+<td>cosine similarity → 最相关块</td>
+<td>top-5 chunks</td>
+</tr>
+<tr>
+<td>5. Augment (增强)</td>
+<td>检索结果插入 prompt</td>
+<td>context + question → LLM</td>
+<td>"Based on: {chunks}\nQ: {question}"</td>
+</tr>
+<tr>
+<td>6. Generate (生成)</td>
+<td>LLM 基于上下文生成答案</td>
+<td>有据可依的回答</td>
+<td>"According to the document..."</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key RAG Distinctions (关键RAG区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temperature=0 → 确定性</td>
+<td>Temperature=1 → 创造性/随机</td>
+<td>T=0: 总是"Paris"; T=1: 可能说"Lyon"</td>
+</tr>
+<tr>
+<td>Top-k 限制候选 token 数</td>
+<td>Top-p 按累积概率限制</td>
+<td>Top-k=50: 50个最可能; Top-p=0.9: 保留90%概率</td>
+</tr>
+<tr>
+<td>Chunk 太小 → 丢失上下文</td>
+<td>Chunk 太大 → 噪声稀释答案</td>
+<td>50字: 太短信息不完整; 5000字: 无关信息混入</td>
+</tr>
+<tr>
+<td>RAG ≠ Fine-tuning</td>
+<td>RAG = 运行时外部检索; Fine-tune = 修改模型权重</td>
+<td>RAG: 搜索文档; Fine-tune: 重训模型</td>
+</tr>
+<tr>
+<td>NDCG@k 评估检索排序质量</td>
+<td>不仅考虑是否检索到，还考虑排序是否正确</td>
+<td>相关文档排第1位 &gt; 排第5位</td>
+</tr>
+<tr>
+<td>向量数据库选择影响性能</td>
+<td>Chroma(简单), Faiss(快速), Milvus(分布式) → 根据场景选</td>
+<td>本地开发: Chroma; 生产: Milvus</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Assignment 2 Conclusions (作业2结论): RAG System</h3>
+<table>
+<thead>
+<tr>
+<th>Conclusion (结论)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG 减少幻觉</td>
+<td>答案基于文档，有据可依</td>
+<td>无RAG: "2020"(错); 有RAG: "2018"(对)</td>
+</tr>
+<tr>
+<td>小模型 (0.5B) + RAG 可以有效</td>
+<td>不需要巨大模型做领域 QA</td>
+<td>Qwen2.5-0.5B + RAG ≈ GPT-4 on domain QA</td>
+</tr>
+<tr>
+<td>Chunk size 至关重要</td>
+<td>太小→丢上下文; 太大→噪声</td>
+<td>最优: 256-512 tokens + 50 token overlap</td>
+</tr>
+<tr>
+<td>显示来源建立用户信任</td>
+<td>用户可以对照文档验证答案</td>
+<td>"According to Chapter 3, page 45: ..."</td>
+</tr>
+<tr>
+<td>内存约束: &lt;1.5 GB 3组件共存</td>
+<td>Whisper + Ollama + gTTS 必须同时运行</td>
+<td>Whisper~0.4G + Qwen~0.4G + gTTS~0.1G ≈ 0.9G</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W12 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM "理解"语言?</td>
+<td>❌ 模式匹配，非推理! 没有真正的因果理解</td>
+<td>9.11 &gt; 9.9? LLM可能说Yes (字符串比较非数学)</td>
+</tr>
+<tr>
+<td>更多参数一定更好?</td>
+<td>❌ DistilBERT (66M) ≈ BERT (110M) 多数任务</td>
+<td>参数多不一定好; 有时小模型+RAG更实用</td>
+</tr>
+<tr>
+<td>RAG 完全解决幻觉?</td>
+<td>❌ 减少但不消除! 可能检索到错误段落仍会幻觉</td>
+<td>RAG检索了错误chunk → 仍可能生成错误答案</td>
+</tr>
+<tr>
+<td>LLM 知识是最新的?</td>
+<td>❌ 训练数据有截止日期! 之后的事件不知道</td>
+<td>问2026年的事 → 2024训练截止的模型不知道</td>
+</tr>
+<tr>
+<td>Temperature 越高越好?</td>
+<td>❌ 高→创造性但不准确; 低→准确但单调；精确QA用低T</td>
+<td>事实问答: T=0; 创意写作: T=0.7-1.0</td>
+</tr>
+<tr>
+<td>RAG = Fine-tuning?</td>
+<td>❌ 完全不同! RAG=运行时检索文档; Fine-tuning=修改模型权重</td>
+<td>RAG不改模型; Fine-tuning改模型</td>
+</tr>
+</tbody>
+</table></div>
+<div class="week-block"><h1>W13: LLM Compression &amp; Prompt Engineering (LLM压缩 &amp; 提示工程)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Model Compression (模型压缩)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Compression (模型压缩)</td>
+<td>在不显著损失准确性的前提下，减小模型体积和计算成本的技术，实现低成本高效部署</td>
+<td>三种主要技术: 量化、剪枝、蒸馏</td>
+</tr>
+<tr>
+<td>Quantization (量化)</td>
+<td>降低权重数值精度：FP32→FP16→INT8→INT4；无需重训练，直接压缩模型</td>
+<td>65B×4B=260GB(FP32) → 65B×1B=65GB(INT8)</td>
+</tr>
+<tr>
+<td>FP32 / FP16 / INT8 / INT4</td>
+<td>不同精度格式：FP32=32位浮点(1+8+23); FP16=半精度; INT8=8位整数; INT4=4位</td>
+<td>FP32: N×4字节; FP16: N×2; INT8: N×1; INT4: N×0.5</td>
+</tr>
+<tr>
+<td>Dynamic Quantization (动态量化)</td>
+<td>训练后直接对已有模型做量化，无需额外训练数据</td>
+<td><code>torch.quantization.quantize_dynamic(model, {nn.Linear}, dtype=qint8)</code></td>
+</tr>
+<tr>
+<td>Binarized Neural Network (二值化网络)</td>
+<td>极端量化: 权重只用1-bit表示 (0或1)，体积可缩小32倍</td>
+<td>Microsoft BitNet: 1-bit 权重量化</td>
+</tr>
+<tr>
+<td>Knowledge Distillation (知识蒸馏)</td>
+<td>训练小"学生"模型模仿大"教师"模型的输出分布，保留大部分性能</td>
+<td>BERT(teacher) → DistilBERT(student): 97%性能, 60%更小</td>
+</tr>
+<tr>
+<td>Teacher Model (教师模型)</td>
+<td>蒸馏中提供知识的大模型，产生 soft predictions 用于指导学生</td>
+<td>BERT-large (340M params)</td>
+</tr>
+<tr>
+<td>Student Model (学生模型)</td>
+<td>蒸馏中学习知识的小模型，从教师的软标签中学习</td>
+<td>DistilBERT (66M params)</td>
+</tr>
+<tr>
+<td>Pruning (剪枝)</td>
+<td>移除不重要的权重/神经元/层；基于幅值(Magnitude-Based)裁剪训练后的模型</td>
+<td>移除90%的小权重 → 需重训来恢复准确率</td>
+</tr>
+<tr>
+<td>Structured vs Unstructured Pruning</td>
+<td>结构化: 移除整个神经元/层; 非结构化: 单独权重置零</td>
+<td>结构化硬件友好; 非结构化压缩率更高</td>
+</tr>
+</tbody>
+</table>
+<h3>Transfer Learning &amp; PEFT (迁移学习与参数高效微调)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transfer Learning (迁移学习)</td>
+<td>冻结预训练模型，只训练新加的分类头 (0.1%参数)，最快最节省</td>
+<td>冻结BERT→加Dense层→训练分类</td>
+</tr>
+<tr>
+<td>Full Fine-tuning (全量微调)</td>
+<td>调整模型的全部参数 (100%)，效果最好但内存极高，存在灾难性遗忘风险</td>
+<td>7B模型全量微调需要大量GPU内存</td>
+</tr>
+<tr>
+<td>SFT (Supervised Fine-Tuning, 监督微调)</td>
+<td>在指令-响应对上做监督微调，GPT-3用1.3万条，LLaMA 3用1000万条</td>
+<td>高质量标注数据的数量决定微调效果</td>
+</tr>
+<tr>
+<td>PEFT (Parameter-Efficient Fine-Tuning)</td>
+<td>只调少量参数的微调方法总称：Prompt/Prefix、Adapters、BitFit、LoRA</td>
+<td>不调所有参数，只调一部分!</td>
+</tr>
+<tr>
+<td>LoRA (Low-Rank Adaptation)</td>
+<td>冻结原模型，只训练两个小低秩矩阵 A(d×r) 和 B(r×d)，r=4~16，参数减98%</td>
+<td>W'=W+ΔW; ΔW=A×B; d²→2dr (r≪d)</td>
+</tr>
+<tr>
+<td>LoRA 应用位置</td>
+<td>通常应用于 Transformer 的注意力权重矩阵 Wq, Wk, Wv, Wo</td>
+<td>只在注意力层加适配器</td>
+</tr>
+<tr>
+<td>LoRA 实证发现</td>
+<td>LoRA 需要比全量微调更高的学习率；在大batch size下表现较差</td>
+<td>LoRA lr &gt; Full FT lr</td>
+</tr>
+<tr>
+<td>QLoRA</td>
+<td>LoRA + 4-bit 量化基座模型；可在消费级 GPU 上微调大模型!</td>
+<td>65B模型 → 48GB GPU 可训练!</td>
+</tr>
+</tbody>
+</table>
+<h3>Prompt Engineering (提示工程)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompt Engineering (提示工程)</td>
+<td>向 LLM 提出正确问题以获得最佳输出的技术；仅用自然语言提示即可交互</td>
+<td>提升任务表现/控制输出/减轻偏见/增强可解释性</td>
+</tr>
+<tr>
+<td>Prompt Elements (提示四要素)</td>
+<td>一个完整 prompt 由 4 部分组成: Context(上下文) + Instructions(指令) + Input(输入) + Output Indicator(输出指示)</td>
+<td>"你是数据科学家(Context), 做情感分析(Instruction), 文本:…(Input), Sentiment:(Output)"</td>
+</tr>
+<tr>
+<td>Zero-shot (零样本提示)</td>
+<td>只给任务指令，不给任何示例，依靠模型自身知识</td>
+<td>"Translate: Hello → French" → "Bonjour"</td>
+</tr>
+<tr>
+<td>One-shot (单样本提示)</td>
+<td>任务指令 + 1个示例，给模型格式参考</td>
+<td>"'great!'→Positive. Classify: 'okay'"</td>
+</tr>
+<tr>
+<td>Few-shot (少样本提示)</td>
+<td>任务指令 + 2-5个示例，适合复杂或歧义任务</td>
+<td>GPT-3论文: "Language Models are Few-Shot Learners"</td>
+</tr>
+<tr>
+<td>Chain-of-Thought (思维链, CoT)</td>
+<td>"Let's think step by step" → 强制模型展示推理过程，适合数学/逻辑/多步骤问题</td>
+<td>"5-2=? Step1:从5开始 Step2:减2 Step3:答案3"</td>
+</tr>
+<tr>
+<td>Chain Prompts (链式提示)</td>
+<td>多个 prompt 串联处理复杂任务，前一步输出作为后一步输入</td>
+<td>步骤1:提取关键词 → 步骤2:根据关键词分类</td>
+</tr>
+<tr>
+<td>Role-Based Prompting (角色提示)</td>
+<td>"You are a [domain expert]..." → 赋予模型特定角色身份以获得领域专业回答</td>
+<td>"You are a hiring manager. Conduct a mock interview."</td>
+</tr>
+<tr>
+<td>Persona-Guided Prompting (人格引导)</td>
+<td>赋予模型特定历史人物/名人的写作风格和性格</td>
+<td>"You are Shakespeare. Write a poem about night."</td>
+</tr>
+<tr>
+<td>System Prompt (系统提示)</td>
+<td>设定模型的人格、约束和行为规范的特殊提示</td>
+<td>"你是一个礼貌的助手，不回答政治问题"</td>
+</tr>
+</tbody>
+</table>
+<h3>Prompt Best Practices (提示最佳实践)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 Best Practices (10条最佳实践)</td>
+<td>1.具体清晰 2.提供上下文 3.分解任务 4.用CoT推理 5.尝试few-shot 6.用角色提示 7.要求澄清 8.注意偏见 9.要求结构化输出 10.迭代优化</td>
+<td>持续调整 prompt 是关键</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Quantization vs Pruning vs Distillation (压缩三法对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Quantization (量化)</th>
+<th>Pruning (剪枝)</th>
+<th>Distillation (蒸馏)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it does (做什么)</td>
+<td>降低数值精度 (FP32→INT8)</td>
+<td>移除不重要的连接/权重</td>
+<td>训练小模型模仿大模型</td>
+<td>精度↓ vs 连接↓ vs 全新模型</td>
+</tr>
+<tr>
+<td>Parameters changed (参数变化)</td>
+<td>不改变参数值，只改精度</td>
+<td>部分参数置零，其余不变</td>
+<td>所有参数都改变 (新模型)</td>
+<td>量化保留结构; 蒸馏重新训练</td>
+</tr>
+<tr>
+<td>Re-training (重训练)</td>
+<td>❌ 训练后直接压缩</td>
+<td>⚠️ 可能需要重训练</td>
+<td>✅ 需要完整训练周期</td>
+<td>量化最快; 蒸馏最慢</td>
+</tr>
+<tr>
+<td>Size reduction (体积缩小)</td>
+<td>~2-8×</td>
+<td>~2-10×</td>
+<td>取决于学生模型设计</td>
+<td>INT8≈4×; INT4≈8×</td>
+</tr>
+<tr>
+<td>Quality loss (质量损失)</td>
+<td>FP16极小; INT4中等</td>
+<td>可能显著 (需重训)</td>
+<td>取决于学生模型大小</td>
+<td>BERT FP16:99.5%; INT4:~95%</td>
+</tr>
+<tr>
+<td>Example (示例)</td>
+<td>BERT FP32→INT8: 1.3G→340MB</td>
+<td>移除90%权重→重训</td>
+<td>BERT→DistilBERT: 97%性能</td>
+<td>各方法优缺互补</td>
+</tr>
+</tbody>
+</table>
+<h3>Transfer Learning vs Full Fine-tuning vs LoRA</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Transfer Learning (迁移学习)</th>
+<th>Full Fine-tuning (全量微调)</th>
+<th>LoRA (低秩适配)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What changes (改什么)</td>
+<td>冻结基座 + 训练分类头</td>
+<td>所有参数</td>
+<td>小适配矩阵 (A, B)</td>
+<td>调的参数量不同</td>
+</tr>
+<tr>
+<td>Parameters trained (训练参数)</td>
+<td>~0.1%</td>
+<td>100%</td>
+<td>~0.1-1%</td>
+<td>LoRA 极省内存</td>
+</tr>
+<tr>
+<td>Memory (内存)</td>
+<td>低</td>
+<td>非常高</td>
+<td>低</td>
+<td>7B全量→需40GB+; LoRA→8GB</td>
+</tr>
+<tr>
+<td>Speed (速度)</td>
+<td>快</td>
+<td>慢</td>
+<td>中等</td>
+<td>全量微调需数天</td>
+</tr>
+<tr>
+<td>Catastrophic Forgetting (灾难遗忘)</td>
+<td>低风险</td>
+<td>高风险</td>
+<td>低风险</td>
+<td>全量微调可能丢失预训练知识</td>
+</tr>
+</tbody>
+</table>
+<h3>Distilled Models (蒸馏模型案例)</h3>
+<table>
+<thead>
+<tr>
+<th>Teacher (教师)</th>
+<th>Student (学生)</th>
+<th>Size Reduction (缩小)</th>
+<th>Speed (加速)</th>
+<th>Quality (性能保留)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT</td>
+<td>DistilBERT</td>
+<td>60%</td>
+<td>2×</td>
+<td>97%</td>
+<td>实时/移动应用</td>
+</tr>
+<tr>
+<td>GPT-2</td>
+<td>DistilGPT-2</td>
+<td>60%</td>
+<td>2×</td>
+<td>97%</td>
+<td>文本生成/聊天</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>Distilled T5</td>
+<td>60%</td>
+<td>&gt;1×</td>
+<td>96%</td>
+<td>翻译/摘要/QA</td>
+</tr>
+</tbody>
+</table>
+<h3>Prompt Engineering Types (提示工程类型对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Type (类型)</th>
+<th>When to use (适用场景)</th>
+<th>Pros (优点)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zero-shot (零样本)</td>
+<td>简单任务，模型有知识</td>
+<td>最快，无需准备</td>
+<td>"Translate: Hello → French"</td>
+</tr>
+<tr>
+<td>One-shot (单样本)</td>
+<td>需要格式引导</td>
+<td>一个例子就够</td>
+<td>"'great!'→Pos. Classify: 'okay'"</td>
+</tr>
+<tr>
+<td>Few-shot (少样本)</td>
+<td>复杂/歧义任务</td>
+<td>效果最稳定</td>
+<td>2-5个标注示例 + 新输入</td>
+</tr>
+<tr>
+<td>CoT (思维链)</td>
+<td>数学/推理/多步骤</td>
+<td>强制逻辑推理</td>
+<td>"Let's think step by step..."</td>
+</tr>
+<tr>
+<td>Role-based (角色)</td>
+<td>需要领域专家回答</td>
+<td>领域匹配度高</td>
+<td>"You are a senior Python developer"</td>
+</tr>
+<tr>
+<td>Persona (人格)</td>
+<td>需要特定风格</td>
+<td>创意输出</td>
+<td>"You are Shakespeare"</td>
+</tr>
+</tbody>
+</table>
+<h3>LLM Model Sizes (模型大小对比)</h3>
+<table>
+<thead>
+<tr>
+<th>Model (模型)</th>
+<th>Params (参数)</th>
+<th>FP32</th>
+<th>FP16</th>
+<th>INT8</th>
+<th>INT4</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT-large</td>
+<td>340M</td>
+<td>1.3 GB</td>
+<td>680 MB</td>
+<td>340 MB</td>
+<td>170 MB</td>
+<td>理解任务基线</td>
+</tr>
+<tr>
+<td>LLaMA-7B</td>
+<td>7B</td>
+<td>28 GB</td>
+<td>14 GB</td>
+<td>7 GB</td>
+<td>3.5 GB</td>
+<td>消费级GPU可运行</td>
+</tr>
+<tr>
+<td>LLaMA-70B</td>
+<td>70B</td>
+<td>280 GB</td>
+<td>140 GB</td>
+<td>70 GB</td>
+<td>35 GB</td>
+<td>需多GPU</td>
+</tr>
+<tr>
+<td>Rule (规则)</td>
+<td>N params</td>
+<td>N×4</td>
+<td>N×2</td>
+<td>N×1</td>
+<td>N×0.5</td>
+<td><strong>考试必记公式</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Quantization Size Calculation (量化大小计算)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{FP32}: N_{\text{params}} \times 4 \text{ bytes}$</td>
+<td>全精度: 每个参数占4字节</td>
+<td>340M × 4 = 1.36 GB</td>
+</tr>
+<tr>
+<td>$\text{FP16}: N_{\text{params}} \times 2 \text{ bytes}$</td>
+<td>半精度: 每个参数占2字节</td>
+<td>340M × 2 = 680 MB</td>
+</tr>
+<tr>
+<td>$\text{INT8}: N_{\text{params}} \times 1 \text{ byte}$</td>
+<td>8位整数: 每个参数占1字节</td>
+<td>340M × 1 = 340 MB</td>
+</tr>
+<tr>
+<td>$\text{INT4}: N_{\text{params}} \times 0.5 \text{ bytes}$</td>
+<td>4位整数: 每个参数占0.5字节</td>
+<td>340M × 0.5 = 170 MB</td>
+</tr>
+</tbody>
+</table>
+<h3>Floating Point Format (浮点格式)</h3>
+<table>
+<thead>
+<tr>
+<th>Format (格式)</th>
+<th>Sign (符号位)</th>
+<th>Exponent (指数位)</th>
+<th>Mantissa (尾数位)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FP16</td>
+<td>1</td>
+<td>5</td>
+<td>10</td>
+<td>半精度: 16位 = 1+5+10</td>
+</tr>
+<tr>
+<td>FP32</td>
+<td>1</td>
+<td>8</td>
+<td>23</td>
+<td>单精度: 32位 = 1+8+23</td>
+</tr>
+<tr>
+<td>FP64</td>
+<td>1</td>
+<td>11</td>
+<td>52</td>
+<td>双精度: 64位 = 1+11+52</td>
+</tr>
+</tbody>
+</table>
+<h3>Distillation Loss (蒸馏损失)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathcal{L} = \alpha \cdot \mathcal{L}_{\text{hard}} + (1-\alpha) \cdot \mathcal{L}_{\text{soft}}$</td>
+<td>组合损失: hard label + soft label</td>
+<td>α 平衡两项损失</td>
+</tr>
+<tr>
+<td>$\mathcal{L}_{\text{hard}} = \text{CE}(\hat{y}_{\text{student}}, y_{\text{true}})$</td>
+<td>标准交叉熵: 学生预测 vs 真实标签</td>
+<td>监督学习部分</td>
+</tr>
+<tr>
+<td>$\mathcal{L}_{\text{soft}} = \text{KL}\!\left(\frac{\hat{y}_s}{T},\ \frac{\hat{y}_t}{T}\right)$</td>
+<td>KL散度: 学生 vs 教师的软概率分布</td>
+<td>T=温度, 越大分布越软</td>
+</tr>
+</tbody>
+</table>
+<h3>LoRA Math (LoRA 数学)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$W' = W + \Delta W$</td>
+<td>新权重 = 原始权重 + 适配器增量</td>
+<td>训练后直接加入, 无新组件</td>
+</tr>
+<tr>
+<td>$\Delta W = A \times B,\ A \in \mathbb{R}^{d \times r},\ B \in \mathbb{R}^{r \times d}$</td>
+<td>低秩分解: d²个参数 → 2dr个参数 (r≪d)</td>
+<td>r=4, d=768 → 98%参数减少</td>
+</tr>
+<tr>
+<td>$d^2 \to 2dr$</td>
+<td>参数量从 d² 降到 2dr (r 越小越节省)</td>
+<td>d=768, r=4: 590K→6K/层</td>
+</tr>
+</tbody>
+</table>
+<h2>四. Practical / Lab (实战结论)</h2>
+<h3>🔑 Key Compression Distinctions (关键压缩区别)</h3>
+<table>
+<thead>
+<tr>
+<th>Distinction (区别)</th>
+<th>Detail (详情)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量化 = 无需重训练</td>
+<td>训练后直接 FP32→INT8，~4× 更小</td>
+<td>BERT 1.3GB(FP32) → 340MB(INT8)</td>
+</tr>
+<tr>
+<td>剪枝可能需要重训练</td>
+<td>移除连接后可能降低质量，需 fine-tune 恢复</td>
+<td>移除90%权重 → 重训恢复准确率</td>
+</tr>
+<tr>
+<td>蒸馏 = 完整训练周期</td>
+<td>从头训练学生模型模仿教师</td>
+<td>BERT→DistilBERT: 保留97%质量</td>
+</tr>
+<tr>
+<td>LoRA r=4~16</td>
+<td>越小的 r = 越少参数; r太小→欠拟合</td>
+<td>r=4: 6K params/层; r=16: 24K/层</td>
+</tr>
+<tr>
+<td>QLoRA = LoRA + 4-bit量化基座</td>
+<td>在消费级 GPU 上微调大模型!</td>
+<td>65B模型 → 48GB GPU 可训练</td>
+</tr>
+<tr>
+<td>量化/剪枝/蒸馏可以组合使用</td>
+<td>三种方法互补不冲突</td>
+<td>先蒸馏得小模型→再量化→再剪枝</td>
+</tr>
+</tbody>
+</table>
+<h3>📊 Prompt Engineering Exam Templates (提示工程考试模板)</h3>
+<table>
+<thead>
+<tr>
+<th>Type (类型)</th>
+<th>Template (模板)</th>
+<th>When (适用场景)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zero-shot</td>
+<td>"Classify: '{text}'"</td>
+<td>简单任务, 模型有知识</td>
+<td>"Classify sentiment: 'I love this'" → Positive</td>
+</tr>
+<tr>
+<td>Few-shot</td>
+<td>"Ex: 'Great!'→Pos ... Classify: '{text}'"</td>
+<td>需要格式/模式引导</td>
+<td>给2-5个示例后 classify</td>
+</tr>
+<tr>
+<td>CoT</td>
+<td>"Let's think step by step..."</td>
+<td>数学, 推理, 多步骤</td>
+<td>"17×24? Step1:17×20=340 Step2:17×4=68 Answer:408"</td>
+</tr>
+<tr>
+<td>Role-based</td>
+<td>"You are a [domain] expert..."</td>
+<td>需要领域专家回答</td>
+<td>"You are a cardiologist. Explain chest pain."</td>
+</tr>
+<tr>
+<td>Persona</td>
+<td>"You are [historical figure]..."</td>
+<td>需要特定风格</td>
+<td>"You are Shakespeare. Write a poem about night."</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ W13 考试陷阱 (Exam Traps)</h3>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FP16 vs INT8 质量损失?</td>
+<td>FP16 = 极小 (99.5%); INT8 = 轻微; INT4 = 中等 (~95%)</td>
+<td>BERT FP16: 99.5% of FP32</td>
+</tr>
+<tr>
+<td>DistilBERT = 蒸馏示例</td>
+<td>97% BERT性能, 40% 更小内存, 60% 更快</td>
+<td>110M → 66M params; 推理2×快</td>
+</tr>
+<tr>
+<td>LoRA 训练所有参数?</td>
+<td>❌ 只训练小适配矩阵 (~0.1-1%)! 基座模型冻结!</td>
+<td>7B模型: 全量=7B params; LoRA=~7M params</td>
+</tr>
+<tr>
+<td>大小规则: N params × ? bytes</td>
+<td>FP32=×4, FP16=×2, INT8=×1, INT4=×0.5 → <strong>必记!</strong></td>
+<td>340M × 4 = 1.36GB (FP32); × 1 = 340MB (INT8)</td>
+</tr>
+<tr>
+<td>QLoRA 只是 LoRA?</td>
+<td>❌ QLoRA = LoRA + 4-bit 量化基座！量化减内存+LoRA减训练参数</td>
+<td>65B model → 48GB GPU 可训练</td>
+</tr>
+<tr>
+<td>Quantization 改变参数值?</td>
+<td>❌ 量化不改变参数值, 只降低精度表示! 剪枝才移除参数</td>
+<td>量化: 值不变精度降; 剪枝: 值=0移除</td>
+</tr>
+<tr>
+<td>Zero-shot 总是比 Few-shot 好?</td>
+<td>❌ Few-shot 通常更稳定! Zero-shot 只在简单任务上够用</td>
+<td>复杂歧义任务 → Few-shot 必须</td>
+</tr>
+<tr>
+<td>CoT 适用于所有任务?</td>
+<td>❌ CoT 适合推理/数学/多步骤; 简单分类用 Zero/Few-shot 更高效</td>
+<td>情感分类不需要 step-by-step</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</body>
+</html>

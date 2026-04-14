@@ -26,6 +26,9 @@ lab5/
 ## Quick Start
 
 ```bash
+# 0. Enter the lab5 directory (WSL)
+cd /mnt/c/Users/40270/Desktop/workspace/aisd/courses/rl/code/lab5
+
 # 1. Build the Docker image
 docker compose build
 
@@ -42,8 +45,12 @@ docker compose exec ros2-create3 /ros_entrypoint.sh bash
 cd /ros2_ws/assn2
 bash undock.sh
 
-# 6. Run your agent (after undock completes)
-python3 null.py
+# 6. Run an agent (after undock completes)
+python3 null.py          # Null agent (baseline, does nothing)
+python3 non-rl.py        # Rule-based agent (no RL)
+python3 qlearning.py     # Q-Learning agent
+python3 dqn.py           # DQN agent (Deep Q-Network)
+python3 ppo.py           # PPO agent (Proximal Policy Optimization)
 ```
 
 ## Requirements Met

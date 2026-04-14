@@ -244,12 +244,12 @@ Ref: http://jalammar.github.io/a-visual-guide-to-using-bert-for-the-first-time/
 
 ![Page 27](lecture_10_W26_slides_pages/page_027.png)
 
-| 模型 (Model) | 配置 (Configuration) |
-|---|---|
-| BERT-Base, Uncased | 12 层, 768 隐藏, 12 头, 110M 参数 (12-layer, 768-hidden, 12-heads, 110M parameters) |
-| BERT-Large, Uncased | 24 层, 1024 隐藏, 16 头, 340M 参数 (24-layer, 1024-hidden, 16-heads, 340M parameters) |
-| BERT-Base, Cased | 12 层, 768 隐藏, 12 头, 110M 参数 (12-layer, 768-hidden, 12-heads, 110M parameters) |
-| BERT-Large, Cased | 24 层, 1024 隐藏, 16 头, 340M 参数 (24-layer, 1024-hidden, 16-heads, 340M parameters) |
+| 模型 (Model)                        | 配置 (Configuration)                                                                                           |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| BERT-Base, Uncased                  | 12 层, 768 隐藏, 12 头, 110M 参数 (12-layer, 768-hidden, 12-heads, 110M parameters)                            |
+| BERT-Large, Uncased                 | 24 层, 1024 隐藏, 16 头, 340M 参数 (24-layer, 1024-hidden, 16-heads, 340M parameters)                          |
+| BERT-Base, Cased                    | 12 层, 768 隐藏, 12 头, 110M 参数 (12-layer, 768-hidden, 12-heads, 110M parameters)                            |
+| BERT-Large, Cased                   | 24 层, 1024 隐藏, 16 头, 340M 参数 (24-layer, 1024-hidden, 16-heads, 340M parameters)                          |
 | BERT-Base, Multilingual Cased (New) | 104 种语言, 12 层, 768 隐藏, 12 头, 110M 参数 (104 languages, 12-layer, 768-hidden, 12-heads, 110M parameters) |
 | BERT-Base, Multilingual Cased (Old) | 102 种语言, 12 层, 768 隐藏, 12 头, 110M 参数 (102 languages, 12-layer, 768-hidden, 12-heads, 110M parameters) |
 
@@ -433,14 +433,14 @@ Ref: https://www.scaler.com/topics/nlp/bert-variants/
 
 ![Page 45](lecture_10_W26_slides_pages/page_045.png)
 
-| 模型 (Model) | F1 | EM |
-|---|---|---|
-| BiDAF | 77.3 | 67.7 |
-| BERT-base | 88.5 | 80.8 |
-| BERT-large | 90.9 | 84.1 |
-| XLNet | 94.5 | 89.0 |
-| RoBERTa | 94.6 | 88.9 |
-| ALBERT | 94.8 | 89.3 |
+| 模型 (Model) | F1   | EM   |
+| ------------ | ---- | ---- |
+| BiDAF        | 77.3 | 67.7 |
+| BERT-base    | 88.5 | 80.8 |
+| BERT-large   | 90.9 | 84.1 |
+| XLNet        | 94.5 | 89.0 |
+| RoBERTa      | 94.6 | 88.9 |
+| ALBERT       | 94.8 | 89.3 |
 
 Ref: https://rajpurkar.github.io/SQuAD-explorer/
 

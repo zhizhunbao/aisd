@@ -1,13 +1,12 @@
 ---
 topic: bert
 dimension: map
-created: 2026-03-24
-last_verified: 2026-03-24
+created: 2026-04-13
+last_verified: 2026-04-13
 source_versions:
   - "📖 Paper: Devlin et al., 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding', NAACL 2019 — https://arxiv.org/abs/1810.04805"
-  - "📚 Book: Jurafsky & Martin, 《Speech and Language Processing》 3rd Ed., Ch.11 — file:///C:/Users/40270/Desktop/workspace/aisd/textbooks/jurafsky_slp3_jan2026.pdf"
-  - "📚 Book: Eisenstein, 《Natural Language Processing》, Ch.18 — file:///C:/Users/40270/Desktop/workspace/aisd/textbooks/eisenstein_nlp.pdf"
-  - "📖 Docs: Hugging Face Transformers — https://huggingface.co/docs/transformers/model_doc/bert"
+  - "📚 Book: Jurafsky & Martin, Speech and Language Processing 3rd Ed., Ch.11 — file:///C:/Users/40270/Desktop/workspace/textbook-rag/data/raw_pdfs/textbooks/jurafsky_slp3.pdf"
+  - "📚 Book: Eisenstein, Introduction to NLP, Ch.14 — file:///C:/Users/40270/Desktop/workspace/textbook-rag/data/raw_pdfs/textbooks/eisenstein_nlp.pdf"
 expiry: 12m
 status: current
 ---
@@ -15,69 +14,63 @@ status: current
 # BERT 知识地图
 
 > 📖 Paper: Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/abs/1810.04805), NAACL 2019
-> 📚 Book: Jurafsky & Martin, [《Speech and Language Processing》](../../../textbooks/jurafsky_slp3_jan2026.pdf), Ch.11
+> 📚 Book: Jurafsky & Martin, [SLP3](../../../textbooks/jurafsky_slp3.pdf), Ch.11
+
+---
 
 ## 1. 核心问题
 
-- **BERT 和之前的语言模型（如 GPT）最大的区别是什么？** → BERT 是双向的——同时看左边和右边的上下文来理解每个词，而 GPT 只能从左到右单向看
-- **什么是掩码语言模型（MLM）？** → 随机遮住输入句子中 15% 的词，让模型去猜被遮住的词，从而学到真正的双向上下文表示
-- **BERT 的"预训练 + 微调"范式为什么重要？** → 一次大规模无监督预训练，之后只需少量标注数据微调就能在各种 NLP 任务上达到最优，大幅降低了任务特定数据的需求
-- **BERT 的输入是怎么构造的？** → Token Embedding + Segment Embedding + Position Embedding 三者相加，其中 [CLS] 用于分类，[SEP] 用于分隔句子
-- **BERT 有哪些主要变体，它们分别改进了什么？** → RoBERTa 去掉了 NSP 并加大数据量；DistilBERT 做了知识蒸馏减小体积；ALBERT 做了参数共享减少参数
+- **BERT 是什么？** → 一种基于 Transformer Encoder 的双向预训练语言表示模型，通过 Masked Language Model (MLM) 和 Next Sentence Prediction (NSP) 两个任务在无标注文本上预训练，再在下游任务上微调
+- **为什么需要双向？** → 单向模型（如 GPT）只能看到左侧上下文，BERT 通过 MLM 让每个 token 同时关注左右上下文，获得更丰富的语义表示
+- **BERT 如何在不同任务上通用？** → 统一架构 + 最少的任务特定参数：预训练和微调使用几乎相同的网络结构，只需添加一个输出层即可适配分类、问答、序列标注等任务
+- **预训练-微调范式的核心优势？** → 在大规模无标注数据上学习通用语言知识，微调时只需少量标注数据即可达到 SOTA，大幅降低了对任务特定架构设计的需求
+- **BERT 的历史地位？** → 2018 年发布时在 11 个 NLP 基准上刷新记录（GLUE 80.5%、SQuAD F1 93.2），开启了预训练语言模型时代
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), NAACL 2019, §1-2
+> 📖 Paper: Devlin et al. (2019), Abstract & Section 1
+> 📚 Book: Jurafsky & Martin, SLP3, Ch.11 §9.2
 
 ---
 
 ## 2. 全景位置
 
-    自然语言处理 NLP
-    ├── 传统方法
-    │   ├── N-gram 语言模型
-    │   ├── TF-IDF + 逻辑回归
-    │   └── CRF / HMM 序列标注
-    ├── 词向量时代
-    │   ├── Word2Vec (静态嵌入)
-    │   ├── GloVe (全局统计)
-    │   └── FastText (子词)
-    ├── 序列模型时代
-    │   ├── RNN / LSTM / GRU
-    │   └── Seq2Seq + Attention
-    ├── Transformer 架构
-    │   ├── 原始 Transformer (Vaswani 2017)
-    │   └── 位置编码 + 多头注意力
-    └── 预训练语言模型 ← 你在这里
-        ├── ELMo (上下文嵌入先驱, biLSTM)
-        ├── 【BERT】 (双向 Transformer, MLM+NSP)
-        ├── GPT 系列 (单向, 自回归)
-        ├── T5 (编码器-解码器, Text-to-Text)
-        ├── RoBERTa / ALBERT / DistilBERT (BERT 变体)
-        ├── XLNet (排列语言模型)
-        └── ELECTRA (替换 Token 检测)
+```
+自然语言处理 (NLP)
+├── 传统方法
+│   ├── 规则与特征工程
+│   └── 统计模型 (n-gram, HMM, CRF)
+├── 词向量 (Static Embeddings)
+│   ├── Word2Vec (2013)
+│   └── GloVe (2014)
+├── 上下文化表示 (Contextual Embeddings) ← 你在这里
+│   ├── ELMo (双向 LSTM, feature-based)
+│   ├── 【BERT】(双向 Transformer, fine-tuning)
+│   ├── GPT (单向 Transformer, fine-tuning)
+│   └── XLNet / RoBERTa / ALBERT (BERT 变体)
+└── 大语言模型 (LLM)
+    ├── GPT-3/4 (自回归生成)
+    └── T5 / BART (Encoder-Decoder)
+```
 
-> 📚 Book: Jurafsky & Martin, [《SLP3》](../../../textbooks/jurafsky_slp3_jan2026.pdf), Ch.11 "Transfer Learning"
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §2 "Related Work"
+> 📖 Paper: Devlin et al. (2019), Figure 3 — ELMo vs GPT vs BERT 架构对比
+> 📚 Book: Jurafsky & Martin, SLP3, Ch.11 §9.1
 
 ---
 
 ## 3. 依赖地图
 
-    前置知识                       本主题                       后续方向
-    ┌───────────────────────┐     ┌──────────────────────┐     ┌────────────────────────────┐
-    │ Transformer 架构       │────→│                      │────→│ RoBERTa / ALBERT 变体优化    │
-    │ (Self-Attention, MHA) │     │                      │     │                            │
-    │                       │     │                      │────→│ DistilBERT 知识蒸馏          │
-    ├───────────────────────┤     │       BERT           │     │                            │
-    │ 词嵌入                 │────→│  (Bidirectional      │────→│ 微调下游任务                  │
-    │ (Word2Vec, 子词分词)   │     │   Encoder            │     │ (分类/NER/QA/NLI)          │
-    │                       │     │   Representations)   │     │                            │
-    ├───────────────────────┤     │                      │────→│ GPT 对比 → 理解双向 vs 单向   │
-    │ 语言模型基础            │────→│                      │     │                            │
-    │ (MLM, 上下文表示)      │     │                      │────→│ PEFT (LoRA / Adapter)      │
-    └───────────────────────┘     └──────────────────────┘     └────────────────────────────┘
+```
+前置知识                     本主题                    后续方向
+┌────────────────────┐      ┌───────────────────┐     ┌──────────────────────────┐
+│ Transformer 架构    │─────→│                   │────→│ RoBERTa (更强预训练策略)  │
+│ Self-Attention 机制 │─────→│                   │────→│ ALBERT (参数共享/分解)    │
+│ 词向量 (Word2Vec)   │─────→│      BERT         │────→│ SpanBERT (span 级掩码)   │
+│ 语言模型 (LM 基础)  │─────→│                   │────→│ ELECTRA (替换检测目标)    │
+│ 迁移学习概念        │─────→│                   │────→│ GPT 系列 (自回归路线)     │
+└────────────────────┘      └───────────────────┘     └──────────────────────────┘
+```
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §2-3
-> 📚 Book: Jurafsky & Martin, [《SLP3》](../../../textbooks/jurafsky_slp3_jan2026.pdf), Ch.11
+> 📚 Book: Jurafsky & Martin, SLP3, Ch.11 §9.3
+> 📖 Paper: Devlin et al. (2019), Section 2 Related Work
 
 ---
 
@@ -86,16 +79,14 @@ status: current
 | 文件 | 定位 | 何时用 |
 |------|------|--------|
 | [bert_map.md](bert_map.md) | ① 导航 | 第一次接触、需要全局视角 |
-| [bert_concepts.md](bert_concepts.md) | ② 概念 | 理解 MLM/NSP/[CLS]/[SEP] 等术语 |
-| [bert_math.md](bert_math.md) | ③ 公式 | 推导注意力得分、MLM 损失函数 |
-| [bert_tutorial.md](bert_tutorial.md) | ④ 教程 | Why-First 理解 BERT 设计动机 |
-| [bert_code.md](bert_code.md) | ⑤ 代码 | 快速上手 HuggingFace BERT 微调 |
-| [bert_pitfalls.md](bert_pitfalls.md) | ⑥ 踩坑 | 微调时学习率过高/输入截断等常见问题 |
-| [bert_history.md](bert_history.md) | ⑦ 历史 | 从 Word2Vec 到 BERT 的技术演进 |
-| [bert_bridge.md](bert_bridge.md) | ⑧ 衔接 | 连接 Transformer / GPT / 下游任务 |
-| [bert_first_principles.md](bert_first_principles.md) | ⑨ 第一性原理 | 追问"为什么双向比单向好" |
-
-> 📖 Docs: Norman, 《The Design of Everyday Things》(2013), Ch.3 "Knowledge in the World"
+| [bert_concepts.md](bert_concepts.md) | ② 概念 | 理解术语定义、辨析易混淆概念 |
+| [bert_math.md](bert_math.md) | ③ 公式 | 推导公式、理解数学基础 |
+| [bert_tutorial.md](bert_tutorial.md) | ④ 教程 | Why-First 理解设计动机与原理 |
+| [bert_code.md](bert_code.md) | ⑤ 代码 | 快速上手实现 |
+| [bert_pitfalls.md](bert_pitfalls.md) | ⑥ 踩坑 | 调试问题 |
+| [bert_history.md](bert_history.md) | ⑦ 历史 | 了解技术演进 |
+| [bert_bridge.md](bert_bridge.md) | ⑧ 衔接 | 找相关主题、扩展阅读 |
+| [bert_first_principles.md](bert_first_principles.md) | ⑨ 第一性原理 | 追问底层公理、理解边界 |
 
 ---
 
@@ -103,26 +94,26 @@ status: current
 
 ### 第一次学习 🎒
 
-1. 读 [bert_map.md](bert_map.md) 了解 BERT 在 NLP 全景中的位置
-2. 读 [bert_tutorial.md](bert_tutorial.md) Section 1 理解"为什么需要双向语言模型"
-3. 读 [bert_concepts.md](bert_concepts.md) 掌握 MLM / NSP / [CLS] / WordPiece 等核心术语
-4. 读 [bert_math.md](bert_math.md) 手算一次 MLM 损失函数
-5. 跟 [bert_code.md](bert_code.md) 用 HuggingFace 跑一个情感分类微调
-6. 读 [bert_history.md](bert_history.md) 了解从 Word2Vec → ELMo → BERT 的演进
-7. 读 [bert_first_principles.md](bert_first_principles.md) 理解双向上下文的数学基础
+1. 读 [bert_map.md](bert_map.md) 了解全局位置
+2. 读 [bert_tutorial.md](bert_tutorial.md) Section 1 理解动机
+3. 读 [bert_concepts.md](bert_concepts.md) 掌握核心术语
+4. 读 [bert_math.md](bert_math.md) 手算一次核心公式
+5. 跟 [bert_code.md](bert_code.md) 快速开始跑一个示例
+6. 读 [bert_history.md](bert_history.md) 了解技术演进
+7. 读 [bert_first_principles.md](bert_first_principles.md) 追问底层公理
 
 ### 日常参考 🔧
 
-1. 查 [bert_code.md](bert_code.md) HuggingFace API 速查表
-2. 查 [bert_math.md](bert_math.md) Attention 和 MLM 公式速查
-3. 查 [bert_pitfalls.md](bert_pitfalls.md) 排查微调常见问题
+1. 查 [bert_code.md](bert_code.md) API 速查表
+2. 查 [bert_math.md](bert_math.md) 公式速查
+3. 查 [bert_pitfalls.md](bert_pitfalls.md) 排查问题
 
 ### 深度研究 🔬
 
 1. 读 [bert_history.md](bert_history.md) 完整演进线
-2. 读 [bert_first_principles.md](bert_first_principles.md) 追问双向表示的本质
-3. 读 [bert_bridge.md](bert_bridge.md) 对比 BERT vs GPT vs T5
-4. 阅读原始论文 [Devlin et al. 2019](https://arxiv.org/abs/1810.04805)
+2. 读 [bert_first_principles.md](bert_first_principles.md) 追问底层公理
+3. 读 [bert_bridge.md](bert_bridge.md) 探索下游任务
+4. 阅读原始论文
 
 ---
 
@@ -131,14 +122,14 @@ status: current
 | 维度 | 状态 |
 |------|------|
 | Map | ✅ 已完成 |
-| Concepts | ✅ 已完成 |
-| Math | ✅ 已完成 |
-| Tutorial | ✅ 已完成 |
-| Code | ✅ 已完成 |
-| Pitfalls | ✅ 已完成 |
-| History | ✅ 已完成 |
-| Bridge | ✅ 已完成 |
-| First Principles | ✅ 已完成 |
+| Concepts | ⬜ 待生成 |
+| Math | ⬜ 待生成 |
+| Tutorial | ⬜ 待生成 |
+| Code | ⬜ 待生成 |
+| Pitfalls | ⬜ 待生成 |
+| History | ⬜ 待生成 |
+| Bridge | ⬜ 待生成 |
+| First Principles | ⬜ 待生成 |
 
 ---
 
@@ -146,15 +137,15 @@ status: current
 
 | 维度 | 上次验证 | 过期时间 | 状态 |
 |------|---------|---------|------|
-| Map | 2026-03-24 | 12m | ✅ current |
-| Concepts | 2026-03-24 | 12m | ✅ current |
-| Math | 2026-03-24 | 12m | ✅ current |
-| Tutorial | 2026-03-24 | 12m | ✅ current |
-| Code | 2026-03-24 | 6m | ✅ current |
-| Pitfalls | 2026-03-24 | 6m | ✅ current |
-| History | 2026-03-24 | never | ✅ current |
-| Bridge | 2026-03-24 | 12m | ✅ current |
-| First Principles | 2026-03-24 | 12m | ✅ current |
+| Map | 2026-04-13 | 12m | ✅ current |
+| Concepts | 2026-04-13 | 12m | ⬜ pending |
+| Math | 2026-04-13 | 12m | ⬜ pending |
+| Tutorial | 2026-04-13 | 12m | ⬜ pending |
+| Code | 2026-04-13 | 6m | ⬜ pending |
+| Pitfalls | 2026-04-13 | 6m | ⬜ pending |
+| History | 2026-04-13 | never | ⬜ pending |
+| Bridge | 2026-04-13 | 12m | ⬜ pending |
+| First Principles | 2026-04-13 | 12m | ⬜ pending |
 
 ---
 
@@ -162,13 +153,10 @@ status: current
 
 | 来源 | 类型 | 使用位置 |
 |------|------|---------|
-| [Devlin et al. "BERT" (2019)](https://arxiv.org/abs/1810.04805) | 📖 论文 | 全文核心参考——BERT 原始论文 |
-| [《SLP3》Ch.11](../../../textbooks/jurafsky_slp3_jan2026.pdf) | 📚 教科书 | Transfer Learning, BERT 架构讲解 |
-| [《NLP》Ch.18](../../../textbooks/eisenstein_nlp.pdf) | 📚 教科书 | 预训练语言模型理论 |
-| [Liu et al. "RoBERTa" (2019)](https://arxiv.org/abs/1907.11692) | 📖 论文 | History, Bridge——BERT 训练策略改进 |
-| [Sanh et al. "DistilBERT" (2019)](https://arxiv.org/abs/1910.01108) | 📖 论文 | History, Bridge——BERT 知识蒸馏 |
-| [Lan et al. "ALBERT" (2019)](https://arxiv.org/abs/1909.11942) | 📖 论文 | History, Bridge——BERT 参数共享 |
-| [Clark et al. "ELECTRA" (2020)](https://arxiv.org/abs/2003.10555) | 📖 论文 | History, Bridge——替换 Token 检测 |
-| [HuggingFace BERT Docs](https://huggingface.co/docs/transformers/model_doc/bert) | 📖 文档 | Code——API 接口和使用方法 |
-| [Peters et al. "ELMo" (2018)](https://arxiv.org/abs/1802.05365) | 📖 论文 | History——BERT 的前驱 |
-| [Vaswani et al. "Attention Is All You Need" (2017)](https://arxiv.org/abs/1706.03762) | 📖 论文 | Math, Tutorial——Transformer 架构基础 |
+| [Devlin et al. (2019)](https://arxiv.org/abs/1810.04805) | 📖 论文 | 全文核心参考 |
+| [SLP3 Ch.11](../../../textbooks/jurafsky_slp3.pdf) | 📚 教科书 | Concepts, Math, Tutorial, History |
+| [Eisenstein NLP Ch.14](../../../textbooks/eisenstein_nlp.pdf) | 📚 教科书 | First Principles, Bridge |
+| [HuggingFace Transformers](https://huggingface.co/docs/transformers/) | 📖 文档 | Code |
+| [google-research/bert](https://github.com/google-research/bert) | 💻 源码 | Code 参考实现 |
+
+---

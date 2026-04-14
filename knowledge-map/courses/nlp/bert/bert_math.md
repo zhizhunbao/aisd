@@ -1,12 +1,11 @@
 ---
 topic: bert
 dimension: math
-created: 2026-03-24
-last_verified: 2026-03-24
+created: 2026-04-13
+last_verified: 2026-04-13
 source_versions:
-  - "📖 Paper: Devlin et al., 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding', NAACL 2019 — https://arxiv.org/abs/1810.04805"
-  - "📖 Paper: Vaswani et al., 'Attention Is All You Need', NeurIPS 2017 — https://arxiv.org/abs/1706.03762"
-  - "📚 Book: Jurafsky & Martin, 《Speech and Language Processing》 3rd Ed., Ch.11 — file:///C:/Users/40270/Desktop/workspace/aisd/textbooks/jurafsky_slp3_jan2026.pdf"
+  - "📖 Paper: Devlin et al., 'BERT', NAACL 2019"
+  - "📚 Book: Jurafsky & Martin, SLP3 Ch.11"
 expiry: 12m
 status: current
 ---
@@ -14,305 +13,246 @@ status: current
 # BERT 数学基础
 
 > 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), NAACL 2019
-> 📖 Paper: Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), NeurIPS 2017
+> 📚 Book: Jurafsky & Martin, [SLP3](../../../textbooks/jurafsky_slp3.pdf), Ch.11
 
 ---
 
 ## 符号对照表
 
 | 符号 | 含义（白话） | 英文 | 取值范围 |
-|------|-------------|------|---------| 
-| $L$ | Transformer 层数 | Number of Layers | 12 (Base), 24 (Large) |
-| $H$ | 隐藏维度（每个 token 向量的长度） | Hidden Size | 768 (Base), 1024 (Large) |
-| $A$ | 注意力头数 | Number of Attention Heads | 12 (Base), 16 (Large) |
-| $d_k$ | 每个注意力头的维度 | Head Dimension | $H / A$ = 64 |
-| $N$ | 输入序列长度（token 数） | Sequence Length | ≤ 512 |
-| $V$ | 词表大小 | Vocabulary Size | ~30,000 |
-| $Q, K, V$ | 查询/键/值矩阵 | Query / Key / Value | $\mathbb{R}^{N \times d_k}$ |
-| $W^Q, W^K, W^V$ | 线性投影权重矩阵 | Projection Weight Matrices | $\mathbb{R}^{H \times d_k}$ |
-| $W^O$ | 多头输出投影矩阵 | Output Projection Matrix | $\mathbb{R}^{H \times H}$ |
-| $x_i$ | 第 $i$ 个 token 的输入表示 | Input Representation | $\mathbb{R}^{H}$ |
-| $\hat{x}_i$ | MLM 中被 mask 的 token 的预测 | MLM Prediction | $\mathbb{R}^{V}$ |
-| $\text{mask}$ | 被遮住的 token 位置集合 | Masked Token Positions | 约 15% 的 $N$ |
+|------|-------------|------|---------|
+| L | Transformer 层数 | Number of layers | Base: 12, Large: 24 |
+| H | 隐层维度 | Hidden size | Base: 768, Large: 1024 |
+| A | 多头注意力头数 | Attention heads | Base: 12, Large: 16 |
+| h_i^L | 第 i 个 token 在第 L 层的输出 | Token output | 向量 ∈ ℝ^H |
+| h_CLS^L | [CLS] token 的最终层输出 | CLS output | 向量 ∈ ℝ^H |
+| M | 被 mask 的 token 索引集合 | Masked set | 约 15% 的 token |
+| E | Embedding 矩阵 | Embedding matrix | V×H，V=30522 |
+| W_NSP | NSP 分类器权重 | NSP weights | 2×H |
 
-> 📖 Paper: Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), §3.2
+> 📚 Book: Jurafsky & Martin, SLP3, p.209-212
 
 ---
 
 ## 核心公式
 
-### 公式 1: 输入表示 (Input Representation)
+### 公式 1: Self-Attention（BERT 的基础计算单元）
 
-**直觉：** 每个 token 的向量 = "它是什么词" + "它属于哪个句子" + "它在哪个位置"，三个信息直接加起来。
+**直觉**：每个词"看"所有其他词，计算注意力权重，加权汇总信息。
 
-$$
-\mathbf{x}_i = \mathbf{e}_{\text{token}}(w_i) + \mathbf{e}_{\text{segment}}(s_i) + \mathbf{e}_{\text{position}}(i)
-$$
+![Self-Attention](textbook_screenshots/math_eq_2_slp3_p208.png)
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2, Figure 2
-
-**参数解释：**
-
-| 参数 | 含义 | 例子中对应 |
-|------|------|-----------|
-| $\mathbf{e}_{\text{token}}(w_i)$ | 第 $i$ 个 token 的词嵌入 | 查 WordPiece 词表得到 768 维向量 |
-| $\mathbf{e}_{\text{segment}}(s_i)$ | 句子段落嵌入（A 或 B） | 句子 A 的 token → $E_A$，句子 B → $E_B$ |
-| $\mathbf{e}_{\text{position}}(i)$ | 位置嵌入（可学习） | 第 0 个位置 → $P_0$，第 1 个 → $P_1$，... |
-
-**推导过程：**
-
-1. 对输入文本做 WordPiece 分词，得到 token 序列 $[w_1, w_2, ..., w_N]$
-2. 每个 token $w_i$ 查嵌入表得到 $\mathbf{e}_{\text{token}}(w_i) \in \mathbb{R}^H$
-3. 根据 token 属于句子 A 还是 B，查段落嵌入表得到 $\mathbf{e}_{\text{segment}}(s_i) \in \mathbb{R}^H$
-4. 根据 token 的位置索引 $i$，查位置嵌入表得到 $\mathbf{e}_{\text{position}}(i) \in \mathbb{R}^H$
-5. 三者逐元素相加得到最终输入向量 $\mathbf{x}_i \in \mathbb{R}^H$
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2
+> 📚 Source: Jurafsky & Martin, SLP3, p.209
 
 ---
 
-### 公式 2: 缩放点积注意力 (Scaled Dot-Product Attention)
+### 公式 2: Masked Self-Attention（带遮罩的注意力）
 
-**直觉：** 每个词问"我应该关注序列中的哪些词？"——用点积衡量相关性，除以 $\sqrt{d_k}$ 防止值太大导致 softmax 饱和。
+**直觉**：和标准 Self-Attention 一样，但用 mask 隐藏未来位置（在 GPT 中使用；BERT 不需要 mask 未来，因为它是双向的）。
 
-$$
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
-$$
+![Masked Self-Attention](textbook_screenshots/math_eq_1_slp3_p208.png)
 
-> 📖 Paper: Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), Eq. 1, §3.2.1
-
-**参数解释：**
-
-| 参数 | 含义 | 维度 |
-|------|------|------|
-| $Q$ | 查询矩阵（"我在找什么"） | $N \times d_k$ |
-| $K$ | 键矩阵（"我能提供什么"） | $N \times d_k$ |
-| $V$ | 值矩阵（"我的实际内容"） | $N \times d_k$ |
-| $d_k$ | 每个注意力头的维度 | $H / A = 64$ |
-| $QK^T$ | 注意力得分矩阵 | $N \times N$ |
-
-**推导过程：**
-
-1. 计算相似度：$S = QK^T$，维度 $N \times N$，$S_{ij}$ 表示 token $i$ 对 token $j$ 的关注程度
-2. 缩放：$S' = S / \sqrt{d_k}$，除以 $\sqrt{64} = 8$，防止点积值过大
-3. 归一化：$\alpha = \text{softmax}(S')$，每行归一化为概率分布（和为 1）
-4. 加权求和：$\text{output} = \alpha V$，用注意力权重对 Value 加权
-
-> 📖 Paper: Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), §3.2.1
+> 📚 Source: Jurafsky & Martin, SLP3, p.209
 
 ---
 
-### 公式 3: 多头注意力 (Multi-Head Attention)
+### 公式 3: MLM Prediction Head（预测被遮盖词的头部）
 
-**直觉：** 一个注意力头只能学一种"关注模式"，多个头可以同时学习不同的关注模式（比如一个头关注语法关系，另一个关注语义相似度），然后拼接起来。
+**直觉**：把最后一层的隐层输出 h_i^L 过一个线性变换 + softmax，预测原始词的概率分布。
 
-$$
-\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_A) W^O
-$$
+![MLM Prediction Head](textbook_screenshots/math_eq_3_slp3_p211.png)
 
-其中每个头：
+> 📚 Source: Jurafsky & Martin, SLP3, p.212
 
-$$
-\text{head}_i = \text{Attention}(X W_i^Q, X W_i^K, X W_i^V)
-$$
-
-> 📖 Paper: Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), Eq. 2-3, §3.2.2
-
-**参数解释：**
-
-| 参数 | 含义 | 维度 |
-|------|------|------|
-| $W_i^Q, W_i^K, W_i^V$ | 第 $i$ 个头的投影矩阵 | $H \times d_k$ |
-| $W^O$ | 输出投影矩阵 | $H \times H$ |
-| $A$ | 头数 | 12 (Base) |
-| 每个 head 输出 | 一种关注模式的结果 | $N \times d_k$ |
-| Concat 后 | 所有头拼接 | $N \times (A \cdot d_k) = N \times H$ |
-
-**推导过程：**
-
-1. 对每个头 $i = 1, ..., A$：用 $W_i^Q, W_i^K, W_i^V$ 对输入 $X$ 做线性投影
-2. 对每个头 $i$：计算缩放点积注意力，得到 $\text{head}_i \in \mathbb{R}^{N \times d_k}$
-3. 拼接所有头：$\text{Concat}(\text{head}_1, ..., \text{head}_A) \in \mathbb{R}^{N \times H}$
-4. 用 $W^O$ 做最终线性投影：输出 $\in \mathbb{R}^{N \times H}$
-
-> 📖 Paper: Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), §3.2.2
+**参数解释**：
+| 参数 | 含义 |
+|------|------|
+| u_i | logit 向量，h_i^L 乘以词表嵌入矩阵的转置 |
+| y_i | softmax 后的概率分布，维度 = 词表大小 |
+| E^T | 词表嵌入矩阵的转置（共享输入 embedding 权重） |
 
 ---
 
-### 公式 4: MLM 损失函数 (Masked Language Model Loss)
+### 公式 4: MLM Loss（单 token 损失）
 
-**直觉：** 对于每个被 mask 的位置，模型输出一个概率分布（预测每个词的可能性），我们用交叉熵损失来衡量预测和真实词之间的差距，然后对所有被 mask 的位置求平均。
+**直觉**：对一个被遮盖的 token，交叉熵损失 = 预测正确词概率的负对数。
 
-$$
-\mathcal{L}_{\text{MLM}} = -\frac{1}{|\mathcal{M}|} \sum_{i \in \mathcal{M}} \log P(w_i | \mathbf{h}_i)
-$$
+![MLM Loss (Single Token)](textbook_screenshots/math_eq_4_slp3_p211.png)
 
-其中：
-
-$$
-P(w_i | \mathbf{h}_i) = \text{softmax}(\mathbf{h}_i W_e^T + b)_{w_i}
-$$
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.1
-
-**参数解释：**
-
-| 参数 | 含义 | 例子中对应 |
-|------|------|-----------|
-| $\mathcal{M}$ | 被 mask 的 token 位置集合 | 15% 的位置被选中 |
-| $\mathbf{h}_i$ | 位置 $i$ 的最终隐藏状态 | 768 维向量 (BERT-Base) |
-| $W_e$ | 词嵌入权重矩阵（共享） | $V \times H$ |
-| $w_i$ | 位置 $i$ 的真实 token | 原来被 mask 前的词 |
-| $P(w_i \| \mathbf{h}_i)$ | 模型预测的概率 | softmax 后的第 $w_i$ 个元素 |
-
-**推导过程：**
-
-1. BERT 编码器处理整个输入序列，得到每个位置的隐藏状态 $\mathbf{h}_i \in \mathbb{R}^H$
-2. 对每个被 mask 的位置 $i \in \mathcal{M}$：
-   - 计算 logits：$\mathbf{z}_i = \mathbf{h}_i W_e^T + b \in \mathbb{R}^V$
-   - 计算概率分布：$P = \text{softmax}(\mathbf{z}_i)$
-   - 取真实 token $w_i$ 对应的概率：$P(w_i | \mathbf{h}_i)$
-3. 对所有被 mask 的位置求平均交叉熵：$\mathcal{L}_{\text{MLM}} = -\frac{1}{|\mathcal{M}|} \sum_{i \in \mathcal{M}} \log P(w_i | \mathbf{h}_i)$
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.1
+> 📚 Source: Jurafsky & Martin, SLP3, p.212
 
 ---
 
-### 公式 5: NSP 损失函数 (Next Sentence Prediction Loss)
+### 公式 5: MLM Loss（总损失）
 
-**直觉：** 拿 [CLS] 的最终表示做一个二分类——判断句子 B 是不是句子 A 的真正下一句。
+**直觉**：对所有被遮盖的 token 求平均损失。|M| 是被遮盖的 token 总数。
 
-$$
-\mathcal{L}_{\text{NSP}} = -[y \log P(\text{IsNext}) + (1 - y) \log (1 - P(\text{IsNext}))]
-$$
+![MLM Loss (Total)](textbook_screenshots/math_eq_5_slp3_p211.png)
 
-其中：
+> 📚 Source: Jurafsky & Martin, SLP3, p.212
 
-$$
-P(\text{IsNext}) = \sigma(\mathbf{h}_{\text{[CLS]}} W_{\text{NSP}} + b_{\text{NSP}})
-$$
+> **教科书原文**（SLP3 p.211）：
+> "Note that only the tokens in M play a role in learning; the other words play no role in the loss function, so in that sense BERT and its descendents are inefficient; only 15% of the input samples in the training data are actually used for training weights."
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.2
+---
 
-**参数解释：**
+### 公式 6: NSP Classifier（下一句预测分类器）
 
-| 参数 | 含义 | 例子中对应 |
-|------|------|-----------|
-| $y$ | 真实标签 | 1 = IsNext, 0 = NotNext |
-| $\mathbf{h}_{\text{[CLS]}}$ | [CLS] token 的最终隐藏状态 | 768 维 (Base) |
-| $W_{\text{NSP}}$ | NSP 分类器权重 | $H \times 2$ |
-| $\sigma$ | sigmoid 函数 | 输出 [0, 1] 的概率 |
+**直觉**：用 [CLS] 的输出过一个线性层 + softmax，二分类判断两个句子是否连续。
 
-### 公式 6: 总损失函数
+![NSP Classifier](textbook_screenshots/math_eq_6_slp3_p212.png)
 
-**直觉：** 预训练时，MLM 和 NSP 两个任务的损失直接相加，同时优化。
+> 📚 Source: Jurafsky & Martin, SLP3, p.213
 
-$$
-\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{MLM}} + \mathcal{L}_{\text{NSP}}
-$$
+> **教科书原文**（SLP3 p.212）：
+> "Cross entropy is used to compute the NSP loss for each sentence pair presented to the model. The NSP loss was used in conjunction with the MLM training objective to form final loss."
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3
+---
+
+### 公式 7: 总预训练损失
+
+**直觉**：MLM 和 NSP 两个损失直接相加，联合优化整个模型。
+
+> **教科书原文**（SLP3 p.212）：
+> "In BERT, the NSP loss was used in conjunction with the MLM training objective to form final loss."
+
+即: L_total = L_MLM + L_NSP
+
+> 📚 Book: Jurafsky & Martin, SLP3, p.212
+
+---
+
+### 公式 8: 微调分类 softmax
+
+**直觉**：微调时加一个线性层，[CLS] 输出 × W → softmax 得到分类概率。
+
+> **教科书原文**（Devlin et al. 2019, Section 4.1）：
+> "The only new parameters introduced during fine-tuning are classification layer weights W ∈ ℝ^{K×H}... We compute a standard classification loss with C and W, i.e., log(softmax(CW^T))."
+
+> 📖 Paper: Devlin et al. (2019), Section 4.1
+
+---
+
+### 公式 9: SQuAD 答案跨度概率
+
+**直觉**：QA 任务中，用 start/end 两个向量分别和每个 token 做点积 + softmax，定位答案的起止位置。
+
+> **教科书原文**（Devlin et al. 2019, Section 4.2）：
+> "The probability of word i being the start of the answer span is computed as a dot product between T_i and S followed by a softmax over all words in the paragraph."
+
+> 📖 Paper: Devlin et al. (2019), Section 4.2
 
 ---
 
 ## 公式关系图
 
-    输入文本
-        │
-        ▼
-    ┌───────────────────────────┐
-    │ 公式 1: Input Representation│
-    │ x = e_token + e_seg + e_pos│
-    └───────────────────────────┘
-        │
-        ▼
-    ┌───────────────────────────┐
-    │ 公式 2: Scaled Dot-Product  │
-    │ Attention(Q,K,V)           │
-    └───────────────────────────┘
-        │ (× A 个头)
-        ▼
-    ┌───────────────────────────┐
-    │ 公式 3: Multi-Head Attention│
-    │ Concat + W^O              │
-    └───────────────────────────┘
-        │ (× L 层)
-        ▼
-    ┌─────────────┬─────────────┐
-    │ mask 位置    │ [CLS] 位置   │
-    ▼             ▼             
-    ┌──────────┐  ┌──────────┐  
-    │ 公式 4:   │  │ 公式 5:   │  
-    │ MLM Loss │  │ NSP Loss │  
-    └──────────┘  └──────────┘  
-        │             │
-        ▼             ▼
-    ┌───────────────────────────┐
-    │ 公式 6: Total Loss         │
-    │ L = L_MLM + L_NSP         │
-    └───────────────────────────┘
+```
+输入: [CLS] tok1 tok2 ... [SEP] tok_a tok_b ... [SEP]
+         │
+         ▼
+    Token + Segment + Position Embedding (相加)
+         │
+         ▼
+    ┌────────────────────────────┐
+    │  Transformer Encoder × L  │ ← Self-Attention (公式 1)
+    │  → h_1^L ... h_n^L, h_CLS│
+    └────────────────────────────┘
+         │              │
+    预训练阶段         微调阶段
+    ┌────┴────┐    ┌────┴──────┐
+    │ MLM Head│    │ 分类: CW^T│ → softmax (公式 8)
+    │(公式 3) │    │ QA: S·T_i │ → softmax (公式 9)
+    │→ u_i=h·E│    └───────────┘
+    │→ y_i=sfm│
+    └─────────┘
+         │
+    Loss = L_MLM (公式 5) + L_NSP (公式 6)
+```
+
+> 📚 Book: Jurafsky & Martin, SLP3, p.208-213
 
 ---
 
 ## 手算练习
 
-### 练习 1: 缩放点积注意力
+### 练习 1: MLM 损失计算（对应公式 4、5）
 
-**题目：** 假设序列长度 $N = 3$，头维度 $d_k = 2$。给出以下矩阵，计算 $\text{Attention}(Q, K, V)$：
+**题目**：输入序列 "So long and thanks for all the fish"（8 tokens），15% mask → 选中 1 个 token "thanks"（位置 i=4）。模型对该位置预测出以下概率分布（词表简化为 5 个词）：
 
-$$
-Q = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix}, \quad
-K = \begin{bmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \end{bmatrix}, \quad
-V = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix}
-$$
+| 词 | P(词 \| h_4^L) |
+|---|---|
+| thanks | 0.6 |
+| hello | 0.15 |
+| the | 0.1 |
+| and | 0.1 |
+| \<其他\> | 0.05 |
 
-**解答步骤：**
+**Step 1**: 计算单 token MLM 损失（公式 4）
 
-1. 计算 $QK^T$：
+![MLM Loss (Single Token)](textbook_screenshots/math_eq_4_slp3_p211.png)
 
-$$
-QK^T = \begin{bmatrix} 1 & 0 & 1 \\ 1 & 1 & 0 \\ 2 & 1 & 1 \end{bmatrix}
-$$
+> 应用: L_MLM(x_4) = -log P("thanks" | h_4^L) = -log(0.6) = **0.511**
 
-2. 缩放：$\sqrt{d_k} = \sqrt{2} \approx 1.414$
+**Step 2**: 如果还 mask 了 "all"（位置 i=6），P("all" | h_6^L) = 0.8
 
-$$
-\frac{QK^T}{\sqrt{d_k}} = \begin{bmatrix} 0.707 & 0 & 0.707 \\ 0.707 & 0.707 & 0 \\ 1.414 & 0.707 & 0.707 \end{bmatrix}
-$$
+> L_MLM(x_6) = -log(0.8) = **0.223**
 
-3. Softmax（每行独立归一化）：
+**Step 3**: 计算总损失（公式 5）
 
-- 第 1 行：$\text{softmax}([0.707, 0, 0.707]) = [0.394, 0.213, 0.394]$
-- 第 2 行：$\text{softmax}([0.707, 0.707, 0]) = [0.388, 0.388, 0.224]$
-- 第 3 行：$\text{softmax}([1.414, 0.707, 0.707]) = [0.476, 0.262, 0.262]$
+![MLM Loss (Total)](textbook_screenshots/math_eq_5_slp3_p211.png)
 
-4. 加权求和 $\alpha V$：
+> L_MLM = -(1/|M|) × Σ = -(1/2) × (log 0.6 + log 0.8)
+> L_MLM = -(1/2) × (-0.511 + (-0.223)) = -(1/2) × (-0.734) = **0.367**
 
-- 第 1 行：$0.394 \times [1,0] + 0.213 \times [0,1] + 0.394 \times [1,1] = [0.788, 0.607]$
-- 第 2 行：$0.388 \times [1,0] + 0.388 \times [0,1] + 0.224 \times [1,1] = [0.612, 0.612]$
-- 第 3 行：$0.476 \times [1,0] + 0.262 \times [0,1] + 0.262 \times [1,1] = [0.738, 0.524]$
+**教训**：预测越准（P 越大），loss 越小。如果模型完美预测 P=1.0，则 loss=0。
 
-### 练习 2: MLM 损失计算
+> 📚 公式来源: Jurafsky & Martin, SLP3, p.212
 
-**题目：** 假设词表 $V = 4$（词: A, B, C, D），一个 token 被 mask，模型输出 logits $[2.0, 1.0, 0.5, 0.1]$，真实 token 是 A（索引 0）。计算 MLM 损失。
+---
 
-**解答步骤：**
+### 练习 2: NSP 分类计算（对应公式 6）
 
-1. Softmax：$\exp([2.0, 1.0, 0.5, 0.1]) = [7.389, 2.718, 1.649, 1.105]$
-2. 总和：$7.389 + 2.718 + 1.649 + 1.105 = 12.861$
-3. 概率分布：$P = [0.574, 0.211, 0.128, 0.086]$
-4. 真实 token A 的概率：$P(A) = 0.574$
-5. 损失：$\mathcal{L} = -\log(0.574) = 0.555$
+**题目**：给定句对 A="Cancel my flight" + B="And the hotel"，模型的 [CLS] 最终输出 h_CLS^L = [0.3, 0.7, 0.1, 0.5]（H=4），NSP 权重矩阵 W_NSP 为 2×4:
+
+```
+W_NSP = [[0.5, 0.2, 0.1, 0.3],    ← IsNext
+          [0.1, 0.6, 0.4, 0.2]]    ← NotNext
+```
+
+**Step 1**: 线性变换 h_CLS × W_NSP^T
+
+![NSP Classifier](textbook_screenshots/math_eq_6_slp3_p212.png)
+
+> logit_IsNext  = 0.3×0.5 + 0.7×0.2 + 0.1×0.1 + 0.5×0.3 = 0.15 + 0.14 + 0.01 + 0.15 = **0.45**
+> logit_NotNext = 0.3×0.1 + 0.7×0.6 + 0.1×0.4 + 0.5×0.2 = 0.03 + 0.42 + 0.04 + 0.10 = **0.59**
+
+**Step 2**: softmax
+
+> P(IsNext)  = e^0.45 / (e^0.45 + e^0.59) = 1.568 / (1.568 + 1.804) = **0.465**
+> P(NotNext) = e^0.59 / (e^0.45 + e^0.59) = 1.804 / (1.568 + 1.804) = **0.535**
+
+**Step 3**: 假设真实标签是 IsNext（y=1），计算交叉熵损失
+
+> L_NSP = -log P(IsNext) = -log(0.465) = **0.765**
+
+**教训**：模型给出 53.5% 认为 NotNext，但实际是 IsNext → loss 较高（0.765），模型需要继续学习。
+
+> 📚 公式来源: Jurafsky & Martin, SLP3, p.213
+
+> **注**：SLP3 Ch.9 没有课后练习题（原文 Historical Notes 标注 "TBD"）。以上手算练习基于教科书公式自行设计，用于辅助理解。
 
 ---
 
 ## 公式速查表
 
-| 名称 | 公式 | 用途 | 前置公式 |
-|------|------|------|---------|
-| 输入表示 | $x_i = e_{\text{token}} + e_{\text{seg}} + e_{\text{pos}}$ | 构造 BERT 输入 | — |
-| 缩放点积注意力 | $\text{softmax}(QK^T / \sqrt{d_k}) V$ | 计算 token 间关注度 | 输入表示 |
-| 多头注意力 | $\text{Concat}(\text{head}_1, ..., \text{head}_A) W^O$ | 捕捉多种关注模式 | 缩放点积注意力 |
-| MLM 损失 | $-\frac{1}{\|\mathcal{M}\|} \sum_{i \in \mathcal{M}} \log P(w_i \| \mathbf{h}_i)$ | 预训练目标 1 | 多头注意力 |
-| NSP 损失 | $-[y \log P + (1-y) \log(1-P)]$ | 预训练目标 2 | 多头注意力 |
-| 总损失 | $\mathcal{L}_{\text{MLM}} + \mathcal{L}_{\text{NSP}}$ | 预训练优化目标 | MLM + NSP |
+| 名称 | 截图 | 用途 | 来源 |
+|------|------|------|------|
+| Self-Attention | math_eq_2 | Transformer 核心计算 | SLP3 p.209 |
+| MLM Prediction | math_eq_3 | 预测被遮盖词 | SLP3 p.212 |
+| MLM Loss (单) | math_eq_4 | 单 token 交叉熵 | SLP3 p.212 |
+| MLM Loss (总) | math_eq_5 | 所有遮盖位平均 | SLP3 p.212 |
+| NSP Classifier | math_eq_6 | 句对关系分类 | SLP3 p.213 |
+| Fine-tune cls | — | softmax(CW^T) | Devlin §4.1 |
+| QA span | — | S·T_i + E·T_j | Devlin §4.2 |
+
+---

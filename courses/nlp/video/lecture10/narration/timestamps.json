@@ -1,0 +1,110 @@
+[
+  {
+    "index": 1,
+    "start": 0.0,
+    "end": 2.52,
+    "text": "Section: History"
+  },
+  {
+    "index": 2,
+    "start": 2.92,
+    "end": 5.44,
+    "text": "Section: History"
+  },
+  {
+    "index": 3,
+    "start": 5.84,
+    "end": 8.36,
+    "text": "Section: History"
+  },
+  {
+    "index": 4,
+    "start": 8.76,
+    "end": 11.832,
+    "text": "Section: First Principles"
+  },
+  {
+    "index": 5,
+    "start": 12.232,
+    "end": 14.68,
+    "text": "Section: Math"
+  },
+  {
+    "index": 6,
+    "start": 15.08,
+    "end": 17.528,
+    "text": "Section: Math"
+  },
+  {
+    "index": 7,
+    "start": 17.928,
+    "end": 20.376,
+    "text": "Section: Math"
+  },
+  {
+    "index": 8,
+    "start": 20.776,
+    "end": 23.368,
+    "text": "Section: Tutorial"
+  },
+  {
+    "index": 9,
+    "start": 23.768,
+    "end": 26.36,
+    "text": "Section: Tutorial"
+  },
+  {
+    "index": 10,
+    "start": 26.76,
+    "end": 29.088,
+    "text": "Section: Code"
+  },
+  {
+    "index": 11,
+    "start": 29.488,
+    "end": 31.816,
+    "text": "Section: Code"
+  },
+  {
+    "index": 12,
+    "start": 32.216,
+    "end": 34.832,
+    "text": "Section: Pitfalls"
+  },
+  {
+    "index": 13,
+    "start": 35.232,
+    "end": 37.848,
+    "text": "Section: Pitfalls"
+  },
+  {
+    "index": 14,
+    "start": 38.248,
+    "end": 40.864,
+    "text": "Section: Pitfalls"
+  },
+  {
+    "index": 15,
+    "start": 41.264,
+    "end": 43.64,
+    "text": "Section: Bridge"
+  },
+  {
+    "index": 16,
+    "start": 44.04,
+    "end": 46.416,
+    "text": "Section: Bridge"
+  },
+  {
+    "index": 17,
+    "start": 46.816,
+    "end": 49.24,
+    "text": "Section: Ending"
+  },
+  {
+    "index": 18,
+    "start": 49.64,
+    "end": 52.064,
+    "text": "Section: Ending"
+  }
+]

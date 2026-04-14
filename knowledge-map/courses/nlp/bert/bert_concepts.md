@@ -1,141 +1,103 @@
 ---
 topic: bert
 dimension: concepts
-created: 2026-03-24
-last_verified: 2026-03-24
+created: 2026-04-13
+last_verified: 2026-04-13
 source_versions:
-  - "📖 Paper: Devlin et al., 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding', NAACL 2019 — https://arxiv.org/abs/1810.04805"
-  - "📚 Book: Jurafsky & Martin, 《Speech and Language Processing》 3rd Ed., Ch.11 — file:///C:/Users/40270/Desktop/workspace/aisd/textbooks/jurafsky_slp3_jan2026.pdf"
-  - "📚 Book: Eisenstein, 《Natural Language Processing》, Ch.18 — file:///C:/Users/40270/Desktop/workspace/aisd/textbooks/eisenstein_nlp.pdf"
-  - "📖 Docs: Hugging Face Transformers — https://huggingface.co/docs/transformers/model_doc/bert"
+  - "📖 Paper: Devlin et al., 'BERT: Pre-training of Deep Bidirectional Transformers', NAACL 2019 — https://arxiv.org/abs/1810.04805"
+  - "📚 Book: Jurafsky & Martin, SLP3 Ch.11 — file:///C:/Users/40270/Desktop/workspace/textbook-rag/data/raw_pdfs/textbooks/jurafsky_slp3.pdf"
+  - "📚 Book: Eisenstein, NLP Ch.14 — file:///C:/Users/40270/Desktop/workspace/textbook-rag/data/raw_pdfs/textbooks/eisenstein_nlp.pdf"
 expiry: 12m
 status: current
 ---
 
 # BERT 核心概念
 
-> 📖 Paper: Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/abs/1810.04805), NAACL 2019
-> 📚 Book: Jurafsky & Martin, [《SLP3》](../../../textbooks/jurafsky_slp3_jan2026.pdf), Ch.11
+> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), NAACL 2019
+> 📚 Book: Jurafsky & Martin, [SLP3](../../../textbooks/jurafsky_slp3.pdf), Ch.11
 
 ---
 
 ## 术语定义
 
-### 双向编码器表示 (Bidirectional Encoder Representations from Transformers, BERT)
+![Figure 1: BERT Pre-training & Fine-tuning](textbook_screenshots/concepts_1_devlin_2019_bert_p2.png)
 
-BERT 是 Google 在 2018 年提出的预训练语言模型。它的核心创新是：用"双向"的方式来理解一个词——同时考虑它左边和右边的所有上下文。之前的模型（如 GPT）只能从左到右单向看，就像只看了半本书就要做阅读理解；而 BERT 能同时看完上下文再决定每个词的含义。
+> 📚 Source: Devlin et al. (2019), Figure 1, p.3
 
-技术上，BERT 使用了 Transformer 的编码器部分（不用解码器），通过两个预训练任务（MLM 和 NSP）在大规模语料上学到通用的语言表示，然后通过微调适配到各种下游任务。
+![Figure 9.5: BERT 上下文嵌入输出](textbook_screenshots/concepts_2_jurafsky_slp3_p214.png)
 
-> 别名：**BERT**（通用简称）— 来自 Google AI 论文标题的首字母缩写
+> 📚 Source: Jurafsky & Martin, SLP3, p.215
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §1 "Introduction"
+### 预训练 (Pre-training)
 
-### 掩码语言模型 (Masked Language Model, MLM)
+在大规模无标注文本（BooksCorpus 800M词 + Wikipedia 2500M词）上，通过自监督任务让模型学习通用语言知识。预训练后的参数可以迁移到各种下游任务。
 
-BERT 的第一个预训练任务。做法很简单：随机把输入文本中 15% 的 token 遮住（mask），然后让模型去猜被遮住的词是什么。这就像做完形填空——因为要猜的词可能出现在句子的任何位置，模型不得不同时使用左右两边的上下文来推测，从而学到了真正的双向表示。
+> **教科书原文**（Devlin et al. 2019, Section 3）：
+> "During pre-training, the model is trained on unlabeled data over different pre-training tasks."
 
-具体策略：在被选中的 15% token 中，80% 替换为 `[MASK]`，10% 替换为随机词，10% 保持不变。这样做是为了让模型不只依赖 `[MASK]` token 的存在。
+> 📖 Paper: Devlin et al. (2019), Section 3
 
-> 别名：**MLM**（通用简称）/ **完形填空任务** (Cloze Task)（来自教育学领域，Taylor 1953 年提出）— 教育学家 Taylor 最早用"完形填空"来测试阅读理解能力，Devlin 等人把这个思想用到了语言模型的预训练中
+### 微调 (Fine-tuning)
 
-> 易混淆：**因果语言模型 (Causal LM, CLM)** — MLM 是双向的，看左右两边来猜被遮的词；CLM（如 GPT）是单向的，只看左边来预测下一个词。MLM 不能直接用于文本生成，CLM 可以
+用预训练好的参数初始化模型，再用下游任务的标注数据对所有参数端到端训练。只需添加一个输出层。
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.1 "Masked LM"
+> **教科书原文**（Devlin et al. 2019, Section 3）：
+> "For fine-tuning, the BERT model is first initialized with the pre-trained parameters, and all of the parameters are fine-tuned using labeled data from the downstream tasks."
 
-### 下一句预测 (Next Sentence Prediction, NSP)
+> 别名：Fine-tuning, 下游任务适配
 
-BERT 的第二个预训练任务。给模型两个句子 A 和 B，让它判断 B 是不是 A 在原始语料中的下一句。训练数据中 50% 是真实的连续句对（标记为 `IsNext`），50% 是随机拼接的句对（标记为 `NotNext`）。
+> 📖 Paper: Devlin et al. (2019), Section 3 & 4
 
-这个任务的设计初衷是让 BERT 学到句子之间的关系，以便处理 QA（问答）和 NLI（自然语言推理）等需要理解句对关系的任务。
+### Masked Language Model (MLM)
 
-> 别名：**NSP**（通用简称）
+BERT 的核心预训练任务。随机遮盖输入序列中 15% 的 token，让模型预测被遮盖的原始词。遮盖策略：80% 替换为 [MASK]，10% 替换为随机词，10% 保持不变。
 
-> 易混淆：**句子顺序预测 (Sentence Order Prediction, SOP)** — NSP 判断"是不是下一句"，SOP（ALBERT 使用）判断"两句话的顺序对不对"。后续研究（RoBERTa）发现 NSP 的效果有争议，甚至不如不用
+> **教科书原文**（SLP3 p.210）：
+> "We then train the model to guess the correct token for the manipulated tokens. Why the three possible manipulations? Adding the [MASK] token creates a mismatch between pretraining and downstream finetuning."
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.2 "Next Sentence Prediction"
+> 别名：完形填空任务 (Cloze Task)
+> 易混淆：**MLM vs Causal LM** — MLM 双向关注上下文预测被遮盖词；Causal LM（如 GPT）只看左侧上下文预测下一个词
+
+> 📖 Paper: Devlin et al. (2019), Section 3.1
+> 📚 Book: Jurafsky & Martin, SLP3, Ch.11, p.210
+
+### Next Sentence Prediction (NSP)
+
+第二个预训练任务。给定句对 (A, B)，判断 B 是否是 A 的真实后续句子（50%正例 / 50%负例）。帮助模型理解句间关系。
+
+> **教科书原文**（Devlin et al. 2019, Section 3.1）：
+> "The training data generator chooses 15% of the token positions at random for prediction."
+
+> 📚 Book: Jurafsky & Martin, SLP3, Ch.11, p.212
 
 ### [CLS] Token
 
-BERT 在每个输入序列的最前面插入的一个特殊标记。在预训练和微调中，`[CLS]` 位置的最终隐藏状态被用作整个序列的聚合表示（aggregate representation），用于分类任务。
+插入在每个输入序列开头的特殊分类标记。其最终隐层输出用作整个序列的聚合表示，输入到分类器中。
 
-为什么用第一个位置？因为 self-attention 让 `[CLS]` 能同等地关注到序列中的每一个 token，所以它的表示可以看作整个句子的"摘要"。
+> 易混淆：**[CLS] vs [SEP]** — [CLS] 用于序列级分类输出；[SEP] 用于分隔两个句子
 
-> 易混淆：**[SEP] Token** — `[CLS]` 是序列开头用于分类的标记；`[SEP]` 是用于分隔两个句子的标记（出现在每个句子末尾）
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2 "Input/Output Representations", Figure 1
+> 📖 Paper: Devlin et al. (2019), Section 3
 
 ### [SEP] Token
 
-BERT 用来分隔两个句子的特殊标记。在句对任务中（如 QA、NLI），输入格式是 `[CLS] Sentence A [SEP] Sentence B [SEP]`。`[SEP]` 告诉模型这里是句子的分界线。
+放在两个句子之间和最后一个 token 之后的特殊分隔标记。配合 Segment Embedding 区分 Sentence A 和 Sentence B。
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2
+> 📖 Paper: Devlin et al. (2019), Section 3
 
-### [MASK] Token
+### 输入表示 (Input Representation)
 
-MLM 预训练中用来替换被遮住的词的特殊标记。模型需要预测 `[MASK]` 位置上原来是什么词。注意：`[MASK]` 只在预训练阶段出现，微调阶段的输入中没有 `[MASK]`，这就造成了预训练和微调之间的不一致——这也是 80/10/10 替换策略的原因。
+BERT 的输入由三种 embedding 求和构成：Token Embedding (WordPiece) + Segment Embedding (句子归属) + Position Embedding (位置编码)。
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.1
+> **教科书原文**（Devlin et al. 2019, Section 3）：
+> "For a given token, its input representation is constructed by summing the corresponding token, segment, and position embeddings."
 
-### WordPiece 分词 (WordPiece Tokenization)
+> 📖 Paper: Devlin et al. (2019), Figure 2, Section 3
 
-BERT 使用的子词分词算法。它把词拆成更小的有意义的片段（subword），解决两个问题：(1) 减小词表体积（BERT 词表约 30,000 个 token），(2) 处理从未见过的词（OOV）。
+### WordPiece Tokenization
 
-例如：`playing` → `play` + `##ing`，其中 `##` 前缀表示这个子词不是一个新词的开头。
+BERT 使用的子词分词算法，词表大小 30,000。将罕见词拆分为子词单元（如 "playing" → "play" + "##ing"），平衡词表大小与覆盖率。
 
-> 别名：**子词分词** (Subword Tokenization)（通用概念名）— WordPiece 是 Google 的具体实现，其他实现还有 BPE（Sennrich et al. 2016）和 SentencePiece（Kudo & Richardson 2018）
-
-> 易混淆：**BPE (Byte Pair Encoding)** — WordPiece 和 BPE 都是子词分词，但合并策略不同：BPE 按频率合并最常共现的字符对；WordPiece 按似然增益合并使语言模型困惑度下降最多的字符对
-
-> 📖 Paper: Wu et al., [Google's Neural Machine Translation System](https://arxiv.org/abs/1609.08144), 2016
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §5.1
-
-### 预训练 (Pre-Training)
-
-在大规模无标注语料上用自监督任务（MLM + NSP）训练模型，让模型学到通用的语言知识。BERT-Base 在 BooksCorpus (800M words) + English Wikipedia (2500M words) 上预训练。这一步计算成本极高（原始论文使用 16 个 TPU），但只需做一次。
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.1 "Pre-training BERT"
-
-### 微调 (Fine-Tuning)
-
-在预训练好的 BERT 模型上，加一个任务特定的输出层（通常只是一个线性分类器），然后用有标注的下游任务数据对整个模型进行端到端训练。微调只需要少量数据和少量训练步数（通常 2-4 个 epoch），就能在各种任务上达到很好的效果。
-
-> 易混淆：**特征提取 (Feature Extraction)** — 微调会更新 BERT 所有层的参数；特征提取则冻结 BERT 参数，只训练新加的分类层。微调效果通常更好
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §4 "Experiments"
-
-### Token Embedding
-
-BERT 输入表示的三个组成部分之一。将每个 WordPiece token 映射为一个固定维度的向量（BERT-Base 为 768 维）。
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2, Figure 2
-
-### Segment Embedding
-
-BERT 输入表示的三个组成部分之一。用于区分输入中的句子 A 和句子 B。属于句子 A 的 token 共享一个段嵌入向量 $E_A$，属于句子 B 的共享 $E_B$。单句任务只用 $E_A$。
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2, Figure 2
-
-### Position Embedding
-
-BERT 输入表示的三个组成部分之一。因为 Transformer 的 self-attention 没有位置感知能力，需要给每个位置加一个可学习的位置嵌入向量。BERT 最多支持 512 个位置（即最大序列长度 512）。
-
-> 易混淆：**正弦位置编码 (Sinusoidal Positional Encoding)** — 原始 Transformer (Vaswani 2017) 用固定的正弦/余弦函数；BERT 用可学习的位置嵌入。可学习嵌入更灵活但不具外推能力
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.2
-
-### BERT-Base 与 BERT-Large
-
-BERT 提供了两个预训练版本：
-
-| 参数 | BERT-Base | BERT-Large |
-|------|-----------|------------|
-| Transformer 层数 (L) | 12 | 24 |
-| 隐藏维度 (H) | 768 | 1024 |
-| 注意力头数 (A) | 12 | 16 |
-| 总参数量 | 110M | 340M |
-
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.1
+> 📖 Paper: Devlin et al. (2019), Section 3
 
 ---
 
@@ -145,104 +107,79 @@ BERT 提供了两个预训练版本：
 
 | 维度 | BERT | GPT |
 |------|------|-----|
-| **方向性** | 双向（同时看左右） | 单向（只看左边） |
-| **架构** | Transformer Encoder | Transformer Decoder |
-| **预训练任务** | MLM + NSP | 自回归语言建模 (CLM) |
-| **擅长什么** | 理解任务（分类、NER、QA）| 生成任务（文本续写、对话）|
-| **典型应用** | 文本分类、信息抽取 | ChatGPT、文本生成 |
-| **能否生成文本** | 不擅长（非自回归）| 天生擅长 |
-| **论文** | Devlin et al., 2019 | Radford et al., 2018 |
+| 方向性 | **双向** — 同时看左右上下文 | **单向** — 只看左侧上下文 |
+| 预训练目标 | MLM + NSP | Causal Language Model (预测下一个词) |
+| 架构 | Transformer **Encoder** | Transformer **Decoder** |
+| 适用任务 | 理解型（分类、问答、NER） | 生成型（文本生成、对话） |
+| 微调方式 | 添加输出层，微调所有参数 | 同上 |
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3, Figure 3
-> 📖 Paper: Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf), 2018
+> **教科书原文**（Devlin et al. 2019, Appendix, p.13）：
+> "The most comparable existing pre-training method to BERT is OpenAI GPT... The core argument of this work is that the bi-directionality and the two pretraining tasks presented in Section 3.1 account for the majority of the empirical improvements."
 
-### MLM vs CLM
+> 📖 Paper: Devlin et al. (2019), Appendix A.4, Figure 3
 
-| 维度 | MLM (BERT) | CLM (GPT) |
-|------|-----------|-----------|
-| **训练目标** | 预测被遮住的 token | 预测下一个 token |
-| **上下文方向** | 双向 | 单向（左到右）|
-| **掩码比例** | 15% 的 token 被选中 | 不需要掩码 |
-| **预训练/微调不一致** | 有（微调无 `[MASK]`）| 没有 |
-| **生成能力** | 弱 | 强 |
-| **理解能力** | 强 | 较弱 |
+### ELMo vs BERT
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §3.3.1
+| 维度 | ELMo | BERT |
+|------|------|------|
+| 双向方式 | 两个独立单向 LSTM **拼接** | 单个 Transformer **联合** 双向 |
+| 迁移方式 | Feature-based (冻结+提取特征) | Fine-tuning (全参数微调) |
+| 上下文融合 | 浅层拼接 | 深层联合注意力 |
 
-### Fine-Tuning vs Feature Extraction
+> 📖 Paper: Devlin et al. (2019), Section 2 & Appendix A.4
 
-| 维度 | Fine-Tuning | Feature Extraction |
-|------|-------------|-------------------|
-| **参数更新** | 整个 BERT + 新层 | 只更新新加的层 |
-| **BERT 参数** | 可学习 | 冻结 |
-| **效果** | 通常更好 | 可能较差 |
-| **计算资源** | 需要 GPU | 可以用 CPU |
-| **适用场景** | 数据量适中 | 资源极度有限 |
+### BERT-BASE vs BERT-LARGE
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §5.3 "Feature-based Approach with BERT"
+| 参数 | BERT-BASE | BERT-LARGE |
+|------|-----------|------------|
+| L (层数) | 12 | 24 |
+| H (隐层维度) | 768 | 1024 |
+| A (注意力头数) | 12 | 16 |
+| 总参数 | 110M | 340M |
+
+> 📖 Paper: Devlin et al. (2019), Section 3
 
 ---
 
 ## 核心属性
 
-### 信息架构
-
-    输入文本: "我 喜欢 自然 语言 处理"
-         │
-         ▼
-    ┌─────────────────────────────────────────────┐
-    │  WordPiece 分词                               │
-    │  [CLS] 我 喜欢 自然 语言 处理 [SEP]             │
-    └─────────────────────────────────────────────┘
-         │
-         ▼
-    ┌─────────────────────────────────────────────┐
-    │  Input Representation = Token + Segment + Position │
-    └─────────────────────────────────────────────┘
-         │
-         ▼
-    ┌─────────────────────────────────────────────┐
-    │  12/24 层 Transformer Encoder                    │
-    │  (Self-Attention → FFN → LayerNorm)           │
-    └─────────────────────────────────────────────┘
-         │
-         ▼
-    ┌─────────────────────────────────────────────┐
-    │  输出: 每个 token 一个上下文向量               │
-    │  [CLS] → 分类; 各 token → 序列标注            │
-    └─────────────────────────────────────────────┘
-
 ### 适用场景 ✅
 
-- **文本分类**：情感分析、主题分类、垃圾邮件检测
-- **序列标注**：命名实体识别 (NER)、词性标注 (POS Tagging)
-- **句对任务**：自然语言推理 (NLI)、语义相似度
-- **阅读理解 / QA**：SQuAD 抽取式问答
-- **特征提取**：作为文本编码器生成上下文嵌入
+- **文本分类** — 情感分析、主题分类（用 [CLS] 输出）
+- **问答系统** — 抽取式 QA（预测 start/end span）
+- **命名实体识别** — 序列标注（每个 token 单独分类）
+- **自然语言推理** — 句对关系判断（MNLI、RTE）
+- **语义相似度** — 句对相似度评估（STS-B）
 
 ### 不适用场景 ❌
 
-- **开放式文本生成**：BERT 不是自回归模型，不适合续写/对话/翻译
-- **超长文档**：最大 512 token 限制，长文档需要截断或分块
-- **实时推理**：BERT-Large (340M 参数) 推理速度较慢
-- **低资源部署**：需要 GPU，不适合边缘设备（可考虑 DistilBERT）
+- **文本生成** — BERT 是 Encoder-only，不擅长自回归生成（用 GPT）
+- **超长文档** — 输入限制 512 token（用 Longformer / BigBird）
+- **实时推理** — 大模型推理延迟高（用 DistilBERT / TinyBERT 蒸馏）
+- **低资源场景** — 预训练需大规模算力（但微调成本低）
 
-> 📖 Paper: Devlin et al., [BERT](https://arxiv.org/abs/1810.04805), §4
-> 📚 Book: Jurafsky & Martin, [《SLP3》](../../../textbooks/jurafsky_slp3_jan2026.pdf), Ch.11
+> 📖 Paper: Devlin et al. (2019), Section 4
+> 📚 Book: Jurafsky & Martin, SLP3, p.254
 
 ---
 
 ## 速查表
 
-| 项 | 说明 | 示例 |
-|-----|------|------|
-| 模型类型 | Transformer Encoder (双向) | 12 层 (Base) / 24 层 (Large) |
-| 预训练任务 | MLM + NSP | 15% token 被 mask |
-| 输入格式 | `[CLS] Sent_A [SEP] Sent_B [SEP]` | 句对输入 |
-| 输入表示 | Token + Segment + Position | 三者相加 |
-| 最大序列长度 | 512 tokens | WordPiece 分词后的长度 |
-| 词表大小 | ~30,000 | WordPiece |
-| [CLS] 用途 | 分类任务的聚合表示 | 情感分析：[CLS] → 正/负 |
-| 微调方式 | 加任务特定头 + 端到端训练 | 2-4 epoch, lr ~ 2e-5 |
-| BERT-Base 参数 | L=12, H=768, A=12 | 110M 参数 |
-| BERT-Large 参数 | L=24, H=1024, A=16 | 340M 参数 |
+| 项 | 说明 | 示例/值 |
+|----|------|---------|
+| 全称 | Bidirectional Encoder Representations from Transformers | — |
+| 发布 | Google AI, 2018 年 10 月 | arXiv: 1810.04805 |
+| 预训练目标 | MLM + NSP | 15% mask, 50/50 NSP |
+| 输入格式 | [CLS] + Sentence A + [SEP] + Sentence B + [SEP] | — |
+| 输入表示 | Token + Segment + Position Embedding | 三者相加 |
+| 分词器 | WordPiece | 30K 词表 |
+| 最大序列长度 | 512 tokens | — |
+| Base 参数 | L=12, H=768, A=12 | 110M 参数 |
+| Large 参数 | L=24, H=1024, A=16 | 340M 参数 |
+| 预训练数据 | BooksCorpus + Wikipedia | 3.3B 词 |
+| 训练时长 | 4 天 (Base) / 4 天 (Large, 64 TPU) | — |
+| 代表性成绩 | GLUE 80.5%, SQuAD F1 93.2 | 发布时 SOTA |
+
+> 📖 Paper: Devlin et al. (2019), Section 3 & 4
+
+---

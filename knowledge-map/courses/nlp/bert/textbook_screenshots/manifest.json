@@ -1,0 +1,100 @@
+{
+  "concepts": [
+    {
+      "file": "concepts_1_devlin_2019_bert_p2.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 2,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.3"
+    },
+    {
+      "file": "concepts_2_jurafsky_slp3_p214.png",
+      "book_id": "jurafsky_slp3",
+      "page_idx": 214,
+      "caption": "",
+      "source": "Source: Jurafsky & Martin, SLP3, p.215"
+    }
+  ],
+  "math": [
+    {
+      "file": "math_1_devlin_2019_bert_p15.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 15,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.16"
+    },
+    {
+      "file": "math_2_eisenstein_nlp_p257.png",
+      "book_id": "eisenstein_nlp",
+      "page_idx": 257,
+      "caption": "",
+      "source": "Source: Eisenstein, NLP, p.258"
+    }
+  ],
+  "first_principles": [
+    {
+      "file": "first_principles_1_jurafsky_slp3_p103.png",
+      "book_id": "jurafsky_slp3",
+      "page_idx": 103,
+      "caption": "",
+      "source": "Source: Jurafsky & Martin, SLP3, p.104"
+    },
+    {
+      "file": "first_principles_2_eisenstein_nlp_p343.png",
+      "book_id": "eisenstein_nlp",
+      "page_idx": 343,
+      "caption": "",
+      "source": "Source: Eisenstein, NLP, p.344"
+    }
+  ],
+  "tutorial": [
+    {
+      "file": "tutorial_1_devlin_2019_bert_p2.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 2,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.3"
+    },
+    {
+      "file": "tutorial_2_devlin_2019_bert_p4.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 4,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.5"
+    }
+  ],
+  "history": [
+    {
+      "file": "history_1_jurafsky_slp3_p372.png",
+      "book_id": "jurafsky_slp3",
+      "page_idx": 372,
+      "caption": "",
+      "source": "Source: Jurafsky & Martin, SLP3, p.373"
+    },
+    {
+      "file": "history_2_devlin_2019_bert_p12.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 12,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.13"
+    }
+  ],
+  "bridge": [
+    {
+      "file": "bridge_1_devlin_2019_bert_p4.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 4,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.5"
+    },
+    {
+      "file": "bridge_2_devlin_2019_bert_p15.png",
+      "book_id": "devlin_2019_bert",
+      "page_idx": 15,
+      "caption": "",
+      "source": "Source: devlin_2019_bert, p.16"
+    }
+  ],
+  "map": [],
+  "pitfalls": []
+}
