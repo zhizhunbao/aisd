@@ -1,0 +1,177 @@
+[
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "The process of converting raw text into a sequence of units that a model can process is called:",
+    "options": [
+      "A) Tokenization",
+      "B) Lemmatization",
+      "C) Stemming"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Why A:</strong> Tokenization is the process of splitting continuous text into minimal semantic units (tokens) -- the first step in the NLP pipeline.<br><br><strong>分词（Tokenization）是将连续文本切割为最小语义单元（Token）的过程，是 NLP 管道的第一步。</strong><br><br><strong>B:</strong> Lemmatization reduces words to their dictionary base form (e.g., 'running' → 'run'), not splitting text.<br><strong>C:</strong> Stemming crudely removes suffixes to get word roots, also not splitting text."
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "For which of the following tasks should you NOT do stemming/lemmatization?",
+    "options": [
+      "A) Sentiment Analysis",
+      "B) Poetry Analysis",
+      "C) Text Classification"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> In poetry analysis, the original word forms, tenses, and endings are crucial for rhyme, rhythm, and rhetoric. Stemming/Lemmatization would destroy word form variations, losing rhyme and rhetorical information essential to poetry.<br><br><strong>诗歌分析中，词汇的原始形态、时态变化和词尾韵律对押韵、节奏至关重要。Stemming/Lemmatization 会破坏词形变化，从而丢失诗歌中的韵律和修辞信息。</strong><br><br><strong>A/C:</strong> In sentiment analysis and text classification, word normalization typically helps reduce feature space and improve model performance."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "SpaCy does not provide a built-in function for Stemming.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> SpaCy's design philosophy favors dictionary-based Lemmatization, so it does not include built-in Stemming functionality. Use NLTK's PorterStemmer or SnowballStemmer for stemming.<br><br><strong>SpaCy 的设计理念偏向使用基于词典的 Lemmatization，因此没有内置 Stemming 功能。如需 Stemming 可使用 NLTK 的 PorterStemmer 或 SnowballStemmer。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The following regex will match all the words ended with a hyphen(-):<br><code>rgx = r'\\b\\w+[-]\\w+\\b'</code>",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Regex trap! The regex <code>\\b\\w+[-]\\w+\\b</code> matches compound words with a hyphen IN THE MIDDLE (e.g., 'high-tech', 'well-known'), NOT words ending with a hyphen. The pattern requires <code>\\w+</code> (one or more word characters) on both sides of the hyphen.<br><br><strong>正则陷阱！该正则匹配的是中间含连字符的复合词（如 'high-tech'），而非以连字符结尾的词。模式要求连字符两侧都有 \\w+，因此连字符必须在词中间。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Text cleaning removes noise (like special characters, irrelevant symbols, and unnecessary spaces) and standardizes the text (e.g., converting to lowercase), and is essential for improving the quality of the data and the performance of NLP models.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Text cleaning reduces noise and feature space dimensionality. Cleaned text is more normalized, reducing irrelevant variants the model must handle, thus improving performance.<br><br><strong>文本清洗通过去除特殊字符、多余空格并统一大小写，能有效降低噪声和特征空间维度，从而提升模型性能。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which python expression outputs state names that start and end with a 'vowel' character?<br><code>states = ['Alabama','Alaska',...,'Wyoming']</code>",
+    "options": [
+      "A) [s for s in states if s[0].lower() in 'aeiou' and s[1] in 'aeiou']",
+      "B) [s for s in states if s[0].lower() in 'aeiou' and s[-1] in 'aeiou']",
+      "C) [s for s in states if s[1].lower() in 'aeiou' and s[-1] in 'aeiou']"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <code>s[0]</code> gets the first character, <code>s[-1]</code> gets the last character, and both check <code>in 'aeiou'</code> for vowel membership.<br><br><strong>s[0] 取首字母，s[-1] 取末尾字母，两者都检查是否在 'aeiou' 中。</strong><br><br><strong>A:</strong> <code>s[1]</code> gets the SECOND character, not the last.<br><strong>C:</strong> <code>s[1]</code> gets the second character, not the first."
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "When might you use lemmatizing over stemming?",
+    "options": [
+      "A) When accuracy is preferred more than speed",
+      "B) When non-dictionary words are allowed to appear in the output",
+      "C) When the data file contains a large number of simple words",
+      "D) When speed is preferred more than accuracy"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Why A:</strong> Lemmatization uses dictionary lookup to restore words to their standard base form -- more accurate but slower than Stemming. When accuracy matters more than speed, Lemmatization is the better choice.<br><br><strong>Lemmatization 通过词典查询将词还原为标准形式，比 Stemming 更准确但更慢。当准确性比速度更重要时，应选择 Lemmatization。</strong><br><br><strong>B:</strong> Lemmatization produces valid dictionary words; Stemming may produce non-dictionary forms (e.g., 'studi').<br><strong>C/D:</strong> Simple words and speed-priority scenarios are better suited for Stemming."
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Pick the stemming action:",
+    "options": [
+      "A) was, am, is, are → be",
+      "B) helped, helps → help",
+      "C) troubled, troubling, trouble → trouble"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Stemming obtains word stems by stripping common suffixes (-ed, -s, -ing) through pure rule-based operations. 'helped' strips -ed, 'helps' strips -s -- both achieve the stem 'help' through simple suffix removal.<br><br><strong>Stemming 通过剥离常见后缀（如 -ed, -s, -ing）来获取词干，是纯规则操作。</strong><br><br><strong>A:</strong> 'was/am/is/are → be' is Lemmatization -- requires dictionary knowledge to map irregular verb forms.<br><strong>C:</strong> While it looks like suffix removal, it is more of a Lemmatization result."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Consider the provided code snippet:<br><code>Text = 'I love NLP and I am read9y to study in 5 hours per Day'<br>regex = '[a-zA-Z]\\w*d+'<br>print(re.findall(regex, Text))</code><br><br>The output is: <code>['and']</code>",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The regex <code>[a-zA-Z]\\w*d+</code> matches: starts with a letter, then any number of word characters, ending with one or more 'd'. This does NOT only match 'and' -- it also matches other substrings ending in 'd' within the text, producing multiple results.<br><br><strong>该正则匹配以字母开头、以一个或多个 'd' 结尾的子串。不仅匹配 'and'，还会匹配其他以 'd' 结尾的子串。</strong><br><br><strong>Note:</strong> <code>\\w</code> includes digits, so patterns within 'read9y' can also produce matches ending in 'd'."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following correctly describes the difference between <code>re.match()</code> and <code>re.search()</code>?",
+    "options": [
+      "A) re.match() searches the entire string; re.search() only checks the beginning",
+      "B) re.match() only checks the beginning of the string; re.search() searches any position",
+      "C) Both functions work identically",
+      "D) re.match() returns all matches; re.search() returns only the first"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <code>re.match()</code> only attempts to match at the BEGINNING of the string. <code>re.search()</code> scans through the entire string looking for the first match at ANY position.<br><br><strong>re.match() 只在字符串开头匹配；re.search() 在任意位置搜索第一个匹配。</strong><br><br>Example: <code>re.match(r'\\d+', 'abc123')</code> returns None; <code>re.search(r'\\d+', 'abc123')</code> returns '123'."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "POS tagging assigns each token a grammatical category. Which POS tag represents an adjective?",
+    "options": [
+      "A) NN (Noun)",
+      "B) VB (Verb)",
+      "C) JJ (Adjective)",
+      "D) RB (Adverb)"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> JJ is the Penn Treebank POS tag for adjective. Example: 'The <u>quick</u>(JJ) fox'.<br><br><strong>JJ 是 Penn Treebank 词性标注中形容词的标签。</strong><br><br><strong>A:</strong> NN = Noun  <strong>B:</strong> VB = Verb  <strong>D:</strong> RB = Adverb"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Named Entity Recognition (NER) identifies and classifies proper nouns in text into categories such as PERSON, GPE (Geo-Political Entity), and ORG (Organization).",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> NER is the task of finding and classifying named entities in text. Standard entity types include PERSON (James), GPE (Ottawa), ORG (Google), DATE, MONEY, etc.<br><br><strong>NER 是从文本中找出并分类专有名词的任务。标准实体类型包括 PERSON（人名）、GPE（地名）、ORG（组织）等。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Stemming always produces valid dictionary words, while lemmatization may produce non-dictionary forms.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> It's the opposite! Stemming uses crude rule-based suffix stripping and may produce non-dictionary forms (e.g., 'studies' → 'studi'). Lemmatization uses dictionary lookup and always produces valid dictionary words (e.g., 'studies' → 'study').<br><br><strong>恰好相反！Stemming 用粗暴的规则去后缀，可能产生非词典词（如 'studies' → 'studi'）。Lemmatization 用词典查询，总是产出合法词典词（如 'studies' → 'study'）。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What are “Stop Words” in NLP preprocessing?",
+    "options": [
+      "A) Words that cause errors in the model",
+      "B) High-frequency common words (the, is, a) that carry little semantic meaning and are often removed",
+      "C) Words that appear only once in the corpus",
+      "D) The last word of every sentence"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Stop words are extremely common words (the, is, a, an, in...) that carry little meaningful information. Removing them reduces noise and dimensionality.<br><br><strong>停用词 = 高频无语义词（如 the, is, a），移除可降低噪声和维度。</strong><br><br>⚠️ 注意：并非永远要移除！情感分析中 'not' 很重要但可能被误删。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What does “Tokenization” produce as output?",
+    "options": [
+      "A) A list of word stems",
+      "B) A sequence of tokens (minimal meaningful units)",
+      "C) A parse tree of the sentence",
+      "D) A vector representation of the text"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Tokenization splits raw text into tokens — the smallest meaningful units. It is the FIRST step in the NLP pipeline.<br>• Word-level: 'I love NLP' → ['I', 'love', 'NLP']<br>• Subword BPE: 'unhappiness' → ['un', 'happi', 'ness']<br><br><strong>分词 = 切原始文本为最小语义单元(Token)。NLP 管道第一步！</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Lemmatization is faster than Stemming because it uses simple rule-based suffix removal.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ 恰好相反！Stemming 用规则去后缀(快但粗); Lemmatization 查字典还原(慢但准)。<br><br><strong>Stemming = rule-based, fast, may produce non-words ('studi').<br>Lemmatization = dictionary-based, slower, always valid words ('study').</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the output of the following code?<br><code>import re<br>text = 'Hello World 123 foo_bar'<br>result = re.findall(r'\\b[A-Z][a-z]+\\b', text)<br>print(result)</code>",
+    "options": [
+      "A) ['Hello', 'World']",
+      "B) ['Hello', 'World', '123', 'foo_bar']",
+      "C) ['Hello World']",
+      "D) ['Hello', 'World', 'foo']"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Why A:</strong> The regex <code>\\b[A-Z][a-z]+\\b</code> matches words that start with an uppercase letter followed by one or more lowercase letters, bounded by word boundaries.<br>• 'Hello' ✓ (H + ello)<br>• 'World' ✓ (W + orld)<br>• '123' ✗ (starts with digit)<br>• 'foo_bar' ✗ ('foo' starts lowercase, 'bar' starts lowercase)<br><br><strong>正则 [A-Z][a-z]+ 匹配以大写字母开头、后跟一个或多个小写字母的单词。</strong>"
+  }
+]

@@ -1,0 +1,169 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Static embeddings like word2vec give different vectors for the same word in different contexts.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Static embeddings give ONE fixed vector per word regardless of context. 'bank' in 'river bank' and 'bank account' → same vector.<br><br><strong>静态嵌入每个词只有一个固定向量，不区分上下文。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Transformer architecture still relies on RNN for sequential processing.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Transformer completely abandons RNN/LSTM. 'Attention Is All You Need' = only self-attention + positional encoding.<br><br><strong>Transformer 完全抛弃 RNN，纯靠自注意力 + 位置编码。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Self-attention inherently knows the order of words in a sequence without any additional mechanism.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Self-attention is a SET operation (symmetric). 'I love NLP' and 'NLP love I' produce identical results without PE. Must add Positional Encoding.<br><br><strong>自注意力是集合操作，不区分词序。必须加位置编码。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "In Cross-Attention between encoder and decoder, where do Q, K, V come from?",
+    "options": [
+      "A) All three from decoder",
+      "B) All three from encoder",
+      "C) Q from decoder; K and V from encoder",
+      "D) Q and K from encoder; V from decoder"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> Decoder's Query asks 'what am I looking for?'; Encoder's Key and Value provide the source information to attend to.<br><br><strong>Q来自解码器（查询）；K和V来自编码器（被查询的源信息）。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The Feed-Forward Network (FFN) in Transformer operates on the entire sequence at once.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ FFN is position-wise — it applies the same transformation independently to each position. Positions do NOT interact in FFN.<br><br><strong>FFN是逐位置独立操作的，位置之间不交互信息。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Why is the dot product divided by √d_k in scaled dot-product attention?",
+    "options": [
+      "A) To speed up computation",
+      "B) To prevent softmax from becoming too peaked, which causes vanishing gradients",
+      "C) To normalize the output length",
+      "D) To reduce the number of parameters"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Large d_k → large dot products → softmax becomes near one-hot → gradients vanish. Dividing by √d_k keeps variance ≈ 1.<br><br><strong>大维度→大点积→softmax过于尖锐→梯度消失。除以√d_k控制方差≈1。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following is NOT one of the Transformer's five challenges?",
+    "options": [
+      "A) Language coverage bias",
+      "B) Long document O(n²) complexity",
+      "C) Perfect interpretability",
+      "D) Training data bias"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> Transformer has LOW interpretability (black-box), not perfect. Five challenges: Language, Data, Long docs, Transparency, Bias.<br><br><strong>Transformer可解释性差（黑盒），不是完美的。五大挑战：语言、数据、长文档、透明度、偏见。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The original Transformer uses learned positional embeddings that are trained with the model.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Original Transformer (2017) uses FIXED sin/cos positional encoding — not learned. BERT later used learnable PE, but the original paper used fixed formulas.<br><br><strong>原始Transformer用固定sin/cos位置编码，不是学习来的。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which Transformer branch is BERT based on?",
+    "options": [
+      "A) Decoder-only",
+      "B) Encoder-Decoder",
+      "C) Encoder-only",
+      "D) None — BERT predates Transformer"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> BERT = Encoder-only (bidirectional understanding). GPT = Decoder-only (generation). T5 = Encoder-Decoder (translation/summarization).<br><br><strong>BERT=仅编码器(双向理解); GPT=仅解码器(生成); T5=编码器-解码器。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Transformer's O(n²) attention complexity means it is always slower than RNN's O(n) sequential processing.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Although O(n²), Transformer is fully parallelizable on GPUs. RNN's O(n) is sequential — each step waits for the previous. In practice, Transformer trains much faster.<br><br><strong>虽然O(n²)，但Transformer完全并行（GPU矩阵乘法），实际训练速度远快于RNN的顺序O(n)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the purpose of residual connections in Transformer?",
+    "options": [
+      "A) Reduce model size",
+      "B) Allow gradients to flow directly through skip paths, enabling deeper networks",
+      "C) Replace attention mechanism",
+      "D) Add more parameters for better performance"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> output = x + Sublayer(x). Each layer learns incremental corrections, and gradients can bypass sub-layers via the residual path.<br><br><strong>残差连接让每层学增量修正，梯度可通过跳跃路径直传。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In the Transformer decoder, why is masked self-attention needed?",
+    "options": [
+      "A) To speed up training",
+      "B) To prevent the decoder from seeing future tokens during generation",
+      "C) To reduce memory usage",
+      "D) To handle OOV words"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> During auto-regressive generation, the decoder can only see previously generated tokens. Future positions are set to -∞ before softmax → weight = 0.<br><br><strong>解码器自回归生成时不能偷看未来词。将未来位置设为-∞→权重=0。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Multi-head attention simply repeats the same attention computation multiple times with the same weights.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Each head has INDEPENDENT W_Q, W_K, W_V weights, learning different attention patterns (syntax, semantics, proximity, etc.).<br><br><strong>每个头有独立的W_Q/W_K/W_V权重，学习不同的关注模式。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "The three major branches of Transformer-based models are:",
+    "options": [
+      "A) CNN, RNN, LSTM",
+      "B) Encoder-only (BERT), Decoder-only (GPT), Encoder-Decoder (T5)",
+      "C) Word2Vec, GloVe, FastText",
+      "D) Supervised, Unsupervised, Reinforcement"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Three Transformer branches:<br>• <strong>Encoder-only (BERT):</strong> bidirectional → understanding (classification, NER, QA)<br>• <strong>Decoder-only (GPT):</strong> autoregressive → generation (chatbot)<br>• <strong>Encoder-Decoder (T5):</strong> seq2seq → translation, summarization<br><br><strong>BERT=E-only(理解); GPT=D-only(生成); T5=E-D(翻译/摘要)。必记！</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In Cross-Attention, the Query (Q) comes from the encoder and the Key (K) and Value (V) come from the decoder.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ 方向反了！Cross-Attention: Q from DECODER (\"what am I looking for?\"); K and V from ENCODER (source information to attend to).<br><br><strong>Cross-Attention: Q来自解码器，KV来自编码器。不要搞反！Self-Attention: QKV都来自同一序列。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "The original 2017 Transformer paper “Attention Is All You Need” still uses RNN layers for processing sequential information.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The title says it all: \"Attention Is ALL You Need.\" Transformer completely replaces RNN/LSTM with self-attention + positional encoding. No recurrent layers at all.<br><br><strong>Transformer 完全抛弃 RNN，纯靠自注意力 + 位置编码。论文标题就说了\"注意力就够了\"。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In the original Transformer, the encoder has 6 identical layers. Each layer contains (in order):",
+    "options": [
+      "A) FFN → Self-Attention → LayerNorm (repeated)",
+      "B) Self-Attention → Add&Norm → FFN → Add&Norm",
+      "C) Self-Attention → FFN → Pooling → Output",
+      "D) Embedding → Self-Attention → Cross-Attention → FFN"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Each encoder layer: <br>① Multi-Head Self-Attention<br>② Add & Layer Normalization (residual connection)<br>③ Position-wise FFN<br>④ Add & Layer Normalization<br><br><strong>每个编码器层：自注意力 → Add&Norm → FFN → Add&Norm。顺序很重要，考试可能考！</strong><br><br>⚠️ A: FFN在Self-Attention之后，不是之前<br>⚠️ C: 没有Pooling层<br>⚠️ D: Cross-Attention只在解码器中有"
+  }
+]

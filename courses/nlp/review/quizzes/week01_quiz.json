@@ -1,0 +1,275 @@
+[
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which deep learning architecture, introduced in 2017, demonstrated remarkable performance in various NLP tasks and marked a turning point in natural language understanding?",
+    "options": [
+      "A) Long Short-Term Memory (LSTM)",
+      "B) Convolutional Neural Network (CNN)",
+      "C) Transformer",
+      "D) Recurrent Neural Network (RNN)"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> The Transformer architecture was introduced in 2017 by Google in the paper 'Attention is All You Need,' featuring the self-attention mechanism that revolutionized NLP.<br><br><strong>Transformer 架构于 2017 年由 Google 在论文 'Attention is All You Need' 中提出，引入了自注意力机制（Self-Attention），成为 NLP 领域的转折点。</strong><br><br><strong>A/D:</strong> LSTM (1997) and RNN appeared much earlier; while once dominant, they were not the 2017 turning point.<br><strong>B:</strong> CNN is primarily for image tasks; while applicable to NLP, it was not the landmark architecture of 2017."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The main challenge in sentiment analysis lies in the complexity of human emotions and language, so it requires a deeper understanding of language and context.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> The core difficulty of sentiment analysis lies in sarcasm, irony, metaphor, and other complex emotional expressions. Accurately determining sentiment requires deep semantic understanding beyond simple keyword matching.<br><br><strong>情感分析的核心难点在于讽刺、反语、隐喻等复杂情感表达。准确判断情感需要深层语义理解，而非仅靠关键词匹配。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following is NOT an example of natural language generation (NLG)?",
+    "options": [
+      "A) Converting speech to text",
+      "B) Translating a document from English to French",
+      "C) Writing a news article",
+      "D) Text Classification"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D:</strong> Text Classification assigns text to predefined categories -- it is an NLU (understanding) task, not generation. NLG refers to systems that produce new natural language text.<br><br><strong>文本分类是将文本归入预定义类别，属于 NLU（自然语言理解）任务，不生成新文本。</strong><br><br><strong>B/C:</strong> Translation and news writing both involve producing text, so they are NLG tasks.<br><strong>A:</strong> Speech-to-Text (ASR) is more recognition than generation."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "A document is a raw or semi-structured piece of text (such as an article or report), whereas knowledge refers to structured, interpreted information such as facts, entities, or relationships extracted from documents.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> This is the standard distinction between Document and Knowledge in NLP. A document is raw text material; knowledge is structured information (entities, relationships, facts) extracted from it.<br><br><strong>这是 NLP 中 Document vs Knowledge 的标准区分。文档是原始文本素材，知识是从中提取的结构化信息（如实体、关系、事实）。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Variation in NLP is a challenge because language data is often highly skewed, with a few words being very frequent and a vast number of words occurring rarely.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Language data follows Zipf's Law: a few high-frequency words dominate, while the vast majority of unique words are rare, forming a long-tail distribution. This skewed distribution is a core NLP challenge (Sparsity).<br><br><strong>语言数据遵循齐普夫定律（Zipf's Law）：少数高频词占据大量出现次数，大量低频词极少出现，形成长尾分布。这种分布不均是 NLP 的核心挑战之一。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following best describes the relationship between AI, ML, DL, and NLP?",
+    "options": [
+      "A) AI is a subset of ML, ML is a subset of DL, and NLP is unrelated to these fields",
+      "B) DL and ML are unrelated to AI, while NLP is the main branch of AI",
+      "C) AI is a subset of DL, ML is a subset of DL, and NLP is a subset of ML",
+      "D) NLP is a subset of AI focused on language tasks; ML is an approach to achieve AI; DL is a type of ML"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D:</strong> The correct hierarchy: AI (broadest) ⊃ ML (a way to achieve AI) ⊃ DL (a branch of ML); NLP is an application domain of AI focused on language tasks.<br><br><strong>正确的层级关系：AI（最大范畴）⊃ ML（AI 的实现路径之一）⊃ DL（ML 的分支）；NLP 是 AI 的一个应用领域。</strong><br><br><strong>A:</strong> Hierarchy inverted -- AI is the parent, not a subset.<br><strong>B:</strong> ML and DL are subfields of AI, not unrelated.<br><strong>C:</strong> AI is not a subset of DL -- it is the opposite."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Text summarization is challenging because the system must select the most important information while maintaining coherence, context, and meaning from the original text. In text summarization, there is no need to maintain the overall meaning and coherence of the original text while extracting key information.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Trap question! The first half is correct (summarization must maintain coherence), but the second half contradicts itself by claiming 'no need to maintain meaning and coherence.' Text summarization MUST preserve meaning and logical coherence while extracting key information.<br><br><strong>陷阱题！题干前半句正确（摘要需保持连贯性），但后半句自相矛盾地声称\"不需要保持整体含义和连贯性\"。文本摘要必须在提取关键信息的同时保持原文的意义和逻辑连贯性。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The goal of NLP is to develop algorithms and models that can understand, interpret, and generate human language in a way that is useful and meaningful.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> This is the standard definition of NLP. The goal of NLP is precisely to enable computers to understand (NLU), interpret, and generate (NLG) human language meaningfully.<br><br><strong>这是 NLP 的标准定义。NLP 的目标正是让计算机理解（NLU）、解释和生成（NLG）人类语言。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "AI aims to create systems that rely only on fixed rules and do not involve learning, while machine learning is an unrelated field that does not use data to make predictions.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Modern AI is not limited to fixed rules (like expert systems); it includes learning-based approaches. ML is a core branch of AI that specifically learns from data to make predictions. Both claims in the statement are wrong.<br><br><strong>现代 AI 不仅限于固定规则（如专家系统），更包括从数据中学习的方法。ML 是 AI 的核心分支，专门通过数据学习来做预测。题干两个断言都错。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "In the Alan Turing test, a human evaluator interacts through text with two unseen participants: one human and one machine. If the evaluator cannot reliably tell which one is the machine based on the conversation, the machine is said to have passed the Turing Test.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> This is an accurate description of the Turing Test (1950). The core criterion: if an evaluator cannot distinguish the machine from the human in text-based conversation, the machine is considered intelligent.<br><br><strong>这是图灵测试（Turing Test, 1950）的准确描述。核心标准：如果评估者无法区分机器和人的对话，则认为机器具有智能。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Over 80% of enterprise data is unstructured. Which of the following is the primary reason NLP is critical for modern businesses?",
+    "options": [
+      "A) NLP can only process structured data in databases",
+      "B) NLP enables extraction of insights from massive unstructured text data",
+      "C) NLP replaces all human language tasks completely",
+      "D) NLP is only useful for chatbot applications"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Over 80% of enterprise data is unstructured text (emails, reports, social media). NLP is critical because it enables computers to process, understand, and extract actionable insights from this vast unstructured data.<br><br><strong>超过 80% 的企业数据是非结构化文本。NLP 的重要性在于能从海量非结构化数据中提取有价值的信息。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following is NOT one of the four major challenges in NLP?",
+    "options": [
+      "A) Ambiguity",
+      "B) Sparsity",
+      "C) Interpretability",
+      "D) Common Knowledge"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> The four major NLP challenges are: Ambiguity, Sparsity (Zipf's Law), Variation (same meaning, many expressions), and Common Knowledge (machines lack world knowledge). Interpretability is a general ML concern, not one of the four core NLP challenges.<br><br><strong>四大挑战：歧义性 (Ambiguity)、稀疏性 (Sparsity)、变异性 (Variation)、常识知识 (Common Knowledge)。可解释性不在其中。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "NLP is equivalent to NLU (Natural Language Understanding). They refer to the same concept.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Classic exam trap! NLP = NLU + NLG. NLU is only the 'reading/understanding' part; NLG is the 'writing/generating' part. NLP encompasses both.<br><br><strong>经典考试陷阱！NLP = NLU（理解）+ NLG（生成）。NLU 只是「读」的部分，NLG 是「写」的部分，NLP 包含两者，缺一不可。</strong><br><br>Example: A chatbot needs NLU to understand the question + NLG to generate the answer."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following is the correct order of the first four steps in the NLP Development Life Cycle?",
+    "options": [
+      "A) Data Collection → Requirement → Preprocessing → Feature Extraction",
+      "B) Requirement → Data Collection → Preprocessing → Feature Extraction",
+      "C) Preprocessing → Data Collection → Requirement → Model Building",
+      "D) Data Collection → Preprocessing → Feature Extraction → Requirement"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> The NLP Dev Life Cycle follows 8 steps in order: ① Requirement → ② Data Collection → ③ Preprocessing → ④ Feature Extraction → ⑤ Model Building → ⑥ Evaluation → ⑦ Deployment → ⑧ Iteration.<br><br><strong>NLP 开发生命周期 8 步顺序：①需求 → ②数据收集 → ③预处理 → ④特征提取 → ⑤建模 → ⑥评估 → ⑦部署 → ⑧迭代。</strong><br><br><strong>A:</strong> Requirement must come first, not Data Collection.<br><strong>C/D:</strong> Completely wrong order."
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In an NLP pipeline, you should first preprocess the entire dataset, then split it into training and test sets.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Data Leakage trap! You must FIRST split the data into train/test sets, THEN preprocess. If you preprocess before splitting (e.g., fit TF-IDF on all data), information from the test set leaks into the training process, causing overly optimistic evaluation results.<br><br><strong>数据泄漏陷阱！必须先拆分 (Split) 再预处理。如果先预处理再拆分（如对全部数据 fit TF-IDF），测试集信息会泄漏到训练过程中，导致评估结果虚高。</strong><br><br>Correct: split → fit TF-IDF on train only → transform test."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A large collection of text used for NLP training and analysis is called a:",
+    "options": [
+      "A) Document",
+      "B) Knowledge Base",
+      "C) Corpus",
+      "D) Dictionary"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> A corpus (plural: corpora) is a large-scale text collection used for NLP training and analysis. Examples include Wikipedia full text, IMDb reviews, and news corpora.<br><br><strong>语料库 (Corpus) 是用于 NLP 训练/分析的大规模文本集合。如 Wikipedia 全文、IMDb 影评数据集、新闻语料。</strong><br><br><strong>A:</strong> A document is a single piece of text (article, report), not a collection.<br><strong>B:</strong> A knowledge base stores structured information (facts, entities), not raw text.<br><strong>D:</strong> A dictionary defines word meanings, not a training dataset."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following correctly lists the three main approaches to NLP in order from earliest to most modern?",
+    "options": [
+      "A) Deep Learning → Machine Learning → Heuristics",
+      "B) Machine Learning → Deep Learning → Heuristics",
+      "C) Heuristics (Rules/Regex) → Machine Learning → Deep Learning",
+      "D) Machine Learning → Heuristics → Deep Learning"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> NLP evolved through three approaches: ① Heuristics/Rules (hand-written rules and regex), then ② Machine Learning (TF-IDF + Logistic Regression with labeled data), then ③ Deep Learning (RNN, LSTM, Transformer learning features automatically).<br><br><strong>NLP 三种方法的演进顺序：①启发式/规则法（手写规则和正则）→ ②机器学习（TF-IDF + 逻辑回归等）→ ③深度学习（RNN、LSTM、Transformer 自动学习特征）。</strong><br><br>No single approach is 'best' — it depends on data size and task requirements."
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Hapax Legomena (words that appear only once in a corpus) typically account for more than one-third of the total vocabulary.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> According to Zipf's Law, the long-tail distribution means a huge number of words occur very rarely. In typical corpora, hapax legomena (single-occurrence words) make up over 1/3 of the vocabulary — this is a core manifestation of the Sparsity challenge in NLP.<br><br><strong>根据齐普夫定律的长尾分布，大量词只出现极少次数。在典型语料库中，单次词(Hapax Legomena)超过总词表的 1/3——这是 NLP 稀疏性挑战的核心表现。</strong><br><br>Example: In a 7000-word vocabulary, ~2500 words may appear only once."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "When verifying Zipf's Law with a log-log plot, what does a straight line indicate?",
+    "options": [
+      "A) The text has uniform word distribution",
+      "B) The text follows a normal (Gaussian) distribution",
+      "C) The text follows a power law distribution consistent with Zipf's Law",
+      "D) The text has too many rare words to be useful"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> A log-log plot with log(rank) on x-axis and log(freq) on y-axis showing a straight line confirms the data follows a power law (freq ∝ 1/rank^α), which is Zipf's Law. The slope gives α (ideally ≈ 1.0) and R² > 0.95 indicates excellent fit.<br><br><strong>对数-对数图（横轴 log(rank)、纵轴 log(freq)）呈直线说明数据符合幂律分布（freq ∝ 1/rank^α），即齐普夫定律。斜率的绝对值给出 α（理想 ≈ 1.0），R² > 0.95 说明拟合极好。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which NLP application is classified as both NLU and NLG?",
+    "options": [
+      "A) Text Classification",
+      "B) Speech Recognition",
+      "C) Dialogue / Chatbot",
+      "D) Sentiment Analysis"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> A dialogue system / chatbot requires both NLU (understanding the user's question) AND NLG (generating a coherent response). QA systems also fall into this category.<br><br><strong>对话系统/聊天机器人同时需要 NLU（理解用户问题）和 NLG（生成连贯回答）。问答系统也属于此类。</strong><br><br><strong>A/D:</strong> Text Classification and Sentiment Analysis are NLU-only tasks (understanding, no text generation).<br><strong>B:</strong> Speech Recognition (ASR) is an NLU task (converting speech to text)."
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which Python NLP library is known for its industrial-grade speed and pipeline-based design, making it suitable for production deployment?",
+    "options": [
+      "A) NLTK",
+      "B) SpaCy",
+      "C) Scikit-learn",
+      "D) TensorFlow"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> SpaCy is designed for industrial-grade NLP with fast processing speed and a pipeline-based architecture. A single call can perform tokenization + POS tagging + NER simultaneously.<br><br><strong>SpaCy 是工业级 NLP 库，速度快、管道化设计，一次调用即可完成分词+词性标注+NER。适合生产环境部署。</strong><br><br><strong>A:</strong> NLTK is a classic teaching library — feature-rich but slower, better for learning and prototyping.<br><strong>C/D:</strong> Scikit-learn is a general ML library; TensorFlow is a DL framework — neither is an NLP-specific library."
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In supervised learning, the model is trained with labeled data where the correct answers are provided, while unsupervised learning discovers hidden patterns in unlabeled data.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Supervised Learning uses labeled data to train the model ('here is the correct answer'), e.g., 1000 emails labeled as spam/not-spam. Unsupervised Learning uses unlabeled data to find hidden structure, e.g., automatically clustering 1000 news articles into 5 topics.<br><br><strong>监督学习用带标签的数据训练（告诉模型正确答案），如 1000 封标注了 spam/not-spam 的邮件。无监督学习用无标签数据发现隐藏模式，如自动将 1000 篇新闻聚成 5 个主题。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following correctly defines a “Corpus” in NLP?",
+    "options": [
+      "A) A single sentence used for testing",
+      "B) A large-scale collection of text used for training and analysis",
+      "C) A dictionary that maps words to their definitions",
+      "D) A set of grammar rules for a language"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> A corpus (plural: corpora) is a large collection of text data used as the foundation for NLP training and analysis. Examples: Wikipedia dump, IMDb reviews.<br><br><strong>语料库 = 大规模文本集合。Document=单个文档; Knowledge=结构化信息; Corpus=文档集合。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Sentiment Analysis is an example of NLG (Natural Language Generation), because the system must analyze emotions in text.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Sentiment Analysis is an NLU (Understanding) task — it reads and classifies text, does NOT generate new text. NLG examples: translation, summarization, chatbot responses.<br><br><strong>情感分析是 NLU（理解）任务，只分类不生成。NLU=读懂文本; NLG=生成文本。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following best defines “Ambiguity” as an NLP challenge?",
+    "options": [
+      "A) The same word or sentence can have multiple interpretations depending on context",
+      "B) Most words in a corpus appear only once (Zipf's Law)",
+      "C) The same meaning can be expressed in many different ways",
+      "D) Machines lack common sense knowledge about the world"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Why A:</strong> Ambiguity = same expression, multiple meanings. E.g., 'bank' = 银行 or 河岸.<br>• <strong>Ambiguity</strong> = 一词/一句多义 → A<br>• <strong>Sparsity</strong> = 大量低频词 (Zipf) → B<br>• <strong>Variation</strong> = 同义多种表达 → C<br>• <strong>Common Knowledge</strong> = 缺乏常识 → D<br><br><strong>四大挑战各自定义要分清，考试常考！</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "The term “Variation” in NLP challenges refers to the fact that language data follows Zipf's Law with many rare words.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ 易混淆！Variation = 同一含义可以有多种不同的表达方式 (e.g., happy/glad/joyful)。Zipf's Law 描述的是 Sparsity（稀疏性）挑战。<br><br><strong>Variation=同义不同表达; Sparsity=Zipf长尾分布（大量低频词）。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following is an example of the 'Common Knowledge' challenge in NLP?",
+    "options": [
+      "A) The word 'bank' can mean a financial institution or a river bank",
+      "B) A human knows that 'water is wet' but an NLP model doesn't unless explicitly told",
+      "C) The word 'happy' can also be expressed as 'glad', 'joyful', or 'content'",
+      "D) The word 'the' appears in almost every document"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Common Knowledge = machines lack basic world knowledge that humans take for granted. 'Water is wet' is obvious to humans but requires explicit modeling or training data for NLP systems.<br><br><strong>常识知识挑战 = 机器缺乏人类认为理所当然的基础世界知识。</strong><br><br>• A = Ambiguity（歧义性）<br>• B = Common Knowledge（常识知识）✓<br>• C = Variation（变异性）<br>• D = Sparsity（稀疏性）<br><br>⚠️ 这道题考的是四大挑战的彼此区分——每个选项对应一个不同的挑战！"
+  }
+]

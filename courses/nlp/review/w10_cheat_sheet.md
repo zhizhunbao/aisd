@@ -1,162 +1,230 @@
-# W10: BERT & Question Answering (BERT & 问答系统)
+# W10: BERT & Question Answering (BERT 与问答系统)
 
 ## 1. Definitions (定义)
 
-### BERT Architecture (BERT 架构)
+### BERT Core Concepts (BERT 核心概念)
 
 | Term (术语) | Definition (定义) | Example (示例) |
 |------|-----------|---------| 
-| BERT (2018 Google) | Bidirectional Encoder Representations from Transformers，用双向 Transformer Encoder 做语言理解 | 演化路径: RNN→LSTM→Bi-LSTM→Attention→Transformer→**BERT** |
-| BERT-base | 12层 Encoder, 768隐藏维度, 12注意力头, 110M参数 | 通用NLP任务的标准选择 |
-| BERT-large | 24层 Encoder, 1024隐藏维度, 16注意力头, 340M参数 | 更高精度但需要更多计算资源 |
-| Pre-training (预训练) | 在大规模无标注语料 (Wikipedia 2.5B词 + BookCorpus 800M词) 上无监督学习通用语言知识 | 只做一次，非常昂贵 (TPU级算力) |
-| Fine-tuning (微调) | 在预训练模型上加一个小分类层，用少量标注数据针对特定任务调整全部权重 | 每个任务做一次，相对便宜 |
-| MLM (Masked Language Model, 掩码语言模型) | 随机掩码 15% 的 token (80%→[MASK], 10%→随机词, 10%→保持不变) → 预测被掩码词 | "went to the [MASK]" → 预测 "store" |
-| NSP (Next Sentence Prediction, 下一句预测) | 输入 [CLS] sent_A [SEP] sent_B，判断 sent_B 是否是 sent_A 的下一句 | Total Loss = MLM Loss + NSP Loss |
-| [CLS] token | 输入序列的第一个特殊 token，经过处理后作为整个序列的聚合表示，用于分类任务 | [CLS] 的输出向量 → 接分类层 → 情感标签 |
-| [SEP] token | 分隔两个句子段的特殊 token，在末尾也加一个 | [CLS] sent_A [SEP] sent_B [SEP] |
-| [MASK] token | 掩码语言模型中用来替换被遮蔽词的特殊 token | "the cat [MASK] on the mat" → "sat" |
-| WordPiece (子词分词) | BERT 的分词算法，将 OOV 词拆成已知子词片段，词汇表约 30,500 | "playing" → "play" + "##ing"; "unhappiness" → "un" + "##hap" + "##pi" + "##ness" |
-| BERT Input Embedding (输入嵌入) | Token Embedding + Segment Embedding + Position Embedding 三种嵌入相加 | Segment A=0, Segment B=1 区分两句 |
-| Transfer Learning (迁移学习) | 用预训练模型的知识迁移到新任务：预训练→理解语言→微调→解决具体任务 | 预训练: 无语言知识 → 训练: 理解语言 → 微调: 做情感分析 |
-| DistilBERT (蒸馏BERT) | 知识蒸馏产物：保留 BERT 97% 的性能，减少 40% 内存，速度快 60% | BERT:110M params → DistilBERT:66M params |
+| BERT (双向编码器表示) | 来自 Transformer 的双向编码器表示 (Bidirectional Encoder Representations from Transformers)，只用 Encoder 实现真正的双向上下文理解 | 在 Wikipedia(25亿词) + BookCorpus(8亿词) 上预训练 |
+| Transformer Encoder (Transformer 编码器) | Transformer 中负责编码输入的部分，使用自注意力 (Self-Attention) 让每个 token 看到所有前后文 | BERT 只用 Encoder (理解)；GPT 只用 Decoder (生成) |
+| Bidirectional (双向) | BERT 的核心特性——每个 token 同时看到左边和右边所有上下文，不像 GPT 只能看左边 | "I went to the [MASK]" → 同时看 "went to" 和句末来猜 |
+| BERT-base | 12 层 Transformer、768 隐藏维度、12 注意力头、110M (1.1亿) 参数的基础版本 | 适合大多数任务的标准配置 |
+| BERT-large | 24 层 Transformer、1024 隐藏维度、16 注意力头、340M (3.4亿) 参数的大型版本 | SQuAD 2.0: F1=90.9, EM=84.1 |
 
-### Question Answering (问答系统)
+### BERT Input & Output (BERT 输入输出)
 
 | Term (术语) | Definition (定义) | Example (示例) |
 |------|-----------|---------| 
-| QA System (问答系统) | 给定问题自动返回答案的系统，分类维度：信息源、问题类型、答案类型 | Q: "When was BERT released?" → A: "2018" |
-| Extractive QA (抽取式QA) | 答案是给定段落中的一个连续文本片段 (span)，BERT 预测起止位置 | (P, Q) → A; 答案一定在段落中 |
-| Abstractive QA (生成式QA) | 答案由模型生成，可能不逐字出现在原文中 | 需要 Encoder-Decoder 架构 (非 BERT alone) |
-| SQuAD (Stanford QA Dataset) | 斯坦福问答数据集：10万个 (段落, 问题, 答案) 三元组，段落来自 Wikipedia | 最流行的阅读理解数据集 |
-| Answer Span (答案跨度) | 答案在段落中的起始(start)和结束(end) token 位置 | start=5, end=7 → 段落中第5到第7个token |
-| Reading Comprehension (阅读理解) | 理解一段文本并回答关于其内容的问题 (P, Q) → A | P=Tesla早年经历, Q="What language?", A="German" |
-| Factoid QA (事实型问答) | 答案是简短的事实：人名、日期、数字、地点 | Q: "Capital of Canada?" → A: "Ottawa" |
-| Open Domain QA (开放域问答) | 从大规模文档集合中检索+阅读来回答任意领域问题 | Wikipedia 全文搜索 + BERT 阅读 |
-| Closed Domain QA (封闭域问答) | 在特定领域 (如医疗/法律) 的有限知识库中回答问题 | 医学问答系统只处理PubMed文献 |
+| WordPiece (子词分词) | BERT 的分词算法，将罕见词拆成常见子词片段，词汇表大小约 30,500 | "embeddings" → ["em", "##bed", "##ding", "##s"] |
+| [CLS] Token | 固定放在输入开头的特殊 token (ID=101)，其输出向量用作整个输入的浓缩表示，送入分类器 | 文本分类: [CLS] 输出 → 线性层 → 情感标签 |
+| [SEP] Token | 分隔符 token (ID=102)，用于分隔句子对并在末尾标记输入结束 | QA输入: [CLS] Question [SEP] Passage [SEP] |
+| [MASK] Token | 掩码 token (ID=103)，在 MLM 预训练中替代被遮住的词 | "went to the [MASK]" → 模型预测 "store" |
+| [PAD] Token | 填充 token (ID=0)，将不同长度的输入填充到统一长度 | 短句填充到 max_length=512 |
+| [UNK] Token | 未知词 token (ID=100)，表示词汇表中不存在的词 | 极罕见词 → [UNK] |
+| Token Embedding (词嵌入) | BERT 三层嵌入之一——每个 token 的语义向量表示 | "cat" → 768维向量 |
+| Segment Embedding (段落嵌入) | BERT 三层嵌入之一——区分 Sentence A 和 Sentence B 的标记 | Sentence A → 0; Sentence B → 1 |
+| Position Embedding (位置嵌入) | BERT 三层嵌入之一——告诉模型每个 token 在序列中的位置 | 位置 0, 1, 2, ... → 对应位置向量 |
 
-### QA Architecture (问答架构)
+### BERT Training (BERT 训练)
 
 | Term (术语) | Definition (定义) | Example (示例) |
 |------|-----------|---------| 
-| Retriever-Reader Architecture (检索-阅读架构) | 两阶段：1)检索器从文档库找相关段落 2)阅读器从段落中提取答案 | Haystack 框架基于此架构 |
-| DPR (Dense Passage Retrieval, 密集段落检索) | 双编码器架构：分别训练查询编码器和段落编码器，用嵌入相似度检索 | Q 编码器 + P 编码器 → 余弦相似度 → top-k |
-| Haystack (问答框架) | deepset 开发的开源 QA 框架，抽象检索-阅读复杂性，与 Transformers 集成 | 核心组件: Document store + Pipeline |
-| RAG (检索增强生成) | 超越抽取式 QA 的下一步：检索相关文档 + LLM 生成答案 | RAG = Retriever + Generator (W12详解) |
+| Pre-training (预训练) | BERT 训练第一阶段——在大量无标注文本上学习通用语言知识，任务是 MLM + NSP | Wikipedia + BookCorpus → 通用理解 |
+| Fine-tuning (微调) | BERT 训练第二阶段——在预训练模型上加小层，用少量标注数据适配特定任务 | 预训练 BERT + 情感标注数据 → 情感分类器 |
+| MLM (掩码语言模型) | Masked Language Modelling——BERT 预训练任务之一，随机遮住 15% 词让模型预测 | 80% 替换 [MASK]、10% 随机词、10% 不变 |
+| NSP (下一句预测) | Next Sentence Prediction——BERT 预训练任务之二，判断句子 B 是否是句子 A 的下一句 | A→B 连贯: IsNext ✅; 不连贯: NotNext ❌ |
+| Transfer Learning (迁移学习) | 在大数据上学通用能力，再用小数据迁移到特定任务的训练范式，BERT 使其在 NLP 中普及 | 预训练一次 → 微调到 分类/QA/NER 等多任务 |
+| Total Loss (总损失) | BERT 预训练的联合损失函数 = MLM 损失 + NSP 损失，两个任务同时训练 | Loss = L_MLM + L_NSP |
+
+### BERT Variants (BERT 变体)
+
+| Term (术语) | Definition (定义) | Example (示例) |
+|------|-----------|---------| 
+| DistilBERT (蒸馏BERT) | 通过知识蒸馏 (Knowledge Distillation) 压缩的 BERT，97% 性能 / 40% 更少内存 / 60% 更快 | 适合移动端和边缘设备部署 |
+| BERT-Multilingual (多语言BERT) | 支持 104 种语言的 BERT 版本，结构与 BERT-base 相同 (12层, 768维, 110M参数) | 中/英/法/德/日 等跨语言任务 |
+| Knowledge Distillation (知识蒸馏) | 让小模型 (学生) 模仿大模型 (老师) 的输出分布来学习，实现模型压缩 | DistilBERT 从 BERT 蒸馏而来 |
+
+### Question Answering Concepts (问答系统概念)
+
+| Term (术语) | Definition (定义) | Example (示例) |
+|------|-----------|---------| 
+| Question Answering / QA (问答系统) | 自动回答用自然语言提出的问题的系统，按信息源/问题类型/答案类型分类 | Siri 回答"今天天气如何？" |
+| Extractive QA (抽取式问答) | 答案直接从原文中**复制**一个连续文本片段 (span)，而非生成新文本 | 段落含 "German"，直接抽取 |
+| Generative QA (生成式问答) | 模型用自己的语言**生成**答案，不限于原文片段——灵活但有幻觉风险 | GPT 组织语言回答 |
+| Reading Comprehension (阅读理解) | 给定段落 P 和问题 Q，在 P 中找到答案 A 的任务；公式: (P, Q) → A | Q: "Tesla学了什么语言?" A: "German" |
+| Factoid Question (事实型问题) | 有明确的简短事实答案（姓名/日期/数字/地点）的问题类型 | "法国首都是哪里？" → "巴黎" |
+| Open Domain QA (开放域问答) | 问题可以涉及任意领域，需要先检索文档再找答案 | "黑洞是怎么形成的？" |
+| Closed Domain QA (封闭域问答) | 问题限定在特定领域内，知识库范围有限 | 医疗客服: "这药副作用?" |
+| Span (跨度/片段) | 抽取式 QA 中答案在段落中的连续 token 范围，由 start 和 end 位置定义 | 段落第 5 到第 8 个 token |
+
+### QA Datasets & Evaluation (QA 数据集与评估)
+
+| Term (术语) | Definition (定义) | Example (示例) |
+|------|-----------|---------| 
+| SQuAD (斯坦福问答数据集) | Stanford Question Answering Dataset——10万个 (段落,问题,答案) 三元组，答案是段落中的 span | 段落来自 Wikipedia，100-150 词 |
+| EM / Exact Match (精确匹配) | 评估指标——预测答案与金标准完全一致为 1，否则为 0 (取多个gold中的最大值) | 预测"left Graz" vs gold"left Graz" → EM=1 |
+| F1 Score (F1 分数) | 评估指标——基于 token 级别的 Precision 和 Recall 的调和平均，给部分匹配打分 | 预测含4/5个正确token → F1≈0.67 |
+| Gold Answer (金标准答案) | 人工标注的正确答案，SQuAD 开发/测试集每题收集 3 个金标准用于评估 | {left Graz, left Graz ans, left Graz and severed...} |
+
+### Neural QA Models (神经 QA 模型)
+
+| Term (术语) | Definition (定义) | Example (示例) |
+|------|-----------|---------| 
+| BiDAF (双向注意力流) | Bidirectional Attention Flow——BERT 之前的 QA 模型，使用 Bi-LSTM + 注意力机制 | SQuAD: EM=71.3, F1=81.2 (远低于BERT) |
+| Start/End Prediction (起止预测) | BERT 做 QA 的核心方法——用起始向量 S 和结束向量 E 分别预测答案 span 的开始和结束位置 | 对每个 token 做点积 + softmax → 最高分位置 |
+| Sliding Window (滑动窗口) | 处理超过 BERT 512 token 限制的长段落的策略——将段落切成有重叠的窗口逐个输入 | stride=25 → 相邻窗口重叠25 tokens |
+
+### Open Domain QA & Retrieval (开放域 QA 与检索)
+
+| Term (术语) | Definition (定义) | Example (示例) |
+|------|-----------|---------| 
+| Retriever-Reader Architecture (检索器-阅读器架构) | 开放域 QA 的两阶段架构——检索器先找相关文档，阅读器再从中提取答案 | 问题 → Retriever(找文档) → Reader(找答案) |
+| DPR (密集段落检索) | Dense Passage Retrieval——用两个独立 BERT 编码器分别编码问题和段落，通过向量相似度检索 | 双编码器: Q-Encoder + P-Encoder → 点积匹配 |
+| Dual Encoder (双编码器) | DPR 的核心架构——问题和段落各用一个独立的编码器生成向量，段落向量可离线预计算 | 问题编码器 + 段落编码器 → 分别训练 |
+| Document Store (文档存储) | 存储预处理文档的数据库，支持检索器查询——可以是关系型/向量型/图数据库 | Elasticsearch, FAISS |
+| Word2Vec | 2013 年提出的静态词嵌入方法，不考虑上下文，每个词只有一个固定向量 | "bank" (银行/河岸) → 同一个向量 |
+| GloVe | 2014 年提出的基于共现矩阵的静态词嵌入方法，捕捉全局统计信息 | Global Vectors for Word Representation |
+| Haystack (QA框架) | 由 deepset 开发的开源 QA 框架，基于检索器-阅读器架构，与 Transformers 紧密集成 | 核心: Document Store + Pipeline |
+| DeepPavlov | 俄罗斯开发的开源对话 AI 和 QA 框架 | 类似 Haystack 的替代方案 |
+| DrQA | Facebook 开发的开放域 QA 系统 | 基于 Wikipedia 的 QA |
+| RAG (检索增强生成) | Retrieval-Augmented Generation——先检索再生成，是抽取式 QA 的进化方向 | 将在 Lecture 12 深入讲解 |
 
 ## 2. Comparisons (对比)
 
-### BERT-base vs BERT-large
+### BERT-base vs BERT-large (BERT 基础版 vs 大型版)
 
 | Dimension (维度) | BERT-base | BERT-large | Example (示例) |
 |-----------|-----------|------------|---------|
-| Layers (层数) | 12 | 24 | 层数翻倍 |
-| Hidden size (隐藏维度) | 768 | 1024 | 更宽的表示 |
-| Attention heads (注意力头) | 12 | 16 | 更多关系模式 |
-| Parameters (参数) | 110M | 340M | 3倍参数差 |
-| 适用场景 | 平衡性能和效率 | 追求最高精度 | base已足够大部分任务 |
+| Layers (层数) | 12 | 24 | 深度翻倍 |
+| Hidden Size (隐藏维度) | 768 | 1024 | 更宽的表示 |
+| Attention Heads (注意力头) | 12 | 16 | 更多并行注意力模式 |
+| Parameters (参数量) | 110M (1.1亿) | 340M (3.4亿) | 约3倍差距 |
+| SQuAD F1 | 88.5 | 90.9 | Large 只高 2.4 个点 |
+| SQuAD EM | 80.8 | 84.1 | Large 只高 3.3 个点 |
 
-### BERT vs GPT
+### MLM vs NSP (BERT 两大预训练任务对比)
 
-| Dimension (维度) | BERT | GPT | Example (示例) |
-|-----------|------|-----|---------|
-| Direction (方向) | ✅ 双向 (bidirectional) | 单向 (left→right) | BERT 同时看前后上下文 |
-| Architecture (架构) | Encoder-only | Decoder-only | BERT 用 Encoder; GPT 用 Decoder |
-| Pre-training (预训练) | MLM + NSP | Next Token Prediction | BERT 挖空填词; GPT 预测下一个 |
-| Best for (适合) | 分类、NER、QA (理解任务) | 文本生成 (生成任务) | 理解用 BERT; 生成用 GPT |
-| Input (输入) | [CLS] + text + [SEP] | 顺序 prompt | BERT 需要特殊 token |
+| Dimension (维度) | MLM (掩码语言模型) | NSP (下一句预测) | Example (示例) |
+|-----------|-----|-----|---------|
+| Goal (目标) | 学习**词级**上下文理解 | 学习**句子间**关系理解 | MLM: 猜被遮的词; NSP: 判断句子关系 |
+| Input (输入) | 单个句子中 15% token 被处理 | 两个句子 A 和 B | [MASK] vs Sentence A + B |
+| Output (输出) | 预测被遮 token 的原始词 | 二分类: IsNext / NotNext | "store" vs ✅/❌ |
+| 解决什么? | 双向理解每个词的含义 | 理解段落、推理、问答等句间任务 | 词义消歧 vs 段落连贯性 |
+
+### MLM 80/10/10 策略 (MLM Masking Strategy)
+
+| Dimension (维度) | 80% → [MASK] | 10% → 随机词 | 10% → 不变 | Example (示例) |
+|-----------|-------------|-------------|-----------|---------|
+| 操作 | 替换为 [MASK] token | 替换为随机词 | 保持原词不动 | store→[MASK] / store→running / store→store |
+| 目的 | 让模型学会预测被遮的词 | 避免训练-推理不匹配 | 让模型对所有位置保持警觉 | 微调时没有 [MASK] |
 
 ### Pre-training vs Fine-tuning (预训练 vs 微调)
 
 | Dimension (维度) | Pre-training (预训练) | Fine-tuning (微调) | Example (示例) |
-|-----------|-------------|-------------|---------|
-| Data (数据) | 海量无标注文本 | 少量任务特定标注数据 | Wikipedia 25亿词 vs 1000条标注情感 |
-| Objective (目标) | MLM + NSP (通用语言理解) | 任务特定损失函数 | 掩码预测 vs 情感分类交叉熵 |
-| Runs (执行次数) | 一次 (非常昂贵) | 每个任务一次 (便宜) | 预训练需TPU; 微调用单GPU |
-| Weights (权重) | 从零开始学习 | 用预训练权重初始化 | 站在巨人(预训练)肩膀上 |
+|-----------|------------|----------|---------| 
+| Goal (目标) | 学习通用语言知识 | 适配特定下游任务 | 通识教育 vs 入职培训 |
+| Data (数据) | 海量无标注文本 | 少量任务特定标注数据 | Wikipedia+BookCorpus vs SQuAD标注 |
+| Cost (成本) | 极高 (Google 用 64 块 TPU) | 低 (普通 GPU 几小时) | 数百万美元 vs 数百美元 |
+| Frequency (频率) | 做一次 | 每个任务做一次 | 训练BERT一次 → 微调到多任务 |
+| Tasks (目标任务) | MLM + NSP | 分类/QA/NER 等 | 通用 → 特定 |
 
-### Extractive vs Abstractive QA (抽取式 vs 生成式问答)
+### SQuAD 2.0 Model Comparison (SQuAD 2.0 模型对比)
 
-| Dimension (维度) | Extractive (抽取式) | Abstractive (生成式) | Example (示例) |
-|-----------|-------------------|---------------------|---------|
-| Answer source (答案来源) | 段落中的精确片段 | 生成新文本 | 抽取: 直接摘出; 生成: 重新组织 |
-| Model (模型) | BERT / Encoder-only | GPT / Encoder-Decoder | BERT做抽取; T5做生成 |
-| Evaluation (评估指标) | EM + F1 (token级别) | ROUGE / BLEU | EM=精确匹配; ROUGE=摘要 |
-| Example (例子) | SQuAD 数据集 | 摘要式QA | Q→段落中提取 vs Q→生成新答案 |
+| Model (模型) | F1 | EM | Architecture (架构) | Example (示例) |
+|-------|------|------|------|---------|
+| BiDAF | 77.3 | 67.7 | Bi-LSTM + Attention | BERT 前最强 QA 模型 |
+| BERT-base | 88.5 | 80.8 | Transformer Encoder (12层) | F1 比 BiDAF 高 11+ 点 |
+| BERT-large | 90.9 | 84.1 | Transformer Encoder (24层) | 更大但仅略好于base |
+| XLNet | 94.5 | 89.0 | Permutation LM | 排列组合预训练 |
+| RoBERTa | 94.6 | 88.9 | Optimized BERT | 去掉NSP + 更多数据 |
+| ALBERT | 94.8 | 89.3 | Parameter Sharing | 参数共享压缩 |
 
-### SQuAD Model Benchmarks (SQuAD 模型基准)
+### Extractive QA vs Generative QA vs RAG (抽取式 vs 生成式 vs RAG)
 
-| Model (模型) | EM | F1 | Example (示例) |
-|-------|------|------|---------|
-| BiDAF | 67.7 | 77.3 | LSTM+注意力时代 (2016-2018) |
-| BERT-base | 80.8 | 88.5 | Transformer 时代开始 |
-| BERT-large | 84.1 | 90.9 | ⚠️ BERT在EM上超越人类! |
-| Human (人类) | 82.3 | 91.2 | 但人类推理能力仍更强 |
-| RoBERTa | 88.9 | 94.6 | BERT的优化版 |
-| ALBERT | 89.3 | 94.8 | 参数共享的轻量BERT |
+| Dimension (维度) | Extractive QA (抽取式) | Generative QA (生成式) | RAG (检索增强) | Example (示例) |
+|-----------|------------|------------|------|---------|
+| Answer Source (答案来源) | 直接从原文复制 span | 模型自己组织语言 | 检索文档 + 生成 | 复制 vs 写 vs 查+写 |
+| Accuracy (准确度) | ✅ 基于原文，可追溯 | ⚠️ 可能幻觉 | ✅ 基于文档，减少幻觉 | 有据可查 vs 编造风险 |
+| Flexibility (灵活性) | ❌ 答案必须是原文子串 | ✅ 可综合多段信息 | ✅ 检索+综合 | span 限制 vs 自由生成 |
+| Representative (代表) | BERT + SQuAD | GPT 系列 | LangChain + VectorDB | 见 W12 详解 RAG |
+
+### EM vs F1 Evaluation Metrics (评估指标对比)
+
+| Dimension (维度) | EM (精确匹配) | F1 Score (F1 分数) | Example (示例) |
+|-----------|------|------|---------|
+| 匹配方式 | 必须完全一致 | 允许部分匹配 | "left Graz" ≠ "left Graz and severed" (EM=0) |
+| 取值 | 0 或 1 | 0 到 1 之间 | EM太严格; F1更宽容 |
+| 计算基础 | 字符串完全匹配 | token 级别 Precision × Recall | 部分正确也有分 |
+| 多个 gold | 取各 gold 比较的 max | 取各 gold 比较的 max | max{0.67, 0.67, 0.61} = 0.67 |
+
+### Sparse vs Dense Retrieval (稀疏检索 vs 密集检索)
+
+| Dimension (维度) | Sparse (TF-IDF/BM25) | Dense (DPR/BERT) | Example (示例) |
+|-----------|------|------|---------|
+| 匹配方式 | 关键词重叠 (词汇匹配) | 向量相似度 (语义匹配) | 靠共同词 vs 靠含义 |
+| 同义词处理 | ❌ 不同词 = 不匹配 | ✅ 语义相近 = 匹配 | "car"≠"automobile" vs 语义相近 |
+| 计算方式 | 倒排索引查找 | 向量空间余弦相似度 | 精确查找 vs 最近邻搜索 |
+| 段落预计算 | 不需要 | ✅ 向量可离线预计算 | DPR: 段落向量存入向量DB |
 
 ## 3. Formulas (公式)
 
-### QA Evaluation Metrics (QA 评估指标)
-
-| Metric (指标) | Formula (公式) | Description (说明) | Example (示例) |
-|--------|---------|-------------|---------|
-| EM (Exact Match, 精确匹配) | $\text{EM} = \mathbb{1}[\text{pred} = \text{truth}]$ | 严格二值：完全匹配=1，否则=0 | pred="2018", truth="2018" → EM=1 |
-| F1 (Token-level) | $F_1 = \frac{2 \times P \times R}{P + R}$ | 精确率和召回率的调和平均 (部分得分) | pred和truth有5个重叠token → F1>0 |
-| Precision (精确率) | $P = \frac{|\text{pred} \cap \text{truth}|}{|\text{pred}|}$ | 预测的 token 中有多少是正确的 | pred 4个词, 3个正确 → P=0.75 |
-| Recall (召回率) | $R = \frac{|\text{pred} \cap \text{truth}|}{|\text{truth}|}$ | 正确答案的 token 中找到了多少 | truth 5个词, 找到3个 → R=0.6 |
-
-### BERT Input Format (BERT 输入格式)
-
-| Component (组件) | Description (说明) | Example (示例) |
-|-----------|-------------|---------|
-| [CLS] sent_A [SEP] sent_B [SEP] | BERT 标准输入格式 | [CLS] How old are you [SEP] I am 20 [SEP] |
-| Token + Segment + Position Embedding | 三种嵌入相加得到最终输入表示 | 每个 token 同时有词义+句段+位置信息 |
-| Segment A = 0, Segment B = 1 | 区分两个句子段 | 问题=Segment 0; 上下文=Segment 1 |
-
-### BERT Pre-training Loss (预训练损失)
+### Reading Comprehension (阅读理解公式)
 
 | Formula (公式) | Description (说明) | Example (示例) |
-|---------|-------------|---------|
-| $\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{MLM}} + \mathcal{L}_{\text{NSP}}$ | 总损失 = 掩码语言模型损失 + 下一句预测损失 | 两个任务联合训练 |
+|---------|-------------|---------| 
+| (P, Q) → A | 阅读理解核心公式：给定段落 P 和问题 Q，输出答案 A (A 是 P 中的 span) | P="Tesla studied German..." Q="What language?" → A="German" |
+| C = (c₁, ..., cₙ), Q = (q₁, ..., qₘ) | 段落和问题的 token 序列表示，其中 M < N | 段落通常比问题长得多 |
+| Input Embedding = Token + Segment + Position | BERT 的三层嵌入叠加构成最终输入表示 | 词义 + 句子归属 + 位置信息 |
+| Total Loss = L_MLM + L_NSP | BERT 预训练总损失 = 掩码语言模型损失 + 下一句预测损失 | 两个任务同时训练 |
 
-### Long Passage Handling (长文本处理)
+### Evaluation Metrics (评估指标公式)
 
-| Parameter (参数) | Description (说明) | Example (示例) |
-|---------|-------------|---------|
-| `max_length=512` | BERT 最大输入长度限制 | 超过512 token 必须截断或分段 |
-| `truncation="only_second"` | 只截断上下文(第二个输入)，保留完整问题 | 问题短不截; 段落长截断 |
-| `stride=25` | 滑动窗口步长，让长段落分块时有重叠 | 避免答案恰好在分割边界丢失 |
+| Formula (公式) | Description (说明) | Example (示例) |
+|---------|-------------|---------| 
+| EM = max{match(pred, gold_i)} for i=1..k | 精确匹配：预测与每个 gold 比较，取最大值 (0 或 1) | pred="left Graz and severed" vs 3个gold → max{0,0,0}=0 |
+| F1 = max{F1(pred, gold_i)} for i=1..k | F1 分数：与每个 gold 的 token 级别 F1，取最大值 | max{0.67, 0.67, 0.61} = 0.67 |
+| Precision = \|pred ∩ gold\| / \|pred\| | token 级别精确率：预测中有多少是正确的 | 预测5 token中4个正确 → P=0.8 |
+| Recall = \|pred ∩ gold\| / \|gold\| | token 级别召回率：正确答案中有多少被预测到 | 正确6 token中4个被找到 → R=0.67 |
+| F1 = 2 × P × R / (P + R) | F1 是 Precision 和 Recall 的调和平均 | P=0.8, R=0.67 → F1≈0.73 |
+
+### BERT QA Sliding Window Parameters (BERT QA 滑动窗口参数)
+
+| Formula (公式) | Description (说明) | Example (示例) |
+|---------|-------------|---------| 
+| max_length = 500 | 问题 + 段落共享的最大 token 数 (给问题留空间) | BERT 限制 512，留 12 给特殊 token |
+| truncation = "only_second" | 只截断段落 (context)，永远不截断问题 (question) | 问题短且完整很关键 |
+| stride = 25 | 相邻滑动窗口重叠的 token 数，防止答案被截断 | 窗口1: [0, 500], 窗口2: [475, 975] |
 
 ## 4. Practical / Lab (实战结论)
 
-### 🔑 Key BERT Distinctions (关键BERT区别)
-
-| Distinction (区别) | Detail (详情) | Example (示例) |
-|-------------|--------|---------| 
-| BERT 输入 = [CLS] + text_A + [SEP] + text_B + [SEP] | 固定格式；[CLS] 用于分类聚合 | `[CLS] How old are you [SEP] I am 20 [SEP]` |
-| WordPiece 处理 OOV | "playing" → "play" + "##ing" (子词分词) | "unhappiness" → "un" + "##hap" + "##pi" + "##ness" |
-| `padding=True, truncation=True` | 批处理时必须同时设置两者 | 长度5,8,12的句子 → 全部padding到12 |
-| `num_labels=2` 在分类头 | 必须匹配任务的类别数 | 二分类情感→2; 5星评分→5 |
-| `max_length=512` 是BERT硬限制 | 超过512 token 必须截断; 用 stride 处理长文本 | 1000词文档 → 只用前512 tokens |
-| MLM 15% masking 的三种策略 | 80% [MASK] + 10% 随机词 + 10% 保持不变 → 防止模型只依赖 [MASK] | "store" → 80%→[MASK]; 10%→"running"; 10%→"store" |
-
-### 📊 Lab 4 Conclusions (实验4结论)
+### 📊 Key Technical Conclusions (关键技术结论)
 
 | Conclusion (结论) | Detail (详情) | Example (示例) |
 |------------|--------|---------| 
-| 微调 DistilBERT > TF-IDF + LogReg | 上下文嵌入优于词袋模型，特别是处理否定等语义 | "not bad" → DistilBERT正确; TF-IDF误判 |
-| DistilBERT = 97% BERT, 40% 更小 | 部署首选，实用权衡最佳 | 66M vs 110M params; 推理快2倍 |
-| 基线对比是**必须的** | 没有基线 → 无法声称改进 | 表格: TF-IDF 85% → DistilBERT 91% = +6% |
-| 混淆矩阵揭示逐类弱点 | 不平衡类别 → 检查每类指标 | 总体 90% 但 neutral recall=20% |
+| BERT QA 本质是指针问题 | 不生成答案，只预测答案在段落中的 start 和 end 位置 | 对每个 token 做点积+softmax → 最高分 = 答案边界 |
+| 滑动窗口 stride 影响准确率 | stride 太大可能截断答案; 太小增加计算量; stride=25 是常用值 | stride=25: 重叠25 tokens 确保答案不丢失 |
+| DPR 段落向量可离线预计算 | 查询时只需编码问题 + 最近邻搜索，大幅提升检索速度 | 百万级文档 → 预编码 → 毫秒级检索 |
+| BERT 比 BiDAF F1 提升 11+ 点 | 从 77.3 → 88.5 (base) / 90.9 (large)，是 QA 领域的巨大飞跃 | Transformer 取代 LSTM 的标志性结果 |
+| MLM 的 80/10/10 不是随意设定 | 100% [MASK] 会导致训练-推理不匹配; 10%随机+10%不变让模型保持警觉 | 微调时没有 [MASK] → 需要预训练也见过"正常"token |
+| NSP 对句间关系任务有帮助 | QA、自然语言推理等任务需要理解两个句子的逻辑关系 | "这个段落包含答案吗？" 需要 NSP 能力 |
 
-### ⚠️ W10 考试陷阱 (Exam Traps)
+_No lab code for this week._
+
+## 5. Exam Traps (考试陷阱)
+
+### ⚠️ Common Traps (常见陷阱)
 
 | Trap (陷阱) | Correct Answer (正确答案) | Example (示例) |
 |------|----------------|---------| 
-| Extractive QA 的答案可以不在段落中? | ❌ 答案**必须**在段落中! Abstractive QA 才是生成新文本 | BERT 提取 start/end 位置 → 段落子串 |
-| BERT 可以做文本生成? | ❌ BERT 是 Encoder-only → 只做理解任务! 生成用 GPT (Decoder) | BERT→分类/NER/QA; GPT→文本生成 |
-| EM=精确匹配 和 F1 含义一样? | ❌ EM=严格(0或1); F1=部分得分(token重叠) | pred:"November 2018"; truth:"2018" → EM=0, F1=0.5 |
-| BERT 超越人类说明 AI 更聪明? | ❌ BERT 在 SQuAD EM超越人类，但人类推理能力仍更强 | BERT EM=84.1 vs Human EM=82.3 但trick questions仍失败 |
-| BERT 可以处理任意长度文本? | ❌ 最大512 tokens! 长文本需要截断或滑动窗口(stride) | `max_length=512, stride=25` |
-| MLM 只用 [MASK] 替换? | ❌ 80% [MASK] + 10% 随机词 + 10% 保持不变; 避免预训练-微调不匹配 | 微调时没有 [MASK] → 需要模型也能处理正常词 |
+| BERT 是双向的 = Bi-LSTM? | ❌ 完全不同! Bi-LSTM 两方向独立处理再合并; BERT 用自注意力让每个 token 真正同时看到所有前后文 | Bi-LSTM: 两个单向拼接; BERT: 全局注意力 |
+| BERT 能生成文本? | ❌ BERT 只用 Encoder，擅长理解 (分类/QA)，不能像 GPT 那样自回归生成文本 | 生成用 GPT (Decoder); 理解用 BERT (Encoder) |
+| MLM 15% 都替换为 [MASK]? | ❌ 只有 80% 变 [MASK]，10% 变随机词，10% 保持不变——为了避免训练-推理不匹配 | 100% [MASK] → 微调时模型从没见过正常 token |
+| [CLS] token 只用于分类? | ❌ [CLS] 是整个输入的浓缩表示，用于分类/QA 的起始信号; 但 QA 中 start/end 预测用的是段落 token 的输出 | 分类: [CLS]输出; QA: 段落各token输出 |
+| SQuAD 答案可以不在段落中? | ❌ SQuAD 是抽取式数据集，答案必须是段落中的一个连续 span，不能在段落外 | 答案 = 段落[start:end]，不能生成新文本 |
+| EM=0 意味着完全错误? | ❌ EM=0 只说明不是完全匹配; F1 可能很高 (如 0.67)，说明大部分内容是正确的 | pred="left Graz and severed" → EM=0 但 F1=0.67 |
+| BERT 能处理任意长文本? | ❌ BERT 最大输入 512 tokens! 超过需要用滑动窗口策略切分成多个窗口分别输入 | 1000 词文档 → 需要切成多个 500 token 窗口 |
+| DistilBERT 性能差很多? | ❌ DistilBERT 保留了 BERT 97% 的性能，但内存减少 40%、速度快 60%——牺牲极小 | 3% 性能换 40% 内存 + 60% 速度 = 值得 |
+| DPR 用一个编码器同时编码问题和段落? | ❌ DPR 用**两个独立的**编码器，分别编码问题和段落——双编码器架构 | Q-Encoder ≠ P-Encoder，各自独立训练 |
+| 开放域 QA 只需要一个 Reader? | ❌ 开放域 QA 需要 Retriever + Reader 两阶段——先检索候选文档，再从中提取答案 | 没有 Retriever → 不知道去哪找答案 |
+| BERT 预训练 = 微调? | ❌ 预训练: 大量无标注数据学通用知识(昂贵); 微调: 少量标注数据适配特定任务(便宜) | 预训练一次(TPU集群) → 微调多次(普通GPU) |

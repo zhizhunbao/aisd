@@ -1,0 +1,169 @@
+[
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Given the words 'intention' and 'execution', what is the minimum number of operations required to transform 'intention' into 'execution'?",
+    "options": [
+      "A) 3",
+      "B) 4",
+      "C) 5",
+      "D) 6"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C (5):</strong> This is the classic Levenshtein edit distance problem, with allowed operations: insertion, deletion, substitution. Through dynamic programming, 'intention' → 'execution' requires a minimum of 5 operations.<br><br><strong>这是经典的 Levenshtein 编辑距离问题，允许操作：插入、删除、替换。通过动态规划计算，'intention' → 'execution' 最少需要 5 步。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "In a Bag of Words representation, the order of words in a document is crucial, and each word is treated as dependent on its surrounding words.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The core characteristic of BoW (Bag of Words) is that it <strong>ignores word order</strong> and treats each word as an independent feature. BoW only cares about word frequency, not position or context.<br><br><strong>BoW（词袋模型）的核心特征就是忽略词序，每个词被视为独立特征。BoW 只关注词频，不关注位置或上下文。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The inverse document frequency (IDF) of a word is calculated by dividing the total number of documents by the number of documents containing the word.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> The IDF formula is IDF(t) = log(N / df(t)), where N is the total number of documents and df(t) is the number of documents containing word t. The statement describes exactly the core IDF calculation logic.<br><br><strong>IDF 公式为 IDF(t) = log(N / df(t))，其中 N 是总文档数，df(t) 是包含词 t 的文档数。题干描述的正是 IDF 的核心计算逻辑。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "If the cosine similarity between the word vectors for Word A and Word B is close to 1, it means that Word A and Word B are considered highly similar in meaning.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Cosine similarity measures the directional angle between two vectors, with value range [-1, 1]. When cosine similarity is close to 1, the two vectors point in nearly the same direction, indicating high semantic similarity in embedding space.<br><br><strong>余弦相似度衡量两个向量的方向夹角，值域为 [-1, 1]。接近 1 = 方向一致（相似）；接近 0 = 正交（无关）；接近 -1 = 方向相反（相反）。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "One of the disadvantages of using TF-IDF is:",
+    "options": [
+      "A) It produces low-dimensional dense vectors",
+      "B) It considers the context and semantic relationships between words",
+      "C) It does not consider the context and semantic relationships between words",
+      "D) It captures word order information"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> TF-IDF is a bag-of-words statistical method with no semantic understanding capability. It only computes word frequency and document frequency — it cannot capture contextual relationships or word meaning.<br><br><strong>TF-IDF 是基于词袋模型的统计方法，不具备语义理解能力。只统计词频和文档频率，无法捕捉上下文关系或词义。</strong><br><br><strong>A:</strong> TF-IDF produces high-dimensional sparse vectors, not low-dimensional dense ones.<br><strong>B/D:</strong> These are capabilities TF-IDF does NOT have."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Given TF values: d2(0.012), d1000(0.025), d3(0.031), d9(0.120), d1(0.197). The proposed ascending order by TF is: [d2, d1000, d3, d1, d9]",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The correct ascending order is: d2(0.012) < d1000(0.025) < d3(0.031) < d9(0.120) < d1(0.197). The proposed order [d2, d1000, d3, <strong>d1, d9</strong>] has d1 and d9 swapped.<br><br><strong>正确升序：d2 < d1000 < d3 < d9 < d1。题目给出的排序中 d1 和 d9 的位置反了。</strong>"
+  },
+  {
+    "type": "Short",
+    "source": "teacher",
+    "question": "Given two word vectors: w₁ = (0.2, 0.2, 0.3, 0.7) and w₂ = (0.3, 0.4, 0.8, 0.5). Calculate the cosine similarity.",
+    "answer": "≈ 0.8421",
+    "explanation": "<strong>Step-by-step:</strong><br>1. <strong>Dot product:</strong> 0.2×0.3 + 0.2×0.4 + 0.3×0.8 + 0.7×0.5 = 0.06 + 0.08 + 0.24 + 0.35 = 0.73<br>2. <strong>||w₁||</strong> = √(0.04+0.04+0.09+0.49) = √0.66 ≈ 0.8124<br>3. <strong>||w₂||</strong> = √(0.09+0.16+0.64+0.25) = √1.14 ≈ 1.0677<br>4. <strong>cos(θ)</strong> = 0.73 / (0.8124 × 1.0677) ≈ 0.73 / 0.8674 ≈ <strong>0.8421</strong><br><br><strong>余弦相似度 = 点积 / (模长之积) = 0.73 / 0.8674 ≈ 0.8421</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Given: <code>CountVectorizer(ngram_range=(1,2)).fit(['I love NLP', 'He love NLP', 'good man'])</code><br><code>cv.transform(['love']).toarray()</code><br>Claimed output: <code>array([[0, 0, 1, 0, 0, 0, 0]])</code>",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> <code>CountVectorizer(ngram_range=(1,2))</code> generates a vocabulary of both unigrams and bigrams. The training corpus produces more than 7 features (unigrams: 'good','he','love','man','nlp' + bigrams: 'good man','he love','love nlp' = 8+ features). The vector length should be 8+, not 7.<br><br><strong>ngram_range=(1,2) 生成 unigram 和 bigram 的词汇表，训练语料会生成 8+ 个特征词，向量维度不止 7。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What does TF-IDF stand for, and what does a high TF-IDF score indicate?",
+    "options": [
+      "A) Term Frequency-Inverse Document Frequency; the word is common across all documents",
+      "B) Term Frequency-Inverse Document Frequency; the word is important to a specific document but rare across the corpus",
+      "C) Text Feature-Indexed Data Format; the word has the highest frequency overall",
+      "D) Token Frequency-Individual Document Filter; the word appears only once"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> TF-IDF = Term Frequency × Inverse Document Frequency. A high TF-IDF score means the word appears frequently in the current document (high TF) but rarely across other documents (high IDF), making it a distinctive/important word for that document.<br><br><strong>TF-IDF = 词频 × 逆文档频率。高 TF-IDF 分数说明该词在本文档中高频（TF 高）但在其他文档中出现少（IDF 高），因此是该文档的重要/区分词。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In the edit distance algorithm, which three operations are allowed to transform one string into another?",
+    "options": [
+      "A) Addition, Multiplication, Division",
+      "B) Insertion, Deletion, Substitution",
+      "C) Copy, Move, Swap",
+      "D) Merge, Split, Replace"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> The Levenshtein edit distance allows exactly three operations: Insertion (add a character), Deletion (remove a character), and Substitution (replace one character with another). Each operation costs 1.<br><br><strong>Levenshtein 编辑距离允许三种操作：插入（添加字符）、删除（移除字符）、替换（替换字符）。每个操作代价为 1。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which of the following best defines “Bag of Words” (BoW)?",
+    "options": [
+      "A) A representation that preserves word order and captures semantic meaning",
+      "B) A representation that treats each document as an unordered collection of word frequencies, ignoring word order",
+      "C) A dense low-dimensional vector learned by a neural network",
+      "D) A dictionary that lists all words with their definitions"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> BoW represents documents as vectors of word counts/frequencies. It ignores word ORDER and treats each word independently.<br><br><strong>BoW = 词袋模型 = 文档→词频向量。忽略词序，每个词独立。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "If a word appears in every document of the corpus, its IDF value will be 0, and its TF-IDF score will also be 0.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> If word appears in ALL N documents: IDF = log(N/N) = log(1) = 0. Since TF-IDF = TF × IDF, and IDF = 0, the entire TF-IDF = 0. This word is completely eliminated — it carries no distinguishing information.<br><br><strong>如果一个词出现在所有文档中 → IDF=log(1)=0 → TF-IDF=0 → 该词被完全消除！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "One-Hot Encoding represents each word as a sparse vector with exactly one 1. What is its main disadvantage?",
+    "options": [
+      "A) It is too slow to compute",
+      "B) Vector dimension equals vocabulary size, and all words are equidistant (no semantic similarity)",
+      "C) It requires labeled training data",
+      "D) It can only represent nouns"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> One-Hot produces vectors of size |V|. All vectors are orthogonal → cosine similarity between ANY two words = 0. Cannot tell 'cat' is more similar to 'dog' than to 'rocket'.<br><br><strong>One-Hot 缺点：维度=词表大小(高维稀疏)，所有词两两正交(无法表达语义相似性)。</strong><br><br><strong>演进:</strong> One-Hot → BoW/TF-IDF(稀疏) → Word2Vec/GloVe(密集) → BERT(上下文密集)"
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> Fill in the edit distance DP matrix for transforming 'CAT' into 'CAR'. Show the final matrix and trace the optimal path.<br><br><em>Allowed operations: Insert, Delete, Substitute (each costs 1).</em>",
+    "answer": "≈ 1",
+    "explanation": "<strong>DP Matrix:</strong><br><pre>    ''  C  A  R\n''   0  1  2  3\n C   1  0  1  2\n A   2  1  0  1\n T   3  2  1  <strong>1</strong></pre><br>• d(CAT, CAR) = 1 (substitute T→R at position 3)<br>• Only 1 operation needed.<br><br><strong>解题规则：</strong><br>• d[i][j] = d[i-1][j-1] if chars match<br>• d[i][j] = 1 + min(d[i-1][j], d[i][j-1], d[i-1][j-1]) if mismatch<br><br><strong>考试中必须画完整矩阵，不能只写答案！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Given 3 documents: D1='the cat sat', D2='the cat ate', D3='the dog sat'. Which word has the <strong>highest</strong> TF-IDF score in D1?",
+    "options": [
+      "A) 'the' — it appears in every document so IDF boosts it",
+      "B) 'cat' — it appears in D1 and D2 (df=2), so IDF = log(3/2)",
+      "C) 'sat' — it appears in D1 and D3 (df=2), so IDF = log(3/2)",
+      "D) 'cat' and 'sat' are tied — both have TF=1/3 and df=2"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D:</strong> In D1, TF(cat) = TF(sat) = 1/3. Both cat and sat appear in exactly 2 documents → IDF = log(3/2) ≈ 0.585. So TF-IDF = 1/3 × 0.585 ≈ 0.195 for both. 'the' has IDF = log(3/3) = 0 → eliminated.<br><br><strong>在D1中，cat和sat的TF和IDF完全相同，因此TF-IDF分数相同。'the' 被IDF=0消除。</strong><br><br>⚠️ This tests whether you can identify that IDF eliminates universally common words AND compare tied scores."
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> Fill in the edit distance DP matrix for transforming 'CAT' into 'CAR'. Show the final matrix and trace the optimal path.<br><br><em>Allowed operations: Insert, Delete, Substitute (each costs 1).</em>",
+    "answer": "≈ 1",
+    "explanation": "<strong>DP Matrix:</strong><br><pre>    ''  C  A  R\n''   0  1  2  3\n C   1  0  1  2\n A   2  1  0  1\n T   3  2  1  <strong>1</strong></pre><br>• d(CAT, CAR) = 1 (substitute T→R at position 3)<br>• Only 1 operation needed.<br><br><strong>解题规则：</strong><br>• d[i][j] = d[i-1][j-1] if chars match<br>• d[i][j] = 1 + min(d[i-1][j], d[i][j-1], d[i-1][j-1]) if mismatch<br><br><strong>考试中必须画完整矩阵，不能只写答案！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Given 3 documents: D1='the cat sat', D2='the cat ate', D3='the dog sat'. Which word has the <strong>highest</strong> TF-IDF score in D1?",
+    "options": [
+      "A) 'the' — it appears in every document so IDF boosts it",
+      "B) 'cat' — it appears in D1 and D2 (df=2), so IDF = log(3/2)",
+      "C) 'sat' — it appears in D1 and D3 (df=2), so IDF = log(3/2)",
+      "D) 'cat' and 'sat' are tied — both have TF=1/3 and df=2"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D:</strong> In D1, TF(cat) = TF(sat) = 1/3. Both cat and sat appear in exactly 2 documents → IDF = log(3/2) ≈ 0.585. So TF-IDF = 1/3 × 0.585 ≈ 0.195 for both. 'the' has IDF = log(3/3) = 0 → eliminated.<br><br><strong>在D1中，cat和sat的TF和IDF完全相同，因此TF-IDF分数相同。'the' 被IDF=0消除。</strong><br><br>⚠️ This tests whether you can identify that IDF eliminates universally common words AND compare tied scores."
+  }
+]

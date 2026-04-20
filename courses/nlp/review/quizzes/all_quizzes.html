@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CST8507 NLP — All Quizzes 全部测验</title>
+<!-- KaTeX CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===== Reset & Base ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#0a0a16;color:#e0e0e0;min-height:100vh;line-height:1.6}
+
+/* ===== Hero ===== */
+.hero{background:linear-gradient(135deg,#0d0d2b 0%,#1a0a3e 40%,#2d1b69 70%,#0d0d2b 100%);padding:52px 20px 40px;text-align:center;border-bottom:2px solid #7c5cbf44;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,#818cf820 0%,transparent 50%);animation:heroGlow 8s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{transform:translate(0,0)}100%{transform:translate(5%,3%)}}
+.hero h1{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#a78bfa 0%,#818cf8 40%,#6ee7b7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;position:relative;z-index:1}
+.hero p{color:#a5a5c0;font-size:.9rem;position:relative;z-index:1}
+
+/* ===== Sticky Toolbar ===== */
+.toolbar{position:sticky;top:0;z-index:200;background:#0d0d20ee;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid #ffffff10;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.score-box{font-size:.85rem;color:#a78bfa;font-weight:600;white-space:nowrap}
+.progress-track{flex:1;min-width:100px;max-width:320px;height:6px;background:#ffffff10;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#818cf8,#6ee7b7);border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.toolbar-actions{display:flex;gap:8px;align-items:center}
+.tb-btn{background:#ffffff0a;border:1px solid #ffffff18;color:#a5a5c0;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;transition:all .2s;white-space:nowrap}
+.tb-btn:hover{background:#7c5cbf33;color:#fff;border-color:#7c5cbf66}
+.tb-btn.active{background:#7c5cbf44;color:#a78bfa;border-color:#7c5cbf}
+
+/* ===== Week Navigation ===== */
+.week-nav{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;background:#0d0d20;border-bottom:1px solid #ffffff08;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.week-nav::-webkit-scrollbar{display:none}
+.wn-btn{flex-shrink:0;padding:8px 16px;border-radius:20px;background:#ffffff08;border:1px solid #ffffff12;color:#a5a5c0;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .25s;white-space:nowrap}
+.wn-btn:hover{background:#7c5cbf22;border-color:#7c5cbf55;color:#c4c4d8}
+.wn-btn.active{background:linear-gradient(135deg,#7c5cbf44,#818cf844);border-color:#818cf8;color:#fff}
+
+/* ===== Week Section ===== */
+.week-section{display:none;max-width:780px;margin:0 auto;padding:20px 16px 60px}
+.week-section.visible{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.week-title{font-size:1.3rem;font-weight:700;color:#818cf8;margin-bottom:4px}
+.week-subtitle{font-size:.85rem;color:#6b6b8a;margin-bottom:20px}
+
+/* ===== Question Card ===== */
+.q-card{background:#12122a;border:1px solid #ffffff0a;border-radius:14px;padding:20px;margin-bottom:14px;transition:border-color .3s,box-shadow .3s;position:relative}
+.q-card:hover{border-color:#7c5cbf33;box-shadow:0 4px 20px #7c5cbf10}
+.q-card.answered{opacity:.88}
+.q-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-weight:700;font-size:.95rem;color:#818cf8}
+.q-type{font-size:.65rem;padding:2px 8px;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.badge-MCQ{background:#818cf822;color:#818cf8}
+.badge-TF{background:#6ee7b722;color:#6ee7b7}
+.badge-Fill{background:#fbbf2422;color:#fbbf24}
+.badge-Short{background:#f472b622;color:#f472b6}
+.q-source{font-size:.6rem;padding:2px 8px;border-radius:4px;font-weight:600;letter-spacing:.3px}
+.source-teacher{background:#3b82f620;color:#60a5fa;border:1px solid #3b82f630}
+.source-supplement{background:#f59e0b18;color:#fbbf24;border:1px solid #f59e0b30}
+.source-predicted{background:#10b98118;color:#34d399;border:1px solid #10b98130}
+.q-text{font-size:.92rem;line-height:1.65;margin-bottom:14px;color:#d4d4e0}
+.q-text code{background:#ffffff10;padding:2px 6px;border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:.82rem;color:#f472b6}
+
+/* ===== Options ===== */
+.q-options{display:flex;flex-direction:column;gap:8px}
+.opt-btn{background:#ffffff06;border:1px solid #ffffff12;color:#c4c4d8;padding:11px 16px;border-radius:10px;cursor:pointer;text-align:left;font-size:.86rem;transition:all .2s;line-height:1.45;-webkit-tap-highlight-color:transparent}
+.opt-btn:hover:not(:disabled){background:#7c5cbf18;border-color:#7c5cbf55;color:#e8e8f0}
+.opt-btn:active:not(:disabled){transform:scale(.98)}
+.opt-btn:disabled{cursor:default}
+.opt-btn.correct{background:#065f4618;border-color:#6ee7b7;color:#6ee7b7;font-weight:500}
+.opt-btn.wrong{background:#7f1d1d18;border-color:#f87171;color:#f87171}
+
+/* ===== Fill & Short ===== */
+.q-fill{display:flex;gap:8px;align-items:center}
+.fill-input{flex:1;background:#ffffff06;border:1px solid #ffffff18;color:#e0e0e0;padding:10px 14px;border-radius:10px;font-size:.86rem;outline:none;font-family:inherit}
+.fill-input:focus{border-color:#818cf8;box-shadow:0 0 0 3px #818cf820}
+.check-btn,.reveal-btn{background:linear-gradient(135deg,#7c5cbf,#818cf8);border:none;color:#fff;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:.82rem;font-weight:600;white-space:nowrap;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.check-btn:hover,.reveal-btn:hover{opacity:.85;transform:translateY(-1px)}
+.check-btn:active,.reveal-btn:active{transform:scale(.96)}
+
+/* ===== Feedback ===== */
+.q-feedback{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1),padding .4s ease,opacity .4s ease;border-radius:10px;margin-top:0;opacity:0}
+.q-feedback.show{max-height:800px;padding:14px 16px;margin-top:12px;opacity:1}
+.q-feedback.right{background:#065f4615;border:1px solid #6ee7b733}
+.q-feedback.wrong{background:#7f1d1d15;border:1px solid #f8717133}
+.q-feedback.info{background:#1e1b4b40;border:1px solid #818cf833}
+.fb-icon{font-size:1.1rem;margin-right:8px;vertical-align:middle}
+.fb-text{display:inline;font-size:.82rem;line-height:1.75;color:#c4c4d8}
+.fb-text strong{color:#a78bfa}
+.fb-text code{background:#ffffff10;padding:1px 5px;border-radius:3px;font-family:'SF Mono',Consolas,monospace;font-size:.78rem;color:#f472b6}
+
+/* ===== KaTeX Dark Theme ===== */
+.katex{color:#e0e0e0;font-size:1em}
+.q-text .katex{font-size:.95em}
+.fb-text .katex{font-size:.88em}
+.opt-btn .katex{font-size:.88em}
+
+/* ===== Legend ===== */
+.legend{max-width:780px;margin:20px auto 0;padding:0 16px}
+.legend-box{display:flex;gap:16px;align-items:center;padding:12px 16px;background:#12122a;border:1px solid #ffffff0a;border-radius:10px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:#a5a5c0}
+.legend-dot{width:10px;height:10px;border-radius:3px}
+.dot-teacher{background:#3b82f6}
+.dot-supplement{background:#f59e0b}
+
+/* ===== Mobile ===== */
+@media(max-width:600px){
+  .hero{padding:36px 16px 28px}
+  .hero h1{font-size:1.35rem}
+  .q-card{padding:16px}
+  .toolbar{padding:8px 12px}
+  .q-text{font-size:.88rem}
+  .opt-btn{padding:12px 14px;font-size:.84rem}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>CST8507 NLP — All Quizzes</h1>
+  <p>全部测验合集 · Weeks 1–13 · 手机随时刷题</p>
+</div>
+
+<div class="toolbar" id="toolbar">
+  <div class="score-box">Score: <span id="score-display">0 / 0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+  <div class="toolbar-actions">
+    <button class="tb-btn" id="filter-all" onclick="setFilter('all')">All</button>
+    <button class="tb-btn" id="filter-teacher" onclick="setFilter('teacher')">👨‍🏫 Teacher</button>
+    <button class="tb-btn" id="filter-supplement" onclick="setFilter('supplement')">📝 Supplement</button>
+    <button class="tb-btn" id="filter-predicted" onclick="setFilter('predicted')">🎯 Predicted</button>
+    <button class="tb-btn" id="reset-btn">Reset</button>
+  </div>
+</div>
+
+<div class="week-nav" id="week-nav"></div>
+
+<div class="legend">
+  <div class="legend-box">
+    <div class="legend-item"><div class="legend-dot dot-teacher"></div><span>👨‍🏫 Teacher — 老师原题</span></div>
+    <div class="legend-item"><div class="legend-dot dot-supplement"></div><span>📝 Supplement — 补漏题 (from cheat sheet)</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div><span>🎯 Predicted — 期末预测题</span></div>
+  </div>
+</div>
+
+<div id="weeks-container"></div>
+
+<!-- ===== WEEK DATA — loaded dynamically from JSON files ===== -->
+<script>
+// Week configuration: maps week IDs to JSON files and metadata
+const WEEK_CONFIG = [
+  { id: "w1",  file: "week01_quiz.json", title: "W1: NLP Overview (NLP 概述)", subtitle: "Definitions, AI/ML/DL Hierarchy, NLP Tasks & Challenges" },
+  { id: "w2",  file: "week02_quiz.json", title: "W2: Text Preprocessing (文本预处理)", subtitle: "Tokenization, Stemming, Lemmatization, Regex" },
+  { id: "w3",  file: "week03_quiz.json", title: "W3: Text Vectorization & Similarity (文本向量化与相似度)", subtitle: "Edit Distance, BoW, TF-IDF, Cosine Similarity" },
+  { id: "w4",  file: "week04_quiz.json", title: "W4: Word Embeddings (词嵌入)", subtitle: "Word2Vec (CBOW & Skip-gram), GloVe, Self-Supervised" },
+  { id: "w5",  file: "week05_quiz.json", title: "W5: Language Models & RNN/LSTM (语言模型 & 循环网络)", subtitle: "N-gram, RNN, LSTM, Gradient, Learning Rate" },
+  { id: "w6",  file: "week06_quiz.json", title: "W6: Seq2Seq & Attention (序列到序列 & 注意力)", subtitle: "Encoder-Decoder, Self-Attention, Multi-Head, Positional Encoding" },
+  { id: "w9",  file: "week09_quiz.json", title: "W9: Transformer (Transformer 架构)", subtitle: "Self-Attention, Positional Encoding, Encoder-Decoder, BERT/GPT Branch" },
+  { id: "w10", file: "week10_quiz.json", title: "W10: BERT & QA (BERT 与问答系统)", subtitle: "MLM, NSP, SQuAD, DPR, Extractive QA" },
+  { id: "w12", file: "week12_quiz.json", title: "W12: LLM & RAG (大语言模型 & 检索增强生成)", subtitle: "Hallucination, RAG Pipeline, Retrieval Metrics" },
+  { id: "w13", file: "week13_quiz.json", title: "W13: LLM Compression & Prompt Engineering (压缩 & 提示工程)", subtitle: "Quantization, LoRA, Knowledge Distillation, CoT" },
+  { id: "final", file: "final_short_answer.json", title: "🎯 Final Exam: Short Answer (6pts each)", subtitle: "期末简答预测 — TF-IDF计算, Transformer Attention, BERT MLM, RAG Pipeline, Model Compression" }
+];
+
+// Load all JSON files and build ALL_WEEKS
+let ALL_WEEKS = [];
+async function loadAllData() {
+  const results = await Promise.all(
+    WEEK_CONFIG.map(async (cfg) => {
+      try {
+        const resp = await fetch(cfg.file);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        return { id: cfg.id, title: cfg.title, subtitle: cfg.subtitle, data };
+      } catch (e) {
+        console.error(`Failed to load ${cfg.file}:`, e);
+        return { id: cfg.id, title: cfg.title, subtitle: cfg.subtitle + ' ⚠️ LOAD ERROR', data: [] };
+      }
+    })
+  );
+  ALL_WEEKS = results;
+}
+</script>
+
+<!-- ===== MAIN LOGIC ===== -->
+<script>
+
+// ===== State =====
+let score = 0, totalQ = 0, answeredQ = 0;
+let currentWeek = 'all';
+let currentFilter = 'all';
+
+// ===== Init =====
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadAllData();
+  buildNav();
+  renderAll();
+  setActiveWeek('all');
+  setFilter('all');
+  document.getElementById('reset-btn').addEventListener('click', resetAll);
+});
+
+// ===== Build week nav =====
+function buildNav() {
+  const nav = document.getElementById('week-nav');
+  let html = '<button class="wn-btn active" onclick="setActiveWeek(\'all\')">📚 All</button>';
+  ALL_WEEKS.forEach(w => {
+    const label = w.id.toUpperCase().replace('W','W');
+    html += `<button class="wn-btn" onclick="setActiveWeek('${w.id}')">${label}</button>`;
+  });
+  nav.innerHTML = html;
+}
+
+// ===== Render all weeks =====
+function renderAll() {
+  const container = document.getElementById('weeks-container');
+  container.innerHTML = '';
+  score = 0; answeredQ = 0; totalQ = 0;
+
+  ALL_WEEKS.forEach(week => {
+    const section = document.createElement('div');
+    section.className = 'week-section';
+    section.id = 'section-' + week.id;
+    section.dataset.weekId = week.id;
+
+    let html = `<h2 class="week-title">${week.title}</h2><p class="week-subtitle">${week.subtitle}</p>`;
+
+    const filteredData = getFilteredData(week.data);
+    filteredData.forEach((q, idx) => {
+      const globalIdx = week.id + '-' + idx;
+      html += buildCard(q, idx, globalIdx);
+    });
+
+    section.innerHTML = html;
+    container.appendChild(section);
+    totalQ += filteredData.length;
+  });
+
+  updateScore();
+  showActiveWeek();
+  renderMath();
+}
+
+function getFilteredData(data) {
+  if (currentFilter === 'all') return data;
+  return data.filter(q => (q.source || 'teacher') === currentFilter);
+}
+
+// ===== Build a question card =====
+function buildCard(q, idx, gid) {
+  const src = q.source || 'teacher';
+  const srcLabels = { teacher: '👨‍🏫 Teacher', supplement: '📝 Supplement', predicted: '🎯 Predicted' };
+  const srcClasses = { teacher: 'source-teacher', supplement: 'source-supplement', predicted: 'source-predicted' };
+  const srcLabel = srcLabels[src] || srcLabels.teacher;
+  const srcClass = srcClasses[src] || srcClasses.teacher;
+
+  let h = `<div class="q-card" id="card-${gid}">`;
+  h += `<div class="q-header">`;
+  h += `<span class="q-num">Q${idx + 1}</span>`;
+  h += `<span class="q-type badge-${q.type}">${q.type}</span>`;
+  h += `<span class="q-source ${srcClass}">${srcLabel}</span>`;
+  h += `</div>`;
+  h += `<p class="q-text">${q.question}</p>`;
+
+  if (q.type === 'MCQ' || q.type === 'TF') {
+    const opts = q.type === 'TF' ? ['True', 'False'] : q.options;
+    h += '<div class="q-options">';
+    opts.forEach((opt, oi) => {
+      h += `<button class="opt-btn" onclick="checkOpt('${gid}',${oi},this)">${opt}</button>`;
+    });
+    h += '</div>';
+  } else if (q.type === 'Fill') {
+    h += `<div class="q-fill"><input type="text" class="fill-input" id="fi-${gid}" placeholder="输入答案 / Type answer…"><button class="check-btn" onclick="checkFill('${gid}')">Check ✓</button></div>`;
+  } else if (q.type === 'Short') {
+    h += `<div class="q-short"><button class="reveal-btn" onclick="revealShort('${gid}',this)">Show Answer 👁</button></div>`;
+  }
+
+  h += `<div class="q-feedback" id="fb-${gid}"></div>`;
+  h += '</div>';
+  return h;
+}
+
+// ===== Get quiz data by gid =====
+function getQuizByGid(gid) {
+  const [weekId, idxStr] = gid.split('-');
+  const week = ALL_WEEKS.find(w => w.id === weekId);
+  const filtered = getFilteredData(week.data);
+  return filtered[parseInt(idxStr)];
+}
+
+// ===== Check MCQ / TF =====
+window.checkOpt = function(gid, oi, btn) {
+  const card = document.getElementById('card-' + gid);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answeredQ++;
+
+  const q = getQuizByGid(gid);
+  const correct = q.answer;
+  const isCorrect = (q.type === 'TF') ? (['True','False'][oi] === correct) : (oi === correct);
+
+  const btns = card.querySelectorAll('.opt-btn');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (q.type === 'TF') {
+      if (['True','False'][i] === correct) b.classList.add('correct');
+      else if (i === oi) b.classList.add('wrong');
+    } else {
+      if (i === correct) b.classList.add('correct');
+      else if (i === oi) b.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) score++;
+  updateScore();
+  showFeedback(gid, isCorrect, q.explanation);
+};
+
+// ===== Check Fill =====
+window.checkFill = function(gid) {
+  const card = document.getElementById('card-' + gid);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answeredQ++;
+
+  const q = getQuizByGid(gid);
+  const input = document.getElementById('fi-' + gid).value.trim().toLowerCase();
+  const answers = Array.isArray(q.answer) ? q.answer : [q.answer];
+  const isCorrect = answers.some(a => input === String(a).toLowerCase());
+
+  if (isCorrect) score++;
+  updateScore();
+  showFeedback(gid, isCorrect, `<strong>正确答案:</strong> ${answers.join(' / ')}<br>${q.explanation}`);
+};
+
+// ===== Reveal Short =====
+window.revealShort = function(gid, btn) {
+  const card = document.getElementById('card-' + gid);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answeredQ++;
+  btn.style.display = 'none';
+  const q = getQuizByGid(gid);
+  showFeedback(gid, null, `<strong>Answer:</strong> ${q.answer}<br>${q.explanation}`);
+};
+
+// ===== Feedback =====
+function showFeedback(gid, isCorrect, explanation) {
+  const fb = document.getElementById('fb-' + gid);
+  fb.className = 'q-feedback show ' + (isCorrect === null ? 'info' : isCorrect ? 'right' : 'wrong');
+  const icon = isCorrect === null ? '📖' : isCorrect ? '✅' : '❌';
+  fb.innerHTML = `<span class="fb-icon">${icon}</span><div class="fb-text">${explanation}</div>`;
+  renderMath();
+}
+
+// ===== Score =====
+function updateScore() {
+  const el = document.getElementById('score-display');
+  if (el) el.textContent = `${score} / ${totalQ}  (${answeredQ} answered)`;
+  const bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = (totalQ ? (answeredQ / totalQ * 100) : 0) + '%';
+}
+
+// ===== Week switching =====
+function setActiveWeek(weekId) {
+  currentWeek = weekId;
+  showActiveWeek();
+  // Update nav buttons
+  document.querySelectorAll('.wn-btn').forEach(b => b.classList.remove('active'));
+  if (weekId === 'all') {
+    document.querySelector('.wn-btn').classList.add('active');
+  } else {
+    const idx = ALL_WEEKS.findIndex(w => w.id === weekId) + 1;
+    document.querySelectorAll('.wn-btn')[idx]?.classList.add('active');
+  }
+}
+
+function showActiveWeek() {
+  document.querySelectorAll('.week-section').forEach(s => {
+    if (currentWeek === 'all' || s.dataset.weekId === currentWeek) {
+      s.classList.add('visible');
+    } else {
+      s.classList.remove('visible');
+    }
+  });
+}
+
+// ===== Filter =====
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.toolbar-actions .tb-btn:not(#reset-btn)').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-' + filter)?.classList.add('active');
+  renderAll();
+}
+
+// ===== Reset =====
+function resetAll() {
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== KaTeX Math Rendering =====
+function renderMath() {
+  if (typeof renderMathInElement === 'undefined') return;
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ],
+    throwOnError: false,
+    trust: true
+  });
+}
+// Initial render after KaTeX loads
+window.addEventListener('load', renderMath);
+</script>
+
+</body>
+</html>

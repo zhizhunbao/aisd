@@ -1,0 +1,3519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheat Sheet</title>
+<style>
+
+@page {
+  size: 8.5in 11in;
+  margin: 0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Microsoft YaHei', 'Segoe UI', 'Noto Sans SC', Arial, sans-serif;
+  font-size: 4.4pt;
+  line-height: 1.15;
+  color: #000;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  column-count: 4;
+  column-gap: 3px;
+  column-rule: 0.3px solid #ccc;
+  column-fill: auto;
+  padding: 3mm;
+  width: 8.5in;
+  height: 11in;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+/* Signature box - 5cm x 5cm top-left of each page (exam requirement) */
+.sig {
+  width: 5cm;
+  height: 5cm;
+  border: 0.5px dashed #999;
+  margin-bottom: 1px;
+  break-inside: avoid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 4pt;
+}
+
+/* Week block */
+.week-block {
+  border: 0.3px solid #ddd;
+  padding: 1px 2px;
+  margin-bottom: 2px;
+}
+
+/* H1 = Week title */
+h1 {
+  font-size: 5.25pt;
+  font-weight: bold;
+  background: #1a1a2e;
+  color: #fff;
+  padding: 0.5px 3px;
+  margin: -1px -2px 1px -2px;
+  break-after: avoid;
+  letter-spacing: -0.2px;
+}
+
+/* H2 = Section */
+h2 {
+  font-size: 4.7pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  border-bottom: 0.5px solid #1a1a2e;
+  margin: 1px 0 0.5px 0;
+  break-after: avoid;
+}
+
+/* H3 = Sub-topic */
+h3 {
+  font-size: 4.4pt;
+  font-weight: bold;
+  color: #333;
+  margin: 1px 0 0.3px 0;
+  border-bottom: 0.2px solid #aaa;
+  break-after: avoid;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5px 0 1px 0;
+  font-size: 4pt;
+}
+th, td {
+  border: 0.2px solid #bbb;
+  padding: 0.2px 1.5px;
+  text-align: left;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+th {
+  background: #e8e8f0;
+  font-weight: bold;
+  font-size: 4pt;
+}
+td { font-size: 3.6pt; }
+
+/* Code */
+code {
+  background: #f0f0f0;
+  padding: 0 1px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 3.6pt;
+  border-radius: 1px;
+}
+pre {
+  background: #f5f5f5;
+  padding: 2px 3px;
+  margin: 1px 0;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 3.4pt;
+  line-height: 1.2;
+  white-space: pre;
+  border: 0.2px solid #ddd;
+  border-radius: 1px;
+}
+
+/* Italic */
+em { font-style: italic; color: #666; }
+
+/* Paragraphs */
+p { margin: 0.3px 0; font-size: 4pt; }
+
+/* Lists */
+ul, ol { padding-left: 6px; margin: 0.3px 0; }
+li { font-size: 3.8pt; margin: 0; }
+
+/* Short-answer highlight */
+.sa-mark {
+  border-left: 1.5px solid #e63946;
+  background: linear-gradient(90deg, #fff0f0 0%, transparent 60%);
+  padding-left: 2px;
+  margin-left: -3px;
+}
+.sa-mark > h3::before {
+  content: '📝简答 ';
+  color: #e63946;
+  font-weight: bold;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  border-top: 0.3px solid #999;
+  margin: 1px 0;
+}
+
+/* Print */
+@media print {
+  body { margin: 0; }
+  .no-print { display: none; }
+  .page { overflow: hidden; }
+}
+
+/* Screen preview */
+@media screen {
+  body {
+    background: #555;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  .page {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+}
+
+</style>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$']],
+    displayMath: [['$$', '$$']],
+  },
+  svg: {
+    fontCache: 'global',
+    scale: 0.7
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+</head>
+<body>
+<div class="no-print" style="text-align:center; padding:10px; font-family:sans-serif; font-size:14px; color:#fff;">
+  NLP Final Cheat Sheet | 2 pages | Ctrl+P to print
+</div>
+<div class="page">
+<div class="sig">Signature / 签名</div>
+<div class="week-block"><h1>W1: NLP Overview (NLP 概述)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Core Terms (核心术语)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLP (自然语言处理)</td>
+<td>用计算机处理人类语言的技术领域 (Linguistics×CS×AI)，核心：处理、理解、生成</td>
+<td>Siri、Google翻译、ChatGPT</td>
+</tr>
+<tr>
+<td>NLU (自然语言理解)</td>
+<td>NLP 的"读"：让机器读懂文本含义 (Classification, NER, Sentiment)</td>
+<td>"I love this!" → 正面情感</td>
+</tr>
+<tr>
+<td>NLG (自然语言生成)</td>
+<td>NLP 的"写"：让机器生成人类可读文本 (Translation, Summarization)</td>
+<td>法语→英语翻译；长文→摘要</td>
+</tr>
+<tr>
+<td>NLP = NLU + NLG</td>
+<td>理解 (Understanding) + 生成 (Generation) 两大能力组成</td>
+<td>聊天机器人：先NLU理解→再NLG回答</td>
+</tr>
+<tr>
+<td>Turing Test (图灵测试, 1950)</td>
+<td>人类评估者分不清对面是人还是机器 → 通过测试</td>
+<td>50%时间判断错 → 机器通过</td>
+</tr>
+<tr>
+<td>Corpus (语料库)</td>
+<td>用于 NLP 训练/分析的大规模文本集合</td>
+<td>Wikipedia、IMDb影评、新闻语料</td>
+</tr>
+<tr>
+<td>Supervised Learning (监督学习)</td>
+<td>用带标签数据训练模型 — 告诉模型正确答案</td>
+<td>1000条邮件标spam/not spam→训练</td>
+</tr>
+<tr>
+<td>Unsupervised Learning (无监督学习)</td>
+<td>用无标签数据发现隐藏模式</td>
+<td>1000篇新闻自动聚成5个topic</td>
+</tr>
+</tbody>
+</table>
+<h3>Zipf's Law &amp; Sparsity (齐普夫定律)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zipf's Law (齐普夫定律)</td>
+<td>词频与排名成反比：freq ∝ 1/rank，少数词极高频，多数词极低频</td>
+<td>"the"(7%);"of"(3.5%);Rank10(~0.7%)</td>
+</tr>
+<tr>
+<td>Hapax Legomena (单次词)</td>
+<td>在语料中只出现一次的词，通常超过总词表 1/3</td>
+<td>词表7000中~2500词仅出现1次</td>
+</tr>
+<tr>
+<td>Alpha (α)</td>
+<td>log-log回归斜率绝对值，理想≈1.0，衡量词频下降速度</td>
+<td>文学α≈1.4; 宗教α≈1.6</td>
+</tr>
+</tbody>
+</table>
+<h3>4 NLP Challenges (4大挑战)</h3>
+<table>
+<thead>
+<tr>
+<th>Challenge (挑战)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ambiguity (歧义性)</td>
+<td>同一句话有多种理解：词汇/句法/指代歧义</td>
+<td>"bank"=银行or河岸</td>
+</tr>
+<tr>
+<td>Sparsity (稀疏性)</td>
+<td>Zipf定律→超过1/3词只出现一次</td>
+<td>"serendipity"可能只出现1次</td>
+</tr>
+<tr>
+<td>Variation (变异性)</td>
+<td>同义可用不同词/句式表达</td>
+<td>"awesome"="splendid"="fire"</td>
+</tr>
+<tr>
+<td>Common Knowledge (常识)</td>
+<td>机器缺乏世界常识，无法判断合理性</td>
+<td>"man bites dog"=新闻(反常)</td>
+</tr>
+</tbody>
+</table>
+<h3>7 NLP Applications (7大应用)</h3>
+<table>
+<thead>
+<tr>
+<th>Application (应用)</th>
+<th>Type (类型)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speech Recognition (语音识别)</td>
+<td>NLU</td>
+<td>Siri语音转文字</td>
+</tr>
+<tr>
+<td>Dialogue/Chatbot (对话)</td>
+<td>NLU+NLG</td>
+<td>ChatGPT理解+回答</td>
+</tr>
+<tr>
+<td>Text Classification (分类)</td>
+<td>NLU</td>
+<td>垃圾邮件过滤</td>
+</tr>
+<tr>
+<td>Sentiment Analysis (情感)</td>
+<td>NLU</td>
+<td>"great!"→Positive</td>
+</tr>
+<tr>
+<td>Summarization (摘要)</td>
+<td>NLG</td>
+<td>10页→3句</td>
+</tr>
+<tr>
+<td>QA (问答)</td>
+<td>NLU+NLG</td>
+<td>知识问答</td>
+</tr>
+<tr>
+<td>Generative AI (生成AI)</td>
+<td>NLG</td>
+<td>GPT-4生成文章/代码</td>
+</tr>
+</tbody>
+</table>
+<h3>NLP Python Libraries (Python NLP库)</h3>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>特点</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLTK</td>
+<td>经典教学库，功能全但慢</td>
+<td><code>nltk.word_tokenize()</code></td>
+</tr>
+<tr>
+<td>SpaCy</td>
+<td>工业级，快速Pipeline</td>
+<td><code>nlp("I love NLP")</code> 一次搞定</td>
+</tr>
+<tr>
+<td>HuggingFace</td>
+<td>预训练模型平台(BERT/GPT)</td>
+<td><code>pipeline("sentiment")(text)</code></td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>3 NLP Approaches (3种方法)</h3>
+<table>
+<thead>
+<tr>
+<th>Approach (方法)</th>
+<th>Method (手段)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Heuristics (规则法)</td>
+<td>人工写规则/正则</td>
+<td><code>if "not" in text: neg</code></td>
+</tr>
+<tr>
+<td>ML (机器学习)</td>
+<td>标注数据训练模型</td>
+<td>TF-IDF + LogReg</td>
+</tr>
+<tr>
+<td>DL (深度学习)</td>
+<td>神经网络自动学特征</td>
+<td>BERT, GPT</td>
+</tr>
+</tbody>
+</table>
+<h3>AI Hierarchy (AI层级): AI ⊃ ML ⊃ DL</h3>
+<table>
+<thead>
+<tr>
+<th>Level (层级)</th>
+<th>Relationship (关系)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI ⊃ ML ⊃ DL</td>
+<td>嵌套包含关系</td>
+<td>AI:专家系统; ML:SVM; DL:Transformer</td>
+</tr>
+<tr>
+<td>NLP</td>
+<td>AI的应用领域，横跨所有层级</td>
+<td>规则NLP→ML NLP→DL NLP</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<p><em>No formulas this week.</em></p>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLP = NLU?</td>
+<td>❌ NLP = NLU + NLG</td>
+<td>聊天机器人两部分都需要</td>
+</tr>
+<tr>
+<td>AI/ML/DL并列?</td>
+<td>❌ 嵌套：AI⊃ML⊃DL</td>
+<td>大圈套小圈</td>
+</tr>
+<tr>
+<td>NLP三种方法哪个最好?</td>
+<td>没有绝对最好，取决于任务和数据量</td>
+<td>少数据→规则; 中数据→ML; 大数据→DL</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W2: Text Preprocessing (文本预处理)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Core Preprocessing (核心预处理)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokenization (分词)</td>
+<td>NLP第一步：文本→离散token</td>
+<td>"I love NLP!" → ["I","love","NLP","!"]</td>
+</tr>
+<tr>
+<td>Stop Words (停用词)</td>
+<td>高频但语义贡献低的词，分析前移除</td>
+<td>"the","is","a" → 移除</td>
+</tr>
+<tr>
+<td>Stemming (词干提取)</td>
+<td>规则暴力砍词尾→词根，快但可能非真词</td>
+<td>"studies"→"studi"; "running"→"run"</td>
+</tr>
+<tr>
+<td>Lemmatization (词元化)</td>
+<td>词典+词性还原标准词形，输出一定是真词</td>
+<td>"studies"→"study"; "better"→"good"</td>
+</tr>
+<tr>
+<td>POS Tagging (词性标注)</td>
+<td>给每个token标语法类别</td>
+<td>"The(DT) quick(JJ) fox(NN)"</td>
+</tr>
+<tr>
+<td>NER (命名实体识别)</td>
+<td>找出并分类专有名词(人/地/组织)</td>
+<td>"James"=PERSON, "Ottawa"=GPE</td>
+</tr>
+<tr>
+<td>Normalization (规范化)</td>
+<td>token→统一基本形式(含Stemming/Lem)</td>
+<td>"Running","ran","runs"→"run"</td>
+</tr>
+<tr>
+<td>Noise Removal (噪声移除)</td>
+<td>删除无用元素：标点/HTML/URL</td>
+<td><code>&lt;br&gt;Visit http://...</code> → 正文</td>
+</tr>
+</tbody>
+</table>
+<h3>Regex (正则表达式)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>re.match()</code></td>
+<td>只匹配字符串<strong>开头</strong></td>
+<td><code>re.match(r'\d+','abc123')</code>→None</td>
+</tr>
+<tr>
+<td><code>re.search()</code></td>
+<td>匹配<strong>任意位置</strong>第一个</td>
+<td><code>re.search(r'\d+','abc123')</code>→'123'</td>
+</tr>
+<tr>
+<td><code>re.findall()</code></td>
+<td>返回<strong>所有</strong>匹配列表</td>
+<td><code>re.findall(r'\d+','a1b2')</code>→['1','2']</td>
+</tr>
+<tr>
+<td><code>re.sub()</code></td>
+<td>替换所有匹配</td>
+<td><code>re.sub(r'\d+','#','a1b2')</code>→'a#b#'</td>
+</tr>
+</tbody>
+</table>
+<h3>Preprocessing Pipeline (流水线顺序)</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>操作</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① Tokenize</td>
+<td>原始文本→token列表</td>
+<td>"He's running!"→["He","'s","running","!"]</td>
+</tr>
+<tr>
+<td>② Noise Removal</td>
+<td>移除标点/停用词/HTML</td>
+<td>→["running"]</td>
+</tr>
+<tr>
+<td>③ Normalize</td>
+<td>Stemming或Lemmatization</td>
+<td>→["run"]</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Stemming vs Lemmatization</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension (维度)</th>
+<th>Stemming (词干提取)</th>
+<th>Lemmatization (词元化)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method (方法)</td>
+<td>规则砍词尾</td>
+<td>词典查找+POS</td>
+<td>Porter规则; WordNet词典</td>
+</tr>
+<tr>
+<td>Speed (速度)</td>
+<td>⚡快(无需词典)</td>
+<td>🐢慢(需加载词典)</td>
+<td>大数据优先Stemming</td>
+</tr>
+<tr>
+<td>Output (输出)</td>
+<td>可能非真词</td>
+<td>一定是真词</td>
+<td>"better"→Stem:"better"; Lem:"good"</td>
+</tr>
+</tbody>
+</table>
+<h3>NLTK 3 Stemmers</h3>
+<table>
+<thead>
+<tr>
+<th>Stemmer</th>
+<th>激进程度</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Porter</td>
+<td>最温和</td>
+<td>"generously"→"generous"</td>
+</tr>
+<tr>
+<td>Snowball</td>
+<td>中等(多语言)</td>
+<td>支持英/法/德等</td>
+</tr>
+<tr>
+<td>Lancaster</td>
+<td>最激进</td>
+<td>"generously"→"gener"</td>
+</tr>
+</tbody>
+</table>
+<h3>SpaCy vs NLTK</h3>
+<table>
+<thead>
+<tr>
+<th>Feature (功能)</th>
+<th>SpaCy</th>
+<th>NLTK</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stemming</td>
+<td>❌</td>
+<td>✅ 三种</td>
+<td>NLTK:<code>PorterStemmer().stem()</code></td>
+</tr>
+<tr>
+<td>Lemmatization</td>
+<td>✅<code>token.lemma_</code></td>
+<td>✅ WordNet</td>
+<td>SpaCy一行; NLTK需指定词性</td>
+</tr>
+<tr>
+<td>设计</td>
+<td>工业级Pipeline</td>
+<td>教学Toolkit</td>
+<td>SpaCy一次搞定; NLTK每步手动</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<p><em>No formulas this week.</em></p>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>re.match能匹配任意位置?</td>
+<td>❌ match只匹配开头! search才是任意位置</td>
+<td><code>match(r'\d+','abc123')</code>→None</td>
+</tr>
+<tr>
+<td>SpaCy可以做Stemming?</td>
+<td>❌ SpaCy只有Lemmatization; NLTK两个都有</td>
+<td>SpaCy无 <code>stem()</code>方法</td>
+</tr>
+<tr>
+<td>预处理顺序随便?</td>
+<td>❌ 必须 Tokenize→Noise Removal→Normalize</td>
+<td>先Stem再Tokenize=错</td>
+</tr>
+<tr>
+<td>规则法能处理否定?</td>
+<td>❌ "not bad"→误判负面</td>
+<td>需ML/DL才能处理</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W3: Text Vectorization &amp; Similarity (文本向量化与相似度)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Text Representation (文本表示)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OHE (One-Hot Encoding)</td>
+<td>二进制向量：词位置为1其余全0；无语义</td>
+<td>[cat,dog,fish]→cat=[1,0,0]</td>
+</tr>
+<tr>
+<td>BOW (Bag-of-Words)</td>
+<td>统计词频，忽略词序</td>
+<td>"the cat sat"→{the:1,cat:1,sat:1}</td>
+</tr>
+<tr>
+<td>N-gram (N元组)</td>
+<td>连续N个词组成的词组，部分保留词序</td>
+<td>Bigram: "I love NLP"→["I love","love NLP"]</td>
+</tr>
+<tr>
+<td>TF-IDF</td>
+<td>本文档高频+其他文档低频=重要</td>
+<td>"NLP"在本文10次但只在5篇出现→高</td>
+</tr>
+<tr>
+<td>Cosine Similarity (余弦相似度)</td>
+<td>向量<strong>方向</strong>相似度，不受长度影响，[-1,1]</td>
+<td>cos=1.0完全相同; cos=0正交无关</td>
+</tr>
+<tr>
+<td>Euclidean Distance (欧氏距离)</td>
+<td>向量直线距离，受长度影响</td>
+<td>d([1,0],[0,1])=√2≈1.41</td>
+</tr>
+<tr>
+<td>Edit Distance (编辑距离)</td>
+<td>变成另一字符串的最少操作次数(插入/删除/替换)</td>
+<td>"kitten"→"sitting"=3次</td>
+</tr>
+<tr>
+<td>Sparsity (稀疏性)</td>
+<td>向量中大部分元素为0(OHE/BOW/TF-IDF共同问题)</td>
+<td>词表10000维,文档用50个词→99.5%是0</td>
+</tr>
+<tr>
+<td>OOV (Out-of-Vocabulary)</td>
+<td>不在训练词表中的词，传统方法无法处理</td>
+<td>"ChatGPT"在2010年模型→OOV</td>
+</tr>
+</tbody>
+</table>
+<h3>Sklearn API</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CountVectorizer</code></td>
+<td>文本→词频矩阵(原始计数)</td>
+<td>"the cat"→[1,1]</td>
+</tr>
+<tr>
+<td><code>TfidfVectorizer</code></td>
+<td>文本→TF-IDF加权矩阵，稀有词权重高</td>
+<td>"the cat"→[0.0,0.7]</td>
+</tr>
+<tr>
+<td><code>ngram_range=(1,2)</code></td>
+<td>同时生成unigram+bigram</td>
+<td>"I love"→5个特征</td>
+</tr>
+<tr>
+<td><code>stratify=y</code></td>
+<td>train_test_split中保持类别分布</td>
+<td>70%pos/30%neg→两集合同比例</td>
+</tr>
+</tbody>
+</table>
+<h3>Evaluation Metrics (评估指标)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confusion Matrix (混淆矩阵)</td>
+<td>TP/FP/FN/TN 的2×2表格</td>
+<td>揭示每个类别表现</td>
+</tr>
+<tr>
+<td>Weighted F1</td>
+<td>按类别样本量加权的F1，适用不平衡数据</td>
+<td>90%A+10%B→weighted更公平</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>BOW vs N-gram vs TF-IDF</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>BOW</th>
+<th>N-gram</th>
+<th>TF-IDF</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word order</td>
+<td>❌忽略</td>
+<td>⚠️局部保留</td>
+<td>❌忽略</td>
+<td>"dog bites man"="man bites dog"(BOW)</td>
+</tr>
+<tr>
+<td>Vocab size</td>
+<td>V</td>
+<td>V^N(爆炸)</td>
+<td>V</td>
+<td>V=10K→bigram=100M</td>
+</tr>
+<tr>
+<td>Weighting</td>
+<td>原始计数</td>
+<td>原始计数</td>
+<td>加权(稀有↑常见↓)</td>
+<td>"the"=0; "serendipity"=高</td>
+</tr>
+<tr>
+<td>Semantic</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>都不知道"happy"≈"joyful"</td>
+</tr>
+</tbody>
+</table>
+<h3>Cosine vs Euclidean</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Cosine</th>
+<th>Euclidean</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Measures</td>
+<td>方向(角度)</td>
+<td>位置(直线)</td>
+<td>方向同但长度不同:cos=1,d≠0</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>[-1,1]</td>
+<td>[0,∞)</td>
+<td>NLP首选cos</td>
+</tr>
+<tr>
+<td>向量长度影响</td>
+<td>❌不受</td>
+<td>✅受</td>
+<td>文档长短不影响cos但影响d</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>TF-IDF</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{TF}(t,d) = \frac{\text{count}(t \in d)}{\text{total words in } d}$</td>
+<td>词在文档中出现比例</td>
+<td>"cat"3次/100词→0.03</td>
+</tr>
+<tr>
+<td>$\text{IDF}(t) = \log\frac{N}{df(t)}$</td>
+<td>出现越少文档越重要</td>
+<td>N=1000,"cat"在10篇→IDF=2</td>
+</tr>
+<tr>
+<td>$\text{TF-IDF} = \text{TF} \times \text{IDF}$</td>
+<td>两项相乘</td>
+<td>0.03×2=0.06</td>
+</tr>
+</tbody>
+</table>
+<h3>Similarity</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\cos(\mathbf{A},\mathbf{B}) = \frac{\mathbf{A}\cdot\mathbf{B}}{\</td>
+<td>\mathbf{A}\</td>
+<td>\times\|\mathbf{B}\|}$ | 余弦相似度         | A·B=0.73,‖A‖=0.81,‖B‖=1.07→cos=0.84</td>
+</tr>
+<tr>
+<td>$d(\mathbf{A},\mathbf{B}) = \sqrt{\sum_i(a_i-b_i)^2}$</td>
+<td>欧氏距离</td>
+<td>d([1,0],[0,1])=√2</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BOW保留词序?</td>
+<td>❌ BOW完全忽略词序！只数词频</td>
+<td>"dog bites man"="man bites dog"</td>
+</tr>
+<tr>
+<td>TF-IDF含语义?</td>
+<td>❌ 只是统计权重，不理解语义</td>
+<td>不知道"happy"≈"joyful"</td>
+</tr>
+<tr>
+<td>余弦受长度影响?</td>
+<td>❌ 不受！只看方向; 欧氏才受</td>
+<td>长短文档cos不变,Euclidean变</td>
+</tr>
+<tr>
+<td>N的N越大越好?</td>
+<td>❌ V^N指数爆炸，太稀疏反而差</td>
+<td>Uni:10K→Bi:100M→Tri:1T</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W4: Word Embeddings (词嵌入)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Core Embedding Concepts (核心概念)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word Embedding (词嵌入)</td>
+<td>词→低维稠密向量(50-300维)，语义相似距离更近</td>
+<td>"king"→[0.2,-0.5,0.8,...](300维)</td>
+</tr>
+<tr>
+<td>Distributional Hypothesis (分布假说)</td>
+<td>相似上下文的词有相似含义 — 词嵌入理论基础</td>
+<td>"cat""dog"常在"pet"旁→语义相似</td>
+</tr>
+<tr>
+<td>Context Window (上下文窗口)</td>
+<td>训练时看目标词左右各多少个词</td>
+<td>window=2: "NLP"的上下文是love,very</td>
+</tr>
+<tr>
+<td>Static Embedding (静态嵌入)</td>
+<td>每词一个固定向量，不随上下文变化</td>
+<td>"bank"不管银行/河岸都同一个向量</td>
+</tr>
+<tr>
+<td>Contextual Embedding (上下文嵌入)</td>
+<td>同词不同上下文→不同向量(BERT/GPT)</td>
+<td>"bank"在不同语境向量不同</td>
+</tr>
+<tr>
+<td>Embedding Matrix</td>
+<td>词表V行×维度D列的查找表; E[word_id]→稠密向量</td>
+<td>V=10000,D=300→矩阵(10000,300)</td>
+</tr>
+<tr>
+<td>Cosine Similarity (嵌入空间)</td>
+<td>词嵌入间的语义相似度度量(同W3)</td>
+<td>cos(king,queen)≈0.8</td>
+</tr>
+</tbody>
+</table>
+<h3>Word2Vec (Google 2013) / GloVe (Stanford 2014) / FastText (Facebook 2016)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CBOW</td>
+<td>用上下文词<strong>预测</strong>中心词; 更快, 适合高频词</td>
+<td>[the,cat,on,the]→预测"sat"</td>
+</tr>
+<tr>
+<td>Skip-gram</td>
+<td>用中心词<strong>预测</strong>上下文; 更慢, 对稀有词好</td>
+<td>"sat"→预测[the,cat,on,the]</td>
+</tr>
+<tr>
+<td>SGNS (负采样)</td>
+<td>随机采"假"上下文词作负样本加速训练</td>
+<td>正:(apricot,jam); 负:(apricot,elephant)</td>
+</tr>
+<tr>
+<td>GloVe</td>
+<td>基于全局词共现矩阵分解学习向量</td>
+<td>Wikipedia+Gigaword训练, 400K词, 300维</td>
+</tr>
+<tr>
+<td>FastText</td>
+<td>词→字符n-gram(3-6字符)之和，能处理OOV/拼写错误</td>
+<td>"apple"=vec("&lt;ap")+vec("app")+vec("ple")</td>
+</tr>
+</tbody>
+</table>
+<h3>WordNet (词典知识库)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synset (同义词集)</td>
+<td>共享同一含义的一组同义词</td>
+<td>{happy,glad,cheerful}</td>
+</tr>
+<tr>
+<td>Hypernym/Hyponym</td>
+<td>上位词(IS-A父类)/下位词(IS-A子类)</td>
+<td>"animal"是"dog"的上位词</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>CBOW vs Skip-gram</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>CBOW</th>
+<th>Skip-gram</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input→Output</td>
+<td>上下文→中心词</td>
+<td>中心词→上下文</td>
+<td>CBOW一次预测一个; Skip多个</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>⚡更快</td>
+<td>🐢更慢</td>
+<td>大语料优先CBOW</td>
+</tr>
+<tr>
+<td><code>sg</code> param</td>
+<td><code>sg=0</code>(默认!)</td>
+<td><code>sg=1</code></td>
+<td><strong>默认CBOW不是Skip-gram</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>Word2Vec vs GloVe vs FastText</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Word2Vec</th>
+<th>GloVe</th>
+<th>FastText</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year</td>
+<td>2013 Google</td>
+<td>2014 Stanford</td>
+<td>2016 Facebook</td>
+<td>三大来源</td>
+</tr>
+<tr>
+<td>OOV</td>
+<td>❌KeyError</td>
+<td>❌KeyError</td>
+<td>✅子词组合</td>
+<td>"appple":W2V=N/A; FT≈0.95</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>局部预测</td>
+<td>全局共现分解</td>
+<td>字符n-gram</td>
+<td>预测vs计数vs子词</td>
+</tr>
+</tbody>
+</table>
+<h3>Static vs Contextual Embedding</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Static (W2V/GloVe/FT)</th>
+<th>Contextual (BERT/GPT)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多义词</td>
+<td>❌一个向量</td>
+<td>✅不同向量</td>
+<td>"bank"银行vs河岸</td>
+</tr>
+<tr>
+<td>训练</td>
+<td>一次训练,查表用</td>
+<td>每次推理重新计算</td>
+<td>Static快;Contextual慢</td>
+</tr>
+<tr>
+<td>OOV</td>
+<td>W2V/GloVe❌;FT✅</td>
+<td>✅子词分词(WordPiece/BPE)</td>
+<td>BERT: "##ing"</td>
+</tr>
+<tr>
+<td>上下文范围</td>
+<td>固定窗口(5-10词)</td>
+<td>全序列(BERT:512tokens)</td>
+<td>W2V:5词; BERT:512tokens</td>
+</tr>
+<tr>
+<td>计算</td>
+<td>查表O(1)</td>
+<td>推理O(n²)</td>
+<td>Static快1000×</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Word Analogy (词类比)</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\vec{A}-\vec{B}+\vec{C}\approx\vec{D}$</td>
+<td>A:B = C:D 语义关系类比</td>
+<td>king-man+woman≈queen</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W2V默认Skip-gram?</td>
+<td>❌ 默认CBOW(<code>sg=0</code>)!</td>
+<td><code>Word2Vec(data)</code>→CBOW</td>
+</tr>
+<tr>
+<td>embedding_dim=vocab_size?</td>
+<td>❌ 完全不同! dim=50-300, vocab=百万级</td>
+<td>100维嵌入+3M词表</td>
+</tr>
+<tr>
+<td>W2V/GloVe能处理OOV?</td>
+<td>❌ 只有FastText能!</td>
+<td><code>w2v['xyz']</code>→KeyError</td>
+</tr>
+<tr>
+<td>GloVe是预测方法?</td>
+<td>❌ GloVe是计数的(共现矩阵)! W2V才是预测</td>
+<td>GloVe=分解; W2V=预测</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W5: Language Models &amp; RNN/LSTM (语言模型 &amp; 循环网络)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Language Model (语言模型)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language Model (LM)</td>
+<td>给词序列分配概率，核心：预测下一个词 P(wₜ               | context)</td>
+</tr>
+<tr>
+<td>Markov Assumption</td>
+<td>下一个词只依赖前n-1个词(非全部历史)</td>
+<td>Bigram: P(wₜ</td>
+</tr>
+<tr>
+<td>Perplexity (困惑度, PP)</td>
+<td>LM标准评估指标，<strong>越低越好</strong>；PP=1完美; PP=V随机猜</td>
+<td>PP=50很好; PP=500差</td>
+</tr>
+<tr>
+<td>N-gram LM</td>
+<td>基于前n-1词计数频率预测</td>
+<td>P(books</td>
+</tr>
+<tr>
+<td>Data Sparsity (数据稀疏)</td>
+<td>N-gram核心问题：未出现的组合→P=0</td>
+<td>"opened their quantum"→C=0→P=0</td>
+</tr>
+</tbody>
+</table>
+<h3>Neural Network (神经网络)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FFNN (前馈网络)</td>
+<td>信号只向前流(输入→隐藏→输出)，固定输入，无记忆</td>
+<td>不能处理变长序列</td>
+</tr>
+<tr>
+<td>RNN (循环网络)</td>
+<td>有自循环连接，逐步处理变长序列，参数每步共享</td>
+<td>h_t=f(W_h·h_{t-1}+W_e·e_t+b)</td>
+</tr>
+<tr>
+<td>Hidden State (h_t)</td>
+<td>RNN每步内部记忆，携带前面所有输入的累积信息</td>
+<td>h_3包含w1,w2,w3信息</td>
+</tr>
+<tr>
+<td>Parameter Sharing</td>
+<td>RNN每步用相同W_h，参数不随序列长度增加</td>
+<td>不管句子多长，同一套W_h</td>
+</tr>
+<tr>
+<td>Embedding Layer</td>
+<td>词ID→稠密向量的查找表 e(t)=E·x(t)</td>
+<td><code>Embedding(10000,100)</code></td>
+</tr>
+<tr>
+<td>Vanishing Gradient (梯度消失)</td>
+<td>梯度经多步W_h后指数缩小→无法学长距离依赖</td>
+<td></td>
+</tr>
+<tr>
+<td>Exploding Gradient (梯度爆炸)</td>
+<td>梯度指数增大→训练不稳定，用gradient clipping解决</td>
+<td></td>
+</tr>
+<tr>
+<td>Backpropagation (反向传播)</td>
+<td>从输出到输入逐层计算梯度→更新权重</td>
+<td>Loss→output→hidden→input</td>
+</tr>
+<tr>
+<td>BPTT (时间反向传播)</td>
+<td>RNN/LSTM的反向传播：沿时间步展开计算梯度</td>
+<td>每步共享W_h→梯度累乘</td>
+</tr>
+<tr>
+<td>Gradient Clipping</td>
+<td>梯度超过阈值时裁剪，防止爆炸</td>
+<td>if ‖g‖&gt;threshold: g=g×threshold/‖g‖</td>
+</tr>
+<tr>
+<td>Softmax</td>
+<td>实数向量→概率分布(所有&gt;0且和=1)</td>
+<td>[2.0,1.0,0.1]→[0.7,0.2,0.1]</td>
+</tr>
+<tr>
+<td>Cross-Entropy Loss</td>
+<td>分类标准损失函数</td>
+<td>categorical=多; binary=二</td>
+</tr>
+</tbody>
+</table>
+<h3>LSTM (长短期记忆, Hochreiter &amp; Schmidhuber 1997)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSTM</td>
+<td>门控RNN变体，用<strong>加法</strong>更新细胞状态解决梯度消失</td>
+<td>细胞状态+3个门控制信息流</td>
+</tr>
+<tr>
+<td>Cell State (c_t)</td>
+<td>长期记忆传送带，<strong>加法</strong>(非乘法)更新→梯度保留</td>
+<td>c_t=f_t⊙c_{t-1}<strong>+</strong> i_t⊙c̃_t</td>
+</tr>
+<tr>
+<td>Forget Gate (f_t)</td>
+<td>σ: 决定丢弃多少旧信息(0=全忘,1=全记)</td>
+<td>新话题→f≈0→清除旧记忆</td>
+</tr>
+<tr>
+<td>Input Gate (i_t)</td>
+<td>σ: 决定存储多少新信息(0=忽略,1=写入)</td>
+<td>重要信息→i≈1</td>
+</tr>
+<tr>
+<td>Output Gate (o_t)</td>
+<td>σ: 决定输出多少细胞信息</td>
+<td>h_t=o_t⊙tanh(c_t)</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>N-gram vs Fixed-window NN vs RNN LM</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>N-gram</th>
+<th>Fixed-window NN</th>
+<th>RNN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Context</td>
+<td>前n-1词(计数)</td>
+<td>前n-1词(嵌入)</td>
+<td>理论上全部历史</td>
+</tr>
+<tr>
+<td>Sparsity</td>
+<td>❌严重(C=0→P=0)</td>
+<td>✅嵌入泛化</td>
+<td>✅嵌入泛化</td>
+</tr>
+<tr>
+<td>Variable length</td>
+<td>❌固定</td>
+<td>❌固定</td>
+<td>✅任意长度</td>
+</tr>
+</tbody>
+</table>
+<h3>RNN vs LSTM</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>RNN</th>
+<th>LSTM</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long-range</td>
+<td>❌梯度消失</td>
+<td>✅细胞状态保留</td>
+<td>10步前信息:RNN丢,LSTM留</td>
+</tr>
+<tr>
+<td>Gates</td>
+<td>无</td>
+<td>3门:Forget/Input/Output</td>
+<td>0-1动态控制</td>
+</tr>
+<tr>
+<td>Key innovation</td>
+<td>—</td>
+<td>细胞状态用<strong>加法</strong>非乘法</td>
+<td>c_t=f⊙c+i⊙c̃</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Probability &amp; LM</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P(w_1..w_n)=\prod_t P(w_t|w_1..w_{t-1})$</td>
+<td>链式法则</td>
+<td>LM的数学基础</td>
+</tr>
+<tr>
+<td>$PP=(\prod_i \frac{1}{P(w_i)})^{1/T}$</td>
+<td>困惑度</td>
+<td>PP=1完美; PP=V随机</td>
+</tr>
+</tbody>
+</table>
+<h3>LSTM Gates</h3>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forget</td>
+<td>$f_t=\sigma(W_f[h_{t-1},x_t]+b_f)$</td>
+<td>丢弃旧信息比例</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>$i_t=\sigma(W_i[h_{t-1},x_t]+b_i)$</td>
+<td>写入新信息比例</td>
+</tr>
+<tr>
+<td>Candidate</td>
+<td>$\tilde{c}_t=\tanh(W_c[h_{t-1},x_t]+b_c)$</td>
+<td>新候选信息</td>
+</tr>
+<tr>
+<td>Cell update</td>
+<td>$c_t=f_t\odot c_{t-1}+i_t\odot\tilde{c}_t$</td>
+<td><strong>加法更新=关键</strong></td>
+</tr>
+<tr>
+<td>Output</td>
+<td>$o_t=\sigma(W_o[h_{t-1},x_t]+b_o)$</td>
+<td>控制输出</td>
+</tr>
+<tr>
+<td>Hidden</td>
+<td>$h_t=o_t\odot\tanh(c_t)$</td>
+<td>过滤后的当前输出</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perplexity越高越好?</td>
+<td>❌<strong>越低越好</strong>! PP=1完美</td>
+<td>PP=50&gt;&gt;PP=500</td>
+</tr>
+<tr>
+<td>RNN能学长距离?</td>
+<td>❌ 梯度消失! LSTM才能</td>
+<td>10步前信息RNN学不到</td>
+</tr>
+<tr>
+<td>LSTM用新训练算法?</td>
+<td>❌ 仍用BPTT! 只是架构不同</td>
+<td>训练方法相同，区别在门控</td>
+</tr>
+<tr>
+<td>LSTM细胞用乘法更新?</td>
+<td>❌<strong>加法</strong>! c_t=f⊙c+i⊙c̃</td>
+<td>加法保持梯度</td>
+</tr>
+<tr>
+<td>LSTM units=embedding dim?</td>
+<td>❌ units=hidden dim, 和embedding是两个参数</td>
+<td>units=128≠embed=100</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W6: Seq2Seq &amp; Attention (序列到序列 &amp; 注意力)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Bi-LSTM (双向LSTM)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bi-LSTM</td>
+<td>两个独立LSTM同时左→右和右→左读取，拼接两方向隐状态</td>
+<td>"terribly exciting"→需看右侧判断正面</td>
+</tr>
+<tr>
+<td>Output dim</td>
+<td>2×hidden_size (正向+反向拼接)</td>
+<td>LSTM(128)→Bi-LSTM输出256维</td>
+</tr>
+<tr>
+<td><code>return_sequences</code></td>
+<td>True=所有时间步(Attn需要); False(默认)=只最后一步(分类)</td>
+<td>True:shape(10,256); False:shape(256,)</td>
+</tr>
+</tbody>
+</table>
+<h3>Sequence Problem Types (序列问题类型)</h3>
+<table>
+<thead>
+<tr>
+<th>Type (类型)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One-to-One</td>
+<td>单输入单输出，不涉及序列</td>
+<td>图像分类</td>
+</tr>
+<tr>
+<td>One-to-Many</td>
+<td>单输入→序列输出</td>
+<td>图像描述</td>
+</tr>
+<tr>
+<td>Many-to-One</td>
+<td>序列输入→单输出</td>
+<td>情感分析</td>
+</tr>
+<tr>
+<td>Many-to-Many Synced</td>
+<td>等长序列输入输出</td>
+<td>词性标注</td>
+</tr>
+<tr>
+<td>Many-to-Many Unsynced</td>
+<td>不等长输入输出(<strong>Seq2Seq核心</strong>)</td>
+<td>机器翻译</td>
+</tr>
+</tbody>
+</table>
+<h3>Seq2Seq (序列到序列)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seq2Seq</td>
+<td>Encoder读完输入→压缩为固定向量→Decoder逐步生成输出</td>
+<td>"il a m'entarté"→编码→"he hit me with a pie"</td>
+</tr>
+<tr>
+<td>Encoder Vector</td>
+<td>编码器最后一步h，编解码器间<strong>唯一桥梁</strong></td>
+<td>编码器最终h→解码器初始h</td>
+</tr>
+<tr>
+<td>Bottleneck (信息瓶颈)</td>
+<td>整个输入压缩到固定大小向量→长序列必然丢失信息</td>
+<td>100词→256d→细节丢失</td>
+</tr>
+<tr>
+<td>Teacher Forcing</td>
+<td>训练时输入<strong>真实的</strong>前一个词(非模型预测)</td>
+<td>训练快速稳定收敛</td>
+</tr>
+<tr>
+<td>Auto-regressive</td>
+<td>推理时只能用自己的<strong>预测</strong>作输入</td>
+<td>错误向后累积</td>
+</tr>
+<tr>
+<td>Exposure Bias</td>
+<td>训练用真实输入vs推理用自身预测的不一致→错误滚雪球</td>
+<td>训练没见过自己的错误</td>
+</tr>
+</tbody>
+</table>
+<h3>Attention (注意力机制)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Attention</td>
+<td>解码器生成每词时<strong>动态选择性关注</strong>编码器不同位置</td>
+<td>翻译"he"时重点看"il"; "pie"看"entarté"</td>
+</tr>
+<tr>
+<td>Attention Score</td>
+<td>dec_state与每个enc_state的点积相似度</td>
+<td>4个编码器状态→4个分数</td>
+</tr>
+<tr>
+<td>Attention Weight</td>
+<td>softmax后的概率分布(和=1)</td>
+<td>α=[0.7,0.1,0.1,0.1]</td>
+</tr>
+<tr>
+<td>Context Vector</td>
+<td>用权重对编码器隐状态加权求和</td>
+<td>c=0.7·h₁+0.1·h₂+...</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Seq2Seq vs Seq2Seq+Attention</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Seq2Seq</th>
+<th>+Attention</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Info path</td>
+<td>单一固定向量(瓶颈)</td>
+<td>直接访问所有编码器状态</td>
+<td>瓶颈vs直通</td>
+</tr>
+<tr>
+<td>Long seq</td>
+<td>❌&gt;20词急剧退化</td>
+<td>✅长句也可</td>
+<td>100词:原始丢信息</td>
+</tr>
+<tr>
+<td>Interpret</td>
+<td>❌黑盒</td>
+<td>✅权重可视化</td>
+<td>能看翻译注意哪里</td>
+</tr>
+<tr>
+<td>Parallel</td>
+<td>❌RNN顺序</td>
+<td>❌仍RNN顺序!</td>
+<td>都不能并行</td>
+</tr>
+</tbody>
+</table>
+<h3>Uni-LSTM vs Bi-LSTM</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Uni-LSTM</th>
+<th>Bi-LSTM</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>只看过去(→)</td>
+<td>过去+未来(→+←)</td>
+<td>反向提供完整上下文</td>
+</tr>
+<tr>
+<td>Generation</td>
+<td>✅可以生成</td>
+<td>❌不能生成(需未来)</td>
+<td>生成用Uni; 分类用Bi</td>
+</tr>
+</tbody>
+</table>
+<h3>技术演进路线</h3>
+<table>
+<thead>
+<tr>
+<th>From→To</th>
+<th>Problem Solved</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单向→Bi-LSTM</td>
+<td>方向盲区→看两边</td>
+<td>不能生成;参数2×</td>
+</tr>
+<tr>
+<td>Bi-LSTM→Seq2Seq</td>
+<td>输入输出不等长</td>
+<td>信息瓶颈</td>
+</tr>
+<tr>
+<td>Seq2Seq→+Attention</td>
+<td>瓶颈→每步看所有位置</td>
+<td>仍需RNN顺序;每步O(n)</td>
+</tr>
+<tr>
+<td>RNN+Attn→Transformer</td>
+<td>RNN不能并行→自注意力并行</td>
+<td>O(n²)内存;需位置编码</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Attention 4 Steps</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Formula</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Score</td>
+<td>$e_i=\text{dec}^T\cdot\text{enc}_i$</td>
+<td>点积相似度</td>
+</tr>
+<tr>
+<td>Normalize</td>
+<td>$\alpha_i=\text{softmax}(e_i)$</td>
+<td>概率分布(和=1)</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>$\mathbf{c}=\sum_i\alpha_i\cdot\text{enc}_i$</td>
+<td>加权求和</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>$\text{out}=f([\text{dec};\mathbf{c}])$</td>
+<td>拼接→FC→softmax</td>
+</tr>
+</tbody>
+</table>
+<h3>Conditional LM &amp; Loss</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P(y|x)=\prod_t P(y_t|y_{<t},x)$</td>
+<td>条件LM(Seq2Seq数学本质)：以源句x为条件</td>
+<td>翻译:每词依赖已翻译词+源句</td>
+</tr>
+<tr>
+<td>$J=\frac{1}{T}\sum_t -\log P(y_t|...)$</td>
+<td>NMT平均交叉熵损失，端到端反传</td>
+<td>所有步损失均值→梯度反传</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bi-LSTM能生成文本?</td>
+<td>❌ 反向LSTM需未来上下文→无法自回归生成</td>
+<td>生成必须用单向</td>
+</tr>
+<tr>
+<td>Teacher Forcing推理时也用?</td>
+<td>❌ 推理用自回归(自身预测)! TF<strong>只在训练时</strong></td>
+<td>训练=真实; 推理=自身</td>
+</tr>
+<tr>
+<td>Attention让Seq2Seq可以并行?</td>
+<td>❌ RNN+Attention仍顺序!<strong>Transformer</strong>才能</td>
+<td>RNN必须逐步</td>
+</tr>
+<tr>
+<td>注意力权重是固定参数?</td>
+<td>❌ 动态计算的(点积+softmax)，每步重算</td>
+<td>不同输入→不同分布</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>📝 Concept Short Answers — W1-W6</h1>
+<h3>C-1: What is Word Embedding? Why better than BOW/TF-IDF? ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: Word embedding maps each word to a <strong>low-dimensional dense vector</strong> (50-300d) where semantically similar words are closer. Based on the <strong>Distributional Hypothesis</strong>: words in similar contexts have similar meanings.</p>
+<p><strong>vs BOW/TF-IDF</strong>: ①BOW/TF-IDF = high-dim sparse (V=10K, 99% zeros); Embedding = low-dim dense (300d). ②BOW has no word order or semantics; embeddings capture semantic relations (king-man+woman≈queen). ③BOW cannot handle OOV; FastText uses subword n-grams for OOV.</p>
+<h3>C-2: What is the Seq2Seq bottleneck? How does Attention fix it? ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: Seq2Seq compresses <strong>entire input</strong> into one fixed-size vector → long sequences lose information (<strong>information bottleneck</strong>). Attention: decoder <strong>dynamically computes</strong> weights over all encoder states at each step → weighted sum → directly accesses all source positions.</p>
+<p><strong>⚠️</strong>: Seq2Seq+Attention still <strong>cannot parallelize</strong> (still uses RNN)! Only Transformer enables full parallelism.</p>
+<h3>C-3: Explain RNN vanishing gradient &amp; how LSTM solves it ⭐⭐</h3>
+<p><strong>Answer</strong>: During BPTT, gradients pass through $W_h$ at each step → exponential shrinkage (|W_h|&lt;1 → gradient→0) → <strong>cannot learn long-range dependencies</strong>.</p>
+<p><strong>LSTM</strong>: Cell state $c_t$ updated via <strong>addition</strong> (not multiplication): $c_t=f_t\odot c_{t-1}+i_t\odot\tilde{c}_t$. Addition gradient=1 → gradient preserved. 3 gates (Forget/Input/Output) control info flow.</p>
+<h3>C-4: Compare Static vs Contextual Embeddings ⭐⭐</h3>
+<p><strong>Answer</strong>: <strong>Static</strong> (W2V/GloVe/FastText): one fixed vector per word regardless of context. "bank" always same vector whether financial or river. <strong>Contextual</strong> (BERT/GPT): different vector for same word in different contexts. Each token sees full sequence via self-attention.</p>
+<p><strong>Trade-off</strong>: Static = O(1) lookup, fast; Contextual = O(n²) inference, slow but much more accurate.</p>
+<h3>C-5: What is the NLP preprocessing pipeline? ⭐⭐</h3>
+<p><strong>Answer</strong>: ①<strong>Tokenization</strong> (text→tokens: "He's running!"→["He","'s","running","!"]) → ②<strong>Noise Removal</strong> (remove punctuation/stopwords/HTML) → ③<strong>Normalization</strong> (Stemming or Lemmatization→base form).</p>
+<p><strong>Stemming vs Lemmatization</strong>: Stemming = rule-based, fast, may produce non-words ("studies"→"studi"); Lemmatization = dictionary-based, slow, always real words ("studies"→"study", "better"→"good").</p>
+<h3>C-6: Compare BERT vs GPT ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: BERT = <strong>Encoder-only</strong> (bidirectional, sees all context) → understanding (classification/NER/QA). GPT = <strong>Decoder-only</strong> (left-to-right only) → generation (dialogue/creation).</p>
+<p><strong>Pre-training</strong>: BERT = MLM+NSP; GPT = CLM (next word). <strong>Key</strong>: BERT <strong>cannot generate</strong>; GPT can but weaker at understanding. BERT max 512 tokens; GPT up to 128K+.</p>
+<h3>C-7: What is TF-IDF? How does it work? ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: TF-IDF measures word importance in a document relative to a corpus. <strong>TF</strong> = word frequency in document (count/total). <strong>IDF</strong> = $\log(N/df)$, penalizes words appearing in many documents. TF-IDF = TF × IDF → words frequent in THIS doc but rare across corpus get high weight.</p>
+<p><strong>⚠️ Key trap</strong>: If a word appears in ALL documents, $df=N$ → $IDF=\log(1)=0$ → TF-IDF=0 (word eliminated!). Common words like "the" get zero weight.</p>
+<h3>C-8: Compare CBOW vs Skip-gram in Word2Vec ⭐⭐</h3>
+<p><strong>Answer</strong>: Both are Word2Vec architectures. <strong>CBOW</strong>: uses surrounding context words to predict center word → faster, better for frequent words. <strong>Skip-gram</strong>: uses center word to predict surrounding context → slower, better for rare/infrequent words.</p>
+<p><strong>Code trap</strong>: Default is CBOW (<code>sg=0</code>), NOT Skip-gram! Use <code>sg=1</code> for Skip-gram. <strong>OOV</strong>: Neither W2V nor GloVe handles OOV → only FastText can (via character n-grams).</p>
+<h3>C-9: What are N-grams? What is the sparsity problem in N-gram LM? ⭐⭐</h3>
+<p><strong>Answer</strong>: N-gram = sequence of N consecutive words. N-gram LM predicts next word using previous N-1 words: $P(w_t|w_{t-n+1}...w_{t-1})$. <strong>Sparsity</strong>: most N-gram combinations never appear in training data → count=0 → P=0. This is fatal because one zero probability makes entire sequence probability zero.</p>
+<p><strong>Solution</strong>: Smoothing (e.g., Laplace +1). <strong>Trade-off</strong>: larger N = more context but exponentially more sparsity ($V^N$ possible combinations).</p>
+<h3>C-10: Why does NLP prefer Cosine Similarity over Euclidean Distance? ⭐⭐</h3>
+<p><strong>Answer</strong>: Cosine measures <strong>direction</strong> (angle between vectors), Euclidean measures <strong>position</strong> (straight-line distance). In NLP, documents of different lengths have different vector magnitudes but similar topics → Cosine is <strong>length-invariant</strong> (unaffected by document length), Euclidean is not.</p>
+<p><strong>Range</strong>: Cosine ∈ [-1,1]; Euclidean ∈ [0,∞). Two docs about same topic: cos≈1 regardless of length, but Euclidean varies with length.</p>
+</div>
+</div>
+<div class="page">
+<div class="sig">Signature / 签名</div>
+<div class="week-block"><h1>W9: Transformer (Transformer 架构)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Self-Attention (自注意力)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Self-Attention</td>
+<td>每个词同时评估所有其他词的相关性并加权聚合</td>
+<td>"it was tired"→"it"学到关注"cat"</td>
+</tr>
+<tr>
+<td>Query (Q)</td>
+<td>"我在找什么信息"→W_Q变换</td>
+<td>"it"的Q="谁是我指代的对象"</td>
+</tr>
+<tr>
+<td>Key (K)</td>
+<td>"我能提供什么"→W_K变换</td>
+<td>"cat"的K="我是动物主语"</td>
+</tr>
+<tr>
+<td>Value (V)</td>
+<td>"我的实际信息"→W_V变换</td>
+<td>"cat"的V=cat的语义</td>
+</tr>
+<tr>
+<td>Multi-Head Attn</td>
+<td>h个独立注意力头，各学不同关系模式</td>
+<td>Head1语法; Head2语义; Head3位置</td>
+</tr>
+</tbody>
+</table>
+<h3>Transformer Architecture</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer (2017)</td>
+<td>完全依赖自注意力，抛弃RNN，全部并行</td>
+<td>"Attention Is All You Need"→GPT,BERT</td>
+</tr>
+<tr>
+<td>Positional Encoding</td>
+<td>sin/cos函数为每位置生成唯一向量+词嵌入相加</td>
+<td>Transformer无循环→需显式位置</td>
+</tr>
+<tr>
+<td>Scaled Dot-Product</td>
+<td>Attn(Q,K,V)=softmax(QK^T/√d_k)V; ÷√d_k防过尖锐</td>
+<td>d_k=64→÷8稳定梯度</td>
+</tr>
+<tr>
+<td>FFN (前馈网络)</td>
+<td>每位置独立做两层线性+ReLU</td>
+<td>512→2048→512</td>
+</tr>
+<tr>
+<td>Residual+LayerNorm</td>
+<td>output=LayerNorm(x+Sublayer(x))</td>
+<td>梯度通过残差路径回传</td>
+</tr>
+<tr>
+<td>Masked Self-Attn</td>
+<td>解码器将未来位置设-∞→只看已生成</td>
+<td>生成"love"时只看"I"</td>
+</tr>
+<tr>
+<td>Cross-Attention</td>
+<td>解码器Q查询编码器KV→从源句提取信息</td>
+<td>Q=解码器; KV=编码器</td>
+</tr>
+<tr>
+<td>Softmax Output</td>
+<td>解码器最后一层在整个词表上输出下一词概率分布</td>
+<td>P("he")=0.85→选"he"</td>
+</tr>
+</tbody>
+</table>
+<h3>Transformer 三大分支</h3>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>代表模型</th>
+<th>适合任务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encoder-only</td>
+<td>BERT, RoBERTa</td>
+<td>理解(分类/NER/QA)</td>
+</tr>
+<tr>
+<td>Decoder-only</td>
+<td>GPT, LLaMA, Claude</td>
+<td>生成(对话/创作)</td>
+</tr>
+<tr>
+<td>Encoder-Decoder</td>
+<td>T5, BART</td>
+<td>翻译/摘要</td>
+</tr>
+</tbody>
+</table>
+<h3>Transformer Base Configuration (标准配置)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d_model</td>
+<td>512</td>
+<td>词嵌入+位置编码维度</td>
+</tr>
+<tr>
+<td>d_ff</td>
+<td>2048</td>
+<td>FFN内部维度(4×d_model)</td>
+</tr>
+<tr>
+<td>h (heads)</td>
+<td>8</td>
+<td>8个注意力头</td>
+</tr>
+<tr>
+<td>d_k = d_model/h</td>
+<td>64</td>
+<td>每个头的维度</td>
+</tr>
+<tr>
+<td>N (layers)</td>
+<td>6</td>
+<td>编码器/解码器各6层</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>RNN vs Transformer</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>RNN/LSTM</th>
+<th>Transformer</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>序列处理</td>
+<td>顺序(逐步)</td>
+<td>并行(一次性)</td>
+<td>RNN:O(n)步;Trans:O(1)步</td>
+</tr>
+<tr>
+<td>位置信息</td>
+<td>隐式(处理顺序)</td>
+<td>显式(PE)</td>
+<td>必须加PE否则不知词序</td>
+</tr>
+<tr>
+<td>长距离</td>
+<td>多步传播(梯度消失)</td>
+<td>O(1)路径</td>
+<td>任意两词直接连接</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>注意力矩阵n×n</td>
+</tr>
+</tbody>
+</table>
+<h3>Encoder vs Decoder (编码器 vs 解码器)</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Encoder (编码器)</th>
+<th>Decoder (解码器)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>注意力类型</td>
+<td>自注意力(看全部)</td>
+<td>掩码自注意力+交叉注意力</td>
+<td>编码器双向; 解码器只看左</td>
+</tr>
+<tr>
+<td>掩码</td>
+<td>无掩码(全部可见)</td>
+<td>下三角掩码(屏蔽未来)</td>
+<td>未来位置设-∞</td>
+</tr>
+<tr>
+<td>KV来源</td>
+<td>全部来自自身</td>
+<td>Self-Attn自身; Cross-Attn来自编码器</td>
+<td>Cross-Attn: KV=编码器输出</td>
+</tr>
+<tr>
+<td>处理</td>
+<td>并行处理整个输入</td>
+<td>自回归逐步生成</td>
+<td>编码器一次看完; 解码器逐词</td>
+</tr>
+</tbody>
+</table>
+<h3>Single-Head vs Multi-Head Attention</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Single-Head</th>
+<th>Multi-Head</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模式</td>
+<td>只学一种关系</td>
+<td>h个头同时学h种关系</td>
+<td>语法+语义+位置并行</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>单个d维向量</td>
+<td>h个d/h维拼接后投影</td>
+<td>8头×64维=512维→投影回512维</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Scaled Dot-Product Attention</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{Attn}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{d_k}})V$</td>
+<td>完整注意力公式</td>
+<td>权重×V=加权输出</td>
+</tr>
+<tr>
+<td>$FFN(Z)=\text{ReLU}(ZW_1+b_1)W_2+b_2$</td>
+<td>前馈网络</td>
+<td>512→2048→512</td>
+</tr>
+<tr>
+<td>$PE(pos,2i)=\sin(pos/10000^{2i/d})$</td>
+<td>偶数维位置编码</td>
+<td>sin/cos交替</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer用RNN?</td>
+<td>❌ 完全抛弃RNN/LSTM!</td>
+<td>纯自注意力+PE</td>
+</tr>
+<tr>
+<td>自注意力自带位置?</td>
+<td>❌ 集合操作不区分词序→必须加PE</td>
+<td>"I love NLP"="NLP love I"(无PE)</td>
+</tr>
+<tr>
+<td>√d_k可以省?</td>
+<td>❌ 不能! d大→softmax太尖→梯度消失</td>
+<td>训练崩溃</td>
+</tr>
+<tr>
+<td>Cross-Attn的QKV都来自解码器?</td>
+<td>❌<strong>Q来自解码器, KV来自编码器</strong></td>
+<td>Q=问题; KV=信息源</td>
+</tr>
+<tr>
+<td>FFN对整个序列操作?</td>
+<td>❌ position-wise独立做</td>
+<td>位置间不交互</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W10: BERT &amp; QA (BERT 与问答系统)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>BERT (Bidirectional Encoder Representations from Transformers)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT</td>
+<td>只用Encoder实现真正双向上下文理解</td>
+<td>Wikipedia(25亿词)+BookCorpus(8亿词)</td>
+</tr>
+<tr>
+<td>BERT-base</td>
+<td>12层/768维/12头/110M参数</td>
+<td>SQuAD F1=88.5, EM=80.8</td>
+</tr>
+<tr>
+<td>BERT-large</td>
+<td>24层/1024维/16头/340M参数</td>
+<td>SQuAD F1=90.9, EM=84.1</td>
+</tr>
+<tr>
+<td>WordPiece (子词分词)</td>
+<td>罕见词→常见子词片段; 词表~30,500</td>
+<td>"embeddings"→["em","##bed","##ding","##s"]</td>
+</tr>
+<tr>
+<td>[CLS]</td>
+<td>输入开头特殊token→输出用作整个输入的浓缩表示</td>
+<td>分类:[CLS]输出→线性层→标签</td>
+</tr>
+<tr>
+<td>[SEP]</td>
+<td>分隔句子对</td>
+<td>[CLS]Question[SEP]Passage[SEP]</td>
+</tr>
+<tr>
+<td>[MASK]</td>
+<td>MLM预训练中替代被遮住的词</td>
+<td>"the [MASK]"→模型预测"store"</td>
+</tr>
+<tr>
+<td>Token Embedding</td>
+<td>三层嵌入之一：每个token的语义向量表示</td>
+<td>"cat"→768维向量</td>
+</tr>
+<tr>
+<td>Segment Embedding</td>
+<td>三层嵌入之二：区分Sentence A(0)和B(1)</td>
+<td>A→0; B→1</td>
+</tr>
+<tr>
+<td>Position Embedding</td>
+<td>三层嵌入之三：token在序列中的位置</td>
+<td>位置0,1,2→对应位置向量</td>
+</tr>
+</tbody>
+</table>
+<h3>BERT Training (BERT 训练)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-training (预训练)</td>
+<td>大量无标注文本学通用语言知识: MLM+NSP</td>
+<td>一次训练(64块TPU)</td>
+</tr>
+<tr>
+<td>Fine-tuning (微调)</td>
+<td>预训练上加小层，少量标注数据适配任务</td>
+<td>普通GPU几小时</td>
+</tr>
+<tr>
+<td>MLM (掩码语言模型)</td>
+<td>随机遮15%词让模型预测; 80%→[MASK], 10%→随机, 10%→不变</td>
+<td>避免训练-推理不匹配</td>
+</tr>
+<tr>
+<td>NSP (下一句预测)</td>
+<td>判断B是否是A的下一句: IsNext/NotNext</td>
+<td>学习句间关系</td>
+</tr>
+<tr>
+<td>DistilBERT</td>
+<td>知识蒸馏压缩BERT: 97%性能/40%小/60%快</td>
+<td>110M→66M参数</td>
+</tr>
+</tbody>
+</table>
+<h3>Question Answering (问答系统)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extractive QA (抽取式)</td>
+<td>答案从原文<strong>复制</strong>连续span</td>
+<td>段落含"German"→直接抽取</td>
+</tr>
+<tr>
+<td>Generative QA (生成式)</td>
+<td>模型自己<strong>生成</strong>答案</td>
+<td>GPT组织新语言回答</td>
+</tr>
+<tr>
+<td>SQuAD</td>
+<td>Stanford QA Dataset: 10万(段落,问题,答案)三元组</td>
+<td>答案是段落中span</td>
+</tr>
+<tr>
+<td>EM (Exact Match)</td>
+<td>预测完全一致=1否则=0</td>
+<td>严格匹配</td>
+</tr>
+<tr>
+<td>F1 Score (QA)</td>
+<td>token级P×R调和平均，给部分匹配打分</td>
+<td>大部分正确也有分</td>
+</tr>
+<tr>
+<td>Start/End Prediction</td>
+<td>BERT用S/E向量预测答案span的起止位置</td>
+<td>对每token做点积+softmax</td>
+</tr>
+<tr>
+<td>Sliding Window</td>
+<td>超过512token→切成有重叠窗口逐个输入</td>
+<td>stride=25→重叠25tokens</td>
+</tr>
+</tbody>
+</table>
+<h3>Open Domain QA</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retriever-Reader</td>
+<td>两阶段: 先检索候选文档→再提取答案</td>
+<td>Retriever(找)→Reader(读)</td>
+</tr>
+<tr>
+<td>DPR (密集段落检索)</td>
+<td>两个独立BERT编码器分别编码问题和段落</td>
+<td>Q-Encoder≠P-Encoder</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>BERT-base vs BERT-large</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>BERT-base</th>
+<th>BERT-large</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layers</td>
+<td>12</td>
+<td>24</td>
+<td>深度翻倍</td>
+</tr>
+<tr>
+<td>Hidden</td>
+<td>768</td>
+<td>1024</td>
+<td>更宽表示</td>
+</tr>
+<tr>
+<td>Heads</td>
+<td>12</td>
+<td>16</td>
+<td>更多注意力模式</td>
+</tr>
+<tr>
+<td>Params</td>
+<td>110M</td>
+<td>340M</td>
+<td>约3倍差距</td>
+</tr>
+<tr>
+<td>SQuAD F1</td>
+<td>88.5</td>
+<td>90.9</td>
+<td>Large只高2.4点</td>
+</tr>
+</tbody>
+</table>
+<h3>SQuAD Model Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>F1</th>
+<th>EM</th>
+<th>Architecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BiDAF</td>
+<td>77.3</td>
+<td>67.7</td>
+<td>Bi-LSTM+Attention</td>
+</tr>
+<tr>
+<td>BERT-base</td>
+<td>88.5</td>
+<td>80.8</td>
+<td>Transformer Enc(12层)</td>
+</tr>
+<tr>
+<td>BERT-large</td>
+<td>90.9</td>
+<td>84.1</td>
+<td>Transformer Enc(24层)</td>
+</tr>
+<tr>
+<td>XLNet</td>
+<td>94.5</td>
+<td>89.0</td>
+<td>Permutation LM</td>
+</tr>
+<tr>
+<td>RoBERTa</td>
+<td>94.6</td>
+<td>88.9</td>
+<td>去NSP+更多数据</td>
+</tr>
+</tbody>
+</table>
+<h3>MLM 80/10/10 Strategy</h3>
+<table>
+<thead>
+<tr>
+<th>比例</th>
+<th>操作</th>
+<th>目的</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>80%</td>
+<td>→[MASK]</td>
+<td>学预测被遮词</td>
+<td>store→[MASK]</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>→随机词</td>
+<td>避免训练-推理不匹配</td>
+<td>store→running</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>→不变</td>
+<td>对所有位置保持警觉</td>
+<td>store→store</td>
+</tr>
+</tbody>
+</table>
+<h3>MLM vs NSP</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>MLM</th>
+<th>NSP</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Goal</td>
+<td>词级上下文理解</td>
+<td>句间关系理解</td>
+<td>猜遮的词 vs 判断句关系</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>预测被遮token</td>
+<td>二分类IsNext/NotNext</td>
+<td>词义消歧 vs 段落连贯性</td>
+</tr>
+</tbody>
+</table>
+<h3>Pre-training vs Fine-tuning</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Pre-training</th>
+<th>Fine-tuning</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data</td>
+<td>海量无标注</td>
+<td>少量标注</td>
+<td>Wikipedia vs SQuAD</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>极高(TPU集群)</td>
+<td>低(普通GPU)</td>
+<td>$百万 vs $百</td>
+</tr>
+<tr>
+<td>Frequency</td>
+<td>做一次</td>
+<td>每任务一次</td>
+<td>训练BERT一次→微调多次</td>
+</tr>
+</tbody>
+</table>
+<h3>EM vs F1</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>EM</th>
+<th>F1</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>匹配方式</td>
+<td>完全一致</td>
+<td>部分匹配</td>
+<td>EM太严格; F1宽容</td>
+</tr>
+<tr>
+<td>取值</td>
+<td>0或1</td>
+<td>0到1</td>
+<td>EM=0但F1=0.67→大部分正确</td>
+</tr>
+<tr>
+<td>多个gold</td>
+<td>取max{match(pred,gold_i)}</td>
+<td>取max{F1(pred,gold_i)}</td>
+<td>max{0.67,0.67,0.61}=0.67</td>
+</tr>
+</tbody>
+</table>
+<h3>Extractive vs Generative vs RAG</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Extractive</th>
+<th>Generative</th>
+<th>RAG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>答案来源</td>
+<td>从原文复制span</td>
+<td>模型组织新语言</td>
+<td>检索+生成</td>
+</tr>
+<tr>
+<td>准确度</td>
+<td>✅可追溯</td>
+<td>⚠️可能幻觉</td>
+<td>✅基于文档</td>
+</tr>
+<tr>
+<td>灵活性</td>
+<td>❌必须原文子串</td>
+<td>✅综合多段</td>
+<td>✅检索+综合</td>
+</tr>
+<tr>
+<td>代表</td>
+<td>BERT+SQuAD</td>
+<td>GPT系列</td>
+<td>LangChain+VectorDB</td>
+</tr>
+</tbody>
+</table>
+<h3>Sparse vs Dense Retrieval</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Sparse(TF-IDF/BM25)</th>
+<th>Dense(DPR/BERT)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>匹配方式</td>
+<td>关键词重叠</td>
+<td>向量语义匹配</td>
+<td>共同词vs含义</td>
+</tr>
+<tr>
+<td>同义词</td>
+<td>❌不同词=不匹配</td>
+<td>✅语义相近=匹配</td>
+<td>"car"≠"automobile"(Sparse)</td>
+</tr>
+<tr>
+<td>预计算</td>
+<td>不需要</td>
+<td>✅段落向量离线存</td>
+<td>DPR:存入向量DB</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>QA Evaluation</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{Precision}=\frac{|pred\cap gold|}{|pred|}$</td>
+<td>预测中多少正确</td>
+<td>5个token中4个正确→0.8</td>
+</tr>
+<tr>
+<td>$\text{Recall}=\frac{|pred\cap gold|}{|gold|}$</td>
+<td>正确中多少被预测</td>
+<td>6个token中4个找到→0.67</td>
+</tr>
+<tr>
+<td>$\text{F1}=\frac{2PR}{P+R}$</td>
+<td>调和平均</td>
+<td>P=0.8,R=0.67→F1≈0.73</td>
+</tr>
+<tr>
+<td>$\text{BERT Input}=\text{Token}+\text{Segment}+\text{Position}$</td>
+<td>三层嵌入叠加</td>
+<td>词义+句归属+位置</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT双向=Bi-LSTM?</td>
+<td>❌ 完全不同! Bi-LSTM两方向拼接; BERT用全局自注意力</td>
+<td>BERT每token真正同时看所有</td>
+</tr>
+<tr>
+<td>BERT能生成文本?</td>
+<td>❌ 只用Encoder! 不能自回归生成</td>
+<td>生成用GPT(Decoder)</td>
+</tr>
+<tr>
+<td>MLM 15%都替换[MASK]?</td>
+<td>❌ 80%[MASK]+10%随机+10%不变</td>
+<td>避免训练-推理不匹配</td>
+</tr>
+<tr>
+<td>SQuAD答案可不在段落?</td>
+<td>❌ 答案必须是段落中连续span</td>
+<td>不能生成新文本</td>
+</tr>
+<tr>
+<td>[CLS]只用于分类?</td>
+<td>❌ 是整个输入浓缩表示; QA中start/end用段落token输出</td>
+<td>分类:[CLS]; QA:段落各token</td>
+</tr>
+<tr>
+<td>EM=0意味完全错误?</td>
+<td>❌ EM=0不是完全匹配; F1=0.67说明大部分正确</td>
+<td>EM太严格</td>
+</tr>
+<tr>
+<td>BERT能处理任意长文本?</td>
+<td>❌ 最大512tokens! 超过需滑动窗口</td>
+<td>1000词→切多个500token窗口</td>
+</tr>
+<tr>
+<td>DistilBERT性能差很多?</td>
+<td>❌ 97%性能/40%小/60%快→值得</td>
+<td>3%性能换40%内存+60%速度</td>
+</tr>
+<tr>
+<td>DPR用一个编码器?</td>
+<td>❌ 两个独立编码器→双编码器架构</td>
+<td>Q-Encoder≠P-Encoder</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W12: LLM &amp; RAG (大语言模型 &amp; 检索增强生成)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>LLM Core (LLM 核心)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM (大语言模型)</td>
+<td>参数&gt;1B，基于Transformer，能理解和生成类人文本</td>
+<td>GPT-4, LLaMA-70B</td>
+</tr>
+<tr>
+<td>Hallucination (幻觉)</td>
+<td>模型自信地生成事实不正确的信息 — 核心风险</td>
+<td>"BERT was released in 2020"(实际2018)</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>控制随机性: 0→确定性; 1→创造性</td>
+<td>T=0:总是"Paris"; T=1:可能"Lyon"</td>
+</tr>
+<tr>
+<td>Top-k / Top-p</td>
+<td>采样策略: Top-k=k个最高概率; Top-p=累积概率p</td>
+<td>Top-k=50; Top-p=0.9</td>
+</tr>
+<tr>
+<td>Knowledge Cutoff</td>
+<td>知识受限于训练数据截止日期</td>
+<td>无法获取最新信息</td>
+</tr>
+<tr>
+<td>Context Window</td>
+<td>LLM一次能处理的最大token数</td>
+<td>GPT-4:128K; BERT:512</td>
+</tr>
+<tr>
+<td>In-Context Learning</td>
+<td>通过prompt中的示例学习(不更新参数)</td>
+<td>Few-shot 给几个例子→LLM学会</td>
+</tr>
+<tr>
+<td>Emergent Abilities</td>
+<td>模型超过某规模后涌现新能力</td>
+<td>&lt;100B不会CoT; &gt;100B突然会</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG (检索增强生成)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG</td>
+<td>检索文档→增强提示→基于文档生成答案; 解决知识过时和幻觉</td>
+<td>领域精确/可追溯/成本可控</td>
+</tr>
+<tr>
+<td>Chunking (分块)</td>
+<td>长文档切小段用于嵌入</td>
+<td>固定512tok vs 按段落</td>
+</tr>
+<tr>
+<td>Vector Store (向量DB)</td>
+<td>存储文档嵌入，支持相似度搜索</td>
+<td>Chroma, Faiss, Milvus</td>
+</tr>
+<tr>
+<td>Retriever</td>
+<td>查询嵌入在向量DB中搜索最相关文档块</td>
+<td>cosine→top-k chunks</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG Pipeline (6步)</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Operation</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.Parse</td>
+<td>文档→文本</td>
+<td>PDF/HTML→纯文本</td>
+</tr>
+<tr>
+<td>2.Chunk</td>
+<td>文本→块</td>
+<td>256-512tok+50overlap</td>
+</tr>
+<tr>
+<td>3.Embed</td>
+<td>块→向量→存DB</td>
+<td>Sentence-BERT</td>
+</tr>
+<tr>
+<td>4.Retrieve</td>
+<td>查询→top-k</td>
+<td>cosine相似搜索</td>
+</tr>
+<tr>
+<td>5.Augment</td>
+<td>检索结果→prompt</td>
+<td>context+question→LLM</td>
+</tr>
+<tr>
+<td>6.Generate</td>
+<td>LLM生成答案</td>
+<td>有据可依</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>RAG vs Pure LLM</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Pure LLM</th>
+<th>RAG</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge</td>
+<td>仅训练数据(静态)</td>
+<td>动态(检索最新)</td>
+<td>RAG可访问最新信息</td>
+</tr>
+<tr>
+<td>Hallucination</td>
+<td>⚠️高</td>
+<td>✅基于文档(减少)</td>
+<td>有RAG:"2018"(对)</td>
+</tr>
+<tr>
+<td>Transparency</td>
+<td>❌黑箱</td>
+<td>✅展示源文档</td>
+<td>"According to Ch.3..."</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>高(需大模型)</td>
+<td>低(小模型+检索)</td>
+<td>Qwen0.5B+RAG≈GPT-4 on domain</td>
+</tr>
+</tbody>
+</table>
+<h3>RAG vs Fine-tuning</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>RAG</th>
+<th>Fine-tuning</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知识更新</td>
+<td>✅实时(换文档)</td>
+<td>❌需重训</td>
+<td>RAG随时更新</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>低(向量DB)</td>
+<td>高(GPU训练)</td>
+<td>FT需标注数据+GPU</td>
+</tr>
+<tr>
+<td>透明度</td>
+<td>✅展示源文档</td>
+<td>❌模型黑箱</td>
+<td>RAG可追溯</td>
+</tr>
+<tr>
+<td>适用</td>
+<td>领域QA/知识密集</td>
+<td>行为/风格调整</td>
+<td>QA用RAG; 风格用FT</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Retrieval Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P@k</td>
+<td>relevant in top-k / k</td>
+<td>top-5中3个相关→P@5=0.6</td>
+</tr>
+<tr>
+<td>R@k</td>
+<td>relevant in top-k / total relevant</td>
+<td>10个相关找到3个→R@5=0.3</td>
+</tr>
+<tr>
+<td>MRR</td>
+<td>1 / rank of first relevant</td>
+<td>第2位→MRR=0.5</td>
+</tr>
+<tr>
+<td>DCG@k</td>
+<td>$\sum_{i=1}^{k} \frac{rel_i}{\log_2(i+1)}$</td>
+<td>惩罚排在后面的正确结果</td>
+</tr>
+<tr>
+<td>NDCG@k</td>
+<td>DCG@k / IDCG@k</td>
+<td>考虑整体排序质量</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM"理解"语言?</td>
+<td>❌ 模式匹配非推理!</td>
+<td>9.11&gt;9.9? LLM可能说Yes</td>
+</tr>
+<tr>
+<td>RAG完全解决幻觉?</td>
+<td>❌ 减少但不消除! 可能检索错误段落</td>
+<td>错误chunk→仍可能错</td>
+</tr>
+<tr>
+<td>Temperature越高越好?</td>
+<td>❌ 高→创造但不准; 低→准但单调</td>
+<td>精确QA用T=0</td>
+</tr>
+<tr>
+<td>RAG=Fine-tuning?</td>
+<td>❌ RAG=运行时检索; FT=修改模型权重</td>
+<td>完全不同!</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="week-block"><h1>W13: LLM Compression &amp; Prompt Engineering (压缩 &amp; 提示工程)</h1>
+<h2>一. Definitions (定义)</h2>
+<h3>Model Compression (模型压缩)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quantization (量化)</td>
+<td>降低权重精度: FP32→FP16→INT8→INT4; 无需重训练</td>
+<td>65B×4B=260GB→65B×1B=65GB(INT8)</td>
+</tr>
+<tr>
+<td>Knowledge Distillation (蒸馏)</td>
+<td>小"学生"模仿大"教师"输出分布</td>
+<td>BERT→DistilBERT: 97%性能,60%小</td>
+</tr>
+<tr>
+<td>Pruning (剪枝)</td>
+<td>移除不重要权重/神经元; 可能需重训恢复</td>
+<td>移除90%权重→重训</td>
+</tr>
+</tbody>
+</table>
+<h3>Transfer Learning &amp; PEFT</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transfer Learning</td>
+<td>冻结预训练模型，只训分类头(~0.1%参数)</td>
+<td>最快最节省</td>
+</tr>
+<tr>
+<td>Full Fine-tuning</td>
+<td>调全部参数(100%)，效果最好但内存极高</td>
+<td>灾难性遗忘风险</td>
+</tr>
+<tr>
+<td>LoRA</td>
+<td>冻结原模型，只训两个小低秩矩阵A(d×r)B(r×d)，参数减98%</td>
+<td>W'=W+ΔW; ΔW=A×B; r=4~16</td>
+</tr>
+<tr>
+<td>QLoRA</td>
+<td>LoRA+4bit量化基座→消费级GPU可训大模型</td>
+<td>65B→48GB GPU可训!</td>
+</tr>
+<tr>
+<td>Catastrophic Forgetting</td>
+<td>全量微调可能丢失预训练知识</td>
+<td>FT on task A后task B变差</td>
+</tr>
+</tbody>
+</table>
+<h3>Prompt Engineering (提示工程)</h3>
+<table>
+<thead>
+<tr>
+<th>Term (术语)</th>
+<th>Definition (定义)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompt 4要素</td>
+<td>Context+Instructions+Input+Output Indicator</td>
+<td>"你是数据科学家, 做情感分析, 文本:…, Sentiment:"</td>
+</tr>
+<tr>
+<td>Zero-shot</td>
+<td>只给指令，不给示例</td>
+<td>"Translate: Hello→French"</td>
+</tr>
+<tr>
+<td>Few-shot</td>
+<td>指令+2-5个示例</td>
+<td>给示例后classify</td>
+</tr>
+<tr>
+<td>CoT (思维链)</td>
+<td>"Let's think step by step"→展示推理过程</td>
+<td>数学/逻辑/多步骤</td>
+</tr>
+<tr>
+<td>Role-based</td>
+<td>"You are a [expert]"→赋予角色</td>
+<td>"You are a cardiologist"</td>
+</tr>
+</tbody>
+</table>
+<h2>二. Comparisons (对比)</h2>
+<h3>Quantization vs Pruning vs Distillation</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Quantization</th>
+<th>Pruning</th>
+<th>Distillation</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What</td>
+<td>降精度</td>
+<td>移除连接</td>
+<td>训练新小模型</td>
+<td>精度↓vs连接↓vs新模型</td>
+</tr>
+<tr>
+<td>Re-training</td>
+<td>❌不需要</td>
+<td>⚠️可能需要</td>
+<td>✅需要</td>
+<td>量化最快</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>~2-8×</td>
+<td>~2-10×</td>
+<td>取决于学生</td>
+<td>INT8≈4×</td>
+</tr>
+</tbody>
+</table>
+<h3>Transfer vs Full Fine-tune vs LoRA</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Transfer</th>
+<th>Full FT</th>
+<th>LoRA</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Params trained</td>
+<td>~0.1%</td>
+<td>100%</td>
+<td>~0.1-1%</td>
+<td>LoRA极省内存</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>低</td>
+<td>非常高</td>
+<td>低</td>
+<td>7B全量→40GB+; LoRA→8GB</td>
+</tr>
+<tr>
+<td>Forgetting</td>
+<td>低风险</td>
+<td>高风险</td>
+<td>低风险</td>
+<td>全量微调可能丢预训练知识</td>
+</tr>
+</tbody>
+</table>
+<h3>量化大小计算 (必记!)</h3>
+<table>
+<thead>
+<tr>
+<th>Model (参数)</th>
+<th>FP32(×4)</th>
+<th>FP16(×2)</th>
+<th>INT8(×1)</th>
+<th>INT4(×0.5)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>340M</td>
+<td>1.3GB</td>
+<td>680MB</td>
+<td>340MB</td>
+<td>170MB</td>
+</tr>
+<tr>
+<td>7B</td>
+<td>28GB</td>
+<td>14GB</td>
+<td>7GB</td>
+<td>3.5GB</td>
+</tr>
+<tr>
+<td>70B</td>
+<td>280GB</td>
+<td>140GB</td>
+<td>70GB</td>
+<td>35GB</td>
+</tr>
+</tbody>
+</table>
+<h3>Floating Point Formats (浮点格式)</h3>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Bits</th>
+<th>Range</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FP32</td>
+<td>32</td>
+<td>±3.4×10³⁸</td>
+<td>标准训练精度</td>
+</tr>
+<tr>
+<td>FP16</td>
+<td>16</td>
+<td>±65504</td>
+<td>混合精度训练</td>
+</tr>
+<tr>
+<td>BF16</td>
+<td>16</td>
+<td>±3.4×10³⁸</td>
+<td>同FP32范围但精度低</td>
+</tr>
+<tr>
+<td>INT8</td>
+<td>8</td>
+<td>-128~127</td>
+<td>推理量化</td>
+</tr>
+<tr>
+<td>INT4</td>
+<td>4</td>
+<td>-8~7</td>
+<td>极致压缩</td>
+</tr>
+</tbody>
+</table>
+<h2>三. Formulas (公式)</h2>
+<h3>Quantization Size</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\text{FP32}: N\times4\text{B}$</td>
+<td>每参数4字节</td>
+<td>340M×4=1.36GB</td>
+</tr>
+<tr>
+<td>$\text{INT8}: N\times1\text{B}$</td>
+<td>每参数1字节</td>
+<td>340M×1=340MB</td>
+</tr>
+<tr>
+<td>$\text{INT4}: N\times0.5\text{B}$</td>
+<td>每参数0.5字节</td>
+<td>340M×0.5=170MB</td>
+</tr>
+</tbody>
+</table>
+<h3>LoRA Math</h3>
+<table>
+<thead>
+<tr>
+<th>Formula (公式)</th>
+<th>Description (说明)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$W'=W+\Delta W;\;\Delta W=A\times B$</td>
+<td>低秩分解: d²→2dr(r≪d)</td>
+<td>r=4,d=768→98%减少</td>
+</tr>
+</tbody>
+</table>
+<h2>五. Exam Traps (考试陷阱)</h2>
+<table>
+<thead>
+<tr>
+<th>Trap (陷阱)</th>
+<th>Correct Answer (正确答案)</th>
+<th>Example (示例)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LoRA训练所有参数?</td>
+<td>❌ 只训小适配矩阵(~0.1%)! 基座冻结</td>
+<td>7B:全量=7B params; LoRA≈7M</td>
+</tr>
+<tr>
+<td>大小规则</td>
+<td>FP32=×4, FP16=×2, INT8=×1, INT4=×0.5</td>
+<td><strong>必记!</strong></td>
+</tr>
+<tr>
+<td>QLoRA只是LoRA?</td>
+<td>❌ QLoRA=LoRA+4bit量化基座!</td>
+<td>65B→48GB GPU可训</td>
+</tr>
+<tr>
+<td>Quantization改变参数值?</td>
+<td>❌ 不改变值只降精度! 剪枝才移除参数</td>
+<td>值不变精度降</td>
+</tr>
+<tr>
+<td>Zero-shot总比Few-shot好?</td>
+<td>❌ Few-shot通常更稳定!</td>
+<td>复杂任务→Few-shot必须</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="week-block"><h1>📝 简答题速查 (Short Answer Quick Reference)</h1>
+<p style="border-left:1.5px solid #1a1a2e; padding-left:3px; margin:1px 0; background:#f8f8ff;"><strong>考试策略</strong>: 5道核心题覆盖 W3/W9/W10/W12/W13，每题6分=30分。先写公式→代入数值→写结论。</p>
+<p style="border-left:1.5px solid #1a1a2e; padding-left:3px; margin:1px 0; background:#f8f8ff;"><strong>时间分配</strong>: 每题≤8分钟，先做会的，公式记不清也要写思路拿步骤分。</p>
+<h2>🔴 核心5题 (必考，每题6分)</h2>
+<div class="sa-mark"><h3>SA-1: TF-IDF + Cosine Similarity (W3) [2+2+2]</h3>
+<p><strong>公式三件套</strong>:</p>
+<p>$\text{TF}=\frac{count}{total}$ | $\text{IDF}=\log_2\frac{N}{df}$ | $\text{TF-IDF}=\text{TF}\times\text{IDF}$</p>
+<p>$\cos(\mathbf{A},\mathbf{B})=\frac{\mathbf{A}\cdot\mathbf{B}}{\|\mathbf{A}\|\times\|\mathbf{B}\|}$</p>
+<p><strong>⚠️ 陷阱</strong>: 共同词 $df=N \Rightarrow \text{IDF}=\log_2 1=0$ → 被消除!</p>
+<p><strong>完整例题</strong>: D1="the cat sat on the mat", D2="the dog sat on the log" (N=2)</p>
+<ul><li><strong>(a)</strong> TF(cat,D1)=1/6≈0.167, IDF(cat)=log₂(2/1)=1.0, <strong>TF-IDF=0.167</strong></li><li><strong>(b)</strong> 共同词(the,sat,on) IDF=0→消除; D1=[0,1/6,0,0,1/6,0,0], D2=[0,0,0,0,0,1/6,1/6]</li><li><strong>(c)</strong> D1·D2=0 → <strong>cos=0</strong> (独有词不重叠)</li></ul>
+<p><strong>向量计算模板</strong>: w₁=(0.2,0.2,0.3,0.7) w₂=(0.3,0.4,0.8,0.5) → 点积=0.73, ‖w₁‖=√0.66≈0.81, ‖w₂‖=√1.14≈1.07 → cos≈<strong>0.84</strong></p>
+</div>
+<div class="sa-mark"><h3>SA-2: Transformer Attention (W9) [2+2+2]</h3>
+<p><strong>(a) 公式</strong>: $\text{Attention}(Q,K,V)=\text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right)V$</p>
+<p><strong>(b) QKV</strong>: $Q=XW_Q$(找什么), $K=XW_K$(提供什么), $V=XW_V$(实际内容); Cross-Attn: Q=解码器,KV=编码器</p>
+<p>**(c) 为什么÷$\sqrt{d_k}$**: $d_k$大→$QK^T$方差~$d_k$→softmax过尖[0.99,0.005]→梯度≈0→训练崩; ÷$\sqrt{d_k}$→方差~1→softmax平滑[0.4,0.3]→梯度健康</p>
+<p><strong>参数速记</strong>: $d_{model}=768, h=12, d_k=64, N=12$ | $PE_{(pos,2i)}=\sin(pos/10000^{2i/d})$</p>
+<p><strong>数值计算模板</strong>: $Q=[1,0], K_1=[1,0], K_2=[0,1], V_1=[10,0], V_2=[0,10], d_k=2$</p>
+<ol><li>点积: $Q \cdot K_1^T=1, \; Q \cdot K_2^T=0$</li><li>缩放: $\frac{1}{\sqrt{2}}≈0.707, \; \frac{0}{\sqrt{2}}=0$</li><li>Softmax: $e^{0.707}≈2.03, e^0=1 \Rightarrow \alpha_1≈0.67, \alpha_2≈0.33$</li><li>输出: $0.67\times[10,0]+0.33\times[0,10]≈\mathbf{[6.7, 3.3]}$</li></ol>
+</div>
+<div class="sa-mark"><h3>SA-3: BERT MLM + NSP (W10) [3+1+2]</h3>
+<p><strong>(a) MLM</strong>: 随机选<strong>15%</strong> token → 80%→[MASK] | 10%→随机词 | 10%→不变</p>
+<p><strong>(b) NSP</strong>: [CLS]SentA[SEP]SentB[SEP] → 二分类IsNext/NotNext(各50%); $\mathcal{L}=\mathcal{L}_{MLM}+\mathcal{L}_{NSP}$</p>
+<p><strong>(c) 为什么80/10/10</strong>: 100%[MASK]→推理时无[MASK]→<strong>训练-推理不匹配</strong>; 10%随机→强制关注所有位置; 10%不变→保持正常token表示</p>
+<p><strong>速记</strong>: BERT-base: 12层/768维/12头/110M | 输入=Token+Segment+Position Embedding | WordPiece~30.5K</p>
+</div>
+<div class="sa-mark"><h3>SA-4: RAG Pipeline (W12) [3+2+1]</h3>
+<p><strong>(a) 6步</strong> ← 口诀 <strong>P-C-E-R-A-G</strong>:</p>
+<p>①Parse(文档→文本) ②Chunk(256-512tok+overlap) ③Embed(块→向量) ④Retrieve(cosine→top-k) ⑤Augment(块→prompt) ⑥Generate(LLM生成)</p>
+<p><strong>(b) 2优势</strong>: ①解决知识过时(运行时检索最新文档) ②减少幻觉+可追溯(可引用源"Ch.3,p.45")</p>
+<p><strong>(c) 消除幻觉?</strong> ❌减少但不消除! retriever可能检索错误chunk→LLM仍可能错 | RAG≠FT(RAG不改权重)</p>
+</div>
+<div class="sa-mark"><h3>SA-5: Compression + Memory (W13) [3+2+1]</h3>
+<p><strong>(a) 三种压缩</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>做什么</th>
+<th>重训?</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quantization</td>
+<td>降精度FP32→INT8</td>
+<td>❌不需要</td>
+<td>BERT 1.36GB→340MB</td>
+</tr>
+<tr>
+<td>Pruning</td>
+<td>移除权重(设0)</td>
+<td>⚠️可能需要</td>
+<td>移除90%→微调</td>
+</tr>
+<tr>
+<td>Distillation</td>
+<td>学生模仿教师软概率</td>
+<td>✅需训练</td>
+<td>BERT→DistilBERT 97%质量60%小</td>
+</tr>
+</tbody>
+</table>
+<p><strong>(b) 显存计算</strong>: $\text{Memory}=N\times\text{bytes}$ → $\boxed{\text{FP32}=\times4,\;\text{FP16}=\times2,\;\text{INT8}=\times1,\;\text{INT4}=\times0.5}$</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>FP32</th>
+<th>FP16</th>
+<th>INT8</th>
+<th>INT4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7B</td>
+<td>28GB</td>
+<td>14GB</td>
+<td>7GB</td>
+<td>3.5GB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>(c) LoRA</strong>: 冻结基座,只训 $A(d\times r),B(r\times d)$, $r\ll d$; $d^2\to 2dr$(98%减); QLoRA=LoRA+4bit基座</p>
+<p><strong>LoRA 计算模板</strong>: BERT-base, $d=768$, $r=8$, 只对 Q+V 加 LoRA</p>
+<ul><li>原始 Q+V 每层: $768^2 \times 2 = 1,179,648$</li><li>LoRA 每层: $(768\times8 + 8\times768)\times 2 = 24,576$</li><li>全12层: $24,576\times12 = 294,912 \approx 295K$ → 占比 $\frac{295K}{14.2M}\approx\mathbf{2.08\%}$</li></ul>
+<h2>🟡 备选题 (按出题可能性排序)</h2>
+</div>
+<div class="sa-mark"><h3>B-1: Retrieval Metrics (W12) ⭐⭐⭐</h3>
+<p><strong>公式</strong>: $P@k=\frac{rel_{top-k}}{k}$ | $R@k=\frac{rel_{top-k}}{total_{rel}}$ | $MRR=\frac{1}{rank_1}$ | $DCG@k=\sum_{i=1}^{k}\frac{rel_i}{\log_2(i+1)}$ | $NDCG@k=\frac{DCG@k}{IDCG@k}$</p>
+<p><strong>完整例题</strong>: 搜索返回5个结果, relevance=[1,0,1,1,0], 总共有4个相关文档</p>
+<ul><li><strong>P@5</strong> = 3 relevant in top-5 / 5 = <strong>0.6</strong></li><li><strong>R@5</strong> = 3 found / 4 total relevant = <strong>0.75</strong></li><li><strong>MRR</strong> = first relevant at position 1 → 1/1 = <strong>1.0</strong></li><li><strong>DCG@5</strong> = $\frac{1}{\log_2 2}+\frac{0}{\log_2 3}+\frac{1}{\log_2 4}+\frac{1}{\log_2 5}+\frac{0}{\log_2 6}$ = $1+0+0.5+0.431+0$ = <strong>1.931</strong></li><li><strong>IDCG@5</strong> (理想排序=[1,1,1,1,0]) = $\frac{1}{1}+\frac{1}{0.631}+\frac{1}{0.5}+\frac{1}{0.431}+0$ = $1+\frac{1}{1.585}+0.5+0.431+0$ = <strong>2.562</strong></li><li><strong>NDCG@5</strong> = 1.931 / 2.562 = <strong>0.754</strong></li></ul>
+<p><strong>⚠️ 陷阱</strong>: $\log_2$ 底数是2不是10! IDCG用<strong>理想排序</strong>(相关文档全排前面)。MRR只看<strong>第一个</strong>相关结果的位置。</p>
+<h2>🟢 Concept Short Answers (概念描述简答)</h2>
+</div>
+<h3>C-1: What is Word Embedding? Why better than BOW/TF-IDF? ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: Word embedding maps each word to a <strong>low-dimensional dense vector</strong> (50-300d) where semantically similar words are closer. Based on the <strong>Distributional Hypothesis</strong>: words in similar contexts have similar meanings.</p>
+<p><strong>vs BOW/TF-IDF</strong>: ①BOW/TF-IDF = high-dim sparse (V=10K, 99% zeros); Embedding = low-dim dense (300d). ②BOW has no word order or semantics; embeddings capture semantic relations (king-man+woman≈queen). ③BOW cannot handle OOV; FastText uses subword n-grams for OOV.</p>
+<h3>C-2: What is Attention? What problem does it solve? ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: Seq2Seq has an <strong>information bottleneck</strong>: entire input compressed into one fixed-size vector → long sequences lose information. Attention solution: decoder <strong>dynamically computes</strong> weights over all encoder states at each step → weighted sum → no longer depends on single vector.</p>
+<p><strong>4 steps</strong>: ①Score: $e_i=\text{dec}^T\cdot\text{enc}_i$ ②Normalize: softmax→probs ③Context: $c=\sum\alpha_i\cdot h_i$ ④Output: [dec;c]→FC</p>
+<p><strong>⚠️</strong>: Seq2Seq+Attention still <strong>cannot parallelize</strong> (still uses RNN)! Only Transformer enables parallelism.</p>
+<h3>C-3: Compare BERT vs GPT architecture and use cases ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: BERT = <strong>Encoder-only</strong> (bidirectional self-attention, sees full context) → excels at <strong>understanding</strong> tasks (classification/NER/QA). GPT = <strong>Decoder-only</strong> (masked self-attention, sees only left context) → excels at <strong>generation</strong> tasks (dialogue/creation).</p>
+<p><strong>Pre-training</strong>: BERT = MLM (predict masked word) + NSP; GPT = CLM (predict next word). <strong>Key</strong>: BERT <strong>cannot generate</strong> (no Decoder); GPT generates well but weaker at understanding than BERT.</p>
+<h3>C-4: Explain Transfer Learning in NLP ⭐⭐</h3>
+<p><strong>Answer</strong>: Pre-train on <strong>massive unlabeled text</strong> (learn general language knowledge) → then fine-tune with <strong>small labeled data</strong> for specific tasks. Value: pre-training is extremely expensive (64 TPUs, millions $, months) → done once; fine-tuning is cheap (1 GPU, hours) → done per task.</p>
+<p><strong>3 strategies</strong>: ①Transfer Learning (freeze base, train classifier head only, ~0.1%) ②Full Fine-tuning (all 100% params, best but catastrophic forgetting risk) ③LoRA (freeze base + small adapter matrices, ~0.1-1%, best cost-performance)</p>
+<h3>C-5: Explain RNN vanishing gradient &amp; how LSTM solves it ⭐⭐</h3>
+<p><strong>Answer</strong>: During backpropagation, gradients pass through $W_h$ at each step → exponential shrinkage (|W_h|&lt;1 → gradient→0) → <strong>cannot learn long-range dependencies</strong> (info from 10+ steps ago is lost).</p>
+<p><strong>LSTM solution</strong>: Introduces <strong>cell state</strong> $c_t$ updated via <strong>addition</strong> (not multiplication): $c_t=f_t\odot c_{t-1}+i_t\odot\tilde{c}_t$. Addition gradient = 1 → gradient flows directly → long-term info preserved. 3 gates (Forget/Input/Output) dynamically control information flow.</p>
+<h3>C-6: What is RAG? What LLM problems does it solve? ⭐⭐</h3>
+<p><strong>Answer</strong>: RAG = Retrieval-Augmented Generation. <strong>6-step pipeline</strong>: Parse→Chunk→Embed→Retrieve→Augment→Generate (mnemonic <strong>P-C-E-R-A-G</strong>).</p>
+<p><strong>Solves 3 problems</strong>: ①<strong>Knowledge cutoff</strong> (retrieves latest docs at runtime) ②<strong>Hallucination</strong> (generates based on retrieved docs, traceable to source) ③<strong>Cost</strong> (small model + retrieval ≈ large model performance on domain)</p>
+<p><strong>⚠️</strong>: RAG <strong>reduces but does NOT eliminate</strong> hallucination! Retriever may fetch wrong chunks. RAG ≠ Fine-tuning (RAG does not modify model weights!)</p>
+<h3>C-7: What is the Transformer? Why is it better than RNN? ⭐⭐⭐</h3>
+<p><strong>Answer</strong>: Transformer (2017, "Attention Is All You Need") replaces RNN with <strong>self-attention</strong> — every token attends to all other tokens simultaneously. Key advantages: ①<strong>Parallelizable</strong> (no sequential dependency like RNN) ②<strong>O(1) path length</strong> between any two words (vs RNN's O(n) steps → vanishing gradient) ③<strong>Multi-head attention</strong> learns multiple relationship types simultaneously.</p>
+<p><strong>Trade-off</strong>: O(n²) memory for attention matrix (vs RNN's O(n)). Requires <strong>positional encoding</strong> since self-attention has no inherent position awareness.</p>
+<h3>C-8: What is Knowledge Distillation? ⭐⭐</h3>
+<p><strong>Answer</strong>: Train a small <strong>student</strong> model to mimic a large <strong>teacher</strong> model's output probability distribution (soft labels), not just hard labels. The student learns the teacher's "dark knowledge" — e.g., teacher says P(cat)=0.7, P(dog)=0.2, P(car)=0.1 → student learns cat≈dog≠car.</p>
+<p><strong>Example</strong>: BERT (110M) → DistilBERT (66M): <strong>97% performance, 40% smaller, 60% faster</strong>. Requires retraining (unlike quantization which needs no retraining).</p>
+<h3>C-9: What is LoRA? Why is it important? ⭐⭐</h3>
+<p><strong>Answer</strong>: LoRA (Low-Rank Adaptation) <strong>freezes</strong> the pre-trained model and adds two small trainable matrices $A(d×r)$ and $B(r×d)$ where $r \ll d$. Update: $W'=W+\Delta W$, $\Delta W=A×B$. Parameters reduced from $d^2$ to $2dr$ (<strong>~98% reduction</strong>).</p>
+<p><strong>Why important</strong>: Full fine-tuning of 7B model needs 40GB+ VRAM; LoRA needs ~8GB. <strong>QLoRA</strong> = LoRA + 4-bit quantized base → 65B model trainable on 48GB consumer GPU!</p>
+<h3>C-10: Compare Extractive QA vs Generative QA ⭐⭐</h3>
+<p><strong>Answer</strong>: <strong>Extractive QA</strong> (BERT+SQuAD): answer is copied as a <strong>continuous span</strong> from the passage (start/end position prediction). Advantage: traceable, no hallucination. Limitation: answer must exist verbatim in text.</p>
+<p><strong>Generative QA</strong> (GPT): model <strong>generates</strong> new text as answer. Advantage: flexible, can synthesize from multiple sources. Risk: may hallucinate. <strong>RAG</strong> combines both: retrieve docs (like extractive) then generate answer (like generative).</p>
+</div>
+</div>
+</body>
+</html>

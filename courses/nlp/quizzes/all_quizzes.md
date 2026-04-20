@@ -1225,6 +1225,411 @@ B) False
 
 ---
 
+# Quiz 6 — 注意力与Transformer (Attention & Transformer)
+
+Topic: BiLSTM, Encoder-Decoder, Multi-Head Attention, Transformer, Positional Encoding, Masking
+
+---
+
+## Q6.1 (1 point)
+
+BiLSTM is capable of capturing contextual information exclusively from upcoming time steps.
+
+> BiLSTM 只能从未来的时间步捕获上下文信息。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> BiLSTM (Bidirectional LSTM) processes sequences in **both** directions — forward (past → future) and backward (future → past). **Why False**: The statement claims "exclusively from upcoming time steps," but BiLSTM captures context from both past AND future, not just upcoming steps.
+>
+> > BiLSTM（双向 LSTM）从**两个方向**处理序列 — 正向（过去→未来）和反向（未来→过去）。**为什么是 False**：题干说"只能从未来时间步"捕获信息，但 BiLSTM 同时捕获过去和未来的上下文。
+>
+> **Key**: BiLSTM = forward LSTM + backward LSTM. Captures both past and future context, not just one direction.
+> **关键**: BiLSTM = 前向 LSTM + 后向 LSTM。同时捕获过去和未来的上下文，而非仅单方向。
+
+---
+
+## Q6.2 (1 point)
+
+The Encoder-Decoder Framework is primarily used for image classification tasks.
+
+> 编码器-解码器框架主要用于图像分类任务。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> The Encoder-Decoder framework is designed for **sequence-to-sequence** tasks, not image classification. **Why False**: It is primarily used for machine translation, text summarization, and text generation — tasks where the input and output are both sequences of variable length.
+>
+> > 编码器-解码器框架是为**序列到序列（Seq2Seq）**任务设计的，不是图像分类。**为什么是 False**：它主要用于机器翻译、文本摘要和文本生成等输入输出都是变长序列的任务。
+>
+> - **Encoder**: Compresses input sequence into a fixed-length context vector / 将输入序列压缩为固定长度的上下文向量
+> - **Decoder**: Generates output sequence from the context vector / 从上下文向量生成输出序列
+>
+> > - **编码器**：将输入序列压缩为固定长度的上下文向量
+> > - **解码器**：从上下文向量生成输出序列
+>
+> **Key**: Encoder-Decoder = Seq2Seq architecture for translation, summarization, generation. NOT for image classification.
+> **关键**: 编码器-解码器 = 序列到序列架构，用于翻译、摘要、生成。不是图像分类。
+
+---
+
+## Q6.3 (1 point)
+
+The primary motivation behind using multi-head self-attention is to capture different types of relationships and dependencies in the input data by allowing the model to attend to different positions at different semantic levels.
+
+> 使用多头自注意力的主要动机是通过允许模型在不同语义层次关注不同位置，从而捕获输入数据中不同类型的关系和依赖。
+
+A) True
+B) False
+
+> **Answer**: A
+> **Explanation**:
+> Multi-head attention splits the attention computation into multiple "heads," each learning different relationship patterns. **Why True**: Different heads can focus on different aspects — one head might capture syntactic dependencies, another might capture semantic relationships, enabling richer representation.
+>
+> > 多头注意力将注意力计算拆分为多个"头"，每个头学习不同的关系模式。**为什么是 True**：不同的头可以关注不同的方面 — 一个头可能捕捉句法依赖，另一个可能捕捉语义关系，从而实现更丰富的表示。
+>
+> **Key**: Multi-head attention = multiple parallel attention mechanisms, each capturing different types of relationships.
+> **关键**: 多头注意力 = 多个并行的注意力机制，每个捕获不同类型的关系。
+
+---
+
+## Q6.4 (1 point)
+
+The Transformer in NLP is a novel architecture that aims to solve sequence-to-sequence tasks while handling long-range dependencies.
+
+> NLP 中的 Transformer 是一种旨在解决序列到序列任务并处理长距离依赖的新型架构。
+
+A) True
+B) False
+
+> **Answer**: A
+> **Explanation**:
+> The Transformer (2017, "Attention is All You Need") was designed specifically to handle Seq2Seq tasks with superior long-range dependency modeling. **Why True**: Unlike RNNs which process tokens sequentially, self-attention allows each token to directly attend to all other tokens, regardless of distance.
+>
+> > Transformer（2017，"Attention is All You Need"）专为处理 Seq2Seq 任务而设计，具有优越的长距离依赖建模能力。**为什么是 True**：与 RNN 逐步处理 token 不同，自注意力允许每个 token 直接关注所有其他 token，不受距离限制。
+>
+> **Key**: Transformer solves Seq2Seq + long-range dependencies via self-attention (O(1) path length between any two tokens).
+> **关键**: Transformer 通过自注意力解决 Seq2Seq 和长距离依赖问题（任意两个 token 之间路径长度 O(1)）。
+
+---
+
+## Q6.5 (1 point)
+
+In transformer, residual connections let each layer subtract refinements to the input rather than replace it. This preserves information across depth, prevents vanishing gradients, and makes it possible to train Transformers with dozens or hundreds of layers.
+
+> 在 Transformer 中，残差连接让每一层对输入进行减法式精炼而非替换。这在深度上保持了信息，防止了梯度消失，使得训练数十甚至数百层的 Transformer 成为可能。
+
+A) True
+B) False
+
+> **Answer**: A
+> **Explanation**:
+> Residual connections (skip connections) add the input directly to the layer output: $\text{output} = \text{LayerNorm}(x + \text{Sublayer}(x))$. **Why True**: This preserves the original information flow, prevents vanishing gradients in deep networks, and enables training very deep Transformers.
+>
+> > 残差连接（跳跃连接）将输入直接加到层输出上：$\text{output} = \text{LayerNorm}(x + \text{Sublayer}(x))$。**为什么是 True**：这保持了原始信息流，防止深层网络中的梯度消失，使训练非常深的 Transformer 成为可能。
+>
+> - ⚠️ **Note**: The statement says "subtract refinements" — this is a conceptual description meaning each layer only needs to learn the **residual** (difference), not reconstruct the full output.
+>
+> > - ⚠️ **注意**：题干说"减法式精炼" — 这是概念性描述，意思是每层只需学习**残差**（差异），不用重建完整输出。
+>
+> **Key**: Residual connections: $\text{output} = x + \text{Sublayer}(x)$. Preserves information, prevents vanishing gradients, enables deep training.
+> **关键**: 残差连接：$\text{output} = x + \text{Sublayer}(x)$。保持信息、防止梯度消失、支持深层训练。
+
+---
+
+## Q6.6 (1 point)
+
+Positional encoding is a type of regularization technique that stabilizes the training process.
+
+> 位置编码是一种稳定训练过程的正则化技术。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> Positional encoding provides **sequence order information** to the Transformer, NOT regularization. **Why False**: Since the Transformer has no recurrence or convolution, it cannot inherently capture token order. Positional encoding injects position information (using sine/cosine functions) so the model knows which token is where.
+>
+> > 位置编码为 Transformer 提供**序列顺序信息**，而非正则化。**为什么是 False**：由于 Transformer 没有循环或卷积结构，它本身无法捕获 token 顺序。位置编码通过正弦/余弦函数注入位置信息，让模型知道每个 token 的位置。
+>
+> - **$PE_{(pos,2i)} = \sin(pos / 10000^{2i/d_{model}})$**: Sinusoidal positional encoding formula
+> - **Regularization (正则化)**: Techniques like Dropout, L2 — these prevent overfitting, NOT encode position.
+>
+> > - **正则化技术**：Dropout、L2 等防止过拟合的技术，与位置编码无关。
+>
+> **Key**: Positional encoding = provides token order information (sin/cos). NOT regularization.
+> **关键**: 位置编码 = 提供 token 顺序信息（正弦/余弦）。不是正则化。
+
+---
+
+## Q6.7 (1 point)
+
+In the context of the Transformer model's attention mechanism, what does the term "scaled" refer to in the scaled dot-product attention?
+
+> 在 Transformer 模型的注意力机制中，缩放点积注意力中的"缩放"是什么意思？
+
+A) Scaling the input embeddings to a fixed size
+
+B) Scaling the output probabilities to ensure they sum to one
+
+C) Scaling the dot product of the query and key vectors by the square root of the dimensionality
+
+D) Scaling the learning rate during training
+
+> **Answer**: C
+> **Explanation**:
+> In scaled dot-product attention, the dot product of Q and K is divided by $\sqrt{d_k}$ to prevent excessively large values before softmax. **Why C**: The formula is $\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$. The "scaling" specifically refers to dividing by $\sqrt{d_k}$.
+>
+> > 在缩放点积注意力中，Q 和 K 的点积除以 $\sqrt{d_k}$ 以防止 softmax 前值过大。**为什么是 C**：公式为 $\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$。"缩放"特指除以 $\sqrt{d_k}$。
+>
+> - **A**: Scaling input embeddings is not what "scaled" refers to here.
+> - **B**: Softmax naturally ensures probabilities sum to 1; that's not the "scaling."
+> - **D**: Learning rate scaling is unrelated to attention mechanism.
+>
+> > - **A 错**：这里的"缩放"不是指缩放输入嵌入。
+> > - **B 错**：Softmax 自然保证概率和为 1，这不是"缩放"的含义。
+> > - **D 错**：学习率缩放与注意力机制无关。
+>
+> **Key**: "Scaled" = divide $QK^T$ by $\sqrt{d_k}$ to prevent large dot products that push softmax into extreme regions.
+> **关键**: "缩放" = 将 $QK^T$ 除以 $\sqrt{d_k}$，防止点积过大导致 softmax 进入极端区域。
+
+---
+
+## Q6.8 (1 point)
+
+Which of the following deep learning architectures commonly uses the attention mechanism?
+
+> 以下哪种深度学习架构通常使用注意力机制？
+
+A) Simple Feedforward Networks
+
+B) Basic Convolutional Neural Networks
+
+C) Transformer-based models
+
+D) Traditional Decision Trees
+
+> **Answer**: C
+> **Explanation**:
+> Attention is the core mechanism of Transformer-based models. **Why C**: Transformers are built entirely around self-attention — it is their fundamental building block, unlike FFN, CNN, or decision trees.
+>
+> > 注意力是 Transformer 模型的核心机制。**为什么是 C**：Transformer 完全围绕自注意力构建，这是它的基本构建模块，与 FFN、CNN 或决策树不同。
+>
+> - **A/B**: FFN and basic CNN do not inherently use attention (though attention can be added to CNN).
+> - **D**: Decision trees are non-neural, rule-based models — no attention mechanism.
+>
+> > - **A/B 错**：FFN 和基本 CNN 本身不使用注意力（虽然可以给 CNN 添加注意力）。
+> > - **D 错**：决策树是非神经网络的规则模型，没有注意力机制。
+>
+> **Key**: Transformer-based models = built on attention mechanism. FFN/CNN/Decision Trees do not inherently use attention.
+> **关键**: Transformer 模型 = 基于注意力机制构建。FFN/CNN/决策树本身不使用注意力。
+
+---
+
+## Q6.9 (1 point)
+
+Attention mechanisms enhance model interpretability by emphasizing the most relevant parts of the input sequences.
+
+> 注意力机制通过强调输入序列中最相关的部分来增强模型的可解释性。
+
+A) True
+B) False
+
+> **Answer**: A
+> **Explanation**:
+> Attention weights show which input tokens the model focuses on when generating each output, making the model's decision process more transparent. **Why True**: By visualizing attention weights, we can see which parts of the input are most influential — this is a key advantage for interpretability.
+>
+> > 注意力权重展示了模型在生成每个输出时关注哪些输入 token，使模型决策过程更透明。**为什么是 True**：通过可视化注意力权重，我们可以看到输入的哪些部分最有影响力 — 这是可解释性的关键优势。
+>
+> **Key**: Attention weights are visualizable → show which input parts the model focuses on → enhanced interpretability.
+> **关键**: 注意力权重可视化 → 展示模型关注输入的哪些部分 → 增强可解释性。
+
+---
+
+## Q6.10 (1 point)
+
+When implementing self-attention in deep learning models, the purpose of the masking mechanism is to mask out gradients during backpropagation and speed up training.
+
+> 在深度学习模型中实现自注意力时，掩码机制的目的是在反向传播过程中屏蔽梯度并加速训练。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> Masking in self-attention is used to **hide padding tokens or future tokens**, NOT to mask gradients. **Why False**: There are two types of masking: (1) Padding mask — prevents attention to padding positions; (2) Causal/Look-ahead mask — prevents decoder from seeing future tokens during training. Neither is about masking gradients.
+>
+> > 自注意力中的掩码用于**隐藏填充 token 或未来 token**，而非屏蔽梯度。**为什么是 False**：掩码有两种：(1) 填充掩码 — 防止注意到填充位置；(2) 因果/前瞻掩码 — 防止解码器在训练中看到未来 token。两者都与梯度无关。
+>
+> - **Padding mask / 填充掩码**: Sets attention scores to $-\infty$ for padding tokens → softmax outputs 0
+> - **Causal mask / 因果掩码**: Prevents decoder from "cheating" by seeing future tokens during autoregressive generation
+>
+> > - **填充掩码**：将填充 token 的注意力分数设为 $-\infty$ → softmax 输出 0
+> > - **因果掩码**：防止解码器在自回归生成中"作弊"看到未来 token
+>
+> **Key**: Masking = hide padding/future tokens in attention. NOT about masking gradients or speeding up training.
+> **关键**: 掩码 = 在注意力中隐藏填充/未来 token。与屏蔽梯度或加速训练无关。
+
+---
+
+# Quiz 7 — 问答系统 (Question Answering & Reading Comprehension)
+
+Topic: Retriever-Reader, Fine-tuning, BiDAF, QA Tasks
+
+---
+
+## Q7.1 (1 point)
+
+The objective of the Reader Retrieval Model in questioning answering task is to generate answers without considering the context of the query.
+
+> 问答任务中读取器检索模型的目标是在不考虑查询上下文的情况下生成答案。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> The Reader in a Retriever-Reader QA system must **deeply consider the context** to extract or generate accurate answers. **Why False**: The Reader's entire purpose is to read the retrieved passage(s) alongside the query and understand the context to find the correct answer span.
+>
+> > 检索器-读取器（Retriever-Reader）QA 系统中的 Reader 必须**深入考虑上下文**以提取或生成准确答案。**为什么是 False**：Reader 的全部目的是结合查询阅读检索到的段落，理解上下文以找到正确答案。
+>
+> - **Retriever / 检索器**: Finds relevant documents/passages from a knowledge source
+> - **Reader / 读取器**: Reads retrieved context + query → extracts answer span
+>
+> > - **检索器**：从知识库中寻找相关文档/段落
+> > - **读取器**：阅读检索到的上下文 + 查询 → 提取答案片段
+>
+> **Key**: Reader MUST consider query context to extract answers. The statement claiming "without context" is wrong.
+> **关键**: Reader 必须考虑查询上下文来提取答案。题干说"不考虑上下文"是错误的。
+
+---
+
+## Q7.2 (1 point)
+
+In the retriever-reader architecture, the reader is usually a reading comprehension model.
+
+> 在检索器-读取器架构中，读取器通常是一个阅读理解模型。
+
+A) True
+B) False
+
+> **Answer**: A
+> **Explanation**:
+> The Reader component in Retriever-Reader QA systems is typically a reading comprehension model (e.g., BERT-based). **Why True**: The reader takes a passage and a question as input, then identifies the answer span within the passage — this is exactly the definition of a reading comprehension model.
+>
+> > 检索器-读取器 QA 系统中的 Reader 组件通常是一个阅读理解模型（如基于 BERT 的模型）。**为什么是 True**：Reader 以段落和问题作为输入，然后在段落中定位答案片段 — 这正是阅读理解模型的定义。
+>
+> **Key**: Reader = reading comprehension model (e.g., BERT). Takes question + passage → outputs answer span.
+> **关键**: Reader = 阅读理解模型（如 BERT）。输入问题 + 段落 → 输出答案片段。
+
+---
+
+## Q7.3 (1 point)
+
+Fine-tuning requires more data when compared to training from scratch.
+
+> 与从头训练相比，微调需要更多的数据。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> Fine-tuning requires **less** data than training from scratch because it leverages knowledge already learned during pre-training. **Why False**: The pre-trained model has already learned general language representations, so fine-tuning on a downstream task needs only a small, task-specific labeled dataset.
+>
+> > 微调比从头训练需要**更少的**数据，因为它利用了预训练中已经学到的知识。**为什么是 False**：预训练模型已经学习了通用语言表示，因此在下游任务上微调只需要少量的任务特定标注数据。
+>
+> - **Pre-training / 预训练**: Large-scale unsupervised learning on massive data (e.g., Wikipedia, BookCorpus)
+> - **Fine-tuning / 微调**: Small-scale supervised learning on task-specific data (much less data needed)
+>
+> > - **预训练**：在大规模数据上进行无监督学习（如 Wikipedia、BookCorpus）
+> > - **微调**：在任务特定数据上进行小规模监督学习（需要的数据少得多）
+>
+> **Key**: Fine-tuning < training from scratch in data requirements. Pre-trained models transfer learned knowledge.
+> **关键**: 微调比从头训练需要更少数据。预训练模型传递已学习的知识。
+
+---
+
+## Q7.4 (1 point)
+
+In BiDAF, Attention Flow Layer role is to generates word embeddings for the input text.
+
+> 在 BiDAF 中，注意力流层的作用是为输入文本生成词嵌入。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> The Attention Flow Layer in BiDAF computes **bidirectional attention** between the context and query, NOT generating word embeddings. **Why False**: Word embeddings are generated by earlier layers (Character Embed Layer, Word Embed Layer). The Attention Flow Layer fuses context and query representations through context-to-query (C2Q) and query-to-context (Q2C) attention.
+>
+> > BiDAF 中的注意力流层计算上下文和查询之间的**双向注意力**，而非生成词嵌入。**为什么是 False**：词嵌入由前面的层（字符嵌入层、词嵌入层）生成。注意力流层通过上下文到查询（C2Q）和查询到上下文（Q2C）注意力来融合上下文和查询的表示。
+>
+> - **BiDAF Attention Flow**: C2Q attention + Q2C attention → fused query-aware context representation
+>
+> > - **BiDAF 注意力流**：C2Q 注意力 + Q2C 注意力 → 融合了查询感知的上下文表示
+>
+> **Key**: Attention Flow Layer = bidirectional attention (C2Q + Q2C), NOT word embedding generation.
+> **关键**: 注意力流层 = 双向注意力（C2Q + Q2C），不是词嵌入生成。
+
+---
+
+## Q7.5 (1 point)
+
+The primary goal of the Question Answering task in NLP reading comprehension is to generating context from given questions.
+
+> NLP 阅读理解中问答任务的主要目标是从给定的问题生成上下文。
+
+A) True
+B) False
+
+> **Answer**: B
+> **Explanation**:
+> QA reading comprehension aims to **extract answers from given context**, NOT generate context from questions. **Why False**: The direction is reversed — given a context passage and a question, the task is to find or extract the answer from the context, not to generate the context itself.
+>
+> > QA 阅读理解旨在**从给定上下文中提取答案**，而非从问题生成上下文。**为什么是 False**：方向反了 — 给定一个上下文段落和一个问题，任务是从上下文中查找或提取答案，而不是生成上下文本身。
+>
+> - **Input / 输入**: Context passage + Question
+> - **Output / 输出**: Answer span extracted from the context
+>
+> > - **输入**：上下文段落 + 问题
+> > - **输出**：从上下文中提取的答案片段
+>
+> **Key**: QA = extract answer from context. NOT generate context from question. Direction matters!
+> **关键**: QA = 从上下文提取答案。不是从问题生成上下文。方向很重要！
+
+---
+
+## Q7.6 (1 point)
+
+There is a number of similarities between translation model and reading comprehension model.
+
+> 翻译模型和阅读理解模型之间存在许多相似之处。
+
+A) True
+B) False
+
+> **Answer**: A
+> **Explanation**:
+> Both translation and reading comprehension models share key architectural similarities. **Why True**: Both use encoder-decoder or attention-based architectures, both process input sequences to generate/extract output, and both heavily rely on attention mechanisms to align relevant parts of input with output.
+>
+> > 翻译模型和阅读理解模型在架构上有关键相似之处。**为什么是 True**：两者都使用编码器-解码器或基于注意力的架构，都处理输入序列以生成/提取输出，都大量依赖注意力机制来对齐输入和输出的相关部分。
+>
+> - **Similarities / 相似点**: Both use attention, both process sequences, both align source with target
+> - **Difference / 不同点**: Translation generates new text; RC extracts spans from existing text
+>
+> > - **相似点**：都使用注意力，都处理序列，都对齐源和目标
+> > - **不同点**：翻译生成新文本；阅读理解从现有文本中提取片段
+>
+> **Key**: Translation and RC share encoder-decoder architecture, attention mechanism, and sequence processing. Key overlap exists.
+> **关键**: 翻译和阅读理解共享编码器-解码器架构、注意力机制和序列处理。存在关键重叠。
+
+---
+
 ## Summary of Answers / 答案汇总
 
 | Quiz       | Question | Answer   | Topic / 主题                                          |
@@ -1273,3 +1678,19 @@ B) False
 |            | Q5.6     | C        | LSTM gating mechanisms / LSTM 门控机制                |
 |            | Q5.7     | False    | N-gram limitations / N-gram 局限性                    |
 |            | Q5.8     | False    | Learning rate effects / 学习率影响                    |
+| **Quiz 6** | Q6.1     | False    | BiLSTM context direction / BiLSTM 上下文方向          |
+|            | Q6.2     | False    | Encoder-Decoder purpose / 编码器-解码器用途           |
+|            | Q6.3     | True     | Multi-head attention / 多头注意力                     |
+|            | Q6.4     | True     | Transformer Seq2Seq / Transformer 序列到序列          |
+|            | Q6.5     | True     | Residual connections / 残差连接                       |
+|            | Q6.6     | False    | Positional encoding / 位置编码                        |
+|            | Q6.7     | C        | Scaled dot-product attention / 缩放点积注意力         |
+|            | Q6.8     | C        | Attention in architectures / 使用注意力的架构         |
+|            | Q6.9     | True     | Attention interpretability / 注意力可解释性           |
+|            | Q6.10    | False    | Masking mechanism / 掩码机制                          |
+| **Quiz 7** | Q7.1     | False    | Reader context usage / 读取器上下文使用               |
+|            | Q7.2     | True     | Reader as RC model / 读取器作为阅读理解模型           |
+|            | Q7.3     | False    | Fine-tuning data needs / 微调数据需求                 |
+|            | Q7.4     | False    | BiDAF Attention Flow / BiDAF 注意力流                 |
+|            | Q7.5     | False    | QA task direction / QA 任务方向                       |
+|            | Q7.6     | True     | Translation vs RC / 翻译与阅读理解对比               |

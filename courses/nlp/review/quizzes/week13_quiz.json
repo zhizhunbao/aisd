@@ -1,0 +1,201 @@
+[
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "A model with 340M parameters stored in FP32 requires approximately:",
+    "options": [
+      "A) 340 MB",
+      "B) 680 MB",
+      "C) 1.36 GB",
+      "D) 2.72 GB"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> FP32 = 4 bytes per parameter. 340M × 4 = 1,360 MB ≈ 1.36 GB. Rule: FP32=×4, FP16=×2, INT8=×1, INT4=×0.5.<br><br><strong>FP32每个参数4字节。340M × 4 = 1.36 GB。必记公式！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which model compression technique does NOT require re-training?",
+    "options": [
+      "A) Knowledge Distillation",
+      "B) Pruning",
+      "C) Quantization",
+      "D) Full Fine-tuning"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> Quantization directly reduces precision (FP32→INT8) post-training, no retraining needed. Distillation trains a new student model. Pruning may need retraining.<br><br><strong>量化训练后直接降精度，无需重训练。蒸馏训练新模型，剪枝可能需重训。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "LoRA trains all parameters of the pre-trained model during fine-tuning.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ LoRA freezes the base model and only trains two small low-rank matrices A(d×r) and B(r×d). Only ~0.1-1% of parameters are trained. r=4~16.<br><br><strong>LoRA冻结基座模型，只训练两个小低秩矩阵(约0.1-1%参数)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "In Knowledge Distillation, what does the student model learn from?",
+    "options": [
+      "A) Only the raw training data",
+      "B) The teacher model's soft probability distributions (soft labels)",
+      "C) The teacher model's architecture",
+      "D) Random noise"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Student learns from teacher's soft predictions (probability distributions), which contain richer information than hard labels (one-hot).<br><br><strong>学生从教师的软概率分布学习，比硬标签含更丰富的信息。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Quantization changes the numerical values of model parameters.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Quantization changes the PRECISION of representation (FP32→INT8), not the parameter values themselves. Pruning removes parameters (sets to zero).<br><br><strong>量化改变精度表示，不改变参数值本身。剪枝才是移除参数(置零)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which prompt engineering technique is best for math and multi-step reasoning?",
+    "options": [
+      "A) Zero-shot",
+      "B) Few-shot",
+      "C) Chain-of-Thought (CoT)",
+      "D) Role-based prompting"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> CoT = 'Let's think step by step' → forces the model to show reasoning process. Best for math, logic, and multi-step problems.<br><br><strong>CoT思维链='让我们一步步思考'→强制展示推理过程，最适合数学/逻辑/多步骤问题。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Zero-shot prompting always performs better than Few-shot prompting.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Few-shot is usually more stable and effective for complex/ambiguous tasks. Zero-shot only works reliably for simple tasks where the model has strong prior knowledge.<br><br><strong>Few-shot通常更稳定，适合复杂/歧义任务。Zero-shot只适合简单任务。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "QLoRA combines which two techniques?",
+    "options": [
+      "A) Quantization + Pruning",
+      "B) LoRA + Knowledge Distillation",
+      "C) LoRA + 4-bit Quantization of the base model",
+      "D) Pruning + Knowledge Distillation"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> QLoRA = LoRA adapters + 4-bit quantized base model. This enables fine-tuning a 65B model on a 48GB GPU!<br><br><strong>QLoRA = LoRA适配器 + 4-bit量化基座模型。65B模型可在48GB GPU上微调！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "What are the four elements of a well-structured prompt?",
+    "options": [
+      "A) Title, Body, Conclusion, References",
+      "B) Context, Instructions, Input, Output Indicator",
+      "C) Question, Answer, Explanation, Score",
+      "D) Header, Content, Footer, Metadata"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Prompt 4 elements: Context (role/background) + Instructions (task) + Input (data to process) + Output Indicator (format).<br><br><strong>Prompt四要素：上下文 + 指令 + 输入 + 输出指示。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "FP16 quantization causes significant quality loss compared to FP32.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> FP16 retains ~99.5% of FP32 quality with 2× less memory. INT8 has slight loss. INT4 has moderate loss (~95%).<br><br><strong>FP16保留99.5%质量，内存减半。INT8轻微损失。INT4中等损失(~95%)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "DistilBERT compared to BERT:",
+    "options": [
+      "A) 50% performance, 90% smaller",
+      "B) 97% performance, 40% less memory, 60% faster",
+      "C) 100% performance, same size",
+      "D) 80% performance, 80% smaller"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> DistilBERT: 97% of BERT performance, 40% less memory, 60% faster. 110M → 66M params. Ideal for mobile/edge deployment.<br><br><strong>DistilBERT: 97%性能, 减40%内存, 快60%。适合移动端部署。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Full fine-tuning has no risk of catastrophic forgetting — the model always retains its pre-trained knowledge.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Full fine-tuning updates 100% of parameters → HIGH risk of catastrophic forgetting (losing pre-trained knowledge). LoRA and Transfer Learning have LOW risk.<br><br><strong>全量微调更新100%参数→高灾难遗忘风险。LoRA和迁移学习风险低。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "LoRA reduces parameters from d² to:",
+    "options": [
+      "A) d",
+      "B) 2dr (where r ≪ d)",
+      "C) d/r",
+      "D) d² / 2"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> LoRA decomposes ΔW = A(d×r) × B(r×d). Parameters: d² → 2dr. With d=768, r=4: 590K → 6K per layer = 98% reduction.<br><br><strong>LoRA低秩分解：d²参数→2dr参数。d=768,r=4时减少98%。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the key distinction between Quantization and Pruning?",
+    "options": [
+      "A) Both do the exact same thing",
+      "B) Quantization reduces numerical precision (FP32→INT8); Pruning removes entire weights/connections (sets to zero)",
+      "C) Quantization removes layers; Pruning adds layers",
+      "D) Quantization requires re-training; Pruning does not"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Key distinction:<br>• <strong>Quantization:</strong> changes PRECISION (FP32→INT8), keeps all weights. No re-training.<br>• <strong>Pruning:</strong> removes unimportant weights (sets to 0). Often needs re-training.<br><br><strong>量化=降精度(权重都在,不重训); 剪枝=删权重(可能需重训)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is “Catastrophic Forgetting” in fine-tuning?",
+    "options": [
+      "A) The model forgets to generate output",
+      "B) The model loses previously learned pre-trained knowledge when fine-tuned on new data (100% params updated)",
+      "C) The model runs out of memory",
+      "D) The training data gets deleted"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Full fine-tuning updates ALL parameters → new task training can overwrite pre-trained general knowledge. LoRA avoids this by freezing the base model (~0.1-1% params trained).<br><br><strong>灾难遗忘 = 全量微调覆盖预训练知识。LoRA冻结基座，风险低。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In Knowledge Distillation, “soft labels” refer to the teacher model's probability distribution over all classes, which contains richer information than hard labels (one-hot).",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Hard label: [0,0,1,0] (just correct class). Soft label: [0.05,0.10,0.80,0.05] (relative confidence across ALL classes). Soft labels teach inter-class relationships.<br><br><strong>硬标签=[0,0,1,0]; 软标签=[0.05,0.10,0.80,0.05]。软标签含更丰富知识。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Chain-of-Thought (CoT) prompting is best suited for simple keyword-matching tasks rather than complex reasoning.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ CoT is best for COMPLEX tasks requiring multi-step reasoning (math, logic, multi-hop questions), NOT simple keyword matching. Simple tasks use Zero-shot.<br><br><strong>CoT 最适合复杂推理(数学/逻辑/多步骤)，不是简单匹配。</strong>"
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> A BERT-base model has 12 Transformer layers. Each layer has a self-attention module with W_Q, W_K, W_V, W_O matrices, each of dimension 768×768. If we apply LoRA with rank r=8 to ONLY the Q and V matrices:<br><br>(a) How many original parameters are in Q and V per layer? (1 pt)<br>(b) How many LoRA trainable parameters per layer? (1 pt)<br>(c) Total LoRA trainable parameters for all 12 layers? (1 pt)<br>(d) What percentage of the original Q+V parameters does LoRA use? (1 pt)",
+    "answer": "LoRA uses ~1.06% of original Q+V parameters",
+    "explanation": "<strong>(a) Original Q+V per layer:</strong><br>• W_Q: 768 × 768 = 589,824<br>• W_V: 768 × 768 = 589,824<br>• Total per layer: 589,824 × 2 = <strong>1,179,648</strong><br><br><strong>(b) LoRA per layer (r=8):</strong><br>• Each LoRA adapter: A(768×8) + B(8×768) = 6,144 + 6,144 = 12,288<br>• Two adapters (Q and V): 12,288 × 2 = <strong>24,576</strong><br><br><strong>(c) All 12 layers:</strong><br>• 24,576 × 12 = <strong>294,912</strong> (≈ 295K parameters)<br><br><strong>(d) Percentage:</strong><br>• 294,912 / (1,179,648 × 12) = 294,912 / 14,155,776 ≈ <strong>2.08%</strong><br><br><strong>LoRA公式：每个适配器 2×d×r 参数。d=768, r=8 → 每个12,288。只训练~2%参数就能达到接近全量微调的效果！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "You need to build a QA system for a hospital's internal medical documents. These documents are updated weekly. Which approach is most appropriate?",
+    "options": [
+      "A) Fine-tune GPT-4 on all medical documents — the model will memorize all answers",
+      "B) Use RAG with the medical documents as the knowledge base — updated documents are re-embedded weekly",
+      "C) Use zero-shot prompting with GPT-4 — it already has medical knowledge from pre-training",
+      "D) Use keyword matching (TF-IDF) without any LLM — it's simpler and sufficient"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> RAG is ideal because:<br>• Documents update weekly → RAG just re-embeds new chunks (no retraining)<br>• Answers must be grounded in hospital's OWN documents (not general internet knowledge)<br>• Source attribution enables doctors to verify answers<br><br><strong>RAG最适合因为：文档每周更新只需重新嵌入（不需重训）；答案必须基于医院自己的文档；可以追溯来源。</strong><br><br>⚠️ A: Fine-tuning is expensive and doesn't handle weekly updates<br>⚠️ C: Pre-training knowledge may be outdated and not hospital-specific<br>⚠️ D: TF-IDF can't understand semantic queries like 'what are the side effects of drug X?'"
+  }
+]

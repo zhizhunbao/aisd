@@ -1,0 +1,157 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "BiLSTM is capable of capturing contextual information exclusively from upcoming time steps.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> BiLSTM uses <strong>both</strong> past (backward) and future (forward) context, not only upcoming time steps. It runs two LSTMs in opposite directions and concatenates their outputs.<br><br><strong>BiLSTM 使用过去（后向）和未来（前向）两个方向的上下文，不是只看未来时间步。它运行两个方向相反的 LSTM 并拼接输出。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The Encoder-Decoder Framework is primarily used for image classification tasks.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Encoder-Decoder is mainly used for <strong>sequence-to-sequence</strong> tasks such as machine translation, summarization, and text generation — not image classification.<br><br><strong>Encoder-Decoder 主要用于序列到序列(Seq2Seq)任务，如机器翻译、文本摘要、文本生成，而非图像分类。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The primary motivation behind using multi-head self-attention is to capture different types of relationships and dependencies in the input data by allowing the model to attend to different positions at different semantic levels.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Multiple attention heads can learn different relationships and focus on different parts of the input simultaneously. Each head captures a different 'aspect' of the relationships in the data.<br><br><strong>多个注意力头可以学习不同的关系，同时关注输入的不同部分。每个头捕获数据关系的不同'方面'。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The Transformer in NLP is a novel architecture that aims to solve sequence-to-sequence tasks while handling long-range dependencies.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Transformer was designed for sequence-to-sequence problems and is very effective at modeling long-range dependencies through self-attention, which can directly connect any two positions regardless of distance.<br><br><strong>Transformer 专为 Seq2Seq 问题设计，通过自注意力机制直接连接任意两个位置，有效建模长距离依赖。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "In transformer, residual connections let each layer subtract refinements to the input rather than replace it. This preserves information across depth, prevents vanishing gradients, and makes it possible to train Transformers with dozens or hundreds of layers.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Residual connections (skip connections) add the input directly to the output of each sublayer: output = sublayer(x) + x. This preserves information and improves gradient flow, enabling training of very deep Transformers.<br><br><strong>残差连接将输入直接加到子层输出：output = sublayer(x) + x。保留信息并改善梯度流，使得训练几十或上百层的 Transformer 成为可能。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Positional encoding is a type of regularization technique that stabilizes the training process.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Positional encoding provides <strong>sequence order information</strong> to the Transformer (since self-attention is permutation-invariant). It has nothing to do with regularization. Without positional encoding, the Transformer cannot distinguish word order.<br><br><strong>位置编码为 Transformer 提供序列顺序信息（因为自注意力是排列不变的），与正则化无关。没有位置编码，Transformer 无法区分词序。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "In the context of the Transformer model's attention mechanism, what does the term 'scaled' refer to in the scaled dot-product attention?",
+    "options": [
+      "A) Scaling the output by the number of heads",
+      "B) Scaling the dot product of Q and K by the square root of the dimensionality (√d_k)",
+      "C) Scaling the input embeddings by a learned parameter",
+      "D) Scaling the learning rate during training"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> The dot product of Q and K is divided by √d_k to prevent the values from becoming too large before softmax. Large dot products push softmax into regions with extremely small gradients.<br><br><strong>Q 和 K 的点积除以 √d_k，防止数值过大导致 softmax 进入梯度极小的区域。Attention(Q,K,V) = softmax(QK^T / √d_k) × V</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following deep learning architectures commonly uses the attention mechanism?",
+    "options": [
+      "A) Simple feedforward networks",
+      "B) Transformer-based models",
+      "C) Decision trees",
+      "D) Linear regression models"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Transformers are built entirely around the attention mechanism (specifically self-attention). Models like BERT, GPT, and T5 are all Transformer-based.<br><br><strong>Transformer 完全围绕注意力机制构建。BERT、GPT、T5 等都是 Transformer-based 模型。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Attention mechanisms enhance model interpretability by emphasizing the most relevant parts of the input sequences.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Attention weights can highlight which input parts the model focuses on, providing a form of interpretability. We can visualize attention patterns to understand model decisions.<br><br><strong>注意力权重可以显示模型关注输入的哪些部分，提供可解释性。我们可以可视化注意力模式来理解模型决策。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "When implementing self-attention in deep learning models, the purpose of the masking mechanism is to mask out gradients during backpropagation and speed up training.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Masking is used to <strong>hide padding tokens or future tokens</strong>, not to mask gradients. Padding mask prevents attention to padding positions; causal mask (in decoder) prevents attending to future positions during autoregressive generation.<br><br><strong>Masking 用于隐藏 padding token 或未来 token，不是掩蔽梯度。Padding mask 防止注意力关注填充位置；因果掩码（在 decoder 中）防止在自回归生成中关注未来位置。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What are the three main components (vectors) used in the Transformer's self-attention mechanism?",
+    "options": [
+      "A) Input, Output, Hidden",
+      "B) Query (Q), Key (K), Value (V)",
+      "C) Encoder, Decoder, Attention",
+      "D) Forward, Backward, Context"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Self-attention uses three learned linear projections: Query (Q) — what am I looking for; Key (K) — what do I contain; Value (V) — what information do I provide. Attention score = softmax(QK^T/√d_k) × V.<br><br><strong>自注意力使用三个线性投影：Query（我在找什么）、Key（我包含什么）、Value（我提供什么信息）。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Unlike RNNs which process tokens sequentially, the Transformer can process all tokens in a sequence simultaneously (in parallel), which significantly speeds up training.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> RNNs must process tokens one by one (sequential), while Transformer's self-attention computes relationships between all token pairs simultaneously. This parallelism is a key advantage of Transformers, enabling much faster training on GPUs.<br><br><strong>RNN 必须逐个处理 token（串行），Transformer 的自注意力可以同时计算所有 token 对之间的关系（并行）。这种并行性是 Transformer 的关键优势，使 GPU 训练速度大幅提升。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the purpose of the Encoder-Decoder (Seq2Seq) architecture?",
+    "options": [
+      "A) To classify images into categories",
+      "B) To transform an input sequence into a different output sequence (e.g., translation, summarization)",
+      "C) To cluster documents by topic",
+      "D) To generate word embeddings"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Encoder-Decoder = Seq2Seq. Encoder compresses input into a representation; Decoder generates output sequence from it. Used for: translation, summarization, generation.<br><br><strong>Encoder-Decoder = Seq2Seq。编码器压缩输入，解码器生成输出。用于翻译、摘要、生成。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What does a Residual Connection do in the Transformer? Its formula is:",
+    "options": [
+      "A) output = sublayer(x) × x",
+      "B) output = sublayer(x) + x (add original input to sublayer output)",
+      "C) output = sublayer(x) − x",
+      "D) output = sublayer(x) / x"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> output = sublayer(x) + x. Each layer only learns incremental corrections, and gradients can flow directly through the skip path → prevents vanishing gradients.<br><br><strong>残差连接 = 原始输入 + 子层输出。梯度可直传，防止消失。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In the Transformer, the Feed-Forward Network (FFN) allows different positions in the sequence to interact and share information.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ FFN is position-wise — it applies the SAME transformation independently to EACH position. Positions do NOT interact in FFN. Only self-attention allows positions to interact.<br><br><strong>FFN 是逐位置独立操作的！位置之间不交互。只有自注意力才让位置间交互。</strong>"
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> Given Q = [1, 0], K₁ = [1, 0], K₂ = [0, 1], V₁ = [10, 0], V₂ = [0, 10], d_k = 2.<br><br>(a) Calculate the raw attention scores Q·K₁ᵀ and Q·K₂ᵀ. (1 pt)<br>(b) Apply scaling by √d_k. (1 pt)<br>(c) Apply softmax to get attention weights. (1 pt)<br>(d) What is the final output Attention(Q,K,V)? (1 pt)",
+    "answer": "Output ≈ [7.31, 2.69]",
+    "explanation": "<strong>(a) Raw scores:</strong><br>• Q·K₁ᵀ = 1×1 + 0×0 = 1<br>• Q·K₂ᵀ = 1×0 + 0×1 = 0<br><br><strong>(b) Scaling by √2 ≈ 1.414:</strong><br>• score₁ = 1/1.414 ≈ 0.707<br>• score₂ = 0/1.414 = 0<br><br><strong>(c) Softmax:</strong><br>• e^0.707 ≈ 2.028, e^0 = 1<br>• α₁ = 2.028/(2.028+1) ≈ 0.669<br>• α₂ = 1/(2.028+1) ≈ 0.331<br><br><strong>(d) Output = α₁·V₁ + α₂·V₂:</strong><br>• = 0.669×[10,0] + 0.331×[0,10]<br>• = [6.69, 0] + [0, 3.31]<br>• ≈ <strong>[6.69, 3.31]</strong><br><br><strong>直觉：Q与K₁方向相同，所以注意力权重集中在V₁上（~67%），但V₂也有贡献（~33%）。这就是soft attention的核心——不是非此即彼，而是加权混合。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "If we remove the √d_k scaling from attention and d_k = 512, what is the most likely consequence?",
+    "options": [
+      "A) The model trains faster because we skip a division operation",
+      "B) Attention weights become nearly uniform — every token gets equal weight",
+      "C) Attention weights become nearly one-hot — softmax saturates and gradients vanish",
+      "D) The model produces the same results because scaling is just a constant"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> Without scaling, dot products have variance ~d_k=512. With such large values going into softmax, one score dominates (e.g., softmax([50,1,2]) ≈ [1.0, 0.0, 0.0]). This near-one-hot distribution has near-zero gradients → training fails.<br><br><strong>不除以√d_k时，点积的方差~512，softmax输出近似one-hot → 梯度消失 → 训练失败。</strong><br><br>⚠️ A is wrong — one division is negligible computation.<br>⚠️ B is the opposite — large scores cause concentration, not uniformity.<br>⚠️ D is wrong — scaling is NOT a constant, it depends on d_k."
+  }
+]

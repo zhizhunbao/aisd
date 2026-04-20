@@ -1,0 +1,110 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The objective of the Reader Retrieval Model in questioning answering task is to generate answers without considering the context of the query.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The Reader model in QA must consider the context (retrieved passages) to extract or generate the answer. It reads the context along with the query to find the answer span. Without context, the Reader cannot function properly.<br><br><strong>QA 中的 Reader 模型必须结合上下文（检索到的文档段落）来提取或生成答案。Reader 需要同时读取上下文和问题来找到答案。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "In the retriever-reader architecture, the reader is usually a reading comprehension model.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> In the retriever-reader pipeline: the Retriever finds relevant passages from a large corpus, then the Reader (a reading comprehension model, e.g., BERT-based) extracts the answer from those passages.<br><br><strong>在 Retriever-Reader 架构中：Retriever 从大语料库中找到相关段落，Reader（阅读理解模型，如 BERT-based）从这些段落中提取答案。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Fine-tuning requires more data when compared to training from scratch.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Fine-tuning actually requires LESS data than training from scratch. Since the pre-trained model already has learned general language knowledge, fine-tuning only needs a small task-specific dataset to adapt the model to the target task.<br><br><strong>Fine-tuning 实际上比从头训练需要更少的数据。预训练模型已经学习了通用语言知识，fine-tuning 只需少量任务特定数据即可适配目标任务。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "In BiDAF, Attention Flow Layer role is to generate word embeddings for the input text.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The Attention Flow Layer in BiDAF (Bi-Directional Attention Flow) computes bidirectional attention between the context and query — it produces query-aware context representations, NOT word embeddings. Word embeddings are generated in the earlier embedding layer.<br><br><strong>BiDAF 的 Attention Flow Layer 计算上下文和问题之间的双向注意力，产出 query-aware 的上下文表示，不是生成词嵌入。词嵌入在更早的嵌入层生成。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The primary goal of the Question Answering task in NLP reading comprehension is to generate context from given questions.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The goal of QA reading comprehension is to <strong>extract or generate answers</strong> from a given context (passage), not to generate context from questions. The context is provided as input; the task is to find the answer within it.<br><br><strong>QA 阅读理解的目标是从给定的上下文（段落）中提取或生成答案，不是从问题生成上下文。上下文是输入，任务是从中找到答案。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "There are similarities between the translation model and the reading comprehension model.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Both translation and reading comprehension models share architectural similarities: both use encoder-decoder or attention mechanisms, process sequential input, and generate output based on understanding of the input. Both can use Transformer-based architectures.<br><br><strong>翻译模型和阅读理解模型在架构上有相似之处：都使用 Encoder-Decoder 或注意力机制，处理序列输入，基于对输入的理解生成输出。两者都可以使用 Transformer 架构。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In the Retriever-Reader architecture for QA, what is the role of the Retriever?",
+    "options": [
+      "A) To generate the final answer directly",
+      "B) To find relevant passages/documents from a large corpus given a query",
+      "C) To train the word embeddings",
+      "D) To evaluate the quality of the answer"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> The Retriever's job is to search a large corpus and retrieve the most relevant passages/documents for a given query. The Reader then processes these passages to extract or generate the answer. This two-stage pipeline enables efficient open-domain QA.<br><br><strong>Retriever 的任务是搜索大语料库，检索与给定问题最相关的段落/文档。然后 Reader 处理这些段落来提取或生成答案。这种两阶段流水线使开放域 QA 成为可能。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the main advantage of fine-tuning a pre-trained model (like BERT) compared to training a model from scratch?",
+    "options": [
+      "A) Fine-tuning always produces better results regardless of the task",
+      "B) Fine-tuning requires less task-specific data and training time, leveraging knowledge learned during pre-training",
+      "C) Fine-tuning does not require any labeled data",
+      "D) Fine-tuning only works with very large datasets"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Pre-trained models (BERT, GPT) have already learned general language representations from massive corpora. Fine-tuning adapts this knowledge to specific downstream tasks with relatively little data and compute — a form of transfer learning.<br><br><strong>预训练模型已从大规模语料中学习了通用语言表示。Fine-tuning 用较少数据和计算将这些知识适配到具体下游任务——一种迁移学习。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What does “Transfer Learning” mean in the context of NLP?",
+    "options": [
+      "A) Transferring data from one computer to another",
+      "B) Using knowledge learned from one task (pre-training) and applying it to a different downstream task",
+      "C) Copying model weights without any training",
+      "D) Training a model from scratch on each new task"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Transfer Learning = Pre-train on large general corpus (e.g., Wikipedia), then Fine-tune on smaller task-specific dataset. The model \"transfers\" general language knowledge to the new task.<br><br><strong>迁移学习 = 先预训练(学通用知识)，再微调(适配特定任务)。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In Extractive QA, the model generates a new answer sentence that is not found in the original passage.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Extractive QA copies a continuous span directly from the passage (start→end positions). Does NOT generate new text. Abstractive QA generates new answers.<br><br><strong>Extractive QA = 从原文复制(不生成)。Abstractive QA = 生成新文本。SQuAD = Extractive QA 数据集。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Pre-training a model like BERT from scratch is inexpensive and can be done on a regular laptop.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Pre-training BERT required 64 TPUs, costing millions of dollars. However, FINE-TUNING a pre-trained BERT can be done on a single GPU in hours.<br><br><strong>预训练 = 极贵(64 TPU + 数百万美元)。微调 = 便宜(1个GPU + 几小时)。这就是迁移学习的价值！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A company has a BERT model fine-tuned for sentiment analysis. They now want to use it for Named Entity Recognition (NER). What is the most efficient approach?",
+    "options": [
+      "A) Train a new BERT from scratch specifically for NER",
+      "B) Take the original pre-trained BERT (not the sentiment-tuned one) and fine-tune it for NER with a new output layer",
+      "C) Use the sentiment-tuned BERT directly for NER without any changes",
+      "D) Convert the sentiment-tuned BERT into a GPT model for NER"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> The sentiment-tuned model has task-specific output layers that are useless for NER. The best approach is to go back to the ORIGINAL pre-trained BERT and fine-tune with a token-level classification head for NER.<br><br><strong>情感分析的输出头对NER没用。应该从原始预训练BERT出发，加NER专用的token级分类头重新微调。</strong><br><br>⚠️ A: Training from scratch wastes the pre-trained knowledge<br>⚠️ C: Sentiment output layer can't do NER<br>⚠️ D: BERT→GPT conversion is not a thing"
+  }
+]

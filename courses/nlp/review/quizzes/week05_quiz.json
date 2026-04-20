@@ -1,0 +1,142 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "In the context of Recurrent Neural Networks (RNNs), the gradient refers to the rate of change of the loss function with respect to the network's parameters (weights and biases). During the training process, these gradients are computed using backpropagation to adjust the model's parameters in order to minimize the loss and improve the model's performance.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> The gradient ∂L/∂θ represents the rate of change of the loss function with respect to parameters. In RNNs, gradients are computed via BPTT (Backpropagation Through Time), then used with gradient descent to update parameters and minimize loss.<br><br><strong>梯度 ∂L/∂θ 表示损失函数对参数的变化率，通过时序反向传播（BPTT）计算梯度，然后用梯度下降法更新参数以最小化损失。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "'Stateful computation' in the context of Recurrent Neural Networks (RNNs) refers to maintaining internal memory states across multiple inputs.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> The core feature of RNNs is 'stateful computation' — transferring information between time steps through hidden state h_t. At each time step: h_t = f(W_h·h_{t-1} + W_x·x_t + b).<br><br><strong>RNN 的核心特征就是'有状态计算'——通过隐藏状态 h_t 在时间步之间传递信息，使其能跨多个输入维持记忆。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Publicly available datasets, such as news articles, social media posts, and web pages, are commonly used as sources of data for training NLP models, as they provide a diverse range of language usage and context.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> NLP model training relies on large-scale, diverse text datasets. News, social media, and web data cover various genres, topics, and expressions, providing rich linguistic diversity and contextual information.<br><br><strong>NLP 模型训练依赖大规模多样化文本数据集。新闻、社交媒体、网页等公开数据涵盖各种文体和表达方式。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Given: Count('feel'): 100, Count('feel happy'): 40, Count('happy'): 30. The conditional probability P('happy' | 'feel') is:",
+    "options": [
+      "A) 0.2",
+      "B) 0.4",
+      "C) 0",
+      "D) 0.3"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B (0.4):</strong> P('happy'|'feel') = Count('feel happy') / Count('feel') = 40/100 = 0.4.<br><br>⚠️ Count('happy') = 30 is a <strong>distractor</strong> — conditional probability only uses co-occurrence count divided by conditioning word count.<br><br><strong>P('happy'|'feel') = 40/100 = 0.4。注意 Count('happy')=30 是干扰信息。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "What is a significant advantage of Recurrent Neural Networks (RNNs) over traditional feedforward neural networks (FFNs)?",
+    "options": [
+      "A) RNNs maintain an internal state that allows them to model sequential dependencies",
+      "B) RNNs can process fixed-length input sequences, making them ideal for tasks with static input sizes",
+      "C) RNNs only process input in a single forward pass, making them more efficient",
+      "D) RNNs are faster to train than FFNs because they do not require backpropagation"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Why A:</strong> RNNs pass information between time steps via hidden state h_t, capturing sequential dependencies crucial for language modeling and machine translation.<br><br><strong>RNN 通过隐藏状态 h_t 在时间步之间传递信息，捕捉序列依赖关系。</strong><br><br><strong>B:</strong> RNNs handle variable-length sequences — that's their advantage.<br><strong>C:</strong> RNNs compute at every time step, not a single pass.<br><strong>D:</strong> RNNs require BPTT and are typically slower."
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following best explains why LSTMs are able to handle long-term dependencies better than standard RNNs?",
+    "options": [
+      "A) Because LSTMs use more hidden layers to prevent vanishing gradients",
+      "B) Because LSTMs replace recurrent connections with feedforward networks",
+      "C) Because LSTMs use gating mechanisms that regulate information flow and help preserve gradients over long sequences",
+      "D) Because LSTMs remove backpropagation and rely only on forward propagation"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> LSTMs solve vanishing gradients through three gates:<br>• <strong>Forget Gate:</strong> Decides which old info to discard<br>• <strong>Input Gate:</strong> Decides which new info to store<br>• <strong>Output Gate:</strong> Decides which info to output<br><br><strong>LSTM 通过三个门控机制解决梯度消失：遗忘门、输入门、输出门。这些门允许梯度沿细胞状态长距离传播。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The core idea of an n-gram language model is to predict the next word by understanding the semantic meaning of entire sentences and applying deep reasoning.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> N-gram models are shallow, statistics-based methods without deep semantic understanding. They only rely on the frequency of the previous n-1 words to predict the next word. They don't understand sentence meaning or perform 'deep reasoning.'<br><br><strong>N-gram 模型是基于统计的浅层方法，只依赖前 n-1 个词的出现频率来预测下一个词，不理解句子含义，也不进行'深层推理'。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "When the learning rate is set too low, the training process will become much faster, and the model will reach the optimal solution quickly because small weight updates allow for faster progress.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Too low a learning rate causes training to become <strong>slower</strong>, not faster. A very small learning rate means each parameter update is tiny, requiring many more iterations to converge, and potentially getting stuck in local optima.<br><br><strong>学习率过低会导致训练变慢而非变快。过小的学习率意味着每次参数更新幅度极小，需要更多迭代才能收敛。</strong><br><br>• Too low → slow convergence, stuck in local optima<br>• Too high → oscillation/divergence, may skip optimal solution"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the key difference between the vanishing gradient and exploding gradient problems in RNNs?",
+    "options": [
+      "A) Vanishing: gradients grow infinitely large; Exploding: gradients shrink to zero",
+      "B) Vanishing: gradients shrink to near-zero making learning impossible for early layers; Exploding: gradients grow extremely large causing unstable updates",
+      "C) Both are the same problem with different names",
+      "D) These problems only occur in feedforward networks, not RNNs"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> In RNNs, gradients are multiplied across many time steps during BPTT:<br>• <strong>Vanishing gradient:</strong> gradients shrink exponentially → early time steps can't learn<br>• <strong>Exploding gradient:</strong> gradients grow exponentially → weights become NaN/Inf<br>LSTM solves vanishing gradient; gradient clipping solves exploding gradient.<br><br><strong>梯度消失：梯度指数缩小→早期时间步无法学习。梯度爆炸：梯度指数增长→权重变成 NaN/Inf。LSTM 解决消失问题，梯度裁剪解决爆炸问题。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "LSTM uses three gates to control information flow. Which correctly names all three?",
+    "options": [
+      "A) Input Gate, Output Gate, Attention Gate",
+      "B) Forget Gate, Input Gate, Output Gate",
+      "C) Read Gate, Write Gate, Erase Gate",
+      "D) Forward Gate, Backward Gate, Reset Gate"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> LSTM's three gates:<br>• <strong>Forget Gate:</strong> decides which OLD info to discard (遗忘门)<br>• <strong>Input Gate:</strong> decides which NEW info to store (输入门)<br>• <strong>Output Gate:</strong> decides which info to output (输出门)<br><br><strong>记忆口诀：遗忘(丢旧)、输入(存新)、输出(选输出)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "An N-gram language model with N=2 (bigram) predicts the next word based on:",
+    "options": [
+      "A) The entire preceding sentence",
+      "B) Only the immediately preceding 1 word",
+      "C) A deep semantic understanding of the paragraph",
+      "D) A randomly selected context word"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> N-gram uses previous (N-1) words. Bigram (N=2) → 1 previous word. Trigram (N=3) → 2 previous words. N-gram is shallow statistics — NO semantic understanding.<br><br><strong>N-gram 用前 N-1 个词频率预测。Bigram=前1个词，Trigram=前2个词。浅层统计，无语义。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "BPTT (Backpropagation Through Time) is the training algorithm used specifically for RNNs to compute gradients across time steps.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> BPTT is the standard algorithm for training RNNs. It \"unfolds\" the RNN across time steps and applies backpropagation. This causes vanishing/exploding gradient problems in long sequences.<br><br><strong>BPTT = 时序反向传播，RNN 的专用训练算法。沿时间步展开并计算梯度。</strong>"
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> Given a trigram language model trained on this corpus:<br>• 'I love NLP' (1 time)<br>• 'I love ML' (2 times)<br>• 'I hate bugs' (1 time)<br><br>Calculate P('NLP' | 'I love') and P('ML' | 'I love').",
+    "answer": "P('NLP'|'I love') = 1/3, P('ML'|'I love') = 2/3",
+    "explanation": "<strong>Step-by-step:</strong><br>• Count('I love') = 1 + 2 = 3 (total occurrences of bigram 'I love')<br>• Count('I love NLP') = 1<br>• Count('I love ML') = 2<br><br>P('NLP' | 'I love') = Count('I love NLP') / Count('I love') = 1/3 ≈ 0.333<br>P('ML' | 'I love') = Count('I love ML') / Count('I love') = 2/3 ≈ 0.667<br><br><strong>Trigram用前2个词预测第3个词：P(w₃|w₁w₂) = Count(w₁w₂w₃) / Count(w₁w₂)</strong><br><br>⚠️ 注意 'I hate bugs' 不影响计算——条件概率只看匹配的前缀！"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "If an RNN processes a sequence of length T=100 and the largest singular value of W_h is 0.9, what happens to the gradient signal from t=100 back to t=1?",
+    "options": [
+      "A) The gradient grows by a factor of 0.9^99 ≈ 3×10⁻⁵ — effectively vanishing",
+      "B) The gradient stays constant because 0.9 < 1",
+      "C) The gradient explodes because multiplication is repeated 99 times",
+      "D) The gradient is multiplied by 0.9 only once, not 99 times"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Why A:</strong> In BPTT, the gradient is multiplied by W_h at each time step. Over T-1 steps: gradient ∝ (σ_max)^(T-1) = 0.9^99 ≈ 2.66×10⁻⁵. This is the vanishing gradient problem — early layers receive negligible gradient signals.<br><br><strong>BPTT中梯度在每个时间步乘以W_h。0.9^99 ≈ 0.0000266，梯度几乎消失。这就是为什么标准RNN无法学习长距离依赖。</strong><br><br>• σ_max < 1 → vanishing<br>• σ_max > 1 → exploding<br>• LSTM solves this with gating + cell state highway"
+  }
+]

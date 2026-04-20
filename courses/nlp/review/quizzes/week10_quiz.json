@@ -1,0 +1,182 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "BERT achieves bidirectional context understanding the same way as Bi-LSTM — by running two separate models in opposite directions.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Completely different! Bi-LSTM = two separate directional LSTMs concatenated. BERT = self-attention where every token truly sees ALL other tokens simultaneously.<br><br><strong>完全不同！Bi-LSTM拼接两个方向；BERT用自注意力让每个token真正同时看到所有前后文。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "BERT can generate text like GPT because both are based on Transformer.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ BERT is Encoder-only (understanding tasks: classification, QA, NER). GPT is Decoder-only (generation). Different architectures for different purposes.<br><br><strong>BERT仅编码器(理解)；GPT仅解码器(生成)。不同架构不同用途。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "In BERT's MLM pre-training, what happens to the 15% selected tokens?",
+    "options": [
+      "A) All 15% are replaced with [MASK]",
+      "B) 80% → [MASK], 10% → random word, 10% → unchanged",
+      "C) 80% → [MASK], 20% → deleted",
+      "D) All 15% are deleted from input"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 80/10/10 strategy avoids train-test mismatch. If 100% were [MASK], model never sees normal tokens during pre-training but encounters them during fine-tuning.<br><br><strong>80%替换[MASK]、10%随机词、10%不变——避免训练-推理不匹配。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "BERT's [CLS] token output is used exclusively for text classification and has no role in QA.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> [CLS] is a condensed representation of the entire input. In classification → [CLS] output feeds classifier. In QA → start/end predictions use passage token outputs, but [CLS] still provides context.<br><br><strong>[CLS]是整个输入的浓缩表示，分类和QA都用到，但QA的start/end预测基于段落token输出。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "SQuAD is a dataset for extractive QA. What does 'extractive' mean?",
+    "options": [
+      "A) The model generates new text as the answer",
+      "B) The answer is always a continuous span copied from the passage",
+      "C) The model extracts features from images",
+      "D) The model translates the question to find answers"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Extractive QA answers = continuous span (start, end positions) from the given passage. No new text generation.<br><br><strong>抽取式QA答案=从段落中复制的一段连续文本(start到end)。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "If EM (Exact Match) = 0 for a QA prediction, it means the prediction is completely wrong.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ EM=0 only means not a perfect string match. F1 could be high (e.g., 0.67) — most content may be correct with minor differences.<br><br><strong>EM=0只说明不是完全匹配；F1可能很高(如0.67)，大部分内容可能正确。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "What is BERT-base's configuration?",
+    "options": [
+      "A) 24 layers, 1024 hidden, 16 heads, 340M params",
+      "B) 12 layers, 768 hidden, 12 heads, 110M params",
+      "C) 6 layers, 512 hidden, 8 heads, 65M params",
+      "D) 12 layers, 1024 hidden, 16 heads, 340M params"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> BERT-base: 12 layers, 768 hidden dimensions, 12 attention heads, 110M parameters. BERT-large: 24L/1024H/16A/340M.<br><br><strong>BERT-base: 12层/768维/12头/1.1亿参数。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "BERT can process input text of any length without limitation.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ BERT max input = 512 tokens! Longer texts require sliding window strategy (stride overlap).<br><br><strong>BERT最大输入512 tokens！超过需要滑动窗口策略切分。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "DPR (Dense Passage Retrieval) uses:",
+    "options": [
+      "A) One shared encoder for both questions and passages",
+      "B) Two independent BERT encoders — one for questions, one for passages",
+      "C) TF-IDF for matching",
+      "D) No encoder at all"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> DPR = Dual Encoder architecture. Q-Encoder and P-Encoder are separate, allowing passage vectors to be pre-computed offline.<br><br><strong>DPR用两个独立编码器，段落向量可离线预计算。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "BERT's three embedding layers are:",
+    "options": [
+      "A) Word, Character, Sentence",
+      "B) Token, Segment, Position",
+      "C) Input, Hidden, Output",
+      "D) Encoder, Decoder, Attention"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> BERT Input = Token Embedding (word meaning) + Segment Embedding (Sentence A/B) + Position Embedding (token position).<br><br><strong>BERT输入 = 词嵌入 + 段落嵌入(句A/B) + 位置嵌入。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "DistilBERT retains only 50% of BERT's performance but is 90% smaller.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> DistilBERT retains 97% of BERT's performance, with 40% less memory and 60% faster inference. The trade-off is minimal.<br><br><strong>DistilBERT保留97%性能，内存减40%，速度快60%。代价极小。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What are BERT's two pre-training tasks?",
+    "options": [
+      "A) Text Classification + NER",
+      "B) MLM (Masked Language Model) + NSP (Next Sentence Prediction)",
+      "C) Translation + Summarization",
+      "D) QA + Sentiment Analysis"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> MLM: predict masked tokens (word-level understanding). NSP: predict if sentence B follows A (sentence-level understanding). Total Loss = L_MLM + L_NSP.<br><br><strong>MLM掩码语言模型(词级理解) + NSP下一句预测(句级理解)。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Pre-training BERT is cheap and can be done on a personal laptop.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Pre-training BERT required 64 TPUs (Google). It costs millions of dollars. Fine-tuning, however, CAN be done on a regular GPU in hours.<br><br><strong>预训练BERT需要64块TPU（数百万美元）；但微调可以在普通GPU上几小时完成。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In BERT, what is the purpose of the [CLS] token?",
+    "options": [
+      "A) It marks the end of the input sequence",
+      "B) Its output representation serves as a condensed summary of the entire input, used for classification tasks",
+      "C) It separates two sentences in the input",
+      "D) It replaces masked words during MLM pre-training"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> [CLS] is prepended to every input. Its final hidden state serves as an aggregate representation of the whole sequence, fed to a classifier for tasks like sentiment analysis.<br><br><strong>[CLS] = 整个输入的浓缩表示，用于分类。[SEP] 分隔句子。[MASK] 替换词。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In QA evaluation, what is the difference between EM (Exact Match) and F1?",
+    "options": [
+      "A) EM measures speed, F1 measures accuracy",
+      "B) EM requires a perfect string match (all-or-nothing); F1 measures token-level overlap (partial credit)",
+      "C) Both always give the same score",
+      "D) EM is for generation; F1 is for classification"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> EM = 1 only if prediction EXACTLY matches gold answer, else 0 (binary). F1 = token-level precision/recall harmonic mean, giving partial credit.<br><br><strong>EM = 完全匹配(1或0)。F1 = token级部分匹配也有分。EM=0 不代表完全错误！</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "BERT's input combines three types of embeddings: Token Embedding, Segment Embedding (which sentence A or B), and Position Embedding.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> BERT Input = Token Embedding (word meaning) + Segment Embedding (sentence A or B, for NSP) + Position Embedding (token position in sequence).<br><br><strong>BERT 输入 = 词嵌入(词义) + 段落嵌入(句A/B) + 位置嵌入(位置信息)。三者相加。</strong>"
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> In extractive QA, the gold answer is 'the quick brown fox' and the prediction is 'quick brown cat'.<br><br>(a) Calculate Precision, Recall, and F1 at the token level. (3 pts)<br>(b) What is the EM (Exact Match) score? (1 pt)",
+    "answer": "F1 = 0.667, EM = 0",
+    "explanation": "<strong>Gold tokens:</strong> {the, quick, brown, fox} (4 tokens)<br><strong>Pred tokens:</strong> {quick, brown, cat} (3 tokens)<br><strong>Overlap:</strong> {quick, brown} = 2 tokens<br><br><strong>(a) Metrics:</strong><br>• Precision = overlap / |pred| = 2/3 ≈ 0.667<br>• Recall = overlap / |gold| = 2/4 = 0.5<br>• F1 = 2 × P × R / (P + R) = 2 × 0.667 × 0.5 / (0.667 + 0.5) = 0.667/1.167 ≈ <strong>0.571</strong><br><br><strong>(b) EM = 0</strong> (prediction ≠ gold, not an exact string match)<br><br><strong>关键理解：EM=0 不代表完全错误！F1=0.571 说明预测有部分正确。这就是为什么QA评估要同时看EM和F1。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Given BERT input: '[CLS] I love NLP [SEP] It is fun [SEP]', which statement about the three special tokens is correct?",
+    "options": [
+      "A) [CLS] separates the two sentences; [SEP] marks the start of classification",
+      "B) [CLS] output is used for sentence-level tasks; the first [SEP] ends sentence A; the second [SEP] ends sentence B",
+      "C) All three tokens are removed before the Transformer processes the input",
+      "D) [CLS] and [SEP] serve the same function — they are interchangeable"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> In BERT's input format:<br>• <code>[CLS]</code> = always first token, its output represents the entire sequence (used for classification)<br>• First <code>[SEP]</code> = marks end of Sentence A<br>• Second <code>[SEP]</code> = marks end of Sentence B<br>• Segment Embeddings: tokens before first [SEP] get Segment A; tokens after get Segment B<br><br><strong>BERT输入格式：[CLS]句A[SEP]句B[SEP]。[CLS]输出用于分类，[SEP]分隔句子。</strong>"
+  }
+]

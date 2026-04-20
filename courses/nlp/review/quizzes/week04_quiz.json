@@ -1,0 +1,149 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "While TF-IDF is useful for some applications (like search engines), its high-dimensional nature can make it difficult to use efficiently for tasks like deep learning-based NLP.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> TF-IDF produces vectors with dimensions equal to vocabulary size (typically tens to hundreds of thousands), and these vectors are highly sparse. Deep learning models work better with low-dimensional dense vectors (e.g., Word2Vec's 100–300 dimensions).<br><br><strong>TF-IDF 产生的向量维度等于词汇表大小（通常数万到数十万），且高度稀疏。深度学习模型更适合低维密集向量（如 Word2Vec 的 100-300 维）。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which of the following equations should hold for an effective word embedding?",
+    "options": [
+      "A) e_boy − e_brother ≈ e_sister − e_girl",
+      "B) e_boy − e_girl ≈ e_brother − e_sister",
+      "C) e_boy − e_girl ≈ e_sister − e_brother"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Effective word embeddings capture semantic relationships through vector arithmetic (analogy reasoning). The difference between boy and girl represents the 'gender' relationship; brother and sister should reflect the same relationship: e_boy − e_girl ≈ e_brother − e_sister.<br><br><strong>有效的词嵌入通过向量运算捕捉语义关系。boy 和 girl 的差异代表\"性别\"关系，brother 和 sister 的差异也应体现相同关系。</strong><br><br><strong>A:</strong> boy - brother = 'role type' difference, not parallel with sister - girl.<br><strong>C:</strong> Direction reversed — sister - brother is opposite to boy - girl."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "The self-supervision method in neural language modeling avoids the need for hand-labeled supervision signals by using surrounding words as implicit training data for classifiers.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Self-supervised learning generates training signals from the data itself, requiring no manual labeling. Language models automatically obtain supervision signals by predicting missing or next words from context (e.g., CBOW predicts center word from context, Skip-gram predicts context from center word).<br><br><strong>自监督学习从数据本身生成训练信号，无需人工标注。语言模型通过预测上下文中的缺失词来自动获得监督信号。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "One advantage of GloVe over other word embedding methods is that it is global in the sense that it considers the entire corpus to learn relationships between words, and local in the sense that it considers the co-occurrence of words within a limited context window.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> GloVe (Global Vectors) combines two information sources:<br>• <strong>Global:</strong> Uses the entire corpus to build a global word co-occurrence matrix.<br>• <strong>Local:</strong> Co-occurrence statistics are based on a limited context window.<br><br><strong>GloVe 结合两种信息：全局（Global）——整个语料库的共现矩阵；局部（Local）——有限上下文窗口的共现统计。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Suppose you learn a word embedding for a vocabulary of 1000 words. Should the embedding vectors be 1000 dimensional to capture the full range of variation and meaning in those words?",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> The core value of word embeddings lies in dimensionality reduction — representing word meaning in far fewer dimensions than vocabulary size. 1000 dimensions equals one-hot encoding size, which defeats the purpose. Typical embedding dimensions are 50–300.<br><br><strong>词嵌入的核心价值在于降维。1000 维就等于 one-hot 编码的维度，失去了嵌入的意义。典型嵌入维度为 50-300 维。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "What is the default dimensionality of word embeddings in the Gensim Word2Vec method?",
+    "options": [
+      "A) 4000",
+      "B) 120",
+      "C) 100",
+      "D) 10"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C (100):</strong> The default vector dimension parameter in Gensim's Word2Vec model is <code>vector_size = 100</code>. This provides a balance between accuracy and computational efficiency for most tasks.<br><br><strong>Gensim Word2Vec 默认 vector_size = 100，在准确性和计算效率之间取得平衡。</strong><br><br><strong>A:</strong> 4000 is too large (computationally expensive).<br><strong>D:</strong> 10 is too small (insufficient expressiveness).<br><strong>B:</strong> 120 is not the default."
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Word2Vec consists of two main techniques: CBOW (Continuous Bag of Words) and Skip-gram.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Word2Vec includes two training architectures:<br>• <strong>CBOW:</strong> Predicts the center word from context words (Context → Word), better for frequent words.<br>• <strong>Skip-gram:</strong> Predicts context words from the center word (Word → Context), better for rare words and small corpora.<br><br><strong>CBOW：上下文 → 中心词（适合高频词）。Skip-gram：中心词 → 上下文（适合低频词和小语料）。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Is the goal of the Skip-Gram model to determine the central word based on its surrounding context words?",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Easy to confuse! The statement describes CBOW's function, not Skip-gram's. Skip-gram's goal is to predict surrounding context words FROM the center word (Word → Context) — the opposite of what the statement says.<br><br><strong>易混淆！题干描述的是 CBOW 的功能。Skip-gram 是用中心词预测上下文词（Word → Context），与题干相反。</strong><br><br><strong>Skip-gram:</strong> Input center word → predict context words<br><strong>CBOW:</strong> Input context words → predict center word (what the statement describes)"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "Most modern NLP algorithms do not use embeddings as the representation of word meaning.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Modern NLP heavily relies on word embeddings as the foundational representation. From Word2Vec, GloVe to pre-trained models like BERT and GPT, embeddings are the core component. Virtually all modern NLP algorithms use embeddings.<br><br><strong>现代 NLP 高度依赖词嵌入。从 Word2Vec、GloVe 到 BERT、GPT，嵌入都是核心组件。几乎所有现代 NLP 算法都使用嵌入来表示词义。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the key difference between Word2Vec and GloVe in how they learn word representations?",
+    "options": [
+      "A) Word2Vec uses global co-occurrence statistics; GloVe uses local context windows",
+      "B) Word2Vec uses local context windows with neural networks; GloVe combines global co-occurrence matrix with local context",
+      "C) Both methods are identical in their approach",
+      "D) GloVe only works with character-level features"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Word2Vec trains a neural network using local context windows (predicting words from neighbors). GloVe builds a global word co-occurrence matrix from the entire corpus AND considers local context windows, combining both perspectives.<br><br><strong>Word2Vec 通过局部上下文窗口训练神经网络。GloVe 结合全局词共现矩阵（整个语料库）和局部上下文窗口。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "In Word2Vec, CBOW is generally better for rare words and small corpora, while Skip-gram is better for frequent words.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> It's the opposite! CBOW (Context → Word) is better for frequent words because it averages context. Skip-gram (Word → Context) is better for rare words and small corpora because each word generates multiple training examples.<br><br><strong>恰好相反！CBOW（上下文→中心词）更适合高频词。Skip-gram（中心词→上下文）更适合低频词和小语料，因为每个词会生成多个训练样本。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "The “Distributional Hypothesis” states that:",
+    "options": [
+      "A) Words that appear more frequently are more important",
+      "B) Words that appear in similar contexts tend to have similar meanings",
+      "C) All words in a corpus follow a normal distribution",
+      "D) Rare words should be removed from the vocabulary"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> The Distributional Hypothesis is the theoretical foundation of all word embeddings: \"You shall know a word by the company it keeps.\" Words in similar contexts → similar vectors.<br><br><strong>分布式假设 = 上下文相似的词，含义也相似。所有词嵌入方法的理论基础！</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Static embeddings (Word2Vec, GloVe) give different vectors for the same word depending on its context in different sentences.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Static embeddings assign ONE fixed vector per word, regardless of context. 'bank' in 'river bank' and 'bank account' → SAME vector. Only contextual embeddings (BERT, GPT) produce context-dependent vectors.<br><br><strong>静态嵌入 = 一词一向量(不看上下文)。上下文嵌入(BERT/GPT) = 一词多向量(看上下文)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the main purpose of word embeddings compared to One-Hot Encoding?",
+    "options": [
+      "A) To increase dimensionality for more detail",
+      "B) To represent words as dense, low-dimensional vectors that capture semantic relationships",
+      "C) To make training slower but more accurate",
+      "D) To eliminate all rare words"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Word embeddings map words to dense vectors (50-300 dim) where similar words are close together. One-Hot is sparse (dim = |V|) with no semantic info.<br><br><strong>词嵌入 = 低维密集向量，捕捉语义关系。One-Hot = 高维稀疏，无语义。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "You trained Word2Vec on a corpus and found cos(v_king, v_queen) = 0.75, cos(v_king, v_man) = 0.82. What does this tell you about the embedding quality?",
+    "options": [
+      "A) The embeddings are poor because king should be closer to queen than to man",
+      "B) The embeddings may be reasonable — king-man captures a gender-neutral 'royalty' relationship, while king-queen involves a gender shift",
+      "C) This proves Word2Vec cannot learn gender relationships",
+      "D) The cosine values are meaningless without checking the full analogy e_king - e_man + e_woman ≈ e_queen"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D:</strong> Raw cosine similarity between word pairs alone doesn't validate analogy quality. The correct test is whether the full analogy <code>v_king - v_man + v_woman ≈ v_queen</code> holds. King being close to man could simply reflect shared contexts (both are male, both are human), which is valid.<br><br><strong>单看两两余弦不能验证类比能力。必须检验完整类比公式 v_king - v_man + v_woman ≈ v_queen 是否成立。</strong><br><br>⚠️ 似是而非陷阱：A和B都有道理但不是最佳答案，D才是方法论上正确的。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "FastText can generate embeddings for misspelled or out-of-vocabulary (OOV) words like 'amazzing', while Word2Vec cannot.",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> FastText represents words as bags of character n-grams (e.g., 'amazzing' → 'ama','maz','azz','zzi','zin','ing'). Even for OOV words, it can compose an embedding from these subword pieces. Word2Vec/GloVe have NO mechanism for OOV words — they simply return an error or zero vector.<br><br><strong>FastText 用字符 n-gram 表示词，即使拼错的 OOV 词也能通过子词拼出嵌入。Word2Vec/GloVe 对 OOV 词完全无能为力。</strong>"
+  }
+]

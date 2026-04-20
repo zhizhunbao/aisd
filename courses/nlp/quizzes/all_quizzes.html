@@ -1681,7 +1681,548 @@ Too low a learning rate causes training to become <strong>slower</strong>, not f
 </ul>
 <p><strong>Key</strong>: Low learning rate → slow convergence (not faster). Too high → oscillation/divergence. Need balanced $\alpha$.
 <strong>关键</strong>: 低学习率 → 收敛慢（不是更快）。过高 → 振荡/发散。需要平衡的 $\alpha$。</p>
-</details></div>
+</details>
+<hr />
+<h1>Quiz 6 — 注意力与Transformer (Attention &amp; Transformer)</h1>
+<p>Topic: BiLSTM, Encoder-Decoder, Multi-Head Attention, Transformer, Positional Encoding, Masking</p></div>
+</div>
+</div>
+<div class="quiz" id="q-44">
+<h2>Q6.1 (1 point)</h2>
+<div class="prompt"><p>BiLSTM is capable of capturing contextual information exclusively from upcoming time steps.</p>
+<blockquote>
+<p>BiLSTM 只能从未来的时间步捕获上下文信息。</p>
+</blockquote></div>
+<div class="options" id="opts-44">
+<div class="option" id="opt-44-A" data-id="A" onclick="selectOption(44, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-44-B" data-id="B" onclick="selectOption(44, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-44" onclick="checkAnswer(44, 'B')">Submit</button>
+<div class="answer-block" id="ans-44">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+BiLSTM (Bidirectional LSTM) processes sequences in <strong>both</strong> directions — forward (past → future) and backward (future → past). <strong>Why False</strong>: The statement claims "exclusively from upcoming time steps," but BiLSTM captures context from both past AND future, not just upcoming steps.</p>
+<blockquote>
+<p>BiLSTM（双向 LSTM）从<strong>两个方向</strong>处理序列 — 正向（过去→未来）和反向（未来→过去）。<strong>为什么是 False</strong>：题干说"只能从未来时间步"捕获信息，但 BiLSTM 同时捕获过去和未来的上下文。</p>
+</blockquote>
+<p><strong>Key</strong>: BiLSTM = forward LSTM + backward LSTM. Captures both past and future context, not just one direction.
+<strong>关键</strong>: BiLSTM = 前向 LSTM + 后向 LSTM。同时捕获过去和未来的上下文，而非仅单方向。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-45">
+<h2>Q6.2 (1 point)</h2>
+<div class="prompt"><p>The Encoder-Decoder Framework is primarily used for image classification tasks.</p>
+<blockquote>
+<p>编码器-解码器框架主要用于图像分类任务。</p>
+</blockquote></div>
+<div class="options" id="opts-45">
+<div class="option" id="opt-45-A" data-id="A" onclick="selectOption(45, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-45-B" data-id="B" onclick="selectOption(45, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-45" onclick="checkAnswer(45, 'B')">Submit</button>
+<div class="answer-block" id="ans-45">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The Encoder-Decoder framework is designed for <strong>sequence-to-sequence</strong> tasks, not image classification. <strong>Why False</strong>: It is primarily used for machine translation, text summarization, and text generation — tasks where the input and output are both sequences of variable length.</p>
+<blockquote>
+<p>编码器-解码器框架是为<strong>序列到序列（Seq2Seq）</strong>任务设计的，不是图像分类。<strong>为什么是 False</strong>：它主要用于机器翻译、文本摘要和文本生成等输入输出都是变长序列的任务。</p>
+</blockquote>
+<ul>
+<li><strong>Encoder</strong>: Compresses input sequence into a fixed-length context vector / 将输入序列压缩为固定长度的上下文向量</li>
+<li><strong>Decoder</strong>: Generates output sequence from the context vector / 从上下文向量生成输出序列</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>编码器</strong>：将输入序列压缩为固定长度的上下文向量</li>
+<li><strong>解码器</strong>：从上下文向量生成输出序列</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Encoder-Decoder = Seq2Seq architecture for translation, summarization, generation. NOT for image classification.
+<strong>关键</strong>: 编码器-解码器 = 序列到序列架构，用于翻译、摘要、生成。不是图像分类。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-46">
+<h2>Q6.3 (1 point)</h2>
+<div class="prompt"><p>The primary motivation behind using multi-head self-attention is to capture different types of relationships and dependencies in the input data by allowing the model to attend to different positions at different semantic levels.</p>
+<blockquote>
+<p>使用多头自注意力的主要动机是通过允许模型在不同语义层次关注不同位置，从而捕获输入数据中不同类型的关系和依赖。</p>
+</blockquote></div>
+<div class="options" id="opts-46">
+<div class="option" id="opt-46-A" data-id="A" onclick="selectOption(46, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-46-B" data-id="B" onclick="selectOption(46, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-46" onclick="checkAnswer(46, 'A')">Submit</button>
+<div class="answer-block" id="ans-46">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Multi-head attention splits the attention computation into multiple "heads," each learning different relationship patterns. <strong>Why True</strong>: Different heads can focus on different aspects — one head might capture syntactic dependencies, another might capture semantic relationships, enabling richer representation.</p>
+<blockquote>
+<p>多头注意力将注意力计算拆分为多个"头"，每个头学习不同的关系模式。<strong>为什么是 True</strong>：不同的头可以关注不同的方面 — 一个头可能捕捉句法依赖，另一个可能捕捉语义关系，从而实现更丰富的表示。</p>
+</blockquote>
+<p><strong>Key</strong>: Multi-head attention = multiple parallel attention mechanisms, each capturing different types of relationships.
+<strong>关键</strong>: 多头注意力 = 多个并行的注意力机制，每个捕获不同类型的关系。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-47">
+<h2>Q6.4 (1 point)</h2>
+<div class="prompt"><p>The Transformer in NLP is a novel architecture that aims to solve sequence-to-sequence tasks while handling long-range dependencies.</p>
+<blockquote>
+<p>NLP 中的 Transformer 是一种旨在解决序列到序列任务并处理长距离依赖的新型架构。</p>
+</blockquote></div>
+<div class="options" id="opts-47">
+<div class="option" id="opt-47-A" data-id="A" onclick="selectOption(47, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-47-B" data-id="B" onclick="selectOption(47, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-47" onclick="checkAnswer(47, 'A')">Submit</button>
+<div class="answer-block" id="ans-47">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The Transformer (2017, "Attention is All You Need") was designed specifically to handle Seq2Seq tasks with superior long-range dependency modeling. <strong>Why True</strong>: Unlike RNNs which process tokens sequentially, self-attention allows each token to directly attend to all other tokens, regardless of distance.</p>
+<blockquote>
+<p>Transformer（2017，"Attention is All You Need"）专为处理 Seq2Seq 任务而设计，具有优越的长距离依赖建模能力。<strong>为什么是 True</strong>：与 RNN 逐步处理 token 不同，自注意力允许每个 token 直接关注所有其他 token，不受距离限制。</p>
+</blockquote>
+<p><strong>Key</strong>: Transformer solves Seq2Seq + long-range dependencies via self-attention (O(1) path length between any two tokens).
+<strong>关键</strong>: Transformer 通过自注意力解决 Seq2Seq 和长距离依赖问题（任意两个 token 之间路径长度 O(1)）。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-48">
+<h2>Q6.5 (1 point)</h2>
+<div class="prompt"><p>In transformer, residual connections let each layer subtract refinements to the input rather than replace it. This preserves information across depth, prevents vanishing gradients, and makes it possible to train Transformers with dozens or hundreds of layers.</p>
+<blockquote>
+<p>在 Transformer 中，残差连接让每一层对输入进行减法式精炼而非替换。这在深度上保持了信息，防止了梯度消失，使得训练数十甚至数百层的 Transformer 成为可能。</p>
+</blockquote></div>
+<div class="options" id="opts-48">
+<div class="option" id="opt-48-A" data-id="A" onclick="selectOption(48, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-48-B" data-id="B" onclick="selectOption(48, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-48" onclick="checkAnswer(48, 'A')">Submit</button>
+<div class="answer-block" id="ans-48">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Residual connections (skip connections) add the input directly to the layer output: $\text{output} = \text{LayerNorm}(x + \text{Sublayer}(x))$. <strong>Why True</strong>: This preserves the original information flow, prevents vanishing gradients in deep networks, and enables training very deep Transformers.</p>
+<blockquote>
+<p>残差连接（跳跃连接）将输入直接加到层输出上：$\text{output} = \text{LayerNorm}(x + \text{Sublayer}(x))$。<strong>为什么是 True</strong>：这保持了原始信息流，防止深层网络中的梯度消失，使训练非常深的 Transformer 成为可能。</p>
+</blockquote>
+<ul>
+<li>⚠️ <strong>Note</strong>: The statement says "subtract refinements" — this is a conceptual description meaning each layer only needs to learn the <strong>residual</strong> (difference), not reconstruct the full output.</li>
+</ul>
+<blockquote>
+<ul>
+<li>⚠️ <strong>注意</strong>：题干说"减法式精炼" — 这是概念性描述，意思是每层只需学习<strong>残差</strong>（差异），不用重建完整输出。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Residual connections: $\text{output} = x + \text{Sublayer}(x)$. Preserves information, prevents vanishing gradients, enables deep training.
+<strong>关键</strong>: 残差连接：$\text{output} = x + \text{Sublayer}(x)$。保持信息、防止梯度消失、支持深层训练。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-49">
+<h2>Q6.6 (1 point)</h2>
+<div class="prompt"><p>Positional encoding is a type of regularization technique that stabilizes the training process.</p>
+<blockquote>
+<p>位置编码是一种稳定训练过程的正则化技术。</p>
+</blockquote></div>
+<div class="options" id="opts-49">
+<div class="option" id="opt-49-A" data-id="A" onclick="selectOption(49, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-49-B" data-id="B" onclick="selectOption(49, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-49" onclick="checkAnswer(49, 'B')">Submit</button>
+<div class="answer-block" id="ans-49">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Positional encoding provides <strong>sequence order information</strong> to the Transformer, NOT regularization. <strong>Why False</strong>: Since the Transformer has no recurrence or convolution, it cannot inherently capture token order. Positional encoding injects position information (using sine/cosine functions) so the model knows which token is where.</p>
+<blockquote>
+<p>位置编码为 Transformer 提供<strong>序列顺序信息</strong>，而非正则化。<strong>为什么是 False</strong>：由于 Transformer 没有循环或卷积结构，它本身无法捕获 token 顺序。位置编码通过正弦/余弦函数注入位置信息，让模型知道每个 token 的位置。</p>
+</blockquote>
+<ul>
+<li><strong>$PE_{(pos,2i)} = \sin(pos / 10000^{2i/d_{model}})$</strong>: Sinusoidal positional encoding formula</li>
+<li><strong>Regularization (正则化)</strong>: Techniques like Dropout, L2 — these prevent overfitting, NOT encode position.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>正则化技术</strong>：Dropout、L2 等防止过拟合的技术，与位置编码无关。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Positional encoding = provides token order information (sin/cos). NOT regularization.
+<strong>关键</strong>: 位置编码 = 提供 token 顺序信息（正弦/余弦）。不是正则化。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-50">
+<h2>Q6.7 (1 point)</h2>
+<div class="prompt"><p>In the context of the Transformer model's attention mechanism, what does the term "scaled" refer to in the scaled dot-product attention?</p>
+<blockquote>
+<p>在 Transformer 模型的注意力机制中，缩放点积注意力中的"缩放"是什么意思？</p>
+</blockquote></div>
+<div class="options" id="opts-50">
+<div class="option" id="opt-50-A" data-id="A" onclick="selectOption(50, 'A')">
+<span class="option-id">A</span> <span>Scaling the input embeddings to a fixed size</span>
+</div>
+<div class="option" id="opt-50-B" data-id="B" onclick="selectOption(50, 'B')">
+<span class="option-id">B</span> <span>Scaling the output probabilities to ensure they sum to one</span>
+</div>
+<div class="option" id="opt-50-C" data-id="C" onclick="selectOption(50, 'C')">
+<span class="option-id">C</span> <span>Scaling the dot product of the query and key vectors by the square root of the dimensionality</span>
+</div>
+<div class="option" id="opt-50-D" data-id="D" onclick="selectOption(50, 'D')">
+<span class="option-id">D</span> <span>Scaling the learning rate during training</span>
+</div>
+</div>
+<button class="btn" id="btn-50" onclick="checkAnswer(50, 'C')">Submit</button>
+<div class="answer-block" id="ans-50">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">C</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+In scaled dot-product attention, the dot product of Q and K is divided by $\sqrt{d_k}$ to prevent excessively large values before softmax. <strong>Why C</strong>: The formula is $\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$. The "scaling" specifically refers to dividing by $\sqrt{d_k}$.</p>
+<blockquote>
+<p>在缩放点积注意力中，Q 和 K 的点积除以 $\sqrt{d_k}$ 以防止 softmax 前值过大。<strong>为什么是 C</strong>：公式为 $\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$。"缩放"特指除以 $\sqrt{d_k}$。</p>
+</blockquote>
+<ul>
+<li><strong>A</strong>: Scaling input embeddings is not what "scaled" refers to here.</li>
+<li><strong>B</strong>: Softmax naturally ensures probabilities sum to 1; that's not the "scaling."</li>
+<li><strong>D</strong>: Learning rate scaling is unrelated to attention mechanism.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A 错</strong>：这里的"缩放"不是指缩放输入嵌入。</li>
+<li><strong>B 错</strong>：Softmax 自然保证概率和为 1，这不是"缩放"的含义。</li>
+<li><strong>D 错</strong>：学习率缩放与注意力机制无关。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: "Scaled" = divide $QK^T$ by $\sqrt{d_k}$ to prevent large dot products that push softmax into extreme regions.
+<strong>关键</strong>: "缩放" = 将 $QK^T$ 除以 $\sqrt{d_k}$，防止点积过大导致 softmax 进入极端区域。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-51">
+<h2>Q6.8 (1 point)</h2>
+<div class="prompt"><p>Which of the following deep learning architectures commonly uses the attention mechanism?</p>
+<blockquote>
+<p>以下哪种深度学习架构通常使用注意力机制？</p>
+</blockquote></div>
+<div class="options" id="opts-51">
+<div class="option" id="opt-51-A" data-id="A" onclick="selectOption(51, 'A')">
+<span class="option-id">A</span> <span>Simple Feedforward Networks</span>
+</div>
+<div class="option" id="opt-51-B" data-id="B" onclick="selectOption(51, 'B')">
+<span class="option-id">B</span> <span>Basic Convolutional Neural Networks</span>
+</div>
+<div class="option" id="opt-51-C" data-id="C" onclick="selectOption(51, 'C')">
+<span class="option-id">C</span> <span>Transformer-based models</span>
+</div>
+<div class="option" id="opt-51-D" data-id="D" onclick="selectOption(51, 'D')">
+<span class="option-id">D</span> <span>Traditional Decision Trees</span>
+</div>
+</div>
+<button class="btn" id="btn-51" onclick="checkAnswer(51, 'C')">Submit</button>
+<div class="answer-block" id="ans-51">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">C</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Attention is the core mechanism of Transformer-based models. <strong>Why C</strong>: Transformers are built entirely around self-attention — it is their fundamental building block, unlike FFN, CNN, or decision trees.</p>
+<blockquote>
+<p>注意力是 Transformer 模型的核心机制。<strong>为什么是 C</strong>：Transformer 完全围绕自注意力构建，这是它的基本构建模块，与 FFN、CNN 或决策树不同。</p>
+</blockquote>
+<ul>
+<li><strong>A/B</strong>: FFN and basic CNN do not inherently use attention (though attention can be added to CNN).</li>
+<li><strong>D</strong>: Decision trees are non-neural, rule-based models — no attention mechanism.</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>A/B 错</strong>：FFN 和基本 CNN 本身不使用注意力（虽然可以给 CNN 添加注意力）。</li>
+<li><strong>D 错</strong>：决策树是非神经网络的规则模型，没有注意力机制。</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Transformer-based models = built on attention mechanism. FFN/CNN/Decision Trees do not inherently use attention.
+<strong>关键</strong>: Transformer 模型 = 基于注意力机制构建。FFN/CNN/决策树本身不使用注意力。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-52">
+<h2>Q6.9 (1 point)</h2>
+<div class="prompt"><p>Attention mechanisms enhance model interpretability by emphasizing the most relevant parts of the input sequences.</p>
+<blockquote>
+<p>注意力机制通过强调输入序列中最相关的部分来增强模型的可解释性。</p>
+</blockquote></div>
+<div class="options" id="opts-52">
+<div class="option" id="opt-52-A" data-id="A" onclick="selectOption(52, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-52-B" data-id="B" onclick="selectOption(52, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-52" onclick="checkAnswer(52, 'A')">Submit</button>
+<div class="answer-block" id="ans-52">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Attention weights show which input tokens the model focuses on when generating each output, making the model's decision process more transparent. <strong>Why True</strong>: By visualizing attention weights, we can see which parts of the input are most influential — this is a key advantage for interpretability.</p>
+<blockquote>
+<p>注意力权重展示了模型在生成每个输出时关注哪些输入 token，使模型决策过程更透明。<strong>为什么是 True</strong>：通过可视化注意力权重，我们可以看到输入的哪些部分最有影响力 — 这是可解释性的关键优势。</p>
+</blockquote>
+<p><strong>Key</strong>: Attention weights are visualizable → show which input parts the model focuses on → enhanced interpretability.
+<strong>关键</strong>: 注意力权重可视化 → 展示模型关注输入的哪些部分 → 增强可解释性。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-53">
+<h2>Q6.10 (1 point)</h2>
+<div class="prompt"><p>When implementing self-attention in deep learning models, the purpose of the masking mechanism is to mask out gradients during backpropagation and speed up training.</p>
+<blockquote>
+<p>在深度学习模型中实现自注意力时，掩码机制的目的是在反向传播过程中屏蔽梯度并加速训练。</p>
+</blockquote></div>
+<div class="options" id="opts-53">
+<div class="option" id="opt-53-A" data-id="A" onclick="selectOption(53, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-53-B" data-id="B" onclick="selectOption(53, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-53" onclick="checkAnswer(53, 'B')">Submit</button>
+<div class="answer-block" id="ans-53">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Masking in self-attention is used to <strong>hide padding tokens or future tokens</strong>, NOT to mask gradients. <strong>Why False</strong>: There are two types of masking: (1) Padding mask — prevents attention to padding positions; (2) Causal/Look-ahead mask — prevents decoder from seeing future tokens during training. Neither is about masking gradients.</p>
+<blockquote>
+<p>自注意力中的掩码用于<strong>隐藏填充 token 或未来 token</strong>，而非屏蔽梯度。<strong>为什么是 False</strong>：掩码有两种：(1) 填充掩码 — 防止注意到填充位置；(2) 因果/前瞻掩码 — 防止解码器在训练中看到未来 token。两者都与梯度无关。</p>
+</blockquote>
+<ul>
+<li><strong>Padding mask / 填充掩码</strong>: Sets attention scores to $-\infty$ for padding tokens → softmax outputs 0</li>
+<li><strong>Causal mask / 因果掩码</strong>: Prevents decoder from "cheating" by seeing future tokens during autoregressive generation</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>填充掩码</strong>：将填充 token 的注意力分数设为 $-\infty$ → softmax 输出 0</li>
+<li><strong>因果掩码</strong>：防止解码器在自回归生成中"作弊"看到未来 token</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Masking = hide padding/future tokens in attention. NOT about masking gradients or speeding up training.
+<strong>关键</strong>: 掩码 = 在注意力中隐藏填充/未来 token。与屏蔽梯度或加速训练无关。</p>
+<hr />
+<h1>Quiz 7 — 问答系统 (Question Answering &amp; Reading Comprehension)</h1>
+<p>Topic: Retriever-Reader, Fine-tuning, BiDAF, QA Tasks</p></div>
+</div>
+</div>
+<div class="quiz" id="q-54">
+<h2>Q7.1 (1 point)</h2>
+<div class="prompt"><p>The objective of the Reader Retrieval Model in questioning answering task is to generate answers without considering the context of the query.</p>
+<blockquote>
+<p>问答任务中读取器检索模型的目标是在不考虑查询上下文的情况下生成答案。</p>
+</blockquote></div>
+<div class="options" id="opts-54">
+<div class="option" id="opt-54-A" data-id="A" onclick="selectOption(54, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-54-B" data-id="B" onclick="selectOption(54, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-54" onclick="checkAnswer(54, 'B')">Submit</button>
+<div class="answer-block" id="ans-54">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The Reader in a Retriever-Reader QA system must <strong>deeply consider the context</strong> to extract or generate accurate answers. <strong>Why False</strong>: The Reader's entire purpose is to read the retrieved passage(s) alongside the query and understand the context to find the correct answer span.</p>
+<blockquote>
+<p>检索器-读取器（Retriever-Reader）QA 系统中的 Reader 必须<strong>深入考虑上下文</strong>以提取或生成准确答案。<strong>为什么是 False</strong>：Reader 的全部目的是结合查询阅读检索到的段落，理解上下文以找到正确答案。</p>
+</blockquote>
+<ul>
+<li><strong>Retriever / 检索器</strong>: Finds relevant documents/passages from a knowledge source</li>
+<li><strong>Reader / 读取器</strong>: Reads retrieved context + query → extracts answer span</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>检索器</strong>：从知识库中寻找相关文档/段落</li>
+<li><strong>读取器</strong>：阅读检索到的上下文 + 查询 → 提取答案片段</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Reader MUST consider query context to extract answers. The statement claiming "without context" is wrong.
+<strong>关键</strong>: Reader 必须考虑查询上下文来提取答案。题干说"不考虑上下文"是错误的。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-55">
+<h2>Q7.2 (1 point)</h2>
+<div class="prompt"><p>In the retriever-reader architecture, the reader is usually a reading comprehension model.</p>
+<blockquote>
+<p>在检索器-读取器架构中，读取器通常是一个阅读理解模型。</p>
+</blockquote></div>
+<div class="options" id="opts-55">
+<div class="option" id="opt-55-A" data-id="A" onclick="selectOption(55, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-55-B" data-id="B" onclick="selectOption(55, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-55" onclick="checkAnswer(55, 'A')">Submit</button>
+<div class="answer-block" id="ans-55">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The Reader component in Retriever-Reader QA systems is typically a reading comprehension model (e.g., BERT-based). <strong>Why True</strong>: The reader takes a passage and a question as input, then identifies the answer span within the passage — this is exactly the definition of a reading comprehension model.</p>
+<blockquote>
+<p>检索器-读取器 QA 系统中的 Reader 组件通常是一个阅读理解模型（如基于 BERT 的模型）。<strong>为什么是 True</strong>：Reader 以段落和问题作为输入，然后在段落中定位答案片段 — 这正是阅读理解模型的定义。</p>
+</blockquote>
+<p><strong>Key</strong>: Reader = reading comprehension model (e.g., BERT). Takes question + passage → outputs answer span.
+<strong>关键</strong>: Reader = 阅读理解模型（如 BERT）。输入问题 + 段落 → 输出答案片段。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-56">
+<h2>Q7.3 (1 point)</h2>
+<div class="prompt"><p>Fine-tuning requires more data when compared to training from scratch.</p>
+<blockquote>
+<p>与从头训练相比，微调需要更多的数据。</p>
+</blockquote></div>
+<div class="options" id="opts-56">
+<div class="option" id="opt-56-A" data-id="A" onclick="selectOption(56, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-56-B" data-id="B" onclick="selectOption(56, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-56" onclick="checkAnswer(56, 'B')">Submit</button>
+<div class="answer-block" id="ans-56">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Fine-tuning requires <strong>less</strong> data than training from scratch because it leverages knowledge already learned during pre-training. <strong>Why False</strong>: The pre-trained model has already learned general language representations, so fine-tuning on a downstream task needs only a small, task-specific labeled dataset.</p>
+<blockquote>
+<p>微调比从头训练需要<strong>更少的</strong>数据，因为它利用了预训练中已经学到的知识。<strong>为什么是 False</strong>：预训练模型已经学习了通用语言表示，因此在下游任务上微调只需要少量的任务特定标注数据。</p>
+</blockquote>
+<ul>
+<li><strong>Pre-training / 预训练</strong>: Large-scale unsupervised learning on massive data (e.g., Wikipedia, BookCorpus)</li>
+<li><strong>Fine-tuning / 微调</strong>: Small-scale supervised learning on task-specific data (much less data needed)</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>预训练</strong>：在大规模数据上进行无监督学习（如 Wikipedia、BookCorpus）</li>
+<li><strong>微调</strong>：在任务特定数据上进行小规模监督学习（需要的数据少得多）</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Fine-tuning &lt; training from scratch in data requirements. Pre-trained models transfer learned knowledge.
+<strong>关键</strong>: 微调比从头训练需要更少数据。预训练模型传递已学习的知识。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-57">
+<h2>Q7.4 (1 point)</h2>
+<div class="prompt"><p>In BiDAF, Attention Flow Layer role is to generates word embeddings for the input text.</p>
+<blockquote>
+<p>在 BiDAF 中，注意力流层的作用是为输入文本生成词嵌入。</p>
+</blockquote></div>
+<div class="options" id="opts-57">
+<div class="option" id="opt-57-A" data-id="A" onclick="selectOption(57, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-57-B" data-id="B" onclick="selectOption(57, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-57" onclick="checkAnswer(57, 'B')">Submit</button>
+<div class="answer-block" id="ans-57">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+The Attention Flow Layer in BiDAF computes <strong>bidirectional attention</strong> between the context and query, NOT generating word embeddings. <strong>Why False</strong>: Word embeddings are generated by earlier layers (Character Embed Layer, Word Embed Layer). The Attention Flow Layer fuses context and query representations through context-to-query (C2Q) and query-to-context (Q2C) attention.</p>
+<blockquote>
+<p>BiDAF 中的注意力流层计算上下文和查询之间的<strong>双向注意力</strong>，而非生成词嵌入。<strong>为什么是 False</strong>：词嵌入由前面的层（字符嵌入层、词嵌入层）生成。注意力流层通过上下文到查询（C2Q）和查询到上下文（Q2C）注意力来融合上下文和查询的表示。</p>
+</blockquote>
+<ul>
+<li><strong>BiDAF Attention Flow</strong>: C2Q attention + Q2C attention → fused query-aware context representation</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>BiDAF 注意力流</strong>：C2Q 注意力 + Q2C 注意力 → 融合了查询感知的上下文表示</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Attention Flow Layer = bidirectional attention (C2Q + Q2C), NOT word embedding generation.
+<strong>关键</strong>: 注意力流层 = 双向注意力（C2Q + Q2C），不是词嵌入生成。</p></div>
+</div>
+</div>
+<div class="quiz" id="q-58">
+<h2>Q7.5 (1 point)</h2>
+<div class="prompt"><p>The primary goal of the Question Answering task in NLP reading comprehension is to generating context from given questions.</p>
+<blockquote>
+<p>NLP 阅读理解中问答任务的主要目标是从给定的问题生成上下文。</p>
+</blockquote></div>
+<div class="options" id="opts-58">
+<div class="option" id="opt-58-A" data-id="A" onclick="selectOption(58, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-58-B" data-id="B" onclick="selectOption(58, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-58" onclick="checkAnswer(58, 'B')">Submit</button>
+<div class="answer-block" id="ans-58">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">B</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+QA reading comprehension aims to <strong>extract answers from given context</strong>, NOT generate context from questions. <strong>Why False</strong>: The direction is reversed — given a context passage and a question, the task is to find or extract the answer from the context, not to generate the context itself.</p>
+<blockquote>
+<p>QA 阅读理解旨在<strong>从给定上下文中提取答案</strong>，而非从问题生成上下文。<strong>为什么是 False</strong>：方向反了 — 给定一个上下文段落和一个问题，任务是从上下文中查找或提取答案，而不是生成上下文本身。</p>
+</blockquote>
+<ul>
+<li><strong>Input / 输入</strong>: Context passage + Question</li>
+<li><strong>Output / 输出</strong>: Answer span extracted from the context</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>输入</strong>：上下文段落 + 问题</li>
+<li><strong>输出</strong>：从上下文中提取的答案片段</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: QA = extract answer from context. NOT generate context from question. Direction matters!
+<strong>关键</strong>: QA = 从上下文提取答案。不是从问题生成上下文。方向很重要！</p></div>
+</div>
+</div>
+<div class="quiz" id="q-59">
+<h2>Q7.6 (1 point)</h2>
+<div class="prompt"><p>There is a number of similarities between translation model and reading comprehension model.</p>
+<blockquote>
+<p>翻译模型和阅读理解模型之间存在许多相似之处。</p>
+</blockquote></div>
+<div class="options" id="opts-59">
+<div class="option" id="opt-59-A" data-id="A" onclick="selectOption(59, 'A')">
+<span class="option-id">A</span> <span>True</span>
+</div>
+<div class="option" id="opt-59-B" data-id="B" onclick="selectOption(59, 'B')">
+<span class="option-id">B</span> <span>False</span>
+</div>
+</div>
+<button class="btn" id="btn-59" onclick="checkAnswer(59, 'A')">Submit</button>
+<div class="answer-block" id="ans-59">
+<p><strong>Correct Answer:</strong> <span class="answer-badge">A</span></p>
+<div class="explanation"><p><strong>Explanation</strong>:
+Both translation and reading comprehension models share key architectural similarities. <strong>Why True</strong>: Both use encoder-decoder or attention-based architectures, both process input sequences to generate/extract output, and both heavily rely on attention mechanisms to align relevant parts of input with output.</p>
+<blockquote>
+<p>翻译模型和阅读理解模型在架构上有关键相似之处。<strong>为什么是 True</strong>：两者都使用编码器-解码器或基于注意力的架构，都处理输入序列以生成/提取输出，都大量依赖注意力机制来对齐输入和输出的相关部分。</p>
+</blockquote>
+<ul>
+<li><strong>Similarities / 相似点</strong>: Both use attention, both process sequences, both align source with target</li>
+<li><strong>Difference / 不同点</strong>: Translation generates new text; RC extracts spans from existing text</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>相似点</strong>：都使用注意力，都处理序列，都对齐源和目标</li>
+<li><strong>不同点</strong>：翻译生成新文本；阅读理解从现有文本中提取片段</li>
+</ul>
+</blockquote>
+<p><strong>Key</strong>: Translation and RC share encoder-decoder architecture, attention mechanism, and sequence processing. Key overlap exists.
+<strong>关键</strong>: 翻译和阅读理解共享编码器-解码器架构、注意力机制和序列处理。存在关键重叠。</p></div>
 </div>
 </div>
 

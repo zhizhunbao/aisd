@@ -1,0 +1,194 @@
+[
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "LLMs truly understand language and can perform causal reasoning like humans.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ LLMs do pattern matching, NOT reasoning. They have no real causal understanding. E.g., '9.11 > 9.9?' → LLM may say Yes (string comparison, not math).<br><br><strong>LLM做模式匹配而非推理，没有真正的因果理解。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "What is RAG (Retrieval-Augmented Generation)?",
+    "options": [
+      "A) A model training technique that replaces fine-tuning",
+      "B) Retrieve relevant documents, augment the prompt, then generate an answer grounded in those documents",
+      "C) A type of neural network architecture",
+      "D) A data augmentation technique for images"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> RAG = Retrieve → Augment prompt with context → Generate answer based on documents. Solves knowledge cutoff and reduces hallucination.<br><br><strong>RAG = 检索相关文档 → 增强提示 → 基于文档生成答案。解决知识过时和减少幻觉。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "RAG completely eliminates hallucinations in LLM responses.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ RAG REDUCES but does NOT eliminate hallucinations. If wrong chunks are retrieved, the model may still generate incorrect answers.<br><br><strong>RAG减少但不消除幻觉。如果检索到错误文档块，仍可能生成错误答案。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Setting Temperature=0 in LLM generation means:",
+    "options": [
+      "A) The model outputs nothing",
+      "B) Maximum creativity and diverse outputs",
+      "C) Deterministic output — always selects the highest probability token",
+      "D) The model uses more memory"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> T=0 → greedy/deterministic (always pick highest prob token). T=1 → more creative/random. For factual QA, use low T; for creative writing, use higher T.<br><br><strong>T=0确定性输出；T=1更创造性。事实QA用低T，创意写作用高T。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "LLM knowledge is always up-to-date because it learns from the internet.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ LLMs have a knowledge cutoff date = when training data ends. They cannot know events after that date. This is why RAG is needed for current info.<br><br><strong>LLM有知识截止日期，不知道训练数据之后的事件。所以需要RAG获取最新信息。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "The correct order of RAG pipeline steps is:",
+    "options": [
+      "A) Generate → Retrieve → Augment",
+      "B) Embed → Chunk → Retrieve → Parse",
+      "C) Parse → Chunk → Embed → Retrieve → Augment → Generate",
+      "D) Retrieve → Generate → Chunk → Embed"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> RAG pipeline: ①Parse docs → ②Chunk into blocks → ③Embed into vectors → ④Retrieve relevant chunks → ⑤Augment prompt → ⑥Generate answer.<br><br><strong>RAG流水线：解析→分块→嵌入→检索→增强→生成。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "teacher",
+    "question": "RAG and Fine-tuning are the same technique — both modify the model's weights.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ Completely different! RAG = runtime document retrieval (model unchanged). Fine-tuning = modifying model weights with new training data.<br><br><strong>完全不同！RAG=运行时检索文档(不改模型)；Fine-tuning=修改模型权重。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "teacher",
+    "question": "Which metric evaluates retrieval quality by penalizing relevant documents ranked lower?",
+    "options": [
+      "A) Precision@k",
+      "B) Recall@k",
+      "C) NDCG@k",
+      "D) Accuracy"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> NDCG@k (Normalized Discounted Cumulative Gain) considers both relevance AND ranking position. Documents ranked lower get a logarithmic penalty.<br><br><strong>NDCG@k考虑相关性和排名位置，排名越低惩罚越大(对数折损)。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Why is chunking important in RAG?",
+    "options": [
+      "A) It makes documents load faster",
+      "B) Chunks too small lose context; too large dilute answers with noise — size critically affects quality",
+      "C) It reduces the number of documents",
+      "D) It improves model training speed"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Chunk too small → incomplete info. Chunk too large → irrelevant noise mixed in. Optimal: 256-512 tokens with 50-token overlap.<br><br><strong>块太小丢上下文；块太大噪声稀释答案。最优：256-512 tokens + 50 overlap。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "MRR (Mean Reciprocal Rank) = 0.5 means:",
+    "options": [
+      "A) 50% of documents are relevant",
+      "B) The first relevant document is at rank 2",
+      "C) Half the queries returned no results",
+      "D) The model has 50% accuracy"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> MRR = 1/rank_of_first_relevant. MRR=0.5 → first relevant at rank 2. MRR=1 → rank 1. MRR=0.33 → rank 3.<br><br><strong>MRR=1/第一个相关结果的排名。MRR=0.5→第一个相关在第2位。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "More parameters always lead to better model performance.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> DistilBERT (66M) ≈ BERT (110M) on most tasks. Small model + RAG can match GPT-4 on domain QA. Bigger ≠ Better always.<br><br><strong>DistilBERT(66M)≈BERT(110M)多数任务。小模型+RAG可以匹配GPT-4的领域QA。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Which LLM deployment tool is best suited for production with GPU optimization?",
+    "options": [
+      "A) Ollama",
+      "B) vLLM",
+      "C) Jupyter Notebook",
+      "D) Google Docs"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> vLLM uses PagedAttention for GPU memory optimization, supports multi-GPU, and is the go-to for production deployment. Ollama = local dev; HuggingFace = research.<br><br><strong>vLLM用PagedAttention优化GPU内存，支持多GPU，生产部署首选。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is “Hallucination” in the context of LLMs?",
+    "options": [
+      "A) The model crashes and produces no output",
+      "B) The model generates text that sounds plausible but is factually incorrect or fabricated",
+      "C) The model perfectly retrieves relevant documents",
+      "D) The model forgets its pre-trained knowledge"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Hallucination = LLM generates confident-sounding but factually wrong content. Cause: LLMs do pattern matching, NOT reasoning.<br><br><strong>幻觉 = LLM 编造看似合理但错误的内容。原因：模式匹配不是推理。RAG 可减少但不能消除。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "What is the “Knowledge Cutoff” problem of LLMs?",
+    "options": [
+      "A) LLMs can only process short texts",
+      "B) LLMs only know information up to their training data date, and cannot know events after that",
+      "C) LLMs run out of GPU memory",
+      "D) LLMs forget old knowledge when learning new tasks"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Knowledge Cutoff = training data has a fixed end date. Events after that date are unknown. This is a primary reason RAG is needed.<br><br><strong>知识截止 = 训练数据有截止日期，之后的事一无所知。D描述的是Catastrophic Forgetting，不同概念。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "RAG modifies the LLM's internal weights to incorporate new knowledge from retrieved documents.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ RAG does NOT modify model weights! It retrieves documents at runtime and injects them into the prompt as context. Fine-tuning is what modifies weights.<br><br><strong>RAG = 运行时检索注入提示(不改权重)。Fine-tuning = 修改权重。本质不同！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In LLM generation, what does the Temperature parameter control?",
+    "options": [
+      "A) The maximum number of output tokens",
+      "B) The randomness/creativity: T=0 is deterministic, T=1 is more creative",
+      "C) The learning rate during training",
+      "D) The size of the model in memory"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Temperature controls softmax distribution:<br>• <strong>T=0:</strong> Always pick highest probability token (deterministic)<br>• <strong>T=1:</strong> More random, creative<br>• Factual QA → low T; Creative writing → high T<br><br><strong>T=0确定性(事实问答); T=1创造性(创意写作)。</strong>"
+  },
+  {
+    "type": "Short",
+    "source": "supplement",
+    "question": "<strong>[Calculation]</strong> A retriever returns 5 documents for a query. The relevance labels are: [1, 0, 1, 0, 1] (1=relevant, 0=irrelevant).<br><br>(a) Calculate Precision@3 and Recall@3 (total relevant = 3). (2 pts)<br>(b) Calculate MRR (Mean Reciprocal Rank). (1 pt)<br>(c) If we swap positions 1 and 2 to get [0, 1, 1, 0, 1], does Precision@3 change? Does MRR change? (1 pt)",
+    "answer": "P@3 = 2/3, MRR = 1.0 (original); P@3 = 2/3, MRR = 0.5 (swapped)",
+    "explanation": "<strong>(a) Original [1, 0, 1, 0, 1]:</strong><br>• Top-3 results: [1, 0, 1] → 2 relevant out of 3<br>• Precision@3 = 2/3 ≈ 0.667<br>• Recall@3 = 2/3 ≈ 0.667 (2 found out of 3 total relevant)<br><br><strong>(b) MRR:</strong><br>• First relevant document is at rank 1<br>• MRR = 1/rank = 1/1 = <strong>1.0</strong><br><br><strong>(c) Swapped [0, 1, 1, 0, 1]:</strong><br>• Precision@3 = 2/3 (same — still 2 relevant in top 3)<br>• MRR = 1/2 = <strong>0.5</strong> (first relevant is now at rank 2)<br>• ⚠️ <strong>MRR changes but P@3 doesn't — MRR cares about the FIRST relevant position!</strong><br><br><strong>关键区别：Precision@k 不关心排序顺序，MRR 关心第一个相关文档的位置。NDCG 同时关心相关性和位置。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A RAG system retrieves chunks about 'Python programming' for the query 'What causes diabetes?'. What is the most likely outcome?",
+    "options": [
+      "A) The LLM will correctly answer about diabetes because it has medical knowledge from pre-training",
+      "B) The LLM will likely generate a confident but incorrect answer mixing Python and diabetes information",
+      "C) The LLM will refuse to answer because the context doesn't match the query",
+      "D) The retriever error has no impact because the LLM ignores retrieved context"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> This is a 'garbage in, garbage out' scenario. Most LLMs are instruction-following — they try to use the provided context even if irrelevant. The model may generate a plausible-sounding but nonsensical response. Only well-designed LLMs with strong 'context-query mismatch detection' would handle this gracefully (option C).<br><br><strong>RAG的'垃圾进垃圾出'场景。大多数LLM会试图使用提供的上下文，即使内容不相关，也会生成看似合理但错误的回答。</strong><br><br>⚠️ A is dangerous thinking — relying on pre-training knowledge defeats the purpose of RAG.<br>⚠️ D is wrong — RAG context IS used by the LLM."
+  }
+]
