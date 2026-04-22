@@ -66,6 +66,8 @@ $$SSE = \sum_{i=1}^{K} \sum_{x \in C_i} \|x - m_i\|^2$$
 
 翻译：对每个簇里的每个点，算它到质心的距离平方，全部加起来。**越小=越紧凑=越好。**
 
+![K-Means Iteration — Centroids Move Toward Cluster Centers](week6_clustering_generated_images/Week6_KMeans_Iteration.png)
+
 ### 1.2 K-Means 的优势
 
 | 优势          | 说明                                             |
@@ -83,15 +85,7 @@ $$SSE = \sum_{i=1}^{K} \sum_{x \in C_i} \|x - m_i\|^2$$
 | **③ 没有噪声概念** | 每个点必须属于某个簇       | 异常值扭曲质心位置        |
 | **④ 随机初始化**   | 不同运行结果可能不同       | 可能卡在局部最优          |
 
-**非球形数据的灾难：**
-
-```
-K-Means 期望这样:        实际数据可能长这样:
-  ○  ○  ○                   ☾  (月牙形)
- ○ ★ ○                     ☆
-  ○  ○  ○                  ⊙  (同心圆)
-（点围绕中心）             （K-Means 无法处理！）
-```
+![K-Means Fails on Non-Spherical Data — Moons & Circles](week6_clustering_generated_images/Week6_KMeans_Failure.png)
 
 > 🔑 **故事转折点：** K-Means 快速简洁，但必须猜 K、只能处理球形簇、无法处理噪声。我们需要一种"不用猜 K"的方法 → 层次聚类！
 
@@ -128,6 +122,8 @@ K-Means 期望这样:        实际数据可能长这样:
 |     **Average**     |  所有点对距离的平均  |       折中       | 所有城市对的平均距离     |
 |      **Ward**       |  合并后 SSE 的增量   | 紧凑、最小化方差 | 合并后"混乱程度"增加多少 |
 
+![Hierarchical Clustering — Dendrogram Comparison (Single / Complete / Ward)](week6_clustering_generated_images/Week6_Dendrogram.png)
+
 > ⚠️ **MIN 的链接效应：** 如果两个本该分开的簇之间有一个噪声点当"桥梁"，MIN 会把它们错误合并——像一块松散的石头把两个岛连在一起。
 
 ### 2.3 层次聚类 vs K-Means
@@ -159,28 +155,11 @@ DBSCAN 的革命性思路：**簇 = 密集区域之间被稀疏空地隔开。**
 
 不看点到中心的距离，而看**邻域内有多少个点**：
 
-```
-              ε
-          ┌───────┐
-         /  ● ● ●  \    ← ε邻域内 ≥ MinPts 个点
-        │  ●  A  ● │     → A 是核心点（Core）！
-         \  ● ●   /
-          └───────┘
-
-              ε
-          ┌───────┐
-         /   ●     \    ← ε邻域内 < MinPts 个点
-        │    B  ●  │     → 但 B 在 A 的ε内
-         \        /      → B 是边界点（Border）！
-          └───────┘
-
-              ε
-          ┌───────┐
-         /         \    ← ε邻域内 < MinPts 个点
-        │    C     │     → 且不在任何核心点的ε内
-         \        /      → C 是噪声点（Noise）！
-          └───────┘
-```
+| 点类型 | 条件 | 含义 |
+|--------|------|------|
+| **核心点 (Core)** | ε 邻域内 ≥ MinPts 个点 | 人缘好，自己就能带起一群 |
+| **边界点 (Border)** | ε 邻域内 < MinPts，但在某个核心点的 ε 内 | 认识大佬，蹭群 |
+| **噪声点 (Noise)** | ε 邻域内 < MinPts，且不在任何核心点的 ε 内 | 孤独者，被丢弃 |
 
 ### 3.2 DBSCAN 五步算法
 
@@ -193,6 +172,8 @@ DBSCAN 的革命性思路：**簇 = 密集区域之间被稀疏空地隔开。**
 ```
 
 > 💡 **朋友链类比：** (1) 找人缘好的人（核心=认识≥MinPts人）。(2) 忽略孤独者（噪声）。(3) 人缘好的人互相认识→画友谊线。(4) 每个朋友圈=一个簇。(5) 认识某个人缘好的人的腼腆者加入该圈。
+
+![DBSCAN — Core / Border / Noise Classification & Final Clusters](week6_clustering_generated_images/Week6_DBSCAN.png)
 
 ### 3.3 DBSCAN vs K-Means
 
@@ -262,6 +243,8 @@ M步（Maximization）:
 
 > 💡 **模糊眼镜类比：** 戴着模糊眼镜看两群重叠的人。E步：眯眼猜"这人 70% 在 A 群"。M步：用这些猜测重算每群中心。每轮视线更清晰，直到人群稳定。
 
+![GMM Soft Assignment vs K-Means Hard Assignment](week6_clustering_generated_images/Week6_GMM_SoftAssignment.png)
+
 ### 4.4 K-Means 是 EM 的特殊情况！
 
 |  维度  |    K-Means    |        EM (GMM)         |
@@ -316,6 +299,8 @@ $$s_i = \frac{b_i - a_i}{\max(a_i, b_i)}$$
 | ≈ **-1** | 分错了！离对手队更近             |
 
 **用途：** 试 K=2,3,4,...，计算每个 K 的平均轮廓系数，选**最高**的。
+
+![Choosing K — SSE Elbow Method vs Silhouette Score](week6_clustering_generated_images/Week6_Silhouette_Elbow.png)
 
 ---
 

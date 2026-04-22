@@ -24,6 +24,10 @@
 - YOLO — 你只看一次 (You Only Look Once)
 - SSD — 单次多框检测器
 
+> **📝 Notes:**
+>
+> **承接**: 本节作为开篇，列出本周从传统方法到深度学习的目标检测学习路线；这些主题将为后续「目标检测简介」和「传统 vs 深度学习」的技术演进铺垫框架。
+
 ---
 
 ## 2. 目标检测简介 (Introduction to Object Detection)
@@ -36,6 +40,10 @@
 - It's a step beyond image classification by not only categorizing the objects but also indicating their location and scale within the scene. — 它比图像分类更进一步，不仅对物体进行分类，还指出其在场景中的位置和尺度。
 - Common applications include surveillance, autonomous vehicles, and facial recognition. — 常见应用包括监控、自动驾驶和人脸识别。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节列出了本周学习大纲；本节定义目标检测的核心任务（分类+定位），区分它与图像分类的关键差异；为下一节「目标检测的演进」提供概念基础。
+
 ---
 
 ## 3. 目标检测的演进 (The Evolution of Object Detection)
@@ -47,6 +55,10 @@
 - The field of object detection has transitioned from manual feature extraction and simple classifiers to sophisticated deep learning models. — 目标检测领域已从手动特征提取和简单分类器过渡到复杂的深度学习模型。
 - Early methods, like template matching and feature-based approaches, were limited by their rigidity and inability to handle variations in scale, viewpoint, and illumination. — 早期方法如模板匹配和基于特征的方法，受限于其刚性以及无法处理尺度、视角和光照变化。
 - The advent of deep learning brought about a paradigm shift, leveraging neural networks to automatically learn features directly from data. — 深度学习的出现带来了范式转变，利用神经网络直接从数据中自动学习特征。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节定义了目标检测的核心任务；本节从宏观视角勾勒技术演进脉络——从手工特征到深度学习的范式转变；为下一节「传统目标检测」的详细分析提供历史背景。
 
 ---
 
@@ -84,6 +96,10 @@
 - The need for handcrafted features limited their adaptability and effectiveness, as these features might not generalize well across diverse scenarios. — 手工制作特征的需求限制了其适应性和有效性，这些特征可能无法在多样化场景中很好地泛化。
 - Additionally, the computational inefficiency of sliding windows, particularly in high-resolution images, posed significant challenges for real-time applications. — 此外，滑动窗口的计算低效性，特别是在高分辨率图像中，对实时应用构成重大挑战。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节从宏观介绍了技术演进；本节详解传统管线的三大支柱——SIFT/HOG 特征提取 + 滑动窗口 + SVM 分类器，并暴露其三大致命局限（泛化差、手工特征、计算慢）；这些局限直接驱动了下一节「向深度学习过渡」的动机。
+
 ---
 
 ## 5. 向深度学习过渡 (Transition to Deep Learning)
@@ -99,6 +115,10 @@
 ![Page 9](week8_object_detection_slides_pages/page_009.png)
 
 **Transition to Deep Learning** — 向深度学习过渡（图示）
+
+> **📝 Notes:**
+>
+> **承接**: 上一节暴露了传统方法的三大局限（手工特征/滑动窗口/泛化差）；本节说明 CNN 如何通过自动特征学习一举解决这些问题，为下一节「深度学习目标检测的具体机制」提供技术转折点。
 
 ---
 
@@ -125,6 +145,10 @@
 - This involves not only identifying 'what' is present in an image but also 'where' it is. — 这不仅涉及识别图像中"有什么"，还包括"在哪里"。
 - Techniques like Region Proposal Networks (RPN) in Faster R-CNN and grid-based approaches in YOLO (You Only Look Once) exemplify different strategies for this task. — Faster R-CNN 中的区域提议网络 (RPN) 和 YOLO 中的基于网格方法是这一任务的不同策略范例。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节说明了 CNN 解决了自动特征提取问题；本节进一步拆解深度学习检测模型的两大核心模块——CNN 骨干网络（分层特征提取）和检测头（类别+位置预测），引出下一节「检测模型 vs 分类模型」的关键区别。
+
 ---
 
 ## 7. 检测模型与分类模型的区别 (Detection Models vs. Classification Models)
@@ -136,6 +160,10 @@
 - Detection models differ from classification models in their outputs. — 检测模型与分类模型在输出上有所不同。
 - While classification models output a probability distribution across different classes for the whole image, detection models provide class probabilities, bounding box coordinates, and sometimes confidence scores for multiple objects within the image. — 分类模型为整幅图像输出跨不同类别的概率分布，而检测模型提供图像中多个物体的类别概率、边界框坐标和有时还有置信度分数。
 - This distinction is crucial as it allows detection models to localize multiple objects and their scales within a single image, offering a more detailed understanding of the scene. — 这一区别至关重要，因为它允许检测模型在单幅图像中定位多个物体及其尺度，提供对场景更详细的理解。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了检测模型的骨干+检测头结构；本节明确检测与分类的输出差异——分类输出整图类别概率，检测输出多个（类别+位置+置信度）；这一区别引出下一节「检测头的两种范式（锚框 vs 无锚框）」。
 
 ---
 
@@ -161,6 +189,10 @@
 - Instead, they directly predict the corners or centers of objects. — 它们直接预测物体的角点或中心点。
 - This approach simplifies the detection pipeline and can reduce computational complexity. — 这种方法简化了检测流程，可以降低计算复杂度。
 - However, it might require more sophisticated training strategies to achieve the precision offered by anchor-based methods. — 但它可能需要更复杂的训练策略来达到基于锚框方法所提供的精度。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节区分了检测与分类的输出差异；本节深入检测头的两大范式——锚框法（Faster R-CNN 代表，精度高但计算密集）和无锚框法（CornerNet/CenterNet 代表，简洁但训练难），为下一节「实际应用案例」提供技术选型背景。
 
 ---
 
@@ -188,6 +220,10 @@
 - In agriculture, it helps in crop analysis and yield prediction. — 在农业中，帮助进行作物分析和产量预测。
 - In manufacturing, it's used for quality control by detecting defects. — 在制造业中，用于通过检测缺陷进行质量控制。
 - These use-cases highlight the versatility of object detection in providing solutions across various sectors. — 这些用例凸显了目标检测在各个行业提供解决方案方面的多功能性。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了检测头的技术范式；本节展示目标检测在自动驾驶、零售、医疗、安防、农业、制造等行业的实际落地场景，为下一节「R-CNN 系列」的具体模型演进提供应用驱动的动机。
 
 ---
 
@@ -218,6 +254,10 @@
 
 **Calculating Bounding Box in R-CNN** — R-CNN 中的边界框计算
 
+> **📝 Notes:**
+>
+> **承接**: 上一节展示了目标检测的广泛应用场景；本节进入核心模型演进——R-CNN 系列从选择性搜索→区域提议网络的迭代（R-CNN→Fast→Faster），说明如何用区域提议替代滑动窗口的穷举搜索；为下一节「IoU 评估指标」提供边界框精度衡量的需求。
+
 ---
 
 ## 11. IoU 指标 (Intersection Over Union Metric)
@@ -230,6 +270,10 @@
 - Typically, an IoU over 0.5 is considered acceptable — 通常 IoU 超过 0.5 被认为是可接受的
 - The higher the IoU, the better the prediction — IoU 越高，预测越好
 - It is a measure of overlap — 它是一种重叠度量
+
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了 R-CNN 如何生成和分类区域提议；本节引入 IoU——衡量预测边界框与真实边界框重叠度的核心指标（阈值 0.5），为下一节「SSD 与 YOLO」的单阶段检测方法评估提供量化标准。
 
 ---
 
@@ -276,6 +320,10 @@
 4. **Class Prediction** — **类别预测**: Along with bounding boxes, YOLO predicts class probabilities for each grid cell, indicating which object class (e.g., person, car, dog) is present. — 除了边界框，YOLO 还预测每个网格单元的类别概率，指示存在哪个物体类别（如人、车、狗）。
 5. **Non-Maximum Suppression (NMS)** — **非极大值抑制**: To reduce redundant detections, YOLO applies NMS to keep only the most confident bounding boxes for each detected object. — 为减少冗余检测，YOLO 应用 NMS 只保留每个检测物体最有信心的边界框。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了 IoU 评估指标；本节详解两大单阶段检测器——SSD（多尺度默认框+单次前向）和 YOLO（网格划分+全图单次推理），两者都使用 NMS 后处理，以速度换取实时性；为下一节「目标检测的挑战」提供技术方案的完整图景。
+
 ---
 
 ## 13. 目标检测的挑战 (Challenges in Object Detection)
@@ -287,6 +335,10 @@
 - Despite advancements, object detection faces challenges like detecting small or occluded objects, handling diverse and complex backgrounds, and dealing with varying lighting conditions. — 尽管有所进步，目标检测仍面临如检测小物体或被遮挡物体、处理多样化复杂背景以及应对不同光照条件等挑战。
 - Balancing precision and recall, especially in crowded scenes, remains a critical issue. — 平衡精确率和召回率，特别是在拥挤场景中，仍然是关键问题。
 - There's also the challenge of computational resource requirements for training and deploying sophisticated models. — 还有训练和部署复杂模型对计算资源的需求挑战。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节详解了 SSD 和 YOLO 两大实时检测方案；本节指出即便有深度学习加持，目标检测仍面临小物体/遮挡、精确率-召回率平衡、计算资源等三大挑战；为下一节「未来展望」的技术方向提供问题驱动的需求。
 
 ---
 
@@ -300,6 +352,10 @@
 - The development of low-power, high-performance models is essential for edge computing applications. — 开发低功耗、高性能模型对边缘计算应用至关重要。
 - Furthermore, incorporating advances in artificial intelligence, such as explainable AI and reinforcement learning, can lead to more robust and intelligent object detection systems that understand context and interactions within a scene. — 此外，融合可解释 AI 和强化学习等人工智能进展，可以产生更鲁棒和智能的目标检测系统，理解场景中的上下文和交互。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节列出了目标检测的三大未解挑战；本节展望未来方向——AR/IoT 集成、边缘计算、可解释 AI 和强化学习，为下一节「总结」的全局回顾做铺垫。
+
 ---
 
 ## 15. 总结与要点 (Conclusion and Key Takeaways)
@@ -311,3 +367,7 @@
 - In conclusion, object detection has evolved from traditional methods to advanced deep learning techniques, significantly enhancing its capabilities and applications. — 总而言之，目标检测已从传统方法演进到先进的深度学习技术，显著增强了其能力和应用。
 - The field continues to grow, driven by ongoing research and technological advancements. — 该领域在持续的研究和技术进步推动下不断发展。
 - Key takeaways include the importance of robust feature extraction, the efficiency gains from modern detection methods, and the challenges and opportunities that lie ahead in this dynamic and impactful area of computer vision. — 关键要点包括鲁棒特征提取的重要性、现代检测方法的效率提升，以及这一充满活力且影响深远的计算机视觉领域所面临的挑战和机遇。
+
+> **📝 Notes:**
+>
+> **承接**: 前面各节完成了从传统目标检测→深度学习革命→R-CNN 系列→SSD/YOLO→挑战与未来的全流程；本节回顾要点，强调特征提取、效率和挑战三大主线。

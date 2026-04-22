@@ -30,6 +30,10 @@
 - Community and Ecosystem — 社区与生态系统
 - Best Practices in PyTorch — PyTorch 最佳实践
 
+> **📝 Notes:**
+>
+> **承接**: 本节作为开篇，总览 PyTorch 框架的学习路线图；这些目录项将为下一节「什么是 PyTorch」提供整体学习框架。
+
 ---
 
 ## 2. 什么是 PyTorch (What is PyTorch?)
@@ -41,6 +45,10 @@
 - PyTorch is an open-source machine learning library for Python, known for its flexibility, ease of use, and dynamic computation graph. — PyTorch 是一个开源的 Python 机器学习库，以灵活性、易用性和动态计算图著称。
 - It allows researchers to experiment quickly with deep neural networks, and it's extensively used in academia and industry for applications ranging from computer vision to natural language processing. — 它帮助研究人员快速进行深度神经网络实验，在学术界和工业界被广泛用于计算机视觉到自然语言处理等应用。
 - PyTorch is one of the most popular deep learning frameworks that allows us to implement neural network more efficiently. — PyTorch 是最流行的深度学习框架之一，使我们能更高效地实现神经网络。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节列出了本次课程的完整目录；本节回答最基础的问题「PyTorch 到底是什么」，为下一节「历史」提供概念定义基础。
 
 ---
 
@@ -73,6 +81,10 @@
 - PyTorch 2.0 (2023) introduced faster performance with torch.compile. — PyTorch 2.0 (2023) 通过 torch.compile 引入了更快的性能。
 - In September 2022, PyTorch transitioned to the Linux Foundation, ensuring open governance. — 2022 年 9 月，PyTorch 转入 Linux 基金会，确保开放治理。
 - Today, it's widely used in academia, industry, and production AI models. — 如今它在学术界、工业界和生产级 AI 模型中被广泛使用。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节定义了 PyTorch 是什么；本节通过历史演进（Torch → PyTorch → 2.0）解释了它为何成为主流框架，为下一节「关键特性」提供了背景动机。
 
 ---
 
@@ -107,6 +119,10 @@
   - Microsoft Azure — 微软 Azure
 - Supports CPU, GPU, TPU and parallel processing — 支持 CPU、GPU、TPU 及并行处理
 
+> **📝 Notes:**
+>
+> **承接**: 上一节从历史角度说明了 PyTorch 的崛起；本节具体列举了其核心能力（动态图、GPU 加速、Python 集成），为下一节与 TensorFlow 的对比提供特性清单。
+
 ---
 
 ## 5. PyTorch 与 TensorFlow 对比 (PyTorch vs. TensorFlow)
@@ -131,6 +147,10 @@
 - Use PyTorch if: You are a beginner, doing research, or need flexibility (e.g. NLP, CV). — 选择 PyTorch：如果你是初学者、做研究或需要灵活性（如 NLP、CV）。
 - Use TensorFlow if: You need enterprise-level solutions, mobile deployment, or production-ready models. — 选择 TensorFlow：如果你需要企业级解决方案、移动端部署或生产就绪模型。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了 PyTorch 的核心特性；本节通过与 TensorFlow 的逐项对比，帮助理解 PyTorch 的相对优势和适用场景，为下一节深入 PyTorch 内部组件做铺垫。
+
 ---
 
 ## 6. PyTorch 核心组件 (Core Components of PyTorch)
@@ -144,6 +164,10 @@
   - **Autograd**, for automatic differentiation — **自动微分 (Autograd)**，用于自动求导
   - **Optimizers**, which abstract the optimization algorithms used to train neural networks. — **优化器 (Optimizer)**，抽象了训练神经网络所用的优化算法
 - These components work together to simplify the process of creating and training complex models. — 这些组件协同工作，简化了创建和训练复杂模型的过程。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节从外部视角对比了 PyTorch 与 TensorFlow；本节转向 PyTorch 内部架构，概述三大核心组件（Tensor、Autograd、Optimizer），为后续各组件的深入讲解提供路线图。
 
 ---
 
@@ -188,6 +212,10 @@
 
 - This slide covers how tensors are created, manipulated, and used in PyTorch, with examples showing operations on tensors, and how they can be moved to a GPU for accelerated computing. — 本页展示了如何在 PyTorch 中创建、操作和使用张量，包括张量运算示例以及如何将它们移动到 GPU 进行加速计算。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节概述了三大核心组件；本节深入第一个组件「张量 (Tensor)」，从定义、数学本质、优势到代码实践全面讲解，为下一节「自动微分」中张量的梯度追踪功能做铺垫。
+
 ---
 
 ## 8. 自动微分 (Automatic Differentiation / Autograd)
@@ -205,6 +233,10 @@
 - This is called gradient based optimization — 这称为基于梯度的优化
 - Autograd is a set of techniques that allows us to compute gradients for arbitrary complex loss functions efficiently — Autograd 是一组技术，使我们能够为任意复杂的损失函数高效计算梯度
 
+> **📝 Notes:**
+>
+> **承接**: 上一节讲了张量如何存储数据和追踪计算图；本节解释「自动微分 (Autograd)」如何利用计算图自动求导，这是训练神经网络的核心机制，为下一节「神经网络模块」提供梯度计算基础。
+
 ---
 
 ## 9. 神经网络模块 (Neural Network Module)
@@ -217,6 +249,10 @@
 - It provides an easy way to construct network architectures, enabling both the simple assembly of standard layers like convolutional and linear layers, and the customization of more complex models. — 它提供了一种简单的方式来构建网络架构，既能简单组合卷积层和全连接层等标准层，也能自定义更复杂的模型。
 - This module greatly simplifies the process of defining a network's forward pass, with its intuitive and Pythonic approach, allowing for clear and readable code that closely resembles the actual architecture of the model. — 该模块以其直观和 Pythonic 的方式大大简化了定义网络前向传递的过程，使代码清晰可读且紧密贴合模型的实际架构。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了 Autograd 如何自动计算梯度；本节展示如何用 nn.Module 将层、激活函数和前向传播逻辑组装成完整网络，为下一节「优化器与损失函数」提供模型架构。
+
 ---
 
 ## 10. 优化器与损失函数 (Optimizers and Loss Functions)
@@ -228,6 +264,10 @@
 - PyTorch offers various optimizers like SGD (Stochastic Gradient Descent), Adam, and RMSprop, each providing different approaches to navigating the loss landscape. — PyTorch 提供多种优化器，如 SGD（随机梯度下降）、Adam 和 RMSprop，各自提供不同的损失函数空间导航策略。
 - Key loss functions include CrossEntropyLoss, used for classification tasks, and Mean Squared Error (MSE), commonly used in regression. — 关键损失函数包括用于分类任务的 CrossEntropyLoss 和常用于回归的均方误差 (MSE)。
 - These functions measure the difference between the predicted output and actual data, guiding the model's improvements during training. — 这些函数衡量预测输出与实际数据之间的差异，指导模型在训练过程中改进。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节定义了网络结构（nn.Module）；本节引入训练的两个关键角色——损失函数（衡量误差）和优化器（更新参数），完成了「网络 + 损失 + 优化」三位一体的训练框架，为下一节「训练流程」提供所有组件。
 
 ---
 
@@ -246,6 +286,10 @@
   - Save the model to a file — 将模型保存到文件
   - Deploy the model to a product or service (usually on a cloud server or to an edge device) — 将模型部署到产品或服务中（通常是云服务器或边缘设备）
 
+> **📝 Notes:**
+>
+> **承接**: 上一节分别讲解了各个核心组件；本节将它们串联成完整的端到端训练流程（数据准备→模型开发→模型部署），为下一节「数据处理」中 Dataset/DataLoader 的具体使用提供全局框架。
+
 ---
 
 ## 12. PyTorch 数据处理 (Data Handling in PyTorch)
@@ -257,6 +301,10 @@
 - PyTorch's Dataset and DataLoader classes streamline data preprocessing and loading. — PyTorch 的 Dataset 和 DataLoader 类简化了数据预处理和加载。
 - Dataset allows for custom data handling, while DataLoader efficiently batches and loads data, offering options like shuffling and multiprocessing. — Dataset 允许自定义数据处理，而 DataLoader 高效地批量加载数据，提供打乱 (shuffling) 和多进程等选项。
 - For instance, in image classification, DataLoader can automate the process of loading and transforming images into tensor format, ready for model input. — 例如在图像分类中，DataLoader 可以自动完成加载和将图像转换为张量格式的过程，准备好输入模型。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了训练流程中的「数据准备」阶段；本节具体讲解 Dataset 和 DataLoader 两个类如何实现高效数据加载，为下一节「构建神经网络」中将数据送入模型做准备。
 
 ---
 
@@ -270,6 +318,10 @@
 - The class typically includes an `__init__` function to define layers and a `forward` function for the data flow. — 该类通常包含一个 `__init__` 函数来定义层，以及一个 `forward` 函数来定义数据流。
 - For example, a simple network for image classification might include convolutional layers, activation functions like ReLU, and a final fully connected layer. — 例如，一个简单的图像分类网络可能包含卷积层、ReLU 等激活函数和一个最终的全连接层。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节讲了数据如何通过 DataLoader 送入模型；本节展示如何用 nn.Module 类实际构建一个简单的图像分类网络（`__init__` + `forward`），将前面所有组件整合为可运行的代码，为下一节「计算机视觉应用」提供实践基础。
+
 ---
 
 ## 14. PyTorch 计算机视觉 (Computer Vision with PyTorch)
@@ -282,6 +334,10 @@
 - It enables tasks such as image classification, object detection, and segmentation. — 它支持图像分类、目标检测和语义分割等任务。
 - For example, using a pre-trained ResNet model from torchvision, one can easily implement transfer learning for custom image classification tasks. — 例如，使用 torchvision 中的预训练 ResNet 模型，可以轻松实现自定义图像分类任务的迁移学习 (Transfer Learning)。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节展示了如何从零构建网络；本节介绍 torchvision 生态系统如何通过预训练模型和迁移学习加速 CV 任务开发，为下一节「高级特性」中的 CUDA 和分布式训练提供应用场景。
+
 ---
 
 ## 15. 高级特性 (Advanced Features in PyTorch)
@@ -293,6 +349,10 @@
 - PyTorch's advanced features include support for CUDA, enabling GPU acceleration for faster computation. — PyTorch 的高级特性包括对 CUDA 的支持，实现 GPU 加速以加快计算。
 - It also offers distributed training capabilities, essential for handling large datasets and complex models. — 它还提供分布式训练功能，对处理大型数据集和复杂模型至关重要。
 - PyTorch's JIT Compiler improves performance by converting models to optimized TorchScript, and its C++ front-end allows integration with C++ codebases, enhancing flexibility and efficiency in model deployment. — PyTorch 的 JIT 编译器通过将模型转换为优化的 TorchScript 来提高性能，其 C++ 前端允许与 C++ 代码库集成，增强模型部署的灵活性和效率。
+
+> **📝 Notes:**
+>
+> **承接**: 上一节讲了 torchvision 在 CV 中的应用；本节将视角提升到生产级能力——CUDA 加速、分布式训练、JIT 编译和 C++ 前端，为下一节「社区与生态系统」中的支持资源做铺垫。
 
 ---
 
@@ -307,6 +367,10 @@
 - Notable contributions come from both academic and industry leaders, ensuring continuous improvements and updates. — 来自学术界和工业界领袖的重要贡献确保了持续改进和更新。
 - This robust support system is invaluable for both beginners and advanced users for troubleshooting and keeping abreast of the latest developments in deep learning. — 这个强大的支持系统对初学者和高级用户都很宝贵，有助于排错和了解深度学习的最新发展。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了 PyTorch 的高级技术能力；本节展示其社区和生态系统的支持力量，说明为什么这些技术能力能持续演进，为下一节「最佳实践」提供学习和求助资源。
+
 ---
 
 ## 17. 最佳实践 (Best Practices in PyTorch)
@@ -319,6 +383,10 @@
 - Regularly saving and loading models during training prevents data loss and allows for fine-tuning. — 训练过程中定期保存和加载模型可以防止数据丢失并允许微调。
 - Keeping code modular and well-documented enhances readability and maintainability. — 保持代码模块化和良好文档化可以增强可读性和可维护性。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节介绍了社区资源；本节将实战经验提炼为最佳实践清单（GPU 加速、数据划分、模型保存、代码规范），为下一节的总结提供行动指南。
+
 ---
 
 ## 18. 总结与要点 (Conclusion and Key Takeaways)
@@ -330,3 +398,7 @@
 - To conclude, PyTorch stands out as a flexible, intuitive, and powerful tool for deep learning, especially in computer vision. — 总而言之，PyTorch 是一个灵活、直观且强大的深度学习工具，尤其在计算机视觉领域表现突出。
 - Its dynamic nature, strong GPU support, and extensive community make it a top choice for both researchers and industry professionals. — 其动态特性、强大的 GPU 支持和广泛的社区使其成为研究人员和行业专业人士的首选。
 - As we continue to witness rapid advancements in AI and machine learning, PyTorch is well-positioned to remain at the forefront of innovation. — 随着 AI 和机器学习的快速发展，PyTorch 有望继续保持创新前沿地位。
+
+> **📝 Notes:**
+>
+> **承接**: 前面各节完成了从 PyTorch 定义、组件、训练流程到高级特性和最佳实践的完整学习路径；本节回顾全部要点，总结 PyTorch 在 CV 领域的核心价值。

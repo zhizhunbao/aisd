@@ -48,10 +48,10 @@
 
 **Confusion Matrix** — 混淆矩阵
 
-| | Predicted Class=Yes | Predicted Class=No |
+| | Predicted Class=Yes 模型说"是" | Predicted Class=No 模型说"不是" |
 |---|---|---|
-| **Actual Class=Yes** | a: TP (true positive) — 真正例 | b: FN (false negative) — 假反例 |
-| **Actual Class=No** | c: FP (false positive) — 假正例 | d: TN (true negative) — 真反例 |
+| **Actual Class=Yes 实际是** | a: TP — 猜对了+说"是" ✅ | b: FN — 猜错了+说"不是" ❌（漏了！） |
+| **Actual Class=No 实际不是** | c: FP — 猜错了+说"是" ❌（冤枉！） | d: TN — 猜对了+说"不是" ✅ |
 
 ### 2.2 准确率 (Accuracy)
 

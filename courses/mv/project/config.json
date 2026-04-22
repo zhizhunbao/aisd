@@ -1,0 +1,18 @@
+{
+    "model_name": "rtmdet_s_8xb32-300e_coco",
+    "device": "cpu",
+    "person_class_id": 0,
+    "confidence_threshold": 0.5,
+    "camera_id": 0,
+    "frame_width": 640,
+    "frame_height": 480,
+    "center_tolerance_ratio": 0.05,
+    "crop_padding_ratio": 0.8,
+    "crop_display_size": [480, 480],
+    "bytetrack": {
+        "track_activation_threshold": 0.25,
+        "lost_track_buffer": 30,
+        "minimum_matching_threshold": 0.8,
+        "frame_rate": 30
+    }
+}

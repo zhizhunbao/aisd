@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CST8506 Advanced ML — 期中 + 期末 复习题库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- KaTeX for math rendering -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a2236;
+  --bg-card-hover: #1f2a42;
+  --bg-option: #151d30;
+  --bg-option-hover: #1c2744;
+  --border-subtle: rgba(99,130,255,0.12);
+  --border-active: rgba(99,130,255,0.35);
+  --text-primary: #e8eaf0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-blue: #6366f1;
+  --accent-cyan: #22d3ee;
+  --accent-green: #34d399;
+  --accent-red: #f87171;
+  --accent-amber: #fbbf24;
+  --accent-purple: #a78bfa;
+  --correct-bg: rgba(52,211,153,0.08);
+  --correct-border: rgba(52,211,153,0.4);
+  --wrong-bg: rgba(248,113,113,0.08);
+  --wrong-border: rgba(248,113,113,0.4);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(99,130,255,0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(99,130,255,0.4); }
+
+/* ===== HEADER ===== */
+.hero {
+  position: relative;
+  padding: 48px 24px 36px;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(99,102,241,0.15), transparent);
+  pointer-events:none;
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #818cf8, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+  position: relative;
+}
+.hero .subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  position: relative;
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+}
+.stat-item .num {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent-cyan);
+}
+.stat-item .label { color: var(--text-secondary); }
+
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,14,26,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.tab-btn {
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  white-space: nowrap;
+}
+.tab-btn:hover {
+  border-color: var(--accent-blue);
+  color: var(--text-primary);
+  background: rgba(99,102,241,0.08);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(34,211,238,0.12));
+  border-color: var(--accent-blue);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(99,102,241,0.2);
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-container {
+  padding: 12px 32px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.progress-track {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+/* ===== MAIN ===== */
+.main { max-width: 860px; margin: 0 auto; padding: 24px 20px 80px; }
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 40px 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.section-header .icon {
+  font-size: 1.4rem;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(99,102,241,0.12);
+  border-radius: 10px;
+}
+.section-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.section-header .badge {
+  background: rgba(99,102,241,0.15);
+  color: var(--accent-purple);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-left: auto;
+}
+
+/* ===== QUESTION CARD ===== */
+.q-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+.q-card:hover { border-color: var(--border-active); }
+.q-card.answered-correct { border-color: var(--correct-border); background: var(--correct-bg); }
+.q-card.answered-wrong { border-color: var(--wrong-border); background: var(--wrong-bg); }
+
+.q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.q-num {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  border-radius: 10px;
+}
+.q-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.q-type {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.q-type.tf { background: rgba(251,191,36,0.15); color: var(--accent-amber); }
+.q-type.mc { background: rgba(99,102,241,0.15); color: var(--accent-purple); }
+.q-type.wr { background: rgba(34,211,153,0.15); color: var(--accent-green); }
+.q-marks {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.q-source {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+}
+
+.q-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* ===== OPTIONS ===== */
+.options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.option-btn {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-option);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  text-align: left;
+  width: 100%;
+}
+.option-btn:hover:not(.locked) {
+  border-color: var(--accent-blue);
+  background: var(--bg-option-hover);
+}
+.option-btn .opt-letter {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+.option-btn.selected-correct .opt-letter {
+  background: var(--accent-green);
+  color: #000;
+}
+.option-btn.selected-wrong .opt-letter {
+  background: var(--accent-red);
+  color: #fff;
+}
+.option-btn.show-correct .opt-letter {
+  background: var(--accent-green);
+  color: #000;
+}
+.option-btn.selected-correct { border-color: var(--correct-border); background: var(--correct-bg); }
+.option-btn.selected-wrong { border-color: var(--wrong-border); background: var(--wrong-bg); }
+.option-btn.show-correct { border-color: var(--correct-border); }
+.option-btn.locked { cursor: default; }
+
+/* ===== EXPLANATION ===== */
+.explanation {
+  display: none;
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: rgba(99,102,241,0.06);
+  border-left: 3px solid var(--accent-blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.87rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  animation: slideDown 0.3s ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.explanation.visible { display: block; }
+.explanation .answer-tag {
+  display: inline-block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+.explanation .answer-tag.correct { background: rgba(52,211,153,0.15); color: var(--accent-green); }
+.explanation .answer-tag.wrong { background: rgba(248,113,113,0.15); color: var(--accent-red); }
+.explanation .cn-explain {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(251,191,36,0.06);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(251,191,36,0.12);
+  color: var(--text-primary);
+  font-size: 0.84rem;
+}
+.explanation .cn-explain .cn-title {
+  color: var(--accent-amber);
+  font-weight: 600;
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+.explanation .tip {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(34,211,238,0.06);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+}
+.explanation .tip::before { content: '💡 '; }
+
+/* ===== WRITTEN QUESTION ===== */
+.written-answer {
+  display: none;
+  margin-top: 16px;
+  animation: slideDown 0.3s ease;
+}
+.written-answer.visible { display: block; }
+.show-answer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(34,211,238,0.1));
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-sm);
+  color: var(--accent-cyan);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.show-answer-btn:hover {
+  background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(34,211,238,0.18));
+  transform: translateY(-1px);
+}
+.written-section {
+  background: rgba(99,102,241,0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-top: 12px;
+  font-size: 0.87rem;
+  line-height: 1.8;
+}
+.written-section h4 {
+  color: var(--accent-green);
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+}
+.written-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.82rem;
+}
+.written-section th, .written-section td {
+  padding: 8px 12px;
+  border: 1px solid var(--border-subtle);
+  text-align: left;
+}
+.written-section th {
+  background: rgba(99,102,241,0.1);
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+
+/* ===== SUMMARY TABLE ===== */
+.summary-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 32px 0;
+}
+.summary-section h3 {
+  font-size: 1.05rem;
+  color: var(--accent-cyan);
+  margin-bottom: 16px;
+}
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.summary-table th, .summary-table td {
+  padding: 8px 12px;
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+.summary-table th {
+  background: rgba(99,102,241,0.1);
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+.summary-table .trap-type { color: var(--accent-amber); font-weight: 600; }
+
+/* ===== DAG DIAGRAM ===== */
+.dag-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin: 12px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre;
+  text-align: center;
+  color: var(--accent-cyan);
+}
+
+/* ===== FORMULA ===== */
+.formula-box {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin: 8px 0;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+/* ===== HIDDEN ===== */
+.hidden { display: none !important; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.5rem; }
+  .stats-bar { gap: 10px; }
+  .stat-item { padding: 6px 12px; font-size: 0.78rem; }
+  .controls { gap: 6px; padding: 12px 16px; }
+  .tab-btn { padding: 6px 12px; font-size: 0.75rem; }
+  .main { padding: 16px 12px 60px; }
+  .q-card { padding: 16px; }
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-active);
+  border-radius: 99px;
+  padding: 10px 24px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>CST8506 Advanced Machine Learning</h1>
+  <div class="subtitle">期中 + 期末 全题库 · 交互式复习</div>
+  <div class="stats-bar">
+    <div class="stat-item"><span class="num" id="totalQ">0</span><span class="label">总题数</span></div>
+    <div class="stat-item"><span class="num" id="answeredQ">0</span><span class="label">已答题</span></div>
+    <div class="stat-item"><span class="num" id="correctQ">0</span><span class="label">正确</span></div>
+    <div class="stat-item"><span class="num" id="accuracyQ">—</span><span class="label">正确率</span></div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="tab-btn active" data-filter="all">全部</button>
+  <button class="tab-btn" data-filter="midterm">📝 期中 Midterm</button>
+  <button class="tab-btn" data-filter="final">📋 期末 Final</button>
+  <button class="tab-btn" data-filter="tf">T/F 判断题</button>
+  <button class="tab-btn" data-filter="mc">MC 选择题</button>
+  <button class="tab-btn" data-filter="wr">✍️ 主观题</button>
+  <button class="tab-btn" data-filter="wrong">❌ 错题</button>
+  <button class="tab-btn" id="resetBtn">🔄 重置</button>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-container">
+  <div class="progress-info">
+    <span>答题进度</span>
+    <span id="progressText">0 / 0</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="mainContent">
+  <!-- Dynamically generated -->
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// DATA — All questions merged from Midterm + Final prediction
+// ============================================================
+const questions = [
+
+// ===================== MIDTERM: TRUE/FALSE (Q1-Q10) =====================
+{id:'m1',source:'midterm',type:'tf',marks:3,
+ text:'Feature selection and feature extraction are identical techniques, both aiming to reduce dimensionality by creating new synthetic features.',
+ answer:'false',
+ explain:'Feature selection picks a subset of existing features (no new features created). Feature extraction (e.g., PCA, LDA) creates new synthetic features by transforming/combining originals.',
+ cnExplain:'特征选择(Feature Selection)从现有特征中挑选子集，不创建新特征。特征提取(Feature Extraction)（如PCA、LDA）通过变换/组合原始特征创建新的合成特征。两者是完全不同的方法。',
+ tip:'Feature Selection = 选子集；Feature Extraction = 造新特征。二者不同！'},
+
+{id:'m2',source:'midterm',type:'tf',marks:3,
+ text:'Equal-frequency binning involves dividing the range of a continuous feature into intervals of equal width.',
+ answer:'false',
+ explain:'Equal-width binning divides the range into intervals of equal width. Equal-frequency (equal-depth) binning divides data so each bin contains approximately the same number of data points.',
+ cnExplain:'等宽分箱(Equal-width)把范围切成等宽区间。等频分箱(Equal-frequency)让每个箱包含大约相同数量的数据点。题目把两个概念搞混了。',
+ tip:'Equal-width = 等宽度；Equal-frequency = 等数量。名称和定义对调陷阱！'},
+
+{id:'m3',source:'midterm',type:'tf',marks:3,
+ text:'In an SVM, the hyperplane is chosen to minimize the distance between itself and the closest data points from each class.',
+ answer:'false',
+ explain:'SVM maximizes the margin (distance to the closest points — support vectors), not minimizes it.',
+ cnExplain:'SVM的目标是最大化间隔(Margin)，即找到距离最近支持向量最远的超平面，而不是最小化距离。',
+ tip:'"minimize" 是陷阱，SVM = Maximize margin！'},
+
+{id:'m4',source:'midterm',type:'tf',marks:3,
+ text:'The kernel trick allows SVMs to operate in a high-dimensional feature space without the computational cost of explicitly transforming the data into that space.',
+ answer:'true',
+ explain:'The kernel trick computes dot products in a high-dimensional space using a kernel function K(xᵢ, xⱼ) = φ(xᵢ)·φ(xⱼ), without ever computing φ(x) explicitly.',
+ cnExplain:'核技巧(Kernel Trick)通过核函数直接计算高维空间中的点积，无需显式计算变换φ(x)，避免了高维计算的代价。',
+ tip:'Kernel Trick = 隐式映射到高维，只算点积，不算φ(x)。'},
+
+{id:'m5',source:'midterm',type:'tf',marks:3,
+ text:'In a convolutional layer, the values within a filter (or kernel) are pre-defined constants, such as the Sobel filter, and cannot be learned during training.',
+ answer:'false',
+ explain:'In a CNN, the filter weights are learned during training via backpropagation. Pre-defined filters like Sobel are used in traditional image processing, not in learned convolutions.',
+ cnExplain:'CNN中的滤波器权重是通过反向传播在训练过程中学习的，不是预定义常量。Sobel等预定义滤波器属于传统图像处理。',
+ tip:'CNN的filter是学出来的，不是固定的！'},
+
+{id:'m6',source:'midterm',type:'tf',marks:3,
+ text:'Backpropagation Through Time (BPTT) works by unrolling the RNN, applying the standard backpropagation algorithm to each time step independently, and then updating the weights for each time step separately.',
+ answer:'false',
+ explain:'BPTT does unroll the RNN and apply backpropagation. However, it does not update weights for each time step separately. RNNs share weights across all time steps; gradients are accumulated across all time steps and then used for a single weight update.',
+ cnExplain:'BPTT确实展开RNN并应用反向传播，但不是每个时间步独立更新权重。RNN在所有时间步共享同一组权重(Weight Sharing)，梯度在所有时间步累积后做一次更新。',
+ tip:'"separately" 是陷阱！RNN = Weight Sharing，梯度累积后统一更新。'},
+
+{id:'m7',source:'midterm',type:'tf',marks:3,
+ text:'Conditional independence means that if two variables, X and Y, are independent, they remain independent even after conditioning on a third variable Z.',
+ answer:'false',
+ explain:'Conditional independence means P(X,Y|Z) = P(X|Z)·P(Y|Z). This is different from marginal independence. Two marginally independent variables can become dependent after conditioning (and vice versa — e.g., "explaining away").',
+ cnExplain:'条件独立(Conditional Independence)是P(X,Y|Z)=P(X|Z)·P(Y|Z)，即给定Z后X和Y独立。这与边际独立不同。两个边际独立的变量在条件化后可能变得依赖（如"explaining away"效应）。',
+ tip:'条件独立 ≠ "独立就永远独立"。条件化可以改变依赖关系！'},
+
+{id:'m8',source:'midterm',type:'tf',marks:3,
+ text:'Naïve Bayes is considered robust to irrelevant features because the probability estimates for irrelevant features will roughly cancel out across classes.',
+ answer:'true',
+ explain:'If a feature is irrelevant, its conditional probability P(xᵢ|C) will be roughly the same for all classes, so it contributes equally to the numerator for each class and effectively cancels out.',
+ cnExplain:'如果一个特征不相关，其条件概率P(xᵢ|C)对所有类别大致相同，因此在分类时各类别的贡献相互抵消，不影响最终决策。',
+ tip:'不相关特征 → P(x|C₁) ≈ P(x|C₂) → 抵消 → 不影响分类结果。'},
+
+{id:'m9',source:'midterm',type:'tf',marks:3,
+ text:'Different clustering algorithms applied to the same dataset will always produce identical results.',
+ answer:'false',
+ explain:'Different algorithms (K-Means, DBSCAN, Hierarchical) have different assumptions (shape, density, connectivity) and will generally produce different clusterings.',
+ cnExplain:'不同聚类算法（K-Means、DBSCAN、层次聚类）有不同的假设（形状、密度、连接性），对同一数据集通常会产生不同的聚类结果。即使同一个算法不同初始化也可能不同。',
+ tip:'"always" 是绝对表达 → 几乎总是 False！'},
+
+{id:'m10',source:'midterm',type:'tf',marks:3,
+ text:'The MIN (single-link) hierarchical clustering method defines the distance between two clusters as the distance between their farthest points.',
+ answer:'false',
+ explain:'MIN (single-link) uses the distance between the closest (nearest) points. MAX (complete-link) uses the farthest points.',
+ cnExplain:'MIN(单链接)用最近点的距离，MAX(全链接)用最远点的距离。题目把MIN和MAX的定义搞反了。',
+ tip:'MIN = 最近点；MAX = 最远点。名称和定义对调陷阱！'},
+
+// ===================== MIDTERM: MULTIPLE CHOICE (Q11-Q30) =====================
+{id:'m11',source:'midterm',type:'mc',marks:3,
+ text:"A data scientist wants to convert a continuous feature, 'Age', into a categorical feature with three categories: 'Young', 'Middle-aged', and 'Senior'. This process is an example of:",
+ options:['Standardization','Normalization','Binning','Age is not a continuous feature'],
+ answer:2,
+ explain:'Converting a continuous variable into discrete categories (bins) is called binning (also known as discretization).',
+ cnExplain:'将连续变量转换为离散类别（如"年轻"、"中年"、"老年"）的过程叫做分箱(Binning)或离散化(Discretization)。',
+ tip:'连续 → 离散分类 = Binning/Discretization。'},
+
+{id:'m12',source:'midterm',type:'mc',marks:3,
+ text:'After performing PCA on a dataset, you get the following eigenvalues for the 4 principal components: [3.2, 1.1, 0.4, 0.1]. What is the proportion of variance explained by the first principal component?',
+ options:['3.2%','32%','Approximately 67%','Approximately 80%'],
+ answer:2,
+ explain:'Total variance = 3.2 + 1.1 + 0.4 + 0.1 = 4.8. Proportion = 3.2 / 4.8 = 0.667 ≈ 67%.',
+ cnExplain:'方差解释比 = 第一主成分特征值 / 所有特征值之和 = 3.2 / (3.2+1.1+0.4+0.1) = 3.2/4.8 ≈ 66.7%。',
+ tip:'先算总和，再除。3.2/4.8 ≈ 2/3 ≈ 67%。'},
+
+{id:'m13',source:'midterm',type:'mc',marks:3,
+ text:'A key similarity between PCA and LDA is that both:',
+ options:['Are unsupervised learning algorithms.','Rank the new axes they create in order of importance.','Aim to maximize class separability.','Can produce a number of components equal to the number of original features.'],
+ answer:1,
+ explain:'PCA ranks axes by variance explained; LDA ranks by discriminative power. (a) wrong: LDA is supervised; (c) only LDA; (d) LDA produces at most C-1 components.',
+ cnExplain:'PCA和LDA的共同点：都对新轴按重要性排序。PCA按方差排序，LDA按判别力排序。(a)错误因为LDA是有监督的；(c)只适用于LDA；(d)LDA最多C-1个分量。',
+ tip:'PCA = 按方差排序；LDA = 按判别力排序。共同点 = 都排序。'},
+
+{id:'m14',source:'midterm',type:'mc',marks:3,
+ text:'What is the primary objective of a Maximum Margin Classifier (Hard Margin SVM)?',
+ options:['To minimize the number of support vectors.','To find any hyperplane that separates the classes.','To find a hyperplane that maximizes the distance to the closest points from each class.','To minimize the sum of squared errors on the training data.'],
+ answer:2,
+ explain:'Hard Margin SVM finds the hyperplane with the maximum margin — the greatest perpendicular distance to the nearest data point from either class.',
+ cnExplain:'硬间隔SVM的目标是找到最大间隔的超平面，即与两类最近数据点（支持向量）的垂直距离最大。',
+ tip:'SVM = Maximum Margin = 最大化到最近点的距离。'},
+
+{id:'m15',source:'midterm',type:'mc',marks:3,
+ text:'Which of the following is stated as a primary advantage of SVM?',
+ options:['It performs exceptionally well on very large datasets with millions of samples.','It is highly interpretable, like a single decision tree.','It is memory efficient and effective in high-dimensional spaces.','It requires no parameter tuning.'],
+ answer:2,
+ explain:'SVM is memory efficient (only stores support vectors) and effective in high-dimensional spaces. NOT efficient for very large datasets, NOT interpretable, DOES require tuning.',
+ cnExplain:'SVM的优势：内存高效（只存储支持向量）、在高维空间效果好。SVM对超大数据集不高效，不易解释，需要调参(C, kernel, γ)。',
+ tip:'SVM优势 = 高维有效 + 内存高效（只存支持向量）。'},
+
+{id:'m16',source:'midterm',type:'mc',marks:3,
+ text:'For a data point 𝐱 that lies exactly on the decision hyperplane, what is the value of 𝐰·𝐱 + b?',
+ options:['1','-1','0','It depends on the class of the point.'],
+ answer:2,
+ explain:'The decision boundary is defined by w·x + b = 0. Any point on the hyperplane satisfies this equation.',
+ cnExplain:'决策边界定义为 w·x + b = 0。在超平面上的点满足这个方程，所以值为0。',
+ tip:'超平面上 = 0；正类侧 > 0；负类侧 < 0。'},
+
+{id:'m17',source:'midterm',type:'mc',marks:3,
+ text:'Why is a standard Multi-Layer Perceptron (MLP) generally not used for direct processing of raw, high-resolution images?',
+ options:['MLPs cannot use non-linear activation functions.','The number of parameters becomes astronomically large, leading to overfitting and high computational cost.','MLPs require sequential data as input, which images are not.','MLPs are only capable of binary classification.'],
+ answer:1,
+ explain:'For a 224×224×3 image, a fully connected layer would need 150,528 weights per neuron. This is why CNNs use local connectivity and weight sharing.',
+ cnExplain:'224×224×3的图像，全连接层每个神经元需要150,528个权重——参数量太大，导致过拟合和高计算成本。CNN通过局部连接(Local Connectivity)和权重共享(Weight Sharing)大幅减少参数。',
+ tip:'MLP处理图像 = 参数爆炸。CNN的局部连接和权重共享解决这个问题。'},
+
+{id:'m18',source:'midterm',type:'mc',marks:3,
+ text:"If you have an input volume of 32×32×3 and use 10 filters of size 5×5 with stride 1 and 'same' padding, what is the spatial dimension (height and width) and depth of the output volume?",
+ options:['28×28×10','32×32×3','32×32×10','28×28×3'],
+ answer:2,
+ explain:"'Same' padding preserves spatial dimensions → 32×32. 10 filters → depth = 10. Output: 32×32×10.",
+ cnExplain:"'Same' padding保持空间尺寸不变 → 32×32。10个滤波器 → 深度=10。输出：32×32×10。'Valid' padding才会缩小。",
+ tip:'Same padding = 尺寸不变。depth = filter数量。'},
+
+{id:'m19',source:'midterm',type:'mc',marks:3,
+ text:'The filters in the first layer of a trained CNN are most likely to detect:',
+ options:['High-level concepts like faces or objects.','Low-level features like edges, colors, and blobs.','Complex patterns like eyes or wheels.','The class label of the image.'],
+ answer:1,
+ explain:'Early layers learn simple, low-level features (edges, textures). Deeper layers combine these into increasingly complex/abstract representations.',
+ cnExplain:'第一层学习简单的低级特征（边缘、颜色、纹理）。越深的层组合出越复杂/抽象的表示（眼睛、车轮→人脸、物体）。',
+ tip:'CNN层级：浅层=边缘/纹理，深层=复杂语义。'},
+
+{id:'m20',source:'midterm',type:'mc',marks:3,
+ text:'What is the primary benefit of weight sharing in Recurrent Neural Networks?',
+ options:['It makes the network deeper and thus more powerful.','It allows the network to be trained with Backpropagation Through Time.','It enables the network to process sequences of variable length and generalize patterns across different positions in the sequence.','It completely eliminates the vanishing gradient problem.'],
+ answer:2,
+ explain:'Weight sharing means the same Wₓ, Wₕ are used at every time step, so the network can handle any sequence length and recognize patterns regardless of position.',
+ cnExplain:'权重共享意味着所有时间步使用相同的Wₓ、Wₕ，因此网络可以处理任意长度的序列，并在不同位置泛化模式。',
+ tip:'Weight Sharing → 可变长度序列 + 位置无关的模式识别。'},
+
+{id:'m21',source:'midterm',type:'mc',marks:3,
+ text:'The vanishing gradient problem in RNNs is most directly analogous to what phenomenon in a simple numerical product?',
+ options:['Multiplying many numbers that are all close to 1.','Multiplying many numbers that are all less than 1 (e.g., 0.1 × 0.1 × 0.1...).','Adding many numbers that are all greater than 1.','Dividing a large number by a very small number.'],
+ answer:1,
+ explain:'During BPTT, the gradient involves repeated multiplication of ∂hₜ/∂hₜ₋₁. If these are < 1, the product shrinks exponentially → vanishing gradient.',
+ cnExplain:'BPTT中梯度涉及重复乘以∂hₜ/∂hₜ₋₁。如果这些偏导 < 1，连乘后指数级缩小 → 梯度消失。类似0.1×0.1×0.1→趋近于0。',
+ tip:'连乘<1的数 → 指数级缩小 = 梯度消失的直觉类比。'},
+
+{id:'m22',source:'midterm',type:'mc',marks:3,
+ text:'The fundamental recurrence relation for the hidden state hₜ in a simple RNN is given by:',
+ options:['hₜ = f(Wₓ · xₜ)','hₜ = f(Wₓ · xₜ + Wᵧ · hₜ₋₁)','hₜ = f(Wᵧ · hₜ₋₁)','hₜ = Wₓ · xₜ + Wᵧ · hₜ₋₁'],
+ answer:1,
+ explain:'The hidden state combines: current input xₜ weighted by Wₓ, previous hidden state hₜ₋₁ weighted by Wᵧ, passed through a nonlinear activation function f.',
+ cnExplain:'隐藏状态 = f(当前输入加权 + 前一隐藏状态加权)。需要三个要素：当前输入、历史记忆、非线性激活函数。(a)缺历史，(c)缺输入，(d)缺激活函数。',
+ tip:'RNN公式三要素：Wₓ·xₜ（输入）+ Wₕ·hₜ₋₁（记忆）+ f（非线性）。'},
+
+{id:'m23',source:'midterm',type:'mc',marks:3,
+ text:"Which formula correctly represents Bayes' Theorem?",
+ options:['P(Y|X) = P(X|Y) × P(Y)','P(Y|X) = P(X|Y) / P(Y)','P(Y|X) = P(X|Y)·P(Y) / P(X)','P(Y|X) = P(X)·P(Y) / P(X|Y)'],
+ answer:2,
+ explain:"Bayes' Theorem: Posterior = (Likelihood × Prior) / Evidence = P(X|Y)·P(Y) / P(X).",
+ cnExplain:'贝叶斯定理：后验 = (似然 × 先验) / 证据 = P(X|Y)·P(Y) / P(X)。',
+ tip:'贝叶斯 = 似然×先验/证据。记住分母是P(X)！'},
+
+{id:'m24',source:'midterm',type:'mc',marks:3,
+ text:'The Laplace estimate for a categorical feature addresses the zero-frequency problem by:',
+ options:['Discarding features that have zero probabilities.','Artificially increasing the count of each class outcome by one.','Replacing all zero probabilities with a very small constant like 1e-9.','Increasing the count of each feature value for a given class by one and adjusting the denominator accordingly.'],
+ answer:3,
+ explain:'Laplace smoothing: P(xᵢ|C) = (count(xᵢ,C) + 1) / (count(C) + |V|), where |V| is the number of distinct values.',
+ cnExplain:'拉普拉斯平滑：分子加1（每个特征值的计数+1），分母也相应调整（加上特征可能取值的数量|V|）。不是简单替换为小常数。',
+ tip:'Laplace: 分子+1，分母+|V|。注意分母也要调整！'},
+
+{id:'m25',source:'midterm',type:'mc',marks:3,
+ text:'Which of the following is NOT a stated advantage or characteristic of the Naïve Bayes classifier?',
+ options:['It is robust to isolated noise points.','It performs well even when features are highly correlated and redundant.','It can handle missing values by ignoring them during probability estimation.','It is robust to irrelevant attributes.'],
+ answer:1,
+ explain:'Naïve Bayes assumes conditional independence. Highly correlated/redundant features violate this assumption and degrade performance (double-counting evidence).',
+ cnExplain:'朴素贝叶斯假设条件独立。高度相关/冗余的特征违反这个假设，会导致性能下降（证据被重复计算）。这是NB的弱点，不是优势。',
+ tip:'NB的阿喀琉斯之踵 = 相关特征。条件独立假设被违反。'},
+
+{id:'m26',source:'midterm',type:'mc',marks:3,
+ text:'You have a dataset where a categorical feature has a value that was never seen in the training data for a particular class. Without any form of smoothing, how will Naïve Bayes handle a test instance with this unseen feature value?',
+ options:['It will ignore that feature and base the decision on the other features.','It will assign a very small probability to that feature for that class.','It will assign a probability of zero to that class for that instance.','It will throw an error and fail to classify the instance.'],
+ answer:2,
+ explain:'NB multiplies all conditional probabilities. If any P(xᵢ|C) = 0, the entire product becomes 0. This is the zero-frequency problem that Laplace smoothing addresses.',
+ cnExplain:'NB通过连乘所有条件概率来分类。如果任何一个P(xᵢ|C)=0，整个乘积=0。这就是零频率问题，拉普拉斯平滑就是解决这个的。',
+ tip:'一个为零→全部为零！这就是Laplace平滑存在的原因。'},
+
+{id:'m27',source:'midterm',type:'mc',marks:3,
+ text:'In which type of clustering is a cluster defined as a set of points such that any point in the cluster is closer to the "center" of that cluster than to the center of any other cluster?',
+ options:['Well-separated clusters','Contiguity-based clusters','Prototype-based clusters','Density-based clusters'],
+ answer:2,
+ explain:'In prototype-based clustering (e.g., K-Means), each cluster is represented by a centroid (prototype), and each point belongs to the cluster whose centroid is nearest.',
+ cnExplain:'基于原型的聚类（如K-Means）：每个聚类由一个质心（原型）代表，每个点属于最近质心的聚类。',
+ tip:'离哪个中心近就归哪类 = Prototype-based = K-Means的核心思想。'},
+
+{id:'m28',source:'midterm',type:'mc',marks:3,
+ text:"What does the 'd' represent in the K-means complexity formula O(n·K·I·d)?",
+ options:['The distance between clusters.','The density of the data points.','The number of attributes (dimensions) of the data.','The number of iterations until convergence.'],
+ answer:2,
+ explain:'In O(n·K·I·d): n = number of points, K = number of clusters, I = number of iterations, d = number of dimensions (attributes).',
+ cnExplain:'O(n·K·I·d)中：n=数据点数，K=聚类数，I=迭代数，d=维度/属性数。d代表数据的维度（特征数量）。',
+ tip:'n=点数, K=簇数, I=迭代数, d=维度数。I≠d！'},
+
+{id:'m29',source:'midterm',type:'mc',marks:3,
+ text:'Which of the following is a major advantage of hierarchical clustering over partitional methods like K-means?',
+ options:['It is much faster and can handle millions of data points easily.','It does not require the user to pre-specify the number of clusters.','It is guaranteed to find the globally optimal clustering.','All of the above options'],
+ answer:1,
+ explain:'Hierarchical clustering builds a dendrogram — you can cut it at any level to get different numbers of clusters. K-Means requires specifying K in advance.',
+ cnExplain:'层次聚类构建树状图(Dendrogram)——可以在任意层级切割获得不同数量的聚类，不需要预设K值。K-Means必须预先指定K。',
+ tip:'层次聚类优势 = 不用预设K，通过树状图灵活选择。'},
+
+{id:'m30',source:'midterm',type:'mc',marks:3,
+ text:'In DBSCAN, what is a "border point"?',
+ options:['A point with fewer than MinPts neighbors within ε, but which is within the ε-neighborhood of a core point.','Any point that is not a core point.','A point with more than MinPts neighbors within ε.','A point that lies exactly on the boundary of the dataset\'s convex hull.'],
+ answer:0,
+ explain:'DBSCAN: Core point = ≥ MinPts neighbors within ε; Border point = < MinPts but reachable from a core point; Noise = neither.',
+ cnExplain:'DBSCAN三类点：核心点(ε内≥MinPts个邻居)、边界点(ε内<MinPts但在某核心点的ε邻域内)、噪声点(两者都不是)。',
+ tip:'Border = 自己不够格当Core，但靠着Core吃饭。'},
+
+// ===================== FINAL: TRUE/FALSE (FQ1-FQ10) =====================
+{id:'f1',source:'final',type:'tf',marks:3,
+ text:'In imbalanced class problems, accuracy is always a reliable metric for evaluating classifier performance.',
+ answer:'false',
+ explain:'In imbalanced data, accuracy is misleading. E.g., with 10 positive and 990 negative samples, predicting all as negative gives 99% accuracy but catches zero positives.',
+ cnExplain:'在不平衡数据中，准确率(Accuracy)是不可靠的指标。例如：正样本10个、负样本990个，全部预测为负类Accuracy=99%，但正类一个都没抓到。应使用Precision、Recall、F1。',
+ tip:'"always"是核心陷阱。不平衡数据中accuracy具有误导性！'},
+
+{id:'f2',source:'final',type:'tf',marks:3,
+ text:'Oversampling the minority class works by randomly duplicating instances of the minority class to balance the dataset.',
+ answer:'true',
+ explain:'Oversampling randomly duplicates minority class instances to balance. Simple but risks overfitting. Improved version = SMOTE.',
+ cnExplain:'过采样(Oversampling)通过复制(Duplicate)少数类实例来平衡数据集。方法简单但有过拟合风险。改进版 = SMOTE（合成而非复制）。',
+ tip:'Oversampling = 复制(Duplicate)。SMOTE = 合成生成(Synthetic)。必须区分！'},
+
+{id:'f3',source:'final',type:'tf',marks:3,
+ text:'SMOTE generates synthetic minority class instances by duplicating existing minority class instances and adding a small amount of random noise.',
+ answer:'false',
+ explain:'SMOTE does NOT copy+noise. It generates synthetic instances by interpolation along line segments connecting minority class instances with their k-nearest neighbors.',
+ cnExplain:'SMOTE不是"复制+噪声"，而是在少数类实例与其k-最近邻之间的线段上通过插值(Interpolation)生成新实例。具体：x_new = x + rand(0,1)×(x_nn - x)。',
+ tip:'SMOTE ≠ copy+noise，而是邻居间线段上的插值！方法论微妙出错是陷阱。'},
+
+{id:'f4',source:'final',type:'tf',marks:3,
+ text:'A randomly guessing model has an Area Under the ROC Curve (AUC) of 0.5.',
+ answer:'true',
+ explain:'In ROC, a random guessing model lies along the diagonal, giving AUC = 0.5. Perfect model AUC = 1.0, completely inverted = 0.0.',
+ cnExplain:'ROC曲线中，随机猜测模型沿对角线分布，AUC=0.5。完美模型AUC=1.0。x轴=FPR，y轴=TPR。',
+ tip:'AUC: Random=0.5, Perfect=1.0。ROC的x轴=FPR，y轴=TPR。'},
+
+{id:'f5',source:'final',type:'tf',marks:3,
+ text:'In Bagging, each bootstrap sample is created by sampling from the original training set without replacement.',
+ answer:'false',
+ explain:'Bagging uses sampling WITH replacement. Because of this, the same instance can be selected multiple times, and each sample contains about 63.2% of original data.',
+ cnExplain:'Bagging使用有放回抽样(WITH Replacement)！同一实例可能被多次抽中，每个自助样本包含约63.2%的原始数据。',
+ tip:'"without"↔"with"换词陷阱！Bagging = WITH replacement（有放回）。'},
+
+{id:'f6',source:'final',type:'tf',marks:3,
+ text:'In AdaBoost, correctly classified instances have their weights increased in the next round so that the model focuses on easy samples.',
+ answer:'false',
+ explain:'In AdaBoost, misclassified instances get their weights increased, and correctly classified instances get decreased. The next classifier focuses on hard examples.',
+ cnExplain:'AdaBoost中是错误分类的实例权重增加，正确分类的权重减少。这让下一轮分类器专注于困难样本。题目说反了。',
+ tip:'权重方向相反！Boosting = 错误的UP，正确的DOWN。'},
+
+{id:'f7',source:'final',type:'tf',marks:3,
+ text:'Random Forest combines Bagging with random feature selection at each split point to create diverse decision trees.',
+ answer:'true',
+ explain:'Random Forest = (1) Bagging for different training data per tree + (2) Random feature subset at each split. Two sources of randomness ensure diversity.',
+ cnExplain:'随机森林 = Bagging(每棵树不同数据) + 随机特征子集(每次分裂随机选p个特征)。双重随机性确保树的多样性。',
+ tip:'Random Forest = Bagging + Random Feature Subset。双重随机性是关键。'},
+
+{id:'f8',source:'final',type:'tf',marks:3,
+ text:'The confidence of an association rule {X} → {Y} is calculated as the support of {X ∪ Y} divided by the total number of transactions.',
+ answer:'false',
+ explain:'The statement describes Support, not Confidence. Confidence({X}→{Y}) = Support({X∪Y}) / Support({X}), i.e., divided by the support of X, not the total transactions.',
+ cnExplain:'题目描述的是Support的公式！Confidence = σ(X∪Y)/σ(X)（除以X的支持度），不是除以总交易数。Support才是除以总交易数。',
+ tip:'Support = σ(X∪Y)/|T|（除以总数）。Confidence = σ(X∪Y)/σ(X)（除以X）。分母不同！'},
+
+{id:'f9',source:'final',type:'tf',marks:3,
+ text:'According to the Apriori principle, if an itemset is infrequent, then all of its supersets must also be infrequent.',
+ answer:'true',
+ explain:'Apriori Principle: If an itemset is infrequent, all its supersets are also infrequent. This is due to the anti-monotone property of support.',
+ cnExplain:'Apriori原则：非频繁项集的所有超集也一定非频繁。因为支持度的反单调属性——项集变大时支持度只会相同或减少。这是剪枝的核心依据。',
+ tip:'Apriori = "子集非频繁→超集也非频繁"。这是剪枝(Pruning)的依据。'},
+
+{id:'f10',source:'final',type:'tf',marks:3,
+ text:'In association rule mining, rules generated from the same frequent itemset always have identical support and identical confidence.',
+ answer:'false',
+ explain:'Rules from the same frequent itemset have the same Support (same union set). But Confidence can differ because the denominator differs.',
+ cnExplain:'同一频繁项集生成的规则：Support相同（因为是同一项集的出现频率）。但Confidence可能不同（分母不同）。例如{A,B}→{C}和{C}→{A,B}的Confidence不同。',
+ tip:'"identical support"正确，但"identical confidence"错误。部分正确的陷阱！'},
+
+// ===================== FINAL: MULTIPLE CHOICE (FQ11-FQ30) =====================
+{id:'f11',source:'final',type:'mc',marks:3,
+ text:'In a confusion matrix, False Positive (FP) refers to:',
+ options:['The model correctly predicted a positive instance.','The model incorrectly predicted a negative instance as positive.','The model incorrectly predicted a positive instance as negative.','The model correctly predicted a negative instance.'],
+ answer:1,
+ explain:'FP = Actual Negative predicted as Positive (Type I Error).',
+ cnExplain:'FP(假阳性/误报)：实际是负类，但模型预测为正类。第一类错误(Type I Error)。记忆：先看True/False(预测对不对)→再看Positive/Negative(预测结果)。',
+ tip:'TP/FP/FN/TN：第一个字母=预测对不对，第二个字母=预测的标签。'},
+
+{id:'f12',source:'final',type:'mc',marks:3,
+ text:'The F1-measure is defined as:',
+ options:['(Precision + Recall) / 2','2 × Precision × Recall / (Precision + Recall)','Precision × Recall','(TP + TN) / (TP + FP + FN + TN)'],
+ answer:1,
+ explain:'F1 is the harmonic mean of Precision and Recall: F1 = 2pr/(p+r). (a) is arithmetic mean, (d) is Accuracy.',
+ cnExplain:'F1是Precision和Recall的调和平均：F1 = 2pr/(p+r)。(a)是算术平均，(d)是Accuracy的公式。F1在不平衡数据中比accuracy更可靠。',
+ tip:'F1 = 调和平均(Harmonic Mean)，不是算术平均！'},
+
+{id:'f13',source:'final',type:'mc',marks:3,
+ text:'In the ROC curve, the x-axis and y-axis represent:',
+ options:['x = Precision, y = Recall','x = FPR (False Positive Rate), y = TPR (True Positive Rate)','x = Recall, y = Precision','x = TPR, y = FPR'],
+ answer:1,
+ explain:'ROC axes: x = FPR = FP/(FP+TN), y = TPR = TP/(TP+FN) = Recall. Good model: low FPR, high TPR → upper-left corner.',
+ cnExplain:'ROC曲线：x轴=FPR=FP/(FP+TN)，y轴=TPR=TP/(TP+FN)=Recall。好模型FPR低TPR高，靠近左上角。注意(d)把x/y搞反了。',
+ tip:'ROC: x=FPR, y=TPR。注意不要把轴搞反！'},
+
+{id:'f14',source:'final',type:'mc',marks:3,
+ text:'Which of the following correctly describes the SMOTE technique?',
+ options:['It balances the dataset by removing majority class instances.','It randomly duplicates minority class instances.','It generates synthetic minority class instances along line segments connecting minority class nearest neighbors.','It uses PCA to reduce the dimensionality of the minority class.'],
+ answer:2,
+ explain:'SMOTE generates synthetic instances by interpolation along line segments connecting minority class instances with their k-NN.',
+ cnExplain:'SMOTE在少数类实例与其k-最近邻之间的线段上通过插值生成合成实例。(a)是Undersampling，(b)是简单Oversampling。',
+ tip:'SMOTE = 邻居间线段上的插值。不是删除也不是复制。'},
+
+{id:'f15',source:'final',type:'mc',marks:3,
+ text:'In the Local Outlier Factor (LOF) method, if the relative density of a point x is much greater than 1, it indicates:',
+ options:['x is a normal point with high density.','x is surrounded by very dense neighbors and is therefore normal.','x is a strong outlier because its density is much lower than its neighbors.','x is the center of a dense cluster.'],
+ answer:2,
+ explain:'LOF: relative_density = (average density of neighbors) / (density of x). Value ≫1 means x is much less dense than neighbors → strong outlier.',
+ cnExplain:'LOF = 邻居平均密度/x的密度。该值≫1意味着x的密度远低于邻居→强异常值。≈1正常，<1比邻居更密。',
+ tip:'LOF > 1 → Outlier（自己密度低于邻居）。直觉：周围很密但自己孤立。'},
+
+{id:'f16',source:'final',type:'mc',marks:3,
+ text:'One-Class SVM (OCSVM) is designed to:',
+ options:['Classify data precisely into two balanced classes.','Learn a boundary around normal data points and identify points outside the boundary as outliers.','Perform multi-class classification using multiple hyperplanes.','Cluster data based on density.'],
+ answer:1,
+ explain:'OCSVM learns from only normal data, establishes a boundary. Points outside → outlier. f(x) ≥ 0 = normal, f(x) < 0 = outlier. ν controls outlier fraction.',
+ cnExplain:'OCSVM仅用正常数据学习，建立正常区域的边界。落在边界外的 = 异常值。f(x)≥0正常，f(x)<0异常。ν参数控制异常值比例。',
+ tip:'OCSVM = 只学正常 → 设边界 → 界外=异常。ν=异常比例上限。'},
+
+{id:'f17',source:'final',type:'mc',marks:3,
+ text:'What are the two necessary conditions for ensemble methods to outperform a single base classifier?',
+ options:['Base classifiers must be complex and trained on the complete dataset.','Base classifiers must be independent of each other and each must perform better than random guessing.','Base classifiers must all use the same algorithm and be trained on identical data.','Base classifiers must have zero training error and high variance.'],
+ answer:1,
+ explain:'Two conditions: (1) Base classifiers must be independent. (2) Each must have error rate < 0.5 (better than random guessing).',
+ cnExplain:'集成方法优于单分类器的条件：①基分类器彼此独立(Independent)。②每个分类器错误率<0.5（优于随机猜测）。',
+ tip:'集成两大条件：①独立 ②比瞎猜好。缺一不可。'},
+
+{id:'f18',source:'final',type:'mc',marks:3,
+ text:'In Bagging, when n is sufficiently large, the probability that a specific training instance is included in a single bootstrap sample is approximately:',
+ options:['0.5','0.368','0.632','1.0'],
+ answer:2,
+ explain:'Inclusion probability = 1 − (1−1/n)ⁿ. When n is large, (1−1/n)ⁿ → 1/e ≈ 0.368, so inclusion ≈ 1 − 0.368 = 0.632.',
+ cnExplain:'被包含的概率 = 1 − (1−1/n)^n。n很大时(1−1/n)^n → 1/e ≈ 0.368，因此概率 ≈ 1−0.368 = 0.632（约63.2%）。',
+ tip:'Bagging: 每个Bootstrap样本包含约63.2%的原始数据。记住这个数字！'},
+
+{id:'f19',source:'final',type:'mc',marks:3,
+ text:'Which of the following best describes the key difference between Bagging and Boosting?',
+ options:['Bagging uses weighted voting while Boosting uses simple majority voting.','Bagging trains base classifiers independently in parallel, while Boosting trains them sequentially, focusing on previously misclassified instances.','Bagging only works with decision trees while Boosting works with any classifier.','Bagging increases bias while Boosting increases variance.'],
+ answer:1,
+ explain:'Bagging: parallel independent training → reduces Variance. Boosting: sequential training based on previous errors → reduces Bias.',
+ cnExplain:'Bagging：并行独立训练→降低方差(Variance)。Boosting：基于前一轮错误顺序训练→降低偏差(Bias)。(a)说反了，(d)也说反了。',
+ tip:'Bagging=并行+Variance↓。Boosting=顺序+Bias↓。方向不要搞反！'},
+
+{id:'f20',source:'final',type:'mc',marks:3,
+ text:'In AdaBoost, the importance (alpha) of a base classifier is calculated as:',
+ options:['α = ln(1/ε)','α = ½ × ln((1 − ε) / ε)','α = ε / (1 − ε)','α = 1 − ε'],
+ answer:1,
+ explain:'AdaBoost: α = ½ × ln((1−ε)/ε). Lower ε (more accurate) → larger α → more voting influence.',
+ cnExplain:'AdaBoost分类器重要度：α = ½ × ln((1−ε)/ε)。ε越小→α越大→投票影响力越大。ε=0.5时α=0（随机猜测水平）。',
+ tip:'α = ½ × ln((1−ε)/ε)。ε越小→α越大→权重越大。'},
+
+{id:'f21',source:'final',type:'mc',marks:3,
+ text:'What happens if an intermediate round of AdaBoost produces an error rate greater than 50%?',
+ options:['The algorithm terminates immediately.','The weights are reverted to 1/n and the resampling procedure is repeated.','The classifier is assigned a negative weight.','The training data is randomly shuffled.'],
+ answer:1,
+ explain:'If ε > 50%, weights are reset to 1/n and resampling is repeated. The classifier is worse than random guessing, so it is ignored.',
+ cnExplain:'错误率>50%时，权重重置为1/n并重新开始。该分类器比随机猜测还差→忽略它。不是终止算法！',
+ tip:'"terminates"是陷阱！ε>50% → Reset权重到1/n，重来。'},
+
+{id:'f22',source:'final',type:'mc',marks:3,
+ text:'What distinguishes Random Forest from standard Bagging?',
+ options:['Random Forest does not use bootstrap sampling.','Random Forest adds random feature subset selection at each split on top of bootstrap sampling.','Random Forest uses pruned decision trees while Bagging uses unpruned trees.','Random Forest uses weighted voting while Bagging uses majority voting.'],
+ answer:1,
+ explain:'Random Forest = Bagging + Random Feature Subset at each split. Both use bootstrap. RF uses unpruned trees.',
+ cnExplain:'随机森林 = Bagging + 每次分裂时随机选择特征子集。RF和Bagging都用Bootstrap；RF用未剪枝树(Unpruned)。',
+ tip:'RF比Bagging多了一个"随机特征子集"。双重随机性→更大多样性。'},
+
+{id:'f23',source:'final',type:'mc',marks:3,
+ text:'Ensemble methods work best with what type of base classifiers?',
+ options:['Very stable classifiers that are insensitive to changes in training data.','Unstable classifiers that are sensitive to minor perturbations in the training set.','Simple models with very high bias.','Pre-trained deep learning models.'],
+ answer:1,
+ explain:'Ensemble methods work best with unstable classifiers (e.g., unpruned decision trees, ANNs). Stable classifiers (e.g., kNN) show less improvement.',
+ cnExplain:'集成方法与不稳定分类器（如未剪枝决策树、ANN）配合最好——数据微小变化→模型大幅变化→集成能有效降低方差。稳定分类器（如kNN）集成效果差。',
+ tip:'不稳定 = 好搭档。稳定(kNN) = 集成收益小。'},
+
+{id:'f24',source:'final',type:'mc',marks:3,
+ text:'Given a transaction database of 5 transactions, if the itemset {Beer, Diaper} appears in 3 transactions, what is the support of {Beer, Diaper}?',
+ options:['3','0.6','0.4','5/3'],
+ answer:1,
+ explain:'Support = σ(Itemset)/|T| = 3/5 = 0.6. Note: 3 is the support count, not the support ratio.',
+ cnExplain:'Support = 出现次数/总交易数 = 3/5 = 0.6。(a)的3是支持度计数(Support Count)，不是支持度(Support/比率)。',
+ tip:'Support = 比率(0~1)，不是计数！3/5 = 0.6。'},
+
+{id:'f25',source:'final',type:'mc',marks:3,
+ text:'Given the rule {Milk, Diaper} → {Beer}, where σ({Milk, Diaper, Beer}) = 2, σ({Milk, Diaper}) = 3, |T| = 5, the confidence of this rule is:',
+ options:['2/5 = 0.4','3/5 = 0.6','2/3 ≈ 0.67','3/2 = 1.5'],
+ answer:2,
+ explain:'Confidence = σ(X∪Y)/σ(X) = 2/3 ≈ 0.67. Note: Support = 2/5 = 0.4.',
+ cnExplain:'Confidence = σ(X∪Y)/σ(X) = σ({Milk,Diaper,Beer})/σ({Milk,Diaper}) = 2/3 ≈ 0.67。注意Support = 2/5 = 0.4。分母不同是关键！',
+ tip:'Confidence分母是σ(X)，不是|T|。Support分母才是|T|。'},
+
+{id:'f26',source:'final',type:'mc',marks:3,
+ text:'The Apriori principle states that:',
+ options:['If an itemset is frequent, then all of its supersets must also be frequent.','If an itemset is frequent, then all of its subsets must also be frequent.','If an itemset is infrequent, then all of its subsets must also be infrequent.','Support and confidence are always positively correlated.'],
+ answer:1,
+ explain:'Apriori: All subsets of a frequent itemset are also frequent. Contrapositive: All supersets of an infrequent itemset are infrequent.',
+ cnExplain:'Apriori原则：频繁项集的所有子集也一定频繁。逆否命题：非频繁项集的所有超集也一定非频繁。(a)说反了——频繁的超集不一定频繁。',
+ tip:'频繁→子集也频繁。非频繁→超集也非频繁。方向别搞反！'},
+
+{id:'f27',source:'final',type:'mc',marks:3,
+ text:'In the Apriori algorithm, candidate pruning works by:',
+ options:['Removing candidates whose support count is below the threshold.','Removing candidate k-itemsets that contain any infrequent (k-1)-subset.','Removing all itemsets containing rare items.','Removing candidates based on confidence values.'],
+ answer:1,
+ explain:'Candidate pruning: If any (k-1) subset of a candidate k-itemset is infrequent, remove it. This is based on the Apriori principle.',
+ cnExplain:'候选剪枝：如果候选k-项集的(k-1)子集中有任何一个非频繁→直接移除，不用计算Support。(a)是Support Counting步骤，(d)是Rule Generation步骤。',
+ tip:'Pruning = 先看子集，非频繁就不用算了。省计算量！'},
+
+{id:'f28',source:'final',type:'mc',marks:3,
+ text:'What is the anti-monotone property of support?',
+ options:['The support of an itemset always increases as items are added.','The support of an itemset can never exceed the support of any of its subsets.','Support is always equal to confidence.','The support of an itemset is independent of its size.'],
+ answer:1,
+ explain:'Anti-monotone: As items are added, support can only stay the same or decrease. ∀X⊆Y: s(X) ≥ s(Y).',
+ cnExplain:'反单调属性：项集变大→Support只会相同或减少。即∀X⊆Y: s(X)≥s(Y)。这是Apriori剪枝的数学依据。',
+ tip:'加项→Support↓或不变。子集的Support≥超集的Support。'},
+
+{id:'f29',source:'final',type:'mc',marks:3,
+ text:'If |L| = k (a frequent itemset of size k), how many candidate association rules can be generated (excluding trivial rules)?',
+ options:['k','2^k','2^k − 2','k! − 2'],
+ answer:2,
+ explain:'Total candidate rules = 2^k − 2, excluding ∅→L and L→∅.',
+ cnExplain:'大小为k的频繁项集可生成 2^k − 2 条候选规则。从全部子集数2^k中减去"∅→L"和"L→∅"两条平凡规则。',
+ tip:'非平凡规则数 = 2^k − 2。k=3时 = 6条。'},
+
+{id:'f30',source:'final',type:'mc',marks:3,
+ text:'Given Precision = 0.5 and Recall = 0.8, what is the F1-measure?',
+ options:['0.65','0.625','Approximately 0.62','0.80'],
+ answer:2,
+ explain:'F1 = 2×0.5×0.8/(0.5+0.8) = 0.8/1.3 ≈ 0.615 ≈ 0.62.',
+ cnExplain:'F1 = 2×p×r/(p+r) = 2×0.5×0.8/(0.5+0.8) = 0.8/1.3 ≈ 0.615 ≈ 0.62。手算技巧：8/13≈0.62。',
+ tip:'F1手算：分子=2×0.5×0.8=0.8，分母=1.3，0.8/1.3≈0.62。'},
+
+// ===================== FINAL: SUPPLEMENTARY T/F (FQ35-FQ49) =====================
+{id:'f35',source:'final',type:'tf',marks:3,
+ text:'Ensemble methods such as Bagging and Boosting have good explainability because we can explain the majority voting process to the end user.',
+ answer:'false',
+ explain:'Explaining the voting process ≠ transparency. Users want "WHY did classifier 1 make that decision?", not "10 classifiers voted." Each individual complex classifier is hard to explain.',
+ cnExplain:'教授核心观点！解释投票过程 ≠ 可解释性。用户想知道的是"为什么(Why)"，不是"10个模型投了票"。连单个复杂分类器都难以解释，更别说集成10个了。这是集成方法的主要局限。',
+ tip:'教授原话："The user is looking for exact explanation WHY..." 集成 ≠ 可解释！'},
+
+{id:'f36',source:'final',type:'tf',marks:3,
+ text:'In Boosting (AdaBoost), all training samples are treated equally throughout the entire training process.',
+ answer:'false',
+ explain:'In AdaBoost, weights are updated each round — increasing for misclassified, decreasing for correctly classified. Only Bagging treats all samples equally.',
+ cnExplain:'AdaBoost每轮都更新权重——错误的UP，正确的DOWN。只有Bagging中样本权重相同。教授比喻：学习时更专注于薄弱环节 = Boosting核心。',
+ tip:'Bagging = 等权。Boosting = 每轮调权重，专注错误。'},
+
+{id:'f37',source:'final',type:'tf',marks:3,
+ text:'In Bagging, every training instance is guaranteed to be included in every bootstrap sample.',
+ answer:'false',
+ explain:'Bagging uses sampling WITH replacement. A specific instance might be missing from a bootstrap sample. Each sample contains ~63.2% of original data.',
+ cnExplain:'Bagging有放回抽样，特定实例可能被遗漏。每个Bootstrap样本只包含约63.2%的原始数据。',
+ tip:'"guaranteed"和"every"=绝对表达→几乎总是False。'},
+
+{id:'f38',source:'final',type:'tf',marks:3,
+ text:'In AdaBoost, if an intermediate round produces an error rate greater than 50%, the algorithm terminates immediately.',
+ answer:'false',
+ explain:'The algorithm does NOT terminate. Weights are reset to 1/n and resampling is repeated. ε > 50% = worse than random → ignore and restart.',
+ cnExplain:'算法不是终止！权重重置为1/n并重新开始。错误率>50% = 比随机猜测还差→忽略该分类器重来。',
+ tip:'"terminates"是陷阱！是重置并继续，不是终止。'},
+
+{id:'f39',source:'final',type:'tf',marks:3,
+ text:'In Random Forest, the base classifiers (decision trees) are pruned to reduce model complexity.',
+ answer:'false',
+ explain:'Random Forest uses UNPRUNED decision trees. "We don\'t do any kind of post pruning." The ensemble naturally counters high variance of individual trees.',
+ cnExplain:'随机森林的决策树是未剪枝的(Unpruned)！教授明确说"no post pruning"。集成自然抵消各棵树的高方差。',
+ tip:'Random Forest = Unpruned Trees！教授直接说了"no post pruning"。'},
+
+{id:'f40',source:'final',type:'tf',marks:3,
+ text:'Association rules represent causal relationships between items (e.g., buying beer causes buying diapers).',
+ answer:'false',
+ explain:'Association rules show co-occurrence/correlation, NOT causation. "It just shows the correlation... It\'s not causality."',
+ cnExplain:'教授多次强调！关联规则只是共现/相关性(Correlation)，不是因果关系(Causality)。买啤酒不会"导致"买尿布，只是经常一起买。',
+ tip:'★★★ 教授最强调！Association Rule = Correlation ≠ Causation。'},
+
+{id:'f41',source:'final',type:'tf',marks:3,
+ text:'In association rule mining, the purchase quantity of each item and the customer identity are important factors in the analysis.',
+ answer:'false',
+ explain:'Association rule mining ignores quantity, price, and customer identity. Only whether an item is present (Yes/No) in a transaction matters.',
+ cnExplain:'关联规则挖掘中不考虑数量、价格、顾客信息。只看商品是否存在(Yes/No)于交易中。',
+ tip:'Association Rule忽略：数量、价格、顾客。只看"有没有"。'},
+
+{id:'f42',source:'final',type:'tf',marks:3,
+ text:'The brute-force approach is feasible for finding frequent itemsets in large datasets with thousands of items.',
+ answer:'false',
+ explain:'With D items, possible itemsets = 2^D − 1. Even 6 items = 602 rules. Thousands of items → millions+. Brute force is impossible.',
+ cnExplain:'D个商品→2^D−1个可能项集。6个商品就602条规则，1000个呢？暴力搜索是不可能的！这就是需要Apriori算法的原因。',
+ tip:'教授："6个商品就602 rules。Brute force是impossible！"'},
+
+{id:'f43',source:'final',type:'tf',marks:3,
+ text:'In AdaBoost, the final prediction uses simple majority voting where all classifiers have equal influence.',
+ answer:'false',
+ explain:'AdaBoost uses WEIGHTED majority voting. Each classifier\'s α determines its voting weight. More accurate classifiers have larger α.',
+ cnExplain:'AdaBoost使用加权投票(Weighted Vote)！每个分类器的α决定投票权重。越准确的α越大。Simple majority vote是Bagging的。',
+ tip:'Simple majority = Bagging。Weighted majority = Boosting。不要混淆！'},
+
+{id:'f44',source:'final',type:'tf',marks:3,
+ text:'In association rule mining, the two-step approach first generates rules and then finds frequent itemsets.',
+ answer:'false',
+ explain:'Correct order: Step 1 = Frequent Itemset Generation (Support), Step 2 = Rule Generation (Confidence). The statement reverses the order.',
+ cnExplain:'正确顺序：Step 1先找频繁项集(基于Support)→Step 2再生成规则(基于Confidence)。题目顺序说反了。',
+ tip:'顺序调换陷阱！先项集(Support)→后规则(Confidence)。'},
+
+{id:'f45',source:'final',type:'tf',marks:3,
+ text:'Ensemble methods are most effective when combined with stable classifiers such as k-Nearest Neighbors (kNN).',
+ answer:'false',
+ explain:'Ensemble methods work best with UNSTABLE classifiers (decision trees, ANNs). Stable classifiers (kNN) show little improvement from ensembling.',
+ cnExplain:'集成方法与不稳定分类器（决策树、ANN）效果最好。稳定分类器（kNN）即使数据变化也不会大幅改变，集成效果很差。',
+ tip:'Unstable = 最佳搭档(决策树、ANN)。Stable(kNN) = 集成效果差。'},
+
+{id:'f46',source:'final',type:'tf',marks:3,
+ text:'Bagging primarily reduces the bias of a model, while Boosting primarily reduces variance.',
+ answer:'false',
+ explain:'Completely reversed! Bagging reduces Variance. Boosting reduces Bias.',
+ cnExplain:'完全相反！Bagging→降低方差(Variance)。Boosting→降低偏差(Bias)。教授考试中经常调换出题。',
+ tip:'Bagging=Variance↓, Boosting=Bias↓。方向不要搞反！'},
+
+{id:'f47',source:'final',type:'tf',marks:3,
+ text:'In the Apriori algorithm, candidate k-itemsets are generated by merging two frequent (k-1)-itemsets whose first (k-2) items are identical.',
+ answer:'true',
+ explain:'Candidate generation: Merge two frequent (k-1)-itemsets where the first (k-2) items match. E.g., {A,B,C} + {A,B,D} → {A,B,C,D}.',
+ cnExplain:'候选生成方法：合并两个频繁(k-1)-项集，条件是前(k-2)个项相同。例如{A,B,C}和{A,B,D}前2个(A,B)相同→合并为{A,B,C,D}。',
+ tip:'候选生成：前(k-2)个项相同→合并。教授用例题讲过。'},
+
+{id:'f48',source:'final',type:'tf',marks:3,
+ text:'In a confusion matrix, high accuracy necessarily implies the model has high recall for the minority class.',
+ answer:'false',
+ explain:'In imbalanced data, 99% accuracy is possible with 0% minority recall (predict all as majority class).',
+ cnExplain:'不平衡数据中高Accuracy≠高Recall。例如正类10个、负类990个→全预测为负类：Accuracy=99%但Recall(正类)=0%。',
+ tip:'"necessarily"=绝对表达。High Accuracy ≠ High Recall（不平衡数据）。'},
+
+{id:'f49',source:'final',type:'tf',marks:3,
+ text:'The Apriori algorithm uses the anti-monotone property of support to prune candidate itemsets before computing their support.',
+ answer:'true',
+ explain:'Apriori prunes candidates BEFORE computing support using the anti-monotone property. If any (k-1) subset is infrequent → remove without computing.',
+ cnExplain:'Apriori在计算Support之前就利用反单调属性进行剪枝。如果候选k-项集的(k-1)子集中有非频繁的→不用算Support直接移除。大幅减少计算量。',
+ tip:'先剪枝再计算 = Apriori的核心效率提升。'},
+];
+
+// ===================== WRITTEN QUESTIONS =====================
+const writtenQuestions = [
+// MIDTERM WRITTEN
+{id:'mw31',source:'midterm',type:'wr',marks:18,
+ text:'<strong>CNN Dimension Calculation</strong><br>Given: Input images 32×32 RGB, convolutional layer with 6 filters of size 5×5, stride = 1, \'same\' padding.<br>(a) What are the dimensions of the output feature map? (6 marks)<br>(b) After max-pooling with 2×2 filter, stride = 2, what are the dimensions? (6 marks)<br>(c) If flattened and fed into a FC layer with 100 neurons, how many parameters? (6 marks)',
+ answer:`<h4>(a) 卷积层输出：32 × 32 × 6</h4>
+<p>'Same' padding 保持空间尺寸不变 → 32×32。6个滤波器 → depth=6。</p>
+<h4>(b) 池化后：16 × 16 × 6</h4>
+<p>Output size = 32/2 = 16。池化不改变深度。</p>
+<h4>(c) 参数数量：153,700</h4>
+<table><tr><th>项目</th><th>计算</th></tr>
+<tr><td>展平大小</td><td>16×16×6 = 1,536</td></tr>
+<tr><td>权重</td><td>1,536 × 100 = 153,600</td></tr>
+<tr><td>偏置</td><td>100</td></tr>
+<tr><td><strong>总计</strong></td><td><strong>153,700</strong></td></tr></table>
+<p>如果只问"weights"：153,600</p>`},
+
+{id:'mw32',source:'midterm',type:'wr',marks:12,
+ text:'<strong>RNN Architecture & Loss Function</strong><br>Task A: Predicting daily closing stock price for next 5 days, given 60 days of prices.<br>Task B: Classifying movie review sentiment as positive/negative.<br>(a) Architecture type for each task? (6 marks)<br>(b) Appropriate loss function for each? (6 marks)',
+ answer:`<h4>(a) 架构类型</h4>
+<table><tr><th>Task</th><th>类型</th><th>原因</th></tr>
+<tr><td>Task A (股价预测)</td><td><strong>Many-to-Many</strong></td><td>输入: 60天序列(many) → 输出: 5天预测(many)</td></tr>
+<tr><td>Task B (情感分类)</td><td><strong>Many-to-One</strong></td><td>输入: 词序列(many) → 输出: 单个标签(one)</td></tr></table>
+<h4>(b) 损失函数</h4>
+<table><tr><th>Task</th><th>Loss Function</th><th>原因</th></tr>
+<tr><td>Task A</td><td><strong>MSE (Mean Squared Error)</strong></td><td>回归任务(预测连续值)</td></tr>
+<tr><td>Task B</td><td><strong>Binary Cross-Entropy</strong></td><td>二分类任务(正/负)</td></tr></table>`},
+
+{id:'mw33',source:'midterm',type:'wr',marks:12,
+ text:'<strong>Bayesian Network</strong><br>Nodes: Flu (F), Fever (E), Cough (C), Muscle Ache (M).<br>Flu directly influences Fever and Cough. Muscle Ache is influenced by both Fever and Cough.<br>(a) Draw the DAG. (6 marks)<br>(b) Write the full joint probability P(F,E,C,M). (6 marks)',
+ answer:`<h4>(a) DAG 有向无环图</h4>
+<div class="dag-box">        Flu (F)
+       /       \\
+      ↓         ↓
+  Fever (E)   Cough (C)
+       \\       /
+        ↓     ↓
+     Muscle Ache (M)</div>
+<h4>(b) 联合概率</h4>
+<div class="formula-box">P(F, E, C, M) = P(F) · P(E|F) · P(C|F) · P(M|E, C)</div>
+<p><strong>推导</strong>（利用DAG的条件独立性）：</p>
+<ul><li>F 是根节点 → P(F)</li>
+<li>E 只依赖 F → P(E|F)</li>
+<li>C 只依赖 F → P(C|F)</li>
+<li>M 依赖 E 和 C → P(M|E,C)</li></ul>`},
+
+{id:'mw34',source:'midterm',type:'wr',marks:18,
+ text:'<strong>Hierarchical Clustering with MAX Link</strong><br>Data points: {1, 2, 5, 9}. Euclidean distance (absolute difference in 1D). MAX (Complete Link).<br>(a) Draw the initial distance matrix. (6 marks)<br>(b) Perform the first merge. Which two points? Distance? (6 marks)<br>(c) Update the distance matrix after first merge. (6 marks)',
+ answer:`<h4>(a) 初始距离矩阵</h4>
+<table><tr><th></th><th>1</th><th>2</th><th>5</th><th>9</th></tr>
+<tr><td><strong>1</strong></td><td>0</td><td>1</td><td>4</td><td>8</td></tr>
+<tr><td><strong>2</strong></td><td>1</td><td>0</td><td>3</td><td>7</td></tr>
+<tr><td><strong>5</strong></td><td>4</td><td>3</td><td>0</td><td>4</td></tr>
+<tr><td><strong>9</strong></td><td>8</td><td>7</td><td>4</td><td>0</td></tr></table>
+<h4>(b) 首次合并：点1和点2，距离=1</h4>
+<p>矩阵中最小距离=1（点1和点2之间）。新簇 = {1, 2}。</p>
+<h4>(c) 更新后的距离矩阵 (MAX Link)</h4>
+<p>MAX Link: 新簇到其他点的距离 = 取最大值</p>
+<ul><li>dist({1,2}, 5) = max(|1−5|, |2−5|) = max(4, 3) = <strong>4</strong></li>
+<li>dist({1,2}, 9) = max(|1−9|, |2−9|) = max(8, 7) = <strong>8</strong></li></ul>
+<table><tr><th></th><th>{1,2}</th><th>5</th><th>9</th></tr>
+<tr><td><strong>{1,2}</strong></td><td>0</td><td>4</td><td>8</td></tr>
+<tr><td><strong>5</strong></td><td>4</td><td>0</td><td>4</td></tr>
+<tr><td><strong>9</strong></td><td>8</td><td>4</td><td>0</td></tr></table>`},
+
+// FINAL WRITTEN
+{id:'fw31',source:'final',type:'wr',marks:18,
+ text:'<strong>Confusion Matrix Calculations</strong><br>Given: TP=40, FN=10, FP=20, TN=930.<br>(a) Calculate Precision, Recall, and F1-measure. (6 marks)<br>(b) Calculate Accuracy. Is it reliable? Explain. (6 marks)<br>(c) Calculate FPR and explain its meaning. (6 marks)',
+ answer:`<h4>(a) Precision, Recall, F1</h4>
+<table><tr><th>指标</th><th>公式</th><th>计算</th><th>结果</th></tr>
+<tr><td>Precision</td><td>TP/(TP+FP)</td><td>40/60</td><td><strong>0.667</strong></td></tr>
+<tr><td>Recall (TPR)</td><td>TP/(TP+FN)</td><td>40/50</td><td><strong>0.8</strong></td></tr>
+<tr><td>F1</td><td>2pr/(p+r)</td><td>2×0.667×0.8/(1.467)</td><td><strong>≈0.727</strong></td></tr></table>
+<h4>(b) Accuracy = 0.97 → 不可靠！</h4>
+<p>Accuracy = (40+930)/1000 = <strong>97%</strong></p>
+<p>但数据不平衡(YES=50, NO=950)。即使全部预测为NO也能达到95%。Accuracy具有误导性。F1(0.727)是更可靠的指标。</p>
+<h4>(c) FPR ≈ 0.021 (2.1%)</h4>
+<p>FPR = FP/(FP+TN) = 20/950 ≈ 0.021</p>
+<p>含义：实际没病的950人中，20人(2.1%)被误诊。在医疗中会导致不必要的检查和焦虑。</p>`},
+
+{id:'fw32',source:'final',type:'wr',marks:18,
+ text:'<strong>Association Rule Mining Calculations</strong><br>Transaction database (5 transactions), min support count = 2:<br>T1:{A,B,C}, T2:{A,B}, T3:{A,C}, T4:{B,C,D}, T5:{A,B,C,D}<br>(a) Find all frequent 1-itemsets and 2-itemsets. (6 marks)<br>(b) Which 3-itemset candidates can be pruned? Find frequent 3-itemsets. (6 marks)<br>(c) For {A,B,C}, calculate support and confidence of {A}→{B,C}. (6 marks)',
+ answer:`<h4>(a) 频繁1-项集和2-项集</h4>
+<p><strong>1-项集:</strong> {A}=4✅, {B}=4✅, {C}=4✅, {D}=2✅</p>
+<p><strong>2-项集:</strong></p>
+<table><tr><th>项集</th><th>计数</th><th>频繁？</th></tr>
+<tr><td>{A,B}</td><td>3</td><td>✅</td></tr>
+<tr><td>{A,C}</td><td>3</td><td>✅</td></tr>
+<tr><td>{A,D}</td><td>1</td><td>❌</td></tr>
+<tr><td>{B,C}</td><td>3</td><td>✅</td></tr>
+<tr><td>{B,D}</td><td>2</td><td>✅</td></tr>
+<tr><td>{C,D}</td><td>2</td><td>✅</td></tr></table>
+<h4>(b) 候选剪枝与频繁3-项集</h4>
+<ul><li>{A,B,C}: 子集全部频繁 → 保留 → σ=2 ✅</li>
+<li><strong>{A,B,D}: {A,D}=1❌ → 被Apriori剪枝</strong></li>
+<li><strong>{A,C,D}: {A,D}=1❌ → 被剪枝</strong></li>
+<li>{B,C,D}: 子集全部频繁 → 保留 → σ=2 ✅</li></ul>
+<h4>(c) {A}→{B,C} 的 Support 和 Confidence</h4>
+<p>Support = σ({A,B,C})/|T| = 2/5 = <strong>0.4</strong></p>
+<p>Confidence = σ({A,B,C})/σ({A}) = 2/4 = <strong>0.5</strong></p>`},
+
+{id:'fw33',source:'final',type:'wr',marks:18,
+ text:'<strong>Bagging vs Boosting Comparison + Calculation</strong><br>(a) Compare Bagging and Boosting: sampling, training order, voting. (6 marks)<br>(b) AdaBoost: ε = 0.3, calculate α. (6 marks)<br>(c) Three classifiers predict: C1=+1, C2=-1, C3=+1. Ensemble prediction by majority voting? (6 marks)',
+ answer:`<h4>(a) Bagging vs Boosting 对比</h4>
+<table><tr><th>方面</th><th>Bagging</th><th>Boosting (AdaBoost)</th></tr>
+<tr><td>采样</td><td>有放回抽样，各样本独立</td><td>基于权重采样，前一轮错误→权重UP</td></tr>
+<tr><td>训练顺序</td><td><strong>并行(Parallel)</strong></td><td><strong>顺序(Sequential)</strong></td></tr>
+<tr><td>投票</td><td><strong>简单多数投票</strong>（等权）</td><td><strong>加权投票</strong>（α越大权重越大）</td></tr></table>
+<h4>(b) α 计算</h4>
+<p>α = ½ × ln((1−ε)/ε) = ½ × ln(0.7/0.3) = ½ × ln(2.333)</p>
+<p>ln(2.333) ≈ 0.847 → <strong>α ≈ 0.424</strong></p>
+<h4>(c) 多数投票</h4>
+<p>+1得2票，-1得1票 → <strong>集成预测 = +1 (正类)</strong></p>`},
+
+{id:'fw34',source:'final',type:'wr',marks:18,
+ text:'<strong>Outlier Detection Concepts + Calculation</strong><br>(a) List and describe three outlier detection methods. (6 marks)<br>(b) OCSVM: Explain f(x)≥0 vs f(x)<0, and what ν controls. (6 marks)<br>(c) Explain reconstruction-based outlier detection with an example method. (6 marks)',
+ answer:`<h4>(a) 三种异常值检测方法</h4>
+<table><tr><th>方法</th><th>英文名</th><th>说明</th></tr>
+<tr><td>统计方法</td><td>Statistical</td><td>建立概率分布模型，概率极低的数据=异常值</td></tr>
+<tr><td>基于邻近度</td><td>Proximity-based</td><td>与其他点距离很远=异常值。用k-NN距离评分</td></tr>
+<tr><td>基于密度</td><td>Density-based (LOF)</td><td>密度明显低于邻居=异常值。用相对密度</td></tr></table>
+<h4>(b) OCSVM 决策函数</h4>
+<ul><li><strong>f(x) ≥ 0</strong>: 正常(Normal)，在边界内部</li>
+<li><strong>f(x) < 0</strong>: 异常值(Outlier)，在边界外部</li>
+<li><strong>ν 参数</strong>: 预期异常值比例的上限。ν=0.05 → 约5%的数据在边界外</li></ul>
+<h4>(c) 基于重建的异常值检测</h4>
+<p>假设正常数据可以用低维表示：</p>
+<ol><li>原始数据x → 压缩到低维空间</li>
+<li>低维表示 → 重建回原始空间 → x'</li>
+<li>重建误差 = ||x − x'||</li>
+<li>误差大 → 异常值</li></ol>
+<p>示例方法：<strong>PCA</strong> 或 <strong>Auto-encoder</strong></p>`},
+];
+
+
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  answered: {},  // {qId: {selected, isCorrect}}
+};
+
+// Load state from localStorage
+function loadState() {
+  try {
+    const saved = localStorage.getItem('ml_review_state');
+    if (saved) state = JSON.parse(saved);
+  } catch(e) {}
+}
+function saveState() {
+  localStorage.setItem('ml_review_state', JSON.stringify(state));
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render(filter='all') {
+  const main = document.getElementById('mainContent');
+  let html = '';
+  
+  // Filter questions
+  let filteredQ = questions;
+  let filteredW = writtenQuestions;
+  
+  if (filter === 'midterm') {
+    filteredQ = questions.filter(q => q.source === 'midterm');
+    filteredW = writtenQuestions.filter(q => q.source === 'midterm');
+  } else if (filter === 'final') {
+    filteredQ = questions.filter(q => q.source === 'final');
+    filteredW = writtenQuestions.filter(q => q.source === 'final');
+  } else if (filter === 'tf') {
+    filteredQ = questions.filter(q => q.type === 'tf');
+    filteredW = [];
+  } else if (filter === 'mc') {
+    filteredQ = questions.filter(q => q.type === 'mc');
+    filteredW = [];
+  } else if (filter === 'wr') {
+    filteredQ = [];
+    // show all written
+  } else if (filter === 'wrong') {
+    filteredQ = questions.filter(q => state.answered[q.id] && !state.answered[q.id].isCorrect);
+    filteredW = [];
+  }
+  
+  // Group by source + type
+  const sections = [];
+  
+  // Midterm T/F
+  const midTF = filteredQ.filter(q => q.source==='midterm' && q.type==='tf');
+  if (midTF.length) sections.push({icon:'✏️',title:'期中 Midterm — True/False',badge:`${midTF.length}题`,items:midTF,type:'q'});
+  
+  // Midterm MC  
+  const midMC = filteredQ.filter(q => q.source==='midterm' && q.type==='mc');
+  if (midMC.length) sections.push({icon:'🔤',title:'期中 Midterm — Multiple Choice',badge:`${midMC.length}题`,items:midMC,type:'q'});
+  
+  // Midterm Written
+  const midWR = filteredW.filter(q => q.source==='midterm');
+  if (midWR.length) sections.push({icon:'📝',title:'期中 Midterm — Written Questions',badge:`${midWR.length}题`,items:midWR,type:'w'});
+  
+  // Final T/F
+  const finTF = filteredQ.filter(q => q.source==='final' && q.type==='tf');
+  if (finTF.length) sections.push({icon:'📋',title:'期末 Final — True/False',badge:`${finTF.length}题`,items:finTF,type:'q'});
+  
+  // Final MC
+  const finMC = filteredQ.filter(q => q.source==='final' && q.type==='mc');
+  if (finMC.length) sections.push({icon:'🔠',title:'期末 Final — Multiple Choice',badge:`${finMC.length}题`,items:finMC,type:'q'});
+  
+  // Final Written
+  const finWR = filteredW.filter(q => q.source==='final');
+  if (finWR.length) sections.push({icon:'✍️',title:'期末 Final — Written Questions',badge:`${finWR.length}题`,items:finWR,type:'w'});
+  
+  for (const sec of sections) {
+    html += `<div class="section-header">
+      <div class="icon">${sec.icon}</div>
+      <h2>${sec.title}</h2>
+      <span class="badge">${sec.badge}</span>
+    </div>`;
+    
+    for (const q of sec.items) {
+      if (sec.type === 'q') {
+        html += renderQuestion(q);
+      } else {
+        html += renderWritten(q);
+      }
+    }
+  }
+  
+  if (!sections.length) {
+    html = `<div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+      <div style="font-size:2rem;margin-bottom:12px;">🎉</div>
+      <p>没有找到匹配的题目</p>
+    </div>`;
+  }
+  
+  main.innerHTML = html;
+  updateStats(filter);
+  
+  // Render KaTeX
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(main, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+}
+
+function renderQuestion(q) {
+  const a = state.answered[q.id];
+  const isAnswered = !!a;
+  const cardClass = isAnswered ? (a.isCorrect ? 'answered-correct' : 'answered-wrong') : '';
+  const sourceLabel = q.source === 'midterm' ? '期中' : '期末';
+  const typeLabel = q.type === 'tf' ? 'T/F' : 'MC';
+  const typeClass = q.type;
+  
+  let optionsHtml = '';
+  if (q.type === 'tf') {
+    optionsHtml = renderTFOptions(q, isAnswered, a);
+  } else {
+    optionsHtml = renderMCOptions(q, isAnswered, a);
+  }
+  
+  let explainHtml = '';
+  if (isAnswered) {
+    explainHtml = `<div class="explanation visible">
+      <div class="answer-tag ${a.isCorrect ? 'correct' : 'wrong'}">${a.isCorrect ? '✅ 正确！' : '❌ 错误'}</div>
+      <p>${q.explain}</p>
+      <div class="cn-explain">
+        <div class="cn-title">🇨🇳 中文解析</div>
+        ${q.cnExplain}
+      </div>
+      ${q.tip ? `<div class="tip">${q.tip}</div>` : ''}
+    </div>`;
+  }
+  
+  return `<div class="q-card ${cardClass}" id="card-${q.id}">
+    <div class="q-header">
+      <div class="q-num">${q.id.replace(/[a-z]/g,'').toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="q-meta">
+          <span class="q-type ${typeClass}">${typeLabel}</span>
+          <span class="q-marks">${q.marks} marks</span>
+          <span class="q-source">${sourceLabel}</span>
+        </div>
+      </div>
+    </div>
+    <div class="q-text">${q.text}</div>
+    ${optionsHtml}
+    ${explainHtml}
+  </div>`;
+}
+
+function renderTFOptions(q, isAnswered, a) {
+  const opts = ['true','false'];
+  const labels = ['True ✅','False ❌'];
+  let html = '<div class="options">';
+  for (let i = 0; i < 2; i++) {
+    let cls = 'option-btn';
+    if (isAnswered) {
+      cls += ' locked';
+      if (a.selected === opts[i] && a.isCorrect) cls += ' selected-correct';
+      else if (a.selected === opts[i] && !a.isCorrect) cls += ' selected-wrong';
+      if (opts[i] === q.answer && a.selected !== opts[i]) cls += ' show-correct';
+    }
+    html += `<button class="${cls}" onclick="answerTF('${q.id}','${opts[i]}')" ${isAnswered?'disabled':''}>
+      <span class="opt-letter">${opts[i][0].toUpperCase()}</span>
+      <span>${labels[i]}</span>
+    </button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderMCOptions(q, isAnswered, a) {
+  const letters = ['a','b','c','d'];
+  let html = '<div class="options">';
+  for (let i = 0; i < q.options.length; i++) {
+    let cls = 'option-btn';
+    if (isAnswered) {
+      cls += ' locked';
+      if (a.selected === i && a.isCorrect) cls += ' selected-correct';
+      else if (a.selected === i && !a.isCorrect) cls += ' selected-wrong';
+      if (i === q.answer && a.selected !== i) cls += ' show-correct';
+    }
+    html += `<button class="${cls}" onclick="answerMC('${q.id}',${i})" ${isAnswered?'disabled':''}>
+      <span class="opt-letter">${letters[i].toUpperCase()}</span>
+      <span>${q.options[i]}</span>
+    </button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderWritten(q) {
+  const sourceLabel = q.source === 'midterm' ? '期中' : '期末';
+  const isShown = state.answered[q.id];
+  
+  return `<div class="q-card" id="card-${q.id}">
+    <div class="q-header">
+      <div class="q-num" style="background:linear-gradient(135deg,#34d399,#22d3ee);">${q.id.replace(/[a-z]/g,'').toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="q-meta">
+          <span class="q-type wr">Written</span>
+          <span class="q-marks">${q.marks} marks</span>
+          <span class="q-source">${sourceLabel}</span>
+        </div>
+      </div>
+    </div>
+    <div class="q-text">${q.text}</div>
+    <button class="show-answer-btn" onclick="toggleWritten('${q.id}')">
+      ${isShown ? '🔽 隐藏答案' : '👁️ 显示答案 Show Answer'}
+    </button>
+    <div class="written-answer ${isShown ? 'visible' : ''}" id="wa-${q.id}">
+      <div class="written-section">${q.answer}</div>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// INTERACTION
+// ============================================================
+function answerTF(qId, selected) {
+  if (state.answered[qId]) return;
+  const q = questions.find(q => q.id === qId);
+  const isCorrect = selected === q.answer;
+  state.answered[qId] = { selected, isCorrect };
+  saveState();
+  render(currentFilter);
+  showToast(isCorrect ? '✅ 正确！' : '❌ 错误，查看解析');
+  // Scroll to card
+  setTimeout(() => {
+    document.getElementById('card-' + qId)?.scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 100);
+}
+
+function answerMC(qId, selected) {
+  if (state.answered[qId]) return;
+  const q = questions.find(q => q.id === qId);
+  const isCorrect = selected === q.answer;
+  state.answered[qId] = { selected, isCorrect };
+  saveState();
+  render(currentFilter);
+  showToast(isCorrect ? '✅ 正确！' : '❌ 错误，查看解析');
+  setTimeout(() => {
+    document.getElementById('card-' + qId)?.scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 100);
+}
+
+function toggleWritten(qId) {
+  if (state.answered[qId]) {
+    delete state.answered[qId];
+  } else {
+    state.answered[qId] = { isWritten: true };
+  }
+  saveState();
+  render(currentFilter);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// STATS & PROGRESS
+// ============================================================
+function updateStats(filter) {
+  const total = questions.length;
+  let answered = 0, correct = 0;
+  for (const q of questions) {
+    if (state.answered[q.id]) {
+      answered++;
+      if (state.answered[q.id].isCorrect) correct++;
+    }
+  }
+  document.getElementById('totalQ').textContent = total;
+  document.getElementById('answeredQ').textContent = answered;
+  document.getElementById('correctQ').textContent = correct;
+  document.getElementById('accuracyQ').textContent = answered > 0 ? Math.round(correct/answered*100)+'%' : '—';
+  document.getElementById('progressText').textContent = `${answered} / ${total}`;
+  document.getElementById('progressFill').style.width = `${(answered/total*100).toFixed(1)}%`;
+}
+
+// ============================================================
+// TABS
+// ============================================================
+let currentFilter = 'all';
+
+document.querySelectorAll('.tab-btn[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    render(currentFilter);
+  });
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('确定要重置所有答题记录吗？')) {
+    state = { answered: {} };
+    saveState();
+    render(currentFilter);
+    showToast('🔄 已重置所有记录');
+  }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+loadState();
+render('all');
+
+// Render KaTeX after load
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(document.getElementById('mainContent'), {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>
