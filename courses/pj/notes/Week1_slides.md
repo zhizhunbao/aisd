@@ -8,7 +8,7 @@
 
 ## 1. 课程封面 (Title Slide)
 
-![Page 1](Week-1-Lecture-1_slides_pages/page_001.png)
+![Page 1](Week1_slides_pages/page_001.png)
 
 **ARTIFICIAL INTELLIGENCE SOFTWARE DEVELOPMENT — 人工智能软件开发**
 
@@ -19,7 +19,7 @@
 
 ## 2. 今日议程 (Agenda for Today)
 
-![Page 2](Week-1-Lecture-1_slides_pages/page_002.png)
+![Page 2](Week1_slides_pages/page_002.png)
 
 **Agenda for Today — 今日议程**
 
@@ -32,7 +32,7 @@
 
 ## 3. LLM 评估 (LLM Evaluations)
 
-![Page 3](Week-1-Lecture-1_slides_pages/page_003.png)
+![Page 3](Week1_slides_pages/page_003.png)
 
 **LLM Evaluations — LLM 评估**
 

@@ -1,0 +1,114 @@
+[
+  {
+    "question": "[Midterm] In the context of distributed systems and workflow management, what is the primary distinction between a scheduler and an orchestrator?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Schedulers are used for real-time processing, while orchestrators are used for batch processing.",
+      "B) Schedulers manage hardware resources, while orchestrators manage software dependencies.",
+      "C) Schedulers focus on data storage, while orchestrators focus on data processing.",
+      "D) Schedulers execute individual tasks based on time or resource availability, while orchestrators manage complex, multi-step workflows."
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D):</strong><br><br>• <strong>Scheduler</strong>（调度器）— 基于时间/资源触发单个任务（如 Cron、Airflow Scheduler）<br>• <strong>Orchestrator</strong>（编排器）— 管理复杂的多步骤工作流，处理依赖、重试、错误恢复（如 Prefect、Airflow DAG Executor）<br><br><strong>类比：</strong>Scheduler = 闹钟（定时响）；Orchestrator = 交响乐指挥（协调所有乐器）。<br><br><strong>Airflow 同时包含两者：</strong>Scheduler 触发 DAG，Executor 编排 Task 执行。"
+  },
+  {
+    "question": "[Midterm] A Pod in Kubernetes is a group of one or more containers, with shared storage and network resources, and a specification for how to run the containers.",
+    "type": "TF",
+    "source": "teacher",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Pod 是 Kubernetes 最小的可部署单元。<br><br><strong>Pod 特点：</strong><br>• 包含一个或多个容器（通常是一个主容器 + 辅助 sidecar）<br>• 共享网络命名空间（同一 IP 和端口）<br>• 共享存储卷（Volumes）<br>• 有统一的生命周期（一起创建、一起销毁）<br><br><strong>⚠️ Pod ≠ Container：</strong>Pod 是容器的封装层，一个 Pod 可以有多个容器。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Your ML pipeline has 4 tasks: Data Cleaning -> Feature Engineering -> Training -> Evaluation. Feature Engineering can only start after Data Cleaning finishes. Which concept defines these dependency relationships?",
+    "options": [
+      "A) Docker Container",
+      "B) DAG (Directed Acyclic Graph) — defines task execution order and dependencies",
+      "C) Kubernetes Pod",
+      "D) Model Store"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <strong>DAG（有向无环图）</strong>定义任务之间的先后依赖关系。<br><br>本题的 DAG：<br>Data Cleaning → Feature Engineering → Training → Evaluation<br><br>有向 = 有明确的执行方向<br>无环 = 不能循环依赖（A→B→A 不允许）<br><br><strong>Scheduler（如 Airflow）</strong>理解 DAG 依赖，按正确顺序执行任务。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Your team uses Airflow to manage ML workflows. They need to run the same training DAG with 50 different learning rates. What is the problem with Airflow?",
+    "options": [
+      "A) Airflow doesn't support Python",
+      "B) Airflow doesn't support GPUs",
+      "C) Airflow DAGs are not parameterizable — you cannot pass different parameters to the same DAG, requiring 50 separate DAG definitions",
+      "D) Airflow is too expensive"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> Airflow 有<strong>三大致命缺陷</strong>：<br><br>① <strong>单体架构</strong> — 一个步骤失败整个重启<br>② <strong>不可参数化 ✓</strong> — 不能向 DAG 传参<br>③ <strong>静态 DAG</strong> — 运行时不能动态创建步骤<br><br>50 个学习率 → 需要创建 50 个独立 DAG 文件！<br><br><strong>新一代工具（Argo/Prefect）</strong>已解决：支持参数化 + 动态 DAG + 微服务架构。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "A Pod in Kubernetes is the same thing as a Docker Container — they are interchangeable terms.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ <strong>老师 Midterm 已考过 Pod 定义！</strong><br><br>• <strong>Pod ≠ Container</strong><br>• Pod 是一<strong>组</strong>容器的封装，是 K8s 扩缩容的<strong>原子单位</strong><br>• 一个 Pod 可以包含多个容器（如 Model API + Logging sidecar）<br>• Pod 中的容器<strong>共享 IP 和端口空间</strong><br><br>Pod : Container = 房间 : 人（一个房间可以住多个人）"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A team deployed a model to production, but 3 months later they cannot reproduce the exact same model. They only saved the model weights (.pt file). What did they miss?",
+    "options": [
+      "A) They need a bigger GPU",
+      "B) Model Store requires 8 types of metadata: Definition, Parameters, Functions, Dependencies, Data, Code, Artifacts, Tags — saving only weights is insufficient",
+      "C) They need to retrain from scratch",
+      "D) They need to use a different framework"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <strong>Model Store 需要 8 类元数据（记忆口诀：定参函依数码品标）：</strong><br><br>① Model Definition（模型定义）<br>② Parameters（参数/权重）<br>③ Featurize & Predict（特征化和预测函数）<br>④ Dependencies（依赖环境）<br>⑤ Data（训练数据）<br>⑥ Model Gen Code（生成代码）<br>⑦ Experiment Artifacts（实验制品）<br>⑧ Tags（标签）<br><br>没有 Dependencies → 无法重现环境 → 无法复现模型。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A company's ML system uses one Feature Store that provides features for both training and inference. What critical problem does this solve?",
+    "options": [
+      "A) It reduces storage costs",
+      "B) It ensures training-serving feature consistency — without it, training might use 'avg spending last 7 days' while inference uses 'avg spending last 30 days'",
+      "C) It speeds up model training",
+      "D) It replaces the need for a database"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Feature Store 的核心价值 = 保证<strong>训练和推理的特征 100% 一致</strong>。<br><br><strong>没有 Feature Store 的常见 bug：</strong><br>• 训练用「过去 7 天平均消费」<br>• 推理却用「过去 30 天平均消费」<br>→ 预测完全不可信！<br><br><strong>Feature Store 解决三大问题：</strong><br>① Management（特征管理）<br>② Computation（计算逻辑统一）<br>③ Consistency（一致性保证）"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A data engineer says: 'We should use Cron to schedule our ML pipeline with 5 dependent tasks.' What is the critical limitation of Cron for this use case?",
+    "options": [
+      "A) Cron cannot run Python scripts",
+      "B) Cron does not understand task dependencies — it only runs tasks at fixed times regardless of whether prerequisite tasks have completed",
+      "C) Cron is too expensive",
+      "D) Cron requires Kubernetes"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Cron 的致命缺陷 = <strong>不理解任务间的依赖关系</strong>。<br><br>它只会在固定时间运行任务（如凌晨 2 点跑 Task A，2:30 跑 Task B），但<strong>不管 Task A 是否成功</strong>就会启动 Task B。<br><br><strong>进化路径：</strong><br>Cron（最原始，无依赖）→ <strong>Scheduler</strong>（理解 DAG 依赖）→ <strong>Orchestrator</strong>（管理资源分配）<br><br>对于有依赖的 ML pipeline，至少需要 Scheduler（如 Airflow）。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Jupyter Notebooks are only suitable for experimentation and prototyping — they should never be used in production environments.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Netflix 在<strong>生产环境</strong>中使用 Notebook！<br><br>Notebook 的有状态特性（Stateful）使其适合生产数据管道：<br>• 支持断点恢复<br>• 代码 + 文档一体化<br>• <strong>Papermill</strong> 可参数化执行同一个 Notebook（跑 N 组超参数）<br>• <strong>Commuter</strong> 支持团队共享<br>• <strong>nbdev</strong> 可从 Notebook 生成 Python 包 + 文档 + 测试<br><br>⚠️ 以为 Notebook 只是实验工具是常见误解。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A new ML engineer confuses Scheduler and Orchestrator. Which statement correctly distinguishes them?",
+    "options": [
+      "A) Scheduler manages Where to get resources; Orchestrator manages When to run tasks",
+      "B) They are the same thing with different names",
+      "C) Scheduler manages When + What (timing and task dependencies via DAG); Orchestrator manages Where (resource allocation and scaling)",
+      "D) Orchestrator is just a newer version of Scheduler"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong><br><br>• <strong>Scheduler</strong> 管 <strong>When + What</strong>（何时运行 + 需要什么资源）<br>  代表：Slurm, Airflow<br>  比喻：餐厅经理（安排点菜顺序）<br><br>• <strong>Orchestrator</strong> 管 <strong>Where</strong>（从哪里获取资源）<br>  代表：<strong>Kubernetes</strong><br>  比喻：厨房主管（调配厨师和灶台）<br><br>⚠️ <strong>A 选项是反过来的陷阱！</strong><br><br>实际使用中两者配合：Airflow(调度) + K8s(编排)。"
+  }
+]

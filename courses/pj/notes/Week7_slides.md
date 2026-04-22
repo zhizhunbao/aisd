@@ -8,7 +8,7 @@
 
 ## 1. 今日议程 (Agenda for Today)
 
-![Page 2](Week7-Lecture1_slides_pages/page_002.png)
+![Page 2](Week7_slides_pages/page_002.png)
 
 **Agenda for Today — 今日议程**
 
@@ -20,25 +20,48 @@
 - ❑ Lab: 7:30PM – 9:30PM — 实验课：7:30PM – 9:30PM
   - ▪ Standup Meetings — 站会
 
+> **📝 Notes:**
+>
+> **承接**: 本节作为开篇，列出本周学习内容的整体框架（四层基础设施 + ML 资源管理 + ML 平台）；这些主题的概览将为下一节「基础设施需求概览」提供学习路径指引。
+
 ---
 
 ## 2. 基础设施需求概览 (Infrastructure Overview)
 
-![Page 3](Week7-Lecture1_slides_pages/page_003.png)
+![Page 3](Week7_slides_pages/page_003.png)
 
 **Infrastructure and Tooling for MLOps — MLOps 的基础设施与工具**
 
 - ❑ Infrastructure requirement of different companies. — 不同公司的基础设施需求。
 
+> **📝 Notes:**
+>
+> **承接**: 上一节概述了本周的议程主题，本节引出核心问题——不同规模的公司对 ML 基础设施的需求差异；这为下一节「四层基础设施」的分层架构设计提供了现实动机。
+
 ---
 
 ## 3. 四层基础设施 (Four Layers of Infrastructure)
 
-![Page 4](Week7-Lecture1_slides_pages/page_004.png)
+![Page 4](Week7_slides_pages/page_004.png)
 
 **Four Layers of Infrastructure — 四层基础设施（概览图）**
 
-![Page 5](Week7-Lecture1_slides_pages/page_005.png)
+> 📖 **图解读笔记：**
+>
+> | 符号/区域 | 含义 |
+> |-----------|------|
+> | 底层 | Storage and Compute — 数据存储与计算资源 |
+> | 第二层 | Resource Management — 工作流调度与编排 |
+> | 第三层 | ML Platform — 模型/特征/部署工具集 |
+> | 顶层 | Development Environment — 开发者工作环境 |
+>
+> **阅读顺序**：从底层向上看——底层是地基（存储计算），中间是管理层（调度编排 + 平台工具），顶层是开发者直接接触的环境。
+>
+> **人话解释**：ML 基础设施就像盖楼——先打地基（存数据、提供算力），再装水电（调度任务、分配资源），然后精装修（模型管理工具），最后入住（开发环境）。
+>
+> **考试关联**：画出四层架构图并说明每层职责是高频考点。
+
+![Page 5](Week7_slides_pages/page_005.png)
 
 **Four Layers of Infrastructure — 四层基础设施（详细）**
 
@@ -54,13 +77,17 @@
 - ❑ **Development Environment** — **开发环境**
   - ▪ Layer where code is written and experiments are run — 编写代码和运行实验的层
 
+> **📝 Notes:**
+>
+> **承接**: 上一节提出了“不同公司有不同基础设施需求”的问题，本节给出四层分层架构作为通用解答框架；后续章节将逐层深入讲解每一层的具体内容，首先从最底层「存储与计算」开始。
+
 ---
 
 ## 4. 存储与计算层 (Storage and Compute Layer)
 
 ### 4.1 存储层 (Storage Layer)
 
-![Page 6](Week7-Lecture1_slides_pages/page_006.png)
+![Page 6](Week7_slides_pages/page_006.png)
 
 **Storage and Compute Layer — 存储与计算层（存储）**
 
@@ -72,7 +99,7 @@
 
 ### 4.2 计算层 (Compute Layer)
 
-![Page 7](Week7-Lecture1_slides_pages/page_007.png)
+![Page 7](Week7_slides_pages/page_007.png)
 
 **Storage and Compute Layer — 存储与计算层（计算）**
 
@@ -83,7 +110,7 @@
   - ▪ Containers — 容器
   - ▪ Pods
 
-![Page 8](Week7-Lecture1_slides_pages/page_008.png)
+![Page 8](Week7_slides_pages/page_008.png)
 
 **Storage and Compute Layer — 存储与计算层（计算指标）**
 
@@ -95,12 +122,16 @@
 
 ### 4.3 云支出 (Cloud Spending)
 
-![Page 9](Week7-Lecture1_slides_pages/page_009.png)
+![Page 9](Week7_slides_pages/page_009.png)
 
 **Storage and Compute Layer — 存储与计算层（云支出）**
 
 - ❑ Cloud spending accounts for approximately 50% cost of revenue of public software companies (analysis by a16z capital venture) — 云支出约占上市软件公司收入成本的 50%（a16z 风投分析）
 - ❑ Some companies are doing "cloud repatriation" — 一些公司正在进行"云回迁"
+
+> **📝 Notes:**
+>
+> **承接**: 本节深入第一层——存储与计算层（HDD/SSD、计算单元、FLOPS、计算利用率、云成本）；存储计算层作为“地基”，其成本和利用率问题将动机性地引出下一节「开发环境」中对容器化技术的需求。
 
 ---
 
@@ -108,7 +139,7 @@
 
 ### 5.1 环境组成 (Environment Components)
 
-![Page 10](Week7-Lecture1_slides_pages/page_010.png)
+![Page 10](Week7_slides_pages/page_010.png)
 
 **Development Environment — 开发环境**
 
@@ -123,7 +154,7 @@
 
 ### 5.2 Notebooks
 
-![Page 11](Week7-Lecture1_slides_pages/page_011.png)
+![Page 11](Week7_slides_pages/page_011.png)
 
 **Notebooks — Notebooks**
 
@@ -137,7 +168,7 @@
   - ▪ Ideal for doing experiments with large datasets — 非常适合在大型数据集上进行实验
 - ❑ Order of execution of the cells is important to keep track — 需要跟踪单元格的执行顺序
 
-![Page 12](Week7-Lecture1_slides_pages/page_012.png)
+![Page 12](Week7_slides_pages/page_012.png)
 
 **Notebooks — Notebooks（生产环境应用）**
 
@@ -147,13 +178,17 @@
   - ▪ **Commuter** - A notebook hub for viewing, finding, and sharing notebooks within an organization. — **Commuter** - 组织内查看、查找和共享 notebook 的中心
   - ▪ **nbdev** - a library to write documentation and tests in the same place — **nbdev** - 在同一处编写文档和测试的库
 
+> **📝 Notes:**
+>
+> **承接**: 本节介绍了开发环境层的组成（IDE、版本控制、CI/CD）和 Notebook 的有状态特性；Notebook 的生产化需求自然引出下一节对「容器和 Pod」的讨论——如何把开发环境打包到容器中实现一致性部署。
+
 ---
 
 ## 6. 容器与 Pod (Containers and Pods)
 
 ### 6.1 容器基础 (Container Basics)
 
-![Page 13](Week7-Lecture1_slides_pages/page_013.png)
+![Page 13](Week7_slides_pages/page_013.png)
 
 **Containers — 容器**
 
@@ -164,7 +199,7 @@
 
 ### 6.2 Docker 容器 (Docker Containers)
 
-![Page 14](Week7-Lecture1_slides_pages/page_014.png)
+![Page 14](Week7_slides_pages/page_014.png)
 
 **Docker Containers — Docker 容器**
 
@@ -174,7 +209,7 @@
 - ❑ Docker containers are built from images. — Docker 容器从镜像构建。
 - ❑ These are templates containing the application's code, runtime, and other dependencies. — 这些是包含应用代码、运行时和其他依赖的模板。
 
-![Page 15](Week7-Lecture1_slides_pages/page_015.png)
+![Page 15](Week7_slides_pages/page_015.png)
 
 **Benefits of Docker Containers — Docker 容器的优点**
 
@@ -186,7 +221,7 @@
 
 ### 6.3 Docker 示例 (Docker Example)
 
-![Page 16](Week7-Lecture1_slides_pages/page_016.png)
+![Page 16](Week7_slides_pages/page_016.png)
 
 **Example of a Docker Container — Docker 容器示例（说明）**
 
@@ -195,7 +230,7 @@
 - ❑ Set fancy-nlp-project to be the working directory. — 设置 fancy-nlp-project 为工作目录。
 - ❑ Clone Hugging Face's transformers repository on GitHub and install transformers. — 克隆 Hugging Face 的 transformers 仓库并安装。
 
-![Page 17](Week7-Lecture1_slides_pages/page_017.png)
+![Page 17](Week7_slides_pages/page_017.png)
 
 **Example of a Docker Container — Docker 容器示例（Dockerfile）**
 
@@ -214,7 +249,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 6.4 Kubernetes Pod
 
-![Page 18](Week7-Lecture1_slides_pages/page_018.png)
+![Page 18](Week7_slides_pages/page_018.png)
 
 **PODs — Kubernetes Pod**
 
@@ -223,13 +258,17 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 - ■ **Atomic Unit**: In Kubernetes, the pod is the atomic unit of scaling. — **原子单元**：在 Kubernetes 中，Pod 是扩展的原子单元。
 - ■ **Use Case**: Pods are used when there is a need for a few containers to work together very closely as a single cohesive unit of service. — **使用场景**：当需要几个容器紧密协作作为一个内聚的服务单元时使用 Pod。
 
+> **📝 Notes:**
+>
+> **承接**: 本节介绍了容器化技术——Docker 容器（隔离性、一致性、可移植性）和 Kubernetes Pod（容器组合、原子扩缩容单元）；容器和 Pod 是“运行环境的标准化单位”，它们将由下一节的「资源管理」层来调度和编排。
+
 ---
 
 ## 7. 资源管理 (Resource Management)
 
 ### 7.1 资源管理概述 (Overview)
 
-![Page 19](Week7-Lecture1_slides_pages/page_019.png)
+![Page 19](Week7_slides_pages/page_019.png)
 
 **Resource Management — 资源管理**
 
@@ -242,7 +281,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 7.2 调度器与编排器 (Schedulers and Orchestrators)
 
-![Page 20](Week7-Lecture1_slides_pages/page_020.png)
+![Page 20](Week7_slides_pages/page_020.png)
 
 **Schedulers and Orchestrators — 调度器与编排器**
 
@@ -253,7 +292,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 - ❑ Tend to leverage queues to keep track of jobs — 倾向于使用队列来跟踪作业
 - ❑ Need to be aware of the resources available and the resources needed to run each job — 需要了解可用资源和运行每个作业所需的资源
 
-![Page 21](Week7-Lecture1_slides_pages/page_021.png)
+![Page 21](Week7_slides_pages/page_021.png)
 
 **Schedulers and Orchestrators — 调度器与编排器（Slurm 示例）**
 
@@ -267,7 +306,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 #SBATCH --cpus-per-task=4         # Number of cores per task — 每个任务的核心数
 ```
 
-![Page 22](Week7-Lecture1_slides_pages/page_022.png)
+![Page 22](Week7_slides_pages/page_022.png)
 
 **Schedulers and Orchestrators — 调度器 vs 编排器的区别**
 
@@ -280,7 +319,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 7.3 工作流管理 (Workflow Management)
 
-![Page 23](Week7-Lecture1_slides_pages/page_023.png)
+![Page 23](Week7_slides_pages/page_023.png)
 
 **Workflow Management — 工作流管理**
 
@@ -290,7 +329,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 7.4 Airflow
 
-![Page 24](Week7-Lecture1_slides_pages/page_024.png)
+![Page 24](Week7_slides_pages/page_024.png)
 
 **Airflow — Airflow**
 
@@ -299,7 +338,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 - ❑ Contains a huge library of operators. — 包含大量的操作算子库。
 - ❑ Easy to use with different cloud providers, databases, storage options. — 易于与不同的云提供商、数据库、存储选项配合使用。
 
-![Page 25](Week7-Lecture1_slides_pages/page_025.png)
+![Page 25](Week7_slides_pages/page_025.png)
 
 **Airflow Drawbacks — Airflow 的缺点**
 
@@ -309,13 +348,17 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 - ❑ Airflow's DAGs are **static** - it can't automatically create new steps at runtime as needed. — Airflow 的 DAG 是**静态的** - 不能在运行时按需自动创建新步骤。
 - ❑ Next generation of workflow orchestrators **Argo** and **Prefect** address these issues. — 下一代工作流编排器 **Argo** 和 **Prefect** 解决了这些问题。
 
+> **📝 Notes:**
+>
+> **承接**: 本节讲解了资源管理层——从 Cron 到调度器到编排器的演进、DAG 工作流管理、Airflow 的优缺点；资源管理层解决了“任务怎么跑”的问题，但还缺少“模型怎么管”的能力→ 引出下一节「ML 平台」。
+
 ---
 
 ## 8. ML 平台 (ML Platform)
 
 ### 8.1 ML 平台概述 (Overview)
 
-![Page 26](Week7-Lecture1_slides_pages/page_026.png)
+![Page 26](Week7_slides_pages/page_026.png)
 
 **ML Platform — ML 平台**
 
@@ -327,7 +370,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
   - ▪ Model Store — 模型存储
   - ▪ Feature Store — 特征存储
 
-![Page 27](Week7-Lecture1_slides_pages/page_027.png)
+![Page 27](Week7_slides_pages/page_027.png)
 
 **ML Platform — ML 平台（评估标准）**
 
@@ -343,7 +386,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 8.2 模型部署服务 (Model Deployment)
 
-![Page 28](Week7-Lecture1_slides_pages/page_028.png)
+![Page 28](Week7_slides_pages/page_028.png)
 
 **ML Platform – Model Deployment — ML 平台 — 模型部署**
 
@@ -357,7 +400,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 8.3 模型存储 (Model Store)
 
-![Page 29](Week7-Lecture1_slides_pages/page_029.png)
+![Page 29](Week7_slides_pages/page_029.png)
 
 **ML Platform – Model Store — ML 平台 — 模型存储**
 
@@ -374,7 +417,7 @@ RUN git clone https://github.com/huggingface/transformers.git && \
 
 ### 8.4 特征存储 (Feature Store)
 
-![Page 30](Week7-Lecture1_slides_pages/page_030.png)
+![Page 30](Week7_slides_pages/page_030.png)
 
 **ML Platform – Feature Store — ML 平台 — 特征存储**
 
@@ -390,11 +433,15 @@ RUN git clone https://github.com/huggingface/transformers.git && \
     - Capable of storing both online and batch features — 能够存储在线和批量特征
     - Require deep integration — 需要深度集成
 
+> **📝 Notes:**
+>
+> **承接**: 本节介绍了 ML 平台层的三大核心组件——模型部署、模型存储、特征存储；ML 平台是四层架构的第三层，加上前面的存储计算、资源管理、开发环境，共同构成 MLOps 完整基础设施。
+
 ---
 
 ## 9. 今日学习总结 (Summary of Today's Learning)
 
-![Page 31](Week7-Lecture1_slides_pages/page_031.png)
+![Page 31](Week7_slides_pages/page_031.png)
 
 **Summary of Today's Learning — 今日学习总结**
 

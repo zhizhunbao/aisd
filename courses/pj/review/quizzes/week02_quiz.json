@@ -1,0 +1,121 @@
+[
+  {
+    "question": "[Quiz 1] An LLM gives this response to a user's question about \"What did Einstein contribute to physics?\":<br><br>\"Einstein revolutionized physics with his Theory of Relativity in 1905. He discovered that E=mc², showed that light behaves as both particles and waves, and proved that time passes differently based on gravity and speed. He also worked closely with Isaac Newton and collaborated on many experiments about gravity at Princeton University.\"<br><br>Which evaluation metric would BEST identify the key issue in this response?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "Contextual Grounding",
+      "Prompt Alignment",
+      "Faithfulness",
+      "Answer Relevancy"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why Faithfulness:</strong> 这段回答包含<strong>事实性幻觉</strong>——Einstein 不可能与 Newton 合作（Newton 比 Einstein 早出生约 200 年）。<br><br><strong>Faithfulness（忠实度）</strong>衡量模型输出是否与事实/上下文一致，专门检测 Hallucination。<br><br><strong>为什么不选其他：</strong><br>• <strong>Contextual Grounding</strong> — 检查是否基于提供的上下文（这里没有上下文）<br>• <strong>Prompt Alignment</strong> — 检查是否回答了问题（确实回答了）<br>• <strong>Answer Relevancy</strong> — 检查是否相关（内容相关但事实错误）"
+  },
+  {
+    "question": "[Quiz 1] Say True or False: In the case of Observability Data from Open Telemetry, Span is a smaller unit of data compared to a Trace.",
+    "type": "TF",
+    "source": "teacher",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> 在 OpenTelemetry 的可观测性体系中：<br><br>• <strong>Trace</strong>（追踪）= 一个完整的端到端请求流程<br>• <strong>Span</strong>（跨度）= Trace 中的一个单独操作<br><br><strong>关系：</strong>一个 Trace 由多个 Span 组成，Span 是更小的单位。<br><br><strong>Span 包含的字段：</strong>Name, SpanContext (TraceID + SpanID), ParentSpan, StartTime, EndTime, Attributes, Events, Status。"
+  },
+  {
+    "question": "[Midterm] Statement: Faithfulness verifies that the LLM's response is consistent with the information provided within the given context or input.",
+    "type": "TF",
+    "source": "teacher",
+    "answer": "True",
+    "explanation": "<strong>Why True:</strong> Faithfulness（忠实度）的定义就是：验证 LLM 的输出是否与<strong>给定的上下文/输入信息</strong>一致。<br><br><strong>关键区分：</strong><br>• <strong>Faithfulness</strong> — 是否忠于上下文（不编造）<br>• <strong>Factual Accuracy</strong> — 是否符合世界知识（更广泛）<br>• <strong>Answer Relevancy</strong> — 是否回答了问题<br><br><strong>在 RAG 系统中：</strong>Faithfulness 检查生成的回答是否基于检索到的文档，而非模型自己'编'的。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A RAG system retrieves 10 sentences of context. The LLM generates an answer with 5 claims. 4 claims are supported by the retrieved context, but 1 claim is fabricated. What is the Faithfulness score?",
+    "options": [
+      "A) 0.5",
+      "B) 0.4",
+      "C) 0.8",
+      "D) 1.0"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> Faithfulness = V/S = 被上下文验证的声明数 / 总声明数 = 4/5 = <strong>0.8</strong>。<br><br><strong>注意：</strong>Faithfulness 衡量的是「答案是否忠于检索到的上下文」，而不是「答案是否绝对正确」。如果上下文本身有错误信息，忠实度仍可以很高。<br><br><strong>公式：</strong>F = V / S"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "You need to evaluate a creative writing assistant that generates poetry. There is no ground truth reference. Which evaluation approach is most appropriate?",
+    "options": [
+      "A) BLEU Score — compare against reference translations",
+      "B) ROUGE Score — measure recall against reference summary",
+      "C) G-Eval (Reference-Free) — use LLM with CoT reasoning to score creativity and fluency",
+      "D) Simple word count comparison"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> 关键条件：<strong>no ground truth + 主观评估（创意性）</strong>。<br><br>• <strong>G-Eval</strong> = Reference-Free，专门处理没有标准答案的主观评估<br>• G-Eval 的创新：自动 CoT 推理 + 概率加权评分（用 logprobs）<br>• G-Eval Spearman 相关性 0.514 远高于 ROUGE 的 ~0.3<br><br><strong>A/B:</strong> BLEU 和 ROUGE 都是 Reference-Based，需要标准答案。<br><strong>D:</strong> 完全不衡量质量。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "RAGAS Faithfulness measures whether the LLM's answer is factually correct according to world knowledge.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ <strong>经典考试陷阱！</strong><br><br>Faithfulness 衡量的是答案中的声明是否能被<strong>检索到的上下文</strong>支持，不管答案是否「绝对正确」。<br><br>• 如果上下文本身有错误信息，但答案忠实于上下文 → Faithfulness 仍然高<br>• Faithfulness = 忠于「给定材料」而非「世界知识」<br><br><strong>Faithfulness vs Factual Accuracy:</strong><br>• Faithfulness → 忠于上下文（不编造）<br>• Factual Accuracy → 符合世界知识（更广泛）"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A company needs to evaluate whether their chatbot's JSON API responses follow a strict schema (must have 'title', 'body', 'conclusion' fields). Which evaluation method is best suited?",
+    "options": [
+      "A) G-Eval — single prompt scoring",
+      "B) BLEU — n-gram precision matching",
+      "C) DAG Eval — structured decision tree checking each field step by step",
+      "D) Human evaluation"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> 关键条件：<strong>结构化检查</strong>（JSON Schema 是否包含特定字段）。<br><br><strong>G-Eval vs DAG Eval:</strong><br>• <strong>G-Eval</strong> — 适合主观评估（流畅性、创意性），单个 prompt 一次性打分<br>• <strong>DAG Eval</strong> — 适合结构化检查，逐节点判断，确定性高、可审计<br><br>DAG 可以设计为：检查 title 存在 → 检查 body 存在 → 检查 conclusion 存在 → 每步可追踪扣分点。<br><br>⚠️ 两者可以<strong>混合使用</strong>——DAG 检查结构 + G-Eval 评质量。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "G-Eval uses probability-weighted scoring instead of simply taking the LLM's text output as the score. What problem does this solve?",
+    "options": [
+      "A) It makes evaluation faster",
+      "B) It reduces the cost of API calls",
+      "C) It reduces the randomness of LLM scoring — when the LLM is uncertain between scores 4 and 5, it produces a weighted average (e.g., 4.3) instead of randomly picking one",
+      "D) It allows evaluation without any prompt"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> G-Eval 的两大创新：<br>① 自动生成评估步骤（CoT）<br>② <strong>概率加权评分</strong>（用 logprobs）<br><br><strong>公式：</strong>score = Σ p(sᵢ) × sᵢ<br><br>例如：LLM 对分数 4 的概率 = 0.7，分数 5 = 0.2，分数 3 = 0.1<br>→ score = 4×0.7 + 5×0.2 + 3×0.1 = 2.8 + 1.0 + 0.3 = <strong>4.1</strong><br><br>这比直接取 LLM 输出的文本分数更<strong>稳定、连续</strong>。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "ROUGE is a Precision-oriented metric, while BLEU is a Recall-oriented metric.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> ⚠️ <strong>经典考试陷阱——恰好相反！</strong><br><br>• <strong>ROUGE 偏 Recall</strong>（检查参考文本中的内容有多少被生成文本覆盖）<br>• <strong>BLEU 偏 Precision</strong>（检查生成文本中的内容有多少出现在参考文本中）<br><br><strong>记忆口诀：ROUGE = Recall, BLEU = Brevity/偏精确</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Your team evaluated two LLM outputs using ROUGE and got similar scores. But human reviewers strongly preferred Output A because it captured the meaning better using different words. Which metric would better align with human judgment?",
+    "options": [
+      "A) BLEU — it would also give similar scores",
+      "B) METEOR — considers synonyms and stemming",
+      "C) BERTScore — uses BERT embeddings for semantic similarity",
+      "D) Word Error Rate"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> ROUGE 只看<strong>表面词汇重叠</strong>。如果 Output A 用了不同措辞但语义相同，ROUGE 分低但实际质量高。<br><br><strong>BERTScore</strong> 使用 BERT 嵌入做<strong>语义匹配</strong>——即使措辞不同但语义相同也能给出高分。<br><br><strong>Reference-Based 指标精度递增：</strong><br>BLEU（n-gram 精确匹配）< ROUGE（n-gram 召回）< METEOR（+ 同义词/词干）< <strong>BERTScore（语义嵌入）</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In RAGAS, Context Relevance is calculated as CR = E/S. A RAG system retrieves 15 sentences, but only 6 are relevant to the user's question. What is the Context Relevance score, and what does it indicate?",
+    "options": [
+      "A) CR = 0.6 — the retriever is returning too much noise",
+      "B) CR = 0.4 — the retriever is returning too much noise and should be improved",
+      "C) CR = 0.4 — the LLM is generating hallucinations",
+      "D) CR = 0.6 — the LLM is answering correctly"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> CR = E/S = 6/15 = <strong>0.4</strong>。<br><br>Context Relevance 衡量<strong>检索到的上下文与问题的相关程度</strong>。0.4 意味着 60% 的检索结果是噪音。<br><br><strong>RAGAS 三大指标分工：</strong><br>• <strong>Faithfulness (F=V/S)</strong> → 答案是否忠于上下文<br>• <strong>Answer Relevance (AR)</strong> → 答案是否回答了问题<br>• <strong>Context Relevance (CR=E/S)</strong> → 检索质量（本题考的）<br><br><strong>C 的陷阱：</strong>CR 衡量的是<strong>检索器</strong>质量，不是 LLM 幻觉。"
+  }
+]

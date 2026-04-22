@@ -1,0 +1,116 @@
+[
+  {
+    "question": "[Quiz 1] You are training a single-layer perceptron using pipeline parallelism across 3 GPUs. The network processes data in micro-batches of 4 samples, with a total batch size of 16 samples. The forward pass for each micro-batch takes 2ms, the backward pass takes 3ms, and weight updates take 1ms. Each GPU can only perform one operation (forward/backward/update) at a time.<br><br>Consider the time to process the first complete batch (16 samples) after the pipeline is fully running.<br><br>Calculate: In the steady state, how many milliseconds does it take to process one complete batch? (write only the number without writing the units)",
+    "type": "Fill",
+    "source": "teacher",
+    "answer": [
+      "21"
+    ],
+    "explanation": "<strong>Answer: 21ms</strong><br><br><strong>计算过程：</strong><br>• 4 个 micro-batch，流水线稳定后各 stage 重叠执行<br>• 题目说 forward pass for each micro-batch = 2ms（整个流水线的产出速率）<br>• 题目说 backward pass for each micro-batch = 3ms（整个流水线的产出速率）<br><br><strong>Steady-state 计算（流水线已满）：</strong><br>• Forward: 4 micro-batches × 2ms = <strong>8ms</strong><br>• Backward: 4 micro-batches × 3ms = <strong>12ms</strong><br>• Weight update: <strong>1ms</strong><br>• 总计 = 8 + 12 + 1 = <strong>21ms</strong><br><br><strong>为什么不用乘 GPU 数量？</strong><br>Pipeline Parallelism 的核心就是 micro-batch 在 3 个 GPU stage 上<strong>重叠执行</strong>。流水线满了之后，每隔 forward_time 就输出一个 micro-batch，GPU 数量只影响流水线填充时间（startup latency），不影响 steady-state 的吞吐率。<br><br><strong>Pipeline Parallelism 核心思想：</strong>将模型切成若干 stage，每个 GPU 负责一段，micro-batch 交替执行减少 GPU 空闲时间（bubble）。"
+  },
+  {
+    "question": "[Quiz 1] You are working on a predictive modeling problem where the goal is to classify whether an email is spam or not spam. The dataset contains 10,000 emails, each with the following features:<br><br>• Text content of the email (natural language text)<br>• Sender's email address (categorical)<br>• Time the email was sent (continuous)<br>• Number of recipients (continuous)<br><br>The dataset is highly imbalanced, with only 5% of the emails being spam. You want to build a model that not only achieves high accuracy but also has a good recall for the spam class (i.e., correctly identifies as many spam emails as possible).<br><br>Which of the following machine learning algorithms is most suitable for this problem?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "Random Forest",
+      "Gradient Boosting (XGBoost, LightGBM)",
+      "Logistic Regression",
+      "Support Vector Machine (SVM) with a linear kernel"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why Gradient Boosting (XGBoost/LightGBM):</strong><br><br><strong>为什么最合适：</strong><br>• 原生支持不平衡数据（<code>scale_pos_weight</code> 参数）<br>• 处理混合特征类型（文本 TF-IDF + 分类 + 连续）<br>• 表格数据上性能最优（工业界标准）<br>• 内置正则化防止过拟合<br><br><strong>为什么不选其他：</strong><br>• <strong>Random Forest</strong> — 可以但对不平衡数据不如 GB 灵活<br>• <strong>Logistic Regression</strong> — 需要大量特征工程，非线性关系捕捉差<br>• <strong>SVM</strong> — 大数据集上训练慢，调参复杂"
+  },
+  {
+    "question": "[Midterm] Consider a scenario where you are training a very large deep learning model on a massive dataset. Which of the following statements BEST describes the key differences between data parallelism, model parallelism, and pipeline parallelism?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Data parallelism focuses on optimizing data loading, model parallelism optimizes model architecture, and pipeline parallelism optimizes the training loop.",
+      "B) Data parallelism splits the data across multiple GPUs, model parallelism splits the model across multiple GPUs, and pipeline parallelism splits the training process into stages.",
+      "C) Data parallelism splits the model across multiple GPUs, model parallelism splits the data across multiple GPUs, and pipeline parallelism splits the training process into stages.",
+      "D) Data parallelism is used for small datasets, model parallelism for small models, and pipeline parallelism for sequential data."
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B):</strong><br><br>• <strong>Data Parallelism</strong>（数据并行）— 每个 GPU 持有完整模型副本，数据分割到各 GPU<br>• <strong>Model Parallelism</strong>（模型并行）— 模型太大放不下一个 GPU，拆分模型层到多个 GPU<br>• <strong>Pipeline Parallelism</strong>（流水线并行）— 模型按阶段拆分 + micro-batch 交替执行减少 bubble<br><br><strong>选择策略：</strong>数据大→Data Parallel；模型大→Model Parallel；两者都大→Pipeline/Hybrid。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Your team has a 70B parameter model that cannot fit on a single GPU (80GB VRAM). Which PyTorch distributed API should you use?",
+    "options": [
+      "A) DDP (DistributedDataParallel) — each GPU holds a full model copy",
+      "B) FSDP (FullyShardedDataParallel) — parameters, optimizers, and gradients are sharded across GPUs",
+      "C) DataParallel — single-process multi-GPU",
+      "D) Gradient Checkpointing — save memory on single GPU"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 关键条件：模型<strong>放不进单卡</strong>。<br><br><strong>DDP vs FSDP 选择规则：</strong><br>• 模型<strong>放得进</strong>单卡 → DDP（每个 Worker 完整副本）<br>• 模型<strong>放不进</strong>单卡 → <strong>FSDP</strong>（参数/优化器/梯度分片存储）<br><br>70B 模型 FP32 ≈ 280GB，远超 80GB 单卡 → 必须 FSDP。<br><br><strong>D:</strong> Gradient Checkpointing 是单机内存优化，用计算换内存（20% 额外计算换 10× 内存），但 70B 仍然不够。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In synchronous data parallelism, 8 GPUs are training a model. GPU #3 has a hardware issue and runs 10x slower than others. What problem does this cause?",
+    "options": [
+      "A) Gradient Staleness — outdated gradients update the model",
+      "B) Straggler Problem — all 7 healthy GPUs must wait for GPU #3 to finish before aggregating gradients",
+      "C) Data Leakage — training data is shared across GPUs",
+      "D) Model Decay — the model performance degrades"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 同步模式下，所有 Worker 必须<strong>等最慢的那个算完</strong>才能汇总梯度。1 台慢的拖慢全局 = <strong>Straggler Problem（落后者问题）</strong>。<br><br><strong>同步 vs 异步的致命问题：</strong><br>• <strong>同步 → Straggler</strong>（最慢拖全局）<br>• <strong>异步 → Gradient Staleness</strong>（旧梯度更新新权重）<br><br><strong>A 的陷阱：</strong>Gradient Staleness 是<strong>异步</strong>模式的问题，不是同步模式。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Gradient Checkpointing saves both memory and computation time — it is a free optimization with no trade-offs.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Gradient Checkpointing 不是免费午餐！<br><br>• 用 <strong>20% 额外计算</strong>换 <strong>10× 内存</strong><br>• 前向传播时只保存 √N 个检查点<br>• 反向传播时需要<strong>重新计算</strong>中间激活值<br><br>训练时间从 10h → 12h，但能装 10× 大的模型。<br><br><strong>核心权衡：</strong>时间（增加）↔ 内存（大幅减少）"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A startup wants to find the best learning rate for their model. They have limited GPU budget and can only run 15 experiments. Which hyperparameter search method is most sample-efficient?",
+    "options": [
+      "A) Grid Search — exhaustively try all combinations",
+      "B) Random Search — randomly sample 15 combinations",
+      "C) Bayesian Optimization — use a surrogate model to predict the next best point to try",
+      "D) Manual tuning by an expert"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> 关键条件：<strong>limited budget（只能跑 15 次）</strong>→ 需要<strong>样本效率最高</strong>的方法。<br><br><strong>三种搜索方法对比：</strong><br>• <strong>Grid Search</strong> — 穷举所有组合，高维度维度灾难<br>• <strong>Random Search</strong> — 高维效率比 Grid 好，但不保证最优<br>• <strong>Bayesian ✓</strong> — 用概率模型预测下一个最优点，样本效率最高<br><br><strong>Bayesian 原理：</strong>看上一个飞镖落点再决定下一个往哪扔，越来越精准。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "DARTS achieved 1000x speedup over RL-based NAS (NASNet). What is the key innovation?",
+    "options": [
+      "A) Using a more powerful GPU cluster",
+      "B) Using evolutionary algorithms instead of RL",
+      "C) Converting the discrete architecture search into a continuous optimization problem, enabling gradient descent on architecture choices",
+      "D) Reducing the search space to only 3 options"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> DARTS 的核心创新 = 将离散搜索转成<strong>连续优化</strong>问题。<br><br><strong>三种 NAS 方法对比：</strong><br>• <strong>RL-NAS (NASNet)</strong> — Controller(RNN) 提出架构 → 训练 → 评估 → 反馈。数千 GPU 小时<br>• <strong>Evolutionary (AmoebaNet)</strong> — 变异-淘汰。数千 GPU 小时<br>• <strong>DARTS ✓</strong> — Supernet + 梯度下降同时优化架构权重 α 和模型参数 w。<strong>几小时</strong><br><br>⚠️ <strong>考试陷阱：</strong>DARTS 不是 RL 方法！它是可微分方法。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "When selecting an ML algorithm, you should always start with the current State-of-the-Art (SOTA) model to ensure the best performance.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> 六条军规第一条：<strong>不要追 SOTA！</strong><br><br>• SOTA 在学术基准上最强，但<strong>不一定适合你的数据</strong><br>• SOTA 成本高、延迟大、调参复杂<br><br><strong>正确策略：从简入手</strong><br>先 Logistic Regression → Random Forest / XGBoost → DNN<br><br>例如：BERT-Large 对 10 行 CSV 表格<strong>过于复杂</strong>。<br><br><strong>先问「适不适合」，再问「先不先进」。</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "You are training a model using asynchronous data parallelism. Worker A finishes its gradient computation but by the time it sends the update, the global model has already been updated 5 times by other workers. What problem does Worker A's gradient cause?",
+    "options": [
+      "A) Straggler Problem",
+      "B) Data Leakage",
+      "C) Gradient Staleness — Worker A's gradient was computed on an outdated version of the model",
+      "D) Overfitting"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> 异步模式下，Worker A 用 <strong>5 步前的旧模型</strong>计算的梯度去更新当前模型 = <strong>Gradient Staleness（梯度过时）</strong>。<br><br><strong>同步 vs 异步的致命问题：</strong><br>• 同步 → <strong>Straggler</strong>（等最慢的）<br>• 异步 → <strong>Gradient Staleness</strong>（用过时梯度）<br><br><strong>A 的陷阱：</strong>Straggler 是同步模式的问题。异步模式不等人，所以没有 Straggler，但有 Staleness。"
+  }
+]

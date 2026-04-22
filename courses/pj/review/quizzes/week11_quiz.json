@@ -1,0 +1,94 @@
+[
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A medical chatbot must never send a low-quality answer to doctors. Every response must be reviewed before delivery. Which Reflexion method should be used?",
+    "options": [
+      "A) Feedback-Driven Reflexion — only correct when users give negative feedback",
+      "B) Implicit Reflexion — automatically self-review every response before sending, correct 'if necessary'",
+      "C) No reflexion needed — LLMs are always accurate",
+      "D) Manual human review of every response"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 关键条件：<strong>不允许低质量输出 + 每次都要检查</strong>。<br><br><strong>两种 Reflexion 对比：</strong><br>• <strong>Feedback-Driven</strong> — 用户标「差」才修正（事后补救），额外开销低<br>• <strong>Implicit ✓</strong> — 发送前自动自评（事前预防），每次多一步延迟<br><br><strong>关键业务（医疗/法律）</strong>必须用 Implicit → 不能等出错再补救。<br><br>⚠️ Implicit 的 'if necessary' 是关键——不是每次都修改，而是自评发现问题时才修改。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A RAG system uses fixed-size chunking (512 tokens). Users complain that retrieved answers are often incomplete or cut off mid-sentence. Which chunking strategy would best solve this?",
+    "options": [
+      "A) Increase chunk size to 2048 tokens",
+      "B) Semantic Chunking — split where embedding similarity drops sharply, ensuring each chunk contains a complete semantic unit",
+      "C) Reduce chunk size to 128 tokens",
+      "D) Remove chunking entirely and feed whole documents"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> Fixed-size chunking 的问题 = 可能在<strong>句子中间截断</strong>。<br><br><strong>五种分块策略（从简单到智能）：</strong><br>• Fixed-size — 固定 token 数，简单但可能截断<br>• Recursive — 按分隔符递归拆分（LangChain 默认）<br>• Document-based — 按文档结构（标题/HTML 标签）<br>• <strong>Semantic ✓</strong> — 按嵌入相似度骤降处切割，质量最高<br>• Agentic — LLM 判断边界，最智能但最慢最贵<br><br><strong>A 的陷阱：</strong>增大 chunk 不解决截断问题，只是截断更少但仍会发生。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Self-Consistency can improve the quality of the prompt itself — if the prompt is poorly designed, running it multiple times and voting will produce a better answer.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Self-Consistency 只消除<strong>随机性</strong>，<strong>不能改进提示本身的质量</strong>。<br><br>如果所有路径都用差提示 → 5 个错答案 → 投票还是错！<br><br><strong>Self-Consistency 能做的：</strong>同一问题问 N 次，多数投票选最终答案。<br><strong>Self-Consistency 不能做的：</strong>改进提示设计。<br><br>要改进提示本身 → 用 <strong>OPRO</strong>（用 LLM 自身迭代优化提示）。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "OPRO discovered that the prompt 'Take a deep breath and work step-by-step' achieved 80.2% accuracy on GSM8K. What is the core mechanism that makes OPRO work?",
+    "options": [
+      "A) Human experts manually design prompts",
+      "B) Random search over prompt templates",
+      "C) LLM acts as its own optimizer — iteratively generating better prompts using a Meta-Prompt that contains problem description + history of prompts and their scores",
+      "D) Fine-tuning the LLM with prompt-response pairs"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> OPRO 的三大组件：<br><br>① <strong>Meta-Prompt</strong> — 包含问题描述 + 历史提示及评分（考试资料包）<br>② <strong>LLM Optimizer</strong> — LLM 自身作为优化器<br>③ <strong>Objective Function</strong> — 评估提示效果的指标<br><br><strong>迭代过程：</strong>Meta-Prompt → LLM 生成新提示 → 测试评分 → 将结果加入历史 → 重复<br><br>⚠️ OPRO 发现的最优提示都包含<strong>「分步思考」(CoT)</strong>核心。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A RAG system retrieves relevant documents, but the LLM ignores important information in the middle of the context, only using facts from the beginning and end. What phenomenon is this?",
+    "options": [
+      "A) Hallucination",
+      "B) Lost in the Middle — LLM attends to the beginning and end of input, neglecting middle content",
+      "C) Data Leakage",
+      "D) Catastrophic Forgetting"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <strong>Lost in the Middle（中间丢失）</strong>= LLM 对开头和结尾关注度高，中间内容容易被忽略。<br><br>⚠️ <strong>考试陷阱：</strong>以为更大的上下文窗口能解决问题。实际上 128K 窗口塞满文档，中间利用率更低！<br><br><strong>解决方案：</strong><br>• 将最重要的内容放在开头或结尾<br>• 用 Reranking 精选少量高质量文档，而非塞更多<br><br><strong>D 的陷阱：</strong>Catastrophic Forgetting 是微调的问题，不是 RAG 的。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A RAG system needs to improve retrieval quality. The team considers two options: (1) Fine-tune the embedding model (~100M params) (2) Fine-tune the LLM (~7B params). Which is more cost-effective?",
+    "options": [
+      "A) Fine-tune the LLM — it will improve both retrieval and generation",
+      "B) Fine-tune the Embedding model — it's ~100x cheaper, only improves retrieval precision, and is sufficient for domain adaptation",
+      "C) Both cost the same",
+      "D) Neither — just increase the chunk size"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 微调 Embedding 的<strong>性价比远超微调 LLM</strong>：<br><br>• Embedding 模型 ~100M 参数 vs LLM ~7B+ 参数<br>• 训练成本低 <strong>100 倍</strong><br>• 数据需求更少<br><br><strong>比喻：</strong><br>• 微调 Embedding = 给搜索引擎换「领域眼镜」<br>• 微调 LLM = 换整个「大脑」<br><br><strong>A 的陷阱：</strong>微调 LLM 不会改进检索质量！检索用的是 Embedding 模型。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A two-stage retrieval pipeline uses Bi-Encoder for initial retrieval and Cross-Encoder for reranking. Why not use Cross-Encoder for everything?",
+    "options": [
+      "A) Cross-Encoder is less accurate",
+      "B) Cross-Encoder requires query and document to be concatenated and encoded jointly — this is too slow for searching millions of documents but perfect for re-scoring a small candidate set",
+      "C) Cross-Encoder doesn't understand natural language",
+      "D) Bi-Encoder is always more accurate"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong><br><br>• <strong>Bi-Encoder</strong>: Query 和 Doc 分别编码 → Doc 向量可预计算 → <strong>快</strong>（筛 100 万→100）<br>• <strong>Cross-Encoder</strong>: Query+Doc 拼接后联合编码 → 每对重新计算 → <strong>精准但慢</strong>（排 100→5）<br><br>100 万文档全用 Cross-Encoder = 100 万次 BERT forward pass = 不现实！<br><br><strong>两阶段流水线：</strong><br>Stage 1: Bi-Encoder 快速初筛 → Stage 2: Cross-Encoder 精准精排<br><br><strong>Reranking 是 Advanced RAG 中效果最显著的改进。</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "Prompt optimization techniques like OPRO can compensate for knowledge that the LLM never learned during pre-training.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> 提示优化只改进「问问题的方式」，<strong>无法纠正模型训练数据中缺失的知识</strong>。<br><br>例如：模型不知道 2024 奥运结果，再好的提示也问不出来。<br><br><strong>知识缺失的解决方案：</strong><br>• <strong>RAG</strong> — 从外部文档检索最新知识<br>• <strong>Fine-tuning</strong> — 用领域数据重新训练<br><br>提示优化（OPRO/CoT/Self-Consistency）只能在模型已有知识的范围内改善输出质量。"
+  }
+]

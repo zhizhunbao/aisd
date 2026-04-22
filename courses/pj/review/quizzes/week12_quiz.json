@@ -1,0 +1,94 @@
+[
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A company's LLM chatbot gives generic responses to cybersecurity questions. They have 10,000 high-quality cybersecurity Q&A pairs. What should they do?",
+    "options": [
+      "A) Just use better prompts — prompt engineering is always enough",
+      "B) Use RAG to retrieve cybersecurity documents at query time",
+      "C) Fine-tune the LLM with the cybersecurity Q&A data using LoRA — the task is complex and requires specialist behavior",
+      "D) Replace the LLM with a rule-based system"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> 关键条件：需要<strong>像专家一样</strong>回答领域问题 + 有高质量领域数据。<br><br><strong>决策树：</strong><br>• 简单任务 → Prompt Engineering（不需要微调）<br>• 数据变化快 → RAG（实时检索）<br>• <strong>复杂任务 + 有数据 → Fine-tuning ✓</strong><br>• 低质量数据 → 先清洗，不微调（GIGO）<br><br><strong>B 不够好：</strong>RAG 只检索文档，不改变模型行为。微调让模型真正「学会」领域知识。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "After fine-tuning an LLM on legal documents, the model becomes a great legal assistant but can no longer properly translate languages or write code. What happened?",
+    "options": [
+      "A) The training data was corrupted",
+      "B) Catastrophic Forgetting — full fine-tuning caused the model to forget general capabilities while learning legal knowledge",
+      "C) The model is too small",
+      "D) The learning rate was too low"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <strong>Catastrophic Forgetting（灾难性遗忘）</strong> = 微调学了新领域知识后，忘记了原有通用知识。<br><br><strong>Full Fine-Tuning vs LoRA：</strong><br>• Full FT — 更新所有参数 → 可能灾难性遗忘<br>• <strong>LoRA</strong> — 冻结原始权重 + 训练小适配器 → <strong>不会遗忘</strong>（原始权重没变）<br><br>这就是为什么 LoRA 比 Full FT 更安全——原始通用能力完整保留。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "In LoRA, which components are frozen and which are trainable?",
+    "options": [
+      "A) W_orig is Trainable (Billions params); A and B are Frozen",
+      "B) All parameters (W_orig, A, B) are Trainable",
+      "C) W_orig is Frozen (Billions params); A (d x r) and B (r x d) are Trainable (Millions params, < 1%)",
+      "D) Only B is Trainable; W_orig and A are Frozen"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> LoRA 核心公式：<strong>W_new = W_orig + A × B</strong><br><br>• <strong>W_orig</strong>（原始权重）— d×d — <strong>Frozen</strong>（Billions 参数一个不动）<br>• <strong>A</strong>（下投影）— d×r — <strong>Trainable</strong><br>• <strong>B</strong>（上投影）— r×d — <strong>Trainable</strong><br><br>LoRA 参数 = 2×d×r = 2×4096×16 = 131,072（仅 <strong>0.78%</strong>）<br><br>⚠️ <strong>A 选项是最常见的考试陷阱——W_orig 和 A/B 的状态反过来了！</strong>"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "If the training data quality is poor (noisy labels, factual errors), fine-tuning will still provide some improvement over the base model.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> <strong>Garbage In → Garbage Out (GIGO)</strong><br><br>低质量数据微调<strong>可能比不微调更差</strong>——模型会学到错误模式！<br><br><strong>微调前必须检查：</strong><br>• 标注质量是否足够<br>• 数据是否有噪音<br>• 样本是否有偏差<br><br>如果数据不行 → <strong>先清洗数据，不要急着微调</strong>。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A solo developer with a single RTX 4090 GPU wants to fine-tune Llama-3-8B. Which framework is most suitable?",
+    "options": [
+      "A) Axolotl — designed for large-scale multi-GPU reproducible training",
+      "B) Unsloth — optimized for extreme speed and low VRAM on single consumer GPUs",
+      "C) HF PEFT — flexible Python API for deep integration",
+      "D) Training from scratch with PyTorch"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 关键条件：<strong>单卡消费级 GPU + 个人开发者</strong>。<br><br><strong>四大微调框架选型：</strong><br>• <strong>Unsloth ✓</strong> — 极致速度/低显存，单卡消费级，上手难度低~中<br>• <strong>Axolotl</strong> — 可复现性/大规模，多卡 H100/A100<br>• <strong>LLaMA-Factory</strong> — Web UI 易用一体化<br>• <strong>HF PEFT</strong> — 灵活 Python API，适合深度集成<br><br>单张 RTX 4090 → Unsloth 最合适。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A company has real-time stock price data that changes every minute. They want the LLM to answer questions about current prices. Should they fine-tune the LLM?",
+    "options": [
+      "A) Yes — fine-tune with the latest price data daily",
+      "B) No — use RAG to retrieve current prices at query time, because data changes too fast for fine-tuning to keep up",
+      "C) Yes — use LoRA adapters updated hourly",
+      "D) No — use prompt engineering to ask about prices"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 关键条件：<strong>数据变化极快（每分钟）</strong>。<br><br>微调的模型是一个快照——训完就开始过时。股票价格每分钟变 → 微调模型下一分钟就失效。<br><br><strong>决策规则：</strong><br>• 数据<strong>变化快</strong> → <strong>RAG</strong>（实时检索最新数据）<br>• 数据<strong>相对稳定</strong> + 需要专家行为 → <strong>Fine-tuning</strong><br><br><strong>A/C:</strong> 即使每天/每小时重新微调也跟不上每分钟的变化，且成本极高。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "With LoRA, you need to store a complete copy of the model for each domain task (e.g., one full model for medical, one for legal, one for code).",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> LoRA 的多任务优势 = <strong>同一个 Base LLM + 不同 Adapter</strong>。<br><br>• 医疗 LoRA Adapter（几 MB）<br>• 法律 LoRA Adapter（几 MB）<br>• 代码 LoRA Adapter（几 MB）<br>• 共享同一个 Base LLM（几十 GB）<br><br><strong>Full Fine-Tuning：</strong>每个任务一份完整模型 = N × 几十 GB<br><strong>LoRA：</strong>1 个 Base + N 个小 Adapter = 几十 GB + N × 几 MB<br><br>这就是 LoRA 实现「训练民主化」的原因——存储和切换成本极低。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "When should you NOT fine-tune an LLM? (Select the scenario where fine-tuning is the wrong approach)",
+    "options": [
+      "A) You need the model to write code like a senior developer",
+      "B) You have 50,000 high-quality domain-specific Q&A pairs",
+      "C) You have sensitive patient medical records that cannot be used for training due to privacy regulations",
+      "D) You need the model to follow a specific output format consistently"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> <strong>隐私限制</strong> = 不能微调！敏感数据不能用于训练。<br><br><strong>替代方案：</strong>RAG + 本地部署（数据不离开本地，LLM 只在推理时读取）。<br><br><strong>不该微调的四种情况：</strong><br>① 简单任务 → Prompt Engineering<br>② 数据变化快 → RAG<br>③ <strong>隐私限制 ✓ → RAG + 本地部署</strong><br>④ 低质量数据 → 先清洗<br><br><strong>A/B/D:</strong> 都是适合微调的场景。"
+  }
+]

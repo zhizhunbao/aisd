@@ -8,7 +8,7 @@
 
 ## 1. 今日议程 (Agenda for Today)
 
-![Page 2](Week6-Lecture-1_slides_pages/page_002.png)
+![Page 2](Week6_slides_pages/page_002.png)
 
 **Agenda for Today — 今日议程**
 
@@ -25,7 +25,7 @@
 
 ### 2.1 部署误区 (Model Deployment Myths)
 
-![Page 3](Week6-Lecture-1_slides_pages/page_003.png)
+![Page 3](Week6_slides_pages/page_003.png)
 
 **Model Deployment — 模型部署**
 
@@ -33,7 +33,7 @@
 - ❑ This can create some myths among people with no experience. — 这可能在没有经验的人中产生一些误区。
 - ❑ Let's look at some of these myths. — 让我们看看一些常见误区。
 
-![Page 4](Week6-Lecture-1_slides_pages/page_004.png)
+![Page 4](Week6_slides_pages/page_004.png)
 
 **Model Deployment Myths — 部署误区 1：只有少量模型被部署**
 
@@ -47,7 +47,7 @@
   - ▪ Customer churn — 客户流失
   - ▪ ...200+ models — ...200+ 个模型
 
-![Page 5](Week6-Lecture-1_slides_pages/page_005.png)
+![Page 5](Week6_slides_pages/page_005.png)
 
 **Model Deployment Myths — 部署误区 2：模型性能保持不变**
 
@@ -57,7 +57,7 @@
   - ▪ Model performance needs to be tracked — 需要跟踪模型性能
   - ▪ Models needs to be trained periodically — 模型需要定期重新训练
 
-![Page 6](Week6-Lecture-1_slides_pages/page_006.png)
+![Page 6](Week6_slides_pages/page_006.png)
 
 **Model Deployment Myths — 部署误区 3：模型不需要频繁更新**
 
@@ -69,7 +69,7 @@
     - Used for critical decisions, e.g. fraud detection or medical diagnosis. — 用于关键决策，如欺诈检测或医疗诊断。
     - Used in applications where data is changing rapidly — 用于数据快速变化的应用
 
-![Page 7](Week6-Lecture-1_slides_pages/page_007.png)
+![Page 7](Week6_slides_pages/page_007.png)
 
 **Model Deployment Myths — 部署误区 3（续）：低频更新场景**
 
@@ -77,7 +77,7 @@
   - Used in less critical applications, such as product recommendations or website personalization — 用于不太关键的应用，如产品推荐或网站个性化
   - Used in applications where data is relatively stable, such as in natural language processing or image recognition. — 用于数据相对稳定的应用，如自然语言处理或图像识别。
 
-![Page 8](Week6-Lecture-1_slides_pages/page_008.png)
+![Page 8](Week6_slides_pages/page_008.png)
 
 **Model Deployment Myths — 部署误区 4：不需要担心规模**
 
@@ -86,7 +86,7 @@
   - ▪ You can have a startup with 100+ employees but having products with millions of customers — 你可以有一个 100+ 员工的创业公司，但产品拥有数百万客户
   - ▪ E.g. Open AI, Slack — 如 OpenAI、Slack
 
-![Page 9](Week6-Lecture-1_slides_pages/page_009.png)
+![Page 9](Week6_slides_pages/page_009.png)
 
 **Model Deployment Myths — 部署误区 5：扩展意味着增加机器数量**
 
@@ -103,7 +103,7 @@
 
 ### 3.1 三种部署类型 (Three Types of Deployments)
 
-![Page 10](Week6-Lecture-1_slides_pages/page_010.png)
+![Page 10](Week6_slides_pages/page_010.png)
 
 **Batch Vs Online Predictions — 批量 vs 在线预测**
 
@@ -115,7 +115,7 @@
 
 ### 3.2 在线预测 (Online Predictions)
 
-![Page 11](Week6-Lecture-1_slides_pages/page_011.png)
+![Page 11](Week6_slides_pages/page_011.png)
 
 **Online Predictions — 在线预测**
 
@@ -126,7 +126,7 @@
 
 ### 3.3 批量预测 (Batch Predictions)
 
-![Page 12](Week6-Lecture-1_slides_pages/page_012.png)
+![Page 12](Week6_slides_pages/page_012.png)
 
 **Batch Predictions — 批量预测**
 
@@ -137,13 +137,13 @@
 
 ### 3.4 架构对比 (Architecture Comparison)
 
-![Page 13](Week6-Lecture-1_slides_pages/page_013.png)
+![Page 13](Week6_slides_pages/page_013.png)
 
 **Batch Vs Online Predictions Using only Batch Features — 仅使用批量特征的批量 vs 在线预测**
 
 Ref: Designing Machine Learning Systems, O'REILLY
 
-![Page 14](Week6-Lecture-1_slides_pages/page_014.png)
+![Page 14](Week6_slides_pages/page_014.png)
 
 **Online Predictions Using both Batch and Streaming Features — 使用批量和流式特征的在线预测**
 
@@ -151,7 +151,7 @@ Ref: Designing Machine Learning Systems, O'REILLY
 
 ### 3.5 批量预测的优缺点 (Batch Predictions — Merits vs Demerits)
 
-![Page 15](Week6-Lecture-1_slides_pages/page_015.png)
+![Page 15](Week6_slides_pages/page_015.png)
 
 **Batch Predictions – Merits vs Demerits — 批量预测的优缺点**
 
@@ -163,7 +163,7 @@ Ref: Designing Machine Learning Systems, O'REILLY
 
 ### 3.6 在线预测的优缺点 (Online Predictions — Merits vs Demerits)
 
-![Page 16](Week6-Lecture-1_slides_pages/page_016.png)
+![Page 16](Week6_slides_pages/page_016.png)
 
 **Online Predictions – Merits vs Demerits — 在线预测的优缺点**
 
@@ -176,7 +176,7 @@ Ref: Designing Machine Learning Systems, O'REILLY
 
 ### 3.7 降低在线预测延迟 (Reducing Latency)
 
-![Page 17](Week6-Lecture-1_slides_pages/page_017.png)
+![Page 17](Week6_slides_pages/page_017.png)
 
 **Online Predictions – Reducing Latency — 在线预测 — 降低延迟**
 
@@ -191,7 +191,7 @@ Ref: Designing Machine Learning Systems, O'REILLY
 
 ### 4.1 概述 (Overview)
 
-![Page 18](Week6-Lecture-1_slides_pages/page_018.png)
+![Page 18](Week6_slides_pages/page_018.png)
 
 **Model Compression — 模型压缩**
 
@@ -201,7 +201,7 @@ Ref: Designing Machine Learning Systems, O'REILLY
 
 Ref: https://awesomeopensource.com/projects/model-compression
 
-![Page 19](Week6-Lecture-1_slides_pages/page_019.png)
+![Page 19](Week6_slides_pages/page_019.png)
 
 **Model Compression — 模型压缩（四种技术）**
 
@@ -213,7 +213,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 
 ### 4.2 低秩分解 (Low Rank Factorization)
 
-![Page 20](Week6-Lecture-1_slides_pages/page_020.png)
+![Page 20](Week6_slides_pages/page_020.png)
 
 **Model Compression - Low Rank Factorization — 模型压缩 — 低秩分解**
 
@@ -224,7 +224,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 
 ### 4.3 知识蒸馏 (Knowledge Distillation)
 
-![Page 21](Week6-Lecture-1_slides_pages/page_021.png)
+![Page 21](Week6_slides_pages/page_021.png)
 
 **Model Compression – Knowledge Distillation — 模型压缩 — 知识蒸馏**
 
@@ -235,7 +235,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
   - ❑ Still maintains 97% NLU capabilities — 仍保持 97% 的 NLU 能力
   - ❑ And 60% faster — 且快 60%
 
-![Page 22](Week6-Lecture-1_slides_pages/page_022.png)
+![Page 22](Week6_slides_pages/page_022.png)
 
 **Knowledge Distillation — 知识蒸馏（为什么优于直接训练？）**
 
@@ -247,7 +247,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 
 ### 4.4 剪枝 (Pruning)
 
-![Page 23](Week6-Lecture-1_slides_pages/page_023.png)
+![Page 23](Week6_slides_pages/page_023.png)
 
 **Model Compression – Pruning — 模型压缩 — 剪枝**
 
@@ -260,7 +260,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 
 ### 4.5 量化 (Quantization)
 
-![Page 24](Week6-Lecture-1_slides_pages/page_024.png)
+![Page 24](Week6_slides_pages/page_024.png)
 
 **Model Compression – Quantization — 模型压缩 — 量化**
 
@@ -270,7 +270,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 - ❑ Model having 100M parameters would take up 400 MB — 拥有 1 亿参数的模型将占用 400 MB
 - ❑ Using 16 bits representation would reduce the size by half — 使用 16 位表示可将大小减半
 
-![Page 25](Week6-Lecture-1_slides_pages/page_025.png)
+![Page 25](Week6_slides_pages/page_025.png)
 
 **Quantization — 量化（8 位整数）**
 
@@ -278,7 +278,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 - ❑ Quantization also improves speed of computation — 量化还可以提高计算速度
 - ❑ Can lead to rounding errors and division by zero — 可能导致舍入误差和除以零
 
-![Page 26](Week6-Lecture-1_slides_pages/page_026.png)
+![Page 26](Week6_slides_pages/page_026.png)
 
 **Quantization — 量化（最新趋势）**
 
@@ -292,7 +292,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 
 ## 5. 案例研究：Roblox BERT 优化 (Case Study: Roblox BERT Optimization)
 
-![Page 27](Week6-Lecture-1_slides_pages/page_027.png)
+![Page 27](Week6_slides_pages/page_027.png)
 
 **Model Compression - Case Study — 案例研究：Roblox 如何扩展 BERT 以在 CPU 上处理每天 10 亿次请求**
 
@@ -305,7 +305,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
   - Throughput – The number of requests served in one second — 吞吐量 – 一秒钟内服务的请求数
 - ■ For consistent comparison a single server with 36 Xeon Scalable Processor cores was used — 为一致比较，使用了一台 36 核 Xeon 可扩展处理器的服务器
 
-![Page 28](Week6-Lecture-1_slides_pages/page_028.png)
+![Page 28](Week6_slides_pages/page_028.png)
 
 **Case Study — GPU vs CPU Decision — GPU vs CPU 决策**
 
@@ -315,7 +315,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 - ■ 3,000 inferences per second on an Intel Xeon Scalable 36-core server — Intel Xeon 36 核服务器上每秒 3,000 次推理
 - ■ 400-500 inferences per second on a cost-equivalent Tesla V100 GPU — 成本相当的 Tesla V100 GPU 上每秒 400-500 次推理
 
-![Page 29](Week6-Lecture-1_slides_pages/page_029.png)
+![Page 29](Week6_slides_pages/page_029.png)
 
 **Case Study — Thread Tuning — 线程调优**
 
@@ -324,25 +324,25 @@ Ref: https://awesomeopensource.com/projects/model-compression
 - ■ This resulted in stagnation when too many of these workers were running at once in the same machine — 当同一台机器上同时运行太多 worker 时会导致停滞
 - ■ Set the number of threads to 1 — 将线程数设为 1
 
-![Page 30](Week6-Lecture-1_slides_pages/page_030.png)
+![Page 30](Week6_slides_pages/page_030.png)
 
 **Case Study — 优化步骤 1：固定输入 BERT**
 
 - ❑ Started with BERT model with fixed shape input (128 tokens) — 从固定形状输入（128 tokens）的 BERT 模型开始
 
-![Page 31](Week6-Lecture-1_slides_pages/page_031.png)
+![Page 31](Week6_slides_pages/page_031.png)
 
 **Case Study — 优化步骤 2：用 DistilBERT 替换**
 
 - ❑ Replaced BERT with DistilBERT fixed shape input (128 tokens) — 用固定形状输入（128 tokens）的 DistilBERT 替换 BERT
 
-![Page 32](Week6-Lecture-1_slides_pages/page_032.png)
+![Page 32](Week6_slides_pages/page_032.png)
 
 **Case Study — 优化步骤 3：动态输入形状**
 
 - ❑ Changed fixed shaped input to dynamic shape input (no padding with 0s) — 将固定形状输入改为动态形状输入（不用 0 填充）
 
-![Page 33](Week6-Lecture-1_slides_pages/page_033.png)
+![Page 33](Week6_slides_pages/page_033.png)
 
 **Case Study — 优化步骤 4：量化**
 
@@ -351,7 +351,7 @@ Ref: https://awesomeopensource.com/projects/model-compression
 Ref: https://www.youtube.com/watch?v=Nw77sEAn_Js
 Ref: Designing Machine Learning Systems, O'REILLY
 
-![Page 34](Week6-Lecture-1_slides_pages/page_034.png)
+![Page 34](Week6_slides_pages/page_034.png)
 
 **Case Study — 课后作业**
 
@@ -362,7 +362,7 @@ Ref: Designing Machine Learning Systems, O'REILLY
 
 ## 6. 今日学习总结 (Summary of Today's Learning)
 
-![Page 35](Week6-Lecture-1_slides_pages/page_035.png)
+![Page 35](Week6_slides_pages/page_035.png)
 
 **Summary of Today's Learning — 今日学习总结**
 

@@ -1,0 +1,179 @@
+[
+  {
+    "question": "[Quiz 1] You are building a machine learning model to predict whether a customer will purchase a product. The dataset contains a categorical feature called Color, which has the following unique values: Red, Blue, Green, Yellow.<br><br>Which of the following is the best way to represent this feature for use in a machine learning model?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Assign numbers to each color randomly: Red = 1, Blue = 2, Green = 3, Yellow = 4",
+      "B) Assign numbers to each color based on alphabetical order: Blue = 1, Green = 2, Red = 3, Yellow = 4",
+      "C) Create separate binary columns for each color: Red = [1, 0, 0, 0], Blue = [0, 1, 0, 0], Green = [0, 0, 1, 0], Yellow = [0, 0, 0, 1]",
+      "D) Use the original text values directly in the model: Red, Blue, Green, Yellow"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why One-Hot Encoding (C):</strong> 对于<strong>无序分类变量</strong>（Nominal），One-Hot Encoding 是最佳选择。<br><br><strong>为什么不选其他：</strong><br>• <strong>A/B) 数字编码</strong> — 会引入虚假的顺序关系（模型以为 Yellow=4 > Red=1），导致错误学习<br>• <strong>D) 原始文本</strong> — 大多数 ML 算法无法直接处理文本<br><br><strong>例外：</strong>如果类别有自然顺序（如 Low/Medium/High），可以用 Label Encoding。"
+  },
+  {
+    "question": "[Quiz 1] Below is a dataset with 8 rows and 6 columns, simulating a clinical study. The dataset contains both numerical and categorical variables, and the missing values are denoted by NaN. The dataset is an example of what type of missing values?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "None of the Above",
+      "Missing Completely At Random",
+      "Missing At Random",
+      "Missing Not At Random"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why MAR (Missing At Random):</strong> 缺失值的出现与<strong>其他已观测变量</strong>相关，但与缺失值本身无关。<br><br><strong>三种缺失类型：</strong><br>• <strong>MCAR</strong>（完全随机）— 缺失与任何变量无关（如设备随机故障）<br>• <strong>MAR</strong>（随机）— 缺失与已观测变量相关（如高 BMI 的人不愿报体重）<br>• <strong>MNAR</strong>（非随机）— 缺失与缺失值本身相关（如高收入者不愿报收入）<br><br><strong>处理策略：</strong>MCAR→直接删除；MAR→多重插补；MNAR→需要领域知识建模。"
+  },
+  {
+    "question": "[Quiz 1] You are working on a machine learning model to predict customer churn for a telecom company. After training the model, you use SHAP values to explain the model's predictions. One of the customers, Alice, has a high predicted probability of churn. The SHAP value for the feature MonthlyCharges is +0.15 for Alice's prediction.<br><br>What does this SHAP value indicate?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Alice's MonthlyCharges value is higher than the average MonthlyCharges in the dataset, and this decreases her predicted probability of churn.",
+      "B) Alice's MonthlyCharges value is higher than the average MonthlyCharges in the dataset, and this increases her predicted probability of churn.",
+      "C) Alice's MonthlyCharges value is lower than the average MonthlyCharges in the dataset, and this decreases her predicted probability of churn.",
+      "D) Alice's MonthlyCharges value is lower than the average MonthlyCharges in the dataset, and this increases her predicted probability of churn."
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> SHAP value = +0.15 表示 MonthlyCharges 这个特征将 Alice 的流失概率<strong>推高了 0.15</strong>（相对于平均预测值）。<br><br><strong>SHAP 值解读：</strong><br>• <strong>正值</strong> → 该特征推高预测值（增加流失概率）<br>• <strong>负值</strong> → 该特征拉低预测值（降低流失概率）<br>• <strong>绝对值大小</strong> → 影响力大小<br><br><strong>注意：</strong>SHAP 是<strong>局部解释</strong>（Local Explanation），解释的是某一条预测，不是全局重要性。"
+  },
+  {
+    "question": "[Quiz 1] You are building a machine learning model to predict stock prices for a company. During feature engineering, you create a new feature called Avg_Price_Last_7_Days, which calculates the average stock price over the past 7 days for each day in your dataset. You split your data into training and testing sets using a time-based split, where the training set contains data from January to September, and the testing set contains data from October to December. You compute the Avg_Price_Last_7_Days feature separately for the training and testing sets after split.<br><br>True or False: Is this the correct way of computing features?",
+    "type": "TF",
+    "source": "teacher",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> 分割后再分别计算滚动平均会导致<strong>测试集前 7 天数据不完整</strong>。<br><br><strong>正确做法：</strong>先在完整数据集上计算 Avg_Price_Last_7_Days，再按时间分割 train/test。这样 10 月 1-7 日的测试数据仍能用到 9 月的训练期数据。<br><br><strong>⚠️ 但注意：</strong>标准化/归一化（如 StandardScaler）必须在分割<strong>之后</strong>只用 train 集 fit，否则会造成 Data Leakage！<br><br><strong>规则：</strong>基于历史窗口的特征→分割前计算；基于统计量的变换→分割后计算。"
+  },
+  {
+    "question": "[Midterm] A dataset containing patient medical records is analyzed for predicting the likelihood of developing a specific disease. In this dataset:<br><br>Scenario 1: Patients with a higher body mass index (BMI) are less likely to report their weight accurately.<br><br>Scenario 2: Missing values for blood pressure readings occur due to random equipment malfunctions.<br><br>Scenario 3: Patients who are diagnosed with a terminal illness are less likely to respond to a follow up survey about their general health.<br><br>Which of the following best describes the type of missingness in each scenario?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Scenario 1: Missing Completely at Random (MCAR), Scenario 2: Missing Not at Random (MNAR), Scenario 3: Missing at Random (MAR)",
+      "B) Scenario 1: Missing at Random (MAR), Scenario 2: Missing Completely at Random (MCAR), Scenario 3: Missing Not at Random (MNAR)",
+      "C) Scenario 1: Missing at Random (MAR), Scenario 2: Missing Not at Random (MNAR), Scenario 3: Missing Completely at Random (MCAR)",
+      "D) Scenario 1: Missing Not at Random (MNAR), Scenario 2: Missing at Random (MAR), Scenario 3: Missing Completely at Random (MCAR)"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B) S1:MAR, S2:MCAR, S3:MNAR:</strong><br><br>• <strong>S1 (BMI→报体重)</strong> = <strong>MAR</strong>：缺失与已观测变量 BMI 相关<br>• <strong>S2 (设备故障)</strong> = <strong>MCAR</strong>：随机故障，与任何变量无关<br>• <strong>S3 (绝症→不回访)</strong> = <strong>MNAR</strong>：缺失与未观测的健康结果本身相关<br><br><strong>判断技巧：</strong>问缺失是否与缺失值本身有关？是→MNAR；与其他已知变量有关→MAR；完全随机→MCAR。"
+  },
+  {
+    "question": "[Midterm] A machine learning model is being developed to predict customer churn for a subscription service. During the feature engineering process, the data scientist calculates the average number of future customer support tickets for each customer and includes this as a feature. What is the primary risk associated with this approach?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Reduced model performance due to irrelevant features.",
+      "B) Data leakage, leading to unrealistically high evaluation scores.",
+      "C) Increased computational cost during model training.",
+      "D) Overfitting of the training data due to high dimensionality."
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B) Data Leakage:</strong> 使用<strong>未来</strong>的客服工单数量作为特征 = 典型的 Data Leakage（数据泄露）。<br><br><strong>问题本质：</strong>预测时不可能知道未来的数据。训练时用了未来信息，模型在测试集上表现'完美'，但部署后立刻失效。<br><br><strong>Data Leakage 常见形式：</strong><br>• 使用未来信息（本题）<br>• 标准化/归一化在分割前用全数据集 fit<br>• 目标变量的衍生特征（如用 label 计算统计量）"
+  },
+  {
+    "question": "[Midterm] A machine learning model predicts loan approval based on several features, including income, credit score, and debt-to-income ratio. When using SHAP values to explain a specific loan approval prediction, a feature's SHAP value represents:",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) The feature's correlation with the target variable (loan approval).",
+      "B) The feature's impact on the model's accuracy on the entire dataset.",
+      "C) The feature's overall importance in the model across all predictions.",
+      "D) The feature's contribution to the prediction for that specific loan approval, compared to the average prediction."
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D):</strong> SHAP value 衡量的是某个特征对<strong>某一条具体预测</strong>的贡献，相对于平均预测值（base value）。<br><br><strong>关键区别：</strong><br>• <strong>A) 相关性</strong> — SHAP 不是相关系数<br>• <strong>B) 整体准确率影响</strong> — SHAP 不衡量准确率<br>• <strong>C) 全局重要性</strong> — SHAP 是局部解释（per-prediction）<br>• <strong>D) 具体预测的贡献 ✓</strong> — 正确！<br><br><strong>SHAP = SHapley Additive exPlanations</strong>，基于博弈论的 Shapley 值。"
+  },
+  {
+    "question": "[Midterm] You are training a model to predict whether an email is spam or not. Your dataset has significantly more non-spam emails than spam emails. You notice your model is very good at identifying non-spam emails, but often misses spam emails. Which of the following is the MOST effective way to improve your model's ability to detect spam emails?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Use accuracy as the main metric to evaluate your model's performance.",
+      "B) Remove some of the non-spam emails from your training data.",
+      "C) Collect more non-spam emails to make the dataset even larger.",
+      "D) Give the model more examples of spam emails by creating copies of existing spam emails in your training data and slightly modifying them"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Why D) 数据增强/过采样:</strong> 对少数类（spam）进行过采样是处理不平衡数据最有效的方法。<br><br><strong>为什么不选其他：</strong><br>• <strong>A) Accuracy</strong> — 不平衡数据下 Accuracy 会误导（99% non-spam 全预测 non-spam 也有 95% accuracy）<br>• <strong>B) 删除 non-spam</strong> — 丢弃有用数据<br>• <strong>C) 收集更多 non-spam</strong> — 加剧不平衡<br><br><strong>常用过采样方法：</strong>SMOTE、Random Oversampling、Augmentation。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A data scientist builds a house price prediction model. She uses StandardScaler to normalize all features, then splits the data into train/test sets. The model achieves 99% accuracy on test set but fails in production. What went wrong?",
+    "options": [
+      "A) The model is underfitting",
+      "B) Data Leakage — StandardScaler was fit on the entire dataset (including test data) before splitting, so test statistics leaked into training",
+      "C) The learning rate is too high",
+      "D) The dataset is too small"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 经典 <strong>Data Leakage</strong>！在 train/test 分割<strong>之前</strong>做标准化 = 用了 test 集的 mean/std 来处理 train 集。<br><br><strong>黄金法则：先拆分，后处理（Split first, process later）</strong><br><br>• 所有预处理（缩放、插补、编码）必须在分割<strong>之后</strong>做<br>• 只能用 train 集的统计量（mean/min/max）来 fit，然后 transform train 和 test<br><br><strong>99% 准确率 + 生产失败 = 泄漏信号！</strong>"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A survey dataset has missing income values. Analysis shows that younger respondents are more likely to have missing income data, regardless of their actual income level. What type of missing data is this?",
+    "options": [
+      "A) MCAR — Missing Completely At Random",
+      "B) MAR — Missing At Random",
+      "C) MNAR — Missing Not At Random",
+      "D) Cannot be determined"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B (MAR):</strong> 缺失与<strong>已观测变量（年龄）</strong>相关，但与缺失值本身（收入水平）无关。<br><br><strong>三种缺失类型判断技巧：</strong><br>• <strong>MCAR</strong> — 缺失与任何变量无关（如设备随机故障）<br>• <strong>MAR</strong> — 缺失与已观测变量有关（如年轻人不愿填收入 ✓）<br>• <strong>MNAR</strong> — 缺失与缺失值本身有关（如高收入者不愿报收入）<br><br><strong>关键问句：</strong>「缺失是否与缺失值本身有关？」<br>本题：缺失与「年龄」有关，不是与「收入本身」有关 → MAR"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "When dealing with imbalanced data, you should apply SMOTE (oversampling) to the entire dataset before splitting into train/test sets to maximize the training data.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> 过采样必须在分割<strong>之后</strong>只对 train 集做！<br><br>如果在分割前做 SMOTE：<br>• SMOTE 生成的合成样本可能跨越 train/test 边界<br>• test 集会包含 train 集的合成近邻 → <strong>样本泄漏 (Sample Leakage)</strong><br><br><strong>正确顺序：</strong>Split → SMOTE on train only → Train → Evaluate on original test<br><br>⚠️ 和标准化一样：所有数据预处理都必须<strong>先拆分，后处理</strong>。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A product database has a 'brand' column with 5,000 unique brand names. Which encoding method is most appropriate?",
+    "options": [
+      "A) One-Hot Encoding — create 5,000 binary columns",
+      "B) Label Encoding — assign 1 to 5,000",
+      "C) Embeddings — map each brand to a low-dimensional dense vector (e.g., 50 dimensions)",
+      "D) Delete the brand column"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> 5,000 个类别 = <strong>高基数特征</strong>。<br><br>• <strong>One-Hot</strong> → 5,000 维稀疏矩阵，维度爆炸！<br>• <strong>Label Encoding</strong> → 引入虚假顺序（模型以为 brand_4999 > brand_1）<br>• <strong>Embeddings ✓</strong> → 固定低维（50-300 维），且保留语义关系<br><br><strong>One-Hot vs Embeddings 选择规则：</strong><br>• 类别少（<20）→ One-Hot<br>• 类别多（>100）→ Embeddings<br>• 类别有自然顺序 → Label Encoding"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A SHAP waterfall plot for a specific customer shows MonthlyCharges has a SHAP value of +0.25 and Tenure has -0.15. The base value is 0.3. What is the model's prediction for this customer?",
+    "options": [
+      "A) 0.3",
+      "B) 0.55",
+      "C) 0.40",
+      "D) 0.10"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> SHAP 预测 = base value + 所有 SHAP 值之和<br><br>= 0.3 + (+0.25) + (-0.15) = <strong>0.40</strong><br><br><strong>SHAP 值解读：</strong><br>• <strong>+0.25</strong> = MonthlyCharges 推高预测值 0.25<br>• <strong>-0.15</strong> = Tenure 拉低预测值 0.15<br><br><strong>SHAP 是局部解释（Local Explanation）：</strong>解释的是「这一条预测」，不是全局特征重要性。<br><br>⚠️ 老师 Quiz 1 和 Midterm 都考了 SHAP，期末大概率再考！"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "If a feature has very high SHAP importance in the training set, it is guaranteed to be a good feature for production deployment.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> SHAP 只衡量对<strong>模型</strong>的重要性，不衡量<strong>泛化能力</strong>。<br><br>还需要检查：<br>• <strong>特征覆盖率 (Feature Coverage)</strong> — 该特征在多大比例的数据中有值？覆盖率低→泛化差<br>• <strong>分布一致性</strong> — train 和 production 的分布是否一致？<br><br>例如：训练集上 SHAP 很高的特征在新数据上覆盖率仅 5% → 生产中几乎无用。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A time-series stock price dataset is randomly shuffled and split into 80% train / 20% test. The model achieves 98% accuracy. What is the most likely issue?",
+    "options": [
+      "A) The model is underfitting",
+      "B) Non-IID Leakage — random split on time-series data allows future data points to leak into training",
+      "C) The features are not normalized",
+      "D) The dataset is too large"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 时间序列数据<strong>不能随机拆分</strong>！随机拆分会导致未来数据泄入过去 = <strong>Non-IID Leakage</strong>。<br><br>例如：用周五的股价「预测」周三的价格——模型已经「看到了未来」。<br><br><strong>正确做法：</strong>时间序列必须按时间先后做 time-based split（如 Jan-Sep 训练，Oct-Dec 测试）。<br><br><strong>Data Leakage 四种类型：</strong><br>• Feature Leakage（特征是目标的代理）<br>• Sample Leakage（train/test 重复样本）<br>• <strong>Non-IID Leakage（时序随机拆分）✓</strong><br>• Preprocessing Leakage（分割前做预处理）"
+  }
+]

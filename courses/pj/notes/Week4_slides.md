@@ -8,7 +8,7 @@
 
 ## 1. 今日议程 (Agenda for Today)
 
-![Page 2](Week4-Lecture1_slides_pages/page_002.png)
+![Page 2](Week4_slides_pages/page_002.png)
 
 **Agenda for Today — 今日议程**
 
@@ -25,7 +25,7 @@
 
 ### 2.1 避免人为偏差 (Avoid Human Biases)
 
-![Page 3](Week4-Lecture1_slides_pages/page_003.png)
+![Page 3](Week4_slides_pages/page_003.png)
 
 **Choosing the Right ML Algorithm — 选择正确的 ML 算法**
 
@@ -34,7 +34,7 @@
 
 ### 2.2 不要只用 SOTA 模型 (Don't Only Use SOTA Models)
 
-![Page 4](Week4-Lecture1_slides_pages/page_004.png)
+![Page 4](Week4_slides_pages/page_004.png)
 
 **Choosing the Right ML Algorithm — 技巧 1**
 
@@ -48,7 +48,7 @@
 
 ### 2.3 从简单模型开始 (Start with Simple Models)
 
-![Page 5](Week4-Lecture1_slides_pages/page_005.png)
+![Page 5](Week4_slides_pages/page_005.png)
 
 **Choosing the Right ML Algorithm — 技巧 2**
 
@@ -61,7 +61,7 @@
 
 ### 2.4 不同时间点的性能评估 (Evaluate Performance at Different Time Points)
 
-![Page 6](Week4-Lecture1_slides_pages/page_006.png)
+![Page 6](Week4_slides_pages/page_006.png)
 
 **Choosing the Right ML Algorithm — 技巧 3**
 
@@ -70,7 +70,7 @@
 
 ### 2.5 评估权衡 (Evaluate Trade-offs)
 
-![Page 7](Week4-Lecture1_slides_pages/page_007.png)
+![Page 7](Week4_slides_pages/page_007.png)
 
 **Choosing the Right ML Algorithm — 技巧 4**
 
@@ -81,7 +81,7 @@
 
 ### 2.6 理解模型假设 (Understand Model Assumptions)
 
-![Page 8](Week4-Lecture1_slides_pages/page_008.png)
+![Page 8](Week4_slides_pages/page_008.png)
 
 **Choosing the Right ML Algorithm — 技巧 5**
 
@@ -98,7 +98,7 @@
 
 ### 2.7 算法选择速查表 (Algorithm Selection Cheat Sheet)
 
-![Page 9](Week4-Lecture1_slides_pages/page_009.png)
+![Page 9](Week4_slides_pages/page_009.png)
 
 **Choosing the Right ML Algorithm — 算法选择速查表**
 
@@ -106,13 +106,13 @@
 
 ### 2.8 实践问题 (Practice Question)
 
-![Page 10](Week4-Lecture1_slides_pages/page_010.png)
+![Page 10](Week4_slides_pages/page_010.png)
 
 **Choosing the Right ML Algorithm — 实践问题**
 
 - ■ Imagine you're working with a large dataset that has a mix of numeric and categorical data, and your goal is to predict a continuous outcome. Which machine learning algorithms would you consider and why? — 假设你有一个混合了数值和类别数据的大型数据集，目标是预测连续输出。你会考虑哪些 ML 算法，为什么？
 
-![Page 11](Week4-Lecture1_slides_pages/page_011.png)
+![Page 11](Week4_slides_pages/page_011.png)
 
 **Choosing the Right ML Algorithm — 答案**
 
@@ -124,13 +124,13 @@
 
 ### 3.1 何时需要分布式训练 (When is Distributed Training Necessary?)
 
-![Page 12](Week4-Lecture1_slides_pages/page_012.png)
+![Page 12](Week4_slides_pages/page_012.png)
 
 **Distributed Training — 分布式训练**
 
 - ❑ When distributed training become necessary? — 何时需要分布式训练？
 
-![Page 13](Week4-Lecture1_slides_pages/page_013.png)
+![Page 13](Week4_slides_pages/page_013.png)
 
 **Distributed Training — 分布式训练（场景）**
 
@@ -140,7 +140,7 @@
   - ▪ Medical Images (CT Scans, MRI Images) — 医学图像（CT 扫描、MRI 图像）
   - ▪ Genomic Sequences — 基因组序列
 
-![Page 14](Week4-Lecture1_slides_pages/page_014.png)
+![Page 14](Week4_slides_pages/page_014.png)
 
 **Distributed Training — 分布式训练（预处理）**
 
@@ -149,7 +149,7 @@
 
 ### 3.2 内存优化方法 (Memory Optimization Methods)
 
-![Page 15](Week4-Lecture1_slides_pages/page_015.png)
+![Page 15](Week4_slides_pages/page_015.png)
 
 **Memory Optimization Methods — 内存优化方法**
 
@@ -164,7 +164,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 3.3 并行化策略 (Strategies for Parallelization)
 
-![Page 16](Week4-Lecture1_slides_pages/page_016.png)
+![Page 16](Week4_slides_pages/page_016.png)
 
 **Strategies for Parallelization — 并行化策略**
 
@@ -174,7 +174,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 3.4 数据并行 (Data Parallelism)
 
-![Page 17](Week4-Lecture1_slides_pages/page_017.png)
+![Page 17](Week4_slides_pages/page_017.png)
 
 **Data Parallelism — 数据并行**
 
@@ -182,7 +182,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 - ❑ Train the same copy of the model on each machine — 在每台机器上训练相同的模型副本
 - ❑ Accumulate the gradients from multiple machines — 从多台机器累积梯度
 
-![Page 18](Week4-Lecture1_slides_pages/page_018.png)
+![Page 18](Week4_slides_pages/page_018.png)
 
 **Data Parallelism — 数据并行（梯度收集模式）**
 
@@ -191,7 +191,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
   - ▪ Synchronous Mode — 同步模式
   - ▪ Asynchronous Mode — 异步模式
 
-![Page 19](Week4-Lecture1_slides_pages/page_019.png)
+![Page 19](Week4_slides_pages/page_019.png)
 
 **Data Parallelism — 同步模式的问题**
 
@@ -201,7 +201,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 - ❑ Waste resources. — 浪费资源。
 - ❑ Can be reduced using load balancing, dynamic allocation of resources etc. — 可以通过负载均衡、动态资源分配等减少。
 
-![Page 20](Week4-Lecture1_slides_pages/page_020.png)
+![Page 20](Week4_slides_pages/page_020.png)
 
 **Data Parallelism — 异步模式的问题**
 
@@ -212,7 +212,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 3.5 模型并行 (Model Parallelism)
 
-![Page 21](Week4-Lecture1_slides_pages/page_021.png)
+![Page 21](Week4_slides_pages/page_021.png)
 
 **Model Parallelism — 模型并行**
 
@@ -220,7 +220,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 3.6 流水线并行 (Pipeline Parallelism)
 
-![Page 22](Week4-Lecture1_slides_pages/page_022.png)
+![Page 22](Week4_slides_pages/page_022.png)
 
 **Pipeline Parallelism — 流水线并行**
 
@@ -229,7 +229,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 - ❑ Machine 1 then start computing its second part — 机器 1 然后开始计算第二部分
 - ❑ Figure: 4 layers of a NN computed using 4 machines — 图示：使用 4 台机器计算 NN 的 4 层
 
-![Page 23](Week4-Lecture1_slides_pages/page_023.png)
+![Page 23](Week4_slides_pages/page_023.png)
 
 **Pipeline Parallelism — 流水线并行（案例）**
 
@@ -238,7 +238,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 3.7 PyTorch 分布式训练 (Distributed Training with PyTorch)
 
-![Page 24](Week4-Lecture1_slides_pages/page_024.png)
+![Page 24](Week4_slides_pages/page_024.png)
 
 **Distributed Model Training with PyTorch — PyTorch 分布式模型训练（DDP）**
 
@@ -249,14 +249,14 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 - ❑ Model weights and optimizer states are replicated across all workers — 模型权重和优化器状态在所有 worker 间复制
 - ❑ Uses all-reduce to sum up gradients over different workers — 使用 all-reduce 在不同 worker 间汇总梯度
 
-![Page 25](Week4-Lecture1_slides_pages/page_025.png)
+![Page 25](Week4_slides_pages/page_025.png)
 
 **Distributed Model Training with PyTorch — PyTorch 分布式模型训练（FSDP）**
 
 - ❑ In FSDP training model parameters, optimizer states and gradients are sharded across GPUs — 在 FSDP 训练中，模型参数、优化器状态和梯度在 GPU 间分片
 - ❑ This makes training of very large models feasible — 这使得训练超大模型成为可能
 
-![Page 26](Week4-Lecture1_slides_pages/page_026.png)
+![Page 26](Week4_slides_pages/page_026.png)
 
 **Distributed Model Training with PyTorch — PyTorch 分布式训练（练习）**
 
@@ -272,7 +272,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 4.1 AutoML 概述 (AutoML Overview)
 
-![Page 27](Week4-Lecture1_slides_pages/page_027.png)
+![Page 27](Week4_slides_pages/page_027.png)
 
 **Auto ML — 自动机器学习**
 
@@ -283,7 +283,7 @@ Ref: https://github.com/cybertronai/gradient-checkpointing
 
 ### 4.2 软 AutoML — 超参数调优 (Soft AutoML — Hyperparameter Tuning)
 
-![Page 28](Week4-Lecture1_slides_pages/page_028.png)
+![Page 28](Week4_slides_pages/page_028.png)
 
 **Soft Auto ML – Hyper Parameter Tuning — 软 AutoML — 超参数调优**
 
@@ -299,7 +299,7 @@ Ref: CERN https://cds.cern.ch/record/2702355
 
 ### 4.3 硬 AutoML — 神经架构搜索 NAS (Hard AutoML — Neural Architecture Search)
 
-![Page 29](Week4-Lecture1_slides_pages/page_029.png)
+![Page 29](Week4_slides_pages/page_029.png)
 
 **Hard Auto ML: Neural Architecture Search (NAS) — 硬 AutoML：神经架构搜索**
 
@@ -314,7 +314,7 @@ Ref: CERN https://cds.cern.ch/record/2702355
 
 ### 4.4 NAS — 强化学习方法 (NAS — Reinforcement Learning-Based)
 
-![Page 30](Week4-Lecture1_slides_pages/page_030.png)
+![Page 30](Week4_slides_pages/page_030.png)
 
 **Hard Auto ML: NAS — RL-Based NAS — 基于强化学习的 NAS**
 
@@ -329,7 +329,7 @@ Ref: CERN https://cds.cern.ch/record/2702355
 
 ### 4.5 NAS — 进化算法 (NAS — Evolutionary Algorithms)
 
-![Page 31](Week4-Lecture1_slides_pages/page_031.png)
+![Page 31](Week4_slides_pages/page_031.png)
 
 **Hard Auto ML: NAS — Evolutionary Algorithms — 进化算法**
 
@@ -342,7 +342,7 @@ Ref: CERN https://cds.cern.ch/record/2702355
 
 ### 4.6 NAS — 可微分方法 DARTS (NAS — Differentiable/Gradient-Based)
 
-![Page 32](Week4-Lecture1_slides_pages/page_032.png)
+![Page 32](Week4_slides_pages/page_032.png)
 
 **Hard Auto ML: NAS — DARTS — 可微分/基于梯度的 NAS**
 
@@ -356,7 +356,7 @@ Ref: CERN https://cds.cern.ch/record/2702355
 
 ## 5. 今日学习总结 (Summary of Today's Learning)
 
-![Page 33](Week4-Lecture1_slides_pages/page_033.png)
+![Page 33](Week4_slides_pages/page_033.png)
 
 **Summary of Today's Learning — 今日学习总结**
 
@@ -368,7 +368,7 @@ Ref: CERN https://cds.cern.ch/record/2702355
 
 ## 6. 有用的链接 (Useful Links)
 
-![Page 34](Week4-Lecture1_slides_pages/page_034.png)
+![Page 34](Week4_slides_pages/page_034.png)
 
 **Useful Links — 有用的链接**
 

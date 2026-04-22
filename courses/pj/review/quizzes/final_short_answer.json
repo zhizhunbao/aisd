@@ -1,0 +1,50 @@
+[
+  {
+    "type": "Short",
+    "source": "predicted",
+    "points": 6,
+    "question": "<strong>[6 pts]</strong> LLM-as-a-Judge Bias Analysis<br><br>(a) Name and define THREE types of bias in LLM-as-a-Judge evaluation. (3 pts)<br>(b) For each bias, describe ONE specific mitigation strategy. (3 pts)",
+    "answer": "<strong>(a) Three Biases:</strong><br>① <strong>Nepotism Bias</strong> — LLM 偏爱同家族模型生成的文本（e.g., GPT-4 偏爱 GPT-3.5）<br>② <strong>Verbosity Bias</strong> — LLM 偏爱更长更冗长的回答，即使没有额外有用信息<br>③ <strong>Positional Bias</strong> — LLM 在配对比较中偏爱出现在特定位置（开头/结尾）的输出<br><br><strong>(b) Mitigation Strategies:</strong><br>① Nepotism → <strong>Multi-model evaluation</strong>（用不同厂商 LLM 交叉评估）<br>② Verbosity → <strong>Standardize input length</strong>（要求所有输出控制在相同篇幅）<br>③ Positional → <strong>Swap position and re-evaluate</strong>（交换位置后重评，取平均）<br><br>通用缓解策略：CoT Reasoning（让 LLM 解释打分理由）+ Self-Consistency（多次评估取一致结果）",
+    "explanation": "<strong>评分标准 / Marking Rubric:</strong><br>• (a) 每种偏见正确定义 1 分 (3 pts)<br>• (b) 每种偏见对应的缓解策略 1 分 (3 pts)<br><br><strong>五大偏见口诀：</strong>\"裙权颜冗位\"（Nepotism, Authority, Beauty, Verbosity, Positional）"
+  },
+  {
+    "type": "Short",
+    "source": "predicted",
+    "points": 6,
+    "question": "<strong>[6 pts]</strong> RAGAS Framework Calculation<br><br>A RAG system retrieves the following context to answer a user's question about 'How to install Docker on Ubuntu?':<br><br>Context (5 sentences): S1: Docker requires 64-bit Ubuntu. S2: The weather in Toronto is cold. S3: Run 'sudo apt-get install docker-ce'. S4: Docker CE is the community edition. S5: Birds fly south in winter.<br><br>The system generates this answer with 4 claims: C1: Docker needs 64-bit Ubuntu (supported by S1). C2: Install with 'sudo apt-get install docker-ce' (supported by S3). C3: Docker was created in 2013 (not in context). C4: Docker CE is free (supported by S4).<br><br>(a) Calculate Faithfulness. (2 pts)<br>(b) Calculate Context Relevance. (2 pts)<br>(c) If Faithfulness is low, which component (retriever or generator) is the likely bottleneck? Explain. (2 pts)",
+    "answer": "<strong>(a) Faithfulness = V / S</strong><br>• Total claims (S) = 4<br>• Verified claims (V) = 3 (C1✓, C2✓, C4✓; C3✗ not in context)<br>• <strong>Faithfulness = 3/4 = 0.75</strong><br><br><strong>(b) Context Relevance = E / S</strong><br>• Total sentences in context (S) = 5<br>• Relevant sentences (E) = 3 (S1✓, S3✓, S4✓; S2✗ weather, S5✗ birds)<br>• <strong>Context Relevance = 3/5 = 0.6</strong><br><br><strong>(c) Faithfulness low → Generator is the bottleneck</strong><br>生成器产生了超出上下文的声明 (C3: \"Docker was created in 2013\")，即 hallucination。Faithfulness 衡量的是生成器是否忠实于检索到的上下文。如果 Context Relevance 也低，则检索器也有问题（检索到无关上下文）。<br><br>区分：<br>• Faithfulness 低 → 生成器问题（幻觉）<br>• Context Relevance 低 → 检索器问题（检索不准）",
+    "explanation": "<strong>评分标准 / Marking Rubric:</strong><br>• (a) 正确计算 V=3, S=4, F=0.75 (2 pts)<br>• (b) 正确识别 E=3, S=5, CR=0.6 (2 pts)<br>• (c) 正确归因到 Generator + 解释 Faithfulness 的含义 (2 pts)<br><br><strong>公式速记：</strong>F=V/S (验证声明/总声明); CR=E/S (相关句子/总句子); AR=avg(sim(q,qi))"
+  },
+  {
+    "type": "Short",
+    "source": "predicted",
+    "points": 6,
+    "question": "<strong>[6 pts]</strong> Distributed Training Strategies<br><br>(a) Compare Data Parallelism and Pipeline Parallelism: how they work, what problem each solves, and the fatal issue of each. (3 pts)<br>(b) When should you use DDP vs FSDP in PyTorch? Give a concrete example for each. (2 pts)<br>(c) What is Gradient Checkpointing's trade-off? (1 pt)",
+    "answer": "<strong>(a) Data vs Pipeline Parallelism:</strong><br>• <strong>Data Parallelism:</strong> 训练数据分片到多台机器，<strong>每台持有完整模型副本</strong>，各自计算梯度后 AllReduce 汇总。解决：数据太多处理不过来。致命问题：<strong>Straggler</strong>（同步模式下最慢的拖全局）。<br>• <strong>Pipeline Parallelism:</strong> 模型太大放不下单机 → 将不同层放在不同 GPU + <strong>微批次交错执行</strong>消除\"气泡\"。解决：模型太大单机放不下。致命问题：<strong>Pipeline Bubble</strong>（气泡）虽减少但无法完全消除。<br><br><strong>(b) DDP vs FSDP:</strong><br>• <strong>DDP</strong>（DistributedDataParallel）— 每个 Worker 持有完整模型副本。适用于模型 <strong>放得进单卡</strong>。例：8B 参数模型 on 8×A100 (80GB each)。<br>• <strong>FSDP</strong>（FullyShardedDataParallel）— 参数/优化器/梯度在 GPU 间分片。适用于模型 <strong>放不进单卡</strong>。例：175B 参数 GPT-3 training across 64×A100。<br><br><strong>(c) Gradient Checkpointing trade-off:</strong><br>用 <strong>20% 额外计算时间</strong> 换 <strong>10× 内存容量</strong>。前向传播只保存 √N 个检查点，反向传播时从检查点重新计算中间值。时间增加，不是免费的午餐！",
+    "explanation": "<strong>评分标准 / Marking Rubric:</strong><br>• (a) 两种策略：工作方式 + 解决什么问题 + 致命问题 (3 pts, 1.5 each)<br>• (b) 正确区分 DDP/FSDP 适用场景 + 具体例子 (2 pts, 1 each)<br>• (c) 明确说出\"时间换内存\" (1 pt)<br><br><strong>关键区分：</strong>同步→Straggler; 异步→Gradient Staleness"
+  },
+  {
+    "type": "Short",
+    "source": "predicted",
+    "points": 6,
+    "question": "<strong>[6 pts]</strong> Model Compression and Memory Calculation<br><br>(a) Compare Quantization, Pruning, and Knowledge Distillation: what each does and whether re-training is needed. (3 pts)<br>(b) Calculate the memory required for a <strong>7B-parameter</strong> model in FP32 and INT8 formats. (1 pt)<br>(c) What is LoRA? Explain its core formula and calculate the parameter ratio for d=4096, r=16. (2 pts)",
+    "answer": "<strong>(a) Three Compression Techniques:</strong><br>• <strong>Quantization:</strong> 用更少位数表示参数 (FP32→INT8)。❌ No re-training needed. 最常用的压缩方法。Example: BERT 1.36GB → 340MB (4×)。<br>• <strong>Pruning:</strong> 将不重要的权重设为零使网络变稀疏。⚠️ 通常需要 re-training 恢复精度。Example: 移除 90% 权重 → fine-tune。<br>• <strong>Knowledge Distillation:</strong> 用大 Teacher 训练小 Student，Student 学到 Teacher 的 soft probability outputs。✅ 需要完整训练周期。Example: BERT→DistilBERT (大小60%, 能力97%, 速度160%)。<br><br><strong>(b) 7B Model Memory:</strong><br>• FP32: 7B × 4 bytes = <strong>28 GB</strong><br>• INT8: 7B × 1 byte = <strong>7 GB</strong><br>📐 公式：FP32=×4, FP16=×2, INT8=×1, INT4=×0.5<br><br><strong>(c) LoRA:</strong><br>• 核心公式：W_new = W_orig(Frozen) + A(Trainable) × B(Trainable)<br>• A: d×r, B: r×d → LoRA params = 2dr<br>• 参数比例 = 2r/d = 2×16/4096 = 32/4096 = <strong>0.78%</strong><br>• LoRA params = 2×4096×16 = 131,072 ≈ 131K<br>• 不到 1% 的参数即可达到接近全量微调的效果！",
+    "explanation": "<strong>评分标准 / Marking Rubric:</strong><br>• (a) 三种方法各1分：描述 + 是否重训 (3 pts)<br>• (b) 正确应用公式算出两种大小 (1 pt)<br>• (c) LoRA 公式 + 参数比例计算 (2 pts)<br><br><strong>必记公式：</strong>FP32=×4, FP16=×2, INT8=×1, INT4=×0.5 | LoRA: Ratio=2r/d"
+  },
+  {
+    "type": "Short",
+    "source": "predicted",
+    "points": 6,
+    "question": "<strong>[6 pts]</strong> MLOps Infrastructure<br><br>(a) List and explain the four layers of ML infrastructure architecture, from bottom to top. (2 pts)<br>(b) Compare Scheduler vs Orchestrator: what does each manage, give one tool example for each. (2 pts)<br>(c) Name the three fatal flaws of Airflow and explain how each is solved by next-generation tools like Argo/Prefect. (2 pts)",
+    "answer": "<strong>(a) Four-Layer Architecture (bottom to top):</strong><br>① <strong>Storage & Compute Layer</strong> — 地基：数据存储 (HDD/SSD/Cloud) + 算力 (GPU/CPU)<br>② <strong>Resource Management Layer</strong> — 水电管道：任务调度 + 依赖管理 + 资源分配 (Airflow/Slurm/K8s)<br>③ <strong>ML Platform Layer</strong> — 精装修：Model Store + Feature Store + Deployment (SageMaker/MLflow)<br>④ <strong>Development Environment Layer</strong> — 工作台：IDE + 版本控制 + CI/CD (Jupyter/Git/GitHub Actions)<br><br><strong>(b) Scheduler vs Orchestrator:</strong><br>• <strong>Scheduler</strong> — 管 WHEN + WHAT（何时运行 + 需要什么）。理解 DAG 依赖。Example: <strong>Airflow</strong>。比喻：餐厅经理。<br>• <strong>Orchestrator</strong> — 管 WHERE（从哪里获取资源）。动态增减实例。Example: <strong>Kubernetes</strong>。比喻：厨房主管。<br><br><strong>(c) Airflow's Three Fatal Flaws → Solutions:</strong><br>① <strong>Monolithic</strong>（单体架构，一步失败全部重启）→ Argo/Prefect: <strong>微服务架构</strong>（单步失败不影响其他）<br>② <strong>Non-parameterizable</strong>（不能向 DAG 传参）→ Argo/Prefect: <strong>支持参数化</strong>（不同学习率用同一工作流）<br>③ <strong>Static DAGs</strong>（运行时不能动态创建步骤）→ Argo/Prefect: <strong>动态 DAG</strong>（根据中间结果调整后续步骤）",
+    "explanation": "<strong>评分标准 / Marking Rubric:</strong><br>• (a) 四层名称 + 每层一句解释 (2 pts, 0.5 each)<br>• (b) 正确区分 Scheduler/Orchestrator + 各举一工具 (2 pts)<br>• (c) 三个缺陷 + 对应解决方案 (2 pts)<br><br><strong>额外考点：</strong>Pod ≠ Container（Pod是一组容器的原子单位）; Model Store 需要 8 类元数据"
+  },
+  {
+    "type": "Short",
+    "source": "predicted",
+    "points": 6,
+    "question": "<strong>[6 pts]</strong> Advanced RAG and Prompt Optimization<br><br>(a) List 5 chunking strategies from simplest to most intelligent. For each, describe its approach in one sentence. (2.5 pts)<br>(b) Explain the Reranking pipeline: what models are used at each stage and why? (2 pts)<br>(c) Define OPRO and explain how it works in 3 sentences. (1.5 pts)",
+    "answer": "<strong>(a) Five Chunking Strategies (simple → intelligent):</strong><br>① <strong>Fixed-size Chunking</strong> — 按固定 token 数切割 + 重叠窗口，简单快速但可能截断句子。<br>② <strong>Recursive Chunking</strong> — 按 \\n\\n → \\n → . 逐级递归拆分，LangChain 默认方法。<br>③ <strong>Document-based Chunking</strong> — 利用文档结构（Markdown 标题/HTML 标签）分块，尊重原始结构。<br>④ <strong>Semantic Chunking</strong> — 计算相邻句子嵌入相似度，在<strong>骤降处</strong>切割——按语义分组。<br>⑤ <strong>Agentic Chunking</strong> — 用 LLM 判断分块边界，最智能但最慢最贵。<br><br><strong>(b) Reranking Pipeline (Two-Stage):</strong><br>• <strong>Stage 1: Bi-Encoder (初筛)</strong> — Query 和 Doc 分别独立编码为向量，计算余弦相似度。<strong>快速</strong>（Doc 向量可预计算），从 100 万→100。<br>• <strong>Stage 2: Cross-Encoder (精排)</strong> — Query + Doc 拼接后联合输入 BERT 打分。<strong>精准</strong>（注意力捕获交叉语义关系），从 100→5。<br>为什么两阶段：平衡速度与精度——全部用 Cross-Encoder 太慢，全部用 Bi-Encoder 不够精确。<br><br><strong>(c) OPRO (Optimization by PROmpting):</strong><br>OPRO 用 LLM 自身作为<strong>优化器</strong>，迭代生成更好的提示。Meta-Prompt 包含问题描述 + 历史提示及其评分，LLM Optimizer 基于历史表现生成新提示候选，目标函数评估新提示的效果。OPRO 在 GSM8K 上自动发现的最优提示 \"Take a deep breath and work step-by-step\" 达到 80.2% 准确率，超越人工设计的提示。",
+    "explanation": "<strong>评分标准 / Marking Rubric:</strong><br>• (a) 五种策略各 0.5 分 (2.5 pts)<br>• (b) 两阶段名称 + 各自特点 + 为什么两阶段 (2 pts)<br>• (c) OPRO 三大组件 + 核心结果 (1.5 pts)<br><br><strong>额外考点：</strong>Lost in the Middle; Fine-tune Embedding vs LLM; Self-Consistency vs OPRO"
+  }
+]

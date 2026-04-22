@@ -8,7 +8,7 @@
 
 ## 1. 今日议程 (Agenda for Today)
 
-![Page 2](Week3-Lecture1-_slides_pages/page_002.png)
+![Page 2](Week3_slides_pages/page_002.png)
 
 **Agenda for Today — 今日议程**
 
@@ -22,7 +22,7 @@
 
 ## 2. MLOps 回顾 (MLOps Recap)
 
-![Page 3](Week3-Lecture1-_slides_pages/page_003.png)
+![Page 3](Week3_slides_pages/page_003.png)
 
 **MLOps Recap — MLOps 回顾**
 
@@ -30,7 +30,7 @@
   - ❑ Data Engineering — 数据工程
   - ❑ Training Data Generation — 训练数据生成
 
-![Page 4](Week3-Lecture1-_slides_pages/page_004.png)
+![Page 4](Week3_slides_pages/page_004.png)
 
 **MLOps Recap — MLOps 回顾（详细）**
 
@@ -41,7 +41,7 @@
   - ▪ Modes of Dataflow — 数据流模式
 - ❑ Training Data Generation — 训练数据生成
 
-![Page 5](Week3-Lecture1-_slides_pages/page_005.png)
+![Page 5](Week3_slides_pages/page_005.png)
 
 **MLOps Recap — MLOps 回顾（续）**
 
@@ -54,7 +54,7 @@
 
 ## 3. 特征工程概览 (Feature Engineering Overview)
 
-![Page 6](Week3-Lecture1-_slides_pages/page_006.png)
+![Page 6](Week3_slides_pages/page_006.png)
 
 **Feature Engineering — 特征工程**
 
@@ -70,7 +70,7 @@
 
 ## 4. 特征工程的重要性 (Importance of Feature Engineering)
 
-![Page 7](Week3-Lecture1-_slides_pages/page_007.png)
+![Page 7](Week3_slides_pages/page_007.png)
 
 **Importance of Feature Engineering — 特征工程的重要性**
 
@@ -78,7 +78,7 @@
 - ❑ Feature Engineering is like separating Signals from Noise. — 特征工程就像从噪声中分离出信号。
 - ❑ Deep Learning algorithms are capable of Learning Features themselves. — 深度学习算法能够自动学习特征。
 
-![Page 8](Week3-Lecture1-_slides_pages/page_008.png)
+![Page 8](Week3_slides_pages/page_008.png)
 
 **Importance of Feature Engineering — 特征工程的重要性（续）**
 
@@ -95,7 +95,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 ### 5.1 缺失值类型 (Types of Missing Values)
 
-![Page 9](Week3-Lecture1-_slides_pages/page_009.png)
+![Page 9](Week3_slides_pages/page_009.png)
 
 **Handling Missing Values — 处理缺失值**
 
@@ -114,7 +114,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 ### 5.2 缺失值示例 (Missing Value Examples)
 
-![Page 10](Week3-Lecture1-_slides_pages/page_010.png)
+![Page 10](Week3_slides_pages/page_010.png)
 
 **Handling Missing Values — 处理缺失值（示例）**
 
@@ -133,7 +133,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 ### 5.3 处理缺失值的方法 (Methods for Handling Missing Values)
 
-![Page 11](Week3-Lecture1-_slides_pages/page_011.png)
+![Page 11](Week3_slides_pages/page_011.png)
 
 **Handling Missing Values — 处理缺失值（删除法）**
 
@@ -144,7 +144,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
   - ▪ Easy to implement — 易于实现
   - ▪ Can lead to accuracy loss — 可能导致准确性损失
 
-![Page 12](Week3-Lecture1-_slides_pages/page_012.png)
+![Page 12](Week3_slides_pages/page_012.png)
 
 **Handling Missing Values — 处理缺失值（插补法）**
 
@@ -160,7 +160,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 ## 6. 特征缩放 (Feature Scaling)
 
-![Page 13](Week3-Lecture1-_slides_pages/page_013.png)
+![Page 13](Week3_slides_pages/page_013.png)
 
 **Feature Scaling — 特征缩放**
 
@@ -169,7 +169,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 - ❑ Make all features in the same numerical range — 使所有特征在相同的数值范围内
 - ❑ For the range [0,1] scale factor: `[x – min(x)] / [max(x) - min(x)]` — 对于 [0,1] 范围的缩放因子：`[x – min(x)] / [max(x) - min(x)]`
 
-![Page 14](Week3-Lecture1-_slides_pages/page_014.png)
+![Page 14](Week3_slides_pages/page_014.png)
 
 **Feature Scaling — 特征缩放（Box-Cox 变换）**
 
@@ -183,7 +183,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 ## 7. 离散化 (Discretization)
 
-![Page 15](Week3-Lecture1-_slides_pages/page_015.png)
+![Page 15](Week3_slides_pages/page_015.png)
 
 **Discretization — 离散化**
 
@@ -198,7 +198,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 ## 8. 类别特征编码与嵌入 (Encoding Categorical Features & Embeddings)
 
-![Page 16](Week3-Lecture1-_slides_pages/page_016.png)
+![Page 16](Week3_slides_pages/page_016.png)
 
 **Encoding of Categorical Features — 类别特征编码**
 
@@ -209,7 +209,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
   - ▪ Zip codes — 邮编
   - ▪ Brand names — 品牌名称
 
-![Page 17](Week3-Lecture1-_slides_pages/page_017.png)
+![Page 17](Week3_slides_pages/page_017.png)
 
 **Embeddings — 嵌入**
 
@@ -219,7 +219,7 @@ Ref: https://medium.com/analytics-vidhya/the-world-through-the-eyes-of-cnn-5a52c
 
 Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
-![Page 18](Week3-Lecture1-_slides_pages/page_018.png)
+![Page 18](Week3_slides_pages/page_018.png)
 
 **Embeddings — 嵌入（流行方法）**
 
@@ -232,7 +232,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
 ## 9. 数据泄漏 (Data Leakage)
 
-![Page 19](Week3-Lecture1-_slides_pages/page_019.png)
+![Page 19](Week3_slides_pages/page_019.png)
 
 **Data Leakage — 数据泄漏**
 
@@ -243,7 +243,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
   - ▪ **Sample Leakage** – Duplicate samples between train and test datasets. — **样本泄漏** – 训练集和测试集之间存在重复样本。
   - ▪ **Non iid Data** – Splitting a time series dataset randomly — **非独立同分布数据** – 随机拆分时间序列数据集
 
-![Page 20](Week3-Lecture1-_slides_pages/page_020.png)
+![Page 20](Week3_slides_pages/page_020.png)
 
 **Common Causes of Data Leakage — 数据泄漏的常见原因**
 
@@ -253,7 +253,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 - ❑ Splitting time-correlated data randomly instead of by time. — 随机拆分而非按时间拆分时间相关数据。
 - ❑ Group leakage. — 分组泄漏。
 
-![Page 21](Week3-Lecture1-_slides_pages/page_021.png)
+![Page 21](Week3_slides_pages/page_021.png)
 
 **How to Detect Data Leakage — 如何检测数据泄漏**
 
@@ -265,7 +265,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
 ## 10. 特征选择 (Feature Selection)
 
-![Page 22](Week3-Lecture1-_slides_pages/page_022.png)
+![Page 22](Week3_slides_pages/page_022.png)
 
 **Feature Selection — 特征选择**
 
@@ -276,7 +276,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
   - ▪ May require more memory to serve the model — 可能需要更多内存来服务模型
   - ▪ Could increase latency at inference — 可能增加推理延迟
 
-![Page 23](Week3-Lecture1-_slides_pages/page_023.png)
+![Page 23](Week3_slides_pages/page_023.png)
 
 **Feature Selection — 特征选择（考虑因素）**
 
@@ -288,7 +288,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
 ## 11. 特征重要性 — SHAP (Feature Importance — SHAP)
 
-![Page 24](Week3-Lecture1-_slides_pages/page_024.png)
+![Page 24](Week3_slides_pages/page_024.png)
 
 **Feature Importance — Shapley Values — 特征重要性 — Shapley 值**
 
@@ -298,7 +298,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 - ❑ Used for fairly attributing a player's contribution to the end result of a game. — 用于公平地将参与者的贡献归因于游戏的最终结果。
 - ❑ Think of ML as a co-operative game by all the features to make a prediction. — 将 ML 视为所有特征合作完成预测的博弈。
 
-![Page 25](Week3-Lecture1-_slides_pages/page_025.png)
+![Page 25](Week3_slides_pages/page_025.png)
 
 **Feature Importance — Shapley Values — 特征重要性 — Shapley 值（计算）**
 
@@ -306,7 +306,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 - ❑ The Shapley value of a given feature is the average marginal contribution to the overall model score. — 给定特征的 Shapley 值是其对整体模型得分的平均边际贡献。
 - ❑ Can be used for both global importance and single prediction — 可用于全局重要性和单次预测的解释
 
-![Page 26](Week3-Lecture1-_slides_pages/page_026.png)
+![Page 26](Week3_slides_pages/page_026.png)
 
 **Feature Importance — Shapley Values — 全局 vs 单次预测**
 
@@ -317,7 +317,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
 ## 12. 特征泛化 (Feature Generalization)
 
-![Page 27](Week3-Lecture1-_slides_pages/page_027.png)
+![Page 27](Week3_slides_pages/page_027.png)
 
 **Feature Generalization — 特征泛化**
 
@@ -331,7 +331,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
 ## 13. 最佳实践总结 (Summary of Best Practices)
 
-![Page 28](Week3-Lecture1-_slides_pages/page_028.png)
+![Page 28](Week3_slides_pages/page_028.png)
 
 **Summary of Best Practices — 最佳实践总结**
 
@@ -349,7 +349,7 @@ Ref: https://medium.com/@hari4om/word-embedding-d816f643140
 
 ## 14. 练习 (Exercise)
 
-![Page 29](Week3-Lecture1-_slides_pages/page_029.png)
+![Page 29](Week3_slides_pages/page_029.png)
 
 **Feature Importance — Shapley Values — 练习**
 

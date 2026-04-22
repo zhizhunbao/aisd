@@ -1,0 +1,120 @@
+[
+  {
+    "question": "[Midterm] A company's online platform experiences a surge in user traffic during peak hours. Which of the following statements BEST describes the key differences between horizontal scaling, vertical scaling, and hybrid scaling?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Horizontal scaling is used for small applications, vertical scaling for large applications, and hybrid scaling for cloud-based applications.",
+      "B) Horizontal scaling increases the processing power of a single server, vertical scaling adds more servers, and hybrid scaling is a combination of both.",
+      "C) Horizontal scaling adds more servers to handle the load, vertical scaling increases the processing power of a single server, and hybrid scaling uses both approaches.",
+      "D) Horizontal scaling optimizes database queries, vertical scaling optimizes network bandwidth, and hybrid scaling optimizes application code."
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C):</strong><br><br>• <strong>Horizontal Scaling</strong>（水平扩展）= Scale Out — 加更多服务器<br>• <strong>Vertical Scaling</strong>（垂直扩展）= Scale Up — 升级单台服务器的 CPU/RAM<br>• <strong>Hybrid Scaling</strong>（混合扩展）— 结合两种策略<br><br><strong>对比：</strong><br>• 水平：成本低、无上限、需要分布式架构<br>• 垂直：简单、有硬件上限、单点故障风险<br>• 混合：灵活、工业界最常用"
+  },
+  {
+    "question": "[Midterm] A deep learning model is being deployed on a resource-constrained device (e.g., a mobile phone). Which of the following statements BEST describes the key differences between model quantization, pruning, knowledge distillation, and general model compression?",
+    "type": "MCQ",
+    "source": "teacher",
+    "options": [
+      "A) Quantization is only used for image models, pruning is only used for text models, knowledge distillation is only used for audio models, and model compression is used for any type of data.",
+      "B) Quantization reduces the precision of the model's weights, pruning removes redundant connections or neurons, knowledge distillation trains a smaller model to mimic a larger model, and model compression is a general term for any size reduction.",
+      "C) Quantization reduces the model's size by removing redundant layers, pruning reduces the precision of the model's weights, knowledge distillation trains a smaller model to mimic a larger model, and model compression is a general term for any size reduction.",
+      "D) Quantization optimizes the model's architecture, pruning optimizes the training process, knowledge distillation optimizes the inference speed, and model compression is a specific algorithm."
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B):</strong><br><br>• <strong>Quantization</strong>（量化）— 降低权重精度（FP32→INT8/FP16），减少内存和加速推理<br>• <strong>Pruning</strong>（剪枝）— 移除不重要的连接/神经元，稀疏化模型<br>• <strong>Knowledge Distillation</strong>（知识蒸馏）— 训练小模型（Student）模仿大模型（Teacher）<br>• <strong>Model Compression</strong>（模型压缩）— 以上所有方法的统称<br><br><strong>工业界最常用：</strong>Quantization（简单高效，INT8 几乎无精度损失）。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A company deploys a house price prediction model in 2019. By mid-2020, the model's accuracy drops significantly. No code changes were made. What is the most likely cause?",
+    "options": [
+      "A) A bug was introduced in the code",
+      "B) Model Decay caused by Data Distribution Shift — the pandemic changed housing market patterns",
+      "C) The server ran out of memory",
+      "D) The model was never validated"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 代码没改、模型没变，但性能下降 = <strong>Model Decay（模型衰退）</strong>。<br><br>根因是 <strong>Data Distribution Shift</strong>：训练数据是 2019 年的正常市场，但 2020 年疫情导致市场模式完全改变。<br><br><strong>对策：</strong>持续监控模型性能 + 定期用新数据重训。<br><br>⚠️ <strong>考试陷阱：</strong>以为模型上线后性能不会变。实际上所有模型都会衰退！"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Netflix needs to generate movie recommendations for all users. The recommendations don't need real-time user context and can be pre-computed overnight. Which prediction mode should they use?",
+    "options": [
+      "A) Online Prediction — compute recommendations in real-time via API",
+      "B) Batch Prediction — pre-compute all recommendations overnight, store in database, users query directly",
+      "C) A/B Testing",
+      "D) Manual curation"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 关键条件：<strong>不需要实时上下文 + 可以提前计算</strong>。<br><br><strong>Batch vs Online 选择：</strong><br>• <strong>Batch</strong> ✓ — 提前算好存 DB，用户查时零延迟。适合推荐列表<br>• <strong>Online</strong> — 实时计算，适合需要当前上下文的场景（如搜索）<br><br><strong>Batch 的代价：</strong>预测可能浪费（算了 100 万个推荐，用户只看了 1 万个）；错过用户的实时行为变化。"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "GPU inference is always more cost-effective than CPU inference for production ML workloads.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong> Roblox 案例证明：同等成本下 <strong>CPU 推理吞吐量可以是 GPU 的 6-7 倍</strong>！<br><br>• V100 GPU: 400-500 次/秒<br>• Xeon 36核 CPU: <strong>3,000 次/秒</strong><br><br><strong>GPU 训练快，但推理不一定划算。</strong>尤其是单条推理场景，GPU 的并行优势发挥不出来。<br><br>Roblox 优化策略：DistilBERT + 动态输入 + 量化 + 每进程 1 线程 → CPU 上实现 10 亿次/天推理。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "A 7B parameter model needs to be deployed on a mobile phone with 4GB RAM. The model in FP32 requires 28GB. Which compression technique is most commonly used and effective for this scenario?",
+    "options": [
+      "A) Low-Rank Factorization — replace 3x3 convolutions with 1x1",
+      "B) Quantization — reduce precision from FP32 to INT8, cutting memory by 4x",
+      "C) Pruning — remove unimportant weights",
+      "D) Knowledge Distillation — train a smaller student model"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> <strong>Quantization（量化）</strong>是工业界<strong>最常用</strong>的压缩方法。<br><br>FP32 → INT8 = 存储减少 4×：28GB → <strong>7GB</strong>（还需要进一步优化但已大幅减少）<br><br><strong>四种压缩技术：</strong><br>• <strong>Quantization ✓</strong> — 减少位数（FP32→INT8），最常用<br>• Knowledge Distillation — 大模型教小模型（DistilBERT）<br>• Pruning — 删除不重要权重（稀疏化）<br>• Low-Rank Factorization — 低维矩阵替代（SqueezeNet）<br><br><strong>公式：</strong>存储 = 参数量 × 位数 / 8"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "DistilBERT achieves 97% of BERT's NLU capability with only 60% of the parameters and 160% inference speed. Which compression technique was used?",
+    "options": [
+      "A) Quantization — reducing precision from FP32 to INT8",
+      "B) Pruning — removing unimportant weights",
+      "C) Knowledge Distillation — training a smaller Student model to mimic the larger Teacher model",
+      "D) Low-Rank Factorization — replacing high-dimensional tensors"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Why C:</strong> DistilBERT 是 <strong>Knowledge Distillation（知识蒸馏）</strong>的典型成果。<br><br><strong>蒸馏 vs 直接训练小模型：</strong><br>• 蒸馏有 <strong>soft labels</strong>（包含类间关系信息），直接训练只有 hard labels<br>• Teacher 帮助 Student 避免过拟合<br>• Student 继承 Teacher 的通用知识<br><br><strong>结果：</strong>大小 60%、能力 97%、速度 160% — 几乎无损！"
+  },
+  {
+    "type": "TF",
+    "source": "supplement",
+    "question": "INT8 quantization can be used for both training and inference of deep learning models.",
+    "answer": "False",
+    "explanation": "<strong>Why False:</strong><br><br>• <strong>训练：</strong>FP16/BF16 可用，INT8 <strong>不可用</strong>（精度损失太大，梯度计算需要更高精度）<br>• <strong>推理：</strong>INT8 <strong>可用</strong>（推理只需前向传播，精度要求较低）<br><br>⚠️ <strong>考试陷阱：</strong>量化的训练和推理适用精度不同！<br><br><strong>精度层级：</strong>FP32（最精确）> BF16/FP16（训练可用）> INT8（仅推理可用）"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "An e-commerce platform needs to show personalized search results based on the user's current search query and browsing session. Which prediction mode is required?",
+    "options": [
+      "A) Batch Prediction — pre-compute results for all possible queries",
+      "B) Online Prediction — compute results in real-time based on the current query and session context",
+      "C) Both can work equally well",
+      "D) Neither — use a rule-based system"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 关键条件：需要<strong>当前搜索词 + 实时浏览上下文</strong>。<br><br>Batch Prediction <strong>无法</strong>提前知道用户会搜什么 → 必须 <strong>Online Prediction</strong>。<br><br><strong>Batch vs Online 核心区别：</strong><br>• Batch — ❌ 需要提前知道输入，❌ 错过当前上下文<br>• Online — ✅ 输入随请求提供，✅ 捕获当前上下文<br><br><strong>代价：</strong>Online 需要额外基础设施（API Gateway + 推理服务），且延迟敏感（Google 研究：延迟增加 500ms → 流量下降 20%）。"
+  },
+  {
+    "type": "MCQ",
+    "source": "supplement",
+    "question": "Roblox optimized their BERT inference pipeline for CPU deployment. They found that setting PyTorch threads per process to 1 (instead of the default multi-threaded) improved performance. Why?",
+    "options": [
+      "A) Single thread uses less memory",
+      "B) Multiple threads caused thread contention and context switching overhead across workers, degrading performance",
+      "C) PyTorch doesn't support multi-threading",
+      "D) The CPU only has 1 core"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Why B:</strong> 反直觉优化！多 Worker 场景下，每个 Worker 的默认多线程会导致<strong>线程竞争和切换开销</strong>。<br><br>1 Worker × 36 线程 → 线程间频繁切换 → 性能停滞<br>36 Workers × 1 线程 → 无切换开销 → 性能提升<br><br><strong>Roblox 四步优化：</strong><br>① BERT → DistilBERT（蒸馏）<br>② 固定 128 → 动态输入长度（去 padding）<br>③ FP32 → INT8（量化）<br>④ 每进程 1 线程（避免竞争）<br><br>最终：CPU 上 <strong>10 亿次/天</strong> BERT 推理。"
+  }
+]
