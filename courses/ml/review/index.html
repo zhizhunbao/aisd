@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CST8506 Advanced ML — Review Hub</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="style-light.css">
+</head>
+<body>
+
+<!-- ===== MODE SWITCHER ===== -->
+<div class="mode-bar">
+  <button class="mode-btn active" id="mode-quiz" onclick="switchMode('quiz')">📝 刷题 Quiz</button>
+  <button class="mode-btn" id="mode-story" onclick="switchMode('story')">📖 故事线 Storyline</button>
+  <button class="mode-btn" id="mode-slides" onclick="switchMode('slides')">📊 Slides</button>
+  <button class="mode-btn" id="mode-cheatsheet" onclick="switchMode('cheatsheet')">📄 速查表 Cheat Sheet</button>
+  <button class="mode-btn" id="mode-prediction" onclick="switchMode('prediction')">🎯 预测题解析 Prediction</button>
+  <button class="mode-btn" id="mode-calc" onclick="switchMode('calc')">📐 计算题 Calculations</button>
+</div>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1 id="hero-title">CST8506 Advanced ML — Review Hub</h1>
+  <p id="hero-sub">期中 + 期末复习 · Midterm + W9-W11 · 手机随时刷题</p>
+</div>
+
+<!-- ===== QUIZ VIEW ===== -->
+<div id="quiz-view">
+  <div class="toolbar" id="toolbar">
+    <div class="score-box">Score: <span id="score-display">0 / 0</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+    <div class="toolbar-actions">
+      <button class="tb-btn" id="filter-all" onclick="setFilter('all')">All</button>
+      <button class="tb-btn" id="filter-teacher" onclick="setFilter('teacher')">👨‍🏫 Teacher</button>
+      <button class="tb-btn" id="filter-supplement" onclick="setFilter('supplement')">📝 Supp</button>
+      <button class="tb-btn" id="filter-predicted" onclick="setFilter('predicted')">🎯 Pred</button>
+      <button class="tb-btn" id="reset-btn">Reset</button>
+    </div>
+  </div>
+  <div class="week-nav" id="week-nav"></div>
+  <div class="legend">
+    <div class="legend-box">
+      <div class="legend-item"><div class="legend-dot dot-teacher"></div><span>👨‍🏫 Teacher</span></div>
+      <div class="legend-item"><div class="legend-dot dot-supplement"></div><span>📝 Supplement</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div><span>🎯 Predicted</span></div>
+    </div>
+  </div>
+  <div id="weeks-container"></div>
+</div>
+
+<!-- ===== STORYLINE VIEW ===== -->
+<div id="storyline-view">
+  <div class="story-nav" id="story-nav"></div>
+  <div id="story-container">
+    <div class="story-loading"><div class="spinner"></div><br>选择一个 Week 开始阅读</div>
+  </div>
+</div>
+
+<!-- ===== SLIDES VIEW ===== -->
+<div id="slides-view" style="display:none">
+  <div class="story-nav" id="slides-nav"></div>
+  <div id="slides-container">
+    <div class="story-loading"><div class="spinner"></div><br>选择一个 Week 查看 Slides</div>
+  </div>
+</div>
+
+<!-- ===== CHEAT SHEET VIEW ===== -->
+<div id="cheatsheet-view" style="display:none">
+  <div class="story-nav" id="cs-nav"></div>
+  <div id="cs-container">
+    <div class="story-loading"><div class="spinner"></div><br>选择一个 Week 查看速查表</div>
+  </div>
+</div>
+
+<!-- ===== PREDICTION VIEW ===== -->
+<div id="prediction-view" style="display:none">
+  <div id="prediction-container">
+    <div class="story-loading"><div class="spinner"></div><br>加载预测题解析中...</div>
+  </div>
+</div>
+
+<!-- ===== CALCULATION VIEW ===== -->
+<div id="calc-view" style="display:none">
+  <div id="calc-container">
+    <div class="story-loading"><div class="spinner"></div><br>加载计算题详解中...</div>
+  </div>
+</div>
+
+<!-- ===== BACK TO TOP ===== -->
+<button class="back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Quiz data is loaded dynamically from JSON files -->
+
+<!-- ===== MAIN LOGIC ===== -->
+<script>
+// ===================== MODE SWITCHING =====================
+let currentMode = 'quiz';
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('mode-' + mode).classList.add('active');
+
+  document.getElementById('quiz-view').style.display = mode==='quiz' ? 'block' : 'none';
+  document.getElementById('storyline-view').style.display = mode==='story' ? 'block' : 'none';
+  document.getElementById('slides-view').style.display = mode==='slides' ? 'block' : 'none';
+  document.getElementById('cheatsheet-view').style.display = mode==='cheatsheet' ? 'block' : 'none';
+  document.getElementById('prediction-view').style.display = mode==='prediction' ? 'block' : 'none';
+  document.getElementById('calc-view').style.display = mode==='calc' ? 'block' : 'none';
+
+  const heroMap = {
+    quiz:       ['CST8506 Advanced ML — All Quizzes (' + totalQ + ' Qs)', '期中+期末全部题目 · Midterm + W9-W11 · 手机随时刷题'],
+    story:      ['CST8506 Advanced ML — Storylines 📖', '故事线阅读 · 因果链路 · 手机随时看'],
+    slides:     ['CST8506 Advanced ML — Slides 📊', '课件笔记 · 原始 Slide 结构化阅读'],
+    cheatsheet: ['CST8506 Advanced ML — Cheat Sheets 📄', '速查表 · 定义/对比/公式/陷阱 · 考前速览'],
+    prediction: ['CST8506 Advanced ML — 期末预测题解析 🎯', '基于教授录音 · 预测题+详细解析 · 考前必看'],
+    calc:       ['CST8506 Advanced ML — 计算题详解 📐', '所有计算题 · Step-by-Step 手算演示 · 按重要度排序 · 考前必练'],
+  };
+  const [title, sub] = heroMap[mode] || heroMap.quiz;
+  document.getElementById('hero-title').textContent = title;
+  document.getElementById('hero-sub').textContent = sub;
+  window.scrollTo({ top: 0 });
+  // auto-load first week on first visit
+  if (mode === 'story' && !currentStory) loadStory(STORYLINES[0].id);
+  if (mode === 'slides' && !currentSlides) loadSlides(SLIDES[0].id);
+  if (mode === 'cheatsheet' && !currentCS) loadCS(CHEATSHEETS[0].id);
+  if (mode === 'prediction' && !predictionLoaded) loadPrediction();
+  if (mode === 'calc' && !calcLoaded) loadCalc();
+}
+
+// ===================== STORYLINE =====================
+const STORYLINES = [
+  { id: 'w9',  label: 'W9 不平衡问题',  file: '../notes/Week9_Imbalance_Class_Problem_storyline.md' },
+  { id: 'w10', label: 'W10 分类器融合', file: '../notes/Week10_ClassifierFusion_storyline.md' },
+  { id: 'w11', label: 'W11 关联规则',   file: '../notes/Week11_Association_Rule_Mining_storyline.md' },
+];
+
+const SLIDES = [
+  { id: 'w9',  label: 'W9 不平衡问题',  file: '../notes/Week9_Imbalance_Class_Problem_slides.md' },
+  { id: 'w10', label: 'W10 分类器融合', file: '../notes/Week10_ClassifierFusion_slides.md' },
+  { id: 'w11', label: 'W11 关联规则',   file: '../notes/Week11_Association_Rule_Mining_slides.md' },
+];
+
+const CHEATSHEETS = [
+  { id: 'w9',  label: 'W9 不平衡问题',  file: 'Week9_Imbalance_Class_Problem_cheatsheet.md' },
+  { id: 'w10', label: 'W10 分类器融合', file: 'Week10_ClassifierFusion_cheatsheet.md' },
+  { id: 'w11', label: 'W11 关联规则',   file: 'Week11_Association_Rule_Mining_cheatsheet.md' },
+];
+
+let storyCache = {};
+let slidesCache = {};
+let csCache = {};
+let currentStory = null;
+let currentSlides = null;
+let currentCS = null;
+let predictionLoaded = false;
+let calcLoaded = false;
+
+function buildStoryNav() {
+  const nav = document.getElementById('story-nav');
+  nav.innerHTML = STORYLINES.map(s =>
+    `<button class="wn-btn" data-story="${s.id}" onclick="loadStory('${s.id}')">${s.label}</button>`
+  ).join('');
+}
+
+function buildSlidesNav() {
+  const nav = document.getElementById('slides-nav');
+  nav.innerHTML = SLIDES.map(s =>
+    `<button class="wn-btn" data-slides="${s.id}" onclick="loadSlides('${s.id}')">${s.label}</button>`
+  ).join('');
+}
+
+function buildCSNav() {
+  const nav = document.getElementById('cs-nav');
+  nav.innerHTML = CHEATSHEETS.map(c =>
+    `<button class="wn-btn" data-cs="${c.id}" onclick="loadCS('${c.id}')">${c.label}</button>`
+  ).join('');
+}
+
+async function loadStory(id) {
+  document.querySelectorAll('#story-nav .wn-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#story-nav [data-story="${id}"]`)?.classList.add('active');
+  currentStory = id;
+  const container = document.getElementById('story-container');
+  if (storyCache[id]) { renderMd(storyCache[id], container, '../notes/'); return; }
+  container.innerHTML = '<div class="story-loading"><div class="spinner"></div><br>加载中...</div>';
+  const s = STORYLINES.find(x => x.id === id);
+  try {
+    const resp = await fetch(s.file);
+    if (!resp.ok) throw new Error(resp.status);
+    const md = await resp.text();
+    storyCache[id] = md;
+    renderMd(md, container, '../notes/');
+  } catch (e) {
+    container.innerHTML = `<div class="story-loading">❌ 加载失败: ${e.message}<br><small>${s.file}</small></div>`;
+  }
+}
+
+async function loadSlides(id) {
+  document.querySelectorAll('#slides-nav .wn-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#slides-nav [data-slides="${id}"]`)?.classList.add('active');
+  currentSlides = id;
+  const container = document.getElementById('slides-container');
+  if (slidesCache[id]) { renderMd(slidesCache[id], container, '../notes/'); return; }
+  container.innerHTML = '<div class="story-loading"><div class="spinner"></div><br>加载中...</div>';
+  const s = SLIDES.find(x => x.id === id);
+  try {
+    const resp = await fetch(s.file);
+    if (!resp.ok) throw new Error(resp.status);
+    const md = await resp.text();
+    slidesCache[id] = md;
+    renderMd(md, container, '../notes/');
+  } catch (e) {
+    container.innerHTML = `<div class="story-loading">❌ 加载失败: ${e.message}<br><small>${s.file}</small></div>`;
+  }
+}
+
+async function loadCS(id) {
+  document.querySelectorAll('#cs-nav .wn-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#cs-nav [data-cs="${id}"]`)?.classList.add('active');
+  currentCS = id;
+  const container = document.getElementById('cs-container');
+  if (csCache[id]) { renderMd(csCache[id], container, './'); return; }
+  container.innerHTML = '<div class="story-loading"><div class="spinner"></div><br>加载中...</div>';
+  const c = CHEATSHEETS.find(x => x.id === id);
+  try {
+    const resp = await fetch(c.file);
+    if (!resp.ok) throw new Error(resp.status);
+    const md = await resp.text();
+    csCache[id] = md;
+    renderMd(md, container, './');
+  } catch (e) {
+    container.innerHTML = `<div class="story-loading">❌ 加载失败: ${e.message}<br><small>${c.file}</small></div>`;
+  }
+}
+
+// ===================== PREDICTION =====================
+async function loadPrediction() {
+  const container = document.getElementById('prediction-container');
+  container.innerHTML = '<div class="story-loading"><div class="spinner"></div><br>加载预测题解析中...</div>';
+  try {
+    const resp = await fetch('期末预测题_解析.md');
+    if (!resp.ok) throw new Error(resp.status);
+    const md = await resp.text();
+    predictionLoaded = true;
+    renderMd(md, container, './');
+  } catch (e) {
+    container.innerHTML = `<div class="story-loading">❌ 加载失败: ${e.message}<br><small>期末预测题_解析.md</small></div>`;
+  }
+}
+
+// ===================== CALCULATION =====================
+async function loadCalc() {
+  const container = document.getElementById('calc-container');
+  container.innerHTML = '<div class="story-loading"><div class="spinner"></div><br>加载计算题详解中...</div>';
+  try {
+    const resp = await fetch('calculation_problems.md');
+    if (!resp.ok) throw new Error(resp.status);
+    const md = await resp.text();
+    calcLoaded = true;
+    renderMd(md, container, './');
+  } catch (e) {
+    container.innerHTML = `<div class="story-loading">❌ 加载失败: ${e.message}<br><small>calculation_problems.md</small></div>`;
+  }
+}
+
+function renderMd(md, container, imgBase) {
+  const renderer = new marked.Renderer();
+  renderer.image = function(href, title, text) {
+    if (typeof href === 'object') { text = href.text; title = href.title; href = href.href; }
+    if (href && !href.startsWith('http') && !href.startsWith('/') && !href.startsWith('../')) {
+      href = imgBase + href;
+    }
+    const t = title ? ` title="${title}"` : '';
+    const a = text ? ` alt="${text}"` : '';
+    return `<img src="${href}"${a}${t} loading="lazy">`;
+  };
+  const html = marked.parse(md, { renderer, gfm: true, breaks: false });
+  container.innerHTML = `<div class="story-content"><div class="md-body">${html}</div></div>`;
+  window.scrollTo({ top: 0 });
+  setTimeout(renderMath, 100);
+}
+
+// ===================== QUIZ LOGIC =====================
+const QUIZ_FILES = [
+  { id: 'midterm', title: 'Midterm — 期中考试题',                         subtitle: 'Preprocessing, SVM, CNN, RNN, Naïve Bayes, Clustering',   file: 'quizzes/midterm_quiz.json' },
+  { id: 'w9',      title: 'Week 9 — Imbalanced Class Problem',           subtitle: 'SMOTE, ROC/AUC, Outlier Detection, LOF, OCSVM',          file: 'quizzes/week09_quiz.json' },
+  { id: 'w10',     title: 'Week 10 — Classifier Fusion',                 subtitle: 'Bagging, Boosting, AdaBoost, Random Forest',              file: 'quizzes/week10_quiz.json' },
+  { id: 'w11',     title: 'Week 11 — Association Rule Mining',            subtitle: 'Apriori, Support, Confidence, Anti-monotone',             file: 'quizzes/week11_quiz.json' },
+  { id: 'pred',    title: '🎯 期末预测题 — Final Prediction',              subtitle: '25 TF + 20 MCQ + 7 Written · 教授课堂重点 · 考前必刷',       file: 'quizzes/prediction_quiz.json' },
+];
+
+let ALL_WEEKS = [];
+let score = 0, totalQ = 0, answeredQ = 0;
+let currentWeek = 'all', currentFilter = 'all';
+
+// ---------- Load all quiz JSON files ----------
+async function loadAllQuizzes() {
+  const results = await Promise.all(QUIZ_FILES.map(async (wk) => {
+    try {
+      const resp = await fetch(wk.file);
+      if (!resp.ok) throw new Error(resp.status);
+      const data = await resp.json();
+      return { id: wk.id, title: wk.title, subtitle: wk.subtitle, data };
+    } catch (e) {
+      console.warn(`Failed to load ${wk.file}:`, e);
+      return null;
+    }
+  }));
+  ALL_WEEKS = results.filter(Boolean);
+}
+
+// ---------- DOM Ready ----------
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadAllQuizzes();
+  buildNav();
+  renderAll();
+  setActiveWeek('all');
+  setFilter('all');
+  buildStoryNav();
+  buildSlidesNav();
+  buildCSNav();
+  document.getElementById('reset-btn').addEventListener('click', resetAll);
+});
+
+// ---------- Week navigation ----------
+function buildNav() {
+  const nav = document.getElementById('week-nav');
+  let html = '<button class="wn-btn active" onclick="setActiveWeek(\'all\')">📚 All</button>';
+  ALL_WEEKS.forEach(w => {
+    const label = w.id.toUpperCase();
+    html += `<button class="wn-btn" onclick="setActiveWeek('${w.id}')">${label}</button>`;
+  });
+  nav.innerHTML = html;
+}
+
+// ---------- Render all quiz cards ----------
+function renderAll() {
+  const container = document.getElementById('weeks-container');
+  container.innerHTML = '';
+  score = 0;
+  answeredQ = 0;
+  totalQ = 0;
+
+  ALL_WEEKS.forEach(week => {
+    const section = document.createElement('div');
+    section.className = 'week-section';
+    section.id = 'section-' + week.id;
+    section.dataset.weekId = week.id;
+
+    let html = `<h2 class="week-title">${week.title}</h2>
+                <p class="week-subtitle">${week.subtitle}</p>`;
+
+    const filteredData = getFilteredData(week.data);
+    filteredData.forEach((q, idx) => {
+      const gid = week.id + '-' + idx;
+      html += buildCard(q, idx, gid);
+    });
+
+    section.innerHTML = html;
+    container.appendChild(section);
+    totalQ += filteredData.length;
+  });
+
+  updateScore();
+  showActiveWeek();
+  renderMath();
+}
+
+// ---------- Filter by source ----------
+function getFilteredData(data) {
+  if (currentFilter === 'all') return data;
+  return data.filter(q => {
+    const src = q.source || 'teacher';
+    if (currentFilter === 'predicted') return src === 'predicted' || src === 'predicted-supplement';
+    return src === currentFilter;
+  });
+}
+
+// ---------- Newline → <br> ----------
+function nl2br(s) {
+  return s ? s.replace(/\n/g, '<br>') : s;
+}
+
+// ---------- Client-side math → LaTeX $...$ ----------
+function mathify(text) {
+  if (!text) return '';
+  // 3-dim: 32×32×6 or 1,536×100
+  text = text.replace(/(\d[\d,]*)\s*×\s*(\d[\d,]*)\s*×\s*(\d[\d,]*)/g, function(m, a, b, c) {
+    return '$' + a + ' \\times ' + b + ' \\times ' + c + '$';
+  });
+  // 2-dim remaining: 5×5
+  text = text.replace(/(\d[\d,]*)\s*×\s*(\d[\d,]*)/g, function(m, a, b) {
+    return '$' + a + ' \\times ' + b + '$';
+  });
+  // input_dim × output_dim + bias
+  text = text.replace(/input_dim\s*×\s*output_dim/g, '$\\text{input\\_dim} \\times \\text{output\\_dim}$');
+  // Clean accidental $$
+  text = text.replace(/\$\$/g, '$');
+  return text;
+}
+
+// ---------- Build a single quiz card ----------
+function buildCard(q, idx, gid) {
+  const srcRaw = q.source || 'teacher';
+  const src = srcRaw === 'predicted-supplement' ? 'predicted' : srcRaw;
+  const srcLabels   = { teacher: '👨‍🏫 Teacher', supplement: '📝 Supplement', predicted: '🎯 Predicted' };
+  const srcClasses  = { teacher: 'source-teacher', supplement: 'source-supplement', predicted: 'source-predicted' };
+
+  let h = `<div class="q-card" id="card-${gid}">
+    <div class="q-header">
+      <span class="q-num">Q${idx + 1}</span>
+      <span class="q-type badge-${q.type}">${q.type}</span>
+      <span class="q-source ${srcClasses[src] || srcClasses.teacher}">${srcLabels[src] || srcLabels.teacher}</span>`;
+
+  if (q.points) {
+    h += `<span class="q-source source-predicted" style="margin-left:4px">${q.points} pts</span>`;
+  }
+
+  h += `</div>
+    <p class="q-text">${mathify(nl2br(q.question))}</p>`;
+
+  if (q.question_zh) {
+    h += `<p class="q-text-zh">${mathify(nl2br(q.question_zh))}</p>`;
+  }
+
+  // --- MCQ / TF ---
+  if (q.type === 'MCQ' || q.type === 'TF') {
+    const opts = q.type === 'TF' ? ['True', 'False'] : q.options;
+    const optsZh = q.type === 'TF' ? ['正确', '错误'] : (q.options_zh || []);
+    h += '<div class="q-options">';
+    opts.forEach((opt, oi) => {
+      const zh = optsZh[oi] ? `<span class="opt-zh">${mathify(optsZh[oi])}</span>` : '';
+      h += `<button class="opt-btn" onclick="checkOpt('${gid}',${oi},this)">${mathify(opt)}${zh}</button>`;
+    });
+    h += '</div>';
+  }
+  // --- Fill ---
+  else if (q.type === 'Fill') {
+    h += `<div class="q-fill">
+      <input type="text" class="fill-input" id="fi-${gid}" placeholder="输入答案…">
+      <button class="check-btn" onclick="checkFill('${gid}')">Check ✓</button>
+    </div>`;
+  }
+  // --- Short ---
+  else if (q.type === 'Short') {
+    h += `<div class="q-short">
+      <button class="reveal-btn" onclick="revealShort('${gid}',this)">Show Answer 👁</button>
+    </div>`;
+  }
+
+  h += `<div class="q-feedback" id="fb-${gid}"></div>
+  </div>`;
+
+  return h;
+}
+
+// ---------- Lookup quiz by global id ----------
+function getQuizByGid(gid) {
+  const [wid, idx] = gid.split('-');
+  return getFilteredData(ALL_WEEKS.find(w => w.id === wid).data)[parseInt(idx)];
+}
+
+// ---------- Check MCQ / TF answer ----------
+window.checkOpt = function(gid, oi, btn) {
+  const card = document.getElementById('card-' + gid);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answeredQ++;
+
+  const q = getQuizByGid(gid);
+  const correct = q.answer;
+  const isCorrect = (q.type === 'TF')
+    ? (['True', 'False'][oi] === correct)
+    : (oi === correct);
+
+  card.querySelectorAll('.opt-btn').forEach((b, i) => {
+    b.disabled = true;
+    if (q.type === 'TF') {
+      if (['True', 'False'][i] === correct) b.classList.add('correct');
+      else if (i === oi) b.classList.add('wrong');
+    } else {
+      if (i === correct) b.classList.add('correct');
+      else if (i === oi) b.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) score++;
+  updateScore();
+  showFeedback(gid, isCorrect, fmtExpl(q));
+};
+
+// ---------- Check Fill answer ----------
+window.checkFill = function(gid) {
+  const card = document.getElementById('card-' + gid);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answeredQ++;
+
+  const q = getQuizByGid(gid);
+  const input = document.getElementById('fi-' + gid).value.trim().toLowerCase();
+  const answers = Array.isArray(q.answer) ? q.answer : [q.answer];
+  const isCorrect = answers.some(a => input === String(a).toLowerCase());
+
+  if (isCorrect) score++;
+  updateScore();
+  showFeedback(gid, isCorrect, `<strong>正确答案:</strong> ${answers.join(' / ')}<br>${fmtExpl(q)}`);
+};
+
+// ---------- Reveal Short answer ----------
+window.revealShort = function(gid, btn) {
+  const card = document.getElementById('card-' + gid);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answeredQ++;
+  btn.style.display = 'none';
+
+  const q = getQuizByGid(gid);
+  let content = '';
+  // Symbol legend table
+  if (q.symbols && q.symbols.length > 0) {
+    content += '<table class="symbol-table"><thead><tr><th>Symbol</th><th>Meaning</th><th>含义</th></tr></thead><tbody>';
+    q.symbols.forEach(s => {
+      content += `<tr><td>${s[0]}</td><td>${s[1]}</td><td>${s[2]}</td></tr>`;
+    });
+    content += '</tbody></table>';
+  }
+  // Formula reference box at top
+  if (q.formula) {
+    content += `<div class="formula-box"><div class="formula-box-title">Reference Formula</div><div class="formula-box-content">${q.formula.replace(/&nbsp;&nbsp;/g, '<br>')}</div></div>`;
+  }
+  content += `<strong>Answer:</strong>${fmtMergedAnswer(q.answer, q.answer_zh)}`;
+  content += `<br>${fmtExpl(q)}`;
+  showFeedback(gid, null, content);
+};
+
+// ---------- Parse answer into { label: content } parts ----------
+function parseAnswerParts(text) {
+  if (!text) return [];
+  const parts = [];
+  text.split('\n').forEach(line => {
+    line = line.trim();
+    if (!line) return;
+    const m = line.match(/^(\([a-z]+\)|\([ivx]+\))\s*(.*)/);
+    if (m) parts.push({ label: m[1], content: m[2] });
+    else parts.push({ label: null, content: line });
+  });
+  return parts;
+}
+
+// ---------- Format merged EN+ZH answer for Short questions ----------
+function fmtMergedAnswer(textEn, textZh) {
+  if (!textEn) return '';
+  const partsEn = parseAnswerParts(textEn);
+  const partsZh = parseAnswerParts(textZh);
+  // If no sub-parts, simple display
+  if (partsEn.length <= 1 && partsEn[0] && !partsEn[0].label) {
+    let html = ' ' + mathify(partsEn[0].content);
+    if (partsZh.length > 0) html += `<div class="ans-explain-zh">${mathify(partsZh[0].content)}</div>`;
+    return html;
+  }
+  let html = '<div class="ans-parts">';
+  partsEn.forEach((part, i) => {
+    const zhPart = partsZh[i];
+    if (part.label) {
+      const content = part.content;
+      const dashIdx = content.indexOf('\u2014'); // em-dash
+      if (dashIdx > -1) {
+        const formula = content.substring(0, dashIdx).trim();
+        const explain = content.substring(dashIdx + 1).trim();
+        html += `<div class="ans-line ans-block">
+          <span class="ans-label">${part.label}</span>
+          <div class="ans-formula">${mathify(formula)}</div>
+          <div class="ans-explain">${mathify(explain)}</div>`;
+      } else {
+        html += `<div class="ans-line ans-block">
+          <span class="ans-label">${part.label}</span>
+          <div class="ans-formula">${mathify(content)}</div>`;
+      }
+      // Add ZH in same block
+      if (zhPart) {
+        const zhContent = zhPart.content;
+        const zhDash = zhContent.indexOf('\u2014');
+        const zhText = zhDash > -1 ? zhContent.substring(zhDash + 1).trim() : zhContent;
+        html += `<div class="ans-explain-zh">${mathify(zhText)}</div>`;
+      }
+      html += '</div>';
+    } else {
+      html += `<div class="ans-line">${mathify(part.content)}`;
+      if (zhPart) html += `<div class="ans-explain-zh">${mathify(zhPart.content)}</div>`;
+      html += '</div>';
+    }
+  });
+  html += '</div>';
+  return html;
+}
+
+// ---------- Format explanation (EN + ZH separated) ----------
+function fmtExpl(q) {
+  let s = mathify(q.explanation || '');
+  if (q.explanation_zh) {
+    s += `<div class="fb-text-zh">${mathify(q.explanation_zh)}</div>`;
+  }
+  return s;
+}
+
+// ---------- Show feedback panel ----------
+function showFeedback(gid, isCorrect, explanation) {
+  const fb = document.getElementById('fb-' + gid);
+  const cls = isCorrect === null ? 'info' : isCorrect ? 'right' : 'wrong';
+  const icon = isCorrect === null ? '' : isCorrect ? '✅' : '❌';
+  fb.className = 'q-feedback show ' + cls;
+  fb.innerHTML = `<span class="fb-icon">${icon}</span><div class="fb-text">${explanation}</div>`;
+  renderMath();
+}
+
+// ---------- Update score display ----------
+function updateScore() {
+  const el = document.getElementById('score-display');
+  if (el) el.textContent = `${score} / ${totalQ}  (${answeredQ} answered)`;
+  const bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = (totalQ ? (answeredQ / totalQ * 100) : 0) + '%';
+}
+
+// ---------- Week switching ----------
+function setActiveWeek(weekId) {
+  currentWeek = weekId;
+  showActiveWeek();
+  document.querySelectorAll('#week-nav .wn-btn').forEach(b => b.classList.remove('active'));
+  if (weekId === 'all') {
+    document.querySelector('#week-nav .wn-btn').classList.add('active');
+  } else {
+    const idx = ALL_WEEKS.findIndex(w => w.id === weekId) + 1;
+    document.querySelectorAll('#week-nav .wn-btn')[idx]?.classList.add('active');
+  }
+}
+
+function showActiveWeek() {
+  document.querySelectorAll('.week-section').forEach(s => {
+    if (currentWeek === 'all' || s.dataset.weekId === currentWeek) {
+      s.classList.add('visible');
+    } else {
+      s.classList.remove('visible');
+    }
+  });
+}
+
+// ---------- Source filter ----------
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.toolbar-actions .tb-btn:not(#reset-btn)').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-' + filter)?.classList.add('active');
+  renderAll();
+}
+
+// ---------- Reset ----------
+function resetAll() {
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---------- KaTeX math rendering ----------
+function renderMath() {
+  if (typeof renderMathInElement === 'undefined') return;
+  renderMathInElement(document.body, {
+    delimiters: [
+      { left: '$$', right: '$$', display: true },
+      { left: '$',  right: '$',  display: false },
+      { left: '\\(', right: '\\)', display: false },
+      { left: '\\[', right: '\\]', display: true }
+    ],
+    throwOnError: false,
+    trust: true
+  });
+}
+window.addEventListener('load', renderMath);
+
+// ===================== BACK TO TOP =====================
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('back-top');
+  if (window.scrollY > 400) btn.classList.add('show');
+  else btn.classList.remove('show');
+});
+</script>
+</body>
+</html>

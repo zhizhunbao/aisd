@@ -1,0 +1,602 @@
+[
+  {
+    "question": "In imbalanced class problems, accuracy is always a reliable metric for evaluating classifier performance.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "在不平衡数据(Imbalanced Data)中，准确率(Accuracy)是不可靠的指标。例如：正样本10个、负样本990个的情况下，即使将所有预测为负类，准确率也能达到99%，但正类一个都没有抓到。这种情况下，Precision（精确率）、Recall（召回率）、F1-measure 更为合适。",
+    "source": "predicted",
+    "question_zh": "在不平衡类别问题中，准确率始终是评估分类器性能的可靠指标。"
+  },
+  {
+    "question": "Oversampling the minority class works by randomly duplicating instances of the minority class to balance the dataset.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "过采样(Oversampling)是通过复制(Duplicate)少数类(Minority Class)的实例来与多数类实现平衡的技术。方法简单但由于反复使用相同实例，存在过拟合(Overfitting)的风险。改进版就是 SMOTE。",
+    "source": "predicted",
+    "question_zh": "对少数类进行过采样是通过随机复制少数类实例来平衡数据集。"
+  },
+  {
+    "question": "SMOTE generates synthetic minority class instances by duplicating existing minority class instances and adding a small amount of random noise.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "SMOTE (Synthetic Minority Oversampling Technique) 不是简单的复制+噪声。它在少数类实例与其 k-最近邻(k-NN) 之间的线段(Line Segment)上生成新的合成实例。具体方式是计算差异(Difference)，乘以0~1之间的随机值后加到原实例上。",
+    "source": "predicted",
+    "question_zh": "SMOTE通过复制现有少数类实例并添加少量随机噪声来生成合成少数类实例。"
+  },
+  {
+    "question": "A randomly guessing model has an Area Under the ROC Curve (AUC) of 0.5.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "在 ROC 曲线(Receiver Operating Characteristic Curve)中，随机猜测(Random Guessing)模型沿对角线(Diagonal)分布，其下方面积(AUC, Area Under the Curve) = 0.5。完美模型 $\\text{AUC} = 1.0$，完全反向预测则 $\\text{AUC} = 0.0$。",
+    "source": "predicted",
+    "question_zh": "随机猜测模型的ROC曲线下面积（AUC）为0.5。"
+  },
+  {
+    "question": "In Bagging, each bootstrap sample is created by sampling from the original training set without replacement.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Bagging (Bootstrap AGGregatING)中的自助样本(Bootstrap Sample)是从原始数据进行**有放回抽样(Sampling WITH Replacement)**生成的。不是\"without\"而是\"with\" replacement。正因为有放回抽样，同一个实例可能被多次抽中，每个样本中大约包含63.2%的原始数据。",
+    "source": "predicted",
+    "question_zh": "在Bagging中，每个自助样本是通过从原始训练集中进行无放回抽样创建的。"
+  },
+  {
+    "question": "In AdaBoost, correctly classified instances have their weights increased in the next round so that the model focuses on easy samples.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "AdaBoost 中是**错误分类(Misclassified)**的实例权重增加，**正确分类(Correctly Classified)**的实例权重减少。这使得下一轮的分类器专注于困难样本(Hard Examples)。题目正好说反了，是设置的陷阱。",
+    "source": "predicted",
+    "question_zh": "在AdaBoost中，正确分类的实例在下一轮中权重增加，以便模型专注于简单样本。"
+  },
+  {
+    "question": "Random Forest combines Bagging with random feature selection at each split point to create diverse decision trees.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "随机森林(Random Forest)：(1) 通过自助采样(Bagging)为每棵树使用不同的训练数据，(2) 在每个内部节点(Internal Node)随机选择 p 个特征(Feature)来确定分裂标准。这两种随机性(Randomness)确保了树之间的多样性(Diversity)。",
+    "source": "predicted",
+    "question_zh": "随机森林将Bagging与每个分裂点的随机特征选择相结合，以创建多样化的决策树。"
+  },
+  {
+    "question": "The confidence of an association rule {X} → {Y} is calculated as the support of {X ∪ Y} divided by the total number of transactions.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "题目描述的公式是 Support（支持度）的定义。Confidence（置信度）的正确公式是：\n$\\text{Confidence}(\\{X\\} \\to \\{Y\\}) = \\frac{\\text{Support}(\\{X \\cup Y\\})}{\\text{Support}(\\{X\\})}$\n即 X 和 Y 共同出现的比例除以 X 出现的比例。不是除以总交易数。",
+    "source": "predicted",
+    "question_zh": "关联规则{X}→{Y}的置信度计算为{X∪Y}的支持度除以总交易数。"
+  },
+  {
+    "question": "According to the Apriori principle, if an itemset is infrequent, then all of its supersets must also be infrequent.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Apriori 原则(Apriori Principle)：如果某个项集是非频繁的(Infrequent)，那么包含它的所有超集(Superset)也一定是非频繁的。这是因为支持度(Support)的反单调属性(Anti-monotone Property)——项集变大时支持度只会相同或减少。利用这个原则可以大幅减少候选项集数量，节省计算量。",
+    "source": "predicted",
+    "question_zh": "根据Apriori原则，如果一个项集是非频繁的，那么它的所有超集也一定是非频繁的。"
+  },
+  {
+    "question": "In association rule mining, rules generated from the same frequent itemset always have identical support and identical confidence.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "从同一频繁项集(Frequent Itemset)生成的规则，Support（支持度）确实相同（因为是同一项集的出现频率）。但是 Confidence（置信度）可能不同。例如：{Milk,Beer}→{Diaper} 和 {Diaper}→{Milk,Beer} 的 Support 相同，但分母不同所以 Confidence 不同。",
+    "source": "predicted",
+    "question_zh": "在关联规则挖掘中，从同一频繁项集生成的规则始终具有相同的支持度和相同的置信度。"
+  },
+  {
+    "question": "In a confusion matrix, False Positive (FP) refers to:",
+    "type": "MCQ",
+    "options": [
+      "The model correctly predicted a positive instance.",
+      "The model incorrectly predicted a negative instance as positive.",
+      "The model incorrectly predicted a positive instance as negative.",
+      "The model correctly predicted a negative instance."
+    ],
+    "answer": 1,
+    "explanation": "False Positive (FP, 假阳性, 误报)：实际是 Negative（负类）但模型预测为 Positive（正类）。\n\n- TP (True Positive)：实际正类 → 预测正类 ✅\n- FP (False Positive)：实际负类 → 预测正类 ❌ (第一类错误 Type I Error)\n- FN (False Negative)：实际正类 → 预测负类 ❌ (第二类错误 Type II Error)\n- TN (True Negative)：实际负类 → 预测负类 ✅",
+    "source": "predicted",
+    "question_zh": "在混淆矩阵中，假阳性（FP）指的是：",
+    "options_zh": [
+      "模型正确预测了一个正类实例。",
+      "模型错误地将一个负类实例预测为正类。",
+      "模型错误地将一个正类实例预测为负类。",
+      "模型正确预测了一个负类实例。"
+    ]
+  },
+  {
+    "question": "The F1-measure is defined as:",
+    "type": "MCQ",
+    "options": [
+      "(Precision + Recall) / 2",
+      "2 × Precision × Recall / (Precision + Recall)",
+      "Precision × Recall",
+      "(TP + TN) / (TP + FP + FN + TN)"
+    ],
+    "answer": 1,
+    "explanation": "F1-measure (F1 分数)是 Precision（精确率）和 Recall（召回率）的调和平均(Harmonic Mean)。\n$F_1 = \\frac{2 \\cdot P \\cdot R}{P + R}$\n(a)是算术平均，(d)是 Accuracy 的公式。F1 是在不平衡数据中替代 accuracy 使用的核心指标。",
+    "source": "predicted",
+    "question_zh": "F1值的定义为：",
+    "options_zh": [
+      "(Precision + Recall) / 2",
+      "2 × Precision × Recall / (Precision + Recall)",
+      "Precision × Recall",
+      "(TP + TN) / (TP + FP + FN + TN)"
+    ]
+  },
+  {
+    "question": "In the ROC curve, the x-axis and y-axis represent:",
+    "type": "MCQ",
+    "options": [
+      "x = Precision, y = Recall",
+      "x = FPR (False Positive Rate), y = TPR (True Positive Rate)",
+      "x = Recall, y = Precision",
+      "x = TPR, y = FPR"
+    ],
+    "answer": 1,
+    "explanation": "ROC 曲线的轴：x轴 = $\\text{FPR} = \\frac{FP}{FP+TN}$，y轴 = $\\text{TPR} = \\frac{TP}{TP+FN}$ = Recall。\n好的模型 FPR 低而 TPR 高，因此曲线靠近左上角。",
+    "source": "predicted",
+    "question_zh": "在ROC曲线中，x轴和y轴分别表示：",
+    "options_zh": [
+      "x = 精确率, y = 召回率",
+      "x = FPR（假阳性率）, y = TPR（真阳性率）",
+      "x = 召回率, y = 精确率",
+      "x = TPR, y = FPR"
+    ]
+  },
+  {
+    "question": "Which of the following correctly describes the SMOTE technique?",
+    "type": "MCQ",
+    "options": [
+      "It balances the dataset by removing majority class instances.",
+      "It randomly duplicates minority class instances.",
+      "It generates synthetic minority class instances along line segments connecting minority class nearest neighbors.",
+      "It uses PCA to reduce the dimensionality of the minority class."
+    ],
+    "answer": 2,
+    "explanation": "SMOTE 在少数类实例与其 k-最近邻(k-NN)之间的线段(Line Segment)上通过插值(Interpolation)生成合成实例。\n(a)是 Undersampling（欠采样），(b)是简单 Oversampling（过采样）。",
+    "source": "predicted",
+    "question_zh": "以下哪项正确描述了SMOTE技术？",
+    "options_zh": [
+      "它通过移除多数类实例来平衡数据集。",
+      "它随机复制少数类实例。",
+      "它通过沿少数类最近邻之间的线段生成合成少数类实例。",
+      "它使用PCA来降低少数类的维度。"
+    ]
+  },
+  {
+    "question": "In the Local Outlier Factor (LOF) method, if the relative density of a point x is much greater than 1, it indicates:",
+    "type": "MCQ",
+    "options": [
+      "x is a normal point with high density.",
+      "x is surrounded by very dense neighbors and is therefore normal.",
+      "x is a strong outlier because its density is much lower than its neighbors.",
+      "x is the center of a dense cluster."
+    ],
+    "answer": 2,
+    "explanation": "LOF (Local Outlier Factor, 局部异常因子)：$\\text{relative\\_density}(x,k) = \\frac{\\text{avg density of neighbors}}{\\text{density of } x}$。\n该值 ≫1 意味着 x 周围的密度远低于邻居，因此是强异常值(Outlier)。\n值 ≈1 则正常，<1 则密度比邻居还高的正常点。",
+    "source": "predicted",
+    "question_zh": "在局部异常因子（LOF）方法中，如果点x的相对密度远大于1，这表明：",
+    "options_zh": [
+      "x是一个密度高的正常点。",
+      "x被非常密集的邻居包围，因此是正常的。",
+      "x是一个强异常值，因为其密度远低于邻居。",
+      "x是一个密集簇的中心。"
+    ]
+  },
+  {
+    "question": "One-Class SVM (OCSVM) is designed to:",
+    "type": "MCQ",
+    "options": [
+      "Classify data precisely into two balanced classes.",
+      "Learn a boundary around normal data points and identify points outside the boundary as outliers.",
+      "Perform multi-class classification using multiple hyperplanes.",
+      "Cluster data based on density."
+    ],
+    "answer": 1,
+    "explanation": "One-Class SVM (OCSVM) 仅用正常数据学习，建立正常区域的边界(Boundary)。落在边界外的数据被判定为异常值(Outlier)。\n核心：$f(x) = \\mathbf{w} \\cdot \\varphi(x) - \\rho$ → $f(x) \\geq 0$ 为正常(Normal)，$f(x) < 0$ 为异常值(Outlier)。\nν 参数用来控制异常值比例。",
+    "source": "predicted",
+    "question_zh": "一类SVM（OCSVM）被设计用于：",
+    "options_zh": [
+      "将数据精确分为两个平衡的类别。",
+      "学习正常数据点周围的边界，并将边界外的点识别为异常值。",
+      "使用多个超平面进行多分类。",
+      "基于密度对数据进行聚类。"
+    ]
+  },
+  {
+    "question": "What are the two necessary conditions for ensemble methods to outperform a single base classifier?",
+    "type": "MCQ",
+    "options": [
+      "Base classifiers must be complex and trained on the complete dataset.",
+      "Base classifiers must be independent of each other and each must perform better than random guessing.",
+      "Base classifiers must all use the same algorithm and be trained on identical data.",
+      "Base classifiers must have zero training error and high variance."
+    ],
+    "answer": 1,
+    "explanation": "集成方法(Ensemble Methods)要优于单个分类器需要：\n① 基分类器之间必须**互相独立**(Independent)。\n② 每个分类器的错误率**小于0.5**（二分类标准，即优于随机猜测）。",
+    "source": "predicted",
+    "question_zh": "集成方法优于单个基分类器的两个必要条件是什么？",
+    "options_zh": [
+      "基分类器必须复杂且在完整数据集上训练。",
+      "基分类器必须彼此独立，且每个都必须优于随机猜测。",
+      "基分类器必须使用相同的算法并在相同的数据上训练。",
+      "基分类器必须具有零训练误差和高方差。"
+    ]
+  },
+  {
+    "question": "In Bagging, when n is sufficiently large, the probability that a specific training instance is included in a single bootstrap sample is approximately:",
+    "type": "MCQ",
+    "options": [
+      "0.5",
+      "0.368",
+      "0.632",
+      "1.0"
+    ],
+    "answer": 2,
+    "explanation": "自助样本中特定实例被包含的概率 = $1 - (1-\\frac{1}{n})^n$。\n当 n 足够大时 $(1-\\frac{1}{n})^n \\to \\frac{1}{e} \\approx 0.368$，因此被包含的概率 = 1 − 0.368 = **0.632**（约63.2%）。",
+    "source": "predicted",
+    "question_zh": "在Bagging中，当n足够大时，特定训练实例被包含在单个自助样本中的概率约为：",
+    "options_zh": [
+      "0.5",
+      "0.368",
+      "0.632",
+      "1.0"
+    ]
+  },
+  {
+    "question": "Which of the following best describes the key difference between Bagging and Boosting?",
+    "type": "MCQ",
+    "options": [
+      "Bagging uses weighted voting while Boosting uses simple majority voting.",
+      "Bagging trains base classifiers independently in parallel, while Boosting trains them sequentially, focusing on previously misclassified instances.",
+      "Bagging only works with decision trees while Boosting works with any classifier.",
+      "Bagging increases bias while Boosting increases variance."
+    ],
+    "answer": 1,
+    "explanation": "- Bagging：自助样本**并行(Parallel)**独立学习 → 降低**方差(Variance)**。\n- Boosting：基于前一轮的错误**顺序(Sequential)**学习 → 降低**偏差(Bias)**。",
+    "source": "predicted",
+    "question_zh": "以下哪项最好地描述了Bagging和Boosting之间的关键区别？",
+    "options_zh": [
+      "Bagging使用加权投票，而Boosting使用简单多数投票。",
+      "Bagging并行独立训练基分类器，而Boosting顺序训练，专注于之前错误分类的实例。",
+      "Bagging只适用于决策树，而Boosting适用于任何分类器。",
+      "Bagging增加偏差，而Boosting增加方差。"
+    ]
+  },
+  {
+    "question": "In AdaBoost, the importance (alpha) of a base classifier is calculated as:",
+    "type": "MCQ",
+    "options": [
+      "α = ln(1/ε)",
+      "α = ½ × ln((1 − ε) / ε)",
+      "α = ε / (1 − ε)",
+      "α = 1 − ε"
+    ],
+    "answer": 1,
+    "explanation": "AdaBoost 中分类器的重要度(Importance) $\\alpha = \\frac{1}{2} \\ln\\frac{1-\\varepsilon}{\\varepsilon}$。\nε = 错误率(Error Rate)。ε 越小（越准确）→ α 越大 → 在最终投票中影响力越大。\n$\\varepsilon = 0.5$ 时 $\\alpha = 0$（随机猜测水平 → 无影响力），ε > 0.5 时权重重置。",
+    "source": "predicted",
+    "question_zh": "在AdaBoost中，基分类器的重要度（alpha）计算为：",
+    "options_zh": [
+      "α = ln(1/ε)",
+      "α = ½ × ln((1 − ε) / ε)",
+      "α = ε / (1 − ε)",
+      "α = 1 − ε"
+    ]
+  },
+  {
+    "question": "What happens if an intermediate round of AdaBoost produces an error rate greater than 50%?",
+    "type": "MCQ",
+    "options": [
+      "The algorithm terminates immediately.",
+      "The weights are reverted to 1/n and the resampling procedure is repeated.",
+      "The classifier is assigned a negative weight.",
+      "The training data is randomly shuffled."
+    ],
+    "answer": 1,
+    "explanation": "AdaBoost 中如果中间轮次的错误率超过50%，则将权重重置为初始的 1/n 并重复重采样。这意味着该分类器比随机猜测还差，所以忽略它重新开始。",
+    "source": "predicted",
+    "question_zh": "如果AdaBoost的中间轮次产生大于50%的错误率，会发生什么？",
+    "options_zh": [
+      "算法立即终止。",
+      "权重回退至1/n并重复重采样过程。",
+      "分类器被分配负权重。",
+      "训练数据被随机打乱。"
+    ]
+  },
+  {
+    "question": "What distinguishes Random Forest from standard Bagging?",
+    "type": "MCQ",
+    "options": [
+      "Random Forest does not use bootstrap sampling.",
+      "Random Forest adds random feature subset selection at each split on top of bootstrap sampling.",
+      "Random Forest uses pruned decision trees while Bagging uses unpruned trees.",
+      "Random Forest uses weighted voting while Bagging uses majority voting."
+    ],
+    "answer": 1,
+    "explanation": "Random Forest = Bagging + Random Feature Subset\n与 Bagging 相同使用自助采样，但额外地，在每个内部节点(Internal Node)从全部特征中随机选择 p 个特征来进行分裂。双重随机性降低了树之间的相关性，提高了多样性(Diversity)。",
+    "source": "predicted",
+    "question_zh": "随机森林与标准Bagging的区别是什么？",
+    "options_zh": [
+      "随机森林不使用自助采样。",
+      "随机森林在自助采样基础上，还在每次分裂时随机选择特征子集。",
+      "随机森林使用剪枝决策树，而Bagging使用未剪枝树。",
+      "随机森林使用加权投票，而Bagging使用多数投票。"
+    ]
+  },
+  {
+    "question": "Ensemble methods work best with what type of base classifiers?",
+    "type": "MCQ",
+    "options": [
+      "Very stable classifiers that are insensitive to changes in training data.",
+      "Unstable classifiers that are sensitive to minor perturbations in the training set.",
+      "Simple models with very high bias.",
+      "Pre-trained deep learning models."
+    ],
+    "answer": 1,
+    "explanation": "集成方法在**不稳定(Unstable)**分类器——即学习数据微小变化就会导致模型大幅改变的分类器——上效果最好。例如：未剪枝决策树(Unpruned Decision Trees)、人工神经网络(ANN)等。稳定分类器（如 kNN）效果较差。",
+    "source": "predicted",
+    "question_zh": "集成方法与什么类型的基分类器效果最好？",
+    "options_zh": [
+      "对训练数据变化不敏感的非常稳定的分类器。",
+      "对训练集微小扰动敏感的不稳定分类器。",
+      "具有非常高偏差的简单模型。",
+      "预训练的深度学习模型。"
+    ]
+  },
+  {
+    "question": "Given a transaction database of 5 transactions, if the itemset {Beer, Diaper} appears in 3 transactions, what is the support of {Beer, Diaper}?",
+    "type": "MCQ",
+    "options": [
+      "3",
+      "0.6",
+      "0.4",
+      "5/3"
+    ],
+    "answer": 1,
+    "explanation": "$\\text{Support} = \\frac{\\sigma(\\text{Itemset})}{|T|}$ = 项集出现次数 / 总交易数 $= \\frac{3}{5} = 0.6$。\n(a)的 3 是 Support Count（支持度计数），不是 Support（支持度/比率）。",
+    "source": "predicted",
+    "question_zh": "给定包含5个交易的交易数据库，如果项集{Beer, Diaper}出现在3个交易中，{Beer, Diaper}的支持度是多少？",
+    "options_zh": [
+      "3",
+      "0.6",
+      "0.4",
+      "5/3"
+    ]
+  },
+  {
+    "question": "Given the rule {Milk, Diaper} → {Beer}, where σ({Milk, Diaper, Beer}) = 2, σ({Milk, Diaper}) = 3, |T| = 5, the confidence of this rule is:",
+    "type": "MCQ",
+    "options": [
+      "2/5 = 0.4",
+      "3/5 = 0.6",
+      "2/3 ≈ 0.67",
+      "3/2 = 1.5"
+    ],
+    "answer": 2,
+    "explanation": "Confidence（置信度）= $\\frac{\\sigma(X \\cup Y)}{\\sigma(X)}$ = $\\frac{\\sigma(\\{\\text{Milk,Diaper,Beer}\\})}{\\sigma(\\{\\text{Milk,Diaper}\\})} = \\frac{2}{3}$ ≈ 0.67。\nSupport（支持度）= 2/5 = 0.4。**Support 与 Confidence 的分母不同**是关键！",
+    "source": "predicted",
+    "question_zh": "给定规则{Milk, Diaper}→{Beer}，其中σ({Milk, Diaper, Beer})=2，σ({Milk, Diaper})=3，|T|=5，该规则的置信度为：",
+    "options_zh": [
+      "2/5 = 0.4",
+      "3/5 = 0.6",
+      "2/3 ≈ 0.67",
+      "3/2 = 1.5"
+    ]
+  },
+  {
+    "question": "The Apriori principle states that:",
+    "type": "MCQ",
+    "options": [
+      "If an itemset is frequent, then all of its supersets must also be frequent.",
+      "If an itemset is frequent, then all of its subsets must also be frequent.",
+      "If an itemset is infrequent, then all of its subsets must also be infrequent.",
+      "Support and confidence are always positively correlated."
+    ],
+    "answer": 1,
+    "explanation": "Apriori 原则：频繁项集的所有**子集(Subset)**也一定频繁。其逆否命题(Contrapositive)：非频繁项集的所有**超集(Superset)**也一定非频繁。\n(a)说反了——频繁项集的超集不一定频繁。(c)子集方向错误。",
+    "source": "predicted",
+    "question_zh": "Apriori原则表明：",
+    "options_zh": [
+      "如果一个项集是频繁的，那么它的所有超集也一定是频繁的。",
+      "如果一个项集是频繁的，那么它的所有子集也一定是频繁的。",
+      "如果一个项集是非频繁的，那么它的所有子集也一定是非频繁的。",
+      "支持度和置信度始终正相关。"
+    ]
+  },
+  {
+    "question": "In the Apriori algorithm, candidate pruning works by:",
+    "type": "MCQ",
+    "options": [
+      "Removing candidates whose support count is below the threshold.",
+      "Removing candidate k-itemsets that contain any infrequent (k-1)-subset.",
+      "Removing all itemsets containing rare items.",
+      "Removing candidates based on confidence values."
+    ],
+    "answer": 1,
+    "explanation": "候选剪枝(Candidate Pruning)：如果候选 k-项集的 (k-1) 大小的子集中有任何一个是非频繁的，就移除该候选。这基于 Apriori 原则。\n(a)是 Support Counting 步骤，(d)是 Rule Generation 步骤的操作。",
+    "source": "predicted",
+    "question_zh": "在Apriori算法中，候选剪枝的工作方式是：",
+    "options_zh": [
+      "移除支持度计数低于阈值的候选。",
+      "移除包含任何非频繁(k-1)-子集的候选k-项集。",
+      "移除包含稀有项的所有项集。",
+      "基于置信度值移除候选。"
+    ]
+  },
+  {
+    "question": "What is the anti-monotone property of support?",
+    "type": "MCQ",
+    "options": [
+      "The support of an itemset always increases as items are added.",
+      "The support of an itemset can never exceed the support of any of its subsets.",
+      "Support is always equal to confidence.",
+      "The support of an itemset is independent of its size."
+    ],
+    "answer": 1,
+    "explanation": "反单调属性(Anti-monotone Property)：项集变大（添加新项）时，Support 只会相同或减少。\n即 $\\forall X \\subseteq Y: s(X) \\geq s(Y)$。这是 Apriori 剪枝的数学依据。",
+    "source": "predicted",
+    "question_zh": "支持度的反单调属性是什么？",
+    "options_zh": [
+      "项集的支持度随着项的添加总是增加。",
+      "项集的支持度永远不会超过其任何子集的支持度。",
+      "支持度始终等于置信度。",
+      "项集的支持度与其大小无关。"
+    ]
+  },
+  {
+    "question": "If |L| = k (a frequent itemset of size k), how many candidate association rules can be generated (excluding trivial rules)?",
+    "type": "MCQ",
+    "options": [
+      "k",
+      "2^k",
+      "2^k − 2",
+      "k! − 2"
+    ],
+    "answer": 2,
+    "explanation": "大小为 k 的频繁项集可以生成的候选关联规则数 = $2^k - 2$。\n从全部子集数 $2^k$ 中减去 ∅→L 和 L→∅ 两条平凡(Trivial)规则。",
+    "source": "predicted",
+    "question_zh": "如果|L|=k（大小为k的频繁项集），可以生成多少条候选关联规则（排除平凡规则）？",
+    "options_zh": [
+      "k",
+      "2^k",
+      "2^k − 2",
+      "k! − 2"
+    ]
+  },
+  {
+    "question": "Given Precision = 0.5 and Recall = 0.8, what is the F1-measure?",
+    "type": "MCQ",
+    "options": [
+      "0.65",
+      "0.625",
+      "Approximately 0.62",
+      "0.80"
+    ],
+    "answer": 2,
+    "explanation": "$F_1 = \\frac{2 \\cdot P \\cdot R}{P + R}$ = 2 × 0.5 × 0.8 / (0.5 + 0.8) = 0.8 / 1.3 ≈ 0.615 ≈ 0.62\n手算技巧：分子 = 2 × 0.5 × 0.8 = 0.8。分母 = 1.3。0.8/1.3 = 8/13 ≈ 0.62。",
+    "source": "predicted",
+    "question_zh": "给定Precision=0.5和Recall=0.8，F1值是多少？",
+    "options_zh": [
+      "0.65",
+      "0.625",
+      "大约0.62",
+      "0.80"
+    ]
+  },
+  {
+    "question": "Ensemble methods such as Bagging and Boosting have good explainability because we can explain the majority voting process to the end user.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "这是教授在课堂上最强调的要点！集成方法无法回答\"为什么做出这样的决定？\"。多数投票(Majority Voting)过程本身确实可以解释，但无法解释每个单独的分类器**为什么(Why)**做出那样的预测。用户想要的不是\"10个医生投了票\"，而是\"**为什么**认为是那个疾病\"的简短有用的解释。",
+    "source": "predicted-supplement",
+    "question_zh": "Bagging和Boosting等集成方法具有良好的可解释性，因为我们可以向最终用户解释多数投票过程。"
+  },
+  {
+    "question": "In Boosting (AdaBoost), all training samples are treated equally throughout the entire training process.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Bagging 中确实同等对待所有样本（equal weight）。但在 Boosting(AdaBoost) 中每一轮都会更新权重——增加错误分类样本的权重，减少正确分类样本的权重。教授使用了\"考试复习\"的比喻：如果 Q-Learning 是弱项，下次复习时就要更专注于 Q-Learning。",
+    "source": "predicted-supplement",
+    "question_zh": "在Boosting（AdaBoost）中，所有训练样本在整个训练过程中被同等对待。"
+  },
+  {
+    "question": "In Bagging, every training instance is guaranteed to be included in every bootstrap sample.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Bagging 使用有放回抽样(WITH Replacement)，因此特定实例有可能在某个自助样本中被遗漏。实际上当 n 足够大时，每个自助样本只包含约63.2%的原始数据。",
+    "source": "predicted-supplement",
+    "question_zh": "在Bagging中，每个训练实例都保证被包含在每个自助样本中。"
+  },
+  {
+    "question": "In AdaBoost, if an intermediate round produces an error rate greater than 50%, the algorithm terminates immediately.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "教授明确说明：错误率 > 50% 时算法**不是终止**，而是将权重**重置为 1/n** 并重复重采样。错误率超过50% = 比随机猜测(Random Guessing)还差 → 忽略该分类器重新开始。",
+    "source": "predicted-supplement",
+    "question_zh": "在AdaBoost中，如果中间轮次产生大于50%的错误率，算法立即终止。"
+  },
+  {
+    "question": "In Random Forest, the base classifiers (decision trees) are pruned to reduce model complexity.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "教授明确提到：随机森林的基分类器是**未剪枝的(Unpruned)**决策树。\"base classifier are unpruned... we don't do any kind of post pruning.\" 不剪枝的原因：集成可以自然地抵消各棵树的高方差(Variance)。",
+    "source": "predicted-supplement",
+    "question_zh": "在随机森林中，基分类器（决策树）经过剪枝以降低模型复杂度。"
+  },
+  {
+    "question": "Association rules represent causal relationships between items (e.g., buying beer causes buying diapers).",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "教授多次反复强调：关联规则不是因果关系(Causality)，而是共现/相关性(Co-occurrence/Correlation)。\"It doesn't mean that if someone wants to buy beer, he or she must buy diapers before. It just shows the correlation, kind of correlation. It's not causality.\" 只是一起购买的模式，一个不会\"导致\"另一个。",
+    "source": "predicted-supplement",
+    "question_zh": "关联规则表示项目之间的因果关系（例如，购买啤酒导致购买尿布）。"
+  },
+  {
+    "question": "In association rule mining, the purchase quantity of each item and the customer identity are important factors in the analysis.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "教授明确提到：关联规则挖掘中不考虑数量(Quantity)和顾客信息(Customer Identity)。\"What are the things here different? We don't have price... the quantity... nothing about the customers.\" 交易中商品是否存在(Yes/No)才是重要的。",
+    "source": "predicted-supplement",
+    "question_zh": "在关联规则挖掘中，每个商品的购买数量和顾客身份是分析中的重要因素。"
+  },
+  {
+    "question": "The brute-force approach is feasible for finding frequent itemsets in large datasets with thousands of items.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "教授强调：当有 D 个商品时，可能的项集数 = $2^D - 1$（排除空集）。仅6个商品就有602条规则，1000个商品则有数百万条以上。\"This brute force search doesn't make sense.\" —— 这就是需要 Apriori 算法的原因。",
+    "source": "predicted-supplement",
+    "question_zh": "暴力法适用于在包含数千个商品的大型数据集中寻找频繁项集。"
+  },
+  {
+    "question": "In AdaBoost, the final prediction uses simple majority voting where all classifiers have equal influence.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "AdaBoost 使用**加权投票(Weighted Majority Voting)**。每个分类器的重要度 α(alpha) 决定了投票权重。教授比喻：\"向10个医生征求意见，但给最有名的医生的意见更大的比重\"。$\\alpha = \\frac{1}{2} \\ln\\frac{1-\\varepsilon}{\\varepsilon}$ 计算。错误率低的分类器 α 越大。",
+    "source": "predicted-supplement",
+    "question_zh": "在AdaBoost中，最终预测使用简单多数投票，所有分类器具有相同的影响力。"
+  },
+  {
+    "question": "In association rule mining, the two-step approach first generates rules and then finds frequent itemsets.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "顺序说反了！正确的两步法(Two-step approach)：\n- Step 1：频繁项集生成(Frequent Itemset Generation) —— 基于 Support\n- Step 2：规则生成(Rule Generation) —— 基于 Confidence\n\n教授：\"After finding the frequent itemsets... we should generate the rules.\"",
+    "source": "predicted-supplement",
+    "question_zh": "在关联规则挖掘中，两步法首先生成规则，然后找到频繁项集。"
+  },
+  {
+    "question": "Ensemble methods are most effective when combined with stable classifiers such as k-Nearest Neighbors (kNN).",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "教授强调：集成方法与**不稳定(Unstable)**分类器结合时才有效。不稳定 = 学习数据微小变化就导致模型大幅改变（如未剪枝决策树、ANN）。稳定(Stable)分类器（如 kNN）即使数据变化也不会大幅改变，因此集成效果很差。",
+    "source": "predicted-supplement",
+    "question_zh": "集成方法与稳定分类器（如k近邻kNN）结合时最有效。"
+  },
+  {
+    "question": "Bagging primarily reduces the bias of a model, while Boosting primarily reduces variance.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "完全相反！\n- **Bagging**：主要降低**方差(Variance)**。用不同训练数据独立学习 → 减少预测的波动。\n- **Boosting**：主要降低**偏差(Bias)**。专注前一轮的错误顺序学习 → 模型越来越精确。",
+    "source": "predicted-supplement",
+    "question_zh": "Bagging主要降低模型的偏差，而Boosting主要降低方差。"
+  },
+  {
+    "question": "In the Apriori algorithm, candidate k-itemsets are generated by merging two frequent (k-1)-itemsets whose first (k-2) items are identical.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "教授直接讲解的候选生成(Candidate Generation)方法：合并(Merge)两个频繁 (k-1)-项集，条件是前 (k-2) 个项相同。例如：{A,B,C} 和 {A,B,D} 的前2个(A,B)相同，合并为 {A,B,C,D}。",
+    "source": "predicted-supplement",
+    "question_zh": "在Apriori算法中，候选k-项集通过合并两个前(k-2)个项相同的频繁(k-1)-项集来生成。"
+  },
+  {
+    "question": "In a confusion matrix, high accuracy necessarily implies the model has high recall for the minority class.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "在不平衡数据中，即使 accuracy 很高，少数类的 recall 也可以为0%。例如：正样本10个、负样本990个的数据中，将所有预测为负类，Accuracy = 99% 但 Recall(正类) = 0/10 = 0%。这就是不平衡数据中 accuracy 具有误导性的原因。",
+    "source": "predicted-supplement",
+    "question_zh": "在混淆矩阵中，高准确率必然意味着模型对少数类具有高召回率。"
+  },
+  {
+    "question": "The Apriori algorithm uses the anti-monotone property of support to prune candidate itemsets before computing their support.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Apriori 算法的核心策略：在计算候选项集的 support 之前，利用反单调属性(Anti-monotone Property)进行剪枝(Pruning)。如果候选 k-项集的 (k-1) 子集中有非频繁的 → 不用计算 support 直接移除。这大幅减少了计算量。",
+    "source": "predicted-supplement",
+    "question_zh": "Apriori算法利用支持度的反单调属性在计算候选项集的支持度之前进行剪枝。"
+  }
+]

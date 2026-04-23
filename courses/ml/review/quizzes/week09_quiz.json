@@ -1,0 +1,218 @@
+[
+  {
+    "question": "In imbalanced class problems, accuracy is always a reliable metric for evaluating classifier performance.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "In imbalanced datasets, <strong>accuracy is misleading</strong>. E.g., with 10 positives and 990 negatives, predicting all as negative yields 99% accuracy but catches zero positives. Use <strong>Precision, Recall, F1-measure</strong> instead.",
+    "source": "predicted",
+    "question_zh": "在不平衡类别问题中，准确率始终是评估分类器性能的可靠指标。",
+    "explanation_zh": "在不平衡数据集中，<strong>准确率具有误导性</strong>。例如，10个正样本和990个负样本，预测全部为负类可获得99%准确率但检测不到任何正样本。应使用<strong>精确率、召回率、F1值</strong>。"
+  },
+  {
+    "question": "Oversampling the minority class works by randomly duplicating instances of the minority class to balance the dataset.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Oversampling works by <strong>duplicating</strong> minority class instances. Simple but risks overfitting. Improved version = SMOTE.",
+    "source": "predicted",
+    "question_zh": "对少数类进行过采样是通过随机复制少数类实例来平衡数据集。",
+    "explanation_zh": "过采样通过<strong>复制</strong>少数类实例来工作。简单但有过拟合风险。改进版本 = SMOTE。"
+  },
+  {
+    "question": "SMOTE generates synthetic minority class instances by duplicating existing minority class instances and adding a small amount of random noise.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "SMOTE does NOT use 'copy + noise'. It generates synthetic instances by <strong>interpolating</strong> along the line segment between a minority instance and its <strong>k-nearest neighbors</strong>.",
+    "source": "predicted",
+    "question_zh": "SMOTE通过复制现有少数类实例并添加少量随机噪声来生成合成少数类实例。",
+    "explanation_zh": "SMOTE不使用\"复制+噪声\"。它通过在少数类实例与其<strong>k近邻</strong>之间的线段上进行<strong>插值</strong>来生成合成实例。"
+  },
+  {
+    "question": "A randomly guessing model has an Area Under the ROC Curve (AUC) of 0.5.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "A random guessing model follows the diagonal line on the ROC curve, giving AUC = 0.5. A perfect model has AUC = 1.0.",
+    "source": "predicted",
+    "question_zh": "随机猜测模型的ROC曲线下面积（AUC）为0.5。",
+    "explanation_zh": "随机猜测模型沿ROC曲线的对角线，AUC = 0.5。完美模型的AUC = 1.0。"
+  },
+  {
+    "question": "In a confusion matrix, False Positive (FP) refers to:",
+    "type": "MCQ",
+    "options": [
+      "The model correctly predicted a positive instance.",
+      "The model incorrectly predicted a negative instance as positive.",
+      "The model incorrectly predicted a positive instance as negative.",
+      "The model correctly predicted a negative instance."
+    ],
+    "answer": 1,
+    "explanation": "<strong>FP (False Positive)</strong>: Actually Negative but predicted as Positive.<br>TP = correctly predicted positive, FP = false alarm (Type I Error), FN = missed detection (Type II Error), TN = correctly predicted negative.",
+    "source": "predicted",
+    "question_zh": "在混淆矩阵中，假阳性（FP）指的是：",
+    "options_zh": [
+      "模型正确预测了一个正类实例。",
+      "模型错误地将一个负类实例预测为正类。",
+      "模型错误地将一个正类实例预测为负类。",
+      "模型正确预测了一个负类实例。"
+    ],
+    "explanation_zh": "<strong>FP（假阳性）</strong>：实际为负类但被预测为正类。<br>TP = 正确预测的正类，FP = 误报（I型错误），FN = 漏检（II型错误），TN = 正确预测的负类。"
+  },
+  {
+    "question": "The F1-measure is defined as:",
+    "type": "MCQ",
+    "options": [
+      "(Precision + Recall) / 2",
+      "2 × Precision × Recall / (Precision + Recall)",
+      "Precision × Recall",
+      "(TP + TN) / (TP + FP + FN + TN)"
+    ],
+    "answer": 1,
+    "explanation": "F1 = 2pr / (p + r) is the <strong>harmonic mean</strong> of Precision and Recall. (a) is arithmetic mean; (d) is the Accuracy formula.",
+    "source": "predicted",
+    "question_zh": "F1值的定义为：",
+    "options_zh": [
+      "(Precision + Recall) / 2",
+      "2 × Precision × Recall / (Precision + Recall)",
+      "Precision × Recall",
+      "(TP + TN) / (TP + FP + FN + TN)"
+    ],
+    "explanation_zh": "F1 = 2pr / (p + r) 是精确率和召回率的<strong>调和平均</strong>。(a) 是算术平均；(d) 是准确率公式。"
+  },
+  {
+    "question": "In the ROC curve, the x-axis and y-axis represent:",
+    "type": "MCQ",
+    "options": [
+      "x = Precision, y = Recall",
+      "x = FPR (False Positive Rate), y = TPR (True Positive Rate)",
+      "x = Recall, y = Precision",
+      "x = TPR, y = FPR"
+    ],
+    "answer": 1,
+    "explanation": "ROC curve: x-axis = <strong>FPR</strong> = FP/(FP+TN), y-axis = <strong>TPR</strong> = TP/(TP+FN) = Recall. A good model is close to the top-left corner.",
+    "source": "predicted",
+    "question_zh": "在ROC曲线中，x轴和y轴分别表示：",
+    "options_zh": [
+      "x = 精确率, y = 召回率",
+      "x = FPR（假阳性率）, y = TPR（真阳性率）",
+      "x = 召回率, y = 精确率",
+      "x = TPR, y = FPR"
+    ],
+    "explanation_zh": "ROC曲线：x轴 = <strong>FPR</strong> = FP/(FP+TN)，y轴 = <strong>TPR</strong> = TP/(TP+FN) = 召回率。好的模型接近左上角。"
+  },
+  {
+    "question": "Which of the following correctly describes the SMOTE technique?",
+    "type": "MCQ",
+    "options": [
+      "It balances the dataset by removing majority class instances.",
+      "It randomly duplicates minority class instances.",
+      "It generates synthetic minority class instances along line segments connecting minority class nearest neighbors.",
+      "It uses PCA to reduce the dimensionality of the minority class."
+    ],
+    "answer": 2,
+    "explanation": "SMOTE generates synthetic instances by <strong>interpolating along line segments</strong> connecting minority class nearest neighbors. (a) = Undersampling, (b) = simple Oversampling.",
+    "source": "predicted",
+    "question_zh": "以下哪项正确描述了SMOTE技术？",
+    "options_zh": [
+      "它通过移除多数类实例来平衡数据集。",
+      "它随机复制少数类实例。",
+      "它通过沿少数类最近邻之间的线段生成合成少数类实例。",
+      "它使用PCA来降低少数类的维度。"
+    ],
+    "explanation_zh": "SMOTE通过沿连接少数类最近邻的<strong>线段进行插值</strong>来生成合成实例。(a) = 欠采样，(b) = 简单过采样。"
+  },
+  {
+    "question": "In the Local Outlier Factor (LOF) method, if the relative density of a point x is much greater than 1, it indicates:",
+    "type": "MCQ",
+    "options": [
+      "x is a normal point with high density.",
+      "x is surrounded by very dense neighbors and is therefore normal.",
+      "x is a strong outlier because its density is much lower than its neighbors.",
+      "x is the center of a dense cluster."
+    ],
+    "answer": 2,
+    "explanation": "LOF: relative_density(x,k) = (average density of neighbors) / (density of x). Value ≫ 1 means x's density is much lower than its neighbors → <strong>strong outlier</strong>. Value ≈ 1 → normal.",
+    "source": "predicted",
+    "question_zh": "在局部异常因子（LOF）方法中，如果点x的相对密度远大于1，这表明：",
+    "options_zh": [
+      "x是一个密度高的正常点。",
+      "x被非常密集的邻居包围，因此是正常的。",
+      "x是一个强异常值，因为其密度远低于邻居。",
+      "x是一个密集簇的中心。"
+    ],
+    "explanation_zh": "LOF：relative_density(x,k) = (邻居的平均密度) / (x的密度)。值 ≫ 1 表示x的密度远低于其邻居 → <strong>强异常值</strong>。值 ≈ 1 → 正常。"
+  },
+  {
+    "question": "One-Class SVM (OCSVM) is designed to:",
+    "type": "MCQ",
+    "options": [
+      "Classify data precisely into two balanced classes.",
+      "Learn a boundary around normal data points and identify points outside the boundary as outliers.",
+      "Perform multi-class classification using multiple hyperplanes.",
+      "Cluster data based on density."
+    ],
+    "answer": 1,
+    "explanation": "OCSVM learns a boundary using only normal data. f(x) ≥ 0 → Normal, f(x) < 0 → Outlier. The <strong>ν parameter</strong> controls the upper bound on the fraction of outliers.",
+    "source": "predicted",
+    "question_zh": "一类SVM（OCSVM）被设计用于：",
+    "options_zh": [
+      "将数据精确分为两个平衡的类别。",
+      "学习正常数据点周围的边界，并将边界外的点识别为异常值。",
+      "使用多个超平面进行多分类。",
+      "基于密度对数据进行聚类。"
+    ],
+    "explanation_zh": "OCSVM仅使用正常数据学习边界。f(x) ≥ 0 → 正常，f(x) < 0 → 异常值。<strong>ν参数</strong>控制异常值比例的上限。"
+  },
+  {
+    "question": "Given Precision = 0.5 and Recall = 0.8, what is the F1-measure?",
+    "type": "MCQ",
+    "options": [
+      "0.65",
+      "0.625",
+      "Approximately 0.62",
+      "0.80"
+    ],
+    "answer": 2,
+    "explanation": "F1 = $2  \\times  0$.$5  \\times  0$.8 / (0.5 + 0.8) = 0.8 / 1.3 ≈ <strong>0.615 ≈ 0.62</strong>.",
+    "source": "predicted",
+    "question_zh": "给定Precision = 0.5和Recall = 0.8，F1值是多少？",
+    "options_zh": [
+      "0.65",
+      "0.625",
+      "大约0.62",
+      "0.80"
+    ],
+    "explanation_zh": "F1 = $2  \\times  0$.$5  \\times  0$.8 / (0.5 + 0.8) = 0.8 / 1.3 ≈ <strong>0.615 ≈ 0.62</strong>。"
+  },
+  {
+    "question": "In a confusion matrix for a medical test (TP=40, FP=20, FN=10, TN=930):\n(a) Calculate Precision, Recall, and F1-measure.\n(b) Calculate Accuracy. Is it reliable here? Explain.\n(c) Calculate FPR and explain its meaning.",
+    "type": "Short",
+    "answer": "(a) Precision = $40 / 60 = 0.667$, Recall = $40 / 50 = 0.8$, F1 = $2 \\times 0$.$667 \\times 0$.8/(0.667+0.8) ≈ 0.727\n(b) Accuracy = $970 / 1000 = 97$%. NOT reliable — data is imbalanced (YES=50, NO=950). Even predicting all NO gives 95%.\n(c) FPR = 20/950 ≈ 0.021 (2.1%). Meaning: 2.1% of healthy people are falsely diagnosed.",
+    "explanation": "In imbalanced data, accuracy is misleading. F1 (0.727) reflects model performance more honestly than accuracy (97%). FPR in medical testing means the misdiagnosis rate for healthy patients.",
+    "source": "predicted",
+    "points": 18,
+    "question_zh": "在医学测试的混淆矩阵中（TP=40, FP=20, FN=10, TN=930）：\n(a) 计算Precision、Recall和F1值。\n(b) 计算Accuracy。它在这里可靠吗？解释原因。\n(c) 计算FPR并解释其含义。",
+    "explanation_zh": "在不平衡数据中，准确率具有误导性。F1（0.727）比准确率（97%）更真实地反映模型性能。FPR在医学检测中代表健康患者的误诊率。",
+    "answer_zh": "(a) Precision = $40 / 60 = 0.667$，Recall = $40 / 50 = 0.8$，F1 = $2 \\times 0$.$667 \\times 0$.8/(0.667+0.8) ≈ 0.727\n(b) Accuracy = $970 / 1000 = 97$%。不可靠——数据不平衡（YES=50, NO=950）。即使预测全部为NO也有95%准确率。\n(c) FPR = 20/950 ≈ 0.021（2.1%）。含义：2.1%的健康人被误诊。",
+    "formula": "$\\text{Precision} = \\frac{TP}{TP+FP}$ &nbsp;&nbsp; $\\text{Recall} = \\frac{TP}{TP+FN}$ &nbsp;&nbsp; $F_1 = \\frac{2 \\cdot P \\cdot R}{P + R}$ &nbsp;&nbsp; $\\text{FPR} = \\frac{FP}{FP+TN}$ &nbsp;&nbsp; $\\text{Acc} = \\frac{TP+TN}{TP+FP+FN+TN}$"
+  },
+  {
+    "question": "In imbalanced class problems, high accuracy necessarily implies the model has high recall for the minority class.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "In imbalanced data, even with 99% accuracy, minority class recall can be <strong>0%</strong> (predicting all as majority class).",
+    "source": "supplement",
+    "question_zh": "在不平衡类别问题中，高准确率必然意味着模型对少数类具有高召回率。",
+    "explanation_zh": "在不平衡数据中，即使准确率为99%，少数类召回率也可能为<strong>0%</strong>（预测全部为多数类）。"
+  },
+  {
+    "question": "Outlier Detection: (a) List three different outlier detection methods.\n(b) In OCSVM, explain f(x) ≥ 0 vs f(x) < 0 and what ν controls.\n(c) Explain reconstruction-based outlier detection with an example.",
+    "type": "Short",
+    "answer": "(a) Statistical (probability distribution), Proximity-based (k-NN distance), Density-based (LOF relative density).\n(b) f(x) ≥ 0 → Normal (inside boundary). f(x) < 0 → Outlier. ν = upper bound on fraction of outliers (ν=0.05 → ~5% outliers).\n(c) Compress data to low-dim → Reconstruct back → High reconstruction error = Outlier. Methods: PCA, Auto-encoder.",
+    "explanation": "Three detection methods each suit different scenarios. OCSVM uses ν to control boundary tightness. Reconstruction-based methods assume normal data has low-dimensional patterns.",
+    "source": "predicted",
+    "points": 18,
+    "question_zh": "异常检测：(a) 列出三种不同的异常检测方法。\n(b) 在OCSVM中，解释f(x) ≥ 0与f(x) < 0的含义以及ν控制什么。\n(c) 用一个例子解释基于重建的异常检测。",
+    "explanation_zh": "三种检测方法各适用于不同场景。OCSVM使用ν控制边界松紧。基于重建的方法假设正常数据具有低维模式。",
+    "answer_zh": "(a) 统计方法（概率分布）、基于邻近度的方法（k-NN距离）、基于密度的方法（LOF相对密度）。\n(b) f(x) ≥ 0 → 正常（边界内）。f(x) < 0 → 异常值。ν = 异常值比例的上限（ν=0.05 → 约5%异常值）。\n(c) 将数据压缩到低维 → 重建回来 → 高重建误差 = 异常值。方法：PCA、自编码器。",
+    "formula": "$\\text{LOF}(x) = \\frac{\\text{avg density of neighbors}}{\\text{density of } x}$ &nbsp;&nbsp; OCSVM: $f(x) \\geq 0 \\rightarrow \\text{Normal}$, $f(x) < 0 \\rightarrow \\text{Outlier}$"
+  }
+]

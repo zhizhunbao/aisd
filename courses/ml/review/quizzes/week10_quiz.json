@@ -1,0 +1,283 @@
+[
+  {
+    "question": "In Bagging, each bootstrap sample is created by sampling from the original training set without replacement.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Bagging uses sampling <strong>WITH replacement</strong>. Approximately 63.2% of the original data is included in each bootstrap sample.",
+    "source": "predicted",
+    "question_zh": "在Bagging中，每个自助样本是通过从原始训练集中进行无放回抽样创建的。",
+    "explanation_zh": "Bagging使用<strong>有放回</strong>抽样。大约63.2%的原始数据被包含在每个自助样本中。"
+  },
+  {
+    "question": "In AdaBoost, correctly classified instances have their weights increased in the next round so that the model focuses on easy samples.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "In AdaBoost, <strong>misclassified</strong> instances have their weights increased, and correctly classified ones decreased. The next round focuses on hard samples.",
+    "source": "predicted",
+    "question_zh": "在AdaBoost中，正确分类的实例在下一轮中权重增加，以便模型关注简单样本。",
+    "explanation_zh": "在AdaBoost中，<strong>误分类</strong>实例的权重增加，正确分类的权重降低。下一轮专注于难样本。"
+  },
+  {
+    "question": "Random Forest combines Bagging with random feature selection at each split point to create diverse decision trees.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Random Forest = <strong>Bagging + Random Feature Subset</strong>. (1) Bootstrap sampling (2) Random subset of p features at each node. Two sources of randomness ensure tree diversity.",
+    "source": "predicted",
+    "question_zh": "随机森林将Bagging与每个分裂点的随机特征选择相结合，以创建多样化的决策树。",
+    "explanation_zh": "随机森林 = <strong>Bagging + 随机特征子集</strong>。(1) 自助抽样 (2) 每个节点随机选择p个特征子集。两种随机性确保树的多样性。"
+  },
+  {
+    "question": "What are the two necessary conditions for ensemble methods to outperform a single base classifier?",
+    "type": "MCQ",
+    "options": [
+      "Base classifiers must be complex and trained on the complete dataset.",
+      "Base classifiers must be independent of each other and each must perform better than random guessing.",
+      "Base classifiers must all use the same algorithm and be trained on identical data.",
+      "Base classifiers must have zero training error and high variance."
+    ],
+    "answer": 1,
+    "explanation": "Ensemble methods outperform single classifiers when: ① base classifiers are <strong>independent</strong> of each other ② each has error rate <strong>less than 0.5</strong> (better than random guessing).",
+    "source": "predicted",
+    "question_zh": "集成方法优于单个基分类器的两个必要条件是什么？",
+    "options_zh": [
+      "基分类器必须复杂且在完整数据集上训练。",
+      "基分类器必须相互独立，且每个都必须优于随机猜测。",
+      "基分类器必须都使用相同的算法并在相同数据上训练。",
+      "基分类器必须具有零训练误差和高方差。"
+    ],
+    "explanation_zh": "集成方法优于单个分类器的条件：① 基分类器相互<strong>独立</strong> ② 每个分类器的错误率<strong>小于0.5</strong>（优于随机猜测）。"
+  },
+  {
+    "question": "In Bagging, when n is sufficiently large, the probability that a specific training instance is included in a single bootstrap sample is approximately:",
+    "type": "MCQ",
+    "options": [
+      "0.5",
+      "0.368",
+      "0.632",
+      "1.0"
+    ],
+    "answer": 2,
+    "explanation": "$P(included)$ = 1 − (1−1/n)^n → 1 − 1/e ≈ 1 − 0.368 = <strong>0.632</strong> (approximately 63.2%).",
+    "source": "predicted",
+    "question_zh": "在Bagging中，当n足够大时，特定训练实例被包含在单个自助样本中的概率约为：",
+    "options_zh": [
+      "0.5",
+      "0.368",
+      "0.632",
+      "1.0"
+    ],
+    "explanation_zh": "$P(被包含)$ = 1 − (1−1/n)^n → 1 − 1/e ≈ 1 − 0.368 = <strong>0.632</strong>（约63.2%）。"
+  },
+  {
+    "question": "Which of the following best describes the key difference between Bagging and Boosting?",
+    "type": "MCQ",
+    "options": [
+      "Bagging uses weighted voting while Boosting uses simple majority voting.",
+      "Bagging trains base classifiers independently in parallel, while Boosting trains them sequentially, focusing on previously misclassified instances.",
+      "Bagging only works with decision trees while Boosting works with any classifier.",
+      "Bagging increases bias while Boosting increases variance."
+    ],
+    "answer": 1,
+    "explanation": "<strong>Bagging</strong>: parallel independent learning → reduces Variance. <strong>Boosting</strong>: sequential learning, focusing on previous errors → reduces Bias.",
+    "source": "predicted",
+    "question_zh": "以下哪项最好地描述了Bagging和Boosting之间的关键区别？",
+    "options_zh": [
+      "Bagging使用加权投票，而Boosting使用简单多数投票。",
+      "Bagging独立并行训练基分类器，而Boosting顺序训练，重点关注先前误分类的实例。",
+      "Bagging只适用于决策树，而Boosting适用于任何分类器。",
+      "Bagging增加偏差，而Boosting增加方差。"
+    ],
+    "explanation_zh": "<strong>Bagging</strong>：并行独立学习 → 降低方差。<strong>Boosting</strong>：顺序学习，专注前一轮的错误 → 降低偏差。"
+  },
+  {
+    "question": "In AdaBoost, the importance (alpha) of a base classifier is calculated as:",
+    "type": "MCQ",
+    "options": [
+      "α = ln(1/ε)",
+      "α = ½ × ln((1 − ε) / ε)",
+      "α = ε / (1 − ε)",
+      "α = 1 − ε"
+    ],
+    "answer": 1,
+    "explanation": "α = ½ × ln((1−ε)/ε). Lower ε (more accurate) → larger α → greater voting weight. When ε = 0.5, α = 0.",
+    "source": "predicted",
+    "question_zh": "在AdaBoost中，基分类器的重要性（alpha）计算公式为：",
+    "options_zh": [
+      "α = ln(1/ε)",
+      "α = ½ × ln((1 − ε) / ε)",
+      "α = ε / (1 − ε)",
+      "α = 1 − ε"
+    ],
+    "explanation_zh": "α = ½ × ln((1−ε)/ε)。更低的ε（更准确）→ 更大的α → 更大的投票权重。当ε = 0.5时，α = 0。"
+  },
+  {
+    "question": "What happens if an intermediate round of AdaBoost produces an error rate greater than 50%?",
+    "type": "MCQ",
+    "options": [
+      "The algorithm terminates immediately.",
+      "The weights are reverted to 1/n and the resampling procedure is repeated.",
+      "The classifier is assigned a negative weight.",
+      "The training data is randomly shuffled."
+    ],
+    "answer": 1,
+    "explanation": "Error rate > 50% means worse than random guessing → weights are <strong>reset to 1/n</strong> and resampling is repeated. It does <strong>NOT terminate</strong>!",
+    "source": "predicted",
+    "question_zh": "如果AdaBoost的中间轮次产生了大于50%的错误率，会发生什么？",
+    "options_zh": [
+      "算法立即终止。",
+      "权重恢复为1/n并重复重采样过程。",
+      "该分类器被赋予负权重。",
+      "训练数据被随机打乱。"
+    ],
+    "explanation_zh": "错误率 > 50% 意味着比随机猜测还差 → 权重<strong>重置为1/n</strong>并重复重采样。它<strong>不会终止</strong>！"
+  },
+  {
+    "question": "What distinguishes Random Forest from standard Bagging?",
+    "type": "MCQ",
+    "options": [
+      "Random Forest does not use bootstrap sampling.",
+      "Random Forest adds random feature subset selection at each split on top of bootstrap sampling.",
+      "Random Forest uses pruned decision trees while Bagging uses unpruned trees.",
+      "Random Forest uses weighted voting while Bagging uses majority voting."
+    ],
+    "answer": 1,
+    "explanation": "Random Forest = Bagging + <strong>Random Feature Subset</strong> at each split. The dual randomness reduces correlation between trees.",
+    "source": "predicted",
+    "question_zh": "什么将随机森林与标准Bagging区分开来？",
+    "options_zh": [
+      "随机森林不使用自助抽样。",
+      "随机森林在自助抽样的基础上，在每次分裂时添加随机特征子集选择。",
+      "随机森林使用剪枝的决策树，而Bagging使用未剪枝的树。",
+      "随机森林使用加权投票，而Bagging使用多数投票。"
+    ],
+    "explanation_zh": "随机森林 = Bagging + 每次分裂时的<strong>随机特征子集</strong>选择。双重随机性降低了树之间的相关性。"
+  },
+  {
+    "question": "Ensemble methods work best with what type of base classifiers?",
+    "type": "MCQ",
+    "options": [
+      "Very stable classifiers that are insensitive to changes in training data.",
+      "Unstable classifiers that are sensitive to minor perturbations in the training set.",
+      "Simple models with very high bias.",
+      "Pre-trained deep learning models."
+    ],
+    "answer": 1,
+    "explanation": "Ensembles work best with <strong>unstable</strong> classifiers (e.g., unpruned decision trees, ANNs). Stable classifiers (e.g., kNN) show little benefit.",
+    "source": "predicted",
+    "question_zh": "集成方法与哪种类型的基分类器配合效果最好？",
+    "options_zh": [
+      "非常稳定的、对训练数据变化不敏感的分类器。",
+      "不稳定的、对训练集微小扰动敏感的分类器。",
+      "具有很高偏差的简单模型。",
+      "预训练的深度学习模型。"
+    ],
+    "explanation_zh": "集成方法与<strong>不稳定</strong>分类器（如未剪枝决策树、ANN）配合效果最好。稳定分类器（如kNN）收效甚微。"
+  },
+  {
+    "question": "Ensemble methods such as Bagging and Boosting have good explainability because we can explain the majority voting process to the end user.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Ensemble methods are <strong>NOT explainable</strong>! Explaining the voting process ≠ Explainability. Users want to know '<strong>why</strong>' a specific decision was made, not that '10 doctors voted'.",
+    "source": "supplement",
+    "question_zh": "像Bagging和Boosting这样的集成方法具有良好的可解释性，因为我们可以向用户解释多数投票过程。",
+    "explanation_zh": "集成方法<strong>不可解释</strong>！解释投票过程 ≠ 可解释性。用户想知道\"<strong>为什么</strong>\"做出某个决定，而不是\"10个医生投票了\"。"
+  },
+  {
+    "question": "In Boosting (AdaBoost), all training samples are treated equally throughout the entire training process.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "In Bagging, samples are treated equally. But in Boosting, weights are <strong>updated each round</strong> — increasing for misclassified, decreasing for correctly classified samples.",
+    "source": "supplement",
+    "question_zh": "在Boosting（AdaBoost）中，所有训练样本在整个训练过程中被同等对待。",
+    "explanation_zh": "在Bagging中样本被同等对待。但在Boosting中，权重<strong>每轮更新</strong>——误分类的增加，正确分类的减少。"
+  },
+  {
+    "question": "In Bagging, every training instance is guaranteed to be included in every bootstrap sample.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "With replacement sampling means specific instances may be left out. When n is sufficiently large, each bootstrap sample contains only about <strong>63.2%</strong> of the original data.",
+    "source": "supplement",
+    "question_zh": "在Bagging中，每个训练实例都保证被包含在每个自助样本中。",
+    "explanation_zh": "有放回抽样意味着特定实例可能被遗漏。当n足够大时，每个自助样本仅包含约<strong>63.2%</strong>的原始数据。"
+  },
+  {
+    "question": "In AdaBoost, if an intermediate round produces an error rate greater than 50%, the algorithm terminates immediately.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "When error rate > 50%, the algorithm does <strong>NOT terminate</strong>. Instead, weights are <strong>reset to 1/n</strong> and resampling is repeated.",
+    "source": "supplement",
+    "question_zh": "在AdaBoost中，如果中间轮次产生大于50%的错误率，算法立即终止。",
+    "explanation_zh": "当错误率 > 50% 时，算法<strong>不会终止</strong>。相反，权重<strong>重置为1/n</strong>并重复重采样。"
+  },
+  {
+    "question": "In Random Forest, the base classifiers (decision trees) are pruned to reduce model complexity.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Random Forest uses <strong>unpruned</strong> decision trees. The professor stated: 'base classifier are unpruned... we don't do any kind of post pruning.'",
+    "source": "supplement",
+    "question_zh": "在随机森林中，基分类器（决策树）经过剪枝以降低模型复杂度。",
+    "explanation_zh": "随机森林使用<strong>未剪枝</strong>的决策树。教授说过：\"基分类器是未剪枝的……我们不做任何后剪枝。\""
+  },
+  {
+    "question": "In AdaBoost, the final prediction uses simple majority voting where all classifiers have equal influence.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "AdaBoost uses <strong>weighted majority voting</strong>. Classifiers with larger α have greater voting weight. Simple majority vote is used in Bagging, not AdaBoost.",
+    "source": "supplement",
+    "question_zh": "在AdaBoost中，最终预测使用简单多数投票，所有分类器具有相同的影响力。",
+    "explanation_zh": "AdaBoost使用<strong>加权多数投票</strong>。α更大的分类器有更大的投票权重。简单多数投票用于Bagging，不是AdaBoost。"
+  },
+  {
+    "question": "Ensemble methods are most effective when combined with stable classifiers such as k-Nearest Neighbors (kNN).",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Ensembles are most effective with <strong>unstable</strong> classifiers (e.g., unpruned decision trees, ANNs). Stable classifiers (kNN) barely change even when data varies, so ensembling has little benefit.",
+    "source": "supplement",
+    "question_zh": "集成方法与稳定分类器（如k近邻）结合时最有效。",
+    "explanation_zh": "集成方法与<strong>不稳定</strong>分类器（如未剪枝决策树、ANN）配合最有效。稳定分类器（kNN）即使数据变化也几乎不变，因此集成收效甚微。"
+  },
+  {
+    "question": "Bagging primarily reduces the bias of a model, while Boosting primarily reduces variance.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "It's the <strong>exact opposite</strong>! <strong>Bagging</strong> reduces Variance. <strong>Boosting</strong> reduces Bias.",
+    "source": "supplement",
+    "question_zh": "Bagging主要降低模型的偏差，而Boosting主要降低方差。",
+    "explanation_zh": "恰恰<strong>相反</strong>！<strong>Bagging</strong>降低方差。<strong>Boosting</strong>降低偏差。"
+  },
+  {
+    "question": "Compare Bagging and Boosting: (i) sampling method, (ii) classifier training order, (iii) voting mechanism.\nThen: (b) Calculate α for ε = 0.3.\n(c) Given C1=+1, C2=-1, C3=+1, determine ensemble prediction by majority voting.",
+    "type": "Short",
+    "answer": "(a) Bagging: Bootstrap(有放回), Parallel(并行), Simple Majority Vote(等权). Boosting: 权重采样, Sequential(顺序), Weighted Vote(加权).\n(b) α = ½ × ln(0.7/0.3) = ½ × ln(2.333) ≈ ½ × 0.847 ≈ 0.424.\n(c) +1 得2票, -1 得1票 → Ensemble = +1.",
+    "explanation": "Bagging reduces Variance (parallel, independent). Boosting reduces Bias (sequential, error-focused). Must be able to calculate α formula. Majority voting = count votes.",
+    "source": "predicted",
+    "points": 18,
+    "question_zh": "比较Bagging和Boosting：(i) 采样方法，(ii) 分类器训练顺序，(iii) 投票机制。\n然后：(b) 计算ε = 0.3时的α。\n(c) 给定C1=+1, C2=-1, C3=+1，通过多数投票确定集成预测。",
+    "explanation_zh": "Bagging减少方差（并行、独立）。Boosting减少偏差（顺序、专注错误）。必须会算α公式。多数投票 = 计票。",
+    "answer_zh": "(a) Bagging：Bootstrap（有放回），并行，简单多数投票（等权）。Boosting：权重采样，顺序，加权投票。\n(b) α = ½ × ln(0.7/0.3) = ½ × ln(2.333) ≈ ½ × 0.847 ≈ 0.424。\n(c) +1得2票，-1得1票 → 集成预测 = +1。",
+    "formula": "$\\alpha = \\frac{1}{2} \\ln\\frac{1 - \\varepsilon}{\\varepsilon}$ &nbsp;&nbsp; Correct: $w \\times e^{-\\alpha}$ &nbsp;&nbsp; Misclassified: $w \\times e^{+\\alpha}$ &nbsp;&nbsp; $P(\\text{included}) \\approx 1 - \\frac{1}{e} \\approx 0.632$"
+  },
+  {
+    "question": "AdaBoost Weight Update: 10 samples, initial weights = 1/10. C1 correctly classifies 1-7, misclassifies 8-10 (ε₁ = 0.3).\n(a) Calculate α₁.\n(b) How do weights change for correctly/misclassified samples?\n(c) Is sample 8 more or less likely to be selected in round 2?",
+    "type": "Short",
+    "answer": "(a) α₁ = ½ × ln(0.7/0.3) ≈ 0.424.\n(b) Correct (1-7): w × e^(−α) ≈ w × 0.655 (decrease to ~65.5%). Misclassified (8-10): w × e^(+α) ≈ w × 1.528 (increase to ~152.8%). Weights normalized to sum=1.\n(c) Sample 8 MORE likely — its weight increased, so larger share on the 'roulette wheel'.",
+    "explanation": "AdaBoost core: misclassified weights UP (e^(+α)), correctly classified weights DOWN (e^(-α)). The professor uses 'roulette wheel' analogy for weighted sampling.",
+    "source": "predicted",
+    "points": 12,
+    "question_zh": "AdaBoost权重更新：10个样本，初始权重=1/10。C1正确分类1-7，误分类8-10（ε₁=0.3）。\n(a) 计算α₁。\n(b) 正确/误分类样本的权重如何变化？\n(c) 样本8在第2轮中被选中的可能性更大还是更小？",
+    "explanation_zh": "AdaBoost核心：误分类权重上升(e^(+α))，正确分类权重下降(e^(-α))。教授用\"轮盘赌\"类比来解释加权抽样。",
+    "answer_zh": "(a) α₁ = ½ × ln(0.7/0.3) ≈ 0.424。\n(b) 正确分类（1-7）：w × e^(−α) ≈ w × 0.655（降至约65.5%）。误分类（8-10）：w × e^(+α) ≈ w × 1.528（升至约152.8%）。权重归一化使总和=1。\n(c) 样本8被选中的可能性更大——其权重增加，在\"轮盘赌\"上的份额更大。",
+    "formula": "$\\alpha = \\frac{1}{2} \\ln\\frac{1 - \\varepsilon}{\\varepsilon}$ &nbsp;&nbsp; Correct: $w' = w \\cdot e^{-\\alpha}$ &nbsp;&nbsp; Misclassified: $w' = w \\cdot e^{+\\alpha}$ &nbsp;&nbsp; Normalize: $\\sum w_i = 1$"
+  },
+  {
+    "question": "A student argues: 'Ensemble methods like Bagging are explainable because we can tell the user that 10 different classifiers voted and we took the majority.' Is this statement correct? Explain why.",
+    "type": "Short",
+    "answer": "INCORRECT. Explaining majority voting ≠ Explainability. Users want to know WHY each classifier made its decision, not just that 10 voted. With hundreds of features and millions of data points, even a single classifier is hard to explain, let alone 10. Ensemble methods are NOT explainable — this is their main limitation.",
+    "explanation": "The professor directly addressed this student question: explaining the voting process itself ≠ transparency. Users want 'why', not 'how many voted what'.",
+    "source": "supplement",
+    "points": 12,
+    "question_zh": "一个学生认为：'像Bagging这样的集成方法是可解释的，因为我们可以告诉用户10个不同的分类器投票，我们取了多数。'这个说法正确吗？解释原因。",
+    "explanation_zh": "解释多数投票 ≠ 可解释性。用户想知道每个分类器为什么做出其决定，而不仅仅是10个投票了。即使单个分类器在数百个特征和数百万数据点下也难以解释，更不用说10个。集成方法不可解释——这是其主要局限性。",
+    "answer_zh": "不正确。解释多数投票 ≠ 可解释性。用户想知道每个分类器为什么做出其决定，而不仅仅是10个投了票。即使在数百个特征和数百万数据点的情况下，单个分类器也难以解释，更不用说10个。集成方法不可解释——这是其主要局限性。"
+  }
+]

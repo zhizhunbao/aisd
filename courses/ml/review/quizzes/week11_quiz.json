@@ -1,0 +1,232 @@
+[
+  {
+    "question": "The confidence of an association rule {X} → {Y} is calculated as the support of {X ∪ Y} divided by the total number of transactions.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "The statement describes the definition of <strong>Support</strong>, not Confidence. <strong>Confidence</strong> = σ(X∪Y) / σ(X) (divided by X's count, not total transactions).",
+    "source": "predicted",
+    "question_zh": "关联规则{X}→{Y}的置信度计算为{X ∪ Y}的支持度除以总交易数。",
+    "explanation_zh": "该表述描述的是<strong>支持度</strong>的定义，而非置信度。<strong>置信度</strong> = σ(X∪Y) / σ(X)（除以X的计数，而非总交易数）。"
+  },
+  {
+    "question": "According to the Apriori principle, if an itemset is infrequent, then all of its supersets must also be infrequent.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "This is the <strong>contrapositive</strong> of the Apriori principle: infrequent itemset → all supersets also infrequent. Based on the <strong>anti-monotone property</strong> of support — support can only stay the same or decrease as itemsets grow.",
+    "source": "predicted",
+    "question_zh": "根据Apriori原理，如果一个项集是非频繁的，那么它的所有超集也必须是非频繁的。",
+    "explanation_zh": "这是Apriori原理的<strong>逆否命题</strong>：非频繁项集 → 所有超集也非频繁。基于支持度的<strong>反单调性</strong>——随着项集增大，支持度只会保持不变或下降。"
+  },
+  {
+    "question": "In association rule mining, rules generated from the same frequent itemset always have identical support and identical confidence.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Rules from the same frequent itemset have <strong>identical Support</strong> (same union frequency), but <strong>different Confidence</strong> (different denominators).",
+    "source": "predicted",
+    "question_zh": "在关联规则挖掘中，从同一频繁项集生成的规则总是具有相同的支持度和相同的置信度。",
+    "explanation_zh": "来自同一频繁项集的规则具有<strong>相同的支持度</strong>（相同的并集频率），但<strong>不同的置信度</strong>（不同的分母）。"
+  },
+  {
+    "question": "Given a transaction database of 5 transactions, if the itemset {Beer, Diaper} appears in 3 transactions, what is the support of {Beer, Diaper}?",
+    "type": "MCQ",
+    "options": [
+      "3",
+      "0.6",
+      "0.4",
+      "5/3"
+    ],
+    "answer": 1,
+    "explanation": "Support = σ(Itemset) / |T| = 3/5 = <strong>0.6</strong>. Option (a) gives the Support Count (absolute count), not the Support (ratio).",
+    "source": "predicted",
+    "question_zh": "给定5个交易的交易数据库，如果项集{Beer, Diaper}出现在3个交易中，{Beer, Diaper}的支持度是多少？",
+    "options_zh": [
+      "3",
+      "0.6",
+      "0.4",
+      "5/3"
+    ],
+    "explanation_zh": "支持度 = σ(项集) / |T| = 3/5 = <strong>0.6</strong>。选项(a)给出的是支持度计数（绝对计数），而非支持度（比率）。"
+  },
+  {
+    "question": "Given the rule {Milk, Diaper} → {Beer}, where σ({Milk, Diaper, Beer}) = 2, σ({Milk, Diaper}) = 3, |T| = 5, the confidence of this rule is:",
+    "type": "MCQ",
+    "options": [
+      "$2 / 5 = 0.4$",
+      "$3 / 5 = 0.6$",
+      "2/3 ≈ 0.67",
+      "$3 / 2 = 1.5$"
+    ],
+    "answer": 2,
+    "explanation": "Confidence = σ(X∪Y)/σ(X) = σ({M,D,B})/σ({M,D}) = 2/3 ≈ <strong>0.67</strong>. Support = $2 / 5 = 0.4$.",
+    "source": "predicted",
+    "question_zh": "给定规则{Milk, Diaper}→{Beer}，其中σ({Milk, Diaper, Beer})=2, σ({Milk, Diaper})=3, |T|=5，该规则的置信度为：",
+    "options_zh": [
+      "$2 / 5 = 0.4$",
+      "$3 / 5 = 0.6$",
+      "2/3 ≈ 0.67",
+      "$3 / 2 = 1.5$"
+    ],
+    "explanation_zh": "置信度 = σ(X∪Y)/σ(X) = σ({M,D,B})/σ({M,D}) = 2/3 ≈ <strong>0.67</strong>。支持度 = $2 / 5 = 0.4$。"
+  },
+  {
+    "question": "The Apriori principle states that:",
+    "type": "MCQ",
+    "options": [
+      "If an itemset is frequent, then all of its supersets must also be frequent.",
+      "If an itemset is frequent, then all of its subsets must also be frequent.",
+      "If an itemset is infrequent, then all of its subsets must also be infrequent.",
+      "Support and confidence are always positively correlated."
+    ],
+    "answer": 1,
+    "explanation": "All <strong>subsets</strong> of a frequent itemset are also frequent. Contrapositive: all supersets of an infrequent itemset are infrequent. (a) reverses the direction — supersets are not necessarily frequent. (c) reverses subset direction.",
+    "source": "predicted",
+    "question_zh": "Apriori原理指出：",
+    "options_zh": [
+      "如果一个项集是频繁的，那么它的所有超集也必须是频繁的。",
+      "如果一个项集是频繁的，那么它的所有子集也必须是频繁的。",
+      "如果一个项集是非频繁的，那么它的所有子集也必须是非频繁的。",
+      "支持度和置信度总是正相关的。"
+    ],
+    "explanation_zh": "频繁项集的所有<strong>子集</strong>也是频繁的。逆否命题：非频繁项集的所有超集都是非频繁的。(a) 方向反了——超集不一定频繁。(c) 子集方向错误。"
+  },
+  {
+    "question": "In the Apriori algorithm, candidate pruning works by:",
+    "type": "MCQ",
+    "options": [
+      "Removing candidates whose support count is below the threshold.",
+      "Removing candidate k-itemsets that contain any infrequent (k-1)-subset.",
+      "Removing all itemsets containing rare items.",
+      "Removing candidates based on confidence values."
+    ],
+    "answer": 1,
+    "explanation": "Candidate pruning: if any (k-1)-subset of a candidate k-itemset is <strong>infrequent</strong>, remove the candidate. (a) describes the Support Counting step; (d) describes the Rule Generation step.",
+    "source": "predicted",
+    "question_zh": "在Apriori算法中，候选剪枝的工作方式是：",
+    "options_zh": [
+      "移除支持度计数低于阈值的候选。",
+      "移除包含任何非频繁(k-1)子集的候选k-项集。",
+      "移除包含稀有项的所有项集。",
+      "基于置信度值移除候选。"
+    ],
+    "explanation_zh": "候选剪枝：如果候选k-项集的任何(k-1)-子集是<strong>非频繁</strong>的，则移除该候选。(a) 描述的是支持度计数步骤；(d) 描述的是规则生成步骤。"
+  },
+  {
+    "question": "What is the anti-monotone property of support?",
+    "type": "MCQ",
+    "options": [
+      "The support of an itemset always increases as items are added.",
+      "The support of an itemset can never exceed the support of any of its subsets.",
+      "Support is always equal to confidence.",
+      "The support of an itemset is independent of its size."
+    ],
+    "answer": 1,
+    "explanation": "Anti-monotone property: support can only stay the same or decrease as itemsets grow. ∀X⊆Y: s(X) ≥ s(Y). This is the mathematical foundation for Apriori pruning.",
+    "source": "predicted",
+    "question_zh": "支持度的反单调性是什么？",
+    "options_zh": [
+      "项集的支持度随着项的添加总是增加。",
+      "项集的支持度永远不会超过其任何子集的支持度。",
+      "支持度总是等于置信度。",
+      "项集的支持度与其大小无关。"
+    ],
+    "explanation_zh": "反单调性：随着项集增大，支持度只会保持不变或下降。∀X⊆Y: s(X) ≥ s(Y)。这是Apriori剪枝的数学基础。"
+  },
+  {
+    "question": "If |L| = k (a frequent itemset of size k), how many candidate association rules can be generated (excluding trivial rules)?",
+    "type": "MCQ",
+    "options": [
+      "k",
+      "2^k",
+      "2^k − 2",
+      "k! − 2"
+    ],
+    "answer": 2,
+    "explanation": "Number of candidate association rules = <strong>2^k − 2</strong>. From total subsets 2^k, subtract the two trivial rules: ∅→L and L→∅.",
+    "source": "predicted",
+    "question_zh": "如果|L|=k（大小为k的频繁项集），可以生成多少条候选关联规则（排除平凡规则）？",
+    "options_zh": [
+      "k",
+      "2^k",
+      "2^k − 2",
+      "k! − 2"
+    ],
+    "explanation_zh": "候选关联规则数 = <strong>2^k − 2</strong>。从总子集数2^k中减去两条平凡规则：∅→L 和 L→∅。"
+  },
+  {
+    "question": "Association rules represent causal relationships between items (e.g., buying beer causes buying diapers).",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Association rules do <strong>NOT</strong> represent causality — they show <strong>co-occurrence/correlation</strong>. The professor emphasized multiple times: 'It just shows the correlation. It's not causality.'",
+    "source": "supplement",
+    "question_zh": "关联规则代表项之间的因果关系（例如，购买啤酒导致购买尿布）。",
+    "explanation_zh": "关联规则<strong>不</strong>代表因果关系——它们表示<strong>共现/相关性</strong>。教授多次强调：\"它只是显示相关性。不是因果关系。\""
+  },
+  {
+    "question": "In association rule mining, the purchase quantity of each item and the customer identity are important factors in the analysis.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Association rule mining does <strong>NOT consider quantity or customer identity</strong>. The professor stated: 'We don't have price... the quantity... nothing about the customers.' Only item presence (Yes/No) matters.",
+    "source": "supplement",
+    "question_zh": "在关联规则挖掘中，每个商品的购买数量和顾客身份是分析中的重要因素。",
+    "explanation_zh": "关联规则挖掘<strong>不考虑数量或顾客身份</strong>。教授说过：\"我们没有价格……数量……关于顾客的什么都没有。\"仅关注商品是否存在（是/否）。"
+  },
+  {
+    "question": "The brute-force approach is feasible for finding frequent itemsets in large datasets with thousands of items.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "With D items, possible itemsets = 2^D − 1. Even 6 items produce 602 rules. The professor stated: 'This brute force search doesn't make sense.'",
+    "source": "supplement",
+    "question_zh": "暴力搜索方法对于在具有数千个商品的大型数据集中查找频繁项集是可行的。",
+    "explanation_zh": "D个商品的可能项集数 = 2^D − 1。即使6个商品也会产生602条规则。教授说过：\"这种暴力搜索没有意义。\""
+  },
+  {
+    "question": "In association rule mining, the two-step approach first generates rules and then finds frequent itemsets.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "The order is <strong>reversed</strong>! Correct: Step 1 = <strong>Frequent Itemset Generation (Support)</strong> → Step 2 = <strong>Rule Generation (Confidence)</strong>.",
+    "source": "supplement",
+    "question_zh": "在关联规则挖掘中，两步方法首先生成规则，然后查找频繁项集。",
+    "explanation_zh": "顺序<strong>反了</strong>！正确的是：第1步 = <strong>频繁项集生成（支持度）</strong> → 第2步 = <strong>规则生成（置信度）</strong>。"
+  },
+  {
+    "question": "In the Apriori algorithm, candidate k-itemsets are generated by merging two frequent (k-1)-itemsets whose first (k-2) items are identical.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Candidate generation rule: merge two frequent (k-1)-itemsets whose <strong>first (k-2) items are identical</strong>. E.g., {A,B,C} + {A,B,D} → {A,B,C,D}.",
+    "source": "supplement",
+    "question_zh": "在Apriori算法中，候选k-项集是通过合并两个前(k-2)个项相同的频繁(k-1)-项集来生成的。",
+    "explanation_zh": "候选生成规则：合并两个前<strong>(k-2)个项相同</strong>的频繁(k-1)-项集。例如 {A,B,C} + {A,B,D} → {A,B,C,D}。"
+  },
+  {
+    "question": "The Apriori algorithm uses the anti-monotone property of support to prune candidate itemsets before computing their support.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Apriori's core: prune candidates <strong>before</strong> computing support using the anti-monotone property. If a (k-1)-subset is infrequent → remove the candidate directly without calculating support.",
+    "source": "supplement",
+    "question_zh": "Apriori算法利用支持度的反单调性在计算支持度之前剪枝候选项集。",
+    "explanation_zh": "Apriori的核心：利用反单调性在<strong>计算支持度之前</strong>剪枝候选。如果(k-1)-子集非频繁 → 直接移除候选，无需计算支持度。"
+  },
+  {
+    "question": "Association Rule Mining: Given transactions — T1:{A,B,C}, T2:{A,B}, T3:{A,C}, T4:{B,C,D}, T5:{A,B,C,D}. Min support count = 2.\n(a) Find all frequent 1-itemsets and 2-itemsets.\n(b) Which 3-itemset candidates can be pruned by Apriori? Find frequent 3-itemsets.\n(c) Calculate support and confidence of {A}→{B,C}.",
+    "type": "Short",
+    "answer": "(a) F1: {A}=4, {B}=4, {C}=4, {D}=2 (all ≥2). F2: {A,B}=3, {A,C}=3, {B,C}=3, {B,D}=2, {C,D}=2 (all ≥2). {A,D}=1 ❌.\n(b) Pruned: {A,B,D} and {A,C,D} (contain {A,D} which is infrequent). Remaining: {A,B,C}=2✅, {B,C,D}=2✅.\n(c) Support({A}→{B,C}) = σ({A,B,C})/|T| = $2 / 5 = 0.4$. Confidence = σ({A,B,C})/σ({A}) = $2 / 4 = 0.5$.",
+    "explanation": "Apriori pruning: {A,D} is infrequent → supersets {A,B,D} and {A,C,D} are pruned directly without computing support. Support and Confidence have different denominators!",
+    "source": "predicted",
+    "points": 18,
+    "question_zh": "关联规则挖掘：给定交易 — T1:{A,B,C}, T2:{A,B}, T3:{A,C}, T4:{B,C,D}, T5:{A,B,C,D}。最小支持度计数=2。\n(a) 找出所有频繁1-项集和2-项集。\n(b) 哪些3-项集候选可以被Apriori剪枝？找出频繁3-项集。\n(c) 计算{A}→{B,C}的支持度和置信度。",
+    "explanation_zh": "Apriori剪枝：{A,D}非频繁 → 超集{A,B,D}和{A,C,D}直接剪掉，无需计算支持度。支持度和置信度的分母不同！",
+    "answer_zh": "(a) F1：{A}=4, {B}=4, {C}=4, {D}=2（全部≥2）。F2：{A,B}=3, {A,C}=3, {B,C}=3, {B,D}=2, {C,D}=2（全部≥2）。{A,D}=1 ❌。\n(b) 被剪枝：{A,B,D}和{A,C,D}（包含非频繁的{A,D}）。剩余：{A,B,C}=2✅，{B,C,D}=2✅。\n(c) Support({A}→{B,C}) = σ({A,B,C})/|T| = $2 / 5 = 0.4$。Confidence = σ({A,B,C})/σ({A}) = $2 / 4 = 0.5$。",
+    "formula": "$\\text{Support} = \\frac{\\sigma(X \\cup Y)}{|T|}$ &nbsp;&nbsp; $\\text{Confidence} = \\frac{\\sigma(X \\cup Y)}{\\sigma(X)}$ &nbsp;&nbsp; Anti-monotone: $X \\subseteq Y \\Rightarrow s(X) \\geq s(Y)$ &nbsp;&nbsp; Rules: $2^k - 2$"
+  },
+  {
+    "question": "Besides market basket analysis, give two real-world applications of association rule mining. Then explain two opposing product placement strategies and why rules need periodic updates.",
+    "type": "Short",
+    "answer": "Applications: (1) Insurance fraud detection — finding recurring combinations in fraudulent claims. (2) Recommendation systems — 'customers who bought X also bought Y'.\nPlacement: Strategy 1 (Close) — put related items near each other for convenience. Strategy 2 (Far) — put them far apart so customers browse and buy more items along the way.\nUpdates needed: Consumer patterns change seasonally (e.g., Thanksgiving turkey). Rules from last month may not apply next month.",
+    "explanation": "Two opposing placement strategies the professor emphasized: close (convenience) vs far (more browsing/buying). Association rules are not static — they need periodic updates as patterns change.",
+    "source": "predicted",
+    "points": 12,
+    "question_zh": "除了购物篮分析，给出关联规则挖掘的两个实际应用。然后解释两种相反的商品摆放策略，以及为什么规则需要定期更新。",
+    "explanation_zh": "两种相反的摆放策略是教授强调的：近距离（便利）vs 远距离（增加浏览/购买）。关联规则不是静态的——随着模式变化需要定期更新。",
+    "answer_zh": "应用：(1) 保险欺诈检测——发现欺诈索赔中的重复组合。(2) 推荐系统——\"买了X的顾客也买了Y\"。\n摆放策略：策略1（近距离）——将相关商品放在一起方便购买。策略2（远距离）——将它们分开放置，让顾客浏览途中购买更多商品。\n需要更新的原因：消费模式随季节变化（如感恩节火鸡）。上个月的规则下个月可能不适用。"
+  }
+]

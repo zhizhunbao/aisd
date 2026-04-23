@@ -1,0 +1,589 @@
+[
+  {
+    "question": "Feature selection and feature extraction are identical techniques, both aiming to reduce dimensionality by creating new synthetic features.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "<strong>Feature selection</strong> picks a subset of existing features (no new features created). <strong>Feature extraction</strong> (e.g., PCA, LDA) creates new synthetic features by transforming/combining originals. They are fundamentally different approaches.",
+    "source": "teacher",
+    "question_zh": "特征选择和特征提取是相同的技术，两者都旨在通过创建新的合成特征来降低维度。",
+    "explanation_zh": "<strong>特征选择</strong>从现有特征中挑选子集（不创建新特征）。<strong>特征提取</strong>（如PCA、LDA）通过变换/组合原始特征来创建新的合成特征。它们是根本不同的方法。"
+  },
+  {
+    "question": "Equal-frequency binning involves dividing the range of a continuous feature into intervals of equal width.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "<strong>Equal-width</strong> binning divides the range into intervals of equal width. <strong>Equal-frequency (equal-depth)</strong> binning divides data so each bin contains approximately the same number of data points.",
+    "source": "teacher",
+    "question_zh": "等频分箱是将连续特征的范围划分为等宽的区间。",
+    "explanation_zh": "<strong>等宽</strong>分箱将范围划分为等宽的区间。<strong>等频（等深）</strong>分箱划分数据使每个箱包含大致相同数量的数据点。"
+  },
+  {
+    "question": "In an SVM, the hyperplane is chosen to minimize the distance between itself and the closest data points from each class.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "SVM <strong>maximizes</strong> the margin (distance to the closest points — support vectors), not minimizes it.",
+    "source": "teacher",
+    "question_zh": "在SVM中，超平面的选择是为了最小化自身与每个类别最近数据点之间的距离。",
+    "explanation_zh": "SVM<strong>最大化</strong>间隔（到最近点——支持向量的距离），而不是最小化。"
+  },
+  {
+    "question": "The kernel trick allows SVMs to operate in a high-dimensional feature space without the computational cost of explicitly transforming the data into that space.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "The kernel trick computes dot products in a high-dimensional space using a kernel function $K(x_i, x_j) = \\varphi(x_i) \\cdot \\varphi(x_j)$, without ever computing $\\varphi(x)$ explicitly.",
+    "source": "teacher",
+    "question_zh": "核技巧允许SVM在高维特征空间中运算，而无需显式地将数据转换到该空间的计算成本。",
+    "explanation_zh": "核技巧使用核函数 $K(x_i, x_j) = \\varphi(x_i) \\cdot \\varphi(x_j)$ 在高维空间中计算点积，而无需显式计算 $\\varphi(x)$。"
+  },
+  {
+    "question": "In a convolutional layer, the values within a filter (or kernel) are pre-defined constants, such as the Sobel filter, and cannot be learned during training.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "In a CNN, the filter weights are <strong>learned during training</strong> via backpropagation. Pre-defined filters like Sobel are used in traditional image processing, not in learned convolutions.",
+    "source": "teacher",
+    "question_zh": "在卷积层中，滤波器（或卷积核）内的值是预定义的常量（如Sobel滤波器），无法在训练过程中学习。",
+    "explanation_zh": "在CNN中，滤波器权重通过反向传播<strong>在训练过程中学习</strong>。像Sobel这样的预定义滤波器用于传统图像处理，而不是学习型卷积。"
+  },
+  {
+    "question": "Backpropagation Through Time (BPTT) works by unrolling the RNN, applying the standard backpropagation algorithm to each time step independently, and then updating the weights for each time step separately.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "BPTT does unroll the RNN and apply backpropagation. However, RNNs <strong>share weights</strong> across all time steps; gradients are <strong>accumulated</strong> across all time steps and then used for a single weight update.",
+    "source": "teacher",
+    "question_zh": "时间反向传播（BPTT）通过展开RNN，对每个时间步独立应用标准反向传播算法，然后分别更新每个时间步的权重。",
+    "explanation_zh": "BPTT确实展开RNN并应用反向传播。然而，RNN在所有时间步上<strong>共享权重</strong>；梯度在所有时间步上<strong>累积</strong>，然后用于一次权重更新。"
+  },
+  {
+    "question": "Conditional independence means that if two variables, X and Y, are independent, they remain independent even after conditioning on a third variable Z.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Conditional independence means $P(X,Y|Z)$ = $P(X|Z)$·$P(Y|Z)$. This is different from marginal independence. Two marginally independent variables can become dependent after conditioning (\"explaining away\").",
+    "source": "teacher",
+    "question_zh": "条件独立性意味着，如果两个变量X和Y是独立的，那么即使在给定第三个变量Z的条件下，它们仍然是独立的。",
+    "explanation_zh": "条件独立意味着 $P(X,Y|Z)$ = $P(X|Z)$·$P(Y|Z)$。这与边际独立不同。两个边际独立的变量在条件化后可能变得依赖（\"解释消除\"效应）。"
+  },
+  {
+    "question": "Naïve Bayes is considered robust to irrelevant features because the probability estimates for irrelevant features will roughly cancel out across classes.",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "If a feature is irrelevant, its conditional probability $P(x_i|C)$ will be roughly the same for all classes, so it contributes equally and effectively cancels out.",
+    "source": "teacher",
+    "question_zh": "朴素贝叶斯被认为对不相关特征具有鲁棒性，因为不相关特征的概率估计在各类别之间会大致相互抵消。",
+    "explanation_zh": "如果某个特征不相关，其条件概率 $P(x_i|C)$ 对所有类别大致相同，因此贡献相等并有效抵消。"
+  },
+  {
+    "question": "Different clustering algorithms applied to the same dataset will always produce identical results.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Different algorithms (K-Means, DBSCAN, Hierarchical) have different assumptions (shape, density, connectivity) and will generally produce different clusterings.",
+    "source": "teacher",
+    "question_zh": "不同的聚类算法应用于相同的数据集将总是产生相同的结果。",
+    "explanation_zh": "不同的算法（K-Means、DBSCAN、层次聚类）有不同的假设（形状、密度、连通性），通常会产生不同的聚类结果。"
+  },
+  {
+    "question": "The MIN (single-link) hierarchical clustering method defines the distance between two clusters as the distance between their farthest points.",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "<strong>MIN (single-link)</strong> uses the distance between the <strong>closest</strong> points. <strong>MAX (complete-link)</strong> uses the farthest points.",
+    "source": "teacher",
+    "question_zh": "MIN（单链接）层次聚类方法将两个簇之间的距离定义为它们最远点之间的距离。",
+    "explanation_zh": "<strong>MIN（单链接）</strong>使用<strong>最近</strong>点之间的距离。<strong>MAX（完全链接）</strong>使用最远点之间的距离。"
+  },
+  {
+    "question": "A data scientist wants to convert a continuous feature, 'Age', into a categorical feature with three categories: 'Young', 'Middle-aged', and 'Senior'. This process is an example of:",
+    "type": "MCQ",
+    "options": [
+      "Standardization",
+      "Normalization",
+      "Binning",
+      "Age is not a continuous feature"
+    ],
+    "answer": 2,
+    "explanation": "Converting a continuous variable into discrete categories (bins) is called <strong>binning</strong> (also known as discretization).",
+    "source": "teacher",
+    "question_zh": "一位数据科学家想将连续特征'年龄'转换为具有三个类别的分类特征：'年轻'、'中年'和'老年'。这个过程是以下哪项的例子：",
+    "options_zh": [
+      "标准化",
+      "归一化",
+      "分箱",
+      "年龄不是连续特征"
+    ],
+    "explanation_zh": "将连续变量转换为离散类别（箱）称为<strong>分箱</strong>（也称为离散化）。"
+  },
+  {
+    "question": "After performing PCA on a dataset, you get the following eigenvalues for the 4 principal components: [3.2, 1.1, 0.4, 0.1]. What is the proportion of variance explained by the first principal component?",
+    "type": "MCQ",
+    "options": [
+      "3.2%",
+      "32%",
+      "Approximately 67%",
+      "Approximately 80%"
+    ],
+    "answer": 2,
+    "explanation": "Total variance = 3.2 + 1.1 + 0.4 + 0.1 = 4.8. Proportion = $3.2 / 4.8 = 0.667$ ≈ <strong>67%</strong>.",
+    "source": "teacher",
+    "question_zh": "对数据集执行PCA后，得到4个主成分的特征值：[3.2, 1.1, 0.4, 0.1]。第一个主成分解释的方差比例是多少？",
+    "options_zh": [
+      "3.2%",
+      "32%",
+      "大约67%",
+      "大约80%"
+    ],
+    "explanation_zh": "总方差 = 3.2 + 1.1 + 0.4 + 0.1 = 4.8。比例 = $3.2 / 4.8 = 0.667$ ≈ <strong>67%</strong>。"
+  },
+  {
+    "question": "A key similarity between PCA and LDA is that both:",
+    "type": "MCQ",
+    "options": [
+      "Are unsupervised learning algorithms.",
+      "Rank the new axes they create in order of importance.",
+      "Aim to maximize class separability.",
+      "Can produce a number of components equal to the number of original features."
+    ],
+    "answer": 1,
+    "explanation": "PCA ranks axes by variance explained; LDA ranks by discriminative power. (a) wrong: LDA is supervised; (c) only LDA; (d) LDA produces at most $C-1$ components.",
+    "source": "teacher",
+    "question_zh": "PCA和LDA之间的一个关键相似点是两者都：",
+    "options_zh": [
+      "是无监督学习算法。",
+      "按重要性顺序对它们创建的新轴进行排序。",
+      "旨在最大化类别可分性。",
+      "可以产生与原始特征数量相等的成分数。"
+    ],
+    "explanation_zh": "PCA按解释的方差排序；LDA按判别力排序。(a) 错误：LDA是有监督的；(c) 仅限LDA；(d) LDA最多产生 $C-1$ 个成分。"
+  },
+  {
+    "question": "What is the primary objective of a Maximum Margin Classifier (Hard Margin SVM)?",
+    "type": "MCQ",
+    "options": [
+      "To minimize the number of support vectors.",
+      "To find any hyperplane that separates the classes.",
+      "To find a hyperplane that maximizes the distance to the closest points from each class.",
+      "To minimize the sum of squared errors on the training data."
+    ],
+    "answer": 2,
+    "explanation": "Hard Margin SVM finds the hyperplane with the <strong>maximum margin</strong> — the greatest perpendicular distance to the nearest data point from either class.",
+    "source": "teacher",
+    "question_zh": "最大间隔分类器（硬间隔SVM）的主要目标是什么？",
+    "options_zh": [
+      "最小化支持向量的数量。",
+      "找到任何能分离各类别的超平面。",
+      "找到一个使到每个类别最近点的距离最大化的超平面。",
+      "最小化训练数据上的平方误差和。"
+    ],
+    "explanation_zh": "硬间隔SVM找到具有<strong>最大间隔</strong>的超平面——到任一类别最近数据点的最大垂直距离。"
+  },
+  {
+    "question": "Which of the following is stated as a primary advantage of SVM?",
+    "type": "MCQ",
+    "options": [
+      "It performs exceptionally well on very large datasets with millions of samples.",
+      "It is highly interpretable, like a single decision tree.",
+      "It is memory efficient and effective in high-dimensional spaces.",
+      "It requires no parameter tuning."
+    ],
+    "answer": 2,
+    "explanation": "SVM is memory efficient (only stores support vectors) and effective in high-dimensional spaces. NOT efficient for very large datasets, NOT interpretable, DOES require tuning (C, kernel, γ).",
+    "source": "teacher",
+    "question_zh": "以下哪项被认为是SVM的主要优势？",
+    "options_zh": [
+      "它在拥有数百万样本的超大数据集上表现出色。",
+      "它具有很高的可解释性，就像单棵决策树一样。",
+      "它内存效率高，在高维空间中表现有效。",
+      "它不需要参数调优。"
+    ],
+    "explanation_zh": "SVM内存效率高（仅存储支持向量），在高维空间中有效。不适用于超大数据集，不可解释，需要调参（C、kernel、γ）。"
+  },
+  {
+    "question": "For a data point 𝐱 that lies exactly on the decision hyperplane, what is the value of $\\mathbf{w} \\cdot \\mathbf{x} + b$?",
+    "type": "MCQ",
+    "options": [
+      "1",
+      "-1",
+      "0",
+      "It depends on the class of the point."
+    ],
+    "answer": 2,
+    "explanation": "The decision boundary is defined by $\\mathbf{w} \\cdot \\mathbf{x} + b = 0$. Any point on the hyperplane satisfies this equation.",
+    "source": "teacher",
+    "question_zh": "对于恰好位于决策超平面上的数据点𝐱，$\\mathbf{w} \\cdot \\mathbf{x} + b$的值是多少？",
+    "options_zh": [
+      "1",
+      "-1",
+      "0",
+      "取决于该点的类别。"
+    ],
+    "explanation_zh": "决策边界由 $\\mathbf{w} \\cdot \\mathbf{x} + b = 0$ 定义。超平面上的任何点都满足此方程。"
+  },
+  {
+    "question": "Why is a standard Multi-Layer Perceptron (MLP) generally not used for direct processing of raw, high-resolution images?",
+    "type": "MCQ",
+    "options": [
+      "MLPs cannot use non-linear activation functions.",
+      "The number of parameters becomes astronomically large, leading to overfitting and high computational cost.",
+      "MLPs require sequential data as input, which images are not.",
+      "MLPs are only capable of binary classification."
+    ],
+    "answer": 1,
+    "explanation": "For a $224 \\times 224 \\times 3$ image, a fully connected layer would need 150,528 weights per neuron. This is why CNNs use local connectivity and weight sharing.",
+    "source": "teacher",
+    "question_zh": "为什么标准的多层感知器（MLP）通常不用于直接处理原始高分辨率图像？",
+    "options_zh": [
+      "MLP不能使用非线性激活函数。",
+      "参数数量变得极其庞大，导致过拟合和高计算成本。",
+      "MLP需要序列数据作为输入，而图像不是。",
+      "MLP只能进行二分类。"
+    ],
+    "explanation_zh": "对于 $224 \\times 224 \\times 3$ 的图像，全连接层每个神经元需要 150,528 个权重。这就是CNN使用局部连接和权重共享的原因。"
+  },
+  {
+    "question": "If you have an input volume of $32 \\times 32 \\times 3$ and use 10 filters of size $5 \\times 5$ with stride 1 and 'same' padding, what is the spatial dimension (height and width) and depth of the output volume?",
+    "type": "MCQ",
+    "options": [
+      "$28 \\times 28 \\times 10$",
+      "$32 \\times 32 \\times 3$",
+      "$32 \\times 32 \\times 10$",
+      "$28 \\times 28 \\times 3$"
+    ],
+    "answer": 2,
+    "explanation": "'Same' padding preserves spatial dimensions → $32 \\times 32$. 10 filters → depth = 10. Output: <strong>$32 \\times 32 \\times 10$</strong>.",
+    "source": "teacher",
+    "question_zh": "如果输入体积为$32 \\times 32 \\times 3$，使用10个大小为$5 \\times 5$的滤波器，步长为1，'same'填充，输出体积的空间维度（高和宽）和深度是多少？",
+    "options_zh": [
+      "$28 \\times 28 \\times 10$",
+      "$32 \\times 32 \\times 3$",
+      "$32 \\times 32 \\times 10$",
+      "$28 \\times 28 \\times 3$"
+    ],
+    "explanation_zh": "'Same' 填充保持空间维度不变 → $32 \\times 32$。10个滤波器 → 深度 = 10。输出：<strong>$32 \\times 32 \\times 10$</strong>。"
+  },
+  {
+    "question": "The filters in the first layer of a trained CNN are most likely to detect:",
+    "type": "MCQ",
+    "options": [
+      "High-level concepts like faces or objects.",
+      "Low-level features like edges, colors, and blobs.",
+      "Complex patterns like eyes or wheels.",
+      "The class label of the image."
+    ],
+    "answer": 1,
+    "explanation": "Early layers learn simple, low-level features (edges, textures). Deeper layers combine these into increasingly complex/abstract representations.",
+    "source": "teacher",
+    "question_zh": "训练好的CNN第一层的滤波器最可能检测到：",
+    "options_zh": [
+      "高级概念，如人脸或物体。",
+      "低级特征，如边缘、颜色和斑块。",
+      "复杂模式，如眼睛或车轮。",
+      "图像的类别标签。"
+    ],
+    "explanation_zh": "浅层学习简单的低级特征（边缘、纹理）。深层将这些组合成越来越复杂/抽象的表示。"
+  },
+  {
+    "question": "What is the primary benefit of weight sharing in Recurrent Neural Networks?",
+    "type": "MCQ",
+    "options": [
+      "It makes the network deeper and thus more powerful.",
+      "It allows the network to be trained with Backpropagation Through Time.",
+      "It enables the network to process sequences of variable length and generalize patterns across different positions in the sequence.",
+      "It completely eliminates the vanishing gradient problem."
+    ],
+    "answer": 2,
+    "explanation": "Weight sharing means the same $W_x$, $W_h$ are used at every time step, so the network can handle any sequence length and recognize patterns regardless of position.",
+    "source": "teacher",
+    "question_zh": "循环神经网络中权重共享的主要好处是什么？",
+    "options_zh": [
+      "它使网络更深，从而更强大。",
+      "它允许网络使用时间反向传播进行训练。",
+      "它使网络能够处理可变长度的序列，并在序列的不同位置泛化模式。",
+      "它完全消除了梯度消失问题。"
+    ],
+    "explanation_zh": "权重共享意味着在每个时间步使用相同的 $W_x$、$W_h$，因此网络可以处理任意长度的序列，并在不受位置影响的情况下识别模式。"
+  },
+  {
+    "question": "The vanishing gradient problem in RNNs is most directly analogous to what phenomenon in a simple numerical product?",
+    "type": "MCQ",
+    "options": [
+      "Multiplying many numbers that are all close to 1.",
+      "Multiplying many numbers that are all less than 1 (e.g., 0.$1  \\times  0$.$1  \\times  0$.1...).",
+      "Adding many numbers that are all greater than 1.",
+      "Dividing a large number by a very small number."
+    ],
+    "answer": 1,
+    "explanation": "During BPTT, the gradient involves repeated multiplication of $\\frac{\\partial h_t}{\\partial h_{t-1}}$. If these are < 1, the product shrinks exponentially → vanishing gradient.",
+    "source": "teacher",
+    "question_zh": "RNN中的梯度消失问题与简单数值乘积中的哪种现象最直接类似？",
+    "options_zh": [
+      "将许多都接近1的数相乘。",
+      "将许多都小于1的数相乘（例如，0.$1  \\times  0$.$1  \\times  0$.1...）。",
+      "将许多都大于1的数相加。",
+      "用一个大数除以一个非常小的数。"
+    ],
+    "explanation_zh": "在BPTT过程中，梯度涉及 $\\frac{\\partial h_t}{\\partial h_{t-1}}$ 的重复乘法。如果这些值 < 1，乘积指数级缩小 → 梯度消失。"
+  },
+  {
+    "question": "The fundamental recurrence relation for the hidden state $h_t$ in a simple RNN is given by:",
+    "type": "MCQ",
+    "options": [
+      "$h_t$ = f($W_x$ · $x_t$)",
+      "$h_t$ = f($W_x$ · $x_t$ + $W_y$ · $h_{t-1}$)",
+      "$h_t$ = f($W_y$ · $h_{t-1}$)",
+      "$h_t$ = $W_x$ · $x_t$ + $W_y$ · $h_{t-1}$"
+    ],
+    "answer": 1,
+    "explanation": "The hidden state combines: current input $x_t$ weighted by $W_x$, previous hidden state $h_{t-1}$ weighted by $W_y$, passed through a nonlinear activation function f.",
+    "source": "teacher",
+    "question_zh": "简单RNN中隐藏状态$h_t$的基本递推关系由以下公式给出：",
+    "options_zh": [
+      "$h_t$ = f($W_x$ · $x_t$)",
+      "$h_t$ = f($W_x$ · $x_t$ + $W_y$ · $h_{t-1}$)",
+      "$h_t$ = f($W_y$ · $h_{t-1}$)",
+      "$h_t$ = $W_x$ · $x_t$ + $W_y$ · $h_{t-1}$"
+    ],
+    "explanation_zh": "隐藏状态组合了：当前输入 $x_t$（乘以 $W_x$）、前一个隐藏状态 $h_{t-1}$（乘以 $W_y$），通过非线性激活函数 f。"
+  },
+  {
+    "question": "Which formula correctly represents Bayes' Theorem?",
+    "type": "MCQ",
+    "options": [
+      "$P(Y|X)$ = $P(X|Y)$ × $P(Y)$",
+      "$P(Y|X)$ = $P(X|Y)$ / $P(Y)$",
+      "$P(Y|X)$ = $P(X|Y)$·$P(Y)$ / $P(X)$",
+      "$P(Y|X)$ = $P(X)$·$P(Y)$ / $P(X|Y)$"
+    ],
+    "answer": 2,
+    "explanation": "Bayes' Theorem: <strong>Posterior = (Likelihood × Prior) / Evidence</strong> = $P(X|Y)$·$P(Y)$ / $P(X)$.",
+    "source": "teacher",
+    "question_zh": "以下哪个公式正确表示了贝叶斯定理？",
+    "options_zh": [
+      "$P(Y|X)$ = $P(X|Y)$ × $P(Y)$",
+      "$P(Y|X)$ = $P(X|Y)$ / $P(Y)$",
+      "$P(Y|X)$ = $P(X|Y)$·$P(Y)$ / $P(X)$",
+      "$P(Y|X)$ = $P(X)$·$P(Y)$ / $P(X|Y)$"
+    ],
+    "explanation_zh": "贝叶斯定理：<strong>后验 = (似然 × 先验) / 证据</strong> = $P(X|Y)$·$P(Y)$ / $P(X)$。"
+  },
+  {
+    "question": "The Laplace estimate for a categorical feature addresses the zero-frequency problem by:",
+    "type": "MCQ",
+    "options": [
+      "Discarding features that have zero probabilities.",
+      "Artificially increasing the count of each class outcome by one.",
+      "Replacing all zero probabilities with a very small constant like 1e-9.",
+      "Increasing the count of each feature value for a given class by one and adjusting the denominator accordingly."
+    ],
+    "answer": 3,
+    "explanation": "Laplace smoothing: $P(x_i|C)$ = (count($x_i$,C) + 1) / (count(C) + |V|), where |V| is the number of distinct values.",
+    "source": "teacher",
+    "question_zh": "拉普拉斯估计通过以下方式解决分类特征的零频率问题：",
+    "options_zh": [
+      "丢弃概率为零的特征。",
+      "将每个类别结果的计数人为增加1。",
+      "用一个很小的常数（如1e-9）替换所有零概率。",
+      "将给定类别中每个特征值的计数增加1，并相应调整分母。"
+    ],
+    "explanation_zh": "拉普拉斯平滑：$P(x_i|C)$ = (count($x_i$,C) + 1) / (count(C) + |V|)，其中 |V| 是不同值的数量。"
+  },
+  {
+    "question": "Which of the following is NOT a stated advantage or characteristic of the Naïve Bayes classifier?",
+    "type": "MCQ",
+    "options": [
+      "It is robust to isolated noise points.",
+      "It performs well even when features are highly correlated and redundant.",
+      "It can handle missing values by ignoring them during probability estimation.",
+      "It is robust to irrelevant attributes."
+    ],
+    "answer": 1,
+    "explanation": "Naïve Bayes assumes <strong>conditional independence</strong>. Highly correlated/redundant features violate this assumption and degrade performance (double-counting evidence).",
+    "source": "teacher",
+    "question_zh": "以下哪项不是朴素贝叶斯分类器的既定优势或特征？",
+    "options_zh": [
+      "它对孤立的噪声点具有鲁棒性。",
+      "即使特征高度相关和冗余，它也表现良好。",
+      "它可以通过在概率估计中忽略缺失值来处理缺失值。",
+      "它对不相关属性具有鲁棒性。"
+    ],
+    "explanation_zh": "朴素贝叶斯假设<strong>条件独立</strong>。高度相关/冗余的特征违反此假设并降低性能（重复计算证据）。"
+  },
+  {
+    "question": "You have a dataset where a categorical feature has a value that was never seen in the training data for a particular class. Without any form of smoothing, how will Naïve Bayes handle a test instance with this unseen feature value?",
+    "type": "MCQ",
+    "options": [
+      "It will ignore that feature and base the decision on the other features.",
+      "It will assign a very small probability to that feature for that class.",
+      "It will assign a probability of zero to that class for that instance.",
+      "It will throw an error and fail to classify the instance."
+    ],
+    "answer": 2,
+    "explanation": "NB multiplies all conditional probabilities. If any $P(x_i|C)$ = 0, the entire product becomes 0. This is the zero-frequency problem that Laplace smoothing addresses.",
+    "source": "teacher",
+    "question_zh": "你有一个数据集，其中某个分类特征的一个值在特定类别的训练数据中从未出现过。在没有任何平滑处理的情况下，朴素贝叶斯将如何处理具有此未见特征值的测试实例？",
+    "options_zh": [
+      "它会忽略该特征，并基于其他特征做出决策。",
+      "它会为该类别的该特征分配一个非常小的概率。",
+      "它会为该实例的该类别分配零概率。",
+      "它会抛出错误并无法分类该实例。"
+    ],
+    "explanation_zh": "NB将所有条件概率相乘。如果任何 $P(x_i|C)$ = 0，整个乘积变为0。这就是拉普拉斯平滑解决的零频率问题。"
+  },
+  {
+    "question": "In which type of clustering is a cluster defined as a set of points such that any point in the cluster is closer to the \"center\" of that cluster than to the center of any other cluster?",
+    "type": "MCQ",
+    "options": [
+      "Well-separated clusters",
+      "Contiguity-based clusters",
+      "Prototype-based clusters",
+      "Density-based clusters"
+    ],
+    "answer": 2,
+    "explanation": "In prototype-based clustering (e.g., K-Means), each cluster is represented by a centroid (prototype), and each point belongs to the cluster whose centroid is nearest.",
+    "source": "teacher",
+    "question_zh": "在哪种类型的聚类中，簇被定义为一组点的集合，使得簇中的任何点到该簇'中心'的距离都比到任何其他簇中心的距离更近？",
+    "options_zh": [
+      "良好分离的簇",
+      "基于连续性的簇",
+      "基于原型的簇",
+      "基于密度的簇"
+    ],
+    "explanation_zh": "在基于原型的聚类（如K-Means）中，每个簇由质心（原型）表示，每个点属于质心最近的簇。"
+  },
+  {
+    "question": "What does the 'd' represent in the K-means complexity formula $O(n \\cdot K \\cdot I \\cdot d)$?",
+    "type": "MCQ",
+    "options": [
+      "The distance between clusters.",
+      "The density of the data points.",
+      "The number of attributes (dimensions) of the data.",
+      "The number of iterations until convergence."
+    ],
+    "answer": 2,
+    "explanation": "In $O(n \\cdot K \\cdot I \\cdot d)$: n = number of points, K = number of clusters, I = number of iterations, d = number of dimensions (attributes).",
+    "source": "teacher",
+    "question_zh": "在K-means复杂度公式$O(n \\cdot K \\cdot I \\cdot d)$中，'d'代表什么？",
+    "options_zh": [
+      "簇之间的距离。",
+      "数据点的密度。",
+      "数据的属性（维度）数量。",
+      "收敛前的迭代次数。"
+    ],
+    "explanation_zh": "在 $O(n \\cdot K \\cdot I \\cdot d)$ 中：n = 点数，K = 簇数，I = 迭代次数，d = 维度（属性）数量。"
+  },
+  {
+    "question": "Which of the following is a major advantage of hierarchical clustering over partitional methods like K-means?",
+    "type": "MCQ",
+    "options": [
+      "It is much faster and can handle millions of data points easily.",
+      "It does not require the user to pre-specify the number of clusters.",
+      "It is guaranteed to find the globally optimal clustering.",
+      "All of the above options"
+    ],
+    "answer": 1,
+    "explanation": "Hierarchical clustering builds a dendrogram — you can cut it at any level. K-Means requires specifying K in advance.",
+    "source": "teacher",
+    "question_zh": "与K-means等划分方法相比，层次聚类的一个主要优势是什么？",
+    "options_zh": [
+      "它更快，可以轻松处理数百万个数据点。",
+      "它不需要用户预先指定簇的数量。",
+      "它保证找到全局最优聚类。",
+      "以上所有选项"
+    ],
+    "explanation_zh": "层次聚类构建树状图——可以在任何层级切割。K-Means需要预先指定K。"
+  },
+  {
+    "question": "In DBSCAN, what is a \"border point\"?",
+    "type": "MCQ",
+    "options": [
+      "A point with fewer than MinPts neighbors within ε, but which is within the ε-neighborhood of a core point.",
+      "Any point that is not a core point.",
+      "A point with more than MinPts neighbors within ε.",
+      "A point that lies exactly on the boundary of the dataset's convex hull."
+    ],
+    "answer": 0,
+    "explanation": "DBSCAN: <strong>Core point</strong> ≥ MinPts neighbors within ε; <strong>Border point</strong> < MinPts but reachable from a core point; <strong>Noise</strong> neither.",
+    "source": "teacher",
+    "question_zh": "在DBSCAN中，什么是'边界点'？",
+    "options_zh": [
+      "在ε范围内邻居数少于MinPts，但在某个核心点的ε邻域内的点。",
+      "任何不是核心点的点。",
+      "在ε范围内拥有超过MinPts个邻居的点。",
+      "恰好位于数据集凸包边界上的点。"
+    ],
+    "explanation_zh": "DBSCAN：<strong>核心点</strong>在ε范围内有 ≥ MinPts 个邻居；<strong>边界点</strong> < MinPts 但可从核心点到达；<strong>噪声</strong>两者都不是。"
+  },
+  {
+    "question": "CNN Dimension Calculation: Given input images $32 \\times 32$ RGB, convolutional layer with 6 filters of size $5 \\times 5$, stride = 1, 'same' padding.\n(a) Output feature map dimensions from the convolutional layer?\n(b) Dimensions after max-pooling with $2 \\times 2$ filter, stride = 2?\n(c) Number of parameters between flattened layer and FC layer with 100 neurons?",
+    "type": "Short",
+    "answer": "(a) $32  \\times  32  \\times  6$ — 'Same' padding preserves spatial dimensions, 6 filters → depth = 6.\n(b) $16  \\times  16  \\times  6$ — Output = input/stride = $32 / 2 = 16.$ Pooling does not change depth.\n(c) 153,700 — Flattened = $16 \\times 16 \\times 6$ = 1,536. Weights = 1,$536 \\times 100$ = 153,600. + 100 biases = 153,700.",
+    "explanation": "<strong>Data Flow:</strong> 32×32×3 →[Conv 6 filters, same]→ 32×32×6 →[Pool 2×2, s=2]→ 16×16×6 →[Flatten]→ 1536 →[FC 100]→ 100<br><br><strong>(a) Conv:</strong> Each filter is 5×5×<u>3</u> (covers all RGB channels), produces <u>one</u> 2D map. 6 filters → depth=6, NOT 3×6. 'Same' padding keeps spatial size = 32.<br><strong>(b) Pool:</strong> Shrinks spatial only (÷stride), depth unchanged. 32/2=16.<br><strong>(c) FC:</strong> Flatten 16×16×6=1,536 → connect to 100 neurons → 1,536×100 + 100 = 153,700.<br><br><strong>Core Rules:</strong> Conv changes depth (=num filters). Pool shrinks spatial (÷stride). FC params = in×out + bias.",
+    "explanation_zh": "<strong>数据流：</strong>32×32×3 →[卷积6个滤波器, same]→ 32×32×6 →[池化2×2, s=2]→ 16×16×6 →[展平]→ 1536 →[FC 100]→ 100<br><br><strong>(a) 卷积：</strong>每个滤波器实际大小是 5×5×<u>3</u>（自动匹配输入3通道），产出<u>一张</u>2D特征图。6个滤波器 → 深度=6，不是3×6！'Same'填充保持空间尺寸=32。<br><strong>(b) 池化：</strong>只缩小空间（÷步长），深度不变。32/2=16。<br><strong>(c) 全连接：</strong>展平 16×16×6=1,536 → 连接100个神经元 → 1,536×100 + 100 = 153,700。<br><br><strong>核心口诀：</strong>卷积改深度（=滤波器数）。池化缩空间（÷步长）。FC参数 = 输入×输出 + 偏置。",
+    "source": "teacher",
+    "points": 18,
+    "question_zh": "CNN维度计算：给定输入图像$32 \\times 32$ RGB，卷积层有6个大小为$5 \\times 5$的滤波器，步长=1，'same'填充。\n(a) 卷积层的输出特征图维度？\n(b) 使用$2 \\times 2$滤波器、步长=2的最大池化后的维度？\n(c) 展平层与100个神经元的全连接层之间的参数数量？",
+    "answer_zh": "(a) $32  \\times  32  \\times  6$ — 'Same' 填充保持空间维度不变，6个滤波器 → 深度 = 6。\n(b) $16  \\times  16  \\times  6$ — 输出 = 输入/步长 = $32 / 2 = 16$。池化不改变深度。\n(c) 153,700 — 展平 = $16 \\times 16 \\times 6$ = 1,536。权重 = 1,$536 \\times 100$ = 153,600。+ 100个偏置 = 153,700。",
+    "symbols": [
+      ["$O$", "Output spatial size (H or W)", "输出空间尺寸（高或宽）"],
+      ["$I$", "Input spatial size (H or W)", "输入空间尺寸（高或宽）"],
+      ["$F$", "Filter size", "滤波器大小"],
+      ["$P$", "Padding", "填充量"],
+      ["$S$", "Stride", "步长"],
+      ["$n_{in}$", "Input neurons (flattened)", "输入神经元数（展平后）"],
+      ["$n_{out}$", "Output neurons", "输出神经元数"]
+    ],
+    "formula": "Conv Output: $O = \\frac{I - F + 2P}{S} + 1$ &nbsp;&nbsp; Same Padding: $O = I$ &nbsp;&nbsp; Pool: $O = \\frac{I}{S}$ &nbsp;&nbsp; FC Params: $= n_{in} \\times n_{out} + n_{out}$"
+  },
+  {
+    "question": "RNN Architecture & Loss Function:\nTask A: Predicting the daily closing price for the next 5 days, given 60 days of prices.\nTask B: Classifying the sentiment of a movie review as positive or negative.\n(a) Architecture type for each task?\n(b) Appropriate loss function for each task?",
+    "type": "Short",
+    "answer": "(a) Task A: Many-to-Many (sequence of 60 → sequence of 5). Task B: Many-to-One (sequence of words → single label).\n(b) Task A: MSE (regression task). Task B: Binary Cross-Entropy (binary classification).",
+    "explanation": "Regression tasks use MSE; classification tasks use Cross-Entropy. Sequence→Sequence = Many-to-Many; Sequence→Label = Many-to-One.",
+    "explanation_zh": "回归任务使用MSE；分类任务使用交叉熵。序列→序列 = 多对多；序列→标签 = 多对一。",
+    "source": "teacher",
+    "points": 12,
+    "question_zh": "RNN架构与损失函数：\n任务A：给定60天的价格，预测未来5天的每日收盘价。\n任务B：将电影评论的情感分类为正面或负面。\n(a) 每个任务的架构类型？\n(b) 每个任务适合的损失函数？",
+    "answer_zh": "(a) 任务A：多对多（60个序列 → 5个序列）。任务B：多对一（词序列 → 单个标签）。\n(b) 任务A：MSE（回归任务）。任务B：二元交叉熵（二分类）。",
+    "symbols": [
+      ["$h_t$", "Hidden state at time t", "t时刻隐藏状态"],
+      ["$x_t$", "Input at time t", "t时刻输入"],
+      ["$W_x$", "Input weight matrix", "输入权重矩阵"],
+      ["$W_h$", "Hidden weight matrix", "隐藏权重矩阵"],
+      ["$b$", "Bias", "偏置"],
+      ["$y$", "True label", "真实标签"],
+      ["$\\hat{y}$", "Predicted value", "预测值"],
+      ["$f$", "Activation function", "激活函数"]
+    ],
+    "formula": "$h_t = f(W_x \\cdot x_t + W_h \\cdot h_{t-1} + b)$ &nbsp;&nbsp; MSE: $L = \\frac{1}{n}\\sum(y - \\hat{y})^2$ &nbsp;&nbsp; BCE: $L = -[y\\log\\hat{y} + (1-y)\\log(1-\\hat{y})]$"
+  },
+  {
+    "question": "Bayesian Network: Nodes — Flu(F), Fever(E), Cough(C), Muscle Ache(M). Relationships: Flu→Fever, Flu→Cough, Fever→Muscle Ache, Cough→Muscle Ache.\n(a) Draw the DAG.\n(b) Write the full joint probability equation.",
+    "type": "Short",
+    "answer": "(a) DAG: F → E, F → C, E → M, C → M (diamond shape with F at top, M at bottom).\n(b) $P(F, E, C, M)$ = $P(F)$ · $P(E|F)$ · $P(C|F)$ · $P(M|E, C)$",
+    "explanation": "Using chain rule + DAG conditional independence: F is root → $P(F)$; E depends only on F → $P(E|F)$; C depends only on F → $P(C|F)$; M depends on E and C → $P(M|E,C)$.",
+    "explanation_zh": "使用链式法则 + DAG条件独立性：F是根节点 → $P(F)$；E仅依赖F → $P(E|F)$；C仅依赖F → $P(C|F)$；M依赖E和C → $P(M|E,C)$。",
+    "source": "teacher",
+    "points": 12,
+    "question_zh": "贝叶斯网络：节点——流感(F)、发烧(E)、咳嗽(C)、肌肉酸痛(M)。关系：流感→发烧，流感→咳嗽，发烧→肌肉酸痛，咳嗽→肌肉酸痛。\n(a) 画出DAG。\n(b) 写出完整的联合概率方程。",
+    "answer_zh": "(a) DAG：F → E，F → C，E → M，C → M（F在顶部、M在底部的菱形结构）。\n(b) $P(F, E, C, M)$ = $P(F)$ · $P(E|F)$ · $P(C|F)$ · $P(M|E, C)$",
+    "symbols": [
+      ["$P(X_i)$", "Probability of node $X_i$", "节点$X_i$的概率"],
+      ["$\\text{Parents}(X_i)$", "Parent nodes of $X_i$ in DAG", "DAG中$X_i$的父节点"],
+      ["$\\prod$", "Product of all terms", "所有项的连乘"]
+    ],
+    "formula": "$P(X_1, \\ldots, X_n) = \\prod_{i=1}^{n} P(X_i \\mid \\text{Parents}(X_i))$"
+  },
+  {
+    "question": "Hierarchical Clustering with MAX Link: Data points {1, 2, 5, 9}, Euclidean distance, Complete Link.\n(a) Initial distance matrix?\n(b) First merge?\n(c) Updated distance matrix after first merge?",
+    "type": "Short",
+    "answer": "(a) $|1-2|=1$, $|1-5|=4$, $|1-9|=8$, $|2-5|=3$, $|2-9|=7$, $|5-9|=4$.\n(b) Points 1 and 2 merged first (distance 1, smallest).\n(c) MAX link: $\\text{dist}(\\{1,2\\}, 5) = \\max(4,3) = 4$; $\\text{dist}(\\{1,2\\}, 9) = \\max(8,7) = 8$. Next: {1,2}↔5 or 5↔9 (both 4).",
+    "explanation": "MAX (Complete Link) uses the distance between the farthest points of two clusters. First merge the closest pair, then update the distance matrix using the MAX rule.",
+    "explanation_zh": "MAX（完全链接）使用两个簇之间最远点的距离。先合并最近的一对，然后使用MAX规则更新距离矩阵。",
+    "source": "teacher",
+    "points": 18,
+    "question_zh": "使用MAX链接的层次聚类：数据点{1, 2, 5, 9}，欧氏距离，完全链接。\n(a) 初始距离矩阵？\n(b) 第一次合并？\n(c) 第一次合并后更新的距离矩阵？",
+    "answer_zh": "(a) $|1-2|=1$, $|1-5|=4$, $|1-9|=8$, $|2-5|=3$, $|2-9|=7$, $|5-9|=4$。\n(b) 点1和点2首先合并（距离为1，最小）。\n(c) MAX链接：$\\text{dist}(\\{1,2\\}, 5) = \\max(4,3) = 4$；$\\text{dist}(\\{1,2\\}, 9) = \\max(8,7) = 8$。下一步：{1,2}↔5 或 5↔9（都是4）。",
+    "symbols": [
+      ["$d(x,y)$", "Distance between points x, y", "点x与y之间的距离"],
+      ["$C_i, C_j$", "Cluster i and cluster j", "簇i和簇j"],
+      ["$|C_i|$", "Number of points in cluster i", "簇i中的点数"]
+    ],
+    "formula": "MIN: $d = \\min_{x \\in C_i, y \\in C_j} d(x,y)$ &nbsp;&nbsp; MAX: $d = \\max_{x \\in C_i, y \\in C_j} d(x,y)$ &nbsp;&nbsp; Group Average: $d = \\frac{1}{|C_i||C_j|}\\sum d(x,y)$"
+  }
+]
