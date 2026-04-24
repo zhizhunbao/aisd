@@ -1,0 +1,349 @@
+[
+  {
+    "question": "What is the image processing technique that enhances the image by altering the pixels?\n哪种图像处理技术通过改变像素来增强图像？",
+    "type": "MCQ",
+    "options": [
+      "A) Rotation / 旋转",
+      "B) Translation / 平移",
+      "C) Filtering / 滤波",
+      "D) Resizing / 缩放"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Filtering</strong> alters pixel values to enhance image quality (e.g., blurring removes noise, sharpening highlights edges).<br><strong>滤波</strong>通过改变像素值来增强图像（如模糊去噪、锐化突出边缘）。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which filtering technique increases the contrast between adjacent pixels to highlight details?\n哪种滤波技术增加相邻像素之间的对比度以突出细节？",
+    "type": "MCQ",
+    "options": [
+      "A) Blurring / 模糊",
+      "B) Sharpening / 锐化",
+      "C) Smoothening / 平滑",
+      "D) Erosion / 腐蚀"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Sharpening</strong> amplifies intensity differences between adjacent pixels to highlight edges and details. Blurring does the opposite — it smooths differences.<br><strong>锐化</strong>放大相邻像素之间的强度差异以突出边缘和细节。模糊则相反——平滑差异。",
+    "source": "teacher"
+  },
+  {
+    "question": "What are morphological operations in image processing typically used for?\n图像处理中的形态学运算通常用于什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Color corrections / 颜色校正",
+      "B) Image compression / 图像压缩",
+      "C) Enhancing image resolution / 增强图像分辨率",
+      "D) Processing images based on shapes / 基于形状处理图像"
+    ],
+    "answer": 3,
+    "explanation": "Morphological operations (erosion, dilation, opening, closing) process images based on <strong>shapes</strong> using a structuring element (kernel).<br>形态学运算（腐蚀、膨胀、开运算、闭运算）使用结构元素（核）基于<strong>形状</strong>处理图像。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a pixel in the context of an image?\n在图像上下文中，什么是像素？",
+    "type": "MCQ",
+    "options": [
+      "A) A type of image file format / 一种图像文件格式",
+      "B) A vector graphics unit / 一种矢量图形单位",
+      "C) A numerical representation at a location in an image / 图像中某位置的数值表示",
+      "D) A unit used in image processing / 用于图像处理的单位"
+    ],
+    "answer": 2,
+    "explanation": "A pixel is a <strong>numerical representation</strong> at a specific (x, y) location. Grayscale: single value [0-255]. RGB: three values (R, G, B).<br>像素是特定(x, y)位置的<strong>数值表示</strong>。灰度：单一值[0-255]。RGB：三个值。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the purpose of feature descriptors in image processing?\n图像处理中特征描述符的目的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To enhance image quality / 增强图像质量",
+      "B) To provide unique representation of detected features / 为检测到的特征提供唯一表示",
+      "C) To compress images based on detected features / 基于检测到的特征压缩图像",
+      "D) To detect features / 检测特征"
+    ],
+    "answer": 1,
+    "explanation": "Feature descriptors provide a <strong>unique and robust representation</strong> of detected features (e.g., SIFT: 128-dim vector, SURF: 64-dim vector), enabling feature matching across images.<br>特征描述符为检测到的特征提供<strong>唯一且鲁棒的表示</strong>（如SIFT: 128维向量，SURF: 64维向量），实现跨图像的特征匹配。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the full form of SIFT in feature detection?\n特征检测中SIFT的全称是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Scalable Image Filtering Technique / 可扩展图像滤波技术",
+      "B) Scale Invariant Feature Transform / 尺度不变特征变换",
+      "C) Scale Invariant Filter Transformation / 尺度不变滤波变换"
+    ],
+    "answer": 1,
+    "explanation": "SIFT = <strong>Scale Invariant Feature Transform</strong>. It detects keypoints invariant to scaling, rotation, and partially invariant to illumination changes.<br>SIFT = <strong>尺度不变特征变换</strong>。检测对缩放、旋转不变，对光照变化部分不变的关键点。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which technique is effective for human detection in computer vision?\n计算机视觉中哪种技术对人体检测有效？",
+    "type": "MCQ",
+    "options": [
+      "A) HOG / 方向梯度直方图",
+      "B) SURF",
+      "C) FAST",
+      "D) SIFT"
+    ],
+    "answer": 0,
+    "explanation": "<strong>HOG (Histogram of Oriented Gradients)</strong> analyzes gradient directions in localized regions, creating unique representation of human shapes. Widely used for pedestrian detection.<br><strong>HOG（方向梯度直方图）</strong>分析局部区域中的梯度方向，创建人体形状的唯一表示。广泛用于行人检测。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the purpose of data augmentation in image classification?\n图像分类中数据增强的目的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To reduce the size of the dataset / 减小数据集大小",
+      "B) To expand the training dataset / 扩展训练数据集",
+      "C) To convert images to grayscale / 将图像转换为灰度",
+      "D) To normalize pixel values / 归一化像素值"
+    ],
+    "answer": 1,
+    "explanation": "Data augmentation <strong>expands the training dataset</strong> by applying transformations (flip, rotate, crop, color jitter) to existing images, helping prevent overfitting.<br>数据增强通过对现有图像应用变换（翻转、旋转、裁剪、颜色抖动）来<strong>扩展训练数据集</strong>，帮助防止过拟合。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which activation function is suitable for binary classification?\n哪个激活函数适用于二分类？",
+    "type": "MCQ",
+    "options": [
+      "A) Sigmoid",
+      "B) ReLU",
+      "C) Tanh",
+      "D) Softmax"
+    ],
+    "answer": 0,
+    "explanation": "<strong>Sigmoid</strong> outputs values between 0 and 1, making it ideal for binary classification (probability of belonging to class 1). Softmax is for multi-class.<br><strong>Sigmoid</strong>输出0到1之间的值，非常适合二分类（属于类别1的概率）。Softmax用于多分类。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the primary purpose of segmentation in image processing?\n图像处理中分割的主要目的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To enhance image quality / 增强图像质量",
+      "B) To extract objects from an image / 从图像中提取对象",
+      "C) To detect edges / 检测边缘",
+      "D) To compress images / 压缩图像"
+    ],
+    "answer": 1,
+    "explanation": "Segmentation <strong>extracts objects</strong> from images, typically producing a binary image (mask) where 1 = region of interest, 0 = background.<br>分割从图像中<strong>提取对象</strong>，通常产生二值图像（掩模），其中1 = 感兴趣区域，0 = 背景。",
+    "source": "teacher"
+  },
+  {
+    "question": "In which industry is machine vision used for quality checks on assembly lines?\n机器视觉在哪个行业用于装配线质量检查？",
+    "type": "MCQ",
+    "options": [
+      "A) Retail / 零售",
+      "B) Manufacturing / 制造业",
+      "C) Entertainment / 娱乐",
+      "D) Healthcare / 医疗保健"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Manufacturing</strong> is the primary industry for machine vision quality inspection on assembly lines — detecting defects, verifying dimensions, checking alignment.<br><strong>制造业</strong>是机器视觉在装配线上进行质量检测的主要行业——检测缺陷、验证尺寸、检查对齐。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which OpenCV function is used to identify contours in an image?\n哪个OpenCV函数用于识别图像中的轮廓？",
+    "type": "MCQ",
+    "options": [
+      "A) cv2.findContours()",
+      "B) cv2.detectContours()",
+      "C) cv2.locateContours()",
+      "D) cv2.searchContours()"
+    ],
+    "answer": 0,
+    "explanation": "<code>cv2.findContours()</code> returns contours (list of boundary points) and hierarchy (parent-child relationships). Input must be a binary image.<br><code>cv2.findContours()</code>返回轮廓（边界点列表）和层级（父子关系）。输入必须是二值图像。",
+    "source": "teacher"
+  },
+  {
+    "question": "What was a significant turning point in the evolution of machine vision?\n机器视觉发展中的一个重要转折点是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) The invention of digital cameras / 数码相机的发明",
+      "B) The rise of deep learning techniques / 深度学习技术的兴起",
+      "C) The development of CCD sensors / CCD传感器的发展",
+      "D) The introduction of color spaces / 颜色空间的引入"
+    ],
+    "answer": 1,
+    "explanation": "🎤 Professor: \"Deep learning technique is the key turning point.\" AlexNet winning ImageNet 2012 marked the shift from handcrafted features to learned features.<br>🎤 老师强调：\"深度学习技术是关键转折点。\" 2012年AlexNet赢得ImageNet标志着从手工特征到学习特征的转变。",
+    "source": "teacher"
+  },
+  {
+    "question": "What measures the directional changes in the intensity of an image?\n什么度量图像强度的方向变化？",
+    "type": "MCQ",
+    "options": [
+      "A) Image Histogram / 图像直方图",
+      "B) Image Thresholding / 图像阈值化",
+      "C) Image Gradient / 图像梯度",
+      "D) Image orientation / 图像方向"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Image Gradient</strong> measures directional changes in intensity: ∇F = [δF/δx, δF/δy]. Magnitude = √((δF/δx)² + (δF/δy)²), Direction = tan⁻¹(δF/δy / δF/δx).<br><strong>图像梯度</strong>度量强度的方向变化。幅值和方向的计算公式如上。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which activation function mitigates vanishing gradient problem?\n哪个激活函数缓解梯度消失问题？",
+    "type": "MCQ",
+    "options": [
+      "A) Sigmoid",
+      "B) ReLU",
+      "C) Tanh",
+      "D) Softmax"
+    ],
+    "answer": 1,
+    "explanation": "<strong>ReLU</strong> (Rectified Linear Unit) outputs max(0, x). It mitigates vanishing gradient because the gradient is 1 for positive values (no diminishing during backprop).<br><strong>ReLU</strong>输出max(0, x)。它缓解梯度消失，因为正值的梯度为1（反向传播中不会减小）。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the output of segmentation?\n分割的输出是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) RGB image / RGB图像",
+      "B) Grayscale image / 灰度图像",
+      "C) Binary image / 二值图像",
+      "D) Cropped image / 裁剪图像"
+    ],
+    "answer": 2,
+    "explanation": "Segmentation produces a <strong>binary image</strong> (values 0 and 1): 1 = object of interest, 0 = background. This acts as a mask for further processing.<br>分割产生<strong>二值图像</strong>（值为0和1）：1 = 感兴趣对象，0 = 背景。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the process of labeling images with class names?\n用类别名称标注图像的过程称为什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Data Loading / 数据加载",
+      "B) Data Augmentation / 数据增强",
+      "C) Data Annotation / 数据标注",
+      "D) Data transformation / 数据变换"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Data Annotation</strong> = labeling images with class names, bounding boxes, or pixel-level masks. Essential for supervised learning.<br><strong>数据标注</strong> = 用类别名称、边界框或像素级掩模标注图像。是监督学习的基础。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does the horizontal axis of an ROC curve represent?\nROC曲线的横轴代表什么？",
+    "type": "MCQ",
+    "options": [
+      "A) True Positive rate / 真阳性率",
+      "B) False Positive rate / 假阳性率",
+      "C) True Negative rate / 真阴性率",
+      "D) False Negative rate / 假阴性率"
+    ],
+    "answer": 1,
+    "explanation": "ROC curve: X-axis = <strong>False Positive Rate (FPR)</strong>, Y-axis = True Positive Rate (TPR). Above diagonal = good model. Top-left corner = best.<br>ROC曲线：X轴 = <strong>假阳性率(FPR)</strong>，Y轴 = 真阳性率(TPR)。对角线以上 = 好模型。左上角 = 最佳。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which function quantifies the difference between model predictions and true outcome?\n哪个函数量化模型预测与真实结果之间的差异？",
+    "type": "MCQ",
+    "options": [
+      "A) Convolution / 卷积",
+      "B) Optimizer / 优化器",
+      "C) Loss Function / 损失函数",
+      "D) Activation Function / 激活函数"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Loss Function</strong> measures how far predictions are from ground truth. CrossEntropyLoss for classification, MSELoss for regression.<br><strong>损失函数</strong>衡量预测与真实值的差距。分类用CrossEntropyLoss，回归用MSELoss。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which technique can be used for achieving segmentation?\n哪种技术可以用于实现分割？",
+    "type": "MCQ",
+    "options": [
+      "A) Contours / 轮廓",
+      "B) Thresholding / 阈值化",
+      "C) Filtering / 滤波",
+      "D) Smoothening / 平滑"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Thresholding</strong> is a segmentation technique that compares pixel values against a threshold to produce a binary image (0 or 1).<br><strong>阈值化</strong>是一种分割技术，将像素值与阈值比较产生二值图像。",
+    "source": "teacher"
+  },
+  {
+    "question": "The ________ thresholding applies two thresholds (high and low) to classify edges into strong, weak and non-edges in Canny edge detection.\n________ 阈值化在Canny边缘检测中应用两个阈值（高和低）将边缘分为强边缘、弱边缘和非边缘。",
+    "type": "Fill",
+    "answer": ["Double", "double"],
+    "explanation": "<strong>Double thresholding</strong>: high threshold → strong edges; low threshold → weak edges; below low → non-edges. Weak edges connected to strong edges are kept.<br><strong>双阈值</strong>：高阈值→强边缘；低阈值→弱边缘；低于低阈值→非边缘。与强边缘相连的弱边缘被保留。",
+    "source": "teacher"
+  },
+  {
+    "question": "A _________ is a curve that joins a set of points enclosing an area having same colour or intensity.\n_________ 是一条连接一组点的曲线，这些点围成具有相同颜色或强度的区域。",
+    "type": "Fill",
+    "answer": ["Contour", "contour"],
+    "explanation": "A <strong>contour</strong> is a closed curve enclosing an area of uniform color/intensity. Unlike edges (open), contours must form a closed path. Found via <code>cv2.findContours()</code>.<br><strong>轮廓</strong>是围住均匀颜色/强度区域的闭合曲线。与边缘（开放）不同，轮廓必须形成闭合路径。",
+    "source": "teacher"
+  },
+  {
+    "question": "Hidden Layers in CNN consists of convolutional layers, _______ layers and fully connected layers.\nCNN的隐藏层由卷积层、_______ 层和全连接层组成。",
+    "type": "Fill",
+    "answer": ["Pooling", "pooling"],
+    "explanation": "CNN hidden layers: <strong>Convolutional</strong> (extract features) → <strong>Pooling</strong> (reduce dimensions, e.g., MaxPool) → <strong>Fully Connected</strong> (classification).<br>CNN隐藏层：<strong>卷积</strong>（提取特征）→ <strong>池化</strong>（降维，如最大池化）→ <strong>全连接</strong>（分类）。",
+    "source": "teacher"
+  },
+  {
+    "question": "________ measures the proportion of total predictions (both positive and negative) that the model got correct.\n________ 度量模型正确预测的总比例（包括正预测和负预测）。",
+    "type": "Fill",
+    "answer": ["Accuracy", "accuracy"],
+    "explanation": "<strong>Accuracy</strong> = (TP + TN) / (TP + TN + FP + FN). It measures overall correctness but can be misleading with imbalanced datasets.<br><strong>准确率</strong> = (TP + TN) / (TP + TN + FP + FN)。衡量整体正确性，但在不平衡数据集上可能具有误导性。",
+    "source": "teacher"
+  },
+  {
+    "question": "________ helps to preserve edge information during convolution operation.\n________ 有助于在卷积运算中保留边缘信息。",
+    "type": "Fill",
+    "answer": ["Padding", "padding"],
+    "explanation": "<strong>Padding</strong> adds zeros around the input border, preserving spatial dimensions and edge information that would otherwise be lost during convolution.<br><strong>填充</strong>在输入边界周围添加零，保留卷积过程中会丢失的空间维度和边缘信息。",
+    "source": "teacher"
+  },
+  {
+    "question": "What are two examples of learnable parameters in a CNN?\nCNN中可学习参数的两个例子是什么？",
+    "type": "Short",
+    "answer": "Weights and Bias.\n权重（Weights）和偏置（Bias）。",
+    "explanation": "<strong>Weights</strong> (filter values) and <strong>Bias</strong> are learned during training via backpropagation. They are updated by the optimizer to minimize loss.<br><strong>权重</strong>（滤波器值）和<strong>偏置</strong>在训练过程中通过反向传播学习，由优化器更新以最小化损失。",
+    "source": "teacher",
+    "points": 1
+  },
+  {
+    "question": "What is the process called when dilation is followed by erosion?\n先膨胀后腐蚀的过程叫什么？",
+    "type": "Fill",
+    "answer": ["Closing", "closing"],
+    "explanation": "<strong>Closing = Dilation → Erosion</strong>. Fills small holes and connects gaps. Opening is the opposite: Erosion → Dilation (removes small noise).<br><strong>闭运算 = 膨胀 → 腐蚀</strong>。填充小孔连接间隙。开运算相反：腐蚀 → 膨胀（去除小噪声）。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is stride in convolution operation?\n卷积运算中的步长是什么？",
+    "type": "Short",
+    "answer": "Step size with which filter slides across input image.\n滤波器在输入图像上滑动的步长大小。",
+    "explanation": "<strong>Stride</strong> = the number of pixels the filter moves at each step. Stride=1 moves one pixel at a time; stride=2 skips one pixel, reducing output size by half.<br><strong>步长</strong> = 滤波器每步移动的像素数。步长=1每次移动一个像素；步长=2跳过一个像素，输出尺寸减半。",
+    "source": "teacher",
+    "points": 1
+  },
+  {
+    "question": "What is the full form of ORB?\nORB的全称是什么？",
+    "type": "Fill",
+    "answer": ["Oriented FAST and Rotated BRIEF"],
+    "explanation": "ORB = <strong>Oriented FAST and Rotated BRIEF</strong>. Combines FAST keypoint detector + BRIEF descriptor. Free alternative to patented SIFT/SURF.<br>ORB = <strong>Oriented FAST and Rotated BRIEF</strong>。结合FAST关键点检测器 + BRIEF描述子。是专利SIFT/SURF的免费替代。",
+    "source": "teacher"
+  },
+  {
+    "question": "Neurons in the last layer match number of ___________, in a classification model.\n分类模型中最后一层的神经元数量与___________的数量匹配。",
+    "type": "Fill",
+    "answer": ["Classes", "classes"],
+    "explanation": "The output layer has one neuron per <strong>class</strong>. Binary classification → 1 neuron (sigmoid). Multi-class (N classes) → N neurons (softmax).<br>输出层每个<strong>类别</strong>一个神经元。二分类 → 1个神经元(sigmoid)。多分类(N类) → N个神经元(softmax)。",
+    "source": "teacher"
+  },
+  {
+    "question": "Given a grayscale image of size 32×32 pixels, you apply a convolutional layer with 16 filters of size 5×5, stride=1, padding=0. What will be the dimensions of the output feature map?\n给定32×32像素灰度图像，应用16个5×5滤波器，步长=1，填充=0。输出特征图的维度是什么？",
+    "type": "Short",
+    "answer": "Output = (32 - 5 + 2×0) / 1 + 1 = 28. Answer: 28 × 28 × 16.\n输出 = (32 - 5 + 0) / 1 + 1 = 28。答案：28 × 28 × 16。",
+    "explanation": "Formula: <strong>Output = (Input − Filter + 2×Padding) / Stride + 1</strong><br>= (32 − 5 + 0) / 1 + 1 = 28<br>Depth = number of filters = 16<br>公式：<strong>输出 = (输入 − 滤波器 + 2×填充) / 步长 + 1</strong>",
+    "source": "teacher",
+    "points": 2
+  },
+  {
+    "question": "Using Matrix A (5×5) and Kernel K (3×3), perform convolution with stride=1, no padding. Matrix A: [[1,5,3,9,0],[5,9,6,1,2],[7,1,9,0,1],[8,2,3,4,8],[6,7,8,5,9]]. Kernel K: [[-2,0,2],[-2,0,2],[-2,0,2]]. Compute the result.\n使用矩阵A(5×5)和卷积核K(3×3)，步长=1，无填充进行卷积。计算结果。",
+    "type": "Short",
+    "answer": "Output size: ((5-3)/1+1) × ((5-3)/1+1) = 3×3. Result: [[10,-10,-30],[-4,-14,-14],[-2,-2,-4]].\n输出尺寸：3×3。结果矩阵：[[10,-10,-30],[-4,-14,-14],[-2,-2,-4]]。",
+    "explanation": "Kernel K: left col = -2, mid col = 0, right col = 2. Each output = -2×(left 3 elements sum) + 2×(right 3 elements sum).<br>(0,0): -2×(1+5+7) + 2×(3+6+9) = -26+36 = <strong>10</strong><br>(0,1): -2×(5+9+1) + 2×(9+1+0) = -30+20 = <strong>-10</strong><br>(0,2): -2×(3+6+9) + 2×(0+2+1) = -36+6 = <strong>-30</strong><br>... and so on for all 9 positions.<br>卷积核K：左列=-2，中列=0，右列=2。每个输出 = -2×(左列3元素之和) + 2×(右列3元素之和)。",
+    "source": "teacher",
+    "points": 3
+  }
+]

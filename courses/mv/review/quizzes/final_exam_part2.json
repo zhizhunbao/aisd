@@ -1,0 +1,192 @@
+[
+  {
+    "question": "________ sensors use radio waves to detect distance, speed, and characteristics of objects.",
+    "question_zh": "________传感器使用无线电波来检测物体的距离、速度和特征。",
+    "type": "Fill",
+    "answer": [
+      "Radar",
+      "radar"
+    ],
+    "explanation": "<strong>Radar</strong> sensors emit radio waves, making them effective in fog, rain, darkness, and long-range detection.",
+    "explanation_zh": "<strong>雷达</strong>传感器发射无线电波，在雾、雨、黑暗和远距离检测中非常有效。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "In PyTorch, the fundamental data structure used to store inputs, outputs, and intermediate representations is called a ________.",
+    "question_zh": "在PyTorch中，用于存储输入、输出和中间表示的基本数据结构称为________。",
+    "type": "Fill",
+    "answer": [
+      "Tensor",
+      "tensor"
+    ],
+    "explanation": "<strong>Tensors</strong> are multi-dimensional arrays with GPU support, similar to NumPy ndarrays but with automatic differentiation.",
+    "explanation_zh": "<strong>张量</strong>是支持GPU的多维数组，类似于NumPy的ndarray但支持自动微分。",
+    "source": "week7",
+    "predicted": true
+  },
+  {
+    "question": "________ is a two-stage MOT tracker that associates every detection box including low-confidence ones.",
+    "question_zh": "________是一种双阶段MOT跟踪器，它关联每个检测框，包括低置信度的检测框。",
+    "type": "Fill",
+    "answer": [
+      "ByteTrack",
+      "Bytetrack",
+      "bytetrack"
+    ],
+    "explanation": "<strong>ByteTrack</strong> innovates by using two-stage association: first matching high-confidence boxes, then recovering missed objects via low-confidence boxes.",
+    "explanation_zh": "<strong>ByteTrack</strong>的创新在于两阶段关联：先匹配高置信度框，再通过低置信度框恢复遗漏的物体。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "CMOS sensors use a ________ shutter, which captures the image line by line.",
+    "question_zh": "CMOS传感器使用________快门，逐行捕获图像。",
+    "type": "Fill",
+    "answer": [
+      "Rolling",
+      "rolling"
+    ],
+    "explanation": "CMOS uses <strong>rolling shutter</strong> (line-by-line), which can cause motion artifacts like skew. CCD uses global shutter (captures all at once).",
+    "explanation_zh": "CMOS使用<strong>卷帘快门</strong>（逐行），可能导致倾斜等运动伪影。CCD使用全局快门（一次性捕获）。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "________ measures the time taken for emitted light to return to the sensor, used in depth sensing.",
+    "question_zh": "________测量发射光返回传感器所用的时间，用于深度传感。",
+    "type": "Fill",
+    "answer": [
+      "Time-of-Flight",
+      "ToF",
+      "Time of Flight",
+      "time-of-flight"
+    ],
+    "explanation": "<strong>Time-of-Flight (ToF)</strong> is a depth sensing technique that measures the round-trip time of light pulses.",
+    "explanation_zh": "<strong>飞行时间（ToF）</strong>是一种深度传感技术，测量光脉冲的往返时间。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "In PyTorch, a neural network is built by defining a class that inherits from ________.",
+    "question_zh": "在PyTorch中，通过定义一个继承自________的类来构建神经网络。",
+    "type": "Fill",
+    "answer": [
+      "nn.Module",
+      "torch.nn.Module"
+    ],
+    "explanation": "PyTorch networks inherit from <strong>nn.Module</strong>, defining layers in <code>__init__</code> and data flow in <code>forward</code>.",
+    "explanation_zh": "PyTorch网络继承自<strong>nn.Module</strong>，在<code>__init__</code>中定义层，在<code>forward</code>中定义数据流。",
+    "source": "week7",
+    "predicted": true
+  },
+  {
+    "question": "Object tracking involves three steps: object ________, assigning unique IDs, and tracking across frames.",
+    "question_zh": "目标跟踪包含三个步骤：目标________、分配唯一ID、以及跨帧跟踪。",
+    "type": "Fill",
+    "answer": [
+      "Detection",
+      "detection"
+    ],
+    "explanation": "The three steps: (1) <strong>Detection</strong> (bounding box), (2) ID assignment, (3) Cross-frame tracking.",
+    "explanation_zh": "三个步骤：(1) <strong>检测</strong>（边界框），(2) ID分配，(3) 跨帧跟踪。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "SSD stands for ________ ________ ________ Detector.",
+    "question_zh": "SSD的全称是________ ________ ________ Detector（检测器）。",
+    "type": "Fill",
+    "answer": [
+      "Single Shot MultiBox",
+      "Single Shot Multibox"
+    ],
+    "explanation": "<strong>SSD = Single Shot MultiBox Detector</strong>. It uses multi-scale feature maps with default boxes for real-time detection.",
+    "explanation_zh": "<strong>SSD = 单次多框检测器</strong>。使用多尺度特征图和默认框实现实时检测。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "The sensor fusion data processing pipeline includes four steps: preprocessing, ________ & synchronization, fusion algorithms, and unified output.",
+    "question_zh": "传感器融合数据处理流程包括四个步骤：预处理、________与同步、融合算法、统一输出。",
+    "type": "Fill",
+    "answer": [
+      "Alignment",
+      "alignment"
+    ],
+    "explanation": "Pipeline: (1) Preprocessing (calibration, noise reduction), (2) <strong>Alignment & Synchronization</strong>, (3) Fusion algorithms, (4) Unified output.",
+    "explanation_zh": "流程：(1) 预处理（校准、降噪），(2) <strong>对齐与同步</strong>，(3) 融合算法，(4) 统一输出。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "________ is a single-stage tracker designed for speed and efficiency that predicts object classes, IDs, and locations in a single network pass.",
+    "question_zh": "________是一种为速度和效率设计的单阶段跟踪器，在单次网络传递中预测物体类别、ID和位置。",
+    "type": "Fill",
+    "answer": [
+      "DeepSORT",
+      "Deepsort",
+      "DeepSort",
+      "deepsort"
+    ],
+    "explanation": "<strong>DeepSORT</strong> is a single-stage tracker that combines detection and tracking in one pass, suitable for real-time applications.",
+    "explanation_zh": "<strong>DeepSORT</strong>是一种单阶段跟踪器，在一次传递中结合检测和跟踪，适用于实时应用。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "Compare CCD and CMOS sensors: list two advantages of each.",
+    "question_zh": "比较CCD和CMOS传感器：各列出两个优势。",
+    "type": "Short",
+    "answer": "CCD: (1) Higher image quality with less noise, (2) Global shutter reduces motion artifacts. CMOS: (1) Lower power consumption, (2) Cheaper to manufacture.\nCCD：(1) 更高图像质量更低噪声，(2) 全局快门减少运动伪影。CMOS：(1) 更低功耗，(2) 制造成本更低。",
+    "explanation": "CCD = high quality + global shutter but expensive + high power. CMOS = cheap + low power but rolling shutter + historically noisier.",
+    "explanation_zh": "CCD = 高质量 + 全局快门，但昂贵 + 高功耗。CMOS = 便宜 + 低功耗，但卷帘快门 + 历史上噪声更多。",
+    "source": "week10",
+    "points": 2,
+    "predicted": true
+  },
+  {
+    "question": "Explain the difference between single-stage and two-stage object trackers. Give one example of each.",
+    "question_zh": "解释单阶段和双阶段目标跟踪器的区别。各举一个例子。",
+    "type": "Short",
+    "answer": "Single-stage trackers perform detection and tracking simultaneously in one network pass (e.g., DeepSORT). Two-stage trackers separate detection and association: first detecting objects, then matching across frames using algorithms like Hungarian or Kalman (e.g., ByteTrack).\n单阶段跟踪器在一次网络传递中同时执行检测和跟踪（如DeepSORT）。双阶段跟踪器分离检测和关联：先检测物体，再使用匈牙利算法或卡尔曼滤波进行帧间匹配（如ByteTrack）。",
+    "explanation": "Single-stage = fast but may miss small/occluded objects. Two-stage = more accurate, especially in crowded scenes, but computationally intensive.",
+    "explanation_zh": "单阶段 = 快速但可能遗漏小目标/遮挡目标。双阶段 = 更准确，尤其在拥挤场景中，但计算密集。",
+    "source": "week9",
+    "points": 2,
+    "predicted": true
+  },
+  {
+    "question": "What are the three core components of PyTorch? Briefly explain each.",
+    "question_zh": "PyTorch的三个核心组件是什么？简要解释每个。",
+    "type": "Short",
+    "answer": "(1) Tensors: multi-dimensional arrays with GPU support for storing data. (2) Autograd: automatic differentiation system for computing gradients. (3) Optimizers: algorithms (SGD, Adam) that update model parameters to minimize loss.\n(1) 张量：支持GPU的多维数组，用于存储数据。(2) 自动微分：自动计算梯度的系统。(3) 优化器：更新模型参数以最小化损失的算法（SGD、Adam）。",
+    "explanation": "Tensors = data container. Autograd = gradient engine. Optimizers = parameter updater. Together they form the training pipeline.",
+    "explanation_zh": "张量 = 数据容器。自动微分 = 梯度引擎。优化器 = 参数更新器。三者共同构成训练流程。",
+    "source": "week7",
+    "points": 2,
+    "predicted": true
+  },
+  {
+    "question": "Explain why sensor fusion is important for autonomous vehicles. Name at least 3 types of sensors used.",
+    "question_zh": "解释为什么传感器融合对自动驾驶汽车很重要。列举至少3种使用的传感器类型。",
+    "type": "Short",
+    "answer": "Sensor fusion combines data from multiple sensors to create a comprehensive 360-degree view. No single sensor is perfect: cameras struggle in darkness, LiDAR is expensive and sparse, radar has low resolution. By fusing cameras, LiDAR, radar, and ultrasonic sensors, the system achieves redundancy, reliability, and can handle uncertain conditions.\n传感器融合结合多个传感器数据创建全面的360度视图。没有完美的单一传感器：相机在黑暗中不行，LiDAR昂贵且稀疏，雷达分辨率低。通过融合相机、LiDAR、雷达和超声波传感器，系统实现冗余性、可靠性，能处理不确定条件。",
+    "explanation": "Key: each sensor has trade-offs. Fusion provides <strong>redundancy</strong> (backup if one fails), <strong>complementary data</strong> (different modalities), and <strong>resilience</strong>.",
+    "explanation_zh": "关键：每种传感器都有权衡。融合提供<strong>冗余性</strong>（故障备份）、<strong>互补数据</strong>（不同模态）和<strong>弹性</strong>。",
+    "source": "week10",
+    "points": 3,
+    "predicted": true
+  },
+  {
+    "question": "Given a grayscale image of size 64×64 pixels, you apply a convolutional layer with 32 filters of size 3×3, stride=2, padding=1. What are the dimensions of the output feature map?",
+    "question_zh": "给定64×64像素的灰度图像，应用32个3×3滤波器的卷积层，步长=2，填充=1。输出特征图的维度是什么？",
+    "type": "Short",
+    "answer": "Output = (Input - Filter + 2×Padding) / Stride + 1 = (64 - 3 + 2×1) / 2 + 1 = (64 - 3 + 2) / 2 + 1 = 63/2 + 1 = 31.5 + 1 = 32. Answer: 32 × 32 × 32.\n输出 = (64 - 3 + 2) / 2 + 1 = 32。答案：32 × 32 × 32。",
+    "explanation": "Formula: <strong>Output = (Input − Filter + 2×Padding) / Stride + 1</strong>. Spatial: 32×32. Depth = number of filters = 32.",
+    "explanation_zh": "公式：<strong>输出 = (输入 − 滤波器 + 2×填充) / 步长 + 1</strong>。空间维度：32×32。深度 = 滤波器数量 = 32。",
+    "source": "week4-review",
+    "points": 2,
+    "predicted": true
+  }
+]

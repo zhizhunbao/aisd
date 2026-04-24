@@ -1,0 +1,197 @@
+[
+  {
+    "question": "What is Machine Vision primarily used for?\n机器视觉主要用于什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Gaming development / 游戏开发",
+      "B) 3D animation / 3D动画",
+      "C) Imaging-based automatic inspection and analysis / 基于成像的自动检测与分析",
+      "D) Web design / 网页设计"
+    ],
+    "answer": 2,
+    "explanation": "Machine Vision is primarily used for <strong>imaging-based automatic inspection and analysis</strong>, enabling machines to detect defects, recognize objects, and make automated decisions.<br>机器视觉主要用于<strong>基于成像的自动检测与分析</strong>，使机器能够检测缺陷、识别物体并做出自动决策。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which stage in the Machine Vision workflow deals with analysis and manipulation of images?\n机器视觉工作流程中，哪个阶段处理图像的分析和操作？",
+    "type": "MCQ",
+    "options": [
+      "A) Neural Networks / 神经网络",
+      "B) Interpretation/Action / 解释/动作",
+      "C) Image Acquisition / 图像采集",
+      "D) Image Processing / 图像处理"
+    ],
+    "answer": 3,
+    "explanation": "<strong>Image Processing</strong> is the stage where filtering, enhancement, feature extraction, and analysis of images occur before interpretation.<br><strong>图像处理</strong>阶段进行滤波、增强、特征提取和图像分析，发生在解释之前。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the key difference between Machine Vision and Computer Vision?\n机器视觉与计算机视觉的关键区别是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Machine Vision is only for robots, Computer Vision is for computers / 机器视觉只用于机器人，计算机视觉用于计算机",
+      "B) Machine Vision emphasizes complete end-to-end systems (hardware + software + decision), while Computer Vision focuses on image understanding algorithms / 机器视觉强调完整的端到端系统（硬件+软件+决策），而计算机视觉侧重图像理解算法",
+      "C) Computer Vision is more advanced than Machine Vision / 计算机视觉比机器视觉更先进",
+      "D) There is no difference; they are the same thing / 没有区别，它们是同一回事"
+    ],
+    "answer": 1,
+    "explanation": "Machine Vision emphasizes the <strong>complete system</strong> (hardware + software + decision-making), while Computer Vision focuses primarily on the algorithmic understanding of images.<br>机器视觉强调<strong>完整系统</strong>（硬件+软件+决策），而计算机视觉主要侧重于图像的算法理解。在工业中，机器视觉意味着生产就绪的系统。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which of the following best describes a pixel in a digital image?\n以下哪项最准确地描述了数字图像中的像素？",
+    "type": "MCQ",
+    "options": [
+      "A) A physical dot on a camera sensor / 相机传感器上的物理点",
+      "B) A numerical representation at location (x, y) in an image / 图像中位置(x, y)处的数值表示",
+      "C) A color name stored in memory / 存储在内存中的颜色名称",
+      "D) A binary value that is always 0 or 1 / 始终为0或1的二进制值"
+    ],
+    "answer": 1,
+    "explanation": "A pixel is a <strong>numerical representation</strong> at a specific (x, y) location in an image. In grayscale, it's a single value [0-255]; in color (RGB), it's a tuple of three values.<br>像素是图像中特定(x, y)位置的<strong>数值表示</strong>。灰度图中是单一值[0-255]；彩色(RGB)中是三个值的元组。",
+    "source": "teacher"
+  },
+  {
+    "question": "How many values does each pixel in an RGB color image contain?\nRGB彩色图像中每个像素包含多少个值？",
+    "type": "MCQ",
+    "options": [
+      "A) 1 (single intensity value) / 1个（单一强度值）",
+      "B) 2 (brightness and color) / 2个（亮度和颜色）",
+      "C) 3 (Red, Green, Blue) / 3个（红、绿、蓝）",
+      "D) 4 (Red, Green, Blue, Alpha) / 4个（红、绿、蓝、透明度）"
+    ],
+    "answer": 2,
+    "explanation": "Each pixel in an RGB image contains <strong>3 values</strong>: Red, Green, and Blue intensities, each ranging from 0 to 255.<br>RGB图像中每个像素包含<strong>3个值</strong>：红、绿、蓝强度，每个范围为0到255。",
+    "source": "teacher"
+  },
+  {
+    "question": "Why might HSV color space be preferred over RGB for color-based object detection?\n为什么在基于颜色的目标检测中可能优先选择HSV色彩空间而非RGB？",
+    "type": "MCQ",
+    "options": [
+      "A) HSV uses fewer bytes per pixel / HSV每像素使用更少字节",
+      "B) HSV is faster to compute / HSV计算更快",
+      "C) In HSV, the Hue channel separates color information from lighting conditions / 在HSV中，色调通道将颜色信息与光照条件分离",
+      "D) HSV was invented more recently than RGB / HSV比RGB发明得更晚"
+    ],
+    "answer": 2,
+    "explanation": "In HSV, the <strong>Hue channel</strong> directly represents the color type, independent of brightness (Value) and vividness (Saturation). This makes it much easier to detect objects of a specific color regardless of lighting variations.<br>在HSV中，<strong>色调(Hue)通道</strong>直接表示颜色类型，独立于亮度(Value)和饱和度(Saturation)。这使得无论光照如何变化都能更容易地检测特定颜色的物体。",
+    "source": "teacher"
+  },
+  {
+    "question": "What was the significant turning point that revolutionized Machine Vision?\n什么是彻底改变机器视觉的重要转折点？",
+    "type": "MCQ",
+    "options": [
+      "A) The invention of CCD sensors in the 1970s / 1970年代CCD传感器的发明",
+      "B) The development of the SIFT algorithm in 1999 / 1999年SIFT算法的开发",
+      "C) The rise of deep learning techniques, notably AlexNet winning ImageNet in 2012 / 深度学习技术的兴起，尤其是2012年AlexNet赢得ImageNet",
+      "D) The release of OpenCV in 2000 / 2000年OpenCV的发布"
+    ],
+    "answer": 2,
+    "explanation": "<strong>AlexNet winning ImageNet in 2012</strong> marked the shift from hand-crafted features (SIFT, HOG) to deep learning (CNNs that automatically learn features from data).<br><strong>2012年AlexNet赢得ImageNet</strong>标志着从手工设计特征（SIFT、HOG）到深度学习（CNN自动从数据中学习特征）的转变。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which image format supports transparency (alpha channel)?\n哪种图像格式支持透明度（Alpha通道）？",
+    "type": "MCQ",
+    "options": [
+      "A) JPEG",
+      "B) RAW",
+      "C) PNG",
+      "D) BMP"
+    ],
+    "answer": 2,
+    "explanation": "<strong>PNG</strong> supports an alpha channel for transparency. JPEG does not support transparency, and RAW is an uncompressed format without alpha support.<br><strong>PNG</strong>支持用于透明度的Alpha通道。JPEG不支持透明度，RAW是不支持Alpha的非压缩格式。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the main advantage of CMOS sensors over CCD sensors?\nCMOS传感器相比CCD传感器的主要优势是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Higher image quality / 更高的图像质量",
+      "B) Lower noise / 更低的噪声",
+      "C) Lower power consumption and cheaper manufacturing / 更低的功耗和更便宜的制造成本",
+      "D) Better color accuracy / 更好的色彩准确性"
+    ],
+    "answer": 2,
+    "explanation": "CMOS sensors have <strong>lower power consumption</strong> and are cheaper to manufacture (using standard chip fabrication processes), which is why they dominate smartphones and consumer cameras.<br>CMOS传感器<strong>功耗更低</strong>且制造成本更便宜（使用标准芯片制造工艺），因此主导了智能手机和消费级相机市场。",
+    "source": "teacher"
+  },
+  {
+    "question": "In the Machine Vision workflow, what are the three basic stages in order?\n机器视觉工作流程中，三个基本阶段的正确顺序是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Processing → Acquisition → Action / 处理 → 采集 → 动作",
+      "B) Acquisition → Interpretation → Processing / 采集 → 解释 → 处理",
+      "C) Image Acquisition → Image Processing → Interpretation/Action / 图像采集 → 图像处理 → 解释/动作",
+      "D) Sensing → Learning → Output / 感知 → 学习 → 输出"
+    ],
+    "answer": 2,
+    "explanation": "The workflow is: (1) <strong>Image Acquisition</strong> (camera captures), (2) <strong>Image Processing</strong> (analyze and extract features), (3) <strong>Interpretation/Action</strong> (make decisions based on results).<br>工作流程为：(1) <strong>图像采集</strong>（相机捕获），(2) <strong>图像处理</strong>（分析和提取特征），(3) <strong>解释/动作</strong>（根据结果做出决策）。",
+    "source": "teacher"
+  },
+  {
+    "question": "A grayscale image is represented as a 3D tensor (Height × Width × 3).\n灰度图像表示为3D张量（高度×宽度×3）。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "A grayscale image is a <strong>2D matrix</strong> (Height × Width) with a single intensity value per pixel. A color (RGB) image is a 3D tensor (H × W × 3).<br>灰度图像是一个<strong>2D矩阵</strong>（高度×宽度），每个像素只有一个强度值。彩色(RGB)图像才是3D张量（H × W × 3）。",
+    "source": "teacher"
+  },
+  {
+    "question": "OpenCV reads images in BGR channel order, not RGB.\nOpenCV以BGR通道顺序读取图像，而非RGB。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "OpenCV uses <strong>BGR</strong> (Blue, Green, Red) channel order by default. Converting to RGB is needed when displaying with matplotlib: <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code>.<br>OpenCV默认使用<strong>BGR</strong>（蓝、绿、红）通道顺序。使用matplotlib显示时需要转换为RGB。",
+    "source": "teacher"
+  },
+  {
+    "question": "In OpenCV, pixel coordinates are accessed as image[x, y] (column, row).\n在OpenCV中，像素坐标以image[x, y]（列，行）方式访问。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "OpenCV accesses pixels as <code>image[y, x]</code> (row, column), not <code>image[x, y]</code>. This is a common source of bugs.<br>OpenCV以<code>image[y, x]</code>（行，列）访问像素，而非<code>image[x, y]</code>。这是常见的bug来源。",
+    "source": "teacher"
+  },
+  {
+    "question": "Deep learning completely replaced all traditional computer vision methods after 2012.\n2012年之后，深度学习完全取代了所有传统的计算机视觉方法。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Traditional methods (template matching, thresholding, SIFT) are still used in <strong>constrained industrial environments</strong> where they are faster, cheaper, and more interpretable than deep learning.<br>传统方法（模板匹配、阈值分割、SIFT）仍然在<strong>受限的工业环境</strong>中使用，因为它们比深度学习更快、更便宜且更具可解释性。",
+    "source": "teacher"
+  },
+  {
+    "question": "JPEG is a lossless image compression format.\nJPEG是无损图像压缩格式。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "JPEG uses <strong>lossy compression</strong>, meaning some image data is permanently lost during compression. PNG is lossless.<br>JPEG使用<strong>有损压缩</strong>，压缩过程中部分图像数据会永久丢失。PNG才是无损的。",
+    "source": "teacher"
+  },
+  {
+    "question": "In the HSV color space, H stands for Hue, S stands for Saturation, and V stands for Value (brightness).\n在HSV色彩空间中，H代表色调，S代表饱和度，V代表明度（亮度）。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "H = Hue (color type, 0-360°), S = Saturation (vividness, 0-1), V = Value (brightness, 0-1).<br>H = 色调（颜色类型，0-360°），S = 饱和度（鲜艳度，0-1），V = 明度（亮度，0-1）。",
+    "source": "teacher"
+  },
+  {
+    "question": "CCD sensors are cheaper to manufacture than CMOS sensors.\nCCD传感器比CMOS传感器制造成本更低。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "CCD sensors are <strong>more expensive</strong> to manufacture. CMOS sensors use standard semiconductor fabrication processes, making them significantly cheaper.<br>CCD传感器制造成本<strong>更高</strong>。CMOS传感器使用标准半导体制造工艺，成本显著更低。",
+    "source": "teacher"
+  },
+  {
+    "question": "Define Machine Vision in your own words and explain how it differs from simple image processing.\n用自己的话定义机器视觉，并解释它与简单图像处理的区别。",
+    "type": "Short",
+    "answer": "Machine Vision is a technology that enables machines to interpret and understand visual information from the environment. While image processing focuses on low-level pixel manipulation (filtering, enhancement), Machine Vision encompasses the complete pipeline: capturing images (sensors), processing them to extract meaningful features, and using that information to make decisions or perform actions.\n机器视觉是一种使机器能够解释和理解环境中视觉信息的技术。图像处理侧重于底层像素操作（滤波、增强），而机器视觉涵盖完整的流程：采集图像（传感器）、处理图像提取有意义的特征、利用信息做出决策或执行动作。",
+    "explanation": "Key distinction: Image processing = <strong>pixel-level operations</strong> (e.g., adjusting brightness). Machine Vision = <strong>complete system</strong> including hardware (cameras/sensors), software (processing algorithms), and decision-making.<br>关键区别：图像处理 = <strong>像素级操作</strong>（如调节亮度）。机器视觉 = <strong>完整系统</strong>，包括硬件（相机/传感器）、软件（处理算法）和决策。",
+    "source": "teacher",
+    "points": 2
+  },
+  {
+    "question": "A digital image has a pixel at location (2, 3) with the value [128, 0, 255]. In RGB color space, what does each number represent? What color would this pixel appear to be?\n数字图像在位置(2, 3)有一个值为[128, 0, 255]的像素。在RGB色彩空间中，每个数字代表什么？这个像素看起来是什么颜色？",
+    "type": "Short",
+    "answer": "R=128 (medium Red), G=0 (no Green), B=255 (maximum Blue). This pixel would appear as a purple/violet color — a mix of medium red and full blue, with no green component.\nR=128（中等红色），G=0（无绿色），B=255（最大蓝色）。这个像素看起来是紫色/紫罗兰色——中等红色和全蓝色的混合，没有绿色成分。",
+    "explanation": "Each channel ranges from 0-255. <strong>R=128</strong> means half-intensity red. <strong>G=0</strong> means no green contribution. <strong>B=255</strong> means full blue. Mixing red and blue gives <strong>purple/violet</strong>.<br>每个通道范围为0-255。<strong>R=128</strong>表示半强度红色。<strong>G=0</strong>表示无绿色。<strong>B=255</strong>表示全蓝色。红蓝混合得到<strong>紫色</strong>。",
+    "source": "teacher",
+    "points": 2
+  }
+]

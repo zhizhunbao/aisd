@@ -1,0 +1,197 @@
+[
+  {
+    "question": "What is the primary purpose of image filtering (blurring) in image processing?\n图像处理中，图像滤波（模糊）的主要目的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To increase image resolution / 增加图像分辨率",
+      "B) To reduce noise and smooth the image by averaging neighboring pixels / 通过平均邻近像素来降低噪声和平滑图像",
+      "C) To add artistic effects / 添加艺术效果",
+      "D) To compress the image file size / 压缩图像文件大小"
+    ],
+    "answer": 1,
+    "explanation": "Blurring reduces noise by <strong>averaging neighboring pixels</strong>, smoothing out rapid intensity changes.<br>模糊通过<strong>平均邻近像素</strong>来降低噪声，平滑快速的强度变化。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which blurring method is most effective for removing salt-and-pepper noise?\n哪种模糊方法对去除椒盐噪声最有效？",
+    "type": "MCQ",
+    "options": [
+      "A) Average (Mean) blur / 均值模糊",
+      "B) Gaussian blur / 高斯模糊",
+      "C) Median blur / 中值模糊",
+      "D) Bilateral filter / 双边滤波器"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Median blur</strong> replaces each pixel with the median of its neighborhood, effectively removing salt-and-pepper noise without smearing edges.<br><strong>中值模糊</strong>将每个像素替换为其邻域的中值，有效去除椒盐噪声而不模糊边缘。",
+    "source": "teacher"
+  },
+  {
+    "question": "What are the five stages of the Canny edge detection algorithm, in order?\nCanny边缘检测算法的五个阶段按顺序是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Gradient → Thresholding → NMS → Smoothing → Tracking / 梯度→阈值→NMS→平滑→跟踪",
+      "B) Gaussian smoothing → Gradient calculation → NMS → Double thresholding → Hysteresis edge tracking / 高斯平滑→梯度计算→非极大值抑制→双阈值→滞后边缘跟踪",
+      "C) Sobel → Laplacian → Gaussian → Thresholding → Morphology / Sobel→拉普拉斯→高斯→阈值→形态学",
+      "D) Noise removal → Segmentation → Classification → Output → Validation / 去噪→分割→分类→输出→验证"
+    ],
+    "answer": 1,
+    "explanation": "The five stages in order: (1) Gaussian smoothing, (2) Gradient calculation, (3) NMS, (4) Double thresholding, (5) Hysteresis edge tracking.<br>五个阶段按顺序为：(1) 高斯平滑，(2) 梯度计算，(3) 非极大值抑制，(4) 双阈值，(5) 滞后边缘跟踪。",
+    "source": "teacher"
+  },
+  {
+    "question": "In the Canny edge detector, what is the purpose of Non-Maximum Suppression (NMS)?\n在Canny边缘检测器中，非极大值抑制(NMS)的目的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To remove all weak edges / 去除所有弱边缘",
+      "B) To thin thick edge bands down to 1-pixel-wide lines / 将粗边缘带细化为1像素宽的线条",
+      "C) To apply the Gaussian filter / 应用高斯滤波器",
+      "D) To connect broken edges / 连接断裂的边缘"
+    ],
+    "answer": 1,
+    "explanation": "NMS <strong>thins the thick gradient response bands</strong> into precise 1-pixel-wide edge lines. It keeps only the local maximum gradient value along the gradient direction.<br>NMS将<strong>粗梯度响应带细化</strong>为精确的1像素宽边缘线。它只保留沿梯度方向的局部最大梯度值。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does an image histogram represent?\n图像直方图表示什么？",
+    "type": "MCQ",
+    "options": [
+      "A) The spatial frequency content of an image / 图像的空间频率内容",
+      "B) The distribution of pixel intensity values, with brightness on X-axis and pixel count on Y-axis / 像素强度值的分布，X轴为亮度，Y轴为像素数量",
+      "C) The color balance between RGB channels / RGB通道之间的色彩平衡",
+      "D) The compression ratio of the image / 图像的压缩比"
+    ],
+    "answer": 1,
+    "explanation": "A histogram shows the <strong>distribution of pixel intensities</strong>: X-axis = brightness levels (0-255), Y-axis = pixel count. Left-skewed = dark image; right-skewed = bright.<br>直方图显示<strong>像素强度的分布</strong>：X轴 = 亮度级别(0-255)，Y轴 = 像素数量。左偏 = 暗图像；右偏 = 亮图像。",
+    "source": "teacher"
+  },
+  {
+    "question": "When should you use adaptive thresholding instead of simple (global) thresholding?\n什么时候应该使用自适应阈值而非简单（全局）阈值？",
+    "type": "MCQ",
+    "options": [
+      "A) When the image is very small / 当图像很小时",
+      "B) When the image has uniform lighting conditions / 当图像有均匀光照条件时",
+      "C) When the image has varying illumination across different regions / 当图像不同区域有不同光照时",
+      "D) When processing color images / 处理彩色图像时"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Adaptive thresholding</strong> computes a different threshold for each pixel based on its local neighborhood, handling varying illumination. Simple thresholding uses one global value and fails when lighting is uneven.<br><strong>自适应阈值</strong>根据每个像素的局部邻域计算不同的阈值，处理不均匀光照。简单阈值使用一个全局值，光照不均匀时会失败。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the correct order of operations in morphological 'Opening'?\n形态学开运算的正确操作顺序是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Dilation followed by erosion / 先膨胀后腐蚀",
+      "B) Erosion followed by dilation / 先腐蚀后膨胀",
+      "C) Two rounds of dilation / 两轮膨胀",
+      "D) Two rounds of erosion / 两轮腐蚀"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Opening = erosion → dilation</strong>. Erosion first removes small noise, then dilation restores the object's shape. Closing is the opposite: dilation first, then erosion.<br><strong>开运算 = 腐蚀 → 膨胀</strong>。先腐蚀去除小噪声，然后膨胀恢复物体形状。闭运算相反：先膨胀后腐蚀。",
+    "source": "teacher"
+  },
+  {
+    "question": "In erosion, when is an output pixel set to 1?\n在腐蚀操作中，输出像素何时被设为1？",
+    "type": "MCQ",
+    "options": [
+      "A) If at least one pixel under the kernel is 1 / 如果核下至少一个像素为1",
+      "B) If the center pixel under the kernel is 1 / 如果核下中心像素为1",
+      "C) If all pixels under the kernel are 1 / 如果核下所有像素都为1",
+      "D) If more than half the pixels under the kernel are 1 / 如果核下超过一半的像素为1"
+    ],
+    "answer": 2,
+    "explanation": "In erosion, the output pixel is 1 only if <strong>ALL pixels under the kernel are 1</strong>. If any pixel is 0, the output is 0. This shrinks white regions and removes small white noise.<br>在腐蚀中，只有当核下<strong>所有像素都为1</strong>时，输出像素才为1。如果任何像素为0，输出就为0。这会缩小白色区域并去除小的白噪声。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does the affine transformation formula y = Ax + b guarantee to preserve?\n仿射变换公式 y = Ax + b 保证保持什么性质？",
+    "type": "MCQ",
+    "options": [
+      "A) Pixel intensity values / 像素强度值",
+      "B) Image file size / 图像文件大小",
+      "C) Straight lines and parallelism / 直线和平行性",
+      "D) Color information / 颜色信息"
+    ],
+    "answer": 2,
+    "explanation": "Affine transformations preserve <strong>collinearity</strong> (points on a line remain on a line) and <strong>parallelism</strong> (parallel lines remain parallel). They include translation, rotation, scaling, and shearing.<br>仿射变换保持<strong>共线性</strong>（直线上的点仍在直线上）和<strong>平行性</strong>（平行线仍然平行）。包括平移、旋转、缩放和剪切。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which of the following is NOT one of the nine key stages of digital image processing?\n以下哪项不是数字图像处理的九个关键阶段之一？",
+    "type": "MCQ",
+    "options": [
+      "A) Image Acquisition / 图像采集",
+      "B) Segmentation / 分割",
+      "C) Neural Network Training / 神经网络训练",
+      "D) Morphological Processing / 形态学处理"
+    ],
+    "answer": 2,
+    "explanation": "Neural Network Training is not one of the nine stages. The nine stages are: Acquisition, Enhancement, Restoration, Morphological Processing, Segmentation, Object Recognition, Representation & Description, Compression, and Color Image Processing.<br>神经网络训练不属于九个阶段。九个阶段是：采集、增强、恢复、形态学处理、分割、目标识别、表示与描述、压缩、彩色图像处理。",
+    "source": "teacher"
+  },
+  {
+    "question": "Sharpening an image reduces noise by smoothing pixel values.\n锐化图像通过平滑像素值来降低噪声。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Sharpening <strong>ENHANCES edges</strong> by amplifying intensity differences between adjacent pixels. This actually amplifies noise. Blurring (not sharpening) reduces noise.<br>锐化通过放大相邻像素间的强度差异来<strong>增强边缘</strong>。这实际上会放大噪声。模糊（而非锐化）才能降低噪声。",
+    "source": "teacher"
+  },
+  {
+    "question": "The Canny edge detector requires two threshold parameters: a low threshold and a high threshold.\nCanny边缘检测器需要两个阈值参数：低阈值和高阈值。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Canny uses <strong>two thresholds</strong>: a high threshold to identify strong edges and a low threshold to identify weak edges. Weak edges connected to strong edges are kept.<br>Canny使用<strong>两个阈值</strong>：高阈值识别强边缘，低阈值识别弱边缘。与强边缘相连的弱边缘被保留。",
+    "source": "teacher"
+  },
+  {
+    "question": "In morphological closing, dilation is performed first, followed by erosion.\n在形态学闭运算中，先执行膨胀，然后执行腐蚀。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "<strong>Closing = dilation → erosion</strong>. Fills small holes, connects gaps, then restores shape. This removes small black holes inside foreground objects.<br><strong>闭运算 = 膨胀 → 腐蚀</strong>。填充小孔、连接间隙，然后恢复形状。这会去除前景物体内部的小黑孔。",
+    "source": "teacher"
+  },
+  {
+    "question": "A Gaussian blur kernel assigns equal weights to all pixels in the neighborhood.\n高斯模糊核对邻域中所有像素分配相等的权重。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "A Gaussian kernel assigns <strong>higher weights to the center</strong> pixel and lower weights to surrounding pixels, following a Gaussian (bell curve) distribution. An average filter assigns equal weights.<br>高斯核对<strong>中心像素分配更高权重</strong>，对周围像素分配更低权重，遵循高斯（钟形曲线）分布。均值滤波器才分配相等权重。",
+    "source": "teacher"
+  },
+  {
+    "question": "All nine stages of image processing must be applied to every image processing task.\n所有九个图像处理阶段都必须应用于每个图像处理任务。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Based on the application, a combination of only <strong>2-3 steps may suffice</strong>. Not all nine stages are required for every task.<br>根据应用需求，通常只需<strong>2-3个步骤</strong>即可。并非每个任务都需要所有九个阶段。",
+    "source": "teacher"
+  },
+  {
+    "question": "Median filtering computes the average of neighborhood pixels.\n中值滤波计算邻域像素的平均值。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "Median filtering takes the <strong>MEDIAN</strong> (middle value when sorted) of the neighborhood pixels, not the average. This is why it's effective against salt-and-pepper noise.<br>中值滤波取邻域像素的<strong>中值</strong>（排序后的中间值），而非平均值。这就是它对椒盐噪声有效的原因。",
+    "source": "teacher"
+  },
+  {
+    "question": "In the Canny algorithm, hysteresis edge tracking keeps weak edges only if they are connected to strong edges.\n在Canny算法中，滞后边缘跟踪仅在弱边缘连接到强边缘时才保留弱边缘。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Weak edges <strong>connected to strong edges</strong> are kept as real edges; isolated weak edges are discarded as noise.<br>与<strong>强边缘相连</strong>的弱边缘被保留为真实边缘；孤立的弱边缘被丢弃为噪声。",
+    "source": "teacher"
+  },
+  {
+    "question": "Explain the trade-off between blurring and sharpening. Why might you use both in sequence?\n解释模糊和锐化之间的权衡。为什么可能要按顺序使用两者？",
+    "type": "Short",
+    "answer": "Blur first to remove noise, then sharpen to recover edges. Blurring reduces noise but loses detail; sharpening enhances edges but amplifies noise. Using both in sequence gives better results.\n先模糊去除噪声，再锐化恢复边缘。模糊降低噪声但丢失细节；锐化增强边缘但放大噪声。按顺序使用两者效果更好。",
+    "explanation": "Blur first → remove noise. Sharpen next → restore edges without amplifying noise. This is a common workflow in image preprocessing.<br>先模糊→去噪。再锐化→恢复边缘而不放大噪声。这是图像预处理中的常见工作流程。",
+    "source": "teacher",
+    "points": 2
+  },
+  {
+    "question": "Given a 3×3 pixel region: [[80,90,85],[95,100,110],[105,115,120]], calculate the 3×3 average filter output for the center pixel.\n给定一个3×3像素区域：[[80,90,85],[95,100,110],[105,115,120]]，计算中心像素的3×3均值滤波输出。",
+    "type": "Short",
+    "answer": "Sum = 80+90+85+95+100+110+105+115+120 = 900. Average = 900/9 = 100.\n总和 = 80+90+85+95+100+110+105+115+120 = 900。平均值 = 900/9 = 100。",
+    "explanation": "Sum all 9 values → 900, divide by 9 → <strong>100</strong>. The center pixel value remains 100 because the original value equals the neighborhood average.<br>将所有9个值求和 → 900，除以9 → <strong>100</strong>。中心像素值保持100，因为原始值等于邻域平均值。",
+    "source": "teacher",
+    "points": 2
+  }
+]

@@ -1,0 +1,322 @@
+[
+  {
+    "question": "What is the primary purpose of sensor fusion in computer vision?",
+    "question_zh": "计算机视觉中传感器融合的主要目的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To reduce cost by using fewer sensors / 通过使用更少的传感器来降低成本",
+      "B) To combine data from multiple sensors for improved accuracy and reliability / 结合多个传感器的数据以提高准确性和可靠性",
+      "C) To replace cameras with LiDAR / 用LiDAR替换相机",
+      "D) To compress sensor data for storage / 压缩传感器数据用于存储"
+    ],
+    "answer": 1,
+    "explanation": "<strong>Sensor fusion</strong> combines data from multiple sensors to achieve more accurate and reliable information than any single sensor alone.",
+    "explanation_zh": "<strong>传感器融合</strong>结合多个传感器的数据，获得比任何单一传感器更准确和可靠的信息。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "Which shutter type does a CCD sensor use?",
+    "question_zh": "CCD传感器使用哪种快门类型？",
+    "type": "MCQ",
+    "options": [
+      "A) Rolling shutter / 卷帘快门",
+      "B) Global shutter / 全局快门",
+      "C) Electronic shutter / 电子快门",
+      "D) Mechanical shutter / 机械快门"
+    ],
+    "answer": 1,
+    "explanation": "CCD sensors use a <strong>global shutter</strong>, capturing the entire image at once, reducing motion artifacts.",
+    "explanation_zh": "CCD传感器使用<strong>全局快门</strong>，一次性捕获整个图像，减少运动伪影。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "What type of computation graph does PyTorch use?",
+    "question_zh": "PyTorch使用什么类型的计算图？",
+    "type": "MCQ",
+    "options": [
+      "A) Static (Define-and-Run) / 静态（先定义后运行）",
+      "B) Dynamic (Define-by-Run) / 动态（边定义边运行）",
+      "C) Hybrid graph / 混合图",
+      "D) Fixed graph / 固定图"
+    ],
+    "answer": 1,
+    "explanation": "PyTorch uses <strong>dynamic computation graphs</strong> (Define-by-Run), allowing changes on the fly and easier debugging.",
+    "explanation_zh": "PyTorch使用<strong>动态计算图</strong>（边定义边运行），允许即时修改和更容易调试。",
+    "source": "week7",
+    "predicted": true
+  },
+  {
+    "question": "What is the key difference between object detection and object tracking?",
+    "question_zh": "目标检测和目标跟踪的关键区别是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Detection is faster than tracking / 检测比跟踪更快",
+      "B) Tracking works on single frames while detection works across frames / 跟踪处理单帧而检测处理跨帧",
+      "C) Detection identifies objects in a single frame; tracking maintains identity across frames / 检测在单帧中识别物体；跟踪在帧间保持身份",
+      "D) There is no difference / 没有区别"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Detection</strong> finds objects in a single frame. <strong>Tracking</strong> maintains object identity across consecutive frames, handling occlusions.",
+    "explanation_zh": "<strong>检测</strong>在单帧中发现物体。<strong>跟踪</strong>在连续帧间保持物体身份，能处理遮挡。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "Which detection model divides the image into a grid and predicts bounding boxes directly?",
+    "question_zh": "哪个检测模型将图像划分为网格并直接预测边界框？",
+    "type": "MCQ",
+    "options": [
+      "A) R-CNN",
+      "B) Faster R-CNN",
+      "C) YOLO / YOLO（你只看一次）",
+      "D) SSD"
+    ],
+    "answer": 2,
+    "explanation": "<strong>YOLO</strong> divides the image into a grid, each cell predicts bounding boxes and class probabilities in a single forward pass.",
+    "explanation_zh": "<strong>YOLO</strong>将图像划分为网格，每个网格单元在单次前向传递中预测边界框和类别概率。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "What is the IoU metric used for in object detection?",
+    "question_zh": "目标检测中IoU指标用于什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Measuring image resolution / 测量图像分辨率",
+      "B) Measuring overlap between predicted and ground truth bounding boxes / 测量预测框和真实框的重叠度",
+      "C) Measuring model training speed / 测量模型训练速度",
+      "D) Measuring pixel intensity / 测量像素强度"
+    ],
+    "answer": 1,
+    "explanation": "<strong>IoU (Intersection over Union)</strong> measures the overlap between predicted and ground truth bounding boxes. IoU > 0.5 is typically acceptable.",
+    "explanation_zh": "<strong>IoU（交并比）</strong>测量预测边界框和真实边界框的重叠度。IoU > 0.5通常是可接受的。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "Which sensor can operate effectively in complete darkness?",
+    "question_zh": "哪种传感器可以在完全黑暗中有效工作？",
+    "type": "MCQ",
+    "options": [
+      "A) Optical camera / 光学相机",
+      "B) CMOS sensor / CMOS传感器",
+      "C) Radar sensor / 雷达传感器",
+      "D) CCD sensor / CCD传感器"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Radar</strong> uses radio waves and works effectively in complete darkness, fog, and heavy rain.",
+    "explanation_zh": "<strong>雷达</strong>使用无线电波，在完全黑暗、雾和大雨中都能有效工作。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "What is the role of Non-Maximum Suppression (NMS) in object detection?",
+    "question_zh": "非极大值抑制（NMS）在目标检测中的作用是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) To increase the number of bounding boxes / 增加边界框数量",
+      "B) To filter out overlapping bounding boxes and keep only the most confident / 过滤重叠的边界框，只保留最有信心的",
+      "C) To enhance image quality / 增强图像质量",
+      "D) To train the model faster / 加速模型训练"
+    ],
+    "answer": 1,
+    "explanation": "<strong>NMS</strong> removes redundant overlapping bounding boxes, keeping only the most confident detection for each object.",
+    "explanation_zh": "<strong>NMS</strong>去除冗余的重叠边界框，只保留每个物体最有信心的检测结果。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "Which PyTorch component is responsible for automatic gradient computation?",
+    "question_zh": "PyTorch中哪个组件负责自动梯度计算？",
+    "type": "MCQ",
+    "options": [
+      "A) nn.Module",
+      "B) DataLoader",
+      "C) Autograd / 自动微分",
+      "D) TorchVision"
+    ],
+    "answer": 2,
+    "explanation": "<strong>Autograd</strong> automatically computes gradients for backpropagation, enabling gradient-based optimization.",
+    "explanation_zh": "<strong>Autograd</strong>自动计算反向传播的梯度，实现基于梯度的优化。",
+    "source": "week7",
+    "predicted": true
+  },
+  {
+    "question": "What advantage does a CMOS sensor have over a CCD sensor?",
+    "question_zh": "CMOS传感器相比CCD传感器有什么优势？",
+    "type": "MCQ",
+    "options": [
+      "A) Higher image quality / 更高的图像质量",
+      "B) Global shutter / 全局快门",
+      "C) Lower power consumption and cheaper manufacturing / 更低的功耗和更便宜的制造成本",
+      "D) Better low-light performance / 更好的低光性能"
+    ],
+    "answer": 2,
+    "explanation": "CMOS sensors are <strong>more power-efficient</strong> and <strong>cheaper to manufacture</strong>, which is why they dominate smartphones.",
+    "explanation_zh": "CMOS传感器<strong>更节能</strong>且<strong>制造成本更低</strong>，因此主导了智能手机市场。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "In ByteTrack, what happens in Stage 2 of data association?",
+    "question_zh": "在ByteTrack中，数据关联的第二阶段发生了什么？",
+    "type": "MCQ",
+    "options": [
+      "A) High-confidence detections are matched / 高置信度检测被匹配",
+      "B) Low-confidence detection boxes are matched with tracklets to recover missed objects / 低置信度检测框与轨迹段匹配以恢复被遗漏的物体",
+      "C) All detections are discarded / 所有检测被丢弃",
+      "D) New tracklets are created / 创建新轨迹段"
+    ],
+    "answer": 1,
+    "explanation": "ByteTrack Stage 2 matches <strong>low-confidence detections</strong> with tracklets using IoU and appearance features to recover true objects missed in Stage 1.",
+    "explanation_zh": "ByteTrack第二阶段将<strong>低置信度检测</strong>通过IoU和外观特征与轨迹段匹配，恢复第一阶段遗漏的真实物体。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "What does LiDAR use to measure distances?",
+    "question_zh": "LiDAR使用什么来测量距离？",
+    "type": "MCQ",
+    "options": [
+      "A) Radio waves / 无线电波",
+      "B) Infrared radiation / 红外辐射",
+      "C) Pulsed laser beams / 脉冲激光束",
+      "D) Ultrasonic waves / 超声波"
+    ],
+    "answer": 2,
+    "explanation": "<strong>LiDAR</strong> emits pulsed laser beams and measures time for reflected light to return, constructing precise 3D maps.",
+    "explanation_zh": "<strong>LiDAR</strong>发射脉冲激光束并测量反射光返回时间，构建精确的3D地图。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "Which technique is used for bounding box association in two-stage trackers?",
+    "question_zh": "双阶段跟踪器中使用哪种技术进行边界框关联？",
+    "type": "MCQ",
+    "options": [
+      "A) Data augmentation / 数据增强",
+      "B) Hungarian algorithm / 匈牙利算法",
+      "C) Batch normalization / 批归一化",
+      "D) Dropout"
+    ],
+    "answer": 1,
+    "explanation": "Two-stage trackers use <strong>Hungarian algorithm</strong>, Kalman filtering, or IoU matching for cross-frame detection association.",
+    "explanation_zh": "双阶段跟踪器使用<strong>匈牙利算法</strong>、卡尔曼滤波或IoU匹配进行跨帧检测关联。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "What is the main limitation of traditional object detection methods (e.g., sliding window + HOG + SVM)?",
+    "question_zh": "传统目标检测方法（如滑动窗口+HOG+SVM）的主要局限性是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Too many parameters / 参数太多",
+      "B) Handcrafted features limit adaptability, and sliding window is computationally inefficient / 手工特征限制适应性，滑动窗口计算效率低",
+      "C) Cannot detect any objects / 无法检测任何物体",
+      "D) Only works on grayscale images / 只能处理灰度图像"
+    ],
+    "answer": 1,
+    "explanation": "Traditional methods rely on <strong>handcrafted features</strong> (limited generalization) and <strong>sliding windows</strong> (computationally expensive for real-time).",
+    "explanation_zh": "传统方法依赖<strong>手工特征</strong>（泛化能力有限）和<strong>滑动窗口</strong>（对实时应用计算成本过高）。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "Which three core components make up PyTorch?",
+    "question_zh": "PyTorch由哪三个核心组件组成？",
+    "type": "MCQ",
+    "options": [
+      "A) Layers, Models, Pipelines / 层、模型、管线",
+      "B) Tensors, Autograd, Optimizers / 张量、自动微分、优化器",
+      "C) Images, Labels, Predictions / 图像、标签、预测",
+      "D) CPU, GPU, TPU"
+    ],
+    "answer": 1,
+    "explanation": "PyTorch's three core components: <strong>Tensors</strong> (data), <strong>Autograd</strong> (gradient computation), <strong>Optimizers</strong> (parameter updates).",
+    "explanation_zh": "PyTorch三大核心组件：<strong>张量</strong>（数据）、<strong>自动微分</strong>（梯度计算）、<strong>优化器</strong>（参数更新）。",
+    "source": "week7",
+    "predicted": true
+  },
+  {
+    "question": "Thermal imaging sensors detect what type of radiation?",
+    "question_zh": "热成像传感器检测什么类型的辐射？",
+    "type": "MCQ",
+    "options": [
+      "A) Visible light / 可见光",
+      "B) Ultraviolet / 紫外线",
+      "C) Infrared radiation / 红外辐射",
+      "D) X-rays / X射线"
+    ],
+    "answer": 2,
+    "explanation": "Thermal sensors detect <strong>infrared radiation</strong> emitted by objects above absolute zero, generating heat signature images.",
+    "explanation_zh": "热成像传感器检测温度高于绝对零度的物体发射的<strong>红外辐射</strong>，生成热特征图像。",
+    "source": "week10",
+    "predicted": true
+  },
+  {
+    "question": "In R-CNN, what algorithm is used for generating region proposals?",
+    "question_zh": "在R-CNN中，使用什么算法来生成区域提议？",
+    "type": "MCQ",
+    "options": [
+      "A) K-means clustering / K均值聚类",
+      "B) Selective search / 选择性搜索",
+      "C) Random sampling / 随机采样",
+      "D) Grid division / 网格划分"
+    ],
+    "answer": 1,
+    "explanation": "R-CNN uses <strong>selective search</strong> to generate bounding box proposals, replacing exhaustive sliding window search.",
+    "explanation_zh": "R-CNN使用<strong>选择性搜索</strong>算法生成边界框提议，替代了穷举的滑动窗口搜索。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "What is the output format of an object detection model compared to a classification model?",
+    "question_zh": "与分类模型相比，目标检测模型的输出格式是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Both output only class labels / 都只输出类别标签",
+      "B) Detection outputs class probabilities + bounding box coordinates; classification outputs only class probabilities / 检测输出类别概率+边界框坐标；分类只输出类别概率",
+      "C) Detection outputs only bounding boxes / 检测只输出边界框",
+      "D) Classification outputs bounding boxes / 分类输出边界框"
+    ],
+    "answer": 1,
+    "explanation": "Detection models output <strong>class probabilities + bounding box coordinates + confidence scores</strong> for multiple objects. Classification only outputs class probabilities for the whole image.",
+    "explanation_zh": "检测模型输出多个物体的<strong>类别概率+边界框坐标+置信度分数</strong>。分类只输出整幅图像的类别概率。",
+    "source": "week8",
+    "predicted": true
+  },
+  {
+    "question": "Which MOT evaluation metric measures overall tracking accuracy?",
+    "question_zh": "哪个MOT评估指标衡量整体跟踪准确率？",
+    "type": "MCQ",
+    "options": [
+      "A) IoU",
+      "B) MOTA (Multiple Object Tracking Accuracy) / MOTA（多目标跟踪准确率）",
+      "C) F1-Score",
+      "D) AUC"
+    ],
+    "answer": 1,
+    "explanation": "<strong>MOTA</strong> measures overall tracking accuracy considering false positives, missed targets, and identity switches.",
+    "explanation_zh": "<strong>MOTA</strong>综合考虑误检、漏检和身份切换来衡量整体跟踪准确率。",
+    "source": "week9",
+    "predicted": true
+  },
+  {
+    "question": "Which advantage does single-sensor analysis have over multi-sensor analysis?",
+    "question_zh": "单传感器分析相比多传感器分析有什么优势？",
+    "type": "MCQ",
+    "options": [
+      "A) Higher reliability / 更高的可靠性",
+      "B) More comprehensive data / 更全面的数据",
+      "C) Simpler, cost-effective, and focused accuracy / 更简单、成本更低、精准度集中",
+      "D) Better redundancy / 更好的冗余性"
+    ],
+    "answer": 2,
+    "explanation": "Single sensor: <strong>simpler</strong> to implement, <strong>cost-effective</strong>, and provides <strong>focused accuracy</strong> for specific variables.",
+    "explanation_zh": "单传感器：<strong>更简单</strong>易实现、<strong>成本更低</strong>、为特定变量提供<strong>集中的精确度</strong>。",
+    "source": "week10",
+    "predicted": true
+  }
+]
