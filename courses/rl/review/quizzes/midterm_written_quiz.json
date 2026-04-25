@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What is the purpose of this Python code and what does it do?<br>这段 Python 代码的目的是什么？它做了什么？<br><pre><code>class DiscreteActionWrapper(gym.ActionWrapper):\n    def __init__(self, env):\n        super().__init__(env)\n        self.dims = env.action_space.nvec\n        self.action_space = gym.spaces.Discrete(np.prod(self.dims))\n    def action(self, action):\n        return np.unravel_index(action, self.dims)</code></pre>",
+    "type": "Short",
+    "answer": "This wrapper converts a <strong>MultiDiscrete</strong> action space into a single <strong>Discrete</strong> action space, so algorithms like DQN (which only support Discrete actions) can work with multi-dimensional action environments. It uses <code>np.prod</code> to flatten dimensions into one integer, and <code>np.unravel_index</code> to convert back.",
+    "explanation": "这个 wrapper 将 <strong>MultiDiscrete</strong> 动作空间转为单个 <strong>Discrete</strong> 动作空间，使 DQN（只支持离散动作）能处理多维动作环境。用 <code>np.prod</code> 扁平化维度为单整数，用 <code>np.unravel_index</code> 还原。",
+    "source": "midterm",
+    "points": 4
+  },
+  {
+    "question": "Explain the meaning of 'return' in the context of Reinforcement Learning.<br>解释强化学习中 'return' 的含义。",
+    "type": "Short",
+    "answer": "<strong>Return</strong> $G_t$ is the <strong>total discounted cumulative reward</strong> from time step $t$ onward:<br>$$G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\cdots = \\sum_{k=0}^{\\infty} \\gamma^k R_{t+k+1}$$<br>The agent's goal is to <strong>maximize</strong> return. Discount factor $\\gamma \\in [0,1]$ ensures convergence in infinite-horizon tasks.",
+    "explanation": "<strong>Return</strong> $G_t$ = 从时间步 $t$ 起的<strong>总折扣累计奖励</strong>：<br>$$G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\cdots$$<br>智能体目标是<strong>最大化</strong> return。折扣因子 $\\gamma \\in [0,1]$ 确保无限步任务收敛。",
+    "source": "midterm",
+    "points": 4
+  },
+  {
+    "question": "Draw the diagram that represents the primary aspects of a Reinforcement Learning problem/solution with agent-env interaction.<br>画出表示强化学习问题/解决方案主要方面的智能体-环境交互图。",
+    "type": "Short",
+    "answer": "<img src='../notes/week2_mdp_slides_pages/page_008.png' alt='Figure 3.1: Agent-Environment Interaction' style='max-width:100%;margin:8px 0;'><br>Agent observes state $S_t$, selects action $A_t$ via policy $\\pi$, environment returns next state $S_{t+1}$ and reward $R_{t+1}$.",
+    "explanation": "智能体观测状态 $S_t$，通过策略 $\\pi$ 选动作 $A_t$，环境返回下一状态 $S_{t+1}$ 和奖励 $R_{t+1}$。",
+    "source": "midterm",
+    "points": 10
+  },
+  {
+    "question": "In Reinforcement Learning, what is an action-value function, and how could it be used to solve a Reinforcement Learning problem?<br>在强化学习中，什么是动作价值函数？它如何被用来解决强化学习问题？",
+    "type": "Short",
+    "answer": "$Q_\\pi(s,a)$ = expected cumulative return from state $s$, taking action $a$, then following policy $\\pi$:<br>$$Q_\\pi(s,a) = E_\\pi[G_t | S_t=s, A_t=a]$$<br>To solve RL: use Q-Learning update $Q(s,a) \\leftarrow Q(s,a) + \\alpha[r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)]$, repeat until convergence, then extract optimal policy $\\pi^*(s) = \\arg\\max_a Q(s,a)$.",
+    "explanation": "$Q_\\pi(s,a)$ = 从状态 $s$ 执行动作 $a$，遵循策略 $\\pi$ 的期望累计回报：<br>$$Q_\\pi(s,a) = E_\\pi[G_t | S_t=s, A_t=a]$$<br>用 Q-Learning 更新 $Q(s,a) \\leftarrow Q(s,a) + \\alpha[r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)]$，重复直到收敛，提取最优策略 $\\pi^*(s) = \\arg\\max_a Q(s,a)$。",
+    "source": "midterm",
+    "points": 5
+  },
+  {
+    "question": "What is an observation in Reinforcement Learning?<br>强化学习中的观测(observation)是什么？",
+    "type": "Short",
+    "answer": "An <strong>observation</strong> is the information the agent receives from the environment about its current state. Can be full state (e.g., grid position) or partial (e.g., camera image). In Gymnasium, returned by <code>reset()</code> and <code>step()</code>, format defined by <code>observation_space</code>.",
+    "explanation": "<strong>观测</strong> = 智能体从环境获取的关于当前状态的信息。可以是完全状态或部分观测。在 Gymnasium 中由 <code>reset()</code> 和 <code>step()</code> 返回，格式由 <code>observation_space</code> 定义。",
+    "source": "midterm",
+    "points": 2
+  }
+]

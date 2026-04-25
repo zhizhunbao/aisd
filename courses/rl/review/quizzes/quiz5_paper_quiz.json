@@ -1,0 +1,142 @@
+[
+  {
+    "question": "What is Policy Evaluation?<br>什么是策略评估(Policy Evaluation)？",
+    "type": "MCQ",
+    "options": [
+      "A) Progressively improving a policy.",
+      "B) Uses Bellman Equation to find state value for current policy",
+      "C) All.",
+      "D) Same as Q-Learning.",
+      "E) None."
+    ],
+    "answer": 1,
+    "explanation": "Policy Evaluation computes V^π(s) for a given policy π using the Bellman expectation equation iteratively.<br>策略评估通过贝尔曼期望方程迭代计算 V^π(s)。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which statement about Policy Iteration is true?<br>关于策略迭代(Policy Iteration)哪个说法正确？",
+    "type": "MCQ",
+    "options": [
+      "A) None.",
+      "B) Important theoretically but not practical.",
+      "C) Practical but does not require a model.",
+      "D) Practical, even though it requires a model",
+      "E) All."
+    ],
+    "answer": 3,
+    "explanation": "Policy Iteration is practical and effective but requires a complete model — it is a model-based method.<br>策略迭代实用且有效，但需要完整的环境模型——属于 model-based 方法。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Policy Improvement in DP?<br>动态规划中的策略改进是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) None.",
+      "B) Computes a better policy based on current value function",
+      "C) All.",
+      "D) Policy Improvement",
+      "E) Tries current policy to compute a better policy."
+    ],
+    "answer": 1,
+    "explanation": "Policy Improvement: given V^π(s), derive a better policy by acting greedily: π'(s) = argmax Q^π(s,a).<br>策略改进：给定 V^π(s)，通过贪婪选择推导更好的策略。",
+    "source": "teacher"
+  },
+  {
+    "question": "What distinguishes Monte Carlo methods from DP?<br>蒙特卡洛方法与 DP 有什么区别？",
+    "type": "MCQ",
+    "options": [
+      "A) All.",
+      "B) MC methods are based on averaging sample returns / MC 基于对样本回报取平均",
+      "C) MC uses completed episodes.",
+      "D) MC does not rely on a model.",
+      "E) None."
+    ],
+    "answer": 1,
+    "explanation": "MC methods learn from complete episodes by averaging actual returns, without needing a model. Unlike DP, MC is model-free.<br>MC 从完整回合中学习，对实际回报取平均，不需要模型。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Policy Iteration in DP?<br>动态规划中的策略迭代是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) All.",
+      "B) Alternative to Policy Evaluation.",
+      "C) Involves Policy Evaluation and Policy Improvement",
+      "D) None.",
+      "E) Alternative to Policy Improvement."
+    ],
+    "answer": 2,
+    "explanation": "Policy Iteration alternates: Policy Evaluation (compute V^π) → Policy Improvement (get better π') → repeat until convergence.<br>策略迭代交替执行：策略评估 → 策略改进 → 重复直到收敛。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which statement about Dynamic Programming is true?<br>关于动态规划哪个说法正确？",
+    "type": "MCQ",
+    "options": [
+      "A) Explicitly provides state-action values to agent.",
+      "B) All.",
+      "C) Not practical for very large state spaces, but has important theoretical value",
+      "D) None.",
+      "E) Predicts state values for a policy."
+    ],
+    "answer": 2,
+    "explanation": "DP is theoretically foundational but computationally infeasible for very large state spaces due to the curse of dimensionality.<br>DP 是理论基础，但由于维度灾难，对大状态空间不可行。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which statement is true about TD methods in RL?<br>关于 TD 方法哪个说法正确？",
+    "type": "MCQ",
+    "options": [
+      "A) All.",
+      "B) TD combines Monte Carlo and DP ideas / TD 结合了 MC 和 DP 的思想",
+      "C) None.",
+      "D) MC updates at every time step.",
+      "E) TD requires a complete model."
+    ],
+    "answer": 1,
+    "explanation": "TD combines MC (learning from experience, model-free) and DP (bootstrapping — updating estimates from other estimates).<br>TD 结合了 MC（从经验学习）和 DP（自举——用估计值更新估计值）。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Q-Learning?<br>什么是 Q-Learning？",
+    "type": "MCQ",
+    "options": [
+      "A) All.",
+      "B) Does not require a model of the environment",
+      "C) None.",
+      "D) An on-policy algorithm.",
+      "E) Q-table is hand-crafted based on expert knowledge."
+    ],
+    "answer": 1,
+    "explanation": "Q-Learning is model-free and off-policy. Update: Q(s,a) ← Q(s,a) + α[r + γ max Q(s',a') - Q(s,a)].<br>Q-Learning 是 model-free 且 off-policy 的。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Policy Evaluation? (repeated with different options)<br>什么是策略评估？（不同选项版本）",
+    "type": "MCQ",
+    "options": [
+      "A) Value of Criticism helps update policy.",
+      "B) Computes how good it is to be in a state for a given policy",
+      "C) None.",
+      "D) MC evaluation uses complete episodes only without bootstrapping.",
+      "E) All."
+    ],
+    "answer": 1,
+    "explanation": "Policy Evaluation: compute V^π(s) — how good each state is under the current policy π.<br>策略评估：计算在当前策略下每个状态的好坏程度。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Value Iteration?<br>什么是值迭代(Value Iteration)？",
+    "type": "MCQ",
+    "options": [
+      "A) Alternating Policy Evaluation and Policy Improvement.",
+      "B) None.",
+      "C) Directly iterating on the value function",
+      "D) All.",
+      "E) Policy Iteration and Value Iteration always converge at the same rate."
+    ],
+    "answer": 2,
+    "explanation": "Value Iteration combines evaluation and improvement into one step: V(s) ← max_a [R + γ Σ P(s'|s,a)V(s')], iterating until convergence.<br>值迭代将评估和改进合为一步，直接迭代 V(s) 直到收敛。",
+    "source": "teacher"
+  }
+]

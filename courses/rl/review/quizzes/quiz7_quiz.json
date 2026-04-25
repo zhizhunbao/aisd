@@ -1,0 +1,142 @@
+[
+  {
+    "question": "How can RL be applied to environments with huge (10²⁰+) state spaces?<br>RL 如何应用于巨大状态空间的环境？",
+    "type": "MCQ",
+    "options": [
+      "A) Value Approximation methods with weights can approximate the value function",
+      "B) Q calculations can translate large state spaces into smaller ones.",
+      "C) All.",
+      "D) Continuous actions counter-act large state spaces.",
+      "E) None."
+    ],
+    "answer": 0,
+    "explanation": "For huge state spaces, function approximation (e.g. neural networks) replaces the Q-table with parameterized weights.<br>对巨大状态空间，函数近似用参数化权重替代 Q 表。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the basic idea behind Value Function Approximation?<br>值函数近似的基本思想？",
+    "type": "MCQ",
+    "options": [
+      "A) ML model generates interaction samples.",
+      "B) Experience from environment interaction trains weights of function approximation",
+      "C) None.",
+      "D) Q-Learning creates Q-table which approximates value function.",
+      "E) All."
+    ],
+    "answer": 1,
+    "explanation": "Use real interaction experience as training data to fit a parameterized function that approximates V or Q.<br>用真实交互经验拟合参数化函数来近似 V 或 Q。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is an implication of continuous actions or states in RL?<br>连续动作或状态对 RL 意味着什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Discrete table-based Q-learning cannot be used.",
+      "B) Continuous space = very large number of actions or states.",
+      "C) All of these answers",
+      "D) Value function approximation is needed.",
+      "E) None."
+    ],
+    "answer": 2,
+    "explanation": "Continuous spaces mean: Q-table is infeasible, the space is effectively infinite, and function approximation is required.<br>连续空间：Q 表不可行、空间实际无限、需要函数近似。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the DQN algorithm?<br>什么是 DQN 算法？",
+    "type": "MCQ",
+    "options": [
+      "A) DQN uses a deep neural network to handle large or continuous state spaces / DQN 用深度神经网络处理大规模状态空间",
+      "B) None.",
+      "C) DQN updates Q-table as episodes progress.",
+      "D) All.",
+      "E) DQN updates Q-table using only complete episodes."
+    ],
+    "answer": 0,
+    "explanation": "DQN replaces the Q-table with a neural network to generalize across large state spaces. C/E still describe table-based approaches.<br>DQN 用神经网络替代 Q 表以泛化大状态空间。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the PPO algorithm?<br>什么是 PPO 算法？",
+    "type": "MCQ",
+    "options": [
+      "A) All.",
+      "B) PPO is same as Q-Learning except Q-table updates after episode ends.",
+      "C) PPO is same as Monte Carlo except Q-table updates before episode ends.",
+      "D) None.",
+      "E) PPO can handle large or continuous action and/or state spaces"
+    ],
+    "answer": 4,
+    "explanation": "PPO is a policy gradient method that works with continuous action/state spaces. Fundamentally different from Q-Learning or Monte Carlo.<br>PPO 是策略梯度方法，适用于连续动作/状态空间。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Gazebo used for in RL?<br>Gazebo 在 RL 中用于什么？",
+    "type": "MCQ",
+    "options": [
+      "A) None.",
+      "B) Hyperparameter tuning tools.",
+      "C) Standard interface between agents and environments.",
+      "D) A simulation tool for training agents in simulation",
+      "E) All."
+    ],
+    "answer": 3,
+    "explanation": "Gazebo is a 3D robotics simulator — provides physics simulation for training RL agents in virtual environments.<br>Gazebo 是 3D 机器人仿真器——在虚拟环境中训练 RL 智能体。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Gymnasium used for in RL?<br>Gymnasium 在 RL 中用于什么？",
+    "type": "MCQ",
+    "options": [
+      "A) None.",
+      "B) An environment representation tool providing a standard interface for RL",
+      "C) A simulation tool for training agents.",
+      "D) Hyperparameter tuning tools.",
+      "E) All."
+    ],
+    "answer": 1,
+    "explanation": "Gymnasium provides a standardized API for RL environments: reset(), step(), observation/action spaces.<br>Gymnasium 提供 RL 环境的标准化 API。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is URDF in robotics?<br>URDF 在机器人领域是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) An algorithm similar to PPO.",
+      "B) Universal Robot Description Format — XML for representing a robot / 通用机器人描述格式——用 XML 描述机器人",
+      "C) None.",
+      "D) An algorithm similar to DQN.",
+      "E) All."
+    ],
+    "answer": 1,
+    "explanation": "URDF is an XML format that describes a robot's links, joints, and physical properties.<br>URDF 是描述机器人连杆、关节和物理属性的 XML 格式。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is SDF in robotics?<br>SDF 在机器人领域是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) Simulation Description Format — XML from Gazebo for describing objects and environments / 仿真描述格式——源自 Gazebo 的 XML 语言",
+      "B) An algorithm similar to DQN.",
+      "C) An algorithm similar to PPO.",
+      "D) All.",
+      "E) None."
+    ],
+    "answer": 0,
+    "explanation": "SDF originated from Gazebo, describing simulation worlds including models, lights, physics, and sensors.<br>SDF 源自 Gazebo，描述仿真世界。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Rviz?<br>什么是 Rviz？",
+    "type": "MCQ",
+    "options": [
+      "A) A graphical interface for visualization and ROS topics.",
+      "B) A 3D visualizer for ROS displaying images, point clouds, and robot models.",
+      "C) A tool that can visualize simulated robots specified in URDF.",
+      "D) None.",
+      "E) All of these answers"
+    ],
+    "answer": 4,
+    "explanation": "Rviz is a ROS 3D visualization tool that can display robot models (URDF), sensor data, and ROS topics.<br>Rviz 是 ROS 的 3D 可视化工具。",
+    "source": "teacher"
+  }
+]

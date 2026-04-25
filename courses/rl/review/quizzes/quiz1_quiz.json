@@ -1,0 +1,121 @@
+[
+  {
+    "question": "What is a Markov chain?<br>什么是马尔可夫链？",
+    "type": "MCQ",
+    "options": [
+      "A) A chain with a rubber coating",
+      "B) A sequence of nodes in a graph with cycles",
+      "C) A sequence of nodes in a graph without cycles",
+      "D) A mathematical model that experiences transition of states with probabilistic rules",
+      "E) None of these answers"
+    ],
+    "answer": 3,
+    "explanation": "A Markov chain is a mathematical model where states transition according to probabilistic rules. Only D describes probabilistic state transitions.<br>马尔可夫链 = 状态按概率规则转移的数学模型。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Markov Decision Process?<br>什么是马尔可夫决策过程？",
+    "type": "MCQ",
+    "options": [
+      "A) A process for making a decision between two options",
+      "B) The underlying logic of a Turing Machine",
+      "C) A process for making a decision between more than two options",
+      "D) An extension of the Markov chain with actions and rewards",
+      "E) None of these answers"
+    ],
+    "answer": 3,
+    "explanation": "MDP extends the Markov chain by adding actions and rewards.<br>MDP = 马尔可夫链 + 动作 + 奖励。",
+    "source": "teacher"
+  },
+  {
+    "question": "In a Markov Decision Process, taking an action in a state always leads to the same result state.<br>在 MDP 中，在某状态下执行某动作总是会到达相同的结果状态。",
+    "type": "TF",
+    "answer": "False",
+    "explanation": "MDP transitions are defined by P(s'|s,a); the same state-action pair can lead to different successor states — stochastic, not deterministic.<br>MDP 转移由 P(s'|s,a) 定义，是随机的，不是确定性的。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a problem with defining total reward from a starting point to be the sum of all subsequent rewards?<br>将总回报定义为从起点开始所有后续奖励之和，会有什么问题？",
+    "type": "MCQ",
+    "options": [
+      "A) The sum of all subsequent rewards might be negative",
+      "B) The sum of all subsequent rewards might be zero",
+      "C) The sum of all subsequent rewards might be positive",
+      "D) None of these answers",
+      "E) The sum of all subsequent rewards might be infinite"
+    ],
+    "answer": 4,
+    "explanation": "In infinite-horizon tasks, the raw sum can diverge to ∞, making policy comparison impossible. This is why the discount factor γ is introduced.<br>无限步任务中直接求和可能发散到 ∞，引入折扣因子 γ 解决。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a policy in Reinforcement Learning?<br>强化学习中的策略(Policy)是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) A function that specifies what action to take in a certain state",
+      "B) A function that specifies the next state to visit",
+      "C) A function that gives the list of all possible actions in a state",
+      "D) None of these answers",
+      "E) A function that gives the list of all impossible actions in a state"
+    ],
+    "answer": 0,
+    "explanation": "A policy π(a|s) maps a given state to an action to take.<br>策略 π(a|s)：给定状态 → 告诉你选什么动作。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is given by the state value function?<br>状态价值函数给出的是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) It takes a state and gives the expected total reward we can get starting from that state",
+      "B) It takes a state and gives an action that results in the highest reward",
+      "C) None of these answers",
+      "D) It takes an action and a state and gives the expected total reward we can get from taking that action",
+      "E) It takes an action and gives the state that results from taking that action"
+    ],
+    "answer": 0,
+    "explanation": "V(s): state → expected cumulative return. B describes the policy's job; D describes Q(s,a).<br>V(s)：状态 → 期望累计回报。B 是策略的职责；D 描述的是 Q(s,a)。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the action value function?<br>什么是动作价值函数？",
+    "type": "MCQ",
+    "options": [
+      "A) It takes a state and gives expected total reward we can get starting from that state",
+      "B) It takes a state and an action and gives the state resulting from taking the action",
+      "C) It takes a state and an action and gives the immediate reward resulting from taking that action",
+      "D) It takes a state and an action and gives the expected total reward we can get starting from that state and taking that action",
+      "E) None of these answers"
+    ],
+    "answer": 3,
+    "explanation": "Q(s,a): state + action → expected cumulative return. A is V(s) (missing action); C is just immediate reward R, not cumulative.<br>Q(s,a)：状态+动作 → 期望累计回报。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a greedy policy?<br>什么是贪婪策略？",
+    "type": "MCQ",
+    "options": [
+      "A) A policy that rotates through all actions",
+      "B) A policy that dictates always taking rather than giving",
+      "C) None of these answers",
+      "D) A policy that dictates always taking the action that results in the highest immediate reward",
+      "E) A policy that always specifies the same action"
+    ],
+    "answer": 3,
+    "explanation": "A greedy policy always selects the action with the highest estimated value: a = argmax Q(s,a').<br>贪婪策略 = 每次选当前估计价值最高的动作。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does the Bellman Equation say in the context of Q-Learning?<br>在 Q-Learning 的语境下，贝尔曼方程表达了什么？",
+    "type": "MCQ",
+    "options": [
+      "A) ...immediate reward + total past rewards from the previous state",
+      "B) ...immediate reward minus the maximum expected future rewards",
+      "C) ...immediate reward + the minimum expected future rewards",
+      "D) None of these answers",
+      "E) ...immediate reward + the maximum expected future rewards in the next state"
+    ],
+    "answer": 4,
+    "explanation": "Bellman equation: Q(s,a) = R + γ max Q(s',a'). Only E says \"immediate reward + maximum future return\".<br>贝尔曼方程：Q(s,a) = R + γ max Q(s',a')。",
+    "source": "teacher"
+  }
+]

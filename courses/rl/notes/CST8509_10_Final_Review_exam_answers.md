@@ -1,350 +1,122 @@
-# CST8509 期末笔试题 — 完整参考答案
+# CST8509 期末笔试题 — 参考答案（老师原话版）
 
 > **Source:** `CST8509_10_Final_Review_slides.md` §5.2 (Slides 11-12)
-> **用途：** 期末复习用，每题按"先中文直觉 → 再英文正式答案 → 最后答题要点"的结构组织
+> **答案来源:** 从老师各周 slides 原文提取，标注了出处
 
 ---
 
-## Q1. How can Reinforcement Learning be applied to problems where the number of states is huge?
-> 强化学习如何应用于状态数量庞大的问题中？
+## Q1. How can RL be applied to problems where the number of states is huge?
 
-### 💡 中文直觉
+**Q1. 当状态数量巨大时，RL 如何应用？**
 
-传统 Q-Table 像背乘法表——状态多到 300 万种时根本背不完。解决方案是把"背答案"换成"学规律"：用**神经网络替代 Q-Table**（即 Value Function Approximation / 值函数近似），让网络根据状态的**特征**来"推算"价值，而不是逐个记忆。
+Estimate value function with **function approximation**. **w** is a vector of weights of a neural network. v̂(s, w) ≈ v_π(s) or q̂(s, a, w) ≈ q_π(s, a). **Generalize from seen states to unseen states**. Update parameter w using MC or TD learning. DQN and PPO are two common approaches.
 
-### ✅ English Answer
+> 用**函数近似**估计值函数。**w** 是神经网络的权重向量。v̂(s, w) ≈ v_π(s) 或 q̂(s, a, w) ≈ q_π(s, a)。**从已见状态泛化到未见状态**。用 MC 或 TD 学习更新参数 w。DQN 和 PPO 是两种常见方法。
 
-When the state space is too large for a tabular approach (e.g., millions of states), RL uses **Value Function Approximation (VFA)** — replacing the Q-Table with a **parameterized function approximator**, typically a **deep neural network**.
-
-**Key techniques:**
-
-1. **DQN (Deep Q-Network):** A neural network takes the **state** as input and outputs estimated **Q-values** for all possible actions. Instead of storing a Q-value for every state-action pair (impossible with millions of states), the network learns **generalizable patterns** from the state representation. This means it can estimate Q-values even for states **never seen during training**.
-
-2. **State Encoding (e.g., One-hot Vectors):** States are encoded as numerical vectors that the neural network can process. For example, in 6×6 block-stacking, each block's position is encoded as a 12-bit one-hot vector, resulting in a 144-dimensional input vector.
-
-3. **PPO (Proximal Policy Optimization):** Instead of approximating the value function, PPO directly learns a **policy function** (mapping from states to action probabilities) using a neural network. This also handles arbitrarily large state spaces.
-
-4. **Curriculum Learning:** To deal with sparse rewards in large state spaces, the problem difficulty is gradually increased — start with easy configurations where the agent can get positive feedback, then progressively increase difficulty.
-
-5. **Experience Replay:** Transitions $(s, a, r, s')$ are stored in a **replay buffer** and randomly sampled for training, improving data efficiency and training stability.
-
-### 📝 答题要点
-- ✅ 提到 **Value Function Approximation**（值函数近似）
-- ✅ 提到 **Neural Network replaces Q-Table**（神经网络替代Q表）
-- ✅ 提到网络能**泛化到未见过的状态**（generalize to unseen states）
-- ✅ 可选加分：提及 One-hot encoding、Curriculum Learning、Experience Replay
+📎 *Source: Week 9 Slide 5 — "Value Function Approximation"*
 
 ---
 
 ## Q2. Describe at a high level how the DQN algorithm does value function approximation
-> 概要描述 DQN 算法是如何进行值函数近似的
 
-### 💡 中文直觉
+**Q2. 从高层次描述 DQN 算法如何进行值函数近似**
 
-DQN 的核心思路：训练一个神经网络当"计算器"——你给它任意一个状态（比如 144 维向量），它就能算出每个可能动作的分数（Q 值），哪个分数最高就选哪个动作。这就是"近似"——不是精确的查表结果，而是网络"猜"的，但猜得越来越准。
+DQN is similar to Q-learning except: **no Q-table, we have Q-network instead**. Q-network implements an approximation of Q. **Input to Q-network is State, output is action values** (same number of outputs as actions). There are two neural networks: **Online Network** (actively updated via gradients to minimize MSE loss based on TD error) and **Target Network** (a lagged copy, updated less frequently using hard update or soft update/Polyak update, governed by tau parameter). Transitions (s,a,r,s') are stored in a **Replay Buffer** to break temporal correlations.
 
-### ✅ English Answer
+> DQN 与 Q-Learning 类似，但区别在于：**没有 Q 表，取而代之的是 Q 网络**。Q 网络实现了 Q 函数的近似。**Q 网络的输入是状态，输出是动作价值**（输出数量等于动作数量）。有两个神经网络：**在线网络**（通过梯度主动更新，最小化基于 TD 误差的 MSE 损失）和**目标网络**（滞后副本，使用硬更新或软更新/Polyak 更新进行较低频率的更新，由 tau 参数控制）。转移 (s,a,r,s') 存入**经验回放缓冲区**以打破时间相关性。
 
-DQN replaces the Q-Table with a **Q-Network** (a deep neural network) that **approximates** the Q-value function:
-
-1. **Input:** The current state, encoded as a numerical vector (e.g., a 144-dimensional one-hot encoded vector for block-stacking).
-
-2. **Output:** Estimated Q-values for **every possible discrete action** — one number per action.
-
-3. **Action Selection:** The agent takes the action with the **highest Q-value** (with ε-greedy exploration during training).
-
-4. **Training Process:**
-   - The agent interacts with the environment and stores transitions $(s, a, r, s')$ in a **replay buffer**.
-   - Random mini-batches are sampled from the replay buffer.
-   - For each transition, a **target Q-value** is computed: $y = r + \gamma \max_{a'} Q_{target}(s', a')$, using a separate **target network** (a slowly updated copy of the Q-network).
-   - The Q-network's weights are updated to minimize the **MSE loss** between predicted Q-value $Q(s, a)$ and target $y$.
-
-5. **Key Stabilization Mechanisms:**
-   - **Replay Buffer:** Breaks correlation between consecutive samples.
-   - **Target Network:** Prevents the "moving target" instability (training against a constantly changing objective).
-
-**In essence:** DQN learns a **function** $Q_\theta(s, a)$ parameterized by network weights $\theta$ that maps any state-action pair to an estimated value, instead of storing explicit values in a table.
-
-### 📝 答题要点
-- ✅ Neural network takes **state as input**, outputs **Q-values for all actions**
-- ✅ Trained using **experience replay** (random sampling from buffer)
-- ✅ Uses a **target network** for stable training targets
-- ✅ Minimizes **MSE** between predicted and target Q-values
-- ✅ Selects action with **highest Q-value** (+ ε-greedy exploration)
+📎 *Source: Week 9 Slides 6-7, 10 — "Value function approximation and DQN", "DQN Online and Target Networks", "DQN training"*
 
 ---
 
 ## Q3. Describe at a high level how the PPO algorithm does value function approximation
-> 概要描述 PPO 算法是如何进行值函数近似的
 
-### 💡 中文直觉
+**Q3. 从高层次描述 PPO 算法如何进行值函数近似**
 
-PPO 和 DQN 的**方法论完全不同**。DQN 先学"每个动作值多少分（Q 值）"再选分最高的。PPO 则**跳过 Q 值**，直接训练网络输出"每个动作该选的概率"。PPO 属于 Actor-Critic 架构：Actor（演员）学策略，Critic（评论家）学价值——两个网络分工合作。
+PPO has an **Actor Network** and a **Critic Network (Value function)**. The Actor outputs action probabilities (the policy). The Critic estimates state value V(s) — this is the value function approximation part. Unlike DQN, PPO supports continuous action spaces.
 
-### ✅ English Answer
+> PPO 包含 **Actor 网络**和 **Critic 网络（价值函数）**。Actor 输出动作概率（策略）。Critic 估计状态价值 V(s)——这就是值函数近似的部分。与 DQN 不同，PPO 支持连续动作空间。
 
-PPO (Proximal Policy Optimization) takes a fundamentally **different approach** from DQN. While DQN approximates the **Q-value function** (value-based, indirect), PPO directly approximates the **policy** (policy-based, direct) using an **Actor-Critic architecture**:
-
-1. **Actor Network (Policy Approximation):**
-   - Takes the **state** as input.
-   - Outputs a **probability distribution over actions** (e.g., "60% left, 30% right, 10% stay").
-   - The agent samples actions according to these probabilities — this is its **policy** $\pi_\theta(a|s)$.
-
-2. **Critic Network (Value Function Approximation):**
-   - Also takes the **state** as input.
-   - Outputs a **single scalar** — the estimated state value $V(s)$ (how good it is to be in this state).
-   - This is used to compute the **advantage** $A = Q(s,a) - V(s)$ — "how much better was this action compared to the average?"
-
-3. **Training Process:**
-   - The agent collects a batch of experience by running the current policy.
-   - The **advantage** is computed for each transition.
-   - The **actor** (policy network) is updated to increase the probability of actions with **positive advantage** and decrease those with **negative advantage**.
-   - The update is **clipped** to prevent too-large policy changes — this is the "Proximal" part, ensuring stable, conservative updates.
-   - The **critic** (value network) is updated to more accurately predict state values.
-
-4. **Key Differences from DQN:**
-   - PPO can handle **both discrete and continuous** action spaces (DQN: discrete only).
-   - PPO does **not** use a replay buffer (on-policy: uses fresh data only).
-   - PPO updates are **more conservative/stable** — less prone to training collapse.
-
-### 📝 答题要点
-- ✅ PPO **directly learns a policy** (action probabilities), not Q-values
-- ✅ Uses **Actor-Critic** architecture: Actor = policy, Critic = value function
-- ✅ Actor outputs **action probability distribution**
-- ✅ Critic outputs **state value V(s)** for computing advantage
-- ✅ Updates are **clipped** for stability (proximal/conservative)
-- ✅ 可选加分：提及 PPO 支持 continuous action spaces, 不需要 Replay Buffer
+📎 *Source: Week 9 Slide 11 — "PPO and value function approximation"*
 
 ---
 
-## Q4. Where would a neural network appear in a Reinforcement Learning Problem/Solution?
-> 神经网络会在强化学习问题/解决方案中的什么地方出现？
+## Q4. Where would a neural network appear in an RL Problem/Solution?
 
-### 💡 中文直觉
+**Q4. 神经网络会出现在 RL 问题/解决方案的哪些地方？**
 
-神经网络在 RL 中最少有 3 个"藏身之处"：① 当 Q-Table 的替身（估算 Q 值），② 当策略的替身（直接输出动作概率），③ 当环境模型（预测下一个状态和奖励）。在我们的课程中主要用到了前两种。
+1. **Q-Network** (DQN) — implements an approximation of Q; input is State, output is action values
+2. **Actor Network** (PPO) — outputs action probabilities (the policy)
+3. **Critic Network** (PPO) — estimates state value V(s), the value function
+4. **Observation processing** — e.g., processing `image_raw` from camera before the agent
 
-### ✅ English Answer
+> 1. **Q 网络**（DQN）— 实现 Q 函数的近似；输入是状态，输出是动作价值
+> 2. **Actor 网络**（PPO）— 输出动作概率（策略）
+> 3. **Critic 网络**（PPO）— 估计状态价值 V(s)，即价值函数
+> 4. **观测处理** — 如处理摄像头的 `image_raw`
 
-Neural networks can appear in **several places** within an RL system:
-
-### 1. **As the Q-Value Function Approximator (Value-Based Methods)**
-- **Where:** Inside the **agent**, replacing the Q-Table.
-- **Role:** Takes a state as input, outputs estimated Q-values for each action.
-- **Example:** **DQN** uses a Q-network (e.g., `[512,512,256]` architecture) — Input: 144-dim one-hot state vector → Output: Q-value for each of the possible actions.
-- **Also includes:** The **target network** (a frozen copy used for computing stable training targets).
-
-### 2. **As the Policy Function (Policy-Based Methods)**
-- **Where:** Inside the **agent**, directly representing the policy.
-- **Role:** Takes a state as input, outputs **action probabilities** (or continuous action parameters).
-- **Example:** **PPO's Actor network** — maps states to a probability distribution over actions.
-
-### 3. **As the Value Function Estimator in Actor-Critic**
-- **Where:** The **Critic** component of Actor-Critic methods.
-- **Role:** Estimates the state value $V(s)$ to compute the advantage for the policy update.
-- **Example:** **PPO's Critic network** — ranks how "good" the current state is.
-
-### 4. **As an Environment Model (Model-Based RL)**
-- **Where:** Inside the **agent's planning module** (not used in this course, but worth mentioning).
-- **Role:** Predicts the next state and reward given current state and action — learned from experience.
-- **Example:** World models in MuZero.
-
-### 5. **As Part of Observation Processing**
-- **Where:** Between raw sensor data and the RL agent.
-- **Role:** Processes high-dimensional inputs (e.g., images) into compact state representations.
-- **Example:** CNN layers processing `image_raw` from Gazebo/Create3 camera before feeding into the Q-network.
-
-### 📝 答题要点
-- ✅ **Q-Value approximator** (DQN — replacing Q-Table)
-- ✅ **Policy function** (PPO Actor — outputting action probabilities)
-- ✅ **Value estimator** (PPO Critic — estimating V(s))
-- ✅ 可选加分：提及 environment model 或 observation processing (CNN for images)
+📎 *Source: Week 9 Slides 6, 11 + Week 10 Slide 3*
 
 ---
 
-## Q5. What are possible sources of training data for a neural network in a Reinforcement Learning Problem/Solution?
-> 在强化学习问题/解决方案中，神经网络训练数据的可能来源有哪些？
+## Q5. What are possible sources of training data for a neural network in RL?
 
-### 💡 中文直觉
+**Q5. RL 中神经网络的训练数据可能来自哪些来源？**
 
-RL 和传统监督学习最大的不同：**没有预先标注好的数据集**。训练数据来自智能体自己和环境的交互——每走一步就产生一条训练数据 $(s, a, r, s')$。这些数据可以来自真实世界，也可以来自仿真器（如 Gazebo）。
+1. **Agent-Environment Interaction** — Agent collects (s, a, r, s') transitions from the environment
+2. **Replay Buffer** — Transitions are stored to break temporal correlations; Online Q-Network trains on random batches from the buffer
+3. **Simulation** — Gazebo simulation (faster, safer, cheaper than real robot)
+4. **Real-World** — physical robot interaction (expensive, slow)
 
-### ✅ English Answer
+> 1. **智能体与环境交互** — Agent 从环境中收集 (s, a, r, s') 转移
+> 2. **经验回放缓冲区** — 存储转移数据以打破时间相关性；在线 Q 网络从缓冲区随机抽取批次进行训练
+> 3. **仿真** — Gazebo 仿真（比真实机器人更快、更安全、更便宜）
+> 4. **真实世界** — 物理机器人交互（昂贵、缓慢）
 
-Unlike supervised learning (which needs a pre-labeled dataset), **RL generates its own training data through interaction**. The possible sources are:
-
-### 1. **Agent-Environment Interaction (Primary Source)**
-- Every time step produces a **transition tuple**: $(s_t, a_t, r_t, s_{t+1})$
-- Meaning: "In state $s_t$, the agent took action $a_t$, received reward $r_t$, and transitioned to state $s_{t+1}$."
-- These transitions are the **raw training data** for the neural network.
-
-### 2. **Replay Buffer (Stored Past Experience)**
-- Transitions are stored in an **experience replay buffer** and randomly sampled later for training.
-- This provides a **reusable, decorrelated** source of training data.
-- Example: `learning_starts=2000` → first 2000 transitions are collected and stored before training begins.
-
-### 3. **Simulation Environments**
-- **Gymnasium environments** (e.g., CartPole, FrozenLake, custom BlocksWorld)
-- **Gazebo 3D Physics Simulator** with ROS 2 (e.g., Create3 robot in AWS Small House)
-- Simulations generate transitions much **faster and safer** than real-world interaction.
-- Virtual sensors provide `image_raw`, `stop_status`, etc.
-
-### 4. **Real-World Robot Interaction**
-- A physical robot (e.g., iRobot Create3) interacting with the real environment.
-- Expensive, slow, and risky — but provides the most realistic data.
-- Usually only used for **fine-tuning** after simulation pre-training.
-
-### 5. **Demonstrations / Expert Data (Imitation Learning)**
-- Pre-recorded trajectories from a human expert or a trained agent.
-- Used to **pre-fill** the replay buffer or pre-train the network before RL training begins.
-- Not explicitly covered in this course, but a recognized technique.
-
-### 📝 答题要点
-- ✅ **Agent-environment interaction** → transition tuples $(s, a, r, s')$
-- ✅ **Replay Buffer** — stored past experiences, randomly sampled
-- ✅ **Simulation** (Gymnasium, Gazebo) — fast and safe data generation
-- ✅ **Real-world interaction** — expensive but realistic
-- ✅ 可选加分：提及 expert demonstrations / imitation learning
+📎 *Source: Week 9 Slide 10 — "DQN training" + Week 10 Slide 3*
 
 ---
 
-## Q6. Give an overview of the strategy used in Assignment 2 (Create3 robot training with simulation)
-> 概述 Assignment 2 中通过仿真训练 Create3 机器人的策略
+## Q6. Give an overview of the Assignment 2 strategy (Create3 robot training with simulation)
 
-### 💡 中文直觉
+**Q6. 概述 Assignment 2 的策略（使用仿真训练 Create3 机器人）**
 
-Assignment 2 搭了一个"虚拟实验室"系统：Gazebo 模拟物理世界 → ROS 2 负责模块间通信 → SB3 算法在里面训练 → 学完后可以直接迁移到真机器人上。就像用飞行模拟器练飞行员，不需要真的去天上冒险。
+![RL Architecture (Source: Slide 3)](CST8509_10_Final_Review_slides_pages/page_003.png)
 
-### ✅ English Answer
+- **Gazebo** = 3D physics simulator (virtual AWS Small House + robot)
+- **ROS 2** = communication framework; nodes communicating via topics: publish to `cmd_vel`, wait for `stop_status`, process `image_raw`, return observation + reward
+- **SB3** = RL agent (Q-Learning or Stable-baselines3: DQN or PPO)
+- **Gymnasium** = standard Agent/Environment cycle: $S_t$, $R_t$ → Agent → $A_t$ → Environment → $S_{t+1}$, $R_{t+1}$
 
-Assignment 2 uses a **simulation-based RL pipeline** to train a virtual Create3 robot. The major tools, technologies, and their interactions are:
+Simulation is used because it's faster, safer, and cheaper than real-robot training.
 
-### Architecture Overview
+> - **Gazebo** = 3D 物理仿真器（虚拟 AWS 小屋 + 机器人）
+> - **ROS 2** = 通信框架；节点通过话题通信：发布到 `cmd_vel`，等待 `stop_status`，处理 `image_raw`，返回观察值 + 奖励
+> - **SB3** = RL 智能体（Q-Learning 或 Stable-baselines3: DQN 或 PPO）
+> - **Gymnasium** = 标准的智能体/环境循环：$S_t$, $R_t$ → 智能体 → $A_t$ → 环境 → $S_{t+1}$, $R_{t+1}$
+>
+> 使用仿真是因为比真实机器人训练更快、更安全、更便宜。
 
-```
-┌─────────────────────────────────────────────────┐
-│              TRAINING PIPELINE                   │
-│                                                  │
-│  ┌──────────────────┐    ┌──────────────────┐   │
-│  │  SB3 Agent       │    │  Gazebo          │   │
-│  │  (DQN / PPO)     │◄──►│  3D Simulator    │   │
-│  │  - Q-Network     │    │  - AWS Small House│   │
-│  │  - Replay Buffer │    │  - Virtual Create3│   │
-│  │  - Policy        │    │  - Physics Engine │   │
-│  └────────┬─────────┘    └────────┬─────────┘   │
-│           │        ROS 2          │              │
-│           │    (Communication)    │              │
-│           └───────────────────────┘              │
-│            cmd_vel ↑    ↓ image_raw              │
-│                        ↓ stop_status             │
-└─────────────────────────────────────────────────┘
-```
-
-### Components and Their Roles
-
-| Component | Purpose | Interaction |
-|---|---|---|
-| **Gazebo** (3D Physics Simulator) | Simulates a virtual house (AWS Small House) with a virtual Create3 robot. Handles physics (collisions, movement), virtual sensors (camera), and rendering. | Receives velocity commands → simulates robot motion → returns sensor data |
-| **ROS 2** (Communication Framework) | Acts as the "nervous system" connecting all components via topics (publish/subscribe messaging). | Carries `cmd_vel` (velocity commands), `image_raw` (camera images), `stop_status` signals between Agent and Gazebo |
-| **Stable-Baselines3 (SB3)** (RL Algorithm Library) | Provides the RL agent implementation (DQN or PPO). The agent's "brain" that decides which actions to take based on observations. | Receives observations + rewards from the Gymnasium wrapper → outputs actions |
-| **Gymnasium Environment** (Standardized Interface) | Wraps the ROS2/Gazebo system into the standard `reset()/step()` API that SB3 expects. Converts raw sensor data into observations and computes rewards. | Bridges SB3 ↔ ROS2/Gazebo |
-| **Docker** | Containerizes the Python environment and ROS 2 workspace, ensuring reproducible dependencies and isolated environments. | Packages all above components |
-
-### The Training Loop
-
-1. Gymnasium `reset()` → Gazebo resets the simulation to initial state.
-2. Agent receives observation ($S_t$: processed `image_raw`) and reward ($R_t$).
-3. Agent (SB3 DQN/PPO) computes action ($A_t$).
-4. Action is published to `cmd_vel` via ROS 2 → Gazebo moves the virtual robot.
-5. Agent waits for `stop_status`, processes new `image_raw`.
-6. Gymnasium returns new observation + reward → back to step 2.
-7. After training, the learned policy can be deployed to a **real Create3 robot** with minimal changes (sim-to-real transfer).
-
-### Why Simulation?
-- **Speed:** Thousands of episodes in hours (vs. days on a real robot).
-- **Safety:** No risk of damaging hardware or the environment.
-- **Reset:** Instant environment reset after each episode.
-- **Cost:** No physical hardware needed during development.
-
-### 📝 答题要点
-- ✅ **Gazebo** = 3D physics simulator (simulates robot + environment)
-- ✅ **ROS 2** = communication framework (topics: `cmd_vel`, `image_raw`, `stop_status`)
-- ✅ **SB3** = RL agent (DQN/PPO algorithm)
-- ✅ **Gymnasium** = standardized environment interface (`reset()`/`step()`)
-- ✅ Explain the **interaction loop**: observation → action → simulation → new observation
-- ✅ 可选加分：提及 Docker, sim-to-real transfer, 为什么用仿真而不是真机
+📎 *Source: Week 10 Slide 3 — "RL Diagrams with virtual Create"*
 
 ---
 
-## Q7. Suppose you are running an SB3 agent on a gymnasium environment with unsatisfactory results. What areas could you explore to improve results?
-> 假设你在 Gymnasium 环境中运行 SB3 智能体但结果不理想，可以探索哪些方向来改善？
+## Q7. SB3 agent with unsatisfactory results — what areas to explore?
 
-### 💡 中文直觉
+**Q7. SB3 智能体效果不理想——应该从哪些方面排查？**
 
-效果不好时，不要只想到"调参"——这只是五个方向中的一个。你应该系统地检查整个管道：奖励设计 → 网络能力 → 训练策略 → 探索策略 → 超参数。
+1. **Reward shaping** — add intermediate rewards
+2. **Network capacity** — increase Q-network structure from `[64,64]` to `[512,512,256]` (more capacity and separation)
+3. **Curriculum Learning** — make problem easier at beginning, increase difficulty; use `difficulty_level` and `start_flat`
+4. **Exploration** — adjust ε-greedy schedule
+5. **Hyperparameters** — `learning_starts`, `learning_rate`, batch size, γ
+6. **Algorithm** — try PPO instead of DQN (or vice versa)
 
-### ✅ English Answer
+> 1. **奖励塑形** — 添加中间奖励
+> 2. **网络容量** — 将 Q 网络结构从 `[64,64]` 增加到 `[512,512,256]`（更多容量和分离性）
+> 3. **课程学习** — 一开始让问题更容易，逐步增加难度；使用 `difficulty_level` 和 `start_flat`
+> 4. **探索** — 调整 ε-greedy 计划
+> 5. **超参数** — `learning_starts`、`learning_rate`、batch size、γ
+> 6. **算法** — 尝试 PPO 替代 DQN（或反之）
 
-There are **multiple areas** to investigate systematically when SB3 results are unsatisfactory:
-
-### 1. 🎯 Reward Design (奖励设计)
-- **Is the reward too sparse?** If the agent rarely receives any positive reward, it has no learning signal. 
-  - **Fix:** Add intermediate/shaping rewards, or use **curriculum learning** to start with easier variants of the task.
-- **Is the reward misleading?** Sutton: reward should communicate **what** to achieve, not **how** to achieve it. Don't reward subgoals — reward the final objective.
-- **Scale:** Are reward magnitudes appropriate? Very large/small rewards can destabilize training.
-
-### 2. 🧠 Network Architecture (网络结构)
-- **Is the network too small?** The default `[64, 64]` may lack **capacity** to represent complex state-action mappings.
-  - **Fix:** Increase to `[512, 512, 256]` or larger — more neurons can learn more patterns.
-- **Is the network too shallow?** Shallow networks may fail to learn complex **joint patterns** (e.g., combinations of block positions).
-  - **Fix:** Add more layers for better **separation** of features.
-- **Wrong policy type?** Using `MlpPolicy` when observations are dictionaries → switch to `MultiInputPolicy`.
-
-### 3. 📚 Training Strategy (训练策略)
-- **Curriculum Learning:** Start with simplified versions of the task (`start_flat=True`, low `difficulty_level`), then gradually increase difficulty.
-- **`learning_starts`:** Is the agent training too early before accumulating enough diverse experience? Increase the warm-up period.
-- **`batch_size`:** Too small → noisy updates; too large → slow learning.
-- **Total training steps:** Maybe the agent simply hasn't trained long enough.
-
-### 4. 🔍 Exploration Strategy (探索策略)
-- **Epsilon decay schedule:** Is ε-greedy decaying too fast (agent stops exploring prematurely) or too slow (agent won't commit to learned strategy)?
-- **Initial exploration phase:** `exploration_initial_eps` and `exploration_final_eps` settings.
-- **Entropy bonus (PPO):** Encourage more diverse actions early in training.
-
-### 5. ⚙️ Hyperparameters (超参数)
-- **Learning rate ($\alpha$):** Too high → unstable; too low → too slow.
-- **Discount factor ($\gamma$):** Too low → myopic (only sees immediate rewards); too high → noisy (far-future rewards add variance).
-- **`target_update_interval` (DQN):** How often the target network syncs — affects training stability.
-- **Buffer size:** Is the replay buffer too small (forgetting useful old experience)?
-
-### 6. 🌍 Environment Design (环境设计)
-- **Observation space:** Is the state representation informative enough? Does the agent have all the information it needs to make good decisions?
-- **Action space:** Is it appropriately discretized? Using `DiscreteActionWrapper` if needed for DQN compatibility?
-- **Episode length:** Too short (agent can't reach the goal) or too long (wastes time on hopeless episodes)?
-
-### 7. 📈 Monitoring & Debugging (监控与调试)
-- **TensorBoard:** Check `ep_rew_mean` curve — is it flat, oscillating, or diverging?
-- **Callbacks:** Use `EvalCallback` for periodic evaluation on a separate environment.
-- **Algorithm choice:** Maybe DQN is wrong for this task — try PPO (handles continuous actions, more stable updates).
-
-### 📝 答题要点
-- ✅ **Reward design** — 是否太稀疏/误导性
-- ✅ **Network architecture** — 是否太小/太浅
-- ✅ **Curriculum learning** — 是否需要先简单后困难
-- ✅ **Exploration rate (epsilon)** — 衰减是否合理
-- ✅ **Hyperparameters** — learning_starts, batch_size, learning rate, γ
-- ✅ 可选加分：提及 observation space 设计, 算法选型 (DQN ↔ PPO), TensorBoard 监控
-
----
-
-## 📋 总结：答题速查表
-
-| 题号 | 核心关键词 | 必须提到的概念 |
-|---|---|---|
-| Q1 | Huge state space | Value Function Approximation, Neural Network replaces Q-Table, generalization |
-| Q2 | DQN value approx | Q-Network (input=state, output=Q-values), Replay Buffer, Target Network, MSE loss |
-| Q3 | PPO value approx | Actor-Critic, Actor=policy (probabilities), Critic=V(s), clipped updates |
-| Q4 | Where NN appears | Q-value approx (DQN), Policy (PPO Actor), Value estimator (PPO Critic) |
-| Q5 | Training data sources | Agent-env interaction → $(s,a,r,s')$, Replay Buffer, Simulation (Gazebo), Real-world |
-| Q6 | Assignment 2 overview | Gazebo=simulator, ROS2=communication, SB3=agent, Gymnasium=interface, interaction loop |
-| Q7 | Improve results | Reward design, network size, curriculum learning, exploration rate, hyperparameters |
+📎 *Source: Week 10 Slides 4, 6-7 — "DQN on Block-Stacking", "Curriculum Learning", "Q-network structure"*

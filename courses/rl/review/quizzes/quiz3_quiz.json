@@ -1,0 +1,142 @@
+[
+  {
+    "question": "What is a condition for applying Q-Learning to an RL problem?<br>将 Q-Learning 应用于 RL 问题的条件是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers",
+      "B) Rewards must be known in advance",
+      "C) Transition probabilities must be known",
+      "D) Optimal value function must be known",
+      "E) Action value table must be known"
+    ],
+    "answer": 0,
+    "explanation": "Q-Learning is model-free — no prior knowledge of rewards, transitions, or values needed.<br>Q-Learning 是 model-free 的，不需要预先知道奖励、转移概率或价值函数。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does greedy mean in RL?<br>\"贪婪\"在 RL 中是什么意思？",
+    "type": "MCQ",
+    "options": [
+      "A) Choose action with highest estimated value",
+      "B) Choose action maximizing future reward directly",
+      "C) Choose action maximizing total reward",
+      "D) Choose action maximizing past reward",
+      "E) None"
+    ],
+    "answer": 0,
+    "explanation": "Greedy: always pick argmax Q(s,a').<br>贪婪：总是选 Q 值最高的动作。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is an episode in RL?<br>什么是回合(Episode)？",
+    "type": "MCQ",
+    "options": [
+      "A) A new state added",
+      "B) One step of action",
+      "C) A run from start state to terminal state",
+      "D) Observing cumulative reward",
+      "E) Number of steps"
+    ],
+    "answer": 2,
+    "explanation": "Episode = complete trajectory (s₀, a₀, r₁, …, sT).<br>回合 = 完整轨迹。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is reinforcement learning?<br>什么是强化学习？",
+    "type": "MCQ",
+    "options": [
+      "A) Unsupervised learning",
+      "B) Supervised learning",
+      "C) Sensor learning",
+      "D) Clustering algorithm",
+      "E) Learning through interaction with an environment to maximize reward"
+    ],
+    "answer": 4,
+    "explanation": "RL = agent-environment interaction. Core: Agent, Environment, State, Action, Reward.<br>RL = 智能体与环境交互。",
+    "source": "teacher"
+  },
+  {
+    "question": "Difference between state value and action value functions?<br>状态价值函数和动作价值函数的区别？",
+    "type": "MCQ",
+    "options": [
+      "A) None",
+      "B) Action value returns state",
+      "C) State value takes state and action",
+      "D) State value returns action reward",
+      "E) Action value evaluates action in a state; state value evaluates a state"
+    ],
+    "answer": 4,
+    "explanation": "V(s): state → expected return. Q(s,a): state+action → expected return.<br>区别在于是否指定了动作。",
+    "source": "teacher"
+  },
+  {
+    "question": "What if the Markov Property does not hold?<br>马尔可夫性质不成立怎么办？",
+    "type": "MCQ",
+    "options": [
+      "A) None",
+      "B) RL cannot be applied",
+      "C) RL requires a non-Markov algorithm",
+      "D) RL may still be applied but learning may take longer / RL 仍可用但学习可能更慢",
+      "E) Redefine the state"
+    ],
+    "answer": 3,
+    "explanation": "RL still works without perfect Markov property, but learning is slower.<br>即使马尔可夫性不完美，RL 仍可用，但学习更慢。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the Reward Hypothesis?<br>什么是奖励假设？",
+    "type": "MCQ",
+    "options": [
+      "A) Some goals cannot be expressed as reward",
+      "B) All goals = maximizing cumulative reward",
+      "C) None",
+      "D) Rewards minimize steps",
+      "E) Goals define Markov property"
+    ],
+    "answer": 1,
+    "explanation": "All goals can be expressed as maximizing expected cumulative scalar reward.<br>所有目标都可以表述为最大化标量奖励的累积期望值。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Policy?<br>什么是策略(Policy)？",
+    "type": "MCQ",
+    "options": [
+      "A) A mapping from state to action",
+      "B) Value function",
+      "C) Reward table",
+      "D) None",
+      "E) All"
+    ],
+    "answer": 0,
+    "explanation": "Deterministic: π(s) = a. Stochastic: π(a|s).<br>确定性：π(s)=a。随机性：π(a|s)。",
+    "source": "teacher"
+  },
+  {
+    "question": "Where is the policy implemented?<br>策略在哪里实现？",
+    "type": "MCQ",
+    "options": [
+      "A) Environment",
+      "B) None",
+      "C) Value function in environment",
+      "D) Policy and value function are in the agent",
+      "E) Agent determines environment results"
+    ],
+    "answer": 3,
+    "explanation": "Agent: policy + value function. Environment: next state + reward.<br>Agent 包含策略和价值函数。Environment 提供下一状态和奖励。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Value Function?<br>什么是价值函数？",
+    "type": "MCQ",
+    "options": [
+      "A) Expected immediate steps",
+      "B) Same as policy",
+      "C) Episode reward",
+      "D) Expected immediate reward",
+      "E) None of these answers"
+    ],
+    "answer": 4,
+    "explanation": "None correct. Value function = expected cumulative return: V(s) for states, Q(s,a) for state-action pairs.<br>没有选项正确。价值函数 = 期望累积回报。",
+    "source": "teacher"
+  }
+]

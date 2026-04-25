@@ -1,0 +1,35 @@
+RL midterm written question
+
+1. What is the purpose of this Python code and what does it?  (4marks)
+class DiscreteActionWrapper(gym.ActionWrapper):
+	def __init__(self, env):
+		super().__init__(env)
+		self.dims = env.action_space.nvec
+		self.action_space = gym.spaces.Discrete(np.prod(self.dims))
+	def action(self, action):
+		return np.unravel_index(action, self.dims)
+
+
+
+2. Explain the meaning of "return" in the context of Reinforcement Learning. (4marks)
+
+2week  13page
+
+3. Draw the diagram that represents the primary aspects of a Reinforcement Learning problem/solution with agent-env interaction. (10marks)
+2week  8page
+
+
+4. In Reinforcement Learning, what is an action-value function, and how could it be used to solve a Reinforcement Learning problem? (5marks)
+Week 6 6-page midterm review files
+
+qTable[stable][action]=stable[state][action] + alpha*gamma*max(qtable[next_state]-qtable[state][action])
+
+질문이 action value function 아님.
+
+5. What is an observation in Reinforcement Learning? (2marks)
+
+
+
+
+
+

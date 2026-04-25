@@ -129,6 +129,8 @@ Q-Table（简单迷宫，4个状态 × 3个动作）
 
 **问题不仅是存不下，更严重的是填不满**——智能体训练 10 万步，可能只访问了 300 万种状态中的几千种，绝大多数格子永远是空白的。查表查到空白怎么办？什么都不知道，只能瞎猜。
 
+![State Space Explosion — Block Stacking](CST8509_10_Final_Review_generated_images/state_space_explosion.png)
+
 > 🔑 **故事转折点：** 面对 300 万种状态的"无尽"组合，传统的查表法（Tabular RL）彻底破产 → 我们需要一种不用"记住每个状态"也能估算价值的方法 → 深度神经网络必须出场了！
 
 ---
@@ -219,6 +221,8 @@ DQN 方式（学规律）：
 
 > ⚠️ **但老实说：** 我们不知道它到底识别了什么模式。这是神经网络的"黑盒"本质——我们只知道用了 `[512,512,256]` 之后训练效果变好了，但内部到底学了什么，没有人能直接打开来看。这些数字（512、256、3层）不是理论推导出来的，是**实验调参**的结果。
 
+![DQN Q-Network Architecture [512,512,256]](CST8509_10_Final_Review_generated_images/dqn_network_architecture.png)
+
 ### 3.4 ❗ 又一个难题——"海底捞针"的迷茫
 
 拥有了庞大的网络结构后，直接让智能体上场会怎样？**几乎什么都学不到。**
@@ -271,6 +275,8 @@ DQN 方式（学规律）：
 - 逐渐递增，每次训练完一个难度再加载模型继续练下一个难度
 
 > 💡 **类比：** 就像教小孩搭乐高。你不会给他一堆 500 块散片说"搭出城堡"。你会先把 498 块都搭好，只留最后 2 块让他放上去。他放对了获得鼓励后，下次留 5 块让他搭，然后 10 块、20 块……循序渐进。
+
+![Curriculum Learning Effect — With vs Without](CST8509_10_Final_Review_generated_images/curriculum_learning_effect.png)
 
 ### 4.2 经验回放缓冲区 (Replay Buffer) 与 `learning_starts=2000`
 
@@ -345,6 +351,8 @@ DQN 方式（学规律）：
 4. Gazebo simulation & MC Methods (**CST8509_07**)
 5. Docker & Environments (**CST8509_08**)
 6. Value Function Approx. for large spaces (**CST8509_09**)
+
+![RL Methods Comparison — Q-Table vs DQN vs PPO](CST8509_10_Final_Review_generated_images/rl_methods_comparison.png)
 
 ---
 

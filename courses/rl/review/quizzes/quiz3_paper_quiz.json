@@ -1,0 +1,135 @@
+[
+  {
+    "question": "What is a Markov state?<br>什么是马尔可夫状态？",
+    "type": "MCQ",
+    "options": [
+      "A) A process of present states that can only be determined from past states and actions.",
+      "B) None of these answers.",
+      "C) The process of present states that determine future Learning actions.",
+      "D) All of these answers.",
+      "E) All we need to predict future states is the current state, and all previous states can be thrown away."
+    ],
+    "answer": 4,
+    "explanation": "Markov property: the future depends only on the current state, not on the history of past states.<br>马尔可夫性：未来只取决于当前状态，与历史无关。",
+    "source": "teacher"
+  },
+  {
+    "question": "What are all the actions in Reinforcement Learning?<br>强化学习中的动作是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) All of these answers.",
+      "B) Taking actions to maximize total reward.",
+      "C) Taking actions to maximize past cumulative reward.",
+      "D) None of these answers.",
+      "E) Taking actions to maximize future cumulative reward."
+    ],
+    "answer": 4,
+    "explanation": "In RL, actions aim to maximize expected future cumulative reward, not past or just total reward.<br>RL 中，动作的目标是最大化未来累积奖励的期望。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is meant by \"episode\" in RL?<br>\"回合(Episode)\"是什么意思？",
+    "type": "MCQ",
+    "options": [
+      "A) The number of steps actually taken to reach the terminal state.",
+      "B) A single cycle of performing an action, receiving a reward, and observing the resulting state.",
+      "C) A single run from the starting state to a terminal (or truncated) state.",
+      "D) None of these answers.",
+      "E) A single run that does not reach the terminal state."
+    ],
+    "answer": 2,
+    "explanation": "Episode = complete trajectory from start to terminal. B describes a single time step, not a full episode.<br>回合 = 从起始到终止的完整轨迹。B 描述的是单个时间步。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is Reinforcement Learning (RL)?<br>什么是强化学习？",
+    "type": "MCQ",
+    "options": [
+      "A) RL is the application of neural network machine learning for robotics.",
+      "B) RL is the application of supervised machine learning for control applications.",
+      "C) None of these answers.",
+      "D) RL is a third type of machine learning, along with supervised learning and unsupervised learning. / RL 是与监督学习、无监督学习并列的第三种机器学习",
+      "E) RL is a form of unsupervised learning where an agent takes actions on an environment."
+    ],
+    "answer": 3,
+    "explanation": "RL is the third ML paradigm alongside supervised and unsupervised learning.<br>RL 是机器学习三大范式之一。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the difference between an action value function and a state value function?<br>动作价值函数和状态价值函数有什么区别？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) State value functions return a state; action value functions return immediate reward.",
+      "C) State value functions take a state and an action; action value functions take just actions.",
+      "D) Action value functions return average reward; State value functions return average total future reward.",
+      "E) Action value functions take a state and an action; State value functions are about the value of being in a state."
+    ],
+    "answer": 4,
+    "explanation": "Q(s,a): takes state + action → expected return. V(s): takes state only → expected return from that state.<br>Q(s,a)：状态+动作 → 期望回报。V(s)：仅状态 → 该状态的期望回报。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the Reward Hypothesis of RL?<br>奖励假设是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) All of these answers.",
+      "B) Some goals and purposes can be thought of as maximizing cumulative scalar reward.",
+      "C) None of these answers.",
+      "D) All RL problems are based on reward.",
+      "E) All goals and purposes can be thought of as maximizing the expected value of cumulative scalar reward."
+    ],
+    "answer": 4,
+    "explanation": "Reward Hypothesis: ALL goals = maximizing expected cumulative scalar reward. B says \"some\" — must be \"all\".<br>奖励假设：所有（不是\"某些\"）目标 = 最大化累积标量奖励期望。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is RL with respect to supervised and unsupervised learning?<br>RL 相对于监督学习和无监督学习是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) RL can be applied but only when supervised learning has been done first.",
+      "B) All of these answers.",
+      "C) RL is a third type of machine learning. / RL 是第三种机器学习",
+      "D) None of these answers.",
+      "E) RL is a variation of unsupervised learning that uses past results."
+    ],
+    "answer": 2,
+    "explanation": "RL is a distinct, third paradigm of ML — not a subset of supervised or unsupervised learning.<br>RL 是独立的第三种 ML 范式。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Policy in Reinforcement Learning?<br>策略(Policy)是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) A function that assigns a value to each action.",
+      "B) A function that determines the probability of an agent taking an action.",
+      "C) A function that assigns a value to each action-state pair.",
+      "D) All of these answers.",
+      "E) None of these answers."
+    ],
+    "answer": 1,
+    "explanation": "Policy π(a|s): maps states to action probabilities. A/C describe value functions, not policy.<br>策略 π(a|s)：状态 → 动作概率。A/C 描述的是价值函数。",
+    "source": "teacher"
+  },
+  {
+    "question": "The value function and policy function are implemented in the agent rather than the environment.<br>价值函数和策略函数在智能体中实现，而非环境中。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Agent owns: policy π + value functions V/Q. Environment owns: transitions P + rewards R.<br>Agent 拥有策略和价值函数。Environment 拥有转移和奖励。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Value Function in RL?<br>价值函数是什么？(Options: determines action + expected steps / action + expected immediate reward / action + expected total reward / None)",
+    "type": "MCQ",
+    "options": [
+      "A) Determines an action and gives expected total number of steps to maximize reward.",
+      "B) None of these answers.",
+      "C) Takes an action and an episode and gives expected immediate reward.",
+      "D) All of these answers.",
+      "E) Takes an action and gives expected total reward."
+    ],
+    "answer": 1,
+    "explanation": "None of the options correctly describe a value function. Value function = expected cumulative return from a state V(s) or state-action pair Q(s,a).<br>没有选项正确。价值函数 = 从状态或状态-动作对出发的期望累积回报。",
+    "source": "teacher"
+  }
+]

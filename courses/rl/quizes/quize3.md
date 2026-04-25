@@ -1,443 +1,187 @@
+# Reinforcement Learning Quiz 3
 
-# RL_CST8509_ToddKelley_Master_Review_FINAL
+---
 
-Course: CST8509 Reinforcement Learning
-Instructor: Todd Kelley
-Student: Hye Ran Yoo
+**Question 1**
+What is a condition for applying Q‑Learning to a RL problem?
+将 Q-Learning 应用于 RL 问题的条件是什么？
 
-This document includes
-1 Quiz Review (10 questions)
-2 Core Reinforcement Learning Concepts
-3 Key RL Formulas
-4 Q‑Learning and SARSA calculation examples
-5 Additional Todd Kelley style multiple‑choice questions
+A) None of these answers
+B) Rewards must be known in advance
+C) Transition probabilities must be known
+D) Optimal value function must be known
+E) Action value table must be known
 
-==================================================
+> **Answer**: A
+> Q-Learning is model-free — no prior knowledge of rewards, transitions, or values needed.
+> Q-Learning 是 model-free 的，不需要预先知道奖励、转移概率或价值函数。
 
-# 1 Quiz Review
+---
 
-## Question 1
-What is a condition for applying Q‑Learning to a Reinforcement Learning problem?
+**Question 2**
+What does greedy mean in RL?
+"贪婪"是什么意思？
 
-Options
-a None of these answers
-b Rewards must be known in advance
-c Transition probabilities must be known
-d Optimal value function must be known
-e Action value table must be known
+A) Choose action with highest estimated value / 选择估计值最高的动作
+B) Choose action maximizing future reward directly
+C) Choose action maximizing total reward
+D) Choose action maximizing past reward
+E) None
 
-Answer
-a
+> **Answer**: A
+> Greedy: always pick $\arg\max Q(s,a')$.
+> 贪婪：总是选 Q 值最高的动作。
 
-Key Concept
-Q‑Learning is a model‑free reinforcement learning algorithm.
-Transition probabilities and reward models do not need to be known.
+---
 
-University Exam Focus
+**Question 3**
+What is an episode in RL?
+什么是回合(Episode)？
 
-| Topic | Key Idea |
-|---|---|
-| Model‑free vs Model‑based | Q‑Learning is model‑free |
-| Off‑policy learning | Q‑Learning is off‑policy |
-| Update equation | Often appears in exam calculations |
+A) A new state added
+B) One step of action
+C) A run from start state to terminal state / 从起始到终止状态的完整运行
+D) Observing cumulative reward
+E) Number of steps
 
+> **Answer**: C
+> Episode = complete trajectory $(s_0, a_0, r_1, \ldots, s_T)$.
+> 回合 = 完整轨迹。
 
-## Question 2
-What does greedy mean in reinforcement learning?
+---
 
-Options
-a Choose action with highest estimated value
-b Choose action maximizing future reward directly
-c Choose action maximizing total reward
-d Choose action maximizing past reward
-e None
-
-Answer
-a
-
-Key Concept
-A greedy policy always selects the action with the highest estimated Q value.
-
-Common exam topic
-Exploration vs exploitation trade‑off.
-
-
-## Question 3
-What is an episode in reinforcement learning?
-
-Options
-a A new state added
-b One step of action
-c A run from start state to terminal state
-d Observing cumulative reward
-e Number of steps
-
-Answer
-c
-
-Key Concept
-An episode is the complete trajectory from starting state to terminal state.
-
-Example
-(s0, a0, r1, s1, a1, r2 ... sT)
-
-
-## Question 4
+**Question 4**
 What is reinforcement learning?
+什么是强化学习？
 
-Options
-a Unsupervised learning
-b Supervised learning
-c Sensor learning
-d Clustering algorithm
-e Learning through interaction with an environment to maximize reward
+A) Unsupervised learning
+B) Supervised learning
+C) Sensor learning
+D) Clustering algorithm
+E) Learning through interaction with an environment to maximize reward / 通过与环境交互来最大化奖励
 
-Answer
-e
+> **Answer**: E
+> RL = agent-environment interaction. Core: Agent, Environment, State, Action, Reward.
+> RL = 智能体与环境交互。核心要素：Agent、Environment、State、Action、Reward。
 
-Core elements
+---
 
-| Component | Meaning |
-|---|---|
-| Agent | decision maker |
-| Environment | external world |
-| State | current situation |
-| Action | possible decision |
-| Reward | feedback signal |
+**Question 5**
+Difference between state value and action value functions?
+状态价值函数和动作价值函数的区别？
 
+A) None
+B) Action value returns state
+C) State value takes state and action
+D) State value returns action reward
+E) Action value evaluates action in a state; state value evaluates a state / 动作价值评估某状态下的动作，状态价值评估状态
 
-## Question 5
-What is the difference between state value and action value functions?
+> **Answer**: E
+> $V(s)$: state → expected return. $Q(s,a)$: state+action → expected return.
+> 区别在于是否指定了动作。
 
-Options
-a None
-b Action value returns state
-c State value takes state and action
-d State value returns action reward
-e Action value evaluates action in a state while state value evaluates a state
+---
 
-Answer
-e
+**Question 6**
+What if the Markov Property does not hold?
+马尔可夫性质不成立怎么办？
 
-Concept
+A) None
+B) RL cannot be applied
+C) RL requires a non‑Markov algorithm
+D) RL may still be applied but learning may take longer / RL 仍可用但学习可能更慢
+E) Redefine the state
 
-| Function | Meaning |
-|---|---|
-| V(s) | expected return from state |
-| Q(s,a) | expected return from taking action a in state s |
+> **Answer**: D
+> RL still works without perfect Markov property, but learning is slower.
+> 即使马尔可夫性不完美，RL 仍可用，但学习更慢。
 
+---
 
-## Question 6
-What can be done in reinforcement learning if the Markov Property does not hold?
+**Question 7**
+What is the Reward Hypothesis?
+什么是奖励假设？
 
-Options
-a None
-b RL cannot be applied
-c RL requires a non‑Markov algorithm
-d RL may still be applied but learning may take longer
-e Redefine the state
+A) Some goals cannot be expressed as reward
+B) All goals = maximizing cumulative reward / 所有目标 = 最大化累积奖励
+C) None
+D) Rewards minimize steps
+E) Goals define Markov property
 
-Answer
-d
+> **Answer**: B
+> All goals can be expressed as maximizing expected cumulative scalar reward.
+> 所有目标都可以表述为最大化标量奖励的累积期望值。
 
-Key Concept
-Markov Property means the current state contains all information required for future prediction.
+---
 
-Formula
-P(s' | s)
+**Question 8**
+What is a Policy?
+什么是策略(Policy)？
 
+A) A mapping from state to action / 状态到动作的映射
+B) Value function
+C) Reward table
+D) None
+E) All
 
-## Question 7
-What is the Reward Hypothesis in reinforcement learning?
+> **Answer**: A
+> Deterministic: $\pi(s) = a$. Stochastic: $\pi(a|s)$.
+> 确定性：$\pi(s)=a$。随机性：$\pi(a|s)$。
 
-Options
-a Some goals cannot be expressed as reward
-b All goals can be expressed as maximizing cumulative reward
-c None
-d Rewards minimize steps
-e Goals define Markov property
+---
 
-Answer
-b
-
-Key Concept
-All goals can be expressed as maximizing expected cumulative reward.
-
-
-## Question 8
-What is a Policy in reinforcement learning?
-
-Options
-a A mapping from state to action
-b Value function
-c Reward table
-d None
-e All
-
-Answer
-a
-
-Policy representation
-
-Deterministic policy
-π(s) = a
-
-Stochastic policy
-π(a|s)
-
-
-## Question 9
+**Question 9**
 Where is the policy implemented?
+策略在哪里实现？
 
-Options
-a Environment
-b None
-c Value function in environment
-d Policy and value function are implemented in the agent
-e Agent determines environment results
+A) Environment
+B) None
+C) Value function in environment
+D) Policy and value function are in the agent / 策略和价值函数在 Agent 中
+E) Agent determines environment results
 
-Answer
-d
+> **Answer**: D
+> Agent: policy + value function. Environment: next state + reward.
+> Agent 包含策略和价值函数。Environment 提供下一状态和奖励。
 
-Concept
-Agent contains policy and value function.
-Environment provides next state and reward.
+---
 
-
-## Question 10
+**Question 10**
 What is a Value Function?
-
-Options
-a Expected immediate steps
-b Same as policy
-c Episode reward
-d Expected immediate reward
-e None of these answers
-
-Answer
-e
-
-Concept
-Value functions estimate expected return.
-
-| Function | Meaning |
-|---|---|
-| V(s) | state value |
-| Q(s,a) | action value |
-
-
-==================================================
-
-# 2 Important Reinforcement Learning Concepts
-
-## Markov Decision Process (MDP)
-
-| Symbol | Meaning |
-|---|---|
-| S | states |
-| A | actions |
-| P(s'|s,a) | transition probability |
-| R(s,a) | reward |
-| γ | discount factor |
-
-
-## Return
-
-Return represents cumulative future reward.
-
-G_t = r_t + γr_{t+1} + γ²r_{t+2} + ...
-
-
-## Bellman Equation
-
-State value
-
-V(s) = E[r + γV(s')]
-
-Action value
-
-Q(s,a) = E[r + γ max Q(s',a')]
-
-
-## Exploration vs Exploitation
-
-Exploration
-Trying new actions
-
-Exploitation
-Choosing the best known action
-
-Most common method
-epsilon‑greedy
-
-
-==================================================
-
-# 3 Core RL Algorithms
-
-## Q‑Learning
-
-Q(s,a) ← Q(s,a) + α [ r + γ max Q(s',a') − Q(s,a) ]
-
-Type
-Off‑policy learning
-
-
-## SARSA
-
-Q(s,a) ← Q(s,a) + α [ r + γ Q(s',a') − Q(s,a) ]
-
-Type
-On‑policy learning
-
-
-==================================================
-
-# 4 Calculation Example
-
-## Q‑Learning Example
-
-| Variable | Value |
-|---|---|
-| Q(s,a) | 5 |
-| α | 0.1 |
-| r | 2 |
-| γ | 0.9 |
-| maxQ | 8 |
-
-target = 2 + 0.9 × 8 = 9.2
-
-Q = 5 + 0.1(9.2 − 5)
-
-New Q value = 5.42
-
-
-## SARSA Example
-
-| Variable | Value |
-|---|---|
-| Q(s,a) | 5 |
-| α | 0.1 |
-| r | 2 |
-| γ | 0.9 |
-| Q(s',a') | 6 |
-
-target = 2 + 0.9 × 6 = 7.4
-
-Q = 5 + 0.1(7.4 − 5)
-
-New Q value = 5.24
-
-
-==================================================
-
-# 5 Todd Kelley Style Practice Questions
-
-1 Which algorithm is off‑policy?
-
-a SARSA
-b Q‑Learning
-c Monte Carlo
-d Policy Gradient
-
-Answer
-b
-
-
-2 Which equation defines the value of a state?
-
-a Bellman equation
-b Update equation
-c Gradient descent
-d Transition equation
-
-Answer
-a
-
-
-3 What does the discount factor control?
-
-a reward normalization
-b importance of future reward
-c policy selection
-d environment update
-
-Answer
-b
-
-
-4 What does exploration mean in reinforcement learning?
-
-a always choose best action
-b try new actions
-c remove randomness
-d maximize reward immediately
-
-Answer
-b
-
-
-5 Which function evaluates the value of a state‑action pair?
-
-a V(s)
-b Q(s,a)
-c π(s)
-d R(s)
-
-Answer
-b
-
-
-6 Which component chooses the action?
-
-a environment
-b reward
-c agent
-d state
-
-Answer
-c
-
-
-7 If γ is close to 1 what happens?
-
-a future rewards become more important
-b immediate reward only
-c learning stops
-d rewards ignored
-
-Answer
-a
-
-
-8 Which algorithm uses the max future Q value?
-
-a SARSA
-b Q‑Learning
-c Monte Carlo
-d Policy Gradient
-
-Answer
-b
-
-
-9 Which algorithm uses the next chosen action value?
-
-a Q‑Learning
-b SARSA
-c DQN
-d Actor‑Critic
-
-Answer
-b
-
-
-10 What does a policy represent?
-
-a reward function
-b mapping from state to action
-c transition probability
-d environment rule
-
-Answer
-b
+什么是价值函数？
+
+A) Expected immediate steps
+B) Same as policy
+C) Episode reward
+D) Expected immediate reward
+E) None of these answers
+
+> **Answer**: E
+> None correct. Value function = expected cumulative return: $V(s)$ for states, $Q(s,a)$ for state-action pairs.
+> 没有选项正确。价值函数 = 期望累积回报。
+
+---
+
+# Reference Tables
+
+## Q-Learning vs SARSA
+
+| | Q-Learning (Off-policy) | SARSA (On-policy) |
+|---|---|---|
+| Update | $Q \leftarrow Q + \alpha[r + \gamma \max Q(s',a') - Q]$ | $Q \leftarrow Q + \alpha[r + \gamma Q(s',a') - Q]$ |
+
+**Q-Learning example**: Q=5, α=0.1, r=2, γ=0.9, maxQ=8 → **5.42**
+**SARSA example**: Q=5, α=0.1, r=2, γ=0.9, Q(s',a')=6 → **5.24**
+
+## Practice Answers
+
+1. Off-policy algorithm? → **Q-Learning**
+2. Equation defining state value? → **Bellman**
+3. Discount factor controls? → **importance of future reward / 未来奖励的重要性**
+4. Exploration means? → **try new actions / 尝试新动作**
+5. Evaluates state-action pairs? → **Q(s,a)**
+6. Chooses the action? → **agent**
+7. γ close to 1? → **future rewards more important / 未来奖励更重要**
+8. Uses max future Q? → **Q-Learning**
+9. Uses next chosen action value? → **SARSA**
+10. Policy represents? → **state → action mapping / 状态到动作的映射**

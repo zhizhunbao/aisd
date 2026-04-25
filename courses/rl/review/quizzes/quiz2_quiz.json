@@ -1,0 +1,205 @@
+[
+  {
+    "question": "What is Reinforcement Learning (RL)?<br>什么是强化学习？",
+    "type": "MCQ",
+    "options": [
+      "A) All of these answers.",
+      "B) RL is a third type of machine learning, along with supervised learning and unsupervised learning. / RL 是第三种机器学习范式",
+      "C) RL is a form of supervised machine learning used for learning to play games.",
+      "D) RL is a form of unsupervised machine learning used in control applications.",
+      "E) None of these answers."
+    ],
+    "answer": 1,
+    "explanation": "RL is one of the three ML paradigms (supervised / unsupervised / reinforcement). C/D wrongly classify it as a sub-type.<br>RL 是机器学习三大范式之一。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which of the following can be considered primary aspects of a Reinforcement Learning problem setup?<br>以下哪些是 RL 问题设定的核心要素？",
+    "type": "MCQ",
+    "options": [
+      "A) Values, Step function, and Actions.",
+      "B) Agent, Environment, and Reward.",
+      "C) Reward, Environment, and States.",
+      "D) Agent, Values, and Step function.",
+      "E) None of these answers."
+    ],
+    "answer": 1,
+    "explanation": "The three primary elements of RL are Agent, Environment, and Reward.<br>RL 核心三要素是 Agent、Environment、Reward。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Markov state?<br>什么是马尔可夫状态？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) All of these answers.",
+      "C) Markov states are states that form a single deterministic chain.",
+      "D) Its previous states completely determine its future states.",
+      "E) Its subsequent states do not depend on its previous states."
+    ],
+    "answer": 4,
+    "explanation": "Markov property: future depends only on the current state, not history. D says the opposite.<br>马尔可夫性质：未来只取决于当前状态，与历史无关。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the relationship between RL and MDPs?<br>RL 和 MDP 之间是什么关系？",
+    "type": "MCQ",
+    "options": [
+      "A) MDPs are a mathematical model of the sequential decision making processes addressed by RL. / MDP 是 RL 所处理的序贯决策问题的数学模型",
+      "B) None of these answers.",
+      "C) MDPs are a component of the software used to implement video games.",
+      "D) MDPs are known specific strategies developed for playing games.",
+      "E) All of these answers."
+    ],
+    "answer": 0,
+    "explanation": "MDP is the standard mathematical framework RL uses to describe sequential decision problems.<br>MDP 是 RL 用于描述序贯决策问题的标准数学框架。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the Reward Hypothesis of RL?<br>什么是 RL 的奖励假设？",
+    "type": "MCQ",
+    "options": [
+      "A) Some goals cannot be thought of as maximizing expected cumulative reward.",
+      "B) All goals = minimizing steps to maximize reward.",
+      "C) Some goals cannot be thought of as minimizing steps.",
+      "D) None of these answers.",
+      "E) All goals can be thought of as maximizing the expected cumulative value of a scalar reward function."
+    ],
+    "answer": 4,
+    "explanation": "Reward Hypothesis: all goals = maximizing expected cumulative scalar reward.<br>奖励假设：所有目标 = 最大化累积标量奖励的期望。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is meant by \"episode\" in RL?<br>什么是 RL 中的\"回合(Episode)\"？",
+    "type": "MCQ",
+    "options": [
+      "A) A single cycle of performing an action, receiving a reward, and observing the resulting state.",
+      "B) A single run from the starting state to a terminal (or truncated) state.",
+      "C) A single run that does not reach the terminal state.",
+      "D) The number of steps actually taken to reach the terminal state.",
+      "E) None of these answers."
+    ],
+    "answer": 1,
+    "explanation": "Episode = complete interaction sequence from start to terminal. A describes a single time step.<br>回合 = 从初始状态到终止状态的完整交互序列。",
+    "source": "teacher"
+  },
+  {
+    "question": "What role does the discount factor γ play in RL?<br>折扣因子 γ 在 RL 中起什么作用？",
+    "type": "MCQ",
+    "options": [
+      "A) γ addresses the problem of infinite cumulative rewards in non-terminating processes. / γ 解决非终止过程中累积奖励可能无穷的问题",
+      "B) γ determines how many times an action is chosen randomly during training.",
+      "C) γ represents the total discount which is subtracted from the reward function.",
+      "D) None of these answers.",
+      "E) γ represents the weighting of the current goal."
+    ],
+    "answer": 0,
+    "explanation": "γ ∈ [0,1) ensures infinite-horizon returns converge via geometric discounting G_t = Σγ^k R. B confuses with ε-greedy.<br>γ 通过几何衰减使无限步回报收敛。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Policy in Reinforcement Learning?<br>策略(Policy)是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) A table that assigns a value to each action.",
+      "C) A function that assigns a value to each action-state pair.",
+      "D) A function that determines the probability of an agent taking an action.",
+      "E) All of these answers."
+    ],
+    "answer": 3,
+    "explanation": "Policy π(a|s) maps states to action probabilities. B/C describe value functions.<br>策略 π(a|s) 将状态映射到动作概率。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a Value Function in RL?<br>什么是价值函数？",
+    "type": "MCQ",
+    "options": [
+      "A) Gives a measure of the expected total reward of an episode.",
+      "B) Gives a measure of the expected total reward given a state or state-action pair.",
+      "C) None of these answers.",
+      "D) Gives a measure of the expected total number of steps to maximize reward.",
+      "E) All of these answers."
+    ],
+    "answer": 1,
+    "explanation": "Value function estimates expected cumulative return from a given state V(s) or state-action pair Q(s,a).<br>价值函数估算从给定状态出发的期望累积回报。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the difference between an action value function and a state value function?<br>动作价值函数和状态价值函数有什么区别？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) State value functions return total reward to termination; action-value functions return immediate reward.",
+      "C) State value functions take a state; action value functions take just actions.",
+      "D) Action value functions return average reward for an action; State value functions return average total future reward.",
+      "E) Action value functions take state-action pairs; state value functions take just states."
+    ],
+    "answer": 4,
+    "explanation": "Core difference is the input: V(s) takes states only; Q(s,a) takes state-action pairs. Both output expected cumulative return.<br>核心区别在于输入。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which of the following statements is true about the Bellman equation in RL?<br>以下关于贝尔曼方程的哪些说法是正确的？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) It expresses the relationship between the value of a state and the value of successor states.",
+      "C) All of these answers.",
+      "D) It breaks the problem of determining the value of a state into smaller problems recursively.",
+      "E) It forms the mathematical basis for the Q-Learning algorithm."
+    ],
+    "answer": 2,
+    "explanation": "B/D/E all correctly describe different aspects of the Bellman equation: relates current and successor values, recursive decomposition, mathematical basis of Q-Learning.<br>B/D/E 分别正确描述了贝尔曼方程的不同方面。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does \"greedy\" mean in RL?<br>RL 中\"贪婪\"是什么意思？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) A policy that tries to maximize total reward.",
+      "C) Future reward is considered over immediate reward.",
+      "D) Immediate reward is considered over future reward.",
+      "E) A policy that tries to maximize future reward."
+    ],
+    "answer": 3,
+    "explanation": "Greedy = always pick argmax Q, prioritizing immediate gain. B is the optimal policy goal, not greedy specifically.<br>贪婪 = 总是选 Q 值最高的动作，优先即时利益。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is a condition for applying Q-learning to an RL problem?<br>应用 Q-learning 的条件是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) None of these answers.",
+      "B) The complete set of possible states must be known.",
+      "C) The complete set of actions must be known.",
+      "D) The complete set of actions and the complete set of possible states must be known.",
+      "E) The optimal value function must be known."
+    ],
+    "answer": 3,
+    "explanation": "Tabular Q-learning requires known, finite state set S and action set A to build the Q-table (|S|×|A|).<br>表格式 Q-learning 需要已知有限的状态集和动作集。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which of the following statements is true in the context of RL? (Options use \"Temporal Distance\")<br>以下哪个说法正确？（选项使用\"Temporal Distance\"）",
+    "type": "MCQ",
+    "options": [
+      "A) All of these answers.",
+      "B) Q-learning is a form of Temporal Distance (TD) learning.",
+      "C) Temporal Distance (TD) learning involves learning from differences in time steps.",
+      "D) Temporal Distance (TD) learning does not require a model of the environment.",
+      "E) None of these answers."
+    ],
+    "answer": 4,
+    "explanation": "⚠️ <strong>Terminology trap</strong>: all options use \"Temporal <strong>Distance</strong>\" — the correct term is \"Temporal <strong>Difference</strong>\" (TD). Wrong terminology makes them all invalid.<br>⚠️ 术语陷阱：正确术语是 Temporal Difference，不是 Distance。",
+    "source": "teacher"
+  },
+  {
+    "question": "The value function and policy function are implemented in the agent rather than the environment.<br>价值函数和策略函数在智能体中实现，而非环境中。",
+    "type": "TF",
+    "answer": "True",
+    "explanation": "Agent owns policy π and value functions V/Q; Environment owns transitions P(s'|s,a) and rewards R.<br>Agent 拥有策略和价值函数；Environment 拥有转移和奖励。",
+    "source": "teacher"
+  }
+]

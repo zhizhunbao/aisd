@@ -1,0 +1,58 @@
+[
+  {
+    "question": "How can Reinforcement Learning be applied to problems where the number of states is huge?<br>强化学习如何应用于状态数量庞大的问题中？",
+    "type": "Short",
+    "answer": "Use <strong>function approximation</strong>: a neural network takes state $s$ as input and outputs estimated value $\\hat{v}(s, \\mathbf{w}) \\approx v_\\pi(s)$. This lets the agent <strong>generalize</strong> from seen states to unseen states. Update weights $\\mathbf{w}$ via MC (Monte Carlo) or TD (Temporal Difference) learning. DQN and PPO are two common approaches.",
+    "explanation": "用<strong>函数近似</strong>：神经网络输入状态 $s$，输出估计值 $\\hat{v}(s, \\mathbf{w}) \\approx v_\\pi(s)$。这样智能体见过一些状态后就能<strong>泛化</strong>到没见过的状态。用 MC（蒙特卡洛 Monte Carlo）或 TD（时序差分 Temporal Difference）学习更新权重 $\\mathbf{w}$。DQN 和 PPO 是两种常见方法。",
+    "source": "teacher",
+    "points": 10
+  },
+  {
+    "question": "Describe at a high level how the DQN algorithm does value function approximation.<br>概要描述 DQN 算法是如何进行值函数近似的。",
+    "type": "Short",
+    "answer": "DQN replaces the Q-table with a <strong>Q-network</strong>: input = state $s$, output = $Q(s,a)$ for each action. Two networks:<br>1) <strong>Online Network</strong> — actively updated via gradient descent (minimize MSE on TD error)<br>2) <strong>Target Network</strong> — lagged copy, synced periodically (controlled by $\\tau$), prevents instability<br><strong>Replay Buffer</strong> stores transitions $(s,a,r,s')$; random sampling breaks temporal correlations.",
+    "explanation": "DQN 用 <strong>Q 网络</strong>替代 Q 表：输入 = 状态 $s$，输出 = 每个动作的 $Q(s,a)$。两个网络：<br>1) <strong>在线网络</strong> — 每步更新（梯度下降最小化 TD 误差的 MSE）<br>2) <strong>目标网络</strong> — 旧版副本，定期同步（$\\tau$ 控制），防止训练不稳定<br><strong>经验回放缓冲区</strong>存储 $(s,a,r,s')$，随机采样打破时间相关性。",
+    "source": "teacher",
+    "points": 15
+  },
+  {
+    "question": "Describe at a high level how the PPO algorithm does value function approximation.<br>概要描述 PPO 算法是如何进行值函数近似的。",
+    "type": "Short",
+    "answer": "PPO has two networks:<br>1) <strong>Actor Network</strong> — outputs action probabilities = policy $\\pi(a|s)$<br>2) <strong>Critic Network</strong> — estimates state value $V(s)$ ← <strong>this is the value function approximation</strong><br>Critic helps Actor evaluate its decisions. Unlike DQN, PPO supports <strong>continuous action spaces</strong>.",
+    "explanation": "PPO 有两个网络：<br>1) <strong>Actor 网络</strong> — 输出动作概率 = 策略 $\\pi(a|s)$<br>2) <strong>Critic 网络</strong> — 估计状态价值 $V(s)$ ← <strong>这就是值函数近似</strong><br>Critic 帮 Actor 评估决策好不好。与 DQN 不同，PPO 支持<strong>连续动作空间</strong>。",
+    "source": "teacher",
+    "points": 10
+  },
+  {
+    "question": "Where would a neural network appear in a Reinforcement Learning Problem/Solution?<br>神经网络会在强化学习问题/解决方案中的什么地方出现？",
+    "type": "Short",
+    "answer": "1) <strong>Q-Network</strong> (DQN) — input $s$, output $Q(s,a)$ per action<br>2) <strong>Actor Network</strong> (PPO) — input $s$, output action probabilities $\\pi(a|s)$<br>3) <strong>Critic Network</strong> (PPO) — input $s$, output $V(s)$<br>4) <strong>Observation preprocessing</strong> — e.g., CNN processes <code>image_raw</code> from camera",
+    "explanation": "1) <strong>Q 网络</strong>（DQN）— 输入 $s$，输出每个动作的 $Q(s,a)$<br>2) <strong>Actor 网络</strong>（PPO）— 输入 $s$，输出动作概率 $\\pi(a|s)$<br>3) <strong>Critic 网络</strong>（PPO）— 输入 $s$，输出 $V(s)$<br>4) <strong>观测预处理</strong> — 如 CNN 处理摄像头的 <code>image_raw</code>",
+    "source": "teacher",
+    "points": 10
+  },
+  {
+    "question": "What are possible sources of training data for a neural network in a Reinforcement Learning Problem/Solution?<br>在强化学习问题/解决方案中，神经网络训练数据的可能来源有哪些？",
+    "type": "Short",
+    "answer": "1) <strong>Agent-Environment Interaction</strong> — agent collects $(s,a,r,s')$ transitions<br>2) <strong>Replay Buffer</strong> — stored transitions, randomly sampled to break temporal correlations<br>3) <strong>Simulation</strong> (e.g., Gazebo) — faster, safer, cheaper<br>4) <strong>Real-World</strong> — physical robot (expensive, slow, risky)",
+    "explanation": "1) <strong>智能体与环境交互</strong> — 每步产生 $(s,a,r,s')$ 数据<br>2) <strong>经验回放缓冲区</strong> — 存储数据，随机采样打破时间相关性<br>3) <strong>仿真</strong>（如 Gazebo）— 更快、更安全、更便宜<br>4) <strong>真实世界</strong> — 物理机器人（贵、慢、有风险）",
+    "source": "teacher",
+    "points": 10
+  },
+  {
+    "question": "Give an overview of the strategy used in Assignment 2 to set up a Reinforcement Learning solution with simulation for training a Create3 robot to do some arbitrary task, for example, the red-ball-following task of Assignment 2. Your overview should mention the major tools, technologies, and projects used, their purpose and how they interact in the solution.<br>概述在 Assignment 2 中使用的策略：该策略通过仿真设置强化学习解决方案，以训练 Create3 机器人执行某些特定任务（例如红球跟随任务）。你的概述应提及所使用的主要工具、技术和项目，它们的用途以及它们在解决方案中的交互方式。",
+    "type": "Short",
+    "answer": "<img src='../notes/CST8509_10_Final_Review_slides_pages/page_003.png' style='max-width:100%;border-radius:8px;margin-bottom:8px;'><br>1) <strong>Gazebo</strong> — 3D physics simulator (virtual AWS Small House + robot), faster/safer/cheaper<br>2) <strong>ROS 2</strong> — communication framework, topics: <code>cmd_vel</code>, <code>stop_status</code>, <code>image_raw</code>, return observation + reward<br>3) <strong>SB3</strong> — RL agent brain, runs DQN or PPO<br>4) <strong>Gymnasium</strong> — standard loop: $S_t, R_t \\rightarrow$ Agent $\\rightarrow A_t \\rightarrow$ Env $\\rightarrow S_{t+1}, R_{t+1}$",
+    "explanation": "1) <strong>Gazebo</strong> — 3D 仿真器（虚拟 AWS 小屋 + 机器人），更快更安全更便宜<br>2) <strong>ROS 2</strong> — 通信框架，话题：<code>cmd_vel</code>、<code>stop_status</code>、<code>image_raw</code>、返回观测+奖励<br>3) <strong>SB3</strong> — RL 智能体大脑，运行 DQN 或 PPO<br>4) <strong>Gymnasium</strong> — 标准循环：$S_t, R_t \\rightarrow$ 智能体 $\\rightarrow A_t \\rightarrow$ 环境 $\\rightarrow S_{t+1}, R_{t+1}$",
+    "source": "teacher",
+    "points": 15
+  },
+  {
+    "question": "Suppose you are running an SB3 agent on a gymnasium environment with unsatisfactory results. What areas could you explore in order to improve results?<br>假设你在 Gymnasium 环境中运行一个 SB3 智能体，但结果不理想。为了改善结果，你可以探索哪些方向？",
+    "type": "Short",
+    "answer": "1) <strong>Reward shaping</strong> — add intermediate rewards<br>2) <strong>Network capacity</strong> — increase from <code>[64,64]</code> to <code>[512,512,256]</code><br>3) <strong>Curriculum Learning</strong> — start easy, increase difficulty (<code>difficulty_level</code>, <code>start_flat</code>)<br>4) <strong>Exploration</strong> — adjust $\\epsilon$-greedy schedule<br>5) <strong>Hyperparameters</strong> — <code>learning_starts</code>, <code>learning_rate</code>, <code>batch_size</code>, $\\gamma$<br>6) <strong>Algorithm</strong> — try PPO instead of DQN (or vice versa)",
+    "explanation": "1) <strong>奖励塑形</strong> — 加中间奖励<br>2) <strong>网络容量</strong> — 从 <code>[64,64]</code> 增大到 <code>[512,512,256]</code><br>3) <strong>课程学习</strong> — 先简单后困难（<code>difficulty_level</code>、<code>start_flat</code>）<br>4) <strong>探索</strong> — 调整 $\\epsilon$-greedy 计划<br>5) <strong>超参数</strong> — <code>learning_starts</code>、<code>learning_rate</code>、<code>batch_size</code>、$\\gamma$<br>6) <strong>换算法</strong> — DQN 不行换 PPO（或反过来）",
+    "source": "teacher",
+    "points": 15
+  }
+]

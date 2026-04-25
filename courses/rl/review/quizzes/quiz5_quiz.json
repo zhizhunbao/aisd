@@ -1,0 +1,86 @@
+[
+  {
+    "question": "Which of the following is a design principle of SB3?<br>SB3 的设计原则是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) SB3 is user-friendly.",
+      "B) SB3 focuses on model-free, single agent RL.",
+      "C) All of these answers.",
+      "D) SB3 is a set of reliable RL algorithms.",
+      "E) SB3 favours readability over modularity."
+    ],
+    "answer": 2,
+    "explanation": "SB3 design: user-friendly, model-free single-agent focus, reliable algorithms, readability over modularity.<br>SB3 设计：用户友好、专注 model-free 单智能体、可靠、可读性优先。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which of the following is a feature of SB3?<br>SB3 有哪些特性？",
+    "type": "MCQ",
+    "options": [
+      "A) On-policy and off-policy algorithms.",
+      "B) A clean and simple interface.",
+      "C) A callback system.",
+      "D) Fully documented.",
+      "E) All of these answers."
+    ],
+    "answer": 4,
+    "explanation": "SB3 features: on/off-policy algorithms, clean interface, callback system, full documentation.<br>SB3 特性：on/off-policy 算法、简洁接口、回调系统、完整文档。",
+    "source": "teacher"
+  },
+  {
+    "question": "Which is the proper ordering of steps when using SB3?<br>使用 SB3 的正确步骤顺序？",
+    "type": "MCQ",
+    "options": [
+      "A) Save → Train → Define → Load",
+      "B) Define → Train → Save → Load / 定义→训练→保存→加载",
+      "C) None of these answers.",
+      "D) Load → Define → Train → Save",
+      "E) Train → Define → Load → Save"
+    ],
+    "answer": 1,
+    "explanation": "Correct workflow: Define → Train → Save → Load for inference.<br>正确流程：定义 → 训练 → 保存 → 加载推理。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the meaning of the deterministic parameter in SB3's predict method?<br>SB3 predict 中 deterministic 参数是什么意思？",
+    "type": "MCQ",
+    "options": [
+      "A) Action chosen deterministically or stochastically",
+      "B) All of these answers.",
+      "C) Whether environment is deterministic.",
+      "D) Whether a predefined action sequence should be used.",
+      "E) None of these answers."
+    ],
+    "answer": 0,
+    "explanation": "deterministic=True: always pick the most probable action. False: sample from the policy distribution.<br>True：选最可能的动作。False：从策略分布中采样。",
+    "source": "teacher"
+  },
+  {
+    "question": "What does the SB3 model.learn() method do?<br>SB3 的 model.learn() 做什么？",
+    "type": "MCQ",
+    "options": [
+      "A) All of these answers.",
+      "B) Allows user to select experience collection or policy update.",
+      "C) Collects with train() and updates with collect_rollouts().",
+      "D) Alternates between collect_rollouts() and train()",
+      "E) None."
+    ],
+    "answer": 3,
+    "explanation": "learn() alternates: collect_rollouts() (gather experience) → train() (update policy).<br>learn() 交替执行：collect_rollouts()→train()。",
+    "source": "teacher"
+  },
+  {
+    "question": "What is the SB3 RL Zoo?<br>SB3 的 RL Zoo 是什么？",
+    "type": "MCQ",
+    "options": [
+      "A) All of these answers.",
+      "B) A framework for managing experiments and tuning hyperparameters",
+      "C) None.",
+      "D) A training framework for zoo animals.",
+      "E) A selection of environments for zoo animals."
+    ],
+    "answer": 1,
+    "explanation": "RL Zoo = experiment management + hyperparameter tuning framework built on SB3.<br>RL Zoo = 基于 SB3 的实验管理+超参数调优框架。",
+    "source": "teacher"
+  }
+]
